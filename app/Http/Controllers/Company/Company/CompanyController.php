@@ -25,7 +25,7 @@ class CompanyController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $statistics = CompanyViewHelper::statistics($company);
+        $statistics = CompanyViewHelper::information($company);
         $latestQuestions = CompanyViewHelper::latestQuestions($company);
         $birthdaysThisWeek = CompanyViewHelper::birthdaysThisWeek($company);
         $newHiresThisWeek = CompanyViewHelper::newHiresThisWeek($company);

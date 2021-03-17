@@ -3,7 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Adminland;
 
 use Tests\TestCase;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Hardware;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -66,7 +66,7 @@ class AdminHardwareViewHelperTest extends TestCase
                 'employee' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => AvatarHelper::getImage($michael),
+                    'avatar' => ImageHelper::getAvatar($michael),
                 ],
             ],
             $response['hardware_collection'][1]
@@ -163,7 +163,7 @@ class AdminHardwareViewHelperTest extends TestCase
                 'employee' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => AvatarHelper::getImage($michael),
+                    'avatar' => ImageHelper::getAvatar($michael),
                 ],
             ],
             $response['hardware_collection'][0]

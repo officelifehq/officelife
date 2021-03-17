@@ -2,7 +2,7 @@
 
 namespace App\Http\ViewHelpers\Employee;
 
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
@@ -24,7 +24,7 @@ class EmployeeLogViewHelper
                 'author' => [
                     'id' => is_null($author) ? null : $author->id,
                     'name' => is_null($author) ? $log->author_name : $author->name,
-                    'avatar' => is_null($author) ? null : AvatarHelper::getImage($author),
+                    'avatar' => is_null($author) ? null : ImageHelper::getAvatar($author),
                     'url' => is_null($author) ? null : route('employees.show', [
                         'company' => $company,
                         'employee' => $author,

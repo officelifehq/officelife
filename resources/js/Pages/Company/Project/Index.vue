@@ -48,8 +48,8 @@
     <!-- company name + data -->
     <div class="ph2 ph5-ns mb2">
       <div class="flex relative">
-        <div class="company-logo relative ba bb-gray pa2 br3 bg-white mr3-ns">
-          <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fih1.redbubble.net%2Fimage.445715442.6589%2Fpp%2C550x550.u3.jpg&f=1&nofb=1" />
+        <div v-if="statistics.logo" class="company-logo relative ba bb-gray pa2 br3 bg-white mr3-ns">
+          <img :src="statistics.logo" alt="logo" />
         </div>
         <div class="mt3">
           <h2 class="mt0 fw4 f3 mb4 company-name">

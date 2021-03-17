@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Company\Employee;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
-use App\Helpers\AvatarHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
@@ -41,7 +41,7 @@ class EmployeeController extends Controller
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee, 64),
+                'avatar' => ImageHelper::getAvatar($employee, 64),
                 'teams' => $employee->teams,
                 'position' => (! $employee->position) ? null : [
                     'id' => $employee->position->id,
@@ -148,7 +148,7 @@ class EmployeeController extends Controller
             'data' => [
                 'id' => $manager->id,
                 'name' => $manager->name,
-                'avatar' => AvatarHelper::getImage($manager),
+                'avatar' => ImageHelper::getAvatar($manager),
                 'position' => (! $manager->position) ? null : [
                     'id' => $manager->position->id,
                     'title' => $manager->position->title,
@@ -188,7 +188,7 @@ class EmployeeController extends Controller
             'data' =>[
                 'id' => $directReport->id,
                 'name' => $directReport->name,
-                'avatar' => AvatarHelper::getImage($directReport),
+                'avatar' => ImageHelper::getAvatar($directReport),
                 'position' => (! $directReport->position) ? null : [
                     'id' => $directReport->position->id,
                     'title' => $directReport->position->title,

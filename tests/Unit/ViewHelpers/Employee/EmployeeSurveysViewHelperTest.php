@@ -4,7 +4,7 @@ namespace Tests\Unit\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -223,19 +223,19 @@ class EmployeeSurveysViewHelperTest extends TestCase
                 0 => [
                     'id' => $answer1->employee->id,
                     'name' => $answer1->employee->name,
-                    'avatar' => AvatarHelper::getImage($answer1->employee),
+                    'avatar' => ImageHelper::getAvatar($answer1->employee),
                     'url' => env('APP_URL').'/'.$answer1->employee->company_id.'/employees/'.$answer1->employee->id,
                 ],
                 1 => [
                     'id' => $answer2->employee->id,
                     'name' => $answer2->employee->name,
-                    'avatar' => AvatarHelper::getImage($answer2->employee),
+                    'avatar' => ImageHelper::getAvatar($answer2->employee),
                     'url' => env('APP_URL').'/'.$answer2->employee->company_id.'/employees/'.$answer2->employee->id,
                 ],
                 2 => [
                     'id' => $answer3->employee->id,
                     'name' => $answer3->employee->name,
-                    'avatar' => AvatarHelper::getImage($answer3->employee),
+                    'avatar' => ImageHelper::getAvatar($answer3->employee),
                     'url' => env('APP_URL').'/'.$answer3->employee->company_id.'/employees/'.$answer3->employee->id,
                 ],
             ],

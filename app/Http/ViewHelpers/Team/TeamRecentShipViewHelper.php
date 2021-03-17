@@ -3,9 +3,9 @@
 namespace App\Http\ViewHelpers\Team;
 
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
-use App\Helpers\AvatarHelper;
 use App\Helpers\StringHelper;
 use Illuminate\Support\Collection;
 
@@ -30,7 +30,7 @@ class TeamRecentShipViewHelper
                 $employeeCollection->push([
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => AvatarHelper::getImage($employee, 21),
+                    'avatar' => ImageHelper::getAvatar($employee, 21),
                     'url' => route('employees.show', [
                         'company' => $team->company,
                         'employee' => $employee,
@@ -71,7 +71,7 @@ class TeamRecentShipViewHelper
             $employeeCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee, 44),
+                'avatar' => ImageHelper::getAvatar($employee, 44),
                 'position' => (! $employee->position) ? null : [
                     'title' => $employee->position->title,
                 ],

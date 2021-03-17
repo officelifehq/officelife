@@ -3,7 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Company\Project;
 
 use Tests\TestCase;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\ProjectDecision;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -32,13 +32,13 @@ class ProjectDecisionsViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => AvatarHelper::getImage($michael),
+                    'avatar' => ImageHelper::getAvatar($michael),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
                 1 => [
                     'id' => $jim->id,
                     'name' => $jim->name,
-                    'avatar' => AvatarHelper::getImage($jim),
+                    'avatar' => ImageHelper::getAvatar($jim),
                     'url' => env('APP_URL').'/'.$jim->company_id.'/employees/'.$jim->id,
                 ],
             ],

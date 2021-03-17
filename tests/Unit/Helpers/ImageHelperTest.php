@@ -3,12 +3,12 @@
 namespace Tests\Unit\Helpers;
 
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\File;
-use App\Helpers\AvatarHelper;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class AvatarHelperTest extends TestCase
+class ImageHelperTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -19,7 +19,7 @@ class AvatarHelperTest extends TestCase
 
         $this->assertEquals(
             'https://ui-avatars.com/api/?name='.$michael->name,
-            AvatarHelper::getImage($michael)
+            ImageHelper::getAvatar($michael)
         );
     }
 
@@ -33,12 +33,23 @@ class AvatarHelperTest extends TestCase
 
         $this->assertEquals(
             $file->cdn_url,
-            AvatarHelper::getImage($dwight)
+            ImageHelper::getAvatar($dwight)
         );
 
         $this->assertEquals(
             $file->cdn_url.'-/scale_crop/100x100/smart/',
-            AvatarHelper::getImage($dwight, 100)
+            ImageHelper::getAvatar($dwight, 100)
+        );
+    }
+
+    /** @test */
+    public function it_returns_an_image(): void
+    {
+        $file = File::factory()->create([]);
+
+        $this->assertEquals(
+            $file->cdn_url.'-/preview/100x100/',
+            ImageHelper::getImage($file, 100, 100)
         );
     }
 }

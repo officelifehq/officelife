@@ -3,8 +3,8 @@
 namespace App\Http\ViewHelpers\Adminland;
 
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\File;
-use App\Helpers\AvatarHelper;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +34,7 @@ class AdminGeneralViewHelper
             $administratorsCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee, 22),
+                'avatar' => ImageHelper::getAvatar($employee, 22),
                 'url_view' => route('employees.show', [
                     'company' => $company,
                     'employee' => $employee,
@@ -49,6 +49,9 @@ class AdminGeneralViewHelper
         $totalSize = DB::table('files')->where('company_id', $company->id)
             ->sum('size');
 
+        // logo
+        $logo = $company->logo ? ImageHelper::getImage($company->logo, 300, 300) : null;
+
         return [
             'id' => $company->id,
             'name' => $name,
@@ -56,6 +59,8 @@ class AdminGeneralViewHelper
             'creation_date' => $creationDate,
             'currency' => $company->currency,
             'total_size' => round($totalSize / 1000, 4),
+            'logo' => $logo,
+            'uploadcare_public_key' => config('officelife.uploadcare_public_key'),
         ];
     }
 

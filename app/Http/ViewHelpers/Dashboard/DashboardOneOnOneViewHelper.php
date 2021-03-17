@@ -3,7 +3,7 @@
 namespace App\Http\ViewHelpers\Dashboard;
 
 use App\Helpers\DateHelper;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\OneOnOneEntry;
 
 class DashboardOneOnOneViewHelper
@@ -67,7 +67,7 @@ class DashboardOneOnOneViewHelper
             'employee' => [
                 'id' => $entry->employee->id,
                 'name' => $entry->employee->name,
-                'avatar' => AvatarHelper::getImage($entry->employee, 35),
+                'avatar' => ImageHelper::getAvatar($entry->employee, 35),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $entry->employee,
@@ -76,7 +76,7 @@ class DashboardOneOnOneViewHelper
             'manager' => [
                 'id' => $entry->manager->id,
                 'name' => $entry->manager->name,
-                'avatar' => AvatarHelper::getImage($entry->manager),
+                'avatar' => ImageHelper::getAvatar($entry->manager),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $entry->manager,

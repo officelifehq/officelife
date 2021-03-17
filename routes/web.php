@@ -341,6 +341,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('account/general', 'Company\\Adminland\\AdminGeneralController@index');
             Route::post('account/general/rename', 'Company\\Adminland\\AdminGeneralController@rename');
             Route::post('account/general/currency', 'Company\\Adminland\\AdminGeneralController@currency');
+            Route::post('account/general/logo', 'Company\\Adminland\\AdminGeneralController@logo');
 
             Route::get('account/cancel', 'Company\\Adminland\\AdminCancelAccountController@index');
             Route::delete('account/cancel', 'Company\\Adminland\\AdminCancelAccountController@destroy');

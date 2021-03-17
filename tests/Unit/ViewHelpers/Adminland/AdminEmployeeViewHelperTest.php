@@ -4,7 +4,7 @@ namespace Tests\Unit\ViewHelpers\Adminland;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Adminland\AdminEmployeeViewHelper;
@@ -62,7 +62,7 @@ class AdminEmployeeViewHelperTest extends TestCase
                     'id' => $michael->id,
                     'name' => $michael->name,
                     'permission_level' => $michael->permission_level,
-                    'avatar' => AvatarHelper::getImage($michael),
+                    'avatar' => ImageHelper::getAvatar($michael),
                     'invitation_link' => $michael->invitation_link,
                     'invited' => (! $michael->invitation_used_at && $michael->invitation_link) === true,
                     'lock_status' => $michael->locked,

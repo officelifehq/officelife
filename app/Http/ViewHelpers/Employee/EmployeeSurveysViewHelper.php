@@ -4,7 +4,7 @@ namespace App\Http\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company\RateYourManagerAnswer;
@@ -134,7 +134,7 @@ class EmployeeSurveysViewHelper
             $directReportsCollection->push([
                 'id' => $answer->employee->id,
                 'name' => $answer->employee->name,
-                'avatar' => AvatarHelper::getImage($answer->employee),
+                'avatar' => ImageHelper::getAvatar($answer->employee),
                 'url' => route('employees.show', [
                     'company' => $answer->employee->company_id,
                     'employee' => $answer->employee->id,
@@ -155,7 +155,7 @@ class EmployeeSurveysViewHelper
                 'employee' => $answer->reveal_identity_to_manager ? [
                     'id' => $answer->employee->id,
                     'name' => $answer->employee->name,
-                    'avatar' => AvatarHelper::getImage($answer->employee),
+                    'avatar' => ImageHelper::getAvatar($answer->employee),
                     'url' => route('employees.show', [
                         'company' => $answer->employee->company_id,
                         'employee' => $answer->employee->id,

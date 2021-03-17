@@ -3,8 +3,8 @@
 namespace Tests\Unit\ViewHelpers\Company;
 
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
-use App\Helpers\AvatarHelper;
 use App\Models\Company\Skill;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -82,7 +82,7 @@ class CompanySkillViewHelperTest extends TestCase
             $response->toArray()[0]['name']
         );
         $this->assertEquals(
-            AvatarHelper::getImage($michael),
+            ImageHelper::getAvatar($michael),
             $response->toArray()[0]['avatar']
         );
         $this->assertEquals(
@@ -120,7 +120,7 @@ class CompanySkillViewHelperTest extends TestCase
             $response->toArray()[1]['name']
         );
         $this->assertEquals(
-            AvatarHelper::getImage($dwight),
+            ImageHelper::getAvatar($dwight),
             $response->toArray()[1]['avatar']
         );
         $this->assertEquals(

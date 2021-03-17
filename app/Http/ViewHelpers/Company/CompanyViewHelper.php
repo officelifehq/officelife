@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use OutOfRangeException;
 use App\Helpers\DateHelper;
 use Illuminate\Support\Str;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
 use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
@@ -23,7 +23,7 @@ class CompanyViewHelper
      * @param Company $company
      * @return array
      */
-    public static function statistics(Company $company): array
+    public static function information(Company $company): array
     {
         $teams = $company->teams->count();
         $employees = $company->employees()->notLocked()->count();
@@ -31,6 +31,7 @@ class CompanyViewHelper
         return [
             'number_of_teams' => $teams,
             'number_of_employees' => $employees,
+            'logo' => $company->logo ? ImageHelper::getImage($company->logo, 200, 200) : null,
         ];
     }
 
@@ -108,7 +109,7 @@ class CompanyViewHelper
                 $birthdaysCollection->push([
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => AvatarHelper::getImage($employee, 35),
+                    'avatar' => ImageHelper::getAvatar($employee, 35),
                     'birthdate' => DateHelper::formatMonthAndDay($birthdateWithCurrentYear),
                     'sort_key' => Carbon::createFromDate($now->year, $birthdateWithCurrentYear->month, $birthdateWithCurrentYear->day)->format('Y-m-d'),
                     'url' => route('employees.show', [
@@ -156,7 +157,7 @@ class CompanyViewHelper
                     'employee' => $employee->id,
                 ]),
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee, 35),
+                'avatar' => ImageHelper::getAvatar($employee, 35),
                 'hired_at' => DateHelper::formatDayAndMonthInParenthesis($date),
                 'position' => (! $position) ? null : $position->title,
             ]);
@@ -315,7 +316,7 @@ class CompanyViewHelper
 
         return [
             'id' => $game->id,
-            'avatar_to_find' => AvatarHelper::getImage($employeeToFind, 80),
+            'avatar_to_find' => ImageHelper::getAvatar($employeeToFind, 80),
             'choices' => $choices,
         ];
     }

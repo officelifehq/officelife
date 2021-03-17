@@ -2,7 +2,7 @@
 
 namespace App\Http\ViewHelpers\Team;
 
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
 
@@ -27,7 +27,7 @@ class TeamIndexViewHelper
                 $employeesCollection->push([
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => AvatarHelper::getImage($employee, 20),
+                    'avatar' => ImageHelper::getAvatar($employee, 20),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $employee,
