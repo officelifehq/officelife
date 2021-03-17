@@ -64,7 +64,6 @@ export default {
         size: null,
         errors: [],
       },
-      errorTemplate: Error,
     };
   },
 
