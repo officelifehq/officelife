@@ -26,6 +26,7 @@ class Company extends Model
         'name',
         'currency',
         'has_dummy_data',
+        'logo_file_id',
         'e_coffee_enabled',
     ];
 

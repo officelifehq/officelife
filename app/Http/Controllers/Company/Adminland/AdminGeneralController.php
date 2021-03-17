@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;
@@ -116,7 +117,7 @@ class AdminGeneralController extends Controller
         ]);
 
         return response()->json([
-            'data' => true,
+            'data' => ImageHelper::getImage($file, 300, 300),
         ], 200);
     }
 }

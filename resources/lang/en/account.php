@@ -529,6 +529,10 @@ return [
     'general_currency_update' => 'Update currency',
     'general_currency_change_label' => 'Choose a new currency',
     'general_currency_rename_success' => 'The currency has been updated.',
+    'general_logo_title' => 'Logo',
+    'general_logo_current' => 'Current logo',
+    'general_logo_cta' => 'Upload a logo',
+    'general_logo_success' => 'The logo has been changed.',
 
     'ecoffee_title' => 'E-Coffee sessions in the company',
     'ecoffee_desc' => 'E-Coffees are a great way for employees to take some time with another colleague and spend 15 minutes in a week to get to know him/her. The goal is to talk to everything but work. The more you know your colleagues, the more powerful their bonds.',

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Cache;
 class InstanceHelper
 {
     /**
-     * Return the employee as set in the cache.
+     * Return the company as set in the cache.
      *
      * @return mixed
      */

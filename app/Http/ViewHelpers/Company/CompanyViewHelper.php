@@ -23,7 +23,7 @@ class CompanyViewHelper
      * @param Company $company
      * @return array
      */
-    public static function statistics(Company $company): array
+    public static function information(Company $company): array
     {
         $teams = $company->teams->count();
         $employees = $company->employees()->notLocked()->count();
@@ -31,6 +31,7 @@ class CompanyViewHelper
         return [
             'number_of_teams' => $teams,
             'number_of_employees' => $employees,
+            'logo' => $company->logo ? ImageHelper::getImage($company->logo, 200, 200) : null,
         ];
     }
 

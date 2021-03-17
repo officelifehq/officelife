@@ -5,6 +5,7 @@ namespace Tests\Unit\ViewHelpers\Company;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Models\Company\File;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use App\Models\Company\Skill;
@@ -23,7 +24,7 @@ class CompanyViewHelperTest extends TestCase
         HelperTrait;
 
     /** @test */
-    public function it_gets_statistics_about_the_company(): void
+    public function it_gets_information_about_the_company(): void
     {
         $michael = $this->createAdministrator();
         Team::factory()->count(2)->create([
@@ -34,12 +35,17 @@ class CompanyViewHelperTest extends TestCase
             'company_id' => $michael->company_id,
         ]);
 
-        $response = CompanyViewHelper::statistics($michael->company);
+        $file = File::factory()->create();
+        $michael->company->logo_file_id = $file->id;
+        $michael->company->save();
+
+        $response = CompanyViewHelper::information($michael->company);
 
         $this->assertEquals(
             [
                 'number_of_teams' => 2,
                 'number_of_employees' => 3,
+                'logo' => ImageHelper::getImage($file, 200, 200),
             ],
             $response
         );

@@ -30,6 +30,12 @@ class AdminGeneralViewHelperTest extends TestCase
             'size' => 123,
         ]);
 
+        $michael->company->logo_file_id = File::factory()->create([
+            'company_id' => $michael->company_id,
+            'size' => 123,
+        ])->id;
+        $michael->company->save();
+
         $response = AdminGeneralViewHelper::information($michael->company);
 
         $this->assertEquals(
@@ -53,8 +59,13 @@ class AdminGeneralViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            0.369,
+            0.492,
             $response['total_size']
+        );
+
+        $this->assertEquals(
+            ImageHelper::getImage($michael->company->logo, 100, 100),
+            $response['logo']
         );
 
         $response['administrators']->sortBy('id');

@@ -49,6 +49,9 @@ class AdminGeneralViewHelper
         $totalSize = DB::table('files')->where('company_id', $company->id)
             ->sum('size');
 
+        // logo
+        $logo = $company->logo ? ImageHelper::getImage($company->logo, 300, 300) : null;
+
         return [
             'id' => $company->id,
             'name' => $name,
@@ -56,6 +59,8 @@ class AdminGeneralViewHelper
             'creation_date' => $creationDate,
             'currency' => $company->currency,
             'total_size' => round($totalSize / 1000, 4),
+            'logo' => $logo,
+            'uploadcare_public_key' => config('officelife.uploadcare_public_key'),
         ];
     }
 
