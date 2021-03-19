@@ -1,0 +1,71 @@
+<style lang="scss" scoped>
+.employees {
+  left: 9px;
+}
+
+.small-avatar {
+  margin-left: -8px;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.more-members {
+  height: 32px;
+  top: 8px;
+}
+</style>
+
+<template>
+  <div class="mb4">
+    <span class="db fw5 mb2 relative">
+      <span class="mr1">
+        😎
+      </span> Our employees
+    </span>
+
+    <div class="br3 bg-white box z-1 relative">
+      <!-- general stats -->
+      <div class="pa3 bb bb-gray">
+        <p>{{ $t('company.employees_total', { count: statistics.number_of_employees }) }}</p>
+
+        <div class="flex items-center relative tr employees">
+          <img v-for="employee in employees.ten_random_employees" :key="employee.id" :src="employee.avatar" alt="avatar" class="br-100 small-avatar pointer"
+               width="32" height="32" @click="navigateTo(employee)"
+          />
+          <div v-if="employees.number_of_employees_left > 0" class="pl2 f7 more-members relative gray">
+            {{ $t('project.menu_other_member', { count: employees.number_of_employees_left }) }}
+          </div>
+        </div>
+      </div>
+
+      <!-- general stats -->
+      <div class="pa3">
+        {{ $t('company.new_hires_total', { count: employees.employees_hired_in_the_current_year }) }}
+      </div>
+
+      <div class="ph3 pv2 tc f6 bt bb-gray">
+        <inertia-link :href="employees.view_all_url">{{ $t('company.employees_view_all') }}</inertia-link>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    statistics: {
+      type: Object,
+      default: null,
+    },
+    employees: {
+      type: Array,
+      default: null,
+    },
+  },
+
+  methods: {
+    navigateTo(employee) {
+      this.$inertia.visit(employee.url);
+    },
+  },
+};
+</script>

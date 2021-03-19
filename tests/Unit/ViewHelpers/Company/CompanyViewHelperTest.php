@@ -8,9 +8,11 @@ use App\Helpers\ImageHelper;
 use App\Models\Company\File;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
+use App\Models\User\Pronoun;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
 use App\Models\Company\Employee;
+use App\Models\Company\Position;
 use App\Models\Company\Question;
 use App\Models\Company\CompanyNews;
 use GrahamCampbell\TestBenchCore\HelperTrait;
@@ -333,7 +335,7 @@ class CompanyViewHelperTest extends TestCase
         $michael = Employee::factory()->create([
             'pronoun_id' => 1,
         ]);
-        Employee::factory(3)->create([
+        Employee::factory()->count(3)->create([
             'company_id' => $michael->company_id,
             'pronoun_id' => 1,
         ]);
@@ -359,6 +361,79 @@ class CompanyViewHelperTest extends TestCase
         $this->assertEquals(
             3,
             count($array['choices'])
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_information_about_employees(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        // one employee hired in the current year
+        $michael = Employee::factory()->create([
+            'hired_at' => Carbon::now(),
+        ]);
+
+        // one employee hired last year
+        $position = Position::factory()->create();
+        Employee::factory()->create([
+            'hired_at' => Carbon::now()->subYear(),
+            'position_id' => $position->id,
+        ]);
+
+        $array = CompanyViewHelper::employees($michael->company);
+
+        $this->assertEquals(
+            1,
+            $array['employees_hired_in_the_current_year']
+        );
+
+        $this->assertEquals(
+            0,
+            $array['number_of_employees_left']
+        );
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $michael->id,
+                    'name' => $michael->name,
+                    'avatar' => ImageHelper::getAvatar($michael),
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                ],
+            ],
+            $array['ten_random_employees']->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_information_about_demography(): void
+    {
+        $he = Pronoun::factory();
+        $michael = Employee::factory()->create([
+            'pronoun_id' => $he,
+        ]);
+
+        $she = Pronoun::factory()->create([
+            'label' => Pronoun::SHE,
+        ]);
+        Employee::factory()->count(2)->create([
+            'pronoun_id' => $she,
+        ]);
+
+        $array = CompanyViewHelper::demography($michael->company);
+
+        $this->assertEquals(
+            [
+                'he' => 1,
+                'she' => 2,
+                'they' => 0,
+                'per' => 0,
+                've' => 0,
+                'xe' => 0,
+                'ze' => 0,
+            ],
+            $array
         );
     }
 }

@@ -48,20 +48,25 @@
 
       <div class="cf mw9 center">
         <div class="fl w-third-l w-100">
+          <employees :employees="employees" :statistics="statistics" />
+
           <company-news :news="latestNews" />
 
           <questions :questions="latestQuestions" />
         </div>
 
         <div class="fl w-third-l w-100 pl4-l">
-          <recent-ships :ships="latestShips" />
+          <birthdays :birthdays="birthdaysThisWeek" />
+
           <recent-skills :skills="latestSkills" />
+
+          <recent-ships :ships="latestShips" />
         </div>
 
         <div class="fl w-third-l w-100 pl4-l">
           <guess-employee-game v-if="game" :game="game" />
 
-          <birthdays :birthdays="birthdaysThisWeek" />
+
 
           <new-hires :hires="newHiresThisWeek" />
         </div>
@@ -80,6 +85,7 @@ import CompanyNews from '@/Pages/Company/Partials/CompanyNews';
 import NewHires from '@/Pages/Company/Partials/NewHires';
 import RecentShips from '@/Pages/Company/Partials/RecentShips';
 import RecentSkills from '@/Pages/Company/Partials/RecentSkills';
+import Employees from '@/Pages/Company/Partials/Employees';
 
 export default {
   components: {
@@ -92,6 +98,7 @@ export default {
     NewHires,
     RecentShips,
     RecentSkills,
+    Employees,
   },
 
   props: {
@@ -132,6 +139,10 @@ export default {
       default: null,
     },
     notifications: {
+      type: Array,
+      default: null,
+    },
+    employees: {
       type: Array,
       default: null,
     },
