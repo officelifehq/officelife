@@ -7,6 +7,7 @@ use OutOfRangeException;
 use App\Helpers\DateHelper;
 use Illuminate\Support\Str;
 use App\Helpers\ImageHelper;
+use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
 use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
@@ -71,7 +72,7 @@ class CompanyViewHelper
                     'company' => $company,
                     'question' => $question->id,
                 ]),
-                ];
+            ];
         });
 
         return [
@@ -318,6 +319,87 @@ class CompanyViewHelper
             'id' => $game->id,
             'avatar_to_find' => ImageHelper::getAvatar($employeeToFind, 80),
             'choices' => $choices,
+        ];
+    }
+
+    /**
+     * Information about the employees in the company.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function employees(Company $company): array
+    {
+        // number of employees in total
+        $totalNumberOfEmployees = $company->employees()->notLocked()->count();
+
+        // 10 random employees
+        $tenRandomEmployeesCollection = collect([]);
+        $allEmployees = $company->employees()
+            ->notLocked()
+            ->with('picture')
+            ->inRandomOrder()
+            ->take(10)
+            ->get();
+
+        foreach ($allEmployees as $employee) {
+            $tenRandomEmployeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => ImageHelper::getAvatar($employee, 32),
+                'url' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+            ]);
+        }
+
+        // ten random employees
+
+        // number of employees hired in the current year
+        $employeesHiredInTheCurrentYear = $company->employees()
+            ->notLocked()
+            ->whereYear('hired_at', (string) Carbon::now()->year)
+            ->count();
+
+        return [
+            'employees_hired_in_the_current_year' => $employeesHiredInTheCurrentYear,
+            'ten_random_employees' => $tenRandomEmployeesCollection,
+            'number_of_employees_left' => $totalNumberOfEmployees - $tenRandomEmployeesCollection->count(),
+            'view_all_url' => route('employees.index', [
+                'company' => $company,
+            ]),
+        ];
+    }
+
+    /**
+     * Information about employee's genders in the company.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function demography(Company $company): array
+    {
+        $stat = DB::table('employees')
+            ->where('locked', false)
+            ->join('pronouns', 'employees.pronoun_id', '=', 'pronouns.id')
+            ->selectRaw("count(case when pronouns.label = '".Pronoun::HE."' then 1 end) as he")
+            ->selectRaw("count(case when pronouns.label = '".Pronoun::SHE."' then 1 end) as she")
+            ->selectRaw("count(case when pronouns.label = '".Pronoun::THEY."' then 1 end) as they")
+            ->selectRaw("count(case when pronouns.label = '".Pronoun::PER."' then 1 end) as per")
+            ->selectRaw("count(case when pronouns.label = '".Pronoun::VE."' then 1 end) as ve")
+            ->selectRaw("count(case when pronouns.label = '".Pronoun::XE."' then 1 end) as xe")
+            ->selectRaw("count(case when pronouns.label = '".Pronoun::ZE."' then 1 end) as ze")
+            ->first();
+
+        return [
+            'he' => $stat->he,
+            'she' => $stat->she,
+            'they' => $stat->they,
+            'per' => $stat->per,
+            've' => $stat->ve,
+            'xe' => $stat->xe,
+            'ze' => $stat->ze,
         ];
     }
 }

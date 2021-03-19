@@ -33,6 +33,7 @@ class CompanyController extends Controller
         $latestSkills = CompanyViewHelper::latestSkills($company);
         $latestNews = CompanyViewHelper::latestNews($company);
         $guessEmployeeGameInformation = CompanyViewHelper::guessEmployeeGameInformation($employee, $company);
+        $employees = CompanyViewHelper::employees($company);
 
         return Inertia::render('Company/Index', [
             'tab' => 'company',
@@ -44,6 +45,7 @@ class CompanyController extends Controller
             'latestSkills' => $latestSkills,
             'latestNews' => $latestNews,
             'game' => $guessEmployeeGameInformation,
+            'employees' => $employees,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
