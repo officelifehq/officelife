@@ -48,9 +48,7 @@
 
       <div class="cf mw9 center">
         <div class="fl w-third-l w-100">
-          <employees :employees="employees"
-                     :statistics="statistics"
-          />
+          <employees :employees="employees" :statistics="statistics" />
 
           <company-news :news="latestNews" />
 
@@ -58,14 +56,17 @@
         </div>
 
         <div class="fl w-third-l w-100 pl4-l">
-          <recent-ships :ships="latestShips" />
+          <birthdays :birthdays="birthdaysThisWeek" />
+
           <recent-skills :skills="latestSkills" />
+
+          <recent-ships :ships="latestShips" />
         </div>
 
         <div class="fl w-third-l w-100 pl4-l">
           <guess-employee-game v-if="game" :game="game" />
 
-          <birthdays :birthdays="birthdaysThisWeek" />
+
 
           <new-hires :hires="newHiresThisWeek" />
         </div>
