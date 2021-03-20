@@ -37,6 +37,7 @@ class ProjectFilesController extends Controller
         return Inertia::render('Company/Project/Files/Index', [
             'tab' => 'files',
             'project' => ProjectViewHelper::info($project),
+            'uploadcarePublicKey' => config('officelife.uploadcare_public_key'),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

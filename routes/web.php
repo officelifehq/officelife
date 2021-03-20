@@ -273,6 +273,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('skills/{skill}', 'Company\\Company\\SkillController@update');
             Route::delete('skills/{skill}', 'Company\\Company\\SkillController@destroy');
 
+            // Projects
             Route::prefix('projects')->group(function () {
                 Route::get('', 'Company\\Company\\Project\\ProjectController@index');
                 Route::get('create', 'Company\\Company\\Project\\ProjectController@create');

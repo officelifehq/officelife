@@ -50,7 +50,7 @@
                       @success="onSuccess"
                       @error="onError"
           >
-            <button>Add a new file</button>
+            <button class="btn">Add a new file</button>
           </uploadcare>
         </p>
 
@@ -108,6 +108,10 @@ export default {
     tab: {
       type: String,
       default: 'summary',
+    },
+    uploadcarePublicKey: {
+      type: String,
+      default: null,
     },
   },
 

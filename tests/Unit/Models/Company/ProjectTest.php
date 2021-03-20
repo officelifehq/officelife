@@ -148,7 +148,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_time_files(): void
+    public function it_has_many_files(): void
     {
         $project = Project::factory()
             ->create();
