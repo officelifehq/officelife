@@ -19,7 +19,7 @@
     <span class="db fw5 mb2 relative">
       <span class="mr1">
         😎
-      </span> Our employees
+      </span> {{ $t('company.employees_title') }}
     </span>
 
     <div class="br3 bg-white box z-1 relative">

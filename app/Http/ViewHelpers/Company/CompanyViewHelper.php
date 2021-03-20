@@ -382,6 +382,7 @@ class CompanyViewHelper
     {
         $stat = DB::table('employees')
             ->where('locked', false)
+            ->where('company_id', $company->id)
             ->join('pronouns', 'employees.pronoun_id', '=', 'pronouns.id')
             ->selectRaw("count(case when pronouns.label = '".Pronoun::HE."' then 1 end) as he")
             ->selectRaw("count(case when pronouns.label = '".Pronoun::SHE."' then 1 end) as she")
@@ -400,6 +401,59 @@ class CompanyViewHelper
             've' => $stat->ve,
             'xe' => $stat->xe,
             'ze' => $stat->ze,
+        ];
+    }
+
+    public static function teams(Company $company): array
+    {
+        $randomTeams = $company
+            ->teams()
+            ->with('employees')
+            ->inRandomOrder()
+            ->take(3)
+            ->get();
+
+        $teamsCollection = collect();
+        foreach ($randomTeams as $team) {
+            $employeesCollection = collect([]);
+
+            $employees = $team->employees()->with('picture')
+                ->inRandomOrder()
+                ->take(3)
+                ->get();
+
+            $numberOfEmployeesInTeam = $team->employees()->count();
+
+            foreach ($employees as $employee) {
+                $employeesCollection->push([
+                    'id' => $employee->id,
+                    'avatar' => ImageHelper::getAvatar($employee, 32),
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $employee,
+                    ]),
+                ]);
+            }
+
+            $remainingEmployees = $numberOfEmployeesInTeam - 3;
+
+            $teamsCollection->push([
+                'id' => $team->id,
+                'name' => $team->name,
+                'employees' => $employeesCollection,
+                'total_remaining_employees' => $remainingEmployees < 0 ? 0 : $remainingEmployees,
+                'url' => route('team.show', [
+                    'company' => $company,
+                    'team' => $team,
+                ]),
+            ]);
+        }
+
+        return [
+            'random_teams' => $teamsCollection,
+            'view_all_url' => route('teams.index', [
+                'company' => $company,
+            ]),
         ];
     }
 }

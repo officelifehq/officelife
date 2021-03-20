@@ -225,7 +225,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         Route::prefix('teams')->group(function () {
-            Route::get('', 'Company\\Team\\TeamController@index');
+            Route::get('', 'Company\\Team\\TeamController@index')->name('teams.index');
             Route::get('{team}', 'Company\\Team\\TeamController@show')->name('team.show');
 
             Route::post('{team}/members/search', 'Company\\Team\\TeamMembersController@index');
