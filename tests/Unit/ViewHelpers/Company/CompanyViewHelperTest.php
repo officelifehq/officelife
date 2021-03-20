@@ -313,16 +313,23 @@ class CompanyViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/company/news',
+            $array['view_all_url']
+        );
+
+        $this->assertEquals(
             [
                 0 => [
-                    'title' => $newsA->title,
+                    'id' => $newsB->id,
+                    'title' => $newsB->title,
                     'extract' => '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ...</p>',
-                    'author_name' => $newsA->author_name,
+                    'author_name' => $newsB->author_name,
                 ],
                 1 => [
-                    'title' => $newsB->title,
+                    'id' => $newsA->id,
+                    'title' => $newsA->title,
                     'extract' => '<p>this is a test</p>',
-                    'author_name' => $newsB->author_name,
+                    'author_name' => $newsA->author_name,
                 ],
             ],
             $array['news']->toArray()
