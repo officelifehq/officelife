@@ -18,7 +18,10 @@ class ImageHelperTest extends TestCase
         $michael = Employee::factory()->create();
 
         $this->assertEquals(
-            'https://ui-avatars.com/api/?name='.$michael->name,
+            [
+                'normal' => 'https://ui-avatars.com/api/?name='.$michael->name.'&size=64',
+                'retina' => 'https://ui-avatars.com/api/?name='.$michael->name.'&size=128',
+            ],
             ImageHelper::getAvatar($michael)
         );
     }
@@ -32,12 +35,18 @@ class ImageHelperTest extends TestCase
         ]);
 
         $this->assertEquals(
-            $file->cdn_url,
+            [
+                'normal' => $file->cdn_url.'-/scale_crop/64x64/smart/',
+                'retina' => $file->cdn_url.'-/scale_crop/128x128/smart/',
+            ],
             ImageHelper::getAvatar($dwight)
         );
 
         $this->assertEquals(
-            $file->cdn_url.'-/scale_crop/100x100/smart/',
+            [
+                'normal' => $file->cdn_url.'-/scale_crop/100x100/smart/',
+                'retina' => $file->cdn_url.'-/scale_crop/200x200/smart/',
+            ],
             ImageHelper::getAvatar($dwight, 100)
         );
     }
