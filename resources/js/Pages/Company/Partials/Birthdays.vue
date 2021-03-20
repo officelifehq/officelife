@@ -44,7 +44,7 @@
       </ul>
 
       <!-- blank state -->
-      <div v-if="birthdays.length == 0" class="pa3 tc">
+      <div v-if="birthdays.length == 0" class="pa3 tc f6">
         😢 {{ $t('company.birthdays_blank') }}
       </div>
     </div>

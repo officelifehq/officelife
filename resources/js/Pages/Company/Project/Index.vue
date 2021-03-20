@@ -110,7 +110,10 @@
           <img loading="lazy" src="/img/streamline-icon-projector-pie-chart@140x140.png" alt="project symbol" height="140"
                width="140"
           />
-          <p class="mb3"><span class="db mb3">{{ $t('project.index_blank_title') }}</span> <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/create'" class="btn dib">{{ $t('project.index_cta') }}</inertia-link></p>
+          <p class="mb3">
+            <span class="db mb4">{{ $t('project.index_blank_title') }}</span>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/create'" class="btn dib">{{ $t('project.index_cta') }}</inertia-link>
+          </p>
         </div>
       </div>
     </div>

@@ -28,6 +28,7 @@ return [
     'birthdays_blank' => 'No one has a birthday this week.',
 
     'company_news_title' => 'Latest company news',
+    'company_news_blank' => 'No company news have been written yet.',
 
     'recent_skills_title' => 'Latest skills created in the company',
     'recent_skills_view_all' => 'View all skills ({count})',
@@ -39,6 +40,7 @@ return [
 
     'recent_ships_title' => 'Recent ships',
 
+    'questions_blank' => 'No questions have been asked to employees yet.',
     'questions_title' => 'Questions to get to know your colleagues',
     'questions_view_all' => 'View all questions ({count})',
     'question_number_of_answers' => 'No colleague has answered. | {number} colleague has answered. | {number} colleagues have answered.',

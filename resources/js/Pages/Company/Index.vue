@@ -50,9 +50,9 @@
         <div class="fl w-third-l w-100">
           <employees :employees="employees" :statistics="statistics" />
 
-          <company-news :news="latestNews" />
-
           <questions :questions="latestQuestions" />
+
+          <company-news :news="latestNews" />
         </div>
 
         <div class="fl w-third-l w-100 pl4-l">
@@ -145,11 +145,11 @@ export default {
       default: null,
     },
     employees: {
-      type: Array,
+      type: Object,
       default: null,
     },
     teams: {
-      type: Array,
+      type: Object,
       default: null,
     },
   },

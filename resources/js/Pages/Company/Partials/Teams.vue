@@ -57,7 +57,7 @@ export default {
       default: null,
     },
     teams: {
-      type: Array,
+      type: Object,
       default: null,
     },
   },

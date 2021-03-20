@@ -57,7 +57,7 @@ export default {
       default: null,
     },
     employees: {
-      type: Array,
+      type: Object,
       default: null,
     },
   },

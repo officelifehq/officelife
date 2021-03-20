@@ -244,7 +244,7 @@ class CompanyViewHelper
      */
     public static function latestNews(Company $company): array
     {
-        $companyNewsCount = $company->news()->count();
+        $totalCompanyNews = $company->news()->count();
 
         $news = $company->news()
             ->orderBy('id', 'desc')
@@ -254,6 +254,7 @@ class CompanyViewHelper
         $newsCollection = collect([]);
         foreach ($news as $new) {
             $newsCollection->push([
+                'id' => $new->id,
                 'title' => $new->title,
                 'extract' => StringHelper::parse(Str::words($new->content, 20, ' ...')),
                 'author_name' => $new->author_name,
@@ -261,7 +262,7 @@ class CompanyViewHelper
         }
 
         return [
-            'count' => $companyNewsCount,
+            'count' => $totalCompanyNews,
             'news' => $newsCollection,
         ];
     }
