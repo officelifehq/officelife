@@ -66,7 +66,7 @@ class AdminExpenseViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'dwight schrute',
-                    'avatar' => ImageHelper::getAvatar($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 23),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
                 ],
             ],

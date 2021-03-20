@@ -47,7 +47,7 @@ class AdminExpenseViewHelper
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => ImageHelper::getAvatar($employee),
+                'avatar' => ImageHelper::getAvatar($employee, 23),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $employee,

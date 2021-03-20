@@ -73,7 +73,7 @@
     <div v-show="localEmployees.length > 0" class="ba bb-gray mt2 br2 employees-list">
       <div v-for="employee in localEmployees" :key="employee.id" class="pa2 db bb-gray bb bb-gray-hover" data-cy="employees-list">
         <span class="pl3 db relative team-member">
-          <img loading="lazy" :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />
+          <avatar :avatar="employee.avatar" :size="23" :classes="'br-100 absolute avatar'" />
 
           <inertia-link :href="employee.url">{{ employee.name }}</inertia-link>
 
@@ -96,11 +96,13 @@
 
 <script>
 import Help from '@/Shared/Help';
+import Avatar from '@/Shared/Avatar';
 import TextInput from '@/Shared/TextInput';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
   components: {
+    Avatar,
     Help,
     TextInput,
     'ball-pulse-loader': BallPulseLoader.component

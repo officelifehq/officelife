@@ -5,11 +5,9 @@ span {
 </style>
 
 <template>
-  <div>
-    <img :loading="loading" :class="classes" :src="avatar.normal" :width="size" :height="size"
-         :srcset="avatar.normal + ' 1x,' + avatar.retina + ' 2x'" :alt="alt"
-    />
-  </div>
+  <img :loading="loading" :class="classes" :src="avatar.normal" :width="size" :height="size"
+       :srcset="avatar.normal + ' 1x,' + avatar.retina + ' 2x'" :alt="alt"
+  />
 </template>
 
 <script>
