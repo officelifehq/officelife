@@ -313,6 +313,11 @@ class CompanyViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/company/news',
+            $array['view_all_url']
+        );
+
+        $this->assertEquals(
             [
                 0 => [
                     'id' => $newsB->id,

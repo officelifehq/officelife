@@ -43,7 +43,7 @@ class DashboardController extends Controller
                 return Redirect::route('dashboard.manager', ['company' => $company->id]);
 
             default:
-                $this->updateDashboard($employee, 'company');
+                $this->updateDashboard($employee, 'me');
 
                 return Redirect::route('dashboard.me', ['company' => $company->id]);
         }

@@ -264,6 +264,9 @@ class CompanyViewHelper
         return [
             'count' => $totalCompanyNews,
             'news' => $newsCollection,
+            'view_all_url' => route('company.news.index', [
+                'company' => $company,
+            ]),
         ];
     }
 

@@ -17,18 +17,18 @@
       <div v-if="news.count > 0">
         <ul class="list ma0 pa3">
           <li v-for="newsItem in news.news" :key="newsItem.id" class="answer-item mb3">
-            <h3 class="f5 fw5 mt0 mb1"><inertia-link :href="newsItem.url">{{ newsItem.title }}</inertia-link></h3>
+            <h3 class="f5 fw5 mt0 mb1">{{ newsItem.title }}</h3>
             <div class="gray parsed-content f6" v-html="newsItem.extract"></div>
           </li>
         </ul>
         <div class="ph3 pv2 tc f6 bt bb-gray">
-          <inertia-link href="https://officelife.test/1/employees/1/worklogs">View worklog history ({{ news.count }})</inertia-link>
+          <inertia-link :href="news.view_all_url">{{ $t('company.news_view_all') }}</inertia-link>
         </div>
       </div>
 
       <!-- blank state -->
       <div v-else class="pa3 tc">
-        <p class="mb0 mt0 lh-copy f6" data-cy="question-blank-state">{{ $t('company.company_news_blank') }}</p>
+        <p class="mb0 mt0 lh-copy f6" data-cy="question-blank-state">{{ $t('company.news_index_blank') }}</p>
       </div>
     </div>
   </div>

@@ -66,4 +66,8 @@ return [
     'hr_e_coffees_previous_session_stat' => 'of matches have taken place',
     'hr_e_coffees_overall' => 'Overall',
     'hr_e_coffees_overall_stat' => 'of matches usually take place',
+
+    'news_index_title' => 'All the company news',
+    'news_index_blank' => 'No company news have been written yet.',
+    'news_view_all' => 'View all company news',
 ];

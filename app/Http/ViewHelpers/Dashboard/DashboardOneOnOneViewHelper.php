@@ -67,7 +67,7 @@ class DashboardOneOnOneViewHelper
             'employee' => [
                 'id' => $entry->employee->id,
                 'name' => $entry->employee->name,
-                'avatar' => ImageHelper::getAvatar($entry->employee, 35),
+                'avatar' => ImageHelper::getAvatar($entry->employee, 22),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $entry->employee,
@@ -76,7 +76,7 @@ class DashboardOneOnOneViewHelper
             'manager' => [
                 'id' => $entry->manager->id,
                 'name' => $entry->manager->name,
-                'avatar' => ImageHelper::getAvatar($entry->manager),
+                'avatar' => ImageHelper::getAvatar($entry->manager, 22),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $entry->manager,

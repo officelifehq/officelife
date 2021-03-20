@@ -262,6 +262,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ]);
             Route::get('questions/{question}/teams/{team}', 'Company\\Company\\QuestionController@team');
 
+            // Company news
+            Route::resource('news', 'Company\\Company\\CompanyNewsController', ['as' => 'company'])->only([
+                'index', 'show',
+            ]);
+
             // Skills
             Route::get('skills', 'Company\\Company\\SkillController@index')->name('company.skills.index');
             Route::get('skills/{skill}', 'Company\\Company\\SkillController@show')->name('company.skills.show');
