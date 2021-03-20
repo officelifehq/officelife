@@ -9,9 +9,15 @@ return [
     'subtitle' => 'There is only one step to get started.',
     'next_step_cta' => 'Ok, let’s go',
 
+    'employees_title' => 'Our employees',
     'employees_total' => '{count} employees in the company',
     'new_hires_total' => '{count} new employees hired this year so far',
     'employees_view_all' => 'View all employees',
+
+    'teams_title' => 'All the teams',
+    'teams_total' => '{count} teams in the company',
+    'total_remaining_employees' => '+ {count} members',
+    'teams_view_all' => 'View all teams',
 
     'guess_employee_game_title' => 'Who is this person?',
     'guess_employee_game_success' => 'Right answer! It was indeed...',

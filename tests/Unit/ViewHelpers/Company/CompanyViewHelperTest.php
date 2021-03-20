@@ -419,6 +419,7 @@ class CompanyViewHelperTest extends TestCase
         ]);
         Employee::factory()->count(2)->create([
             'pronoun_id' => $she,
+            'company_id' => $michael->company_id,
         ]);
 
         $array = CompanyViewHelper::demography($michael->company);
@@ -434,6 +435,37 @@ class CompanyViewHelperTest extends TestCase
                 'ze' => 0,
             ],
             $array
+        );
+    }
+
+    /** @test */
+    public function it_gets_information_about_teams(): void
+    {
+        $michael = $this->createAdministrator();
+        $team = Team::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        $team->employees()->attach($michael->id);
+
+        $array = CompanyViewHelper::teams($michael->company);
+
+        $this->assertEquals(
+            $team->id,
+            $array['random_teams']->toArray()[0]['id']
+        );
+        $this->assertEquals(
+            $team->name,
+            $array['random_teams']->toArray()[0]['name']
+        );
+        $this->assertEquals(
+            0,
+            $array['random_teams']->toArray()[0]['total_remaining_employees']
+        );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/teams',
+            $array['view_all_url']
         );
     }
 }
