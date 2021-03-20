@@ -127,6 +127,11 @@ export default {
 
   mounted() {
     this.localNews = this.news;
+
+    if (localStorage.success) {
+      flash(localStorage.success, 'success');
+      localStorage.removeItem('success');
+    }
   },
 
   methods: {

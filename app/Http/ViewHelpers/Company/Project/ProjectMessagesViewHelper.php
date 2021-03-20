@@ -5,7 +5,7 @@ namespace App\Http\ViewHelpers\Company\Project;
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use Illuminate\Support\Str;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
@@ -58,7 +58,7 @@ class ProjectMessagesViewHelper
                 'author' => $author ? [
                     'id' => $author->id,
                     'name' => $author->name,
-                    'avatar' => AvatarHelper::getImage($author, 22),
+                    'avatar' => ImageHelper::getAvatar($author, 22),
                     'url_view' => route('employees.show', [
                         'company' => $company,
                         'employee' => $author,
@@ -104,7 +104,7 @@ class ProjectMessagesViewHelper
             'author' => $author ? [
                 'id' => $author->id,
                 'name' => $author->name,
-                'avatar' => AvatarHelper::getImage($author, 64),
+                'avatar' => ImageHelper::getAvatar($author, 64),
                 'role' => $role ? $role->role : null,
                 'added_at' => $role ? DateHelper::formatDate(Carbon::createFromFormat('Y-m-d H:i:s', $role->created_at)) : null,
                 'position' => (! $author->position) ? null : [

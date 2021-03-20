@@ -4,7 +4,7 @@ namespace Tests\Unit\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\ECoffee;
 use App\Models\Company\ECoffeeMatch;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -59,7 +59,7 @@ class EmployeeECoffeeViewHelperTest extends TestCase
                     'id' => $dwight->id,
                     'name' => $dwight->name,
                     'first_name' => $dwight->first_name,
-                    'avatar' => AvatarHelper::getImage($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight),
                     'position' => $dwight->position ? $dwight->position->title : null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
                 ],

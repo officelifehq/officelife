@@ -4,7 +4,7 @@ namespace App\Http\ViewHelpers\Dashboard\Manager;
 
 use App\Helpers\DateHelper;
 use App\Helpers\TimeHelper;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
 use Illuminate\Support\Collection;
@@ -59,7 +59,7 @@ class DashboardManagerTimesheetViewHelper
                 $employeesCollection->push([
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => AvatarHelper::getImage($employee),
+                    'avatar' => ImageHelper::getAvatar($employee),
                     'position' => (! $employee->position) ? null : $employee->position->title,
                     'url' => route('employees.show', [
                         'company' => $company,

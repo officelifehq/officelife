@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Company\Team;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
-use App\Helpers\AvatarHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
@@ -78,7 +78,7 @@ class TeamRecentShipController extends Controller
             $employees->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee, 23),
+                'avatar' => ImageHelper::getAvatar($employee, 23),
             ]);
         }
 

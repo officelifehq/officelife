@@ -85,8 +85,9 @@ class CreateGuessEmployeeGame extends BaseService
             ->inRandomOrder()
             ->first();
 
-        $allEmployees = $this->employee->company->employees()
+        $twoOtherEmployees = $this->employee->company->employees()
             ->where('locked', false)
+            ->where('id', '!=', $employeeToFind->id)
             ->where('id', '!=', $this->employee->id)
             ->where('pronoun_id', $employeeToFind->pronoun_id)
             ->select('id', 'first_name', 'last_name')
@@ -94,15 +95,15 @@ class CreateGuessEmployeeGame extends BaseService
             ->take(2)
             ->get();
 
-        if ($allEmployees->count() != 2) {
+        if ($twoOtherEmployees->count() != 2) {
             throw new OutOfRangeException();
         }
 
         $this->game = GuessEmployeeGame::create([
             'employee_who_played_id' => $this->employee->id,
             'employee_to_find_id' => $employeeToFind->id,
-            'first_other_employee_to_find_id' => $allEmployees->get(0)->id,
-            'second_other_employee_to_find_id' => $allEmployees->get(1)->id,
+            'first_other_employee_to_find_id' => $twoOtherEmployees->get(0)->id,
+            'second_other_employee_to_find_id' => $twoOtherEmployees->get(1)->id,
             'played' => false,
             'found' => false,
         ]);

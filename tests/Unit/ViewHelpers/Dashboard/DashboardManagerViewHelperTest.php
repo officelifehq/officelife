@@ -4,7 +4,7 @@ namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Expense;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
@@ -72,7 +72,7 @@ class DashboardManagerViewHelperTest extends TestCase
                     'employee' => [
                         'id' => $dwight->id,
                         'name' => $dwight->name,
-                        'avatar' => AvatarHelper::getImage($dwight),
+                        'avatar' => ImageHelper::getAvatar($dwight),
                     ],
                 ],
             ],
@@ -146,7 +146,7 @@ class DashboardManagerViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => AvatarHelper::getImage($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight),
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'entry' => [
@@ -158,7 +158,7 @@ class DashboardManagerViewHelperTest extends TestCase
                 1 => [
                     'id' => $jim->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => AvatarHelper::getImage($jim),
+                    'avatar' => ImageHelper::getAvatar($jim),
                     'position' => $jim->position->title,
                     'url' => env('APP_URL').'/'.$jim->company_id.'/employees/'.$jim->id,
                     'entry' => [
@@ -213,7 +213,7 @@ class DashboardManagerViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => AvatarHelper::getImage($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight),
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'contract_information' => [

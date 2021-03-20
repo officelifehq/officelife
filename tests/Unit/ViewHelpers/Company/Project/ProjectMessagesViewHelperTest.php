@@ -5,7 +5,7 @@ namespace Tests\Unit\ViewHelpers\Company\Project;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Helpers\DateHelper;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Project;
 use Illuminate\Support\Facades\DB;
@@ -54,7 +54,7 @@ class ProjectMessagesViewHelperTest extends TestCase
                     'author' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => AvatarHelper::getImage($michael),
+                        'avatar' => ImageHelper::getAvatar($michael),
                         'url_view' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                 ],
@@ -101,7 +101,7 @@ class ProjectMessagesViewHelperTest extends TestCase
                 'author' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => AvatarHelper::getImage($michael),
+                    'avatar' => ImageHelper::getAvatar($michael),
                     'role' => null,
                     'added_at' => null,
                     'position' => [

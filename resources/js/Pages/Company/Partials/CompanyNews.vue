@@ -13,18 +13,23 @@
     </span>
 
     <div class="br3 bg-white box z-1">
-      <ul v-if="news.news.length > 0" class="list ma0 pa3">
-        <li v-for="newsItem in news.news" :key="newsItem.id" class="answer-item mb3">
-          <h3 class="f5 fw5 mt0 mb1"><inertia-link href="">{{ newsItem.title }}</inertia-link></h3>
-          <div class="gray parsed-content f6" v-html="newsItem.extract"></div>
-        </li>
-      </ul>
-      <div class="ph3 pv2 tc f6 bt bb-gray">
-        <inertia-link href="https://officelife.test/1/employees/1/worklogs">View worklog history ({{ news.count }})</inertia-link>
+      <!-- list of questions -->
+      <div v-if="news.count > 0">
+        <ul class="list ma0 pa3">
+          <li v-for="newsItem in news.news" :key="newsItem.id" class="answer-item mb3">
+            <h3 class="f5 fw5 mt0 mb1">{{ newsItem.title }}</h3>
+            <div class="gray parsed-content f6" v-html="newsItem.extract"></div>
+          </li>
+        </ul>
+        <div class="ph3 pv2 tc f6 bt bb-gray">
+          <inertia-link :href="news.view_all_url">{{ $t('company.news_view_all') }}</inertia-link>
+        </div>
       </div>
 
       <!-- blank state -->
-      <p v-if="news.news.length == 0" class="mb0 mt0 lh-copy f6" data-cy="question-blank-state">{{ $t('employee.question_blank') }}</p>
+      <div v-else class="pa3 tc">
+        <p class="mb0 mt0 lh-copy f6" data-cy="question-blank-state">{{ $t('company.news_index_blank') }}</p>
+      </div>
     </div>
   </div>
 </template>

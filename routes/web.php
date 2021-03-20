@@ -225,7 +225,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         Route::prefix('teams')->group(function () {
-            Route::get('', 'Company\\Team\\TeamController@index');
+            Route::get('', 'Company\\Team\\TeamController@index')->name('teams.index');
             Route::get('{team}', 'Company\\Team\\TeamController@show')->name('team.show');
 
             Route::post('{team}/members/search', 'Company\\Team\\TeamMembersController@index');
@@ -261,6 +261,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'index', 'show',
             ]);
             Route::get('questions/{question}/teams/{team}', 'Company\\Company\\QuestionController@team');
+
+            // Company news
+            Route::resource('news', 'Company\\Company\\CompanyNewsController', ['as' => 'company'])->only([
+                'index', 'show',
+            ]);
 
             // Skills
             Route::get('skills', 'Company\\Company\\SkillController@index')->name('company.skills.index');
@@ -344,6 +349,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('account/general', 'Company\\Adminland\\AdminGeneralController@index');
             Route::post('account/general/rename', 'Company\\Adminland\\AdminGeneralController@rename');
             Route::post('account/general/currency', 'Company\\Adminland\\AdminGeneralController@currency');
+            Route::post('account/general/logo', 'Company\\Adminland\\AdminGeneralController@logo');
 
             Route::get('account/cancel', 'Company\\Adminland\\AdminCancelAccountController@index');
             Route::delete('account/cancel', 'Company\\Adminland\\AdminCancelAccountController@destroy');

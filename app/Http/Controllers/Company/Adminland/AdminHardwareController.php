@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
-use App\Helpers\AvatarHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Hardware;
 use Illuminate\Http\JsonResponse;
@@ -118,7 +118,7 @@ class AdminHardwareController extends Controller
             'employee' => $hardware->employee ? [
                 'id' => $hardware->employee->id,
                 'name' => $hardware->employee->name,
-                'avatar' => AvatarHelper::getImage($hardware->employee),
+                'avatar' => ImageHelper::getAvatar($hardware->employee),
             ] : null,
         ];
 
