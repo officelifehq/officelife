@@ -63,12 +63,12 @@
           <new-hires :hires="newHiresThisWeek" />
 
           <recent-skills :skills="latestSkills" />
-
-          <recent-ships :ships="latestShips" />
         </div>
 
         <div class="fl w-third-l w-100 pl4-l">
           <teams :teams="teams" :statistics="statistics" />
+
+          <recent-ships :ships="latestShips" />
         </div>
       </div>
     </div>
