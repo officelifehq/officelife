@@ -58,7 +58,7 @@
       <!-- avatars -->
       <div class="absolute-ns avatars tc">
         <img class="avatar br-100" loading="lazy" src="/img/streamline-icon-coffee-idea-sparking@140x140.png" alt="avatar" />
-        <img class="avatar br-100" loading="lazy" :src="localeCoffee.other_employee.avatar" alt="avatar" />
+        <avatar :avatar="localeCoffee.other_employee.avatar" :size="55" :classes="'avatar br-100'" />
       </div>
     </div>
   </div>
