@@ -49,7 +49,7 @@ class TeamMembersViewHelperTest extends TestCase
             [
                 'id' => $michael->id,
                 'name' => $michael->name,
-                'avatar' => ImageHelper::getAvatar($michael),
+                'avatar' => ImageHelper::getAvatar($michael, 35),
                 'position' => $michael->position,
             ],
             $array
