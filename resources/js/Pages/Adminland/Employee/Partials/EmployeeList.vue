@@ -14,9 +14,8 @@
         v-for="currentEmployee in employees" :key="currentEmployee.id"
         class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10 employee-item"
       >
-        <img loading="lazy" class="w2 h2 w3-ns h3-ns br-100" :src="currentEmployee.avatar" width="64" height="64"
-             alt="avatar"
-        />
+        <avatar :avatar="currentEmployee.avatar" :size="64" :classes="'w2 h2 w3-ns h3-ns br-100'" />
+
         <div class="pl3 flex-auto">
           <span class="db black-70 f4 mb1" :name="currentEmployee.name" :data-cy="currentEmployee.id" :data-invitation-link="currentEmployee.invitation_link">
             {{ currentEmployee.name }} <span v-if="currentEmployee.lock_status" data-cy="lock-status">🔐</span>
@@ -51,7 +50,13 @@
 </template>
 
 <script>
+import Avatar from '@/Shared/Avatar';
+
 export default {
+  components: {
+    Avatar,
+  },
+
   props: {
     employees: {
       type: Array,

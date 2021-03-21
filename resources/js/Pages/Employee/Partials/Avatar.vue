@@ -19,18 +19,19 @@
                 @success="onSuccess"
                 @error="onError"
     >
-      <img :class="{'black-white':(employee.locked)}" loading="lazy" :src="localAvatar" alt="avatar" />
-      <!-- <button>{{ $t('account.import_employees_import_cta') }}</button> -->
+      <avatar :avatar="localAvatar" :size="300" />
     </uploadcare>
   </div>
 </template>
 
 <script>
 import Uploadcare from 'uploadcare-vue';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Uploadcare,
+    Avatar,
   },
 
   props: {

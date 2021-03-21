@@ -20,6 +20,7 @@ class ProjectDecisionsViewHelper
         $company = $project->company;
         $decisions = $project->decisions()
             ->with('deciders')
+            ->with('deciders.picture')
             ->latest()
             ->get();
 

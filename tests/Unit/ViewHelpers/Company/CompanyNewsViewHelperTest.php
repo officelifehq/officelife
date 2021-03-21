@@ -49,7 +49,7 @@ class CompanyNewsViewHelperTest extends TestCase
                     'author' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => ImageHelper::getAvatar($michael),
+                        'avatar' => ImageHelper::getAvatar($michael, 22),
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                     'written_at' => 'Jan 01, 2018',

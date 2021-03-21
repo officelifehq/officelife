@@ -42,7 +42,7 @@ class TeamShowViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 35),
                     'position' => [
                         'id' => $michael->position->id,
                         'title' => $michael->position->title,
@@ -52,7 +52,7 @@ class TeamShowViewHelperTest extends TestCase
                 1 => [
                     'id' => $dwight->id,
                     'name' => $dwight->name,
-                    'avatar' => ImageHelper::getAvatar($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'position' => [
                         'id' => $dwight->position->id,
                         'title' => $dwight->position->title,
@@ -92,7 +92,7 @@ class TeamShowViewHelperTest extends TestCase
                         0 => [
                             'id' => $michael->id,
                             'name' => $michael->name,
-                            'avatar' => ImageHelper::getAvatar($michael),
+                            'avatar' => ImageHelper::getAvatar($michael, 17),
                             'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                         ],
                     ],

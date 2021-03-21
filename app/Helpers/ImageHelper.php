@@ -12,21 +12,29 @@ class ImageHelper
      *
      * @param Employee $employee
      * @param int $width
-     * @return string|null
+     * @return array|null
      */
-    public static function getAvatar(Employee $employee, int $width = null): ?string
+    public static function getAvatar(Employee $employee, int $width = 64): ?array
     {
         if (! $employee->avatar_file_id) {
-            return 'https://ui-avatars.com/api/?name='.$employee->name;
+            return [
+                'normal' => 'https://ui-avatars.com/api/?name='.$employee->name.'&size='.$width,
+                'retina' => 'https://ui-avatars.com/api/?name='.$employee->name.'&size='.($width * 2),
+            ];
         }
 
         if ($width) {
             $url = $employee->picture->cdn_url.'-/scale_crop/'.$width.'x'.$width.'/smart/';
+            $url2x = $employee->picture->cdn_url.'-/scale_crop/'.($width * 2).'x'.($width * 2).'/smart/';
         } else {
             $url = $employee->picture->cdn_url;
+            $url2x = $employee->picture->cdn_url;
         }
 
-        return $url;
+        return [
+            'normal' => $url,
+            'retina' => $url2x,
+        ];
     }
 
     /**

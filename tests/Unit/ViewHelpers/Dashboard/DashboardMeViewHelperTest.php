@@ -263,7 +263,7 @@ class DashboardMeViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => ImageHelper::getAvatar($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'entry' => [
@@ -274,7 +274,7 @@ class DashboardMeViewHelperTest extends TestCase
                 1 => [
                     'id' => $michael->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => ImageHelper::getAvatar($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 35),
                     'position' => $michael->position->title,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     'entry' => [
@@ -388,7 +388,7 @@ class DashboardMeViewHelperTest extends TestCase
                     'id' => $match->employeeMatchedWith->id,
                     'name' => $match->employeeMatchedWith->name,
                     'first_name' => $match->employeeMatchedWith->first_name,
-                    'avatar' => ImageHelper::getAvatar($match->employeeMatchedWith),
+                    'avatar' => ImageHelper::getAvatar($match->employeeMatchedWith, 55),
                     'position' => $match->employeeMatchedWith->position ? $match->employeeMatchedWith->position->title : null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$match->employeeMatchedWith->id,
                     'teams' => null,

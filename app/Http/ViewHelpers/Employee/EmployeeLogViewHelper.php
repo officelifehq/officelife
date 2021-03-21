@@ -24,7 +24,7 @@ class EmployeeLogViewHelper
                 'author' => [
                     'id' => is_null($author) ? null : $author->id,
                     'name' => is_null($author) ? $log->author_name : $author->name,
-                    'avatar' => is_null($author) ? null : ImageHelper::getAvatar($author),
+                    'avatar' => is_null($author) ? null : ImageHelper::getAvatar($author, 34),
                     'url' => is_null($author) ? null : route('employees.show', [
                         'company' => $company,
                         'employee' => $author,
@@ -35,5 +35,17 @@ class EmployeeLogViewHelper
         }
 
         return $logsCollection;
+    }
+
+    /**
+     * Information about the employee.
+     */
+    public static function employee(Employee $employee): array
+    {
+        return [
+            'id' => $employee->id,
+            'name' => $employee->name,
+            'avatar' => ImageHelper::getAvatar($employee, 80),
+        ];
     }
 }

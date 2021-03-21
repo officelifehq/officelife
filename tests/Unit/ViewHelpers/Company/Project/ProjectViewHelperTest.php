@@ -114,7 +114,7 @@ class ProjectViewHelperTest extends TestCase
             [
                 'id' => $michael->id,
                 'name' => $michael->name,
-                'avatar' => ImageHelper::getAvatar($michael),
+                'avatar' => ImageHelper::getAvatar($michael, 35),
                 'position' => [
                     'id' => $michael->position->id,
                     'title' => $michael->position->title,
@@ -143,7 +143,7 @@ class ProjectViewHelperTest extends TestCase
                 'author' => [
                     'id' => $status->author->id,
                     'name' => $status->author->name,
-                    'avatar' => ImageHelper::getAvatar($status->author),
+                    'avatar' => ImageHelper::getAvatar($status->author, 32),
                     'position' => (! $status->author->position) ? null : [
                         'id' => $status->author->position->id,
                         'title' => $status->author->position->title,

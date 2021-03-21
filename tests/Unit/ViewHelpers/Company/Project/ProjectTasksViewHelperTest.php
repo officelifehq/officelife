@@ -53,7 +53,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'assignee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => ImageHelper::getAvatar($michael),
+                        'avatar' => ImageHelper::getAvatar($michael, 15),
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                 ],
@@ -130,7 +130,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'assignee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => ImageHelper::getAvatar($michael),
+                        'avatar' => ImageHelper::getAvatar($michael, 15),
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                 ],
@@ -213,7 +213,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'author' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 35),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     'role' => null,
                     'added_at' => null,
@@ -222,7 +222,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'assignee' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 35),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
             ],
@@ -301,7 +301,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'author' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 35),
                     'role' => null,
                     'added_at' => null,
                     'position' => $michael->position->title,
@@ -310,7 +310,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'assignee' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 35),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
             ],

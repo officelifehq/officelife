@@ -54,7 +54,7 @@ class TeamRecentShipViewHelperTest extends TestCase
                         0 => [
                             'id' => $michael->id,
                             'name' => $michael->name,
-                            'avatar' => ImageHelper::getAvatar($michael),
+                            'avatar' => ImageHelper::getAvatar($michael, 21),
                             'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                         ],
                     ],
@@ -97,7 +97,7 @@ class TeamRecentShipViewHelperTest extends TestCase
                     0 => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => ImageHelper::getAvatar($michael),
+                        'avatar' => ImageHelper::getAvatar($michael, 44),
                         'position' => [
                             'title' => $michael->position->title,
                         ],

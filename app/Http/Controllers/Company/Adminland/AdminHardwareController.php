@@ -118,7 +118,7 @@ class AdminHardwareController extends Controller
             'employee' => $hardware->employee ? [
                 'id' => $hardware->employee->id,
                 'name' => $hardware->employee->name,
-                'avatar' => ImageHelper::getAvatar($hardware->employee),
+                'avatar' => ImageHelper::getAvatar($hardware->employee, 22),
             ] : null,
         ];
 

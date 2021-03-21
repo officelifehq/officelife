@@ -76,7 +76,7 @@
 
           <div v-if="message.author" class="flex mb4">
             <div class="mr3">
-              <img :src="message.author.avatar" alt="avatar" height="64" width="64" class="br-100" />
+              <avatar :avatar="message.author.avatar" :size="64" :classes="'br-100'" />
             </div>
 
             <div>
@@ -142,11 +142,13 @@
 <script>
 import Layout from '@/Shared/Layout';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
     ProjectMenu,
+    Avatar,
   },
 
   props: {

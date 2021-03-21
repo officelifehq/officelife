@@ -117,7 +117,7 @@ class EmployeeShowViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 35),
                     'position' => [
                         'id' => $michael->position->id,
                         'title' => $michael->position->title,
@@ -127,7 +127,7 @@ class EmployeeShowViewHelperTest extends TestCase
                 1 => [
                     'id' => $jim->id,
                     'name' => $jim->name,
-                    'avatar' => ImageHelper::getAvatar($jim),
+                    'avatar' => ImageHelper::getAvatar($jim, 35),
                     'position' => [
                         'id' => $jim->position->id,
                         'title' => $jim->position->title,
@@ -173,7 +173,7 @@ class EmployeeShowViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => $dwight->name,
-                    'avatar' => ImageHelper::getAvatar($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'position' => [
                         'id' => $dwight->position->id,
                         'title' => $dwight->position->title,
@@ -183,7 +183,7 @@ class EmployeeShowViewHelperTest extends TestCase
                 1 => [
                     'id' => $jim->id,
                     'name' => $jim->name,
-                    'avatar' => ImageHelper::getAvatar($jim),
+                    'avatar' => ImageHelper::getAvatar($jim, 35),
                     'position' => [
                         'id' => $jim->position->id,
                         'title' => $jim->position->title,
@@ -511,7 +511,7 @@ class EmployeeShowViewHelperTest extends TestCase
                     'manager' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => ImageHelper::getAvatar($michael),
+                        'avatar' => ImageHelper::getAvatar($michael, 18),
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones/'.$entry2019->id,
@@ -522,7 +522,7 @@ class EmployeeShowViewHelperTest extends TestCase
                     'manager' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => ImageHelper::getAvatar($michael),
+                        'avatar' => ImageHelper::getAvatar($michael, 18),
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones/'.$entry2018->id,
@@ -533,7 +533,7 @@ class EmployeeShowViewHelperTest extends TestCase
                     'manager' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => ImageHelper::getAvatar($michael),
+                        'avatar' => ImageHelper::getAvatar($michael, 18),
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones/'.$entry2017->id,
@@ -785,7 +785,7 @@ class EmployeeShowViewHelperTest extends TestCase
                     'id' => $dwight->id,
                     'name' => $dwight->name,
                     'first_name' => $dwight->first_name,
-                    'avatar' => ImageHelper::getAvatar($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'position' => $dwight->position ? $dwight->position->title : null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
                 ],

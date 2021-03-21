@@ -64,7 +64,7 @@ class EmployeeOneOnOneViewHelper
                 'manager' => [
                     'id' => $oneOnOne->manager->id,
                     'name' => $oneOnOne->manager->name,
-                    'avatar' => ImageHelper::getAvatar($oneOnOne->manager),
+                    'avatar' => ImageHelper::getAvatar($oneOnOne->manager, 22),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $oneOnOne->manager,
@@ -140,7 +140,7 @@ class EmployeeOneOnOneViewHelper
             'employee' => [
                 'id' => $entry->employee->id,
                 'name' => $entry->employee->name,
-                'avatar' => ImageHelper::getAvatar($entry->employee),
+                'avatar' => ImageHelper::getAvatar($entry->employee, 22),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $entry->employee,
@@ -149,7 +149,7 @@ class EmployeeOneOnOneViewHelper
             'manager' => [
                 'id' => $entry->manager->id,
                 'name' => $entry->manager->name,
-                'avatar' => ImageHelper::getAvatar($entry->manager),
+                'avatar' => ImageHelper::getAvatar($entry->manager, 22),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $entry->manager,

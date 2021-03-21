@@ -145,7 +145,7 @@ class AdminExpenseController extends Controller
             $employees->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => ImageHelper::getAvatar($employee),
+                'avatar' => ImageHelper::getAvatar($employee, 23),
             ]);
         }
 
@@ -178,7 +178,7 @@ class AdminExpenseController extends Controller
             'data' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => ImageHelper::getAvatar($employee),
+                'avatar' => ImageHelper::getAvatar($employee, 23),
                 'url' => route('employees.show', [
                     'company' => $loggedCompany,
                     'employee' => $employee,

@@ -59,7 +59,7 @@ class EmployeeECoffeeViewHelperTest extends TestCase
                     'id' => $dwight->id,
                     'name' => $dwight->name,
                     'first_name' => $dwight->first_name,
-                    'avatar' => ImageHelper::getAvatar($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'position' => $dwight->position ? $dwight->position->title : null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
                 ],

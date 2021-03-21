@@ -32,13 +32,13 @@ class ProjectDecisionsViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 22),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
                 1 => [
                     'id' => $jim->id,
                     'name' => $jim->name,
-                    'avatar' => ImageHelper::getAvatar($jim),
+                    'avatar' => ImageHelper::getAvatar($jim, 22),
                     'url' => env('APP_URL').'/'.$jim->company_id.'/employees/'.$jim->id,
                 ],
             ],

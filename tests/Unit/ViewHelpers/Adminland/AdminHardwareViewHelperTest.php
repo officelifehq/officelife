@@ -66,7 +66,7 @@ class AdminHardwareViewHelperTest extends TestCase
                 'employee' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 18),
                 ],
             ],
             $response['hardware_collection'][1]
@@ -163,7 +163,7 @@ class AdminHardwareViewHelperTest extends TestCase
                 'employee' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 18),
                 ],
             ],
             $response['hardware_collection'][0]
