@@ -30,8 +30,8 @@
           <inertia-link :href="team.url" class="ma0">{{ team.name }}</inertia-link>
           <div class="flex items-center">
             <div class="di">
-              <img v-for="employee in team.employees" :key="employee.id" :src="employee.avatar" alt="avatar" class="br-100 small-avatar pointer"
-                   width="32" height="32" @click="navigateTo(employee)"
+              <avatar v-for="employee in team.employees" :key="employee.id" :url="employee.url" :avatar="employee.avatar" :size="32"
+                      :classes="'br-100 small-avatar pointer'"
               />
             </div>
 
@@ -50,7 +50,13 @@
 </template>
 
 <script>
+import Avatar from '@/Shared/Avatar';
+
 export default {
+  components: {
+    Avatar,
+  },
+
   props: {
     statistics: {
       type: Object,
@@ -59,12 +65,6 @@ export default {
     teams: {
       type: Object,
       default: null,
-    },
-  },
-
-  methods: {
-    navigateTo(employee) {
-      this.$inertia.visit(employee.url);
     },
   },
 };

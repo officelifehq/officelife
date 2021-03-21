@@ -24,7 +24,7 @@ export default {
       default: null,
     },
     avatar: {
-      type: String,
+      type: Object,
       default: null,
     },
     classes: {

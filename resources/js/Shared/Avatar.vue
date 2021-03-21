@@ -5,8 +5,10 @@ span {
 </style>
 
 <template>
-  <img :loading="loading" :class="classes" :src="avatar.normal" :width="size" :height="size"
+  <img :loading="loading" :class="classes" class="pointer" :src="avatar.normal" :width="size"
+       :height="size"
        :srcset="avatar.normal + ' 1x,' + avatar.retina + ' 2x'" :alt="alt"
+       @click="navigateTo()"
   />
 </template>
 
@@ -39,6 +41,12 @@ export default {
     }
   },
 
-
+  methods: {
+    navigateTo() {
+      if (this.url) {
+        this.$inertia.visit(this.url);
+      }
+    },
+  },
 };
 </script>
