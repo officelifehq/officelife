@@ -36,12 +36,27 @@ class EmployeeLogViewHelperTest extends TestCase
                 'author' => [
                     'id' => $michael->id,
                     'name' => 'michael scott',
-                    'avatar' => ImageHelper::getAvatar($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 34),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
                 'localized_audited_at' => 'Jan 12, 2020 00:00',
             ],
             EmployeeLogViewHelper::list($logs, $michael->company)->toArray()[0]
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_information_about_the_employee(): void
+    {
+        $michael = Employee::factory()->create();
+
+        $this->assertEquals(
+            [
+                'id' => $michael->id,
+                'name' => $michael->name,
+                'avatar' => ImageHelper::getAvatar($michael, 80),
+            ],
+            EmployeeLogViewHelper::employee($michael)
         );
     }
 }

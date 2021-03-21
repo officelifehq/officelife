@@ -87,7 +87,7 @@ class DashboardManagerTimesheetViewHelperTest extends TestCase
             $collection->toArray()[0]['name']
         );
         $this->assertEquals(
-            ImageHelper::getAvatar($dwight),
+            ImageHelper::getAvatar($dwight, 35),
             $collection->toArray()[0]['avatar']
         );
         $this->assertEquals(

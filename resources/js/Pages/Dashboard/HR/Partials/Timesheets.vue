@@ -56,15 +56,13 @@
           <!-- avatars -->
           <div v-if="data.number_of_timesheets > 0" class="pl6-ns pl3 mb3">
             <div class="flex items-center relative tr all-avatars">
-              <img v-for="member in data.employees" :key="member.id" :src="member.avatar" alt="avatar" class="br-100 small-avatar"
-                   width="32" height="32"
-              />
+              <avatar v-for="member in data.employees" :key="member.id" :avatar="member.avatar" :size="32" :classes="'br-100 small-avatar'" />
             </div>
           </div>
         </div>
 
         <!-- CTA -->
-        <inertia-link :href="data.url_view_all" class="btn w-auto-ns w-100 mr2 pv2 ph3 mr3">{{ $t('app.view') }}</inertia-link>
+        <inertia-link v-if="data.number_of_timesheets > 0" :href="data.url_view_all" class="btn w-auto-ns w-100 mr2 pv2 ph3 mr3">{{ $t('app.view') }}</inertia-link>
       </div>
     </div>
   </div>
@@ -72,10 +70,12 @@
 
 <script>
 import Help from '@/Shared/Help';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Help,
+    Avatar,
   },
 
   props: {

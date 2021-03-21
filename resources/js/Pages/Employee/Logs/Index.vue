@@ -44,7 +44,7 @@
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <div class="relative pt5">
           <!-- AVATAR -->
-          <img loading="lazy" :src="employee.avatar" class="avatar absolute br-100 db center" alt="avatar" />
+          <avatar :avatar="employee.avatar" :size="80" :classes="'avatar absolute br-100 db center'" />
 
           <h2 class="pa3 tc normal mb4">
             {{ $t('employee.audit_log_title') }}
@@ -53,7 +53,7 @@
           <ul class="list pl0 mt0 mb0 center" data-cy="logs-list">
             <li v-for="log in logs" :key="log.id" class="flex items-center lh-copy pa3 bb b--black-10 log-item">
               <!-- avatar -->
-              <img loading="lazy" :src="log.author.avatar" class="author-avatar br-100" alt="avatar" />
+              <avatar :avatar="log.author.avatar" :size="34" :classes="'author-avatar br-100'" />
 
               <div>
                 <div class="db f7 mb2">
@@ -93,10 +93,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Avatar,
   },
 
   props: {

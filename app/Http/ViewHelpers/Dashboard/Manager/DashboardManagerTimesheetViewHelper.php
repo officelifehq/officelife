@@ -59,7 +59,7 @@ class DashboardManagerTimesheetViewHelper
                 $employeesCollection->push([
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => ImageHelper::getAvatar($employee),
+                    'avatar' => ImageHelper::getAvatar($employee, 35),
                     'position' => (! $employee->position) ? null : $employee->position->title,
                     'url' => route('employees.show', [
                         'company' => $company,
