@@ -6232,10 +6232,10 @@ mrm-core@^4.7.0:
     webpack-merge "^4.2.2"
     yaml "^2.0.0-1"
 
-mrm-preset-default@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/mrm-preset-default/-/mrm-preset-default-2.4.0.tgz#d663dc62df4912d2addf30ca4526fef122f8a54c"
-  integrity sha512-aOIYQiolbofjmJ/4pyjF6U75mI6VrN6OXzc3NX2+xLvmvru/A70RWU189WSlBFBeE465sDz7+yWT2SFnDnF2ww==
+mrm-preset-default@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/mrm-preset-default/-/mrm-preset-default-2.4.1.tgz#e6af46513dee0c723d340b66816b775b8adb33e4"
+  integrity sha512-K1n25bTNhsDn28S2DYQuHCLuBqwTqj/r+X0Mky6LMREWk/rRVXeQO61R3VGlGlEThensZVNhW6jaQbGf1UmiqA==
   dependencies:
     mrm-core "^4.7.0"
     mrm-task-ci "^0.3.0"
@@ -6247,7 +6247,7 @@ mrm-preset-default@^2.4.0:
     mrm-task-gitignore "^2.1.0"
     mrm-task-jest "^2.1.0"
     mrm-task-license "^3.4.0"
-    mrm-task-lint-staged "^3.1.0"
+    mrm-task-lint-staged "^4.0.0"
     mrm-task-package "^2.2.0"
     mrm-task-prettier "^3.2.0"
     mrm-task-readme "^2.4.0"
@@ -6332,10 +6332,10 @@ mrm-task-license@^3.4.0:
     smpltmpl "^1.0.2"
     user-meta "^1.0.0"
 
-mrm-task-lint-staged@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/mrm-task-lint-staged/-/mrm-task-lint-staged-3.1.0.tgz#3bf86264a656bd9234dea6a3689526de0fc32e47"
-  integrity sha512-P60XRaGfIUGcGL5YJhpUkPHfwnZsicxgSBa2l79CoppyJ+wd1HBGAtMU2+wzCSpL18w6UYfTDwqWrd6iAmvrng==
+mrm-task-lint-staged@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/mrm-task-lint-staged/-/mrm-task-lint-staged-4.0.0.tgz#cf06933841017e8984521eacc384fb9004a56437"
+  integrity sha512-5nkrm9XaYAaEZx/dfRsh308Sab6EWyZBJoy4/VCImHrI8oIa60+jLJNBHE+z+ydounUB3ZQrUI4f0ifUeAEVvA==
   dependencies:
     lodash "^4.17.15"
     mrm-core "^4.7.0"
@@ -6411,9 +6411,9 @@ mrm-task-typescript@^2.1.0:
     mrm-core "^4.7.0"
 
 mrm@^2.5.2:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/mrm/-/mrm-2.6.0.tgz#447fbfff401007418f65b4170fd685cd7fce51b1"
-  integrity sha512-j6dIbggHcD42/AyWqWF/5KH6A5bCsA9EEMuP1JmpJzi9/xAYCbJJ2pZFwBY7RBvjqb9ZkwQvHtD/PEIaIrG8KA==
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/mrm/-/mrm-2.6.1.tgz#255c966fcaed39631da611067ccff4f0b4c6511f"
+  integrity sha512-/XG0V26PSTSjSz6pF/D61X226QJVA23Y4FZCjOauhhbUWtC4AjPXtSGsKdMP4nFDOD6/STE5IR7+/NS7UHo7ZA==
   dependencies:
     cross-spawn "7.0.3"
     git-username "^1.0.0"
@@ -6427,7 +6427,7 @@ mrm@^2.5.2:
     middleearth-names "^1.1.0"
     minimist "^1.2.0"
     mrm-core "^4.7.0"
-    mrm-preset-default "^2.4.0"
+    mrm-preset-default "^2.4.1"
     package-json "6.5.0"
     requireg "^0.2.2"
     semver-utils "^1.1.4"
