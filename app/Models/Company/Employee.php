@@ -85,6 +85,7 @@ class Employee extends Model
         'last_name',
         'email',
         'company_id',
+        'avatar_file_id',
     ];
 
     /**

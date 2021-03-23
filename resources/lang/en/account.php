@@ -297,6 +297,7 @@ return [
     'log_meeting_created' => 'Created a meeting in the group called :group_name.',
     'log_meeting_destroyed' => 'Deleted a meeting in the group called :group_name.',
     'log_employee_marked_as_participant_in_meeting' => 'Indicated that :employee_name participated in a meeting in the group called :group_name.',
+    'log_employee_removed_from_meeting' => 'Indicated that :employee_name was not in a meeting in the group called :group_name.',
     'log_toggle_e_coffee_process' => 'Toggled the eCoffee process in the company.',
     'log_company_logo_changed' => 'Changed the company logo.',
 
@@ -375,6 +376,7 @@ return [
     'employee_log_employee_added_to_group' => 'Has been added to the group called :group_name.',
     'employee_log_employee_removed_from_group' => 'Has been remove from the group called :group_name.',
     'employee_log_employee_marked_as_participant_in_meeting' => 'Has been added in a meeting in the group called :group_name.',
+    'employee_log_employee_removed_from_meeting' => 'Has been removed from a meeting in the group called :group_name.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',

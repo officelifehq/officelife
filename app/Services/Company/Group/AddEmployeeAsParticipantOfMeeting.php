@@ -11,7 +11,7 @@ use App\Models\Company\Meeting;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
 
-class MarkEmployeeAsParticipantOfMeeting extends BaseService
+class AddEmployeeAsParticipantOfMeeting extends BaseService
 {
     private array $data;
     private Employee $employee;

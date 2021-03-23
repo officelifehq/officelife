@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Group\MarkEmployeeAsParticipantOfMeeting;
+use App\Services\Company\Group\AddEmployeeAsParticipantOfMeeting;
 
-class MarkEmployeeAsParticipantOfMeetingTest extends TestCase
+class AddEmployeeAsParticipantOfMeetingTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -67,7 +67,7 @@ class MarkEmployeeAsParticipantOfMeetingTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new MarkEmployeeAsParticipantOfMeeting)->execute($request);
+        (new AddEmployeeAsParticipantOfMeeting)->execute($request);
     }
 
     /** @test */
@@ -112,7 +112,7 @@ class MarkEmployeeAsParticipantOfMeetingTest extends TestCase
             'employee_id' => $dwight->id,
         ];
 
-        $employee = (new MarkEmployeeAsParticipantOfMeeting)->execute($request);
+        $employee = (new AddEmployeeAsParticipantOfMeeting)->execute($request);
 
         $this->assertDatabaseHas('employee_meeting', [
             'meeting_id' => $meeting->id,

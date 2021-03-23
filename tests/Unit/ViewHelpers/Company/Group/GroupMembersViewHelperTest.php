@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Company\Group;
 
 use Tests\TestCase;
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Group;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -34,7 +35,7 @@ class GroupMembersViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => $michael->avatar,
+                    'avatar' => ImageHelper::getAvatar($michael),
                     'added_at' => DateHelper::formatDate($michael->created_at),
                     'position' => [
                         'id' => $michael->position->id,
@@ -45,7 +46,7 @@ class GroupMembersViewHelperTest extends TestCase
                 1 => [
                     'id' => $jim->id,
                     'name' => $jim->name,
-                    'avatar' => $jim->avatar,
+                    'avatar' => ImageHelper::getAvatar($jim),
                     'added_at' => DateHelper::formatDate($jim->created_at),
                     'position' => [
                         'id' => $jim->position->id,
@@ -83,7 +84,7 @@ class GroupMembersViewHelperTest extends TestCase
                 0 => [
                     'id' => $jean->id,
                     'name' => $jean->name,
-                    'avatar' => $jean->avatar,
+                    'avatar' => ImageHelper::getAvatar($jean, 23),
                 ],
             ],
             $collection->toArray()

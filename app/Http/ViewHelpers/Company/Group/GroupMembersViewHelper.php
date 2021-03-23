@@ -3,6 +3,7 @@
 namespace App\Http\ViewHelpers\Company\Group;
 
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Group;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
@@ -29,7 +30,7 @@ class GroupMembersViewHelper
             $membersCollection->push([
                 'id' => $member->id,
                 'name' => $member->name,
-                'avatar' => $member->avatar,
+                'avatar' => ImageHelper::getAvatar($member),
                 'added_at' => DateHelper::formatDate($member->pivot->created_at),
                 'position' => (! $member->position) ? null : [
                     'id' => $member->position->id,
@@ -74,7 +75,7 @@ class GroupMembersViewHelper
             $potentialMembersCollection->push([
                 'id' => $potential->id,
                 'name' => $potential->name,
-                'avatar' => $potential->avatar,
+                'avatar' => ImageHelper::getAvatar($potential, 23),
             ]);
         }
 
