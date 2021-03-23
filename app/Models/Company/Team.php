@@ -3,7 +3,6 @@
 namespace App\Models\Company;
 
 use Carbon\Carbon;
-use App\Traits\Searchable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +15,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Team extends Model
 {
     use LogsActivity,
-        Searchable,
         HasFactory;
 
     /**
@@ -29,26 +27,6 @@ class Team extends Model
         'name',
         'description',
         'team_leader_id',
-    ];
-
-    /**
-     * The attributes that are searchable with the trait.
-     *
-     * @var array
-     */
-    protected $searchableColumns = [
-        'name',
-    ];
-
-    /**
-     * The list of columns we want the Searchable trait to select.
-     *
-     * @var array
-     */
-    protected $returnFromSearch = [
-        'id',
-        'name',
-        'company_id',
     ];
 
     /**
