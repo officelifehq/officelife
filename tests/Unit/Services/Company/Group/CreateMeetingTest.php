@@ -51,7 +51,7 @@ class CreateMeetingTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -64,7 +64,7 @@ class CreateMeetingTest extends TestCase
     /** @test */
     public function it_fails_if_the_group_doesnt_belong_to_the_company(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create([]);
         $group = Group::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);

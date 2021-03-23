@@ -242,7 +242,6 @@ class CompanyTest extends TestCase
     }
 
     /** @test */
-<<<<<<< HEAD
     public function it_has_many_groups(): void
     {
         $company = Company::factory()->create();
@@ -251,7 +250,9 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->groups()->exists());
-=======
+    }
+
+    /** @test */
     public function it_has_one_logo(): void
     {
         $file = File::factory()->create([]);
@@ -260,7 +261,6 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->logo()->exists());
->>>>>>> main
     }
 
     /** @test */

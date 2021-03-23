@@ -49,7 +49,7 @@ class DestroyGroupTest extends TestCase
     /** @test */
     public function it_fails_if_project_is_not_part_of_the_company(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create([]);
         $group = Group::factory()->create();
 
         $this->expectException(ModelNotFoundException::class);
@@ -59,7 +59,7 @@ class DestroyGroupTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,

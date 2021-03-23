@@ -28,6 +28,7 @@ class MarkEmployeeAsParticipantOfMeeting extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
+            'group_id' => 'required|integer|exists:groups,id',
             'meeting_id' => 'required|integer|exists:meetings,id',
             'employee_id' => 'required|integer|exists:employees,id',
         ];

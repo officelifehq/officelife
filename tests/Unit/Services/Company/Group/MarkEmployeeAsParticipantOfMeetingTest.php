@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Group;
 use App\Jobs\LogEmployeeAudit;
+use App\Models\Company\Meeting;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
@@ -25,7 +26,10 @@ class MarkEmployeeAsParticipantOfMeetingTest extends TestCase
         $group = Group::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $dwight, $group);
+        $meeting = Meeting::factory()->create([
+            'group_id' => $group->id,
+        ]);
+        $this->executeService($michael, $dwight, $group, $meeting);
     }
 
     /** @test */
@@ -36,7 +40,10 @@ class MarkEmployeeAsParticipantOfMeetingTest extends TestCase
         $group = Group::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $dwight, $group);
+        $meeting = Meeting::factory()->create([
+            'group_id' => $group->id,
+        ]);
+        $this->executeService($michael, $dwight, $group, $meeting);
     }
 
     /** @test */
@@ -46,7 +53,10 @@ class MarkEmployeeAsParticipantOfMeetingTest extends TestCase
         $group = Group::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $michael, $group);
+        $meeting = Meeting::factory()->create([
+            'group_id' => $group->id,
+        ]);
+        $this->executeService($michael, $michael, $group, $meeting);
     }
 
     /** @test */
@@ -68,23 +78,29 @@ class MarkEmployeeAsParticipantOfMeetingTest extends TestCase
         $group = Group::factory()->create([
             'company_id' => $michael->company_id,
         ]);
+        $meeting = Meeting::factory()->create([
+            'group_id' => $group->id,
+        ]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $dwight, $group);
+        $this->executeService($michael, $dwight, $group, $meeting);
     }
 
     /** @test */
-    public function it_fails_if_the_project_is_not_in_the_company(): void
+    public function it_fails_if_the_group_is_not_in_the_company(): void
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createEmployee();
         $group = Group::factory()->create();
+        $meeting = Meeting::factory()->create([
+            'group_id' => $group->id,
+        ]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $dwight, $group);
+        $this->executeService($michael, $dwight, $group, $meeting);
     }
 
-    private function executeService(Employee $michael, Employee $dwight, Group $group): void
+    private function executeService(Employee $michael, Employee $dwight, Group $group, Meeting $meeting): void
     {
         Queue::fake();
 
@@ -92,18 +108,14 @@ class MarkEmployeeAsParticipantOfMeetingTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'group_id' => $group->id,
+            'meeting_id' => $meeting->id,
             'employee_id' => $dwight->id,
         ];
 
         $employee = (new MarkEmployeeAsParticipantOfMeeting)->execute($request);
 
-        $this->assertDatabaseHas('groups', [
-            'id' => $group->id,
-            'company_id' => $dwight->company_id,
-        ]);
-
-        $this->assertDatabaseHas('employee_group', [
-            'group_id' => $group->id,
+        $this->assertDatabaseHas('employee_meeting', [
+            'meeting_id' => $meeting->id,
             'employee_id' => $dwight->id,
         ]);
 
@@ -112,23 +124,25 @@ class MarkEmployeeAsParticipantOfMeetingTest extends TestCase
             $employee
         );
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $group, $dwight) {
-            return $job->auditLog['action'] === 'employee_added_to_group' &&
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $group, $dwight, $meeting) {
+            return $job->auditLog['action'] === 'employee_marked_as_participant_in_meeting' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'group_id' => $group->id,
                     'group_name' => $group->name,
                     'employee_id' => $dwight->id,
                     'employee_name' => $dwight->name,
+                    'meeting_id' => $meeting->id,
                 ]);
         });
 
-        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $group) {
-            return $job->auditLog['action'] === 'employee_added_to_group' &&
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $group, $meeting) {
+            return $job->auditLog['action'] === 'employee_marked_as_participant_in_meeting' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'group_id' => $group->id,
                     'group_name' => $group->name,
+                'meeting_id' => $meeting->id,
                 ]);
         });
     }
