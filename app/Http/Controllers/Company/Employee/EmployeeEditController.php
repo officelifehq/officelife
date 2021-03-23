@@ -13,9 +13,9 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Company\EmployeeStatus;
 use App\Services\Company\Place\CreatePlace;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Http\ViewHelpers\Employee\EmployeeEditContractViewHelper;
@@ -80,9 +80,7 @@ class EmployeeEditController extends Controller
                 'slack_handle' => $employee->slack_handle,
                 'max_year' => Carbon::now()->year,
             ],
-            'canEditHiredAt' => $loggedEmployee->permission_level <= 200,
-            'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 &&
-                $loggedEmployee->status ? $loggedEmployee->status->type == EmployeeStatus::EXTERNAL : false,
+            'permissions' => EmployeeShowViewHelper::permissions($loggedEmployee, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -204,8 +202,7 @@ class EmployeeEditController extends Controller
         return Inertia::render('Employee/Edit/Address', [
             'employee' => $employee->toObject(),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 &&
-                $loggedEmployee->status ? $loggedEmployee->status->type == EmployeeStatus::EXTERNAL : false,
+            'permissions' => EmployeeShowViewHelper::permissions($loggedEmployee, $employee),
             'countries' => $countriesCollection,
         ]);
     }
@@ -274,8 +271,7 @@ class EmployeeEditController extends Controller
 
         return Inertia::render('Employee/Edit/Contract', [
             'employee' => EmployeeEditContractViewHelper::employeeInformation($employee),
-            'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 &&
-                $loggedEmployee->status ? $loggedEmployee->status->type == EmployeeStatus::EXTERNAL : false,
+            'permissions' => EmployeeShowViewHelper::permissions($loggedEmployee, $employee),
             'rates' => EmployeeEditContractViewHelper::rates($employee, $loggedCompany),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);

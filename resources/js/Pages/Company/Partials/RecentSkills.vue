@@ -28,7 +28,7 @@
 
     <!-- Blank state -->
     <div v-if="skills.skills.length == 0" data-cy="skill-list-blank" class="br3 bg-white box z-1 pa3">
-      <p class="mb0 mt0 lh-copy f6">
+      <p class="mb0 mt0 lh-copy f6 tc">
         {{ $t('employee.skills_no_skill_yet') }}
       </p>
     </div>

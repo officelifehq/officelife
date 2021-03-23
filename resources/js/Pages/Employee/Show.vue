@@ -13,7 +13,7 @@
       <div class="mt4-l mt1 mw7 br3 center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.props.auth.company.id + '/employees'">{{ $t('app.breadcrumb_employee_list') }}</inertia-link>
@@ -31,6 +31,7 @@
           <profile-sidebar
             :employee="employee"
             :permissions="permissions"
+            :uploadcare-public-key="uploadcarePublicKey"
           />
         </div>
 
@@ -131,6 +132,10 @@ export default {
     },
     ecoffees: {
       type: Object,
+      default: null,
+    },
+    uploadcarePublicKey: {
+      type: String,
       default: null,
     },
   },

@@ -31,7 +31,7 @@
       <!-- all birthdays -->
       <div v-for="employee in birthdays" :key="employee.id" class="pa3 fl w-third-l w-100" data-cy="birthdays-list">
         <span class="pl3 db relative team-member">
-          <img loading="lazy" :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />
+          <avatar :avatar="employee.avatar" :size="35" :classes="'br-100 absolute avatar'" />
 
           <!-- normal mode -->
           <inertia-link :href="employee.url" class="mb2">
@@ -49,8 +49,13 @@
 </template>
 
 <script>
+import Avatar from '@/Shared/Avatar';
 
 export default {
+  components: {
+    Avatar,
+  },
+
   props: {
     birthdays: {
       type: Array,

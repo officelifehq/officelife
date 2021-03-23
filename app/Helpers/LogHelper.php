@@ -1125,6 +1125,10 @@ class LogHelper
                 ]);
                 break;
 
+            case 'company_logo_changed':
+                $sentence = trans('account.log_company_logo_changed');
+                break;
+
             default:
                 $sentence = '';
                 break;

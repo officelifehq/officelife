@@ -4,6 +4,7 @@ namespace Tests\Unit\Models\Company;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\Company\File;
 use App\Models\Company\Flow;
 use App\Models\Company\Team;
 use App\Models\Company\Group;
@@ -241,6 +242,7 @@ class CompanyTest extends TestCase
     }
 
     /** @test */
+<<<<<<< HEAD
     public function it_has_many_groups(): void
     {
         $company = Company::factory()->create();
@@ -249,6 +251,16 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->groups()->exists());
+=======
+    public function it_has_one_logo(): void
+    {
+        $file = File::factory()->create([]);
+        $company = Company::factory()->create([
+            'logo_file_id' => $file->id,
+        ]);
+
+        $this->assertTrue($company->logo()->exists());
+>>>>>>> main
     }
 
     /** @test */

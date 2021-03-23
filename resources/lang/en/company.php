@@ -9,6 +9,16 @@ return [
     'subtitle' => 'There is only one step to get started.',
     'next_step_cta' => 'Ok, let’s go',
 
+    'employees_title' => 'Our employees',
+    'employees_total' => '{count} employees in the company',
+    'new_hires_total' => '{count} new employees hired this year so far',
+    'employees_view_all' => 'View all employees',
+
+    'teams_title' => 'All the teams',
+    'teams_total' => '{count} teams in the company',
+    'total_remaining_employees' => '+ {count} members',
+    'teams_view_all' => 'View all teams',
+
     'guess_employee_game_title' => 'Who is this person?',
     'guess_employee_game_success' => 'Right answer! It was indeed...',
     'guess_employee_game_failure' => 'Wrong answer! It was...',
@@ -18,6 +28,7 @@ return [
     'birthdays_blank' => 'No one has a birthday this week.',
 
     'company_news_title' => 'Latest company news',
+    'company_news_blank' => 'No company news have been written yet.',
 
     'recent_skills_title' => 'Latest skills created in the company',
     'recent_skills_view_all' => 'View all skills ({count})',
@@ -29,6 +40,7 @@ return [
 
     'recent_ships_title' => 'Recent ships',
 
+    'questions_blank' => 'No questions have been asked to employees yet.',
     'questions_title' => 'Questions to get to know your colleagues',
     'questions_view_all' => 'View all questions ({count})',
     'question_number_of_answers' => 'No colleague has answered. | {number} colleague has answered. | {number} colleagues have answered.',
@@ -54,4 +66,8 @@ return [
     'hr_e_coffees_previous_session_stat' => 'of matches have taken place',
     'hr_e_coffees_overall' => 'Overall',
     'hr_e_coffees_overall_stat' => 'of matches usually take place',
+
+    'news_index_title' => 'All the company news',
+    'news_index_blank' => 'No company news have been written yet.',
+    'news_view_all' => 'View all company news',
 ];

@@ -156,7 +156,7 @@ class Team extends Model
                 ['worklogs.created_at', 'LIKE', $date->format('Y-m-d').'%'],
                 ['employee_team.team_id', '=', $this->id],
             ])
-            ->select('worklogs.content', 'employees.id', 'employees.first_name', 'employees.email', 'employees.last_name', 'employees.avatar')
+            ->select('worklogs.content', 'employees.id', 'employees.first_name', 'employees.email', 'employees.last_name')
             ->get();
 
         foreach ($worklogs as $worklog) {

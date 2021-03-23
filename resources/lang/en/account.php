@@ -297,6 +297,8 @@ return [
     'log_meeting_created' => 'Created a meeting in the group called :group_name.',
     'log_meeting_destroyed' => 'Deleted a meeting in the group called :group_name.',
     'log_employee_marked_as_participant_in_meeting' => 'Indicated that :employee_name participated in a meeting in the group called :group_name.',
+    'log_toggle_e_coffee_process' => 'Toggled the eCoffee process in the company.',
+    'log_company_logo_changed' => 'Changed the company logo.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -528,6 +530,8 @@ return [
     'general_name' => 'Company name',
     'general_administrators' => 'Current administrators',
     'general_creation_date' => 'Created',
+    'general_creation_size' => 'Storage of files',
+    'general_creation_size_kb' => '{size} kb',
     'general_rename_company' => 'Change company name',
     'general_rename_input' => 'Give the company a new name',
     'general_rename_success' => 'The company has been renamed.',
@@ -536,6 +540,10 @@ return [
     'general_currency_update' => 'Update currency',
     'general_currency_change_label' => 'Choose a new currency',
     'general_currency_rename_success' => 'The currency has been updated.',
+    'general_logo_title' => 'Logo',
+    'general_logo_current' => 'Current logo',
+    'general_logo_cta' => 'Upload a logo',
+    'general_logo_success' => 'The logo has been changed.',
 
     'ecoffee_title' => 'E-Coffee sessions in the company',
     'ecoffee_desc' => 'E-Coffees are a great way for employees to take some time with another colleague and spend 15 minutes in a week to get to know him/her. The goal is to talk to everything but work. The more you know your colleagues, the more powerful their bonds.',
@@ -557,6 +565,7 @@ return [
     'import_employees_archives_finalize_import' => 'Import {count} entries',
     'import_employees_archives_finalize_email_missing' => 'not provided',
     'import_employees_import_title' => 'Import employees',
+    'import_employees_import_cta' => 'Browse a CSV to upload',
     'import_employees_import_description' => 'You can import a bunch of employees at once with a CSV file.',
     'import_employees_import_note' => 'Important note: your CSV file needs to follow a specific structure so we can properly import it.',
     'import_employees_import_instructions' => 'Read complete instructions here',

@@ -15,6 +15,17 @@ class Pronoun extends Model
     protected $table = 'pronouns';
 
     /**
+     * Possible status of a pronoun.
+     */
+    const HE = 'he/him';
+    const SHE = 'she/her';
+    const THEY = 'they/them';
+    const PER = 'per/per';
+    const VE = 've/ver';
+    const XE = 'xe/xem';
+    const ZE = 'ze/hir';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

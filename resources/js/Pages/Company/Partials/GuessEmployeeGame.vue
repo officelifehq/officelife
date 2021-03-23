@@ -83,15 +83,19 @@
           <span>{{ $t('company.guess_employee_game_play_again') }}</span>
         </p>
       </div>
-      <img loading="lazy" class="absolute bottom-0 right-1 avatar" alt="avatar to find" :src="updatedGame.avatar_to_find" width="64"
-           height="64"
-      />
+      <avatar :avatar="updatedGame.avatar_to_find" :size="64" :classes="'absolute bottom-0 right-1 avatar'" />
     </div>
   </div>
 </template>
 
 <script>
+import Avatar from '@/Shared/Avatar';
+
 export default {
+  components: {
+    Avatar,
+  },
+
   props: {
     game: {
       type: Object,

@@ -233,7 +233,7 @@ input[type=checkbox] {
           <!-- information about the author -->
           <div v-if="localTask.author" class="flex mb4">
             <div class="mr2">
-              <img :src="localTask.author.avatar" alt="avatar" height="35" width="35" class="br-100" />
+              <avatar :avatar="localTask.author.avatar" :size="35" :classes="'br-100'" />
             </div>
 
             <div>
@@ -327,10 +327,12 @@ import TextArea from '@/Shared/TextArea';
 import SelectBox from '@/Shared/Select';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextDuration from '@/Shared/TextDuration';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Avatar,
     ProjectMenu,
     'ball-clip-rotate': BallClipRotate.component,
     TextInput,

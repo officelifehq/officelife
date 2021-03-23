@@ -26,6 +26,11 @@
             {{ $t('account.general_title') }}
           </h2>
 
+          <!-- stats -->
+          <stat
+            :information="information"
+          />
+
           <!-- company name -->
           <name
             :information="information"
@@ -35,6 +40,11 @@
           <currency
             :information="information"
             :currencies="currencies"
+          />
+
+          <!-- Logo -->
+          <logo
+            :information="information"
           />
         </div>
       </div>
@@ -46,12 +56,16 @@
 import Layout from '@/Shared/Layout';
 import Name from '@/Pages/Adminland/General/Partials/Name';
 import Currency from '@/Pages/Adminland/General/Partials/Currency';
+import Stat from '@/Pages/Adminland/General/Partials/Stat';
+import Logo from '@/Pages/Adminland/General/Partials/Logo';
 
 export default {
   components: {
     Layout,
     Name,
     Currency,
+    Stat,
+    Logo,
   },
 
   props: {

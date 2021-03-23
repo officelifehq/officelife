@@ -4,6 +4,7 @@ namespace App\Services\Company\Adminland\Employee;
 
 use Carbon\Carbon;
 use ErrorException;
+use App\Models\Company\File;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\ImportJob;
@@ -17,6 +18,8 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
 
     private ImportJob $importJob;
 
+    private File $file;
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -27,7 +30,7 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'path' => 'required|string',
+            'file_id' => 'required|integer|exists:files,id',
         ];
     }
 
@@ -54,6 +57,9 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
             ->inCompany($this->data['company_id'])
             ->asAtLeastHR()
             ->canExecuteService();
+
+        $this->file = File::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['file_id']);
     }
 
     /**
@@ -86,7 +92,10 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
 
     private function readFile(ImportJob $job): void
     {
-        SimpleExcelReader::create($this->data['path'])
+        $client = new \GuzzleHttp\Client();
+        $client->get($this->file->cdn_url.urlencode($this->file->name), ['sink' => storage_path().'/app/'.$this->file->name]);
+
+        SimpleExcelReader::create(storage_path().'/app/'.$this->file->name)
             ->trimHeaderRow()
             ->headersToSnakeCase()
             ->getRows()

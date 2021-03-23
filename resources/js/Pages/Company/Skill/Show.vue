@@ -115,7 +115,7 @@
         <!-- list of employees with this skill -->
         <ul class="list pl0 mb0" data-cy="list-of-employees">
           <li v-for="employee in employees" :key="employee.id" :data-cy="'employee-' + employee.id" class="relative ba bb-gray bb-gray-hover pa3 br3 flex items-center employee">
-            <img loading="lazy" :src="employee.avatar" class="br-100 avatar" alt="avatar" />
+            <avatar :avatar="employee.avatar" :size="64" :classes="'avatar br-100'" />
 
             <div class="ml3 mw-100">
               <inertia-link :href="employee.url">{{ employee.name }}</inertia-link>
@@ -154,10 +154,12 @@ import Help from '@/Shared/Help';
 import TextInput from '@/Shared/TextInput';
 import LoadingButton from '@/Shared/LoadingButton';
 import Errors from '@/Shared/Errors';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Avatar,
     Help,
     TextInput,
     Errors,

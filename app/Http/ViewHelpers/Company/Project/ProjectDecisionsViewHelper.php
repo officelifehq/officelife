@@ -3,7 +3,7 @@
 namespace App\Http\ViewHelpers\Company\Project;
 
 use App\Helpers\DateHelper;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Project;
 use Illuminate\Support\Collection;
 
@@ -20,6 +20,7 @@ class ProjectDecisionsViewHelper
         $company = $project->company;
         $decisions = $project->decisions()
             ->with('deciders')
+            ->with('deciders.picture')
             ->latest()
             ->get();
 
@@ -31,7 +32,7 @@ class ProjectDecisionsViewHelper
                 $decidersCollection->push([
                     'id' => $decider->id,
                     'name' => $decider->name,
-                    'avatar' => AvatarHelper::getImage($decider),
+                    'avatar' => ImageHelper::getAvatar($decider, 22),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $decider,

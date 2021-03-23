@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Company\Company\Project;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
-use App\Helpers\AvatarHelper;
 use App\Helpers\StringHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
@@ -42,7 +42,7 @@ class ProjectController extends Controller
     public function index(Request $request, int $companyId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
-        $statistics = CompanyViewHelper::statistics($company);
+        $statistics = CompanyViewHelper::information($company);
 
         return Inertia::render('Company/Project/Index', [
             'statistics' => $statistics,
@@ -332,7 +332,7 @@ class ProjectController extends Controller
             'data' => [
                 'id' => $lead->id,
                 'name' => $lead->name,
-                'avatar' => AvatarHelper::getImage($lead),
+                'avatar' => ImageHelper::getAvatar($lead, 35),
                 'position' => (! $lead->position) ? null : [
                     'id' => $lead->position->id,
                     'title' => $lead->position->title,
@@ -412,7 +412,7 @@ class ProjectController extends Controller
             $employees->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => ImageHelper::getAvatar($employee),
             ]);
         }
 
