@@ -28,7 +28,7 @@ class GroupController extends Controller
     public function index(Request $request, int $companyId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
-        $statistics = CompanyViewHelper::statistics($company);
+        $statistics = CompanyViewHelper::information($company);
 
         return Inertia::render('Company/Project/Index', [
             'statistics' => $statistics,
