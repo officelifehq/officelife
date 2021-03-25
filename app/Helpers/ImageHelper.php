@@ -18,8 +18,8 @@ class ImageHelper
     {
         if (! $employee->avatar_file_id) {
             return [
-                'normal' => 'https://ui-avatars.com/api/?name='.$employee->name.'&size='.$width,
-                'retina' => 'https://ui-avatars.com/api/?name='.$employee->name.'&size='.($width * 2),
+                'normal' => 'https://ui-avatars.com/api/?name='.urlencode($employee->name).'&size='.$width,
+                'retina' => 'https://ui-avatars.com/api/?name='.urlencode($employee->name).'&size='.($width * 2),
             ];
         }
 

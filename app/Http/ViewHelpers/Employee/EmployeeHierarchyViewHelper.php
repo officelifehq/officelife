@@ -1,24 +1,22 @@
 <?php
 
-namespace App\Http\ViewHelpers\Team;
+namespace App\Http\ViewHelpers\Employee;
 
-use App\Helpers\ImageHelper;
-use App\Models\Company\Team;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 
-class TeamMembersViewHelper
+class EmployeeHierarchyViewHelper
 {
     /**
-     * Search all potential members for the team.
+     * Search all employees matching a given criteria.
      *
      * @param Company $company
-     * @param Team $team
+     * @param Employee $employee
      * @param string $criteria
      * @return Collection
      */
-    public static function searchPotentialTeamMembers(Company $company, Team $team, string $criteria): Collection
+    public static function search(Company $company, Employee $employee, string $criteria): Collection
     {
         $potentialEmployees = $company->employees()
             ->select('id', 'first_name', 'last_name')
@@ -28,15 +26,18 @@ class TeamMembersViewHelper
                     ->orWhere('last_name', 'LIKE', '%'.$criteria.'%')
                     ->orWhere('email', 'LIKE', '%'.$criteria.'%');
             })
+            ->where('id', '!=', $employee->id)
             ->orderBy('last_name', 'asc')
             ->take(10)
             ->get();
 
-        $employeesInTeam = $team->employees()
-            ->select('id', 'first_name', 'last_name')
-            ->get();
+        // remove the existing managers of this employee from the list
+        $existingManagersForTheEmployee = $employee->getListOfManagers();
+        $potentialEmployees = $potentialEmployees->diff($existingManagersForTheEmployee);
 
-        $potentialEmployees = $potentialEmployees->diff($employeesInTeam);
+        // remove the existing direct reports of this employee from the list
+        $existingDirectReportsForTheEmployee = $employee->getListOfDirectReports();
+        $potentialEmployees = $potentialEmployees->diff($existingDirectReportsForTheEmployee);
 
         $employeesCollection = collect([]);
         foreach ($potentialEmployees as $employee) {
@@ -47,22 +48,5 @@ class TeamMembersViewHelper
         }
 
         return $employeesCollection;
-    }
-
-    /**
-     * Array containing all the information about a specific employee.
-     *
-     * @param Employee $employee
-     *
-     * @return array
-     */
-    public static function employee(Employee $employee): array
-    {
-        return [
-            'id' => $employee->id,
-            'name' => $employee->name,
-            'avatar' => ImageHelper::getAvatar($employee, 35),
-            'position' => $employee->position,
-        ];
     }
 }

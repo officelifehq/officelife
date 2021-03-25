@@ -117,4 +117,52 @@ class TeamShowViewHelperTest extends TestCase
             $collection->toArray()
         );
     }
+
+    /** @test */
+    public function it_searches_employees_to_assign_a_team_lead(): void
+    {
+        $michael = Employee::factory()->create([
+            'first_name' => 'ale',
+            'last_name' => 'ble',
+            'email' => 'ale@ble',
+        ]);
+        $dwight = Employee::factory()->create([
+            'first_name' => 'alb',
+            'last_name' => 'bli',
+            'email' => 'alb@bli',
+            'company_id' => $michael->company_id,
+        ]);
+        // the following should not be included in the search results
+        Employee::factory()->create([
+            'first_name' => 'ale',
+            'last_name' => 'ble',
+            'email' => 'ale@ble',
+            'locked' => true,
+            'company_id' => $michael->company_id,
+        ]);
+
+        $collection = TeamShowViewHelper::searchPotentialLead($michael->company, 'e');
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $michael->id,
+                    'name' => $michael->name,
+                ],
+            ],
+            $collection->toArray()
+        );
+
+        $collection = TeamShowViewHelper::searchPotentialLead($michael->company, 'bli');
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $dwight->id,
+                    'name' => $dwight->name,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
 }

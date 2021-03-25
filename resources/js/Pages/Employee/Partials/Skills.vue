@@ -62,16 +62,16 @@
     />
 
     <!-- Blank state -->
-    <div v-if="updatedSkills.length == 0 && !editMode" data-cy="skill-list-blank" class="br3 bg-white box z-1 pa3">
+    <div v-if="localSkills.length == 0 && !editMode" data-cy="skill-list-blank" class="br3 bg-white box z-1 pa3">
       <p class="mb0 mt0 lh-copy f6">
         {{ $t('employee.skills_no_skill_yet') }}
       </p>
     </div>
 
     <!-- List of existing skills -->
-    <div v-if="updatedSkills.length > 0 && !editMode" class="br3 bg-white box z-1 pa3" data-cy="list-skills">
+    <div v-if="localSkills.length > 0 && !editMode" class="br3 bg-white box z-1 pa3" data-cy="list-skills">
       <ul class="list mv0 pl0">
-        <li v-for="skill in updatedSkills" :key="skill.id" class="relative dib fw5 mr2 mb2 existing-skill" :data-cy="'non-edit-skill-list-item-' + skill.id">
+        <li v-for="skill in localSkills" :key="skill.id" class="relative dib fw5 mr2 mb2 existing-skill" :data-cy="'non-edit-skill-list-item-' + skill.id">
           <inertia-link :href="skill.url" class="skill no-underline">{{ skill.name }}</inertia-link>
         </li>
       </ul>
@@ -97,21 +97,25 @@
       </form>
 
       <!-- search results -->
-      <p v-if="!allPossibleEntriesAlreadyChosen && searchProcessed && searchResults.length == 0" data-cy="submit-create-skill" class="mt0 bb br bl bb-gray pa2 bb-gray-hover pointer relative" @click.prevent="create(form.searchTerm)">
+      <p v-if="searchProcessed && !skillAlreadyDefined && searchResults.length == 0" data-cy="submit-create-skill" class="mt0 bb br bl bb-gray pa2 bb-gray-hover pointer relative" @click.prevent="create(form.searchTerm)">
         <span class="ba br-100 plus-button">+</span> {{ $t('employee.skills_create', { name: form.searchTerm }) }}
       </p>
-      <p v-if="allPossibleEntriesAlreadyChosen && searchProcessed && searchResults.length == 0" data-cy="skill-already-in-list" class="list bb br bl bb-gray pa2 ma0">
+      <p v-if="skillAlreadyDefined && searchResults.length == 0" data-cy="skill-already-in-list" class="list bb br bl bb-gray pa2 ma0">
         {{ $t('employee.skills_already_have_skill', { name: form.searchTerm }) }}
       </p>
       <ul v-if="searchResults.length > 0" class="list pl0 mt0 mb2">
-        <li v-for="skill in searchResults" :key="skill.id" class="bb br bl bb-gray pa2 bb-gray-hover pointer relative" :data-cy="'skill-name-' + skill.id" @click.prevent="create(skill.name)"><span class="ba br-100 plus-button">+</span> {{ skill.name }}</li>
-        <li v-if="!foundExactTerm" class="bb br bl bb-gray pa2 bb-gray-hover pointer relative" data-cy="submit-create-skill-list-of-skills" @click.prevent="create(form.searchTerm)"><span class="ba br-100 plus-button">+</span> {{ $t('employee.skills_create', { name: form.searchTerm }) }}</li>
+        <li v-for="skill in searchResults" :key="skill.id" class="bb br bl bb-gray pa2 bb-gray-hover pointer relative" :data-cy="'skill-name-' + skill.id" @click.prevent="create(skill.name)">
+          <span class="ba br-100 plus-button">+</span> {{ skill.name }}
+        </li>
+        <li v-if="!skillAlreadyDefined" class="bb br bl bb-gray pa2 bb-gray-hover pointer relative" data-cy="submit-create-skill-list-of-skills" @click.prevent="create(form.searchTerm)">
+          <span class="ba br-100 plus-button">+</span> {{ $t('employee.skills_create', { name: form.searchTerm }) }}
+        </li>
       </ul>
 
       <!-- existing skills -->
-      <p v-if="updatedSkills.length > 0" class="mb2 f6 fw5">⭐️ {{ $t('employee.skills_list') }}</p>
+      <p v-if="localSkills.length > 0" class="mb2 f6 fw5">⭐️ {{ $t('employee.skills_list') }}</p>
       <ul class="pl0 list mt0">
-        <li v-for="skill in updatedSkills" :key="skill.id" class="bb br bl bb-gray pa2 edit-skill-item bb-gray-hover" :data-cy="'existing-skills-list-item-' + skill.id">
+        <li v-for="skill in localSkills" :key="skill.id" class="bb br bl bb-gray pa2 edit-skill-item bb-gray-hover" :data-cy="'existing-skills-list-item-' + skill.id">
           {{ skill.name }}
           <span class="fr">
             <a href="#" :data-cy="'existing-skills-list-item-remove-' + skill.id" class="f6 bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click.prevent="remove(skill)">{{ $t('app.remove') }}</a>
@@ -162,9 +166,8 @@ export default {
       processingSearch: false,
       searchProcessed: false,
       searchResults: [],
-      foundExactTerm: false,
-      allPossibleEntriesAlreadyChosen: false,
-      updatedSkills: [],
+      skillAlreadyDefined: false,
+      localSkills: [],
       form: {
         searchTerm: null,
         errors: [],
@@ -173,7 +176,7 @@ export default {
   },
 
   created() {
-    this.updatedSkills = this.skills;
+    this.localSkills = this.skills;
   },
 
   methods: {
@@ -188,12 +191,16 @@ export default {
 
     search: _.debounce(
       function () {
+        this.skillAlreadyDefined = false;
+
         if (this.form.searchTerm !== '') {
+          if (this.localSkills.some(skill => skill.name === this.form.searchTerm)) {
+            this.skillAlreadyDefined = true;
+          }
+
           this.processingSearch = true;
           this.searchProcessed = false;
-          this.allPossibleEntriesAlreadyChosen = false;
           this.searchResults = [];
-          this.foundExactTerm = false;
 
           axios.post(this.route('skills.search', [this.$page.props.auth.company.id, this.employee.id]), this.form)
             .then(response => {
@@ -201,24 +208,13 @@ export default {
               this.searchProcessed = true;
 
               if (response.data.data.length > 0) {
-
-                this.searchResults = _.filter(response.data.data, skill => _.every(this.updatedSkills, s => skill.name !== s.name));
-
-                // also, find out if we have found exactly the name we were looking for
-                if (this.searchResults.some(skill => skill.name === this.form.searchTerm)) {
-                  this.foundExactTerm = true;
-                }
-
-                // if after all this, the search results array is empty, that means
-                // the searched term already is associated with the employee
-                if (this.searchResults.length == 0) {
-                  this.allPossibleEntriesAlreadyChosen = true;
-                }
+                this.searchResults = _.filter(response.data.data, skill => _.every(this.localSkills, s => skill.name !== s.name));
               }
             })
             .catch(error => {
               this.form.errors = error.response.data;
               this.processingSearch = false;
+              this.skillAlreadyDefined = false;
             });
         } else {
           this.searchProcessed = false;
@@ -229,12 +225,11 @@ export default {
       this.searchProcessed = false;
       this.searchResults = [];
       this.form.searchTerm = null;
-      this.foundExactTerm = false;
-      this.allPossibleEntriesAlreadyChosen = false;
+      this.skillAlreadyDefined = false;
 
       axios.post(this.route('skills.store', [this.$page.props.auth.company.id, this.employee.id]), { searchTerm: name })
         .then(response => {
-          this.updatedSkills.push(response.data.data);
+          this.localSkills.push(response.data.data);
         })
         .catch(error => {
           this.form.errors = error.response.data;
@@ -247,8 +242,8 @@ export default {
 
       axios.delete(this.route('skills.destroy', [this.$page.props.auth.company.id, this.employee.id, skill.id]))
         .then(response => {
-          var changedId = this.updatedSkills.findIndex(x => x.id === skill.id);
-          this.updatedSkills.splice(changedId, 1);
+          var changedId = this.localSkills.findIndex(x => x.id === skill.id);
+          this.localSkills.splice(changedId, 1);
         })
         .catch(error => {
           this.form.errors = error.response.data;

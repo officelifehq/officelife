@@ -73,4 +73,49 @@ class AdminExpenseViewHelperTest extends TestCase
             $response->toArray()
         );
     }
+
+    /** @test */
+    public function it_searches_employees(): void
+    {
+        $michael = Employee::factory()->create([
+            'first_name' => 'ale',
+            'last_name' => 'ble',
+            'email' => 'ale@ble',
+            'can_manage_expenses' => false,
+        ]);
+        $dwight = Employee::factory()->create([
+            'first_name' => 'alb',
+            'last_name' => 'bli',
+            'email' => 'alb@bli',
+            'company_id' => $michael->company_id,
+            'can_manage_expenses' => true,
+        ]);
+        // the following should not be included in the search results
+        Employee::factory()->create([
+            'first_name' => 'ale',
+            'last_name' => 'ble',
+            'email' => 'ale@ble',
+            'locked' => true,
+            'company_id' => $michael->company_id,
+        ]);
+
+        $collection = AdminExpenseViewHelper::search($michael->company, 'e');
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $michael->id,
+                    'name' => $michael->name,
+                ],
+            ],
+            $collection->toArray()
+        );
+
+        $collection = AdminExpenseViewHelper::search($michael->company, 'bli');
+        $this->assertEquals(0, $collection->count());
+        $this->assertEquals(
+            [],
+            $collection->toArray()
+        );
+    }
 }

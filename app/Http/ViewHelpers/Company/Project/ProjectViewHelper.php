@@ -8,6 +8,7 @@ use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use Illuminate\Support\Collection;
 
 class ProjectViewHelper
 {
@@ -203,5 +204,37 @@ class ProjectViewHelper
             'members' => $membersCollection,
             'other_members_counter' => $project->employees->count() - 4,
         ];
+    }
+
+    /**
+     * Search all employees matching a given criteria.
+     *
+     * @param Company $company
+     * @param string $criteria
+     * @return Collection
+     */
+    public static function searchProjectLead(Company $company, string $criteria): Collection
+    {
+        $employees = $company->employees()
+            ->select('id', 'first_name', 'last_name', 'avatar_file_id')
+            ->notLocked()
+            ->where(function ($query) use ($criteria) {
+                $query->where('first_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('email', 'LIKE', '%'.$criteria.'%');
+            })
+            ->orderBy('last_name', 'asc')
+            ->take(10)
+            ->get();
+
+        $employeesCollection = collect([]);
+        foreach ($employees as $employee) {
+            $employeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+            ]);
+        }
+
+        return $employeesCollection;
     }
 }
