@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Company\Employee;
 
 use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Employee\EmployeeHierarchyViewHelper;
 
 class EmployeeSearchController extends Controller
 {
@@ -24,42 +26,14 @@ class EmployeeSearchController extends Controller
      */
     public function hierarchy(Request $request, int $companyId, int $employeeId): JsonResponse
     {
-        $employee = Employee::findOrFail($employeeId);
-
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $employee = Employee::where('company_id', $loggedCompany->id)->findOrFail($employeeId);
         $search = $request->input('searchTerm');
-        $potentialEmployees = Employee::search(
-            $search,
-            $companyId,
-            10,
-            'created_at desc',
-            'and locked = false',
-        );
 
-        // remove the existing managers of this employee from the list
-        $existingManagersForTheEmployee = $employee->getListOfManagers();
-        $potentialEmployees = $potentialEmployees->diff($existingManagersForTheEmployee);
-
-        // remove the existing direct reports of this employee from the list
-        $existingDirectReportsForTheEmployee = $employee->getListOfDirectReports();
-        $potentialEmployees = $potentialEmployees->diff($existingDirectReportsForTheEmployee);
-
-        // remove the current employee from the list
-        $potentialEmployees = $potentialEmployees->whereNotIn('id', $employee->id);
-
-        $collection = collect([]);
-        foreach ($potentialEmployees as $employee) {
-            $collection->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'url' => route('employees.show', [
-                    'company' => $employee->company,
-                    'employee' => $employee,
-                ]),
-            ]);
-        }
+        $employees = EmployeeHierarchyViewHelper::search($loggedCompany, $employee, $search);
 
         return response()->json([
-            'data' => $collection,
+            'data' => $employees,
         ], 200);
     }
 }

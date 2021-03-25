@@ -19,8 +19,8 @@ class ImageHelperTest extends TestCase
 
         $this->assertEquals(
             [
-                'normal' => 'https://ui-avatars.com/api/?name='.$michael->name.'&size=64',
-                'retina' => 'https://ui-avatars.com/api/?name='.$michael->name.'&size=128',
+                'normal' => 'https://ui-avatars.com/api/?name='.urlencode($michael->name).'&size=64',
+                'retina' => 'https://ui-avatars.com/api/?name='.urlencode($michael->name).'&size=128',
             ],
             ImageHelper::getAvatar($michael)
         );

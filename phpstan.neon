@@ -14,6 +14,7 @@ parameters:
         - app/Http/ViewHelpers/Company/Group/GroupMembersViewHelper.php
     inferPrivatePropertyTypeFromConstructor: true
     checkMissingIterableValueType: false
+    reportUnmatchedIgnoredErrors: false
     level: 5
     ignoreErrors:
         - '#Argument of an invalid type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator supplied for foreach, only iterables are supported#'

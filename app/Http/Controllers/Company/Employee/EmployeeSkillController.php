@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Company\Skill;
 use Illuminate\Http\Response;
@@ -10,6 +9,7 @@ use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Employee\EmployeeSkillViewHelper;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
 use App\Services\Company\Employee\Skill\RemoveSkillFromEmployee;
 
@@ -19,36 +19,22 @@ class EmployeeSkillController extends Controller
      * Search an existing skill based on the name.
      *
      * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
      * @return JsonResponse
      */
-    public function search(Request $request): JsonResponse
+    public function search(Request $request, int $companyId, int $employeeId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $name = $request->input('searchTerm');
-        $name = Str::of($name)->ascii()->lower();
+        $employee = Employee::where('company_id', $loggedCompany->id)
+            ->findOrFail($employeeId);
 
-        $potentialSkills = Skill::search(
-            $name,
-            $loggedCompany->id,
-            10,
-            'name desc',
-        );
-
-        $collection = collect([]);
-        foreach ($potentialSkills as $skill) {
-            $collection->push([
-                'id' => $skill->id,
-                'name' => $skill->name,
-                'url' => route('company.skills.show', [
-                    'company' => $loggedCompany->id,
-                    'skill' => $skill->id,
-                ]),
-            ]);
-        }
+        $criteria = $request->input('searchTerm');
+        $skills = EmployeeSkillViewHelper::search($loggedCompany, $employee, $criteria);
 
         return response()->json([
-            'data' => $collection,
+            'data' => $skills,
         ], 200);
     }
 

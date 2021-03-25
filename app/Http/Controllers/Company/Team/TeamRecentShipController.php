@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Company\Team;
 
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Helpers\ImageHelper;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
@@ -65,22 +64,8 @@ class TeamRecentShipController extends Controller
      */
     public function search(Request $request, int $companyId): JsonResponse
     {
-        $potentialEmployees = Employee::search(
-            $request->input('searchTerm'),
-            $companyId,
-            10,
-            'created_at desc',
-            'and locked = false',
-        );
-
-        $employees = collect([]);
-        foreach ($potentialEmployees as $employee) {
-            $employees->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'avatar' => ImageHelper::getAvatar($employee, 23),
-            ]);
-        }
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $employees = TeamRecentShipViewHelper::search($loggedCompany, $request->input('searchTerm'));
 
         return response()->json([
             'data' => $employees,

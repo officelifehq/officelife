@@ -34,24 +34,11 @@ class TeamMembersController extends Controller
             return redirect('home');
         }
 
-        $search = $request->input('searchTerm');
-
-        /** @var \Illuminate\Pagination\LengthAwarePaginator */
-        $potentialEmployees = Employee::search(
-            $search,
-            $companyId,
-            10,
-            'created_at desc',
-            'and locked = false',
-            'position'
-        );
-
-        // remove the existing team members from the list
-        $existingMembers = $team->employees;
-        $potentialEmployees = $potentialEmployees->diff($existingMembers);
+        $criteria = $request->input('searchTerm');
+        $employees = TeamMembersViewHelper::searchPotentialTeamMembers($company, $team, $criteria);
 
         return response()->json([
-            'data' => TeamMembersViewHelper::searchedEmployees($potentialEmployees),
+            'data' => $employees,
         ], 200);
     }
 
