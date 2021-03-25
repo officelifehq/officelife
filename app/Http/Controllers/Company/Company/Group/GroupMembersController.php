@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Company\Group;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Models\Company\Group;
 use App\Helpers\InstanceHelper;
@@ -67,9 +68,9 @@ class GroupMembersController extends Controller
         }
 
         $potentialMembers = GroupMembersViewHelper::potentialMembers(
-            $request->input('searchTerm'),
+            $company,
             $group,
-            $company
+            $request->input('searchTerm')
         );
 
         return response()->json([
@@ -105,7 +106,7 @@ class GroupMembersController extends Controller
             'data' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => ImageHelper::getAvatar($employee, 64),
             ],
         ]);
     }

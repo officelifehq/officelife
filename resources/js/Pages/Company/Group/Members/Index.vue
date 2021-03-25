@@ -113,7 +113,7 @@
             <li v-for="member in localMembers" :key="member.id" :data-cy="'member-' + member.id" class="pa3 bb bb-gray flex items-center">
               <!-- avatar -->
               <div class="mr3">
-                <img :src="member.avatar" alt="avatar" height="64" width="64" class="br-100" />
+                <avatar :avatar="member.avatar" :size="64" :classes="'br-100'" />
               </div>
 
               <!-- name + information -->
@@ -177,6 +177,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Avatar from '@/Shared/Avatar';
 import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
@@ -184,6 +185,7 @@ import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 export default {
   components: {
     Layout,
+    Avatar,
     GroupMenu,
     'ball-pulse-loader': BallPulseLoader.component,
   },

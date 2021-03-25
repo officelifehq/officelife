@@ -6,7 +6,6 @@ use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Group;
 use App\Models\Company\Company;
-use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 
 class GroupMembersViewHelper
@@ -51,34 +50,40 @@ class GroupMembersViewHelper
      * group, matching the name.
      * This filters out the current members of the group (doh).
      *
-     * @param string $employeeName
      * @param Group $group
      * @param Company $company
+     * @param string $criteria
      * @return Collection
      */
-    public static function potentialMembers(string $employeeName, Group $group, Company $company): Collection
+    public static function potentialMembers(Company $company, Group $group, string $criteria): Collection
     {
-        $potentialEmployees = Employee::search(
-            $employeeName,
-            $company->id,
-            10,
-            'created_at desc',
-            'and locked = 0',
-        );
+        $potentialEmployees = $company->employees()
+            ->select('id', 'first_name', 'last_name', 'avatar_file_id')
+            ->notLocked()
+            ->where(function ($query) use ($criteria) {
+                $query->where('first_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('email', 'LIKE', '%'.$criteria.'%');
+            })
+            ->orderBy('last_name', 'asc')
+            ->take(10)
+            ->get();
 
-        $currentMembers = $group->employees;
+        $currentMembers = $group->employees()
+            ->select('id', 'first_name', 'last_name', 'avatar_file_id')
+            ->get();
 
-        $potentialMembers = $potentialEmployees->diff($currentMembers);
+        $potentialEmployees = $potentialEmployees->diff($currentMembers);
 
-        $potentialMembersCollection = collect([]);
-        foreach ($potentialMembers as $potential) {
-            $potentialMembersCollection->push([
+        $potentialEmployeesCollection = collect([]);
+        foreach ($potentialEmployees as $potential) {
+            $potentialEmployeesCollection->push([
                 'id' => $potential->id,
                 'name' => $potential->name,
-                'avatar' => ImageHelper::getAvatar($potential, 23),
+                'avatar' => ImageHelper::getAvatar($potential, 64),
             ]);
         }
 
-        return $potentialMembersCollection;
+        return $potentialEmployeesCollection;
     }
 }

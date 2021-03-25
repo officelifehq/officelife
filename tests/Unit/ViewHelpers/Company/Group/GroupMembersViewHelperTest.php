@@ -78,19 +78,19 @@ class GroupMembersViewHelperTest extends TestCase
             $jim->id,
         ]);
 
-        $collection = GroupMembersViewHelper::potentialMembers('je', $group, $michael->company);
+        $collection = GroupMembersViewHelper::potentialMembers($michael->company, $group, 'je');
         $this->assertEquals(
             [
                 0 => [
                     'id' => $jean->id,
                     'name' => $jean->name,
-                    'avatar' => ImageHelper::getAvatar($jean, 23),
+                    'avatar' => ImageHelper::getAvatar($jean, 64),
                 ],
             ],
             $collection->toArray()
         );
 
-        $collection = GroupMembersViewHelper::potentialMembers('roger', $group, $michael->company);
+        $collection = GroupMembersViewHelper::potentialMembers($michael->company, $group, 'roger');
         $this->assertEquals(
             [],
             $collection->toArray()
