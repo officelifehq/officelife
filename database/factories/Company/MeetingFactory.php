@@ -23,10 +23,8 @@ class MeetingFactory extends Factory
      */
     public function definition()
     {
-        $group = Group::factory()->create();
-
         return [
-            'group_id' => $group->id,
+            'group_id' => Group::factory(),
         ];
     }
 
