@@ -134,18 +134,9 @@ class TeamShowViewHelper
                     ->orWhere('last_name', 'LIKE', '%'.$criteria.'%')
                     ->orWhere('email', 'LIKE', '%'.$criteria.'%');
             })
-            ->where('id', '!=', $employee->id)
             ->orderBy('last_name', 'asc')
             ->take(10)
             ->get();
-
-        // remove the existing managers of this employee from the list
-        $existingManagersForTheEmployee = $employee->getListOfManagers();
-        $potentialEmployees = $potentialEmployees->diff($existingManagersForTheEmployee);
-
-        // remove the existing direct reports of this employee from the list
-        $existingDirectReportsForTheEmployee = $employee->getListOfDirectReports();
-        $potentialEmployees = $potentialEmployees->diff($existingDirectReportsForTheEmployee);
 
         $employeesCollection = collect([]);
         foreach ($potentialEmployees as $employee) {

@@ -4,30 +4,49 @@ namespace Tests\Unit\ViewHelpers\Team;
 
 use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Models\Company\Team;
+use App\Models\Company\Employee;
 use App\Http\ViewHelpers\Team\TeamMembersViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 
 class TeamMembersViewHelperTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_gets_a_collection_of_employees(): void
+    public function it_gets_a_collection_of_potential_team_members(): void
     {
-        $michael = $this->createAdministrator();
-        $dwight = $this->createAnotherEmployee($michael);
+        $michael = Employee::factory()->create([
+            'first_name' => 'ale',
+            'last_name' => 'ble',
+            'email' => 'ale@ble',
+            'permission_level' => 100,
+        ]);
+        $dwight = Employee::factory()->create([
+            'first_name' => 'alb',
+            'last_name' => 'bli',
+            'email' => 'alb@bli',
+            'company_id' => $michael->company_id,
+        ]);
+        $team = Team::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        (new AddEmployeeToTeam)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $michael->id,
+            'team_id' => $team->id,
+        ]);
 
-        $collection = TeamMembersViewHelper::searchedEmployees($michael->company->employees);
+        $collection = TeamMembersViewHelper::searchPotentialTeamMembers($michael->company, $team, 'ale');
+        $this->assertEquals(0, $collection->count());
 
-        $this->assertEquals(2, $collection->count());
-
+        $collection = TeamMembersViewHelper::searchPotentialTeamMembers($michael->company, $team, 'alb');
+        $this->assertEquals(1, $collection->count());
         $this->assertEquals(
             [
                 0 => [
-                    'id' => $michael->id,
-                    'name' => $michael->name,
-                ],
-                1 => [
                     'id' => $dwight->id,
                     'name' => $dwight->name,
                 ],

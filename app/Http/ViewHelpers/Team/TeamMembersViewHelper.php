@@ -3,23 +3,43 @@
 namespace App\Http\ViewHelpers\Team;
 
 use App\Helpers\ImageHelper;
+use App\Models\Company\Team;
+use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 
 class TeamMembersViewHelper
 {
     /**
-     * Array containing all the basic information about employees that the user
-     * has made a search about.
+     * Search all potential members for the team.
      *
-     * @param \Traversable $employees
-     *
+     * @param Company $company
+     * @param Team $team
+     * @param string $criteria
      * @return Collection
      */
-    public static function searchedEmployees(\Traversable $employees): Collection
+    public static function searchPotentialTeamMembers(Company $company, Team $team, string $criteria): Collection
     {
+        $potentialEmployees = $company->employees()
+            ->select('id', 'first_name', 'last_name')
+            ->notLocked()
+            ->where(function ($query) use ($criteria) {
+                $query->where('first_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('email', 'LIKE', '%'.$criteria.'%');
+            })
+            ->orderBy('last_name', 'asc')
+            ->take(10)
+            ->get();
+
+        $employeesInTeam = $team->employees()
+            ->select('id', 'first_name', 'last_name')
+            ->get();
+
+        $potentialEmployees = $potentialEmployees->diff($employeesInTeam);
+
         $employeesCollection = collect([]);
-        foreach ($employees as $employee) {
+        foreach ($potentialEmployees as $employee) {
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
