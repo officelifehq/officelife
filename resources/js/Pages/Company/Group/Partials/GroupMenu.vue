@@ -25,9 +25,7 @@
 
     <div class="relative tc w-100 mb4">
       <div class="flex items-center justify-center">
-        <img v-for="member in group.members" :key="member.id" :src="member.avatar" alt="avatar" class="br-100 small-avatar"
-             width="32" height="32"
-        />
+        <avatar v-for="member in group.members" :key="member.id" :avatar="member.avatar" :size="32" :classes="'br-100 small-avatar'" />
         <!-- <div v-if="group.other_members_counter > 0" class="pl2 f7 more-members relative gray">
           {{ $t('project.menu_other_member', { count: project.other_members_counter }) }}
         </div> -->
@@ -51,7 +49,13 @@
 </template>
 
 <script>
+import Avatar from '@/Shared/Avatar';
+
 export default {
+  components: {
+    Avatar,
+  },
+
   props: {
     group: {
       type: Object,

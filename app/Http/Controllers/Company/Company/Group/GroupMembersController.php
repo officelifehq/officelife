@@ -106,7 +106,7 @@ class GroupMembersController extends Controller
             'data' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => ImageHelper::getAvatar($employee, 64),
+                'avatar' => ImageHelper::getAvatar($employee, 32),
             ],
         ]);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Company\Group;
 
+use App\Helpers\ImageHelper;
 use App\Models\Company\Group;
 use App\Models\Company\Company;
 
@@ -23,7 +24,7 @@ class GroupShowViewHelper
             $membersCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => ImageHelper::getAvatar($employee, 32),
                 'position' => (! $employee->position) ? null : [
                     'id' => $employee->position->id,
                     'title' => $employee->position->title,
