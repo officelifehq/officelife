@@ -1145,6 +1145,56 @@ class LogHelper
                 ]);
                 break;
 
+            case 'agenda_item_updated':
+                $sentence = trans('account.log_agenda_item_updated', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                    'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
+            case 'agenda_item_destroyed':
+                $sentence = trans('account.log_agenda_item_destroyed', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                    'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
+            case 'meeting_decision_created':
+                $sentence = trans('account.log_meeting_decision_created', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                    'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
+            case 'meeting_decision_destroyed':
+                $sentence = trans('account.log_meeting_decision_destroyed', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                    'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
+            case 'meeting_decision_updated':
+                $sentence = trans('account.log_meeting_decision_updated', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                    'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
             case 'company_logo_changed':
                 $sentence = trans('account.log_company_logo_changed');
                 break;
@@ -1675,6 +1725,38 @@ class LogHelper
 
             case 'agenda_item_created':
                 $sentence = trans('account.employee_log_agenda_item_created', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                    'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
+            case 'agenda_item_updated':
+                $sentence = trans('account.employee_log_agenda_item_updated', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                    'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
+            case 'meeting_decision_created':
+                $sentence = trans('account.employee_log_meeting_decision_created', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                    'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
+            case 'meeting_decision_destroyed':
+                $sentence = trans('account.employee_log_meeting_decision_destroyed', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                    'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
+            case 'meeting_decision_updated':
+                $sentence = trans('account.employee_log_log_meeting_decision_updated', [
                     'group_id' => $log->object->{'group_id'},
                     'group_name' => $log->object->{'group_name'},
                     'meeting_id' => $log->object->{'meeting_id'},

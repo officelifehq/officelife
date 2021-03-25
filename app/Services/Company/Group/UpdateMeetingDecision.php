@@ -8,16 +8,16 @@ use App\Models\Company\Group;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Meeting;
-use App\Models\Company\Employee;
 use App\Models\Company\AgendaItem;
+use App\Models\Company\MeetingDecision;
 
-class CreateAgendaItem extends BaseService
+class UpdateMeetingDecision extends BaseService
 {
     protected array $data;
     protected Group $group;
     protected Meeting $meeting;
     protected AgendaItem $agendaItem;
-    protected Employee $presenter;
+    protected MeetingDecision $meetingDecision;
 
     /**
      * Get the validation rules that apply to the service.
@@ -31,26 +31,28 @@ class CreateAgendaItem extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'group_id' => 'required|integer|exists:groups,id',
             'meeting_id' => 'required|integer|exists:meetings,id',
-            'summary' => 'required|string|max:255',
-            'description' => 'nullable|string|max:65535',
-            'presented_by_id' => 'nullable|integer|exists:employees,id',
+            'agenda_item_id' => 'required|integer|exists:agenda_items,id',
+            'meeting_decision_id' => 'required|integer|exists:meeting_decisions,id',
+            'description' => 'required|string|max:65535',
         ];
     }
 
     /**
-     * Create an agenda item in a meeting.
+     * Destroy an existing meeting decision.
      *
      * @param array $data
-     * @return AgendaItem
+     * @return MeetingDecision
      */
-    public function execute(array $data): AgendaItem
+    public function execute(array $data): MeetingDecision
     {
         $this->data = $data;
         $this->validate();
-        $this->createAgendaItem();
+        $this->updateMeetingDecision();
         $this->log();
 
-        return $this->agendaItem;
+        $this->meetingDecision->refresh();
+
+        return $this->meetingDecision;
     }
 
     private function validate(): void
@@ -68,19 +70,17 @@ class CreateAgendaItem extends BaseService
         $this->meeting = Meeting::where('group_id', $this->data['group_id'])
             ->findOrFail($this->data['meeting_id']);
 
-        if ($this->data['presented_by_id']) {
-            $this->presenter = Employee::where('company_id', $this->data['company_id'])
-                ->findOrFail($this->data['presented_by_id']);
-        }
+        $this->agendaItem = AgendaItem::where('meeting_id', $this->data['meeting_id'])
+            ->findOrFail($this->data['agenda_item_id']);
+
+        $this->meetingDecision = MeetingDecision::where('agenda_item_id', $this->data['agenda_item_id'])
+            ->findOrFail($this->data['meeting_decision_id']);
     }
 
-    private function createAgendaItem(): void
+    private function updateMeetingDecision(): void
     {
-        $this->agendaItem = AgendaItem::create([
-            'meeting_id' => $this->data['meeting_id'],
-            'summary' => $this->data['summary'],
+        MeetingDecision::where('id', $this->meetingDecision->id)->update([
             'description' => $this->data['description'],
-            'presented_by_id' => $this->data['presented_by_id'] ? $this->data['presented_by_id'] : null,
         ]);
     }
 
@@ -88,7 +88,7 @@ class CreateAgendaItem extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'agenda_item_created',
+            'action' => 'meeting_decision_updated',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
@@ -101,7 +101,7 @@ class CreateAgendaItem extends BaseService
 
         LogEmployeeAudit::dispatch([
             'employee_id' => $this->author->id,
-            'action' => 'agenda_item_created',
+            'action' => 'meeting_decision_updated',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),

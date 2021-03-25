@@ -11,7 +11,7 @@ use App\Models\Company\Meeting;
 use App\Models\Company\Employee;
 use App\Models\Company\AgendaItem;
 
-class CreateAgendaItem extends BaseService
+class UpdateAgendaItem extends BaseService
 {
     protected array $data;
     protected Group $group;
@@ -31,6 +31,7 @@ class CreateAgendaItem extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'group_id' => 'required|integer|exists:groups,id',
             'meeting_id' => 'required|integer|exists:meetings,id',
+            'agenda_item_id' => 'required|integer|exists:agenda_items,id',
             'summary' => 'required|string|max:255',
             'description' => 'nullable|string|max:65535',
             'presented_by_id' => 'nullable|integer|exists:employees,id',
@@ -38,7 +39,7 @@ class CreateAgendaItem extends BaseService
     }
 
     /**
-     * Create an agenda item in a meeting.
+     * Update an existing agenda item in a meeting.
      *
      * @param array $data
      * @return AgendaItem
@@ -47,8 +48,10 @@ class CreateAgendaItem extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->createAgendaItem();
+        $this->updateAgendaItem();
         $this->log();
+
+        $this->agendaItem->refresh();
 
         return $this->agendaItem;
     }
@@ -68,16 +71,18 @@ class CreateAgendaItem extends BaseService
         $this->meeting = Meeting::where('group_id', $this->data['group_id'])
             ->findOrFail($this->data['meeting_id']);
 
+        $this->agendaItem = AgendaItem::where('meeting_id', $this->data['meeting_id'])
+            ->findOrFail($this->data['agenda_item_id']);
+
         if ($this->data['presented_by_id']) {
             $this->presenter = Employee::where('company_id', $this->data['company_id'])
                 ->findOrFail($this->data['presented_by_id']);
         }
     }
 
-    private function createAgendaItem(): void
+    private function updateAgendaItem(): void
     {
-        $this->agendaItem = AgendaItem::create([
-            'meeting_id' => $this->data['meeting_id'],
+        AgendaItem::where('id', $this->agendaItem->id)->update([
             'summary' => $this->data['summary'],
             'description' => $this->data['description'],
             'presented_by_id' => $this->data['presented_by_id'] ? $this->data['presented_by_id'] : null,
@@ -88,7 +93,7 @@ class CreateAgendaItem extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'agenda_item_created',
+            'action' => 'agenda_item_updated',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
@@ -101,7 +106,7 @@ class CreateAgendaItem extends BaseService
 
         LogEmployeeAudit::dispatch([
             'employee_id' => $this->author->id,
-            'action' => 'agenda_item_created',
+            'action' => 'agenda_item_updated',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),

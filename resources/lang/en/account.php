@@ -301,6 +301,11 @@ return [
     'log_toggle_e_coffee_process' => 'Toggled the eCoffee process in the company.',
     'log_company_logo_changed' => 'Changed the company logo.',
     'log_agenda_item_created' => 'Added an agenda item in a meeting in the group called :group_name.',
+    'log_agenda_item_updated' => 'Updated an agenda item in a meeting in the group called :group_name.',
+    'log_agenda_item_destroyed' => 'Destroyed an agenda item in a meeting in the group called :group_name.',
+    'log_meeting_decision_created' => 'Created a meeting decision about an agenda item in a meeting in the group called :group_name.',
+    'log_meeting_decision_destroyed' => 'Deleted a meeting decision about an agenda item in a meeting in the group called :group_name.',
+    'log_meeting_decision_updated' => 'Updated a meeting decision about an agenda item in a meeting in the group called :group_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -379,6 +384,10 @@ return [
     'employee_log_employee_marked_as_participant_in_meeting' => 'Has been added in a meeting in the group called :group_name.',
     'employee_log_employee_removed_from_meeting' => 'Has been removed from a meeting in the group called :group_name.',
     'employee_log_agenda_item_created' => 'Has created an agenda item in a meeting in the group called :group_name.',
+    'employee_log_agenda_item_updated' => 'Has updated an agenda item in a meeting in the group called :group_name.',
+    'employee_log_meeting_decision_created' => 'Created a meeting decision about an agenda item in a meeting in the group called :group_name.',
+    'employee_log_meeting_decision_destroyed' => 'Deleted a meeting decision about an agenda item in a meeting in the group called :group_name.',
+    'employee_log_meeting_decision_updated' => 'Updated a meeting decision about an agenda item in a meeting in the group called :group_name.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',

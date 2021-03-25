@@ -7,18 +7,20 @@ use App\Jobs\LogAccountAudit;
 use App\Models\Company\Group;
 use App\Models\Company\Meeting;
 use App\Models\Company\Employee;
+use App\Models\Company\AgendaItem;
 use Illuminate\Support\Facades\Queue;
 use App\Services\Company\Group\DestroyMeeting;
 use Illuminate\Validation\ValidationException;
+use App\Services\Company\Group\DestroyAgendaItem;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class DestroyMeetingTest extends TestCase
+class DestroyAgendaItemTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_destroys_a_meeting_as_administrator(): void
+    public function it_destroys_an_agenda_item_as_administrator(): void
     {
         $michael = $this->createAdministrator();
         $group = Group::factory()->create([
@@ -27,11 +29,14 @@ class DestroyMeetingTest extends TestCase
         $meeting = Meeting::factory()->create([
             'group_id' => $group->id,
         ]);
-        $this->executeService($michael, $group, $meeting);
+        $agendaItem = AgendaItem::factory()->create([
+            'meeting_id' => $meeting->id,
+        ]);
+        $this->executeService($michael, $group, $meeting, $agendaItem);
     }
 
     /** @test */
-    public function it_destroys_a_meeting_as_hr(): void
+    public function it_destroys_an_agenda_item_as_hr(): void
     {
         $michael = $this->createHR();
         $group = Group::factory()->create([
@@ -40,11 +45,14 @@ class DestroyMeetingTest extends TestCase
         $meeting = Meeting::factory()->create([
             'group_id' => $group->id,
         ]);
-        $this->executeService($michael, $group, $meeting);
+        $agendaItem = AgendaItem::factory()->create([
+            'meeting_id' => $meeting->id,
+        ]);
+        $this->executeService($michael, $group, $meeting, $agendaItem);
     }
 
     /** @test */
-    public function it_destroys_a_meeting_as_normal_user(): void
+    public function it_destroys_an_agenda_item_as_normal_user(): void
     {
         $michael = $this->createEmployee();
         $group = Group::factory()->create([
@@ -53,7 +61,10 @@ class DestroyMeetingTest extends TestCase
         $meeting = Meeting::factory()->create([
             'group_id' => $group->id,
         ]);
-        $this->executeService($michael, $group, $meeting);
+        $agendaItem = AgendaItem::factory()->create([
+            'meeting_id' => $meeting->id,
+        ]);
+        $this->executeService($michael, $group, $meeting, $agendaItem);
     }
 
     /** @test */
@@ -65,8 +76,12 @@ class DestroyMeetingTest extends TestCase
         ]);
         $meeting = Meeting::factory()->create([]);
 
+        $agendaItem = AgendaItem::factory()->create([
+            'meeting_id' => $meeting->id,
+        ]);
+
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $group, $meeting);
+        $this->executeService($michael, $group, $meeting, $agendaItem);
     }
 
     /** @test */
@@ -82,7 +97,7 @@ class DestroyMeetingTest extends TestCase
         (new DestroyMeeting)->execute($request);
     }
 
-    private function executeService(Employee $michael, Group $group, Meeting $meeting): void
+    private function executeService(Employee $michael, Group $group, Meeting $meeting, AgendaItem $agendaItem): void
     {
         Queue::fake();
 
@@ -91,16 +106,17 @@ class DestroyMeetingTest extends TestCase
             'author_id' => $michael->id,
             'group_id' => $group->id,
             'meeting_id' => $meeting->id,
+            'agenda_item_id' => $agendaItem->id,
         ];
 
-        (new DestroyMeeting)->execute($request);
+        (new DestroyAgendaItem)->execute($request);
 
-        $this->assertDatabaseMissing('meetings', [
-            'id' => $group->id,
+        $this->assertDatabaseMissing('agenda_items', [
+            'id' => $agendaItem->id,
         ]);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $group) {
-            return $job->auditLog['action'] === 'meeting_destroyed' &&
+            return $job->auditLog['action'] === 'agenda_item_destroyed' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'group_name' => $group->name,

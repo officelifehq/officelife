@@ -7,12 +7,14 @@ use App\Jobs\LogAccountAudit;
 use App\Models\Company\Group;
 use App\Services\BaseService;
 use App\Models\Company\Meeting;
+use App\Models\Company\AgendaItem;
 
-class DestroyMeeting extends BaseService
+class DestroyAgendaItem extends BaseService
 {
     protected array $data;
     protected Group $group;
     protected Meeting $meeting;
+    protected AgendaItem $agendaItem;
 
     /**
      * Get the validation rules that apply to the service.
@@ -26,11 +28,12 @@ class DestroyMeeting extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'group_id' => 'nullable|integer|exists:groups,id',
             'meeting_id' => 'nullable|integer|exists:meetings,id',
+            'agenda_item_id' => 'nullable|integer|exists:agenda_items,id',
         ];
     }
 
     /**
-     * Delete a meeting.
+     * Delete an agenda item.
      *
      * @param array $data
      */
@@ -56,18 +59,21 @@ class DestroyMeeting extends BaseService
 
         $this->meeting = Meeting::where('group_id', $this->data['group_id'])
             ->findOrFail($this->data['meeting_id']);
+
+        $this->agendaItem = AgendaItem::where('meeting_id', $this->data['meeting_id'])
+            ->findOrFail($this->data['agenda_item_id']);
     }
 
     private function destroy(): void
     {
-        $this->meeting->delete();
+        $this->agendaItem->delete();
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'meeting_destroyed',
+            'action' => 'agenda_item_destroyed',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),

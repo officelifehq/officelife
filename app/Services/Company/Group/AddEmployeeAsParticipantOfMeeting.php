@@ -76,7 +76,7 @@ class AddEmployeeAsParticipantOfMeeting extends BaseService
     {
         $this->meeting->employees()->syncWithoutDetaching([
             $this->data['employee_id'] => [
-                'was_a_guest' => $this->isEmployeePartOfGroup(),
+                'was_a_guest' => ! $this->isEmployeePartOfGroup(),
             ],
         ]);
     }
