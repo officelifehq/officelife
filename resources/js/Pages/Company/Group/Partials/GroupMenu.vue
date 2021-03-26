@@ -37,6 +37,9 @@
         <inertia-link :class="{'selected':(tab == 'info')}" :href="'/' + $page.props.auth.company.id + '/company/groups/' + group.id + ''" class="f6 fl ph3 pv2 dib pointer no-underline">
           Summary
         </inertia-link>
+        <inertia-link :class="{'selected':(tab == 'meetings')}" :href="'/' + $page.props.auth.company.id + '/company/groups/' + group.id + '/meetings'" class="f6 fl ph3 pv2 dib pointer">
+          Meetings
+        </inertia-link>
         <inertia-link :class="{'selected':(tab == 'members')}" :href="'/' + $page.props.auth.company.id + '/company/groups/' + group.id + '/members'" class="f6 fl ph3 pv2 dib pointer">
           Members
         </inertia-link>

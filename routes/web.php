@@ -340,6 +340,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::post('{group}/members/search', 'Company\\Company\\Group\\GroupMembersController@search');
                 Route::post('{group}/members/store', 'Company\\Company\\Group\\GroupMembersController@store');
                 Route::post('{group}/members/remove', 'Company\\Company\\Group\\GroupMembersController@remove');
+
+                // meetings
+                Route::get('{group}/meetings', 'Company\\Company\\Group\\GroupMeetingsController@index')->name('groups.meetings.index');
+                Route::get('{group}/meetings/create', 'Company\\Company\\Group\\GroupMeetingsController@create')->name('groups.meetings.new');
             });
 
             Route::prefix('hr')->group(function () {

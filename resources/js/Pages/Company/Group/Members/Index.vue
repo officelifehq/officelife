@@ -63,7 +63,7 @@
       </div>
 
       <div class="mw6 center br3 mb5 relative z-1">
-        <!-- members list -->
+        <!-- add a new member -->
         <div v-if="!showModal" class="tr mb2">
           <a href="#" class="btn dib-l db mb3 mb0-ns" data-cy="member-add-button" @click.prevent="displayAddModal()">{{ $t('project.members_index_add_cta') }}</a>
         </div>
