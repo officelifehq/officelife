@@ -82,7 +82,7 @@ class CompanySkillViewHelperTest extends TestCase
             $response->toArray()[0]['name']
         );
         $this->assertEquals(
-            ImageHelper::getAvatar($michael),
+            ImageHelper::getAvatar($michael, 65),
             $response->toArray()[0]['avatar']
         );
         $this->assertEquals(
@@ -120,7 +120,7 @@ class CompanySkillViewHelperTest extends TestCase
             $response->toArray()[1]['name']
         );
         $this->assertEquals(
-            ImageHelper::getAvatar($dwight),
+            ImageHelper::getAvatar($dwight, 65),
             $response->toArray()[1]['avatar']
         );
         $this->assertEquals(

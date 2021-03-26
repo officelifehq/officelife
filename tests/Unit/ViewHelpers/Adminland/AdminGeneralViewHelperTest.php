@@ -74,7 +74,7 @@ class AdminGeneralViewHelperTest extends TestCase
             [
                 'id' => $michael->id,
                 'name' => $michael->name,
-                'avatar' => ImageHelper::getAvatar($michael),
+                'avatar' => ImageHelper::getAvatar($michael, 22),
                 'url_view' => route('employees.show', [
                     'company' => $michael->company,
                     'employee' => $michael,

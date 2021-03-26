@@ -47,7 +47,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             [
                 'id' => $entry->employee->id,
                 'name' => $entry->employee->name,
-                'avatar' => ImageHelper::getAvatar($entry->employee),
+                'avatar' => ImageHelper::getAvatar($entry->employee, 22),
                 'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$entry->employee->id,
             ],
             $array['employee']
@@ -56,7 +56,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             [
                 'id' => $entry->manager->id,
                 'name' => $entry->manager->name,
-                'avatar' => ImageHelper::getAvatar($entry->manager),
+                'avatar' => ImageHelper::getAvatar($entry->manager, 22),
                 'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$entry->manager->id,
             ],
             $array['manager']

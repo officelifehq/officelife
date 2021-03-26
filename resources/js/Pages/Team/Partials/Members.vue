@@ -65,10 +65,10 @@
       </div>
 
       <!-- list of employees -->
-      <div v-show="listOfEmployees.length > 0" class="pa3 flex flex-wrap employee-list">
+      <div v-if="listOfEmployees.length > 0" class="pa3 flex flex-wrap employee-list">
         <div v-for="employee in listOfEmployees" :key="employee.id" class="mb4 mr3" data-cy="members-list">
           <span class="pl3 db relative team-member">
-            <img loading="lazy" :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />
+            <avatar :avatar="employee.avatar" :size="35" :classes="'br-100 absolute avatar'" />
 
             <!-- normal mode -->
             <inertia-link v-show="!editMode" :href="employee.url" class="mb2">
@@ -97,7 +97,7 @@
       </div>
 
       <!-- blank state -->
-      <div v-show="listOfEmployees.length == 0" class="pa3 tc" data-cy="members-list-blank-state">
+      <div v-if="listOfEmployees.length == 0" class="pa3 tc" data-cy="members-list-blank-state">
         <p class="mv0">{{ $t('team.members_blank') }}</p>
       </div>
     </div>
@@ -106,12 +106,14 @@
 
 <script>
 import TextInput from '@/Shared/TextInput';
+import Avatar from '@/Shared/Avatar';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
   components: {
     TextInput,
+    Avatar,
     'ball-pulse-loader': BallPulseLoader.component,
   },
 

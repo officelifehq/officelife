@@ -7,6 +7,7 @@ use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
 use App\Models\Company\ProjectLink;
 use App\Models\Company\ProjectStatus;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -114,7 +115,7 @@ class ProjectViewHelperTest extends TestCase
             [
                 'id' => $michael->id,
                 'name' => $michael->name,
-                'avatar' => ImageHelper::getAvatar($michael),
+                'avatar' => ImageHelper::getAvatar($michael, 35),
                 'position' => [
                     'id' => $michael->position->id,
                     'title' => $michael->position->title,
@@ -143,7 +144,7 @@ class ProjectViewHelperTest extends TestCase
                 'author' => [
                     'id' => $status->author->id,
                     'name' => $status->author->name,
-                    'avatar' => ImageHelper::getAvatar($status->author),
+                    'avatar' => ImageHelper::getAvatar($status->author, 32),
                     'position' => (! $status->author->position) ? null : [
                         'id' => $status->author->position->id,
                         'title' => $status->author->position->title,
@@ -261,6 +262,54 @@ class ProjectViewHelperTest extends TestCase
         $this->assertEquals(
             1,
             $array['other_members_counter']
+        );
+    }
+
+    /** @test */
+    public function it_searches_employees_to_assign_a_project_lead(): void
+    {
+        $michael = Employee::factory()->create([
+            'first_name' => 'ale',
+            'last_name' => 'ble',
+            'email' => 'ale@ble',
+        ]);
+        $dwight = Employee::factory()->create([
+            'first_name' => 'alb',
+            'last_name' => 'bli',
+            'email' => 'alb@bli',
+            'company_id' => $michael->company_id,
+        ]);
+        // the following should not be included in the search results
+        Employee::factory()->create([
+            'first_name' => 'ale',
+            'last_name' => 'ble',
+            'email' => 'ale@ble',
+            'locked' => true,
+            'company_id' => $michael->company_id,
+        ]);
+
+        $collection = ProjectViewHelper::searchProjectLead($michael->company, 'e');
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $michael->id,
+                    'name' => $michael->name,
+                ],
+            ],
+            $collection->toArray()
+        );
+
+        $collection = ProjectViewHelper::searchProjectLead($michael->company, 'bli');
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $dwight->id,
+                    'name' => $dwight->name,
+                ],
+            ],
+            $collection->toArray()
         );
     }
 }

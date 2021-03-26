@@ -149,7 +149,7 @@
           </p>
           <ul class="list mv0">
             <li v-for="manager in localManagersOfEmployee" :key="manager.id" class="mb3 relative bb-gray-hover">
-              <img loading="lazy" :src="manager.avatar" class="br-100 absolute avatar" alt="avatar" />
+              <avatar :avatar="manager.avatar" :size="35" :classes="'br-100 absolute avatar'" />
               <inertia-link :href="manager.url" class="mb2">
                 {{ manager.name }}
               </inertia-link>
@@ -202,7 +202,10 @@
           </p>
           <ul class="list mv0">
             <li v-for="directReport in localDirectReports" :key="directReport.id" class="mb3 relative bb-gray-hover">
-              <img loading="lazy" :src="directReport.avatar" class="br-100 absolute avatar" alt="avatar" />
+              <!-- avatar -->
+              <avatar :avatar="directReport.avatar" :size="35" :classes="'br-100 absolute avatar'" />
+
+              <!-- name -->
               <inertia-link :href="directReport.url" class="mb2">
                 {{ directReport.name }}
               </inertia-link>
@@ -252,6 +255,7 @@
 
 <script>
 import IconDelete from '@/Shared/IconDelete';
+import Avatar from '@/Shared/Avatar';
 import vClickOutside from 'v-click-outside';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
@@ -260,6 +264,7 @@ export default {
   components: {
     'ball-pulse-loader': BallPulseLoader.component,
     IconDelete,
+    Avatar,
   },
 
   directives: {

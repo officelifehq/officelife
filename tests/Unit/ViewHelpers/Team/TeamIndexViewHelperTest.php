@@ -43,13 +43,13 @@ class TeamIndexViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 20),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
                 1 => [
                     'id' => $dwight->id,
                     'name' => $dwight->name,
-                    'avatar' => ImageHelper::getAvatar($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 20),
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                 ],
             ],

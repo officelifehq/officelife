@@ -57,7 +57,7 @@ class DashboardTeamViewHelperTest extends TestCase
                 0 => [
                     'id' => $angela->id,
                     'name' => 'Angela Bernard',
-                    'avatar' => ImageHelper::getAvatar($angela),
+                    'avatar' => ImageHelper::getAvatar($angela, 35),
                     'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$angela->id,
                     'birthdate' => 'January 5th',
                     'sort_key' => '2018-01-05',
@@ -65,7 +65,7 @@ class DashboardTeamViewHelperTest extends TestCase
                 1 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => ImageHelper::getAvatar($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$dwight->id,
                     'birthdate' => 'January 29th',
                     'sort_key' => '2018-01-29',
@@ -119,7 +119,7 @@ class DashboardTeamViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => ImageHelper::getAvatar($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'position' => $dwight->position,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                 ],
@@ -157,7 +157,7 @@ class DashboardTeamViewHelperTest extends TestCase
                         0 => [
                             'id' => $michael->id,
                             'name' => $michael->name,
-                            'avatar' => ImageHelper::getAvatar($michael),
+                            'avatar' => ImageHelper::getAvatar($michael, 17),
                             'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                         ],
                     ],
@@ -277,7 +277,7 @@ class DashboardTeamViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => $dwight->name,
-                    'avatar' => ImageHelper::getAvatar($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'hired_at' => 'Tuesday (Jan 2nd)',
                     'position' => (! $dwight->position) ? null : [
                         'id' => $dwight->position->id,
@@ -323,7 +323,7 @@ class DashboardTeamViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => $dwight->name,
-                    'avatar' => ImageHelper::getAvatar($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'anniversary_date' => 'Tuesday (Jan 2nd)',
                     'anniversary_age' => '28',
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,

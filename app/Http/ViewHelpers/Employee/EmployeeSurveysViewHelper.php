@@ -134,7 +134,7 @@ class EmployeeSurveysViewHelper
             $directReportsCollection->push([
                 'id' => $answer->employee->id,
                 'name' => $answer->employee->name,
-                'avatar' => ImageHelper::getAvatar($answer->employee),
+                'avatar' => ImageHelper::getAvatar($answer->employee, 22),
                 'url' => route('employees.show', [
                     'company' => $answer->employee->company_id,
                     'employee' => $answer->employee->id,
@@ -155,7 +155,7 @@ class EmployeeSurveysViewHelper
                 'employee' => $answer->reveal_identity_to_manager ? [
                     'id' => $answer->employee->id,
                     'name' => $answer->employee->name,
-                    'avatar' => ImageHelper::getAvatar($answer->employee),
+                    'avatar' => ImageHelper::getAvatar($answer->employee, 22),
                     'url' => route('employees.show', [
                         'company' => $answer->employee->company_id,
                         'employee' => $answer->employee->id,

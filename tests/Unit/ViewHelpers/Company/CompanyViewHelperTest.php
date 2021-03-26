@@ -138,7 +138,7 @@ class CompanyViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => ImageHelper::getAvatar($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'birthdate' => 'January 8th',
                     'sort_key' => '2018-01-08',
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
@@ -146,7 +146,7 @@ class CompanyViewHelperTest extends TestCase
                 1 => [
                     'id' => $angela->id,
                     'name' => 'Angela Bernard',
-                    'avatar' => ImageHelper::getAvatar($angela),
+                    'avatar' => ImageHelper::getAvatar($angela, 35),
                     'birthdate' => 'January 14th',
                     'sort_key' => '2018-01-14',
                     'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$angela->id,
@@ -195,7 +195,7 @@ class CompanyViewHelperTest extends TestCase
                 0 => [
                     'id' => $angela->id,
                     'name' => 'Angela Bernard',
-                    'avatar' => ImageHelper::getAvatar($angela),
+                    'avatar' => ImageHelper::getAvatar($angela, 35),
                     'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$angela->id,
                     'hired_at' => 'Monday (Jan 1st)',
                     'position' => 'Assistant to the regional manager',
@@ -203,7 +203,7 @@ class CompanyViewHelperTest extends TestCase
                 1 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => ImageHelper::getAvatar($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$dwight->id,
                     'hired_at' => 'Wednesday (Jan 3rd)',
                     'position' => 'Assistant to the regional manager',
@@ -361,7 +361,7 @@ class CompanyViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            ImageHelper::getAvatar($game->employeeToFind),
+            ImageHelper::getAvatar($game->employeeToFind, 80),
             $array['avatar_to_find']
         );
 
@@ -405,7 +405,7 @@ class CompanyViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 32),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
             ],

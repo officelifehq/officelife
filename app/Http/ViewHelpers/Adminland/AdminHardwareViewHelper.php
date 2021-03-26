@@ -37,7 +37,7 @@ class AdminHardwareViewHelper
                 'employee' => ($employee) ? [
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => ImageHelper::getAvatar($employee),
+                    'avatar' => ImageHelper::getAvatar($employee, 18),
                 ] : null,
             ]);
         }
@@ -104,7 +104,7 @@ class AdminHardwareViewHelper
                 'employee' => ($employee) ? [
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => ImageHelper::getAvatar($employee),
+                    'avatar' => ImageHelper::getAvatar($employee, 18),
                 ] : null,
             ]);
         }
@@ -151,7 +151,7 @@ class AdminHardwareViewHelper
                 'employee' => ($employee) ? [
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => ImageHelper::getAvatar($employee),
+                    'avatar' => ImageHelper::getAvatar($employee, 18),
                 ] : null,
             ]);
         }

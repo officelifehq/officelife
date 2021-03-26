@@ -4,7 +4,6 @@ namespace App\Models\Company;
 
 use Carbon\Carbon;
 use App\Models\User\User;
-use App\Traits\Searchable;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\User\Pronoun;
@@ -26,7 +25,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Employee extends Model
 {
     use LogsActivity,
-        Searchable,
         HasFactory;
 
     protected $table = 'employees';
@@ -61,30 +59,6 @@ class Employee extends Model
         'default_dashboard_view',
         'can_manage_expenses',
         'display_welcome_message',
-    ];
-
-    /**
-     * The attributes that are searchable with the trait.
-     *
-     * @var array
-     */
-    protected $searchableColumns = [
-        'first_name',
-        'last_name',
-        'email',
-    ];
-
-    /**
-     * The list of columns we want the Searchable trait to select.
-     *
-     * @var array
-     */
-    protected $returnFromSearch = [
-        'id',
-        'first_name',
-        'last_name',
-        'email',
-        'company_id',
     ];
 
     /**

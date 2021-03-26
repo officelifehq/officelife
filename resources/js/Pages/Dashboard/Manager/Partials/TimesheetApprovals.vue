@@ -46,9 +46,7 @@
           <!-- avatars -->
           <div v-if="timesheetsStats.employees.length > 0" class="pl6-ns pl3 mb3">
             <div class="flex items-center relative tr all-avatars">
-              <img v-for="member in timesheetsStats.employees" :key="member.id" :src="member.avatar" alt="avatar" class="br-100 small-avatar"
-                   width="32" height="32"
-              />
+              <avatar v-for="member in timesheetsStats.employees" :key="member.id" :avatar="member.avatar" :size="32" :classes="'br-100 small-avatar'" />
             </div>
           </div>
         </div>
@@ -62,10 +60,12 @@
 
 <script>
 import Help from '@/Shared/Help';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Help,
+    Avatar,
   },
 
   props: {

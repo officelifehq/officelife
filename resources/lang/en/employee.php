@@ -173,7 +173,7 @@ return [
     'skills_title' => 'Skills',
     'skills_no_skill_yet' => 'No skills have been defined yet.',
     'skills_search_term' => 'Look for an existing skill or create a new one',
-    'skills_already_have_skill' => 'You already have {em} in your list of skills.',
+    'skills_already_have_skill' => 'You already have {name} in your list of skills.',
     'skills_create' => 'Create a new skill called {name}',
     'skills_list' => 'Current skills',
 

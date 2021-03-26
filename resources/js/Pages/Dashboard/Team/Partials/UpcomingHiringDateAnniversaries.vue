@@ -25,7 +25,7 @@
     <div class="cf mw7 center br3 mb3 bg-white box">
       <div v-for="employee in hiringDateAnniversaries" :key="employee.id" class="pa3 w-100" data-cy="new-hires-list">
         <span class="pl3 db relative team-member">
-          <img loading="lazy" :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />
+          <avatar :avatar="employee.avatar" :size="35" :classes="'br-100 absolute avatar'" />
 
           <!-- normal mode -->
           <inertia-link :href="employee.url" class="mb2">
@@ -43,9 +43,11 @@
 
 <script>
 import Help from '@/Shared/Help';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
+    Avatar,
     Help,
   },
 

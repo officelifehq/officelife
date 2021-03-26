@@ -43,7 +43,8 @@
         <ul v-if="eCoffees.length > 0" class="list pl0 ma0">
           <li v-for="ecoffee in eCoffees" :key="ecoffee.id" class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between ecoffee-item" :data-cy="'ecoffee-title-' + ecoffee.id">
             <div class="mb1 relative">
-              <img loading="lazy" :src="ecoffee.with_employee.avatar" class="br-100 absolute avatar" alt="avatar" />
+              <avatar :avatar="ecoffee.with_employee.avatar" :size="35" :classes="'br-100 absolute avatar'" />
+
               <span class="employee-name db">
                 <inertia-link :href="ecoffee.with_employee.url" class="mb2">{{ ecoffee.with_employee.name }}</inertia-link>
               </span>
@@ -62,11 +63,13 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Avatar from '@/Shared/Avatar';
 import Help from '@/Shared/Help';
 
 export default {
   components: {
     Help,
+    Avatar,
     Layout,
   },
 

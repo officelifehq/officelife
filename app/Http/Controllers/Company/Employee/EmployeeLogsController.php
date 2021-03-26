@@ -50,7 +50,7 @@ class EmployeeLogsController extends Controller
         $logsCollection = EmployeeLogViewHelper::list($logs, $employee->company);
 
         return Inertia::render('Employee/Logs/Index', [
-            'employee' => $employee->toObject(),
+            'employee' => EmployeeLogViewHelper::employee($employee),
             'logs' => $logsCollection,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'paginator' => PaginatorHelper::getData($logs),

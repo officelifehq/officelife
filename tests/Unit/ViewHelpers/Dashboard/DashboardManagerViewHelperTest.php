@@ -72,7 +72,7 @@ class DashboardManagerViewHelperTest extends TestCase
                     'employee' => [
                         'id' => $dwight->id,
                         'name' => $dwight->name,
-                        'avatar' => ImageHelper::getAvatar($dwight),
+                        'avatar' => ImageHelper::getAvatar($dwight, 18),
                     ],
                 ],
             ],
@@ -146,7 +146,7 @@ class DashboardManagerViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => ImageHelper::getAvatar($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'entry' => [
@@ -158,7 +158,7 @@ class DashboardManagerViewHelperTest extends TestCase
                 1 => [
                     'id' => $jim->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => ImageHelper::getAvatar($jim),
+                    'avatar' => ImageHelper::getAvatar($jim, 35),
                     'position' => $jim->position->title,
                     'url' => env('APP_URL').'/'.$jim->company_id.'/employees/'.$jim->id,
                     'entry' => [
@@ -213,7 +213,7 @@ class DashboardManagerViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => ImageHelper::getAvatar($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'contract_information' => [

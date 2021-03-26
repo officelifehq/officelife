@@ -51,7 +51,7 @@ class DashboardExpenseViewHelperTest extends TestCase
                     'employee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => ImageHelper::getAvatar($michael),
+                        'avatar' => ImageHelper::getAvatar($michael, 18),
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/expenses/'.$expense->id,
                 ],
@@ -108,7 +108,7 @@ class DashboardExpenseViewHelperTest extends TestCase
                     'employee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => ImageHelper::getAvatar($michael),
+                        'avatar' => ImageHelper::getAvatar($michael, 18),
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/expenses/'.$expenseWithoutManager->id,
                 ],
@@ -124,7 +124,7 @@ class DashboardExpenseViewHelperTest extends TestCase
                     'employee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => ImageHelper::getAvatar($michael),
+                        'avatar' => ImageHelper::getAvatar($michael, 18),
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/expenses/'.$expenseWithManager->id,
                 ],

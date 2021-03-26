@@ -215,7 +215,7 @@ class ProjectTasksViewHelper
             'assignee' => $assignee ? [
                 'id' => $assignee->id,
                 'name' => $assignee->name,
-                'avatar' => ImageHelper::getAvatar($assignee),
+                'avatar' => ImageHelper::getAvatar($assignee, 35),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $assignee,

@@ -28,8 +28,8 @@
         <p>{{ $t('company.employees_total', { count: statistics.number_of_employees }) }}</p>
 
         <div class="flex items-center relative tr employees">
-          <img v-for="employee in employees.ten_random_employees" :key="employee.id" :src="employee.avatar" alt="avatar" class="br-100 small-avatar pointer"
-               width="32" height="32" @click="navigateTo(employee)"
+          <avatar v-for="employee in employees.ten_random_employees" :key="employee.id" :avatar="employee.avatar" :size="32" :url="employee.url"
+                  :classes="'br-100 small-avatar pointer'"
           />
           <div v-if="employees.number_of_employees_left > 0" class="pl2 f7 more-members relative gray">
             {{ $t('project.menu_other_member', { count: employees.number_of_employees_left }) }}
@@ -50,7 +50,13 @@
 </template>
 
 <script>
+import Avatar from '@/Shared/Avatar';
+
 export default {
+  components: {
+    Avatar,
+  },
+
   props: {
     statistics: {
       type: Object,
@@ -59,12 +65,6 @@ export default {
     employees: {
       type: Object,
       default: null,
-    },
-  },
-
-  methods: {
-    navigateTo(employee) {
-      this.$inertia.visit(employee.url);
     },
   },
 };
