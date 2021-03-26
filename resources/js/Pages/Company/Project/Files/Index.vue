@@ -100,7 +100,7 @@
 
           <!-- blank state -->
           <div v-else class="tc pa3">
-            <img loading="lazy" src="/img/streamline-icon-content-filter@140x140.png" alt="file symbol" height="140"
+            <img loading="lazy" src="/img/streamline-icon-content-filter@140x140.png" alt="file symbol to upload" height="140"
                  width="140"
             />
             <p class="mb3">
