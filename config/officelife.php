@@ -186,6 +186,7 @@ return [
         'project_decisions' => 'operate/project-management.html#project-decisions',
         'project_messages' => 'operate/project-management.html#project-messages',
         'project_tasks' => 'operate/project-management.html#project-tasks',
+        'project_files' => 'operate/project-management.html#project-files',
         'ecoffee' => 'grow/e-coffee.html#overview',
         'import_employees' => 'manage/employee-management.html#importing-employees',
     ],

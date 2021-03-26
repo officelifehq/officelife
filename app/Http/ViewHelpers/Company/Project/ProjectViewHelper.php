@@ -66,7 +66,9 @@ class ProjectViewHelper
             ]);
         }
 
-        $author = $latestStatus->author;
+        if (! is_null($latestStatus)) {
+            $author = $latestStatus->author;
+        }
 
         return [
             'id' => $project->id,

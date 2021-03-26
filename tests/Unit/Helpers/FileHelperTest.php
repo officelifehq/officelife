@@ -14,11 +14,11 @@ class FileHelperTest extends TestCase
     public function it_returns_the_file_size_in_the_right_format(): void
     {
         $this->assertEquals(
-            '12.61GB',
+            '12.61MB',
             FileHelper::getSize(13223239)
         );
         $this->assertEquals(
-            '13MB',
+            '13kB',
             FileHelper::getSize(13240)
         );
     }

@@ -137,4 +137,9 @@ return [
     'task_show_added_by' => 'Added by',
     'task_show_created_on' => 'Created on',
     'task_show_action_log' => 'Log time',
+
+    'file_title' => 'All the files in the project',
+    'file_blank_state' => 'Upload a file here to keep information forever!',
+    'file_upload_success' => 'The file has been uploaded.',
+    'file_deletion_success' => 'The file has been deleted.',
 ];

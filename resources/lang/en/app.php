@@ -19,6 +19,7 @@ return [
     'choose' => 'Choose',
     'remove' => 'Remove',
     'publish' => 'Publish',
+    'upload' => 'Upload',
     'lock' => 'Lock',
     'unlock' => 'Unlock',
     'reject' => 'Reject',

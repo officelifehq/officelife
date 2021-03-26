@@ -90,7 +90,7 @@ export default {
       axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}`)
         .then(response => {
           localStorage.success = this.$t('project.delete_success');
-          this.$inertia.visit(`${this.$page.props.auth.company.id}/company/projects`);
+          this.$inertia.visit(`/${this.$page.props.auth.company.id}/company/projects`);
         })
         .catch(error => {
           this.loadingState = null;

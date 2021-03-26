@@ -3,9 +3,11 @@
 namespace Tests\Unit\Services\Company\Project;
 
 use Tests\TestCase;
+use App\Models\Company\File;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Project\DestroyProject;
@@ -47,6 +49,22 @@ class DestroyProjectTest extends TestCase
     }
 
     /** @test */
+    public function it_destroys_a_project_as_normal_user_and_deletes_files(): void
+    {
+        $michael = $this->createEmployee();
+        $project = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $file = File::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $project->files()->syncWithoutDetaching([
+            $file->id,
+        ]);
+        $this->executeService($michael, $project);
+    }
+
+    /** @test */
     public function it_fails_if_project_is_not_part_of_the_company(): void
     {
         $michael = Employee::factory()->create();
@@ -72,6 +90,7 @@ class DestroyProjectTest extends TestCase
     private function executeService(Employee $michael, Project $project = null): void
     {
         Queue::fake();
+        Event::fake();
 
         $request = [
             'company_id' => $michael->company_id,
@@ -83,6 +102,10 @@ class DestroyProjectTest extends TestCase
 
         $this->assertDatabaseMissing('projects', [
             'id' => $project->id,
+        ]);
+
+        $this->assertDatabaseMissing('files', [
+            'company_id' => $michael->company_id,
         ]);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project) {
