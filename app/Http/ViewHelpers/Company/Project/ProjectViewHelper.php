@@ -66,6 +66,7 @@ class ProjectViewHelper
             ]);
         }
 
+        $author = null;
         if (! is_null($latestStatus)) {
             $author = $latestStatus->author;
         }

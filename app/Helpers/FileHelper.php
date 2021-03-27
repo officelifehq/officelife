@@ -12,8 +12,14 @@ class FileHelper
      */
     public static function getSize(int $bytes): ?string
     {
-        $i = floor(log($bytes, 1024));
+        $units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        $step = 1024;
+        $i = 0;
+        while (($bytes / $step) > 0.9) {
+            $bytes = $bytes / $step;
+            $i++;
+        }
 
-        return round($bytes / pow(1024, $i), [0, 0, 2, 2, 3][$i]).['B', 'kB', 'MB', 'GB', 'TB'][$i];
+        return round($bytes, 2).$units[$i];
     }
 }

@@ -174,7 +174,7 @@ class Project extends Model
     /**
      * Get the file entries associated with the project.
      *
-     * @return HasMany
+     * @return BelongsToMany
      */
     public function files()
     {

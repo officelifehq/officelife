@@ -59,6 +59,7 @@ class DestroyProjectFile extends BaseService
 
     private function destroyFile(): void
     {
+        /* @phpstan-ignore-next-line */
         $this->project->files()->detach($this->data['file_id']);
         $this->file->delete();
     }

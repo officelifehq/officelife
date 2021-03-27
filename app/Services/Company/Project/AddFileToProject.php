@@ -63,6 +63,7 @@ class AddFileToProject extends BaseService
 
     private function assign(): void
     {
+        /* @phpstan-ignore-next-line */
         $this->project->files()->syncWithoutDetaching([
             $this->data['file_id'],
         ]);
