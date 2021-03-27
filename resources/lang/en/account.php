@@ -291,6 +291,8 @@ return [
     'log_e_coffee_match_session_as_happened' => 'Mark an eCoffee session as happened between :employee_name and :other_employee_name.',
     'log_toggle_e_coffee_process' => 'Toggled the eCoffee process in the company.',
     'log_company_logo_changed' => 'Changed the company logo.',
+    'log_file_added_to_project' => 'Added a file called :name in the project called :project_name.',
+    'log_project_file_destroyed' => 'Deleted a file called :name in the project called :project_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',

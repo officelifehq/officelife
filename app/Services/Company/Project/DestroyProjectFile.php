@@ -3,13 +3,15 @@
 namespace App\Services\Company\Project;
 
 use Carbon\Carbon;
+use App\Models\Company\File;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
 
-class DestroyProject extends BaseService
+class DestroyProjectFile extends BaseService
 {
     protected array $data;
+    protected File $file;
     protected Project $project;
 
     /**
@@ -22,12 +24,13 @@ class DestroyProject extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'project_id' => 'nullable|integer|exists:projects,id',
+            'project_id' => 'required|integer|exists:projects,id',
+            'file_id' => 'required|integer|exists:files,id',
         ];
     }
 
     /**
-     * Delete a project.
+     * Destroy a file in the project.
      *
      * @param array $data
      */
@@ -35,8 +38,7 @@ class DestroyProject extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->destroyFiles();
-        $this->destroyProject();
+        $this->destroyFile();
         $this->log();
     }
 
@@ -51,31 +53,29 @@ class DestroyProject extends BaseService
 
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
+
+        $this->file = File::findOrFail($this->data['file_id']);
     }
 
-    private function destroyFiles(): void
+    private function destroyFile(): void
     {
-        $files = $this->project->files;
-        foreach ($files as $file) {
-            $file->delete();
-        }
-    }
-
-    private function destroyProject(): void
-    {
-        $this->project->delete();
+        /* @phpstan-ignore-next-line */
+        $this->project->files()->detach($this->data['file_id']);
+        $this->file->delete();
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_destroyed',
+            'action' => 'project_file_destroyed',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
+                'project_id' => $this->project->id,
                 'project_name' => $this->project->name,
+                'name' => $this->file->name,
             ]),
         ])->onQueue('low');
     }

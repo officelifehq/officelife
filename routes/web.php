@@ -273,6 +273,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('skills/{skill}', 'Company\\Company\\SkillController@update');
             Route::delete('skills/{skill}', 'Company\\Company\\SkillController@destroy');
 
+            // Projects
             Route::prefix('projects')->group(function () {
                 Route::get('', 'Company\\Company\\Project\\ProjectController@index');
                 Route::get('create', 'Company\\Company\\Project\\ProjectController@create');
@@ -323,6 +324,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::delete('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@destroy');
                 Route::get('{project}/tasks/{task}/timeTrackingEntries', 'Company\\Company\\Project\\ProjectTasksController@timeTrackingEntries');
                 Route::post('{project}/tasks/{task}/log', 'Company\\Company\\Project\\ProjectTasksController@logTime');
+
+                // files
+                Route::get('{project}/files', 'Company\\Company\\Project\\ProjectFilesController@index');
+                Route::post('{project}/files', 'Company\\Company\\Project\\ProjectFilesController@store');
+                Route::delete('{project}/files/{file}', 'Company\\Company\\Project\\ProjectFilesController@destroy');
             });
 
             Route::prefix('hr')->group(function () {

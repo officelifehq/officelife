@@ -66,7 +66,7 @@
         <inertia-link :class="{'selected':(tab == 'finance')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer">
           {{ $t('project.menu_finance') }}
         </inertia-link>
-        <inertia-link :class="{'selected':(tab == 'files')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer">
+        <inertia-link :class="{'selected':(tab == 'files')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/files'" class="f6 fl ph3 pv2 dib pointer">
           {{ $t('project.menu_files') }}
         </inertia-link>
       </div>
