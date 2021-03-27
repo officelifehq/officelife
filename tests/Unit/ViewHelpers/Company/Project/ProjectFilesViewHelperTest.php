@@ -47,7 +47,7 @@ class ProjectFilesViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $fileWithoutUploader->id,
-                    'size' => '123kB',
+                    'size' => '123B',
                     'filename' => $fileWithoutUploader->name,
                     'download_url' => $fileWithoutUploader->cdn_url,
                     'uploader' => 'Regis',
@@ -55,17 +55,14 @@ class ProjectFilesViewHelperTest extends TestCase
                 ],
                 1 => [
                     'id' => $file->id,
-                    'size' => '123kB',
+                    'size' => '123B',
                     'filename' => $file->name,
                     'download_url' => $file->cdn_url,
                     'uploader' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
                         'avatar' => ImageHelper::getAvatar($michael, 24),
-                        'url' => route('employees.show', [
-                            'company' => $michael->company,
-                            'employee' => $michael,
-                        ]),
+                        'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                     'created_at' => 'Jan 01, 2019',
                 ],

@@ -7,6 +7,7 @@ use App\Models\Company\File;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Project\DestroyProjectFile;
@@ -96,6 +97,7 @@ class DeleteFileFromProjectTest extends TestCase
     private function executeService(Employee $michael, File $file, Project $project): void
     {
         Queue::fake();
+        Event::fake();
 
         $request = [
             'company_id' => $michael->company_id,
