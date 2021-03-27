@@ -211,6 +211,10 @@ export default {
     },
   },
 
+  emits: [
+    'update', 'destroy', 'change'
+  ],
+
   data() {
     return {
       updatedValue: false,

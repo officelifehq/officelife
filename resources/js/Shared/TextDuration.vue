@@ -82,9 +82,7 @@ export default {
   props: {
     id: {
       type: String,
-      default() {
-        return `text-input-${this._uid}`;
-      },
+      default: 'text-input-',
     },
     errors: {
       type: String,
@@ -112,12 +110,22 @@ export default {
     },
   },
 
+  emits: [
+    'update'
+  ],
+
   data() {
     return {
       localHours: 0,
       localMinutes: 0,
       durationInMinutes: 0,
     };
+  },
+
+  computed: {
+    realId() {
+      return this.id + this._uid;
+    },
   },
 
   mounted() {

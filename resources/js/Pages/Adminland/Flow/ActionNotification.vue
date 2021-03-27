@@ -233,6 +233,10 @@ export default {
     }
   },
 
+  emits: [
+    'update', 'destroy'
+  ],
+
   data() {
     return {
       who: '',

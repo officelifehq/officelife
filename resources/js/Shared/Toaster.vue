@@ -30,6 +30,8 @@
 
 <script>
 
+import Emitter from 'tiny-emitter';
+
 export default {
 
   props: {
@@ -65,7 +67,8 @@ export default {
 
     const self = this;
 
-    window.events.$on(
+    const emitter = new Emitter();
+    emitter.on(
       'flash', data => self.flash(data)
     );
   },

@@ -71,6 +71,10 @@ export default {
     },
   },
 
+  emits: [
+    'change', 'completed'
+  ],
+
   data() {
     return {
       complete: false,

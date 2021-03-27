@@ -19,19 +19,19 @@
                 @success="onSuccess"
                 @error="onError"
     >
-      <avatar :avatar="localAvatar" :size="300" />
+      <the-avatar :avatar="localAvatar" :size="300" />
     </uploadcare>
   </div>
 </template>
 
 <script>
-import Uploadcare from 'uploadcare-vue';
-import Avatar from '@/Shared/Avatar';
+import Uploadcare from '../../../../../node_modules/uploadcare-vue/src/Uploadcare.vue';
+import TheAvatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Uploadcare,
-    Avatar,
+    TheAvatar,
   },
 
   props: {

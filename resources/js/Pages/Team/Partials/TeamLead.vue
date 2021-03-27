@@ -132,6 +132,7 @@ import IconDelete from '@/Shared/IconDelete';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import vClickOutside from 'v-click-outside';
+import Emitter from 'tiny-emitter';
 
 export default {
   components: {
@@ -155,6 +156,10 @@ export default {
       default: false,
     }
   },
+
+  emits: [
+    'lead-set'
+  ],
 
   data() {
     return {
@@ -228,7 +233,8 @@ export default {
           this.localTeam.team_leader = response.data.data;
           this.editMode = false;
 
-          this.$root.$emit('lead-set', response.data.data);
+          const emitter = new Emitter();
+          emitter.emit('lead-set', response.data.data);
         })
         .catch(error => {
           this.form.errors = error.response.data;

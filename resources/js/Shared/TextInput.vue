@@ -27,7 +27,7 @@
         {{ $t('app.optional') }}
       </span>
     </label>
-    <input :id="id"
+    <input :id="realId"
            :ref="customRef"
            v-bind="$attrs"
            class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
@@ -60,9 +60,7 @@ export default {
   props: {
     id: {
       type: String,
-      default() {
-        return `text-input-${this._uid}`;
-      },
+      default: 'text-input-',
     },
     type: {
       type: String,
@@ -126,6 +124,10 @@ export default {
     }
   },
 
+  emits: [
+    'esc-key-pressed', 'input'
+  ],
+
   data() {
     return {
       localErrors: '',
@@ -133,6 +135,10 @@ export default {
   },
 
   computed: {
+    realId() {
+      return this.id + this._uid;
+    },
+
     hasError() {
       return this.localErrors.length > 0 && this.required;
     }

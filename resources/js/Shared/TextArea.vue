@@ -28,7 +28,7 @@
       </span>
     </label>
 
-    <textarea :id="id"
+    <textarea :id="realId"
               :ref="customRef"
               v-bind="$attrs"
               class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
@@ -60,9 +60,7 @@ export default {
   props: {
     id: {
       type: String,
-      default() {
-        return `text-area-${this._uid}`;
-      },
+      default: 'text-area-',
     },
     type: {
       type: String,
@@ -106,10 +104,20 @@ export default {
     },
   },
 
+  emits: [
+    'esc-key-pressed', 'input'
+  ],
+
   data() {
     return {
       localErrors: [],
     };
+  },
+
+  computed: {
+    realId() {
+      return this.id + this._uid;
+    },
   },
 
   watch: {

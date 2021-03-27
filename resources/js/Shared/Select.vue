@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import '@vueform/multiselect/themes/default.css';
+
 .optional-badge {
   border-radius: 4px;
   color: #283e59;
@@ -21,25 +23,16 @@
         {{ $t('app.optional') }}
       </span>
     </label>
-    <v-select v-model="selected"
-              :options="options"
-              :placeholder="placeholder"
-              class="style-chooser"
-              :label="customLabelKey"
-              :data-cy="datacy"
-              :close-on-select="true"
-              @input="broadcast"
-    >
-      <!-- all this complex code below just to make sure the select box is required -->
-      <template #search="{attributes, events}">
-        <input
-          class="vs__search"
-          :required="required && !selected"
-          v-bind="attributes"
-          v-on="events"
-        />
-      </template>
-    </v-select>
+    <multiselect v-model="selected"
+                 :options="options"
+                 :value-prop="customValueKey"
+                 :label="customLabelKey"
+                 :placeholder="placeholder"
+                 class="style-chooser"
+                 :data-cy="datacy"
+                 :close-on-select="true"
+                 @change="broadcast"
+    />
     <div v-if="errors.length" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
     </div>
@@ -50,20 +43,18 @@
 </template>
 
 <script>
-import vSelect from 'vue-select';
-import 'vue-select/dist/vue-select.css';
+
+import Multiselect from '@vueform/multiselect';
 
 export default {
   components: {
-    vSelect,
+    Multiselect,
   },
 
   props: {
     id: {
       type: String,
-      default() {
-        return `text-input-${this._uid}`;
-      },
+      default: 'text-input-',
     },
     value: {
       type: Object,
@@ -105,17 +96,31 @@ export default {
       type: Array,
       default: () => [],
     },
+    customValueKey: {
+      type: String,
+      default: 'id',
+    },
     customLabelKey: {
       type: String,
       default: 'label',
     },
   },
 
+  emits: [
+    'esc-key-pressed', 'input'
+  ],
+
   data() {
     return {
       selected: null,
       localErrors: [],
     };
+  },
+
+  computed: {
+    realId() {
+      return this.id + this._uid;
+    },
   },
 
   watch: {

@@ -44,6 +44,10 @@ export default {
       type: String,
       default: '',
     },
-  }
+  },
+
+  emits: [
+    'click'
+  ]
 };
 </script>

@@ -27,7 +27,7 @@
         {{ $t('app.optional') }}
       </span>
     </label>
-    <input :id="id"
+    <input :id="realId"
            :ref="customRef"
            v-bind="$attrs"
            type="file"
@@ -55,9 +55,7 @@ export default {
   props: {
     id: {
       type: String,
-      default() {
-        return `text-file-input-${this._uid}`;
-      },
+      default: 'text-file-input-',
     },
     value: {
       type: String,
@@ -101,6 +99,10 @@ export default {
     }
   },
 
+  emits: [
+    'change'
+  ],
+
   data() {
     return {
       localErrors: [],
@@ -108,6 +110,10 @@ export default {
   },
 
   computed: {
+    realId() {
+      return this.id + this._uid;
+    },
+
     hasError() {
       return this.errors.length > 0 && this.required;
     }

@@ -101,6 +101,10 @@ export default {
     },
   },
 
+  emits: [
+    'change'
+  ],
+
   data() {
     return {
       updatedValue: false,

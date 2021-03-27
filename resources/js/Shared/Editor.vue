@@ -42,6 +42,10 @@ export default {
     },
   },
 
+  emits: [
+    'update'
+  ],
+
   data() {
     return {
       editor: new Editor({
@@ -79,6 +83,7 @@ export default {
       html: 'Update content to see changes',
     };
   },
+
   beforeDestroy() {
     this.editor.destroy();
   },

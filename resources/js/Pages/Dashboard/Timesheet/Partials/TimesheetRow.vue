@@ -170,6 +170,10 @@ export default {
     },
   },
 
+  emits: [
+    'day-updated', 'update-weeklt-total', 'row-deleted'
+  ],
+
   data() {
     return {
       form: {
