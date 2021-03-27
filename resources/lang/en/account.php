@@ -306,6 +306,8 @@ return [
     'log_meeting_decision_created' => 'Created a meeting decision about an agenda item in a meeting in the group called :group_name.',
     'log_meeting_decision_destroyed' => 'Deleted a meeting decision about an agenda item in a meeting in the group called :group_name.',
     'log_meeting_decision_updated' => 'Updated a meeting decision about an agenda item in a meeting in the group called :group_name.',
+    'log_file_added_to_project' => 'Added a file called :name in the project called :project_name.',
+    'log_project_file_destroyed' => 'Deleted a file called :name in the project called :project_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
