@@ -897,9 +897,11 @@
     purgecss "^2.3.0"
 
 "@inertiajs/inertia-vue@^0.5.5":
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/@inertiajs/inertia-vue/-/inertia-vue-0.5.5.tgz#e12683b91d2affe2442b50a1ee26c45fd2d7f34f"
-  integrity sha512-f3kPJoXv8PXW6OVqSTbmynbVVVsTQb2m8k4sPmG5PsfmcXPukP3QEDBL3JDLgrNxpVzLyjh1oQXyW0fVop/mYQ==
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/@inertiajs/inertia-vue/-/inertia-vue-0.5.6.tgz#e62e239cd8f335597a07593dcab59f9115ccba99"
+  integrity sha512-GJelEtUlhJX8to7ggxn73Hk4wnHDTCHgyJ7dxZ9EnYu0MXdb9F59vNaFCn/ozZt30M0Jdgi05vrM4nTem6l4mg==
+  dependencies:
+    lodash.clonedeep "^4.5.0"
 
 "@inertiajs/inertia@^0.8.4":
   version "0.8.6"
@@ -5805,6 +5807,11 @@ locate-path@^6.0.0:
   integrity sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==
   dependencies:
     p-locate "^5.0.0"
+
+lodash.clonedeep@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
+  integrity sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=
 
 lodash.memoize@^4.1.2:
   version "4.1.2"
