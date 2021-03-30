@@ -45,7 +45,7 @@
       <div class="mw6 center br3 mb5 relative z-1">
         <!-- add a new meeting -->
         <div class="tr mb2">
-          <inertia-link :href="'#'" class="btn dib-l db mb3 mb0-ns" data-cy="member-add-button">Create new meeting</inertia-link>
+          <inertia-link :href="meetings.url_new" class="btn dib-l db mb3 mb0-ns" data-cy="member-add-button">Create new meeting</inertia-link>
         </div>
 
         <!-- list of meetings -->
@@ -160,7 +160,7 @@ export default {
       type: Object,
       default: null,
     },
-    members: {
+    meetings: {
       type: Array,
       default: null,
     },

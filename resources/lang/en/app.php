@@ -35,6 +35,7 @@ return [
     'hide' => 'Hide',
     'enable' => 'Enable',
     'disable' => 'Disable',
+    'saved' => 'Saved',
     'import_review' => 'Import and review',
 
     'error_title' => '👇 Oops. An error occured.',

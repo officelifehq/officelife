@@ -63,6 +63,7 @@ class CreateGroupsTable extends Migration
         Schema::create('employee_meeting', function (Blueprint $table) {
             $table->unsignedBigInteger('employee_id');
             $table->unsignedBigInteger('meeting_id');
+            $table->boolean('attended')->default(false);
             $table->boolean('was_a_guest')->default(false);
             $table->timestamps();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');

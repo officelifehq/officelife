@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Group\AddEmployeeAsParticipantOfMeeting;
+use App\Services\Company\Group\ToggleEmployeeParticipationInMeeting;
 
-class AddEmployeeAsParticipantOfMeetingTest extends TestCase
+class ToggleEmployeeParticipationInMeetingTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_adds_an_employee_to_a_meeting_as_administrator(): void
+    public function it_toggles_a_participation_to_a_meeting_as_administrator(): void
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
@@ -29,11 +29,13 @@ class AddEmployeeAsParticipantOfMeetingTest extends TestCase
         $meeting = Meeting::factory()->create([
             'group_id' => $group->id,
         ]);
-        $this->executeService($michael, $dwight, $group, $meeting);
+        $meeting->employees()->syncWithoutDetaching([$dwight->id]);
+        $this->executeService($michael, $dwight, $group, $meeting, true);
+        $this->executeService($michael, $dwight, $group, $meeting, false);
     }
 
     /** @test */
-    public function it_adds_an_employee_to_a_meeting_as_hr(): void
+    public function it_toggles_a_participation_to_a_meeting_as_hr(): void
     {
         $michael = $this->createHR();
         $dwight = $this->createAnotherEmployee($michael);
@@ -43,11 +45,13 @@ class AddEmployeeAsParticipantOfMeetingTest extends TestCase
         $meeting = Meeting::factory()->create([
             'group_id' => $group->id,
         ]);
-        $this->executeService($michael, $dwight, $group, $meeting);
+        $meeting->employees()->syncWithoutDetaching([$dwight->id]);
+        $this->executeService($michael, $dwight, $group, $meeting, true);
+        $this->executeService($michael, $dwight, $group, $meeting, false);
     }
 
     /** @test */
-    public function it_adds_an_employee_to_a_meeting_as_normal_user(): void
+    public function it_toggles_a_participation_to_a_meeting_as_normal_user(): void
     {
         $michael = $this->createEmployee();
         $group = Group::factory()->create([
@@ -56,7 +60,9 @@ class AddEmployeeAsParticipantOfMeetingTest extends TestCase
         $meeting = Meeting::factory()->create([
             'group_id' => $group->id,
         ]);
-        $this->executeService($michael, $michael, $group, $meeting);
+        $meeting->employees()->syncWithoutDetaching([$michael->id]);
+        $this->executeService($michael, $michael, $group, $meeting, true);
+        $this->executeService($michael, $michael, $group, $meeting, false);
     }
 
     /** @test */
@@ -67,7 +73,7 @@ class AddEmployeeAsParticipantOfMeetingTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new AddEmployeeAsParticipantOfMeeting)->execute($request);
+        (new ToggleEmployeeParticipationInMeeting)->execute($request);
     }
 
     /** @test */
@@ -81,9 +87,10 @@ class AddEmployeeAsParticipantOfMeetingTest extends TestCase
         $meeting = Meeting::factory()->create([
             'group_id' => $group->id,
         ]);
+        $meeting->employees()->syncWithoutDetaching([$dwight->id]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $dwight, $group, $meeting);
+        $this->executeService($michael, $dwight, $group, $meeting, true);
     }
 
     /** @test */
@@ -95,12 +102,13 @@ class AddEmployeeAsParticipantOfMeetingTest extends TestCase
         $meeting = Meeting::factory()->create([
             'group_id' => $group->id,
         ]);
+        $meeting->employees()->syncWithoutDetaching([$dwight->id]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $dwight, $group, $meeting);
+        $this->executeService($michael, $dwight, $group, $meeting, true);
     }
 
-    private function executeService(Employee $michael, Employee $dwight, Group $group, Meeting $meeting): void
+    private function executeService(Employee $michael, Employee $dwight, Group $group, Meeting $meeting, bool $attended): void
     {
         Queue::fake();
 
@@ -112,11 +120,12 @@ class AddEmployeeAsParticipantOfMeetingTest extends TestCase
             'employee_id' => $dwight->id,
         ];
 
-        $employee = (new AddEmployeeAsParticipantOfMeeting)->execute($request);
+        $employee = (new ToggleEmployeeParticipationInMeeting)->execute($request);
 
         $this->assertDatabaseHas('employee_meeting', [
             'meeting_id' => $meeting->id,
             'employee_id' => $dwight->id,
+            'attended' => $attended,
         ]);
 
         $this->assertInstanceOf(

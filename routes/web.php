@@ -350,6 +350,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 // meetings
                 Route::get('{group}/meetings', 'Company\\Company\\Group\\GroupMeetingsController@index')->name('groups.meetings.index');
                 Route::get('{group}/meetings/create', 'Company\\Company\\Group\\GroupMeetingsController@create')->name('groups.meetings.new');
+                Route::get('{group}/meetings/{meeting}', 'Company\\Company\\Group\\GroupMeetingsController@show')->name('groups.meetings.show');
+                Route::post('{group}/meetings/{meeting}/toggle', 'Company\\Company\\Group\\GroupMeetingsController@toggleParticipant');
             });
 
             Route::prefix('hr')->group(function () {

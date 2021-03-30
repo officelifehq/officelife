@@ -11,7 +11,7 @@ use App\Models\Company\Meeting;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
 
-class AddEmployeeAsParticipantOfMeeting extends BaseService
+class AddGuestToMeeting extends BaseService
 {
     private array $data;
     private Employee $employee;
@@ -35,10 +35,7 @@ class AddEmployeeAsParticipantOfMeeting extends BaseService
     }
 
     /**
-     * Mark an employee as participant of a meeting.
-     * When marking an employee, we should check if the employee is part of the
-     * group the meeting belongs to or not.
-     * If the employee is not part of the group, we should mark it as guest.
+     * Add an employee as guest in the meeting.
      *
      * @param array $data
      * @return Employee
@@ -47,9 +44,7 @@ class AddEmployeeAsParticipantOfMeeting extends BaseService
     {
         $this->data = $data;
         $this->validate();
-
         $this->attachEmployee();
-        $this->log();
 
         return $this->employee;
     }
@@ -74,11 +69,13 @@ class AddEmployeeAsParticipantOfMeeting extends BaseService
 
     private function attachEmployee(): void
     {
-        $this->meeting->employees()->syncWithoutDetaching([
-            $this->data['employee_id'] => [
-                'was_a_guest' => ! $this->isEmployeePartOfGroup(),
-            ],
-        ]);
+        if (! $this->isEmployeePartOfGroup()) {
+            $this->meeting->employees()->syncWithoutDetaching([
+                $this->data['employee_id'],
+            ]);
+
+            $this->log();
+        }
     }
 
     private function isEmployeePartOfGroup(): bool
@@ -93,7 +90,7 @@ class AddEmployeeAsParticipantOfMeeting extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'employee_marked_as_participant_in_meeting',
+            'action' => 'add_guest_to_meeting',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
@@ -108,7 +105,7 @@ class AddEmployeeAsParticipantOfMeeting extends BaseService
 
         LogEmployeeAudit::dispatch([
             'employee_id' => $this->employee->id,
-            'action' => 'employee_marked_as_participant_in_meeting',
+            'action' => 'add_guest_to_meeting',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),

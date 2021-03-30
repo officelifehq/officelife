@@ -525,7 +525,7 @@ class Employee extends Model
      */
     public function meetings()
     {
-        return $this->belongsToMany(Meeting::class)->withTimestamps()->withPivot('was_a_guest');
+        return $this->belongsToMany(Meeting::class)->withTimestamps()->withPivot('was_a_guest', 'attended');
     }
 
     /**

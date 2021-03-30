@@ -5,7 +5,7 @@ span {
 </style>
 
 <template>
-  <img :loading="loading" :class="classes" class="pointer" :src="avatar.normal" :width="size"
+  <img :loading="loading" :class="localClasses" :src="avatar.normal" :width="size"
        :height="size"
        :srcset="avatar.normal + ' 1x,' + avatar.retina + ' 2x'" :alt="alt"
        @click="navigateTo()"
@@ -38,6 +38,18 @@ export default {
     alt: {
       type: String,
       default: 'avatar',
+    }
+  },
+
+  data() {
+    return {
+      localClasses: null,
+    };
+  },
+
+  mounted() {
+    if (this.url) {
+      this.localClasses = this.classes + ' pointer';
     }
   },
 

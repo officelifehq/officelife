@@ -17,7 +17,10 @@ class GroupShowViewHelper
      */
     public static function information(Group $group, Company $company): array
     {
-        $groupMembers = $group->employees;
+        $groupMembers = $group->employees()
+            ->notLocked()
+            ->orderBy('last_name', 'asc')
+            ->get();
 
         $membersCollection = collect([]);
         foreach ($groupMembers as $employee) {

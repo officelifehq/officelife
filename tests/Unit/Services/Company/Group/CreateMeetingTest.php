@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Group;
 use App\Models\Company\Company;
+use App\Models\Company\Meeting;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use App\Services\Company\Group\CreateMeeting;
@@ -75,6 +76,12 @@ class CreateMeetingTest extends TestCase
     {
         Queue::fake();
 
+        // add members in the group
+        $employee = Employee::factory()->create([
+            'company_id' => $company->id,
+        ]);
+        $group->employees()->syncWithoutDetaching([$employee->id]);
+
         $request = [
             'company_id' => $company->id,
             'author_id' => $michael->id,
@@ -89,9 +96,14 @@ class CreateMeetingTest extends TestCase
         ]);
 
         $this->assertInstanceOf(
-            Group::class,
-            $group
+            Meeting::class,
+            $meeting
         );
+
+        $this->assertDatabaseHas('employee_meeting', [
+            'meeting_id' => $meeting->id,
+            'employee_id' => $employee->id,
+        ]);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $group, $meeting) {
             return $job->auditLog['action'] === 'meeting_created' &&

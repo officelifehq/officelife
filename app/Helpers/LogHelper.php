@@ -1211,6 +1211,16 @@ class LogHelper
                 ]);
                 break;
 
+            case 'add_guest_to_meeting':
+                $sentence = trans('account.log_add_guest_to_meeting', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                    'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
             case 'company_logo_changed':
                 $sentence = trans('account.log_company_logo_changed');
                 break;
@@ -1773,6 +1783,14 @@ class LogHelper
 
             case 'meeting_decision_updated':
                 $sentence = trans('account.employee_log_log_meeting_decision_updated', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                    'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
+            case 'add_guest_to_meeting':
+                $sentence = trans('account.employee_log_log_add_guest_to_meeting', [
                     'group_id' => $log->object->{'group_id'},
                     'group_name' => $log->object->{'group_name'},
                     'meeting_id' => $log->object->{'meeting_id'},

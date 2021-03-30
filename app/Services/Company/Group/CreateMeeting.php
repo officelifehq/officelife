@@ -39,6 +39,7 @@ class CreateMeeting extends BaseService
         $this->data = $data;
         $this->validate();
         $this->createMeeting();
+        $this->addParticipants();
         $this->log();
 
         return $this->meeting;
@@ -62,6 +63,17 @@ class CreateMeeting extends BaseService
         $this->meeting = Meeting::create([
             'group_id' => $this->data['group_id'],
         ]);
+    }
+
+    private function addParticipants(): void
+    {
+        $members = $this->group->employees()
+            ->select('id')
+            ->get()
+            ->pluck('id')
+            ->toArray();
+
+        $this->meeting->employees()->syncWithoutDetaching($members);
     }
 
     private function log(): void
