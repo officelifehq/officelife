@@ -13,7 +13,6 @@ use Illuminate\Validation\ValidationException;
 use App\Services\Company\Group\AddGuestToMeeting;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Group\AddEmployeeAsParticipantOfMeeting;
 
 class AddGuestToMeetingTest extends TestCase
 {
@@ -68,7 +67,7 @@ class AddGuestToMeetingTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new AddEmployeeAsParticipantOfMeeting)->execute($request);
+        (new AddGuestToMeeting)->execute($request);
     }
 
     /** @test */

@@ -7,6 +7,10 @@
   .name {
     color: #4d4d4f;
   }
+
+   img {
+     filter: grayscale(0%);
+   }
 }
 
 .absent {
@@ -17,6 +21,10 @@
   .name {
     color: #a4a4a8;
   }
+
+  img {
+     filter: grayscale(100%);
+   }
 }
 
 .check-icon {
@@ -26,8 +34,8 @@
 
 <template>
   <div class="bg-white box mb4 pa3">
-    <p class="silver f6 ma0 mb1">Participants</p>
-    <p class="f7 gray mb4">Click on the names of the people who were present in the meeting.</p>
+    <p class="silver f6 ma0 mb1">{{ $t('group.meeting_show_participants') }}</p>
+    <p class="f7 gray mb4">{{ $t('group.meeting_show_participants_help') }}</p>
 
     <ul class="ma0 pa0 list">
       <li v-for="participant in localParticipants" :key="participant.id" :class="participant.attended ? 'present' : 'absent'" class="relative flex items-center mb3 pointer" @click="toggle(participant)">
@@ -37,6 +45,11 @@
         <avatar :avatar="participant.avatar" :size="23" :classes="'br-100 mr2'" />
         <span class="name f5">{{ participant.name }}</span>
       </li>
+
+      <!-- add guest cta -->
+      <li><a class="bb b--dotted bt-0 bl-0 br-0 pointer f6">+ Add guest</a></li>
+
+      <!-- search form -->
     </ul>
   </div>
 </template>

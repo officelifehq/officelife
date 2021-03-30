@@ -43,13 +43,15 @@ export default {
 
   data() {
     return {
-      localClasses: null,
+      localClasses: '',
     };
   },
 
   mounted() {
+    this.localClasses = this.classes;
+
     if (this.url) {
-      this.localClasses = this.classes + ' pointer';
+      this.localClasses = this.localClasses + ' pointer';
     }
   },
 
