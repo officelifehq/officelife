@@ -10,6 +10,7 @@ use App\Helpers\QuestionHelper;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
+use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Money\Currencies\ISOCurrencies;
@@ -330,6 +331,61 @@ class DashboardMeViewHelper
         } else {
             $otherEmployee = $match->employee;
         }
+
+        $teams = $otherEmployee->teams;
+        $teamsCollection = collect([]);
+        foreach ($teams as $team) {
+            $teamsCollection->push([
+                'id' => $team->id,
+                'name' => $team->name,
+                'url' => route('team.show', [
+                    'company' => $company,
+                    'team' => $team,
+                ]),
+            ]);
+        }
+
+        return [
+            'id' => $match->id,
+            'e_coffee_id' => $latestECoffee->id,
+            'happened' => $match->happened,
+            'employee' => [
+                'avatar' => ImageHelper::getAvatar($employee),
+            ],
+            'other_employee' => [
+                'id' => $otherEmployee->id,
+                'name' => $otherEmployee->name,
+                'first_name' => $otherEmployee->first_name,
+                'avatar' => ImageHelper::getAvatar($otherEmployee, 55),
+                'position' => $otherEmployee->position ? $otherEmployee->position->title : null,
+                'url' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $otherEmployee,
+                ]),
+                'teams' => $teamsCollection->count() == 0 ? null : $teamsCollection,
+            ],
+        ];
+    }
+
+    /**
+     * Get the projects the employee participates in.
+     *
+     * @param Employee $employee
+     * @param Company $company
+     * @return array|null
+     */
+    public static function projects(Employee $employee, Company $company): ?array
+    {
+        $openProjects = $employee->projects()
+            ->where('status', Project::STARTED)
+            ->orWhere('status', Project::PAUSED)
+            ->with('employees')
+            ->get();
+
+        $closedProjectsCount = $employee->projects()
+            ->where('status', Project::CLOSED)
+            ->orWhere('status', Project::CANCELLED)
+            ->count();
 
         $teams = $otherEmployee->teams;
         $teamsCollection = collect([]);
