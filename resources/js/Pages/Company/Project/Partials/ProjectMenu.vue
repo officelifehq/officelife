@@ -57,15 +57,15 @@
         <inertia-link :class="{'selected':(tab == 'tasks')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/tasks'" class="f6 fl ph3 pv2 dib pointer">
           {{ $t('project.menu_tasks') }}
         </inertia-link>
-        <inertia-link :class="{'selected':(tab == 'calendar')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer">
+        <!-- <inertia-link :class="{'selected':(tab == 'calendar')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer">
           {{ $t('project.menu_calendar') }}
-        </inertia-link>
+        </inertia-link> -->
         <inertia-link :class="{'selected':(tab == 'members')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/members'" class="f6 fl ph3 pv2 dib pointer">
           {{ $t('project.menu_members') }}
         </inertia-link>
-        <inertia-link :class="{'selected':(tab == 'finance')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer">
+        <!-- <inertia-link :class="{'selected':(tab == 'finance')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer">
           {{ $t('project.menu_finance') }}
-        </inertia-link>
+        </inertia-link> -->
         <inertia-link :class="{'selected':(tab == 'files')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/files'" class="f6 fl ph3 pv2 dib pointer">
           {{ $t('project.menu_files') }}
         </inertia-link>
