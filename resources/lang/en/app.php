@@ -134,7 +134,7 @@ return [
     'breadcrumb_account_manage_cancel_account' => 'Cancel the account',
 
     'header_welcome' => 'Welcome',
-    'header_home' => 'Home',
+    'header_home' => 'Summary',
     'header_find' => 'Find',
     'header_company' => 'Company',
     'header_switch_company' => 'Switch company',
