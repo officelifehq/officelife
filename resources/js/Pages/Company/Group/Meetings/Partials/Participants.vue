@@ -50,6 +50,20 @@
       <li><a class="bb b--dotted bt-0 bl-0 br-0 pointer f6">+ Add guest</a></li>
 
       <!-- search form -->
+      <form class="relative" @submit.prevent="search">
+        <text-input :id="'name'"
+                    v-model="form.searchTerm"
+                    :name="'name'"
+                    :datacy="'project-lead-search'"
+                    :errors="$page.props.errors.name"
+                    :label="$t('project.create_input_project_lead')"
+                    :required="false"
+                    @keyup="search"
+                    @input="search"
+                    @esc-key-pressed="showAssignProjectLead = false"
+        />
+        <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
+      </form>
     </ul>
   </div>
 </template>

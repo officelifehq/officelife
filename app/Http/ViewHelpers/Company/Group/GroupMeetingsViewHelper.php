@@ -6,6 +6,7 @@ use App\Helpers\ImageHelper;
 use App\Models\Company\Group;
 use App\Models\Company\Company;
 use App\Models\Company\Meeting;
+use Illuminate\Support\Collection;
 
 class GroupMeetingsViewHelper
 {
@@ -57,5 +58,45 @@ class GroupMeetingsViewHelper
             'id' => $meeting->id,
             'participants' => $membersCollection,
         ];
+    }
+
+    /**
+     * Get potential guests of this meeting.
+     *
+     * @param Meeting $meeting
+     * @param Company $company
+     * @param string $criteria
+     * @return Collection
+     */
+    public static function potentialGuests(Meeting $meeting, Company $company, string $criteria): Collection
+    {
+        $members = $meeting->employees()
+            ->select('id', 'first_name', 'last_name')
+            ->orderBy('last_name', 'asc')
+            ->get();
+
+        $potentialGuests = $company->employees()
+            ->select('id', 'first_name', 'last_name')
+            ->notLocked()
+            ->where(function ($query) use ($criteria) {
+                $query->where('first_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('email', 'LIKE', '%'.$criteria.'%');
+            })
+            ->orderBy('last_name', 'asc')
+            ->take(10)
+            ->get();
+
+        $potentialGuests->diff($members);
+
+        $employeesCollection = collect([]);
+        foreach ($potentialGuests as $employee) {
+            $employeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+            ]);
+        }
+
+        return $employeesCollection;
     }
 }
