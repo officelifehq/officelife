@@ -64,6 +64,7 @@ class DashboardMeController extends Controller
             'contractRenewal' => DashboardMeViewHelper::contractRenewal($employee),
             'defaultCurrency' => $defaultCompanyCurrency,
             'eCoffee' => DashboardMeViewHelper::eCoffee($employee, $company),
+            'projects' => DashboardMeViewHelper::projects($employee, $company),
         ]);
     }
 }

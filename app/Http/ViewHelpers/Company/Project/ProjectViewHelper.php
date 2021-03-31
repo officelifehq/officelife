@@ -235,6 +235,7 @@ class ProjectViewHelper
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
+                'avatar' => ImageHelper::getAvatar($employee, 23),
             ]);
         }
 
