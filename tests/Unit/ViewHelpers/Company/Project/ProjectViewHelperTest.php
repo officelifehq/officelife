@@ -295,6 +295,7 @@ class ProjectViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
+                    'avatar' => ImageHelper::getAvatar($michael, 23),
                 ],
             ],
             $collection->toArray()
@@ -307,6 +308,7 @@ class ProjectViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => $dwight->name,
+                    'avatar' => ImageHelper::getAvatar($dwight, 23),
                 ],
             ],
             $collection->toArray()
