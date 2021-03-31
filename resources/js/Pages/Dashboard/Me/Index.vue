@@ -10,6 +10,11 @@
     <div class="ph2 ph0-ns">
       <dashboard-menu :employee="employee" />
 
+      <projects
+        v-if="projects.length > 0"
+        :projects="projects"
+      />
+
       <e-coffee
         v-if="eCoffee"
         :employee="employee"
@@ -103,6 +108,7 @@ import ContractRenewalDate from '@/Pages/Dashboard/Me/Partials/ContractRenewalDa
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 import ECoffee from '@/Pages/Dashboard/Me/Partials/ECoffee';
+import Projects from '@/Pages/Dashboard/Me/Partials/Projects';
 
 export default {
   components: {
@@ -118,6 +124,7 @@ export default {
     ContractRenewalDate,
     DashboardMenu,
     ECoffee,
+    Projects,
   },
 
   props: {
@@ -174,6 +181,10 @@ export default {
       default: null,
     },
     eCoffee: {
+      type: Object,
+      default: null,
+    },
+    projects: {
       type: Object,
       default: null,
     },

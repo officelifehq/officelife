@@ -11,7 +11,7 @@
 
 .project-code {
   padding-bottom: 2px;
-  top: -2px;
+  top: -4px;
   color: #737e91;
   border: 1px solid #b3d4ff;
 }
@@ -24,7 +24,7 @@
       <div class="pl3">
         <h2 :class="project.summary ? 'mb2': 'mb0'" class="mt0 relative fw4" data-cy="project-name">
           {{ project.name }}
-          <span v-if="project.code" class="ml2 ttu f7 project-code code br3 pa1 relative fw4">
+          <span v-if="project.code" class="ml1 ttu f7 project-code code br3 pv1 ph2 relative fw4">
             {{ project.code }}
           </span>
         </h2>

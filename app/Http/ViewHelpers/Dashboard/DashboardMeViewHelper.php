@@ -10,6 +10,7 @@ use App\Helpers\QuestionHelper;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
+use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Money\Currencies\ISOCurrencies;
@@ -364,5 +365,58 @@ class DashboardMeViewHelper
                 'teams' => $teamsCollection->count() == 0 ? null : $teamsCollection,
             ],
         ];
+    }
+
+    /**
+     * Get the projects the employee participates in.
+     *
+     * @param Employee $employee
+     * @param Company $company
+     * @return Collection|null
+     */
+    public static function projects(Employee $employee, Company $company): ?Collection
+    {
+        $openProjects = $employee->projects()
+            ->where('status', Project::STARTED)
+            ->orWhere('status', Project::PAUSED)
+            ->with('employees')
+            ->get();
+
+        $projectsCollection = collect([]);
+        foreach ($openProjects as $project) {
+            $members = $project->employees()
+                ->inRandomOrder()
+                ->take(3)
+                ->get();
+
+            $totalMembersCount = $project->employees()->count();
+            $totalMembersCount = $totalMembersCount - $members->count();
+
+            $membersCollection = collect([]);
+            foreach ($members as $member) {
+                $membersCollection->push([
+                    'id' => $member->id,
+                    'avatar' => ImageHelper::getAvatar($member, 32),
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $member,
+                    ]),
+                ]);
+            }
+
+            $projectsCollection->push([
+                'id' => $project->id,
+                'name' => $project->name,
+                'code' => $project->code,
+                'url' => route('projects.show', [
+                    'company' => $company,
+                    'project' => $project,
+                ]),
+                'preview_members' => $membersCollection,
+                'remaining_members_count' => $totalMembersCount,
+            ]);
+        }
+
+        return $projectsCollection;
     }
 }
