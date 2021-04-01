@@ -48,7 +48,7 @@
           <!-- identity -->
           <div>
             <span class="pl3 db relative team-member">
-              <img loading="lazy" :src="directReport.avatar" alt="avatar" class="br-100 absolute avatar" />
+              <avatar :avatar="directReport.avatar" :size="35" :classes="'br-100 absolute avatar'" />
               <inertia-link :href="directReport.url" class="mb2">{{ directReport.name }}</inertia-link>
               <span class="title db f7 mt1">
                 {{ directReport.position }}
@@ -68,10 +68,12 @@
 
 <script>
 import Help from '@/Shared/Help';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Help,
+    Avatar,
   },
 
   props: {

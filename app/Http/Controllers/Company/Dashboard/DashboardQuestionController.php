@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Company\Dashboard;
 
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
-use App\Helpers\AvatarHelper;
 use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;
@@ -45,7 +45,7 @@ class DashboardQuestionController extends Controller
                 'employee' => [
                     'id' => $answer->employee->id,
                     'name' => $answer->employee->name,
-                    'avatar' => AvatarHelper::getImage($answer->employee),
+                    'avatar' => ImageHelper::getAvatar($answer->employee),
                 ],
             ]);
         }
@@ -85,7 +85,7 @@ class DashboardQuestionController extends Controller
                 'employee' => [
                     'id' => $answer->employee->id,
                     'name' => $answer->employee->name,
-                    'avatar' => AvatarHelper::getImage($answer->employee),
+                    'avatar' => ImageHelper::getAvatar($answer->employee),
                 ],
             ],
         ], 200);

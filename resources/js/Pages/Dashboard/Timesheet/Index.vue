@@ -52,7 +52,7 @@
 
       <div class="cf mw8 center br3 mb3 bg-white box pa3 relative">
         <!-- information of timesheets that were rejected, if any -->
-        <div v-if="rejectedTimesheets" class="mb4 ba bb-gray pa3 br3">
+        <div v-if="rejectedTimesheets.length > 0" class="mb4 ba bb-gray pa3 br3">
           <p class="mt0 mb2"><span class="mr1">⚠️</span> {{ $t('dashboard.timesheet_rejected_timesheets') }}</p>
           <ul class="list ma0 pl0">
             <li v-for="timesheetItem in rejectedTimesheets" :key="timesheetItem.id" class="dib rejected-timesheet-item mb2 f6 mr2">
@@ -472,7 +472,6 @@ export default {
     },
 
     removeRow({id}) {
-      console.log(id);
       var id = this.timesheetRows.findIndex(x => x.task_id === id);
       this.timesheetRows.splice(id, 1);
     }

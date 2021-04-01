@@ -137,6 +137,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::put('{employee}/unassignManager', 'Company\\Employee\\EmployeeController@unassignManager')->name('employee.manager.unassign');
             Route::put('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport')->name('employee.directReport.unassign');
 
+            Route::put('{employee}/avatar/update', 'Company\\Employee\\EmployeeEditAvatarController@update');
+
             Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index')->name('employee.show.logs');
 
             Route::get('{employee}/edit', 'Company\\Employee\\EmployeeEditController@show')->name('employee.show.edit');
@@ -223,7 +225,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         });
 
         Route::prefix('teams')->group(function () {
-            Route::get('', 'Company\\Team\\TeamController@index');
+            Route::get('', 'Company\\Team\\TeamController@index')->name('teams.index');
             Route::get('{team}', 'Company\\Team\\TeamController@show')->name('team.show');
 
             Route::post('{team}/members/search', 'Company\\Team\\TeamMembersController@index');
@@ -260,12 +262,18 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             ]);
             Route::get('questions/{question}/teams/{team}', 'Company\\Company\\QuestionController@team');
 
+            // Company news
+            Route::resource('news', 'Company\\Company\\CompanyNewsController', ['as' => 'company'])->only([
+                'index', 'show',
+            ]);
+
             // Skills
             Route::get('skills', 'Company\\Company\\SkillController@index')->name('company.skills.index');
             Route::get('skills/{skill}', 'Company\\Company\\SkillController@show')->name('company.skills.show');
             Route::put('skills/{skill}', 'Company\\Company\\SkillController@update');
             Route::delete('skills/{skill}', 'Company\\Company\\SkillController@destroy');
 
+            // Projects
             Route::prefix('projects')->group(function () {
                 Route::get('', 'Company\\Company\\Project\\ProjectController@index');
                 Route::get('create', 'Company\\Company\\Project\\ProjectController@create');
@@ -316,6 +324,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::delete('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@destroy');
                 Route::get('{project}/tasks/{task}/timeTrackingEntries', 'Company\\Company\\Project\\ProjectTasksController@timeTrackingEntries');
                 Route::post('{project}/tasks/{task}/log', 'Company\\Company\\Project\\ProjectTasksController@logTime');
+
+                // files
+                Route::get('{project}/files', 'Company\\Company\\Project\\ProjectFilesController@index');
+                Route::post('{project}/files', 'Company\\Company\\Project\\ProjectFilesController@store');
+                Route::delete('{project}/files/{file}', 'Company\\Company\\Project\\ProjectFilesController@destroy');
             });
 
             Route::prefix('hr')->group(function () {
@@ -339,6 +352,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::get('account/general', 'Company\\Adminland\\AdminGeneralController@index');
             Route::post('account/general/rename', 'Company\\Adminland\\AdminGeneralController@rename');
             Route::post('account/general/currency', 'Company\\Adminland\\AdminGeneralController@currency');
+            Route::post('account/general/logo', 'Company\\Adminland\\AdminGeneralController@logo');
 
             Route::get('account/cancel', 'Company\\Adminland\\AdminCancelAccountController@index');
             Route::delete('account/cancel', 'Company\\Adminland\\AdminCancelAccountController@destroy');

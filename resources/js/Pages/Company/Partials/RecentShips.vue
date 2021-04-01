@@ -28,7 +28,7 @@
       </div>
 
       <!-- blank state -->
-      <div v-show="ships.length == 0" class="pa3 tc" data-cy="recent-ships-list-blank-state">
+      <div v-show="ships.length == 0" class="pa3 tc f6" data-cy="recent-ships-list-blank-state">
         <p class="mv0">{{ $t('dashboard.team_recent_ship_list_blank') }}</p>
       </div>
     </div>

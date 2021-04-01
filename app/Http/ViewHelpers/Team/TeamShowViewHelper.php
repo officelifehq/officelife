@@ -2,9 +2,10 @@
 
 namespace App\Http\ViewHelpers\Team;
 
+use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
-use App\Helpers\AvatarHelper;
 use App\Helpers\StringHelper;
+use App\Models\Company\Company;
 use Illuminate\Support\Collection;
 
 class TeamShowViewHelper
@@ -26,7 +27,7 @@ class TeamShowViewHelper
             'team_leader' => is_null($team->leader) ? null : [
                 'id' => $team->leader->id,
                 'name' => $team->leader->name,
-                'avatar' => AvatarHelper::getImage($team->leader),
+                'avatar' => ImageHelper::getAvatar($team->leader, 35),
                 'position' => (! $team->leader->position) ? null : [
                     'title' => $team->leader->position->title,
                 ],
@@ -55,7 +56,7 @@ class TeamShowViewHelper
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => ImageHelper::getAvatar($employee, 35),
                 'position' => (! $employee->position) ? null : [
                     'id' => $employee->position->id,
                     'title' => $employee->position->title,
@@ -92,7 +93,7 @@ class TeamShowViewHelper
                 $employeeCollection->push([
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => AvatarHelper::getImage($employee),
+                    'avatar' => ImageHelper::getAvatar($employee, 17),
                     'url' => route('employees.show', [
                         'company' => $team->company,
                         'employee' => $employee,
@@ -114,5 +115,37 @@ class TeamShowViewHelper
         }
 
         return $shipsCollection;
+    }
+
+    /**
+     * Search all potential leads for the team.
+     *
+     * @param Company $company
+     * @param string $criteria
+     * @return Collection
+     */
+    public static function searchPotentialLead(Company $company, string $criteria): Collection
+    {
+        $potentialEmployees = $company->employees()
+            ->select('id', 'first_name', 'last_name')
+            ->notLocked()
+            ->where(function ($query) use ($criteria) {
+                $query->where('first_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('email', 'LIKE', '%'.$criteria.'%');
+            })
+            ->orderBy('last_name', 'asc')
+            ->take(10)
+            ->get();
+
+        $employeesCollection = collect([]);
+        foreach ($potentialEmployees as $employee) {
+            $employeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+            ]);
+        }
+
+        return $employeesCollection;
     }
 }

@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
 .logo {
-  width: 152px;
-  top: -70px;
+  width: 102px;
+  top: -78px;
 }
 </style>
 

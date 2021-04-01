@@ -32,7 +32,7 @@
     <template v-if="localProject.project_lead">
       <div class="lh-copy ma0">
         <span class="db project-lead relative">
-          <img loading="lazy" :src="localProject.project_lead.avatar" class="br-100 absolute avatar" alt="avatar" />
+          <avatar :avatar="localProject.project_lead.avatar" :size="35" :classes="'br-100 absolute avatar'" />
           <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + localProject.project_lead.id" class="mb2" data-cy="current-project-lead">
             {{ localProject.project_lead.name }}
           </inertia-link>
@@ -132,10 +132,12 @@ import IconDelete from '@/Shared/IconDelete';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import vClickOutside from 'v-click-outside';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Errors,
+    Avatar,
     IconDelete,
     'ball-pulse-loader': BallPulseLoader.component,
   },

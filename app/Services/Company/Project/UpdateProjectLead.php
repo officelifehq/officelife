@@ -65,6 +65,9 @@ class UpdateProjectLead extends BaseService
 
     private function updateLead(): void
     {
+        $this->project->project_lead_id = $this->data['employee_id'];
+        $this->project->save();
+
         // check if the new lead is part of the project - if not, add him
         if ($this->employee->isInProject($this->project->id)) {
             return;
@@ -75,9 +78,6 @@ class UpdateProjectLead extends BaseService
                 ],
             ]);
         }
-
-        $this->project->project_lead_id = $this->data['employee_id'];
-        $this->project->save();
     }
 
     private function log(): void

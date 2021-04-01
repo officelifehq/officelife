@@ -4,11 +4,12 @@ namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Task;
-use App\Helpers\AvatarHelper;
 use App\Models\Company\Answer;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
+use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
 use App\Models\Company\ECoffeeMatch;
@@ -263,7 +264,7 @@ class DashboardMeViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => AvatarHelper::getImage($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'entry' => [
@@ -274,7 +275,7 @@ class DashboardMeViewHelperTest extends TestCase
                 1 => [
                     'id' => $michael->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => AvatarHelper::getImage($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 35),
                     'position' => $michael->position->title,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     'entry' => [
@@ -382,13 +383,13 @@ class DashboardMeViewHelperTest extends TestCase
                 'e_coffee_id' => $eCoffee->id,
                 'happened' => $match->happened,
                 'employee' => [
-                    'avatar' => AvatarHelper::getImage($michael),
+                    'avatar' => ImageHelper::getAvatar($michael),
                 ],
                 'other_employee' => [
                     'id' => $match->employeeMatchedWith->id,
                     'name' => $match->employeeMatchedWith->name,
                     'first_name' => $match->employeeMatchedWith->first_name,
-                    'avatar' => AvatarHelper::getImage($match->employeeMatchedWith),
+                    'avatar' => ImageHelper::getAvatar($match->employeeMatchedWith, 55),
                     'position' => $match->employeeMatchedWith->position ? $match->employeeMatchedWith->position->title : null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$match->employeeMatchedWith->id,
                     'teams' => null,
@@ -424,5 +425,39 @@ class DashboardMeViewHelperTest extends TestCase
         ]);
 
         $this->assertNull(DashboardMeViewHelper::eCoffee($michael, $company));
+    }
+
+    /** @test */
+    public function it_returns_a_list_of_projects(): void
+    {
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $jim = $this->createAnotherEmployee($michael);
+        $jan = $this->createAnotherEmployee($michael);
+
+        // projects
+        $projectStarted = Project::factory()->create([
+            'company_id' => $michael->company_id,
+            'status' => Project::STARTED,
+        ]);
+        $projectClosed = Project::factory()->create([
+            'company_id' => $michael->company_id,
+            'status' => Project::CLOSED,
+        ]);
+
+        $projectStarted->employees()->syncWithoutDetaching([$michael->id, $dwight->id, $jim->id, $jan->id]);
+        $projectClosed->employees()->syncWithoutDetaching([$michael->id]);
+
+        $collection = DashboardMeViewHelper::projects($michael, $michael->company);
+
+        $this->assertEquals(
+            1,
+            $collection->count()
+        );
+
+        $this->assertEquals(
+            3,
+            $collection->toArray()[0]['preview_members']->count()
+        );
     }
 }

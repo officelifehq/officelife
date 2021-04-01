@@ -12,8 +12,6 @@ class UploadFile extends BaseService
 
     private File $file;
 
-    private string $hashedName;
-
     /**
      * Get the validation rules that apply to the service.
      *

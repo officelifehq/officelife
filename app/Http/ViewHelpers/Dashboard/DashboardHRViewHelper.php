@@ -3,7 +3,7 @@
 namespace App\Http\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Timesheet;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +52,7 @@ class DashboardHRViewHelper
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => ImageHelper::getAvatar($employee),
             ]);
         }
 

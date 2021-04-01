@@ -10,7 +10,6 @@ use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Services\User\Avatar\GenerateDefaultAvatar;
 
 class AddEmployeeToCompany extends BaseService
 {
@@ -80,17 +79,12 @@ class AddEmployeeToCompany extends BaseService
     {
         $uuid = Str::uuid()->toString();
 
-        $avatar = (new GenerateDefaultAvatar)->execute([
-            'name' => $data['first_name'].' '.$data['last_name'],
-        ]);
-
         $this->employee = Employee::create([
             'company_id' => $data['company_id'],
             'uuid' => $uuid,
             'email' => $data['email'],
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
-            'avatar' => $avatar,
             'permission_level' => $data['permission_level'],
         ]);
 

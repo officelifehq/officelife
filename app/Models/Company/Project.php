@@ -170,4 +170,14 @@ class Project extends Model
     {
         return $this->hasMany(TimeTrackingEntry::class);
     }
+
+    /**
+     * Get the file entries associated with the project.
+     *
+     * @return BelongsToMany
+     */
+    public function files()
+    {
+        return $this->belongsToMany(File::class);
+    }
 }

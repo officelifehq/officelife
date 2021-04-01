@@ -26,7 +26,7 @@
           <inertia-link :href="ship.url" class="ma0 pa0" :data-cy="'ship-list-item-' + ship.id">{{ ship.title }}</inertia-link>
           <ul class="list ma0">
             <li v-for="employee in ship.employees" :key="employee.id" class="mr1 di">
-              <inertia-link :href="employee.url" class="ship-avatar"><img loading="lazy" :src="employee.avatar" class="br-100 relative mr1 dib-ns dn" alt="avatar" :data-cy="'ship-list-' + ship.id + '-avatar-' + employee.id" /></inertia-link>
+              <avatar :avatar="employee.avatar" :url="employee.url" :size="17" :classes="'br-100 relative mr1 dib-ns dn'" />
             </li>
           </ul>
         </div>
@@ -41,7 +41,13 @@
 </template>
 
 <script>
+import Avatar from '@/Shared/Avatar';
+
 export default {
+  components: {
+    Avatar,
+  },
+
   props: {
     recentShips: {
       type: Array,

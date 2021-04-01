@@ -35,6 +35,7 @@ class DestroyProject extends BaseService
     {
         $this->data = $data;
         $this->validate();
+        $this->destroyFiles();
         $this->destroyProject();
         $this->log();
     }
@@ -48,9 +49,16 @@ class DestroyProject extends BaseService
             ->asNormalUser()
             ->canExecuteService();
 
-        // make sure the project belongs to the company
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
+    }
+
+    private function destroyFiles(): void
+    {
+        $files = $this->project->files;
+        foreach ($files as $file) {
+            $file->delete();
+        }
     }
 
     private function destroyProject(): void

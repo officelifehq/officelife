@@ -29,7 +29,7 @@
     <div class="br3 bg-white box z-1 pa3 relative">
       <ul v-if="hires.length != 0" class="list pl0 ma0">
         <li v-for="hire in hires" :key="hire.id" class="mb3 pl3 db relative person">
-          <img loading="lazy" :src="hire.avatar" class="br-100 absolute avatar" alt="avatar" />
+          <avatar :avatar="hire.avatar" :size="35" :classes="'br-100 absolute avatar'" />
 
           <!-- normal mode -->
           <inertia-link :href="hire.url" class="mb2">
@@ -37,7 +37,7 @@
           </inertia-link>
 
           <!-- position -->
-          <span v-if="hire.position" class="title db f7 mt1">
+          <span v-if="hire.position" class="title db f7 mt1 lh-copy">
             {{ $t('company.new_hires_date_with_position', { date: hire.hired_at, position: hire.position }) }}
           </span>
           <span v-else class="title db f7 mt1">
@@ -55,7 +55,13 @@
 </template>
 
 <script>
+import Avatar from '@/Shared/Avatar';
+
 export default {
+  components: {
+    Avatar,
+  },
+
   props: {
     hires: {
       type: Array,

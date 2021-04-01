@@ -13,6 +13,7 @@ parameters:
         - app/Http/ViewHelpers/Company/HR/CompanyHRViewHelper.php
     inferPrivatePropertyTypeFromConstructor: true
     checkMissingIterableValueType: false
+    reportUnmatchedIgnoredErrors: false
     level: 5
     ignoreErrors:
         - '#Argument of an invalid type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator supplied for foreach, only iterables are supported#'

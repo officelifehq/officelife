@@ -4,7 +4,7 @@ namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Project;
 use App\Models\Company\Timesheet;
 use App\Models\Company\ProjectTask;
@@ -199,7 +199,7 @@ class DashboardTimesheetViewHelperTest extends TestCase
                 'id' => $michael->id,
                 'name' => $michael->name,
                 'approved_at' => 'Jan 01, 2018',
-                'avatar' => AvatarHelper::getImage($michael),
+                'avatar' => ImageHelper::getAvatar($michael),
                 'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
             ],
             $array
