@@ -34,7 +34,7 @@
             </div>
 
             <!-- Actions -->
-            <div class="cf pa3 bb-gray bb">
+            <div class="cf pa3">
               <div class="flex-ns justify-between">
                 <div>
                   <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2" data-cy="cancel-button">

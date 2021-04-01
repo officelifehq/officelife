@@ -122,7 +122,7 @@
             <li class="mb2"><inertia-link :href="message.url_edit" data-cy="project-edit" class="f6 gray">{{ $t('project.message_show_edit') }}</inertia-link></li>
 
             <!-- delete -->
-            <li v-if="!removalConfirmation"><a href="#" data-cy="project-delete" class="f6 gray" @click.prevent="removalConfirmation = true">{{ $t('project.message_show_destroy') }}</a></li>
+            <li v-if="!removalConfirmation"><a href="#" data-cy="project-delete" class="f6 gray bb b--dotted bt-0 bl-0 br-0 pointer di c-delete" @click.prevent="removalConfirmation = true">{{ $t('project.message_show_destroy') }}</a></li>
             <li v-if="removalConfirmation" class="pv2 f6">
               {{ $t('app.sure') }}
               <a data-cy="confirm-project-deletion" class="c-delete mr1 pointer" @click.prevent="destroy()">

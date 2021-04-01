@@ -58,6 +58,20 @@
 
             <!-- participants -->
             <participants :group-id="group.id" :meeting="meeting" />
+
+            <ul class="list pl0">
+              <li v-if="!deleteMode" class="pl2"><a data-cy="project-delete" class="f6 gray bb b--dotted bt-0 bl-0 br-0 pointer di c-delete" @click.prevent="deleteMode = true">{{ $t('group.meeting_show_delete') }}</a></li>
+
+              <li v-if="deleteMode" class="f6">
+                {{ $t('app.sure') }}
+                <a class="c-delete mr1 pointer" @click.prevent="destroy()">
+                  {{ $t('app.yes') }}
+                </a>
+                <a class="pointer" @click.prevent="deleteMode = false">
+                  {{ $t('app.no') }}
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -100,15 +114,23 @@ export default {
 
   data() {
     return {
+      deleteMode: false,
     };
   },
 
-  mounted() {
-    if (localStorage.success) {
-      flash(localStorage.success, 'success');
-      localStorage.removeItem('success');
-    }
-  },
+  methods: {
+    destroy() {
+      axios.delete(`/${this.$page.props.auth.company.id}/company/groups/${this.group.id}/meetings/${this.meeting.meeting.id}`)
+        .then(response => {
+          localStorage.success = this.$t('group.meeting_show_delete_success');
+
+          this.$inertia.visit(`/${this.$page.props.auth.company.id}/company/groups/${this.group.id}/meetings`);
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+    },
+  }
 };
 
 </script>

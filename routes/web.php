@@ -351,6 +351,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::get('{group}/meetings', 'Company\\Company\\Group\\GroupMeetingsController@index')->name('groups.meetings.index');
                 Route::get('{group}/meetings/create', 'Company\\Company\\Group\\GroupMeetingsController@create')->name('groups.meetings.new');
                 Route::get('{group}/meetings/{meeting}', 'Company\\Company\\Group\\GroupMeetingsController@show')->name('groups.meetings.show');
+                Route::delete('{group}/meetings/{meeting}', 'Company\\Company\\Group\\GroupMeetingsController@destroy');
                 Route::post('{group}/meetings/{meeting}/toggle', 'Company\\Company\\Group\\GroupMeetingsController@toggleParticipant');
                 Route::post('{group}/meetings/{meeting}/search', 'Company\\Company\\Group\\GroupMeetingsController@search');
                 Route::post('{group}/meetings/{meeting}/add', 'Company\\Company\\Group\\GroupMeetingsController@addParticipant');

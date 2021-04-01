@@ -26,4 +26,6 @@ return [
     'meeting_show_participants_help' => 'Click on the names of the people who were present in the meeting.',
     'meeting_show_participants_exit_edit_guests' => 'Exit edit mode',
     'meeting_show_date_updated' => 'The date has been updated.',
+    'meeting_show_delete' => 'Delete the meeting',
+    'meeting_show_delete_success' => 'The meeting has been deleted.',
 ];

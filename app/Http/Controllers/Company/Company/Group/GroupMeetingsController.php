@@ -14,6 +14,7 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Group\CreateMeeting;
+use App\Services\Company\Group\DestroyMeeting;
 use App\Services\Company\Group\AddGuestToMeeting;
 use App\Services\Company\Group\UpdateMeetingDate;
 use App\Services\Company\Group\RemoveGuestFromMeeting;
@@ -270,6 +271,31 @@ class GroupMeetingsController extends Controller
 
         return response()->json([
             'data' => DateHelper::formatDate($date),
+        ]);
+    }
+
+    /**
+     * Destroy the meeting.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $groupId
+     * @param int $meetingId
+     */
+    public function destroy(Request $request, int $companyId, int $groupId, int $meetingId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        (new DestroyMeeting)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'group_id' => $groupId,
+            'meeting_id' => $meetingId,
+        ]);
+
+        return response()->json([
+            'data' => true,
         ]);
     }
 }
