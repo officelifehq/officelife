@@ -4,6 +4,7 @@ namespace Tests\Unit\Models\Company;
 
 use Tests\TestCase;
 use App\Models\Company\Group;
+use App\Models\Company\Meeting;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -29,5 +30,16 @@ class GroupTest extends TestCase
         $group->employees()->syncWithoutDetaching([$dwight->id]);
 
         $this->assertTrue($group->employees()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_meetings(): void
+    {
+        $group = Group::factory()->create();
+        $meeting = Meeting::factory()->create([
+            'group_id' => $group->id,
+        ]);
+
+        $this->assertTrue($group->meetings()->exists());
     }
 }

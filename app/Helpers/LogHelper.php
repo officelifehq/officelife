@@ -1221,6 +1221,14 @@ class LogHelper
                 ]);
                 break;
 
+            case 'meeting_date_set':
+                $sentence = trans('account.log_meeting_date_set', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                    'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
             case 'company_logo_changed':
                 $sentence = trans('account.log_company_logo_changed');
                 break;

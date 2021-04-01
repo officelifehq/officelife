@@ -45,96 +45,40 @@
       <div class="mw6 center br3 mb5 relative z-1">
         <!-- add a new meeting -->
         <div class="tr mb2">
-          <inertia-link :href="meetings.url_new" class="btn dib-l db mb3 mb0-ns" data-cy="member-add-button">Create new meeting</inertia-link>
+          <inertia-link :href="data.url_new" class="btn dib-l db mb3 mb0-ns" data-cy="member-add-button">{{ $t('group.meeting_index_cta') }}</inertia-link>
         </div>
 
         <!-- list of meetings -->
-        <div class="br3 bg-white box z-1">
+        <div v-if="data.meetings.length > 0" class="br3 bg-white box z-1">
           <ul class="list pl0 ma0">
-            <li class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between meeting-item">
+            <li v-for="meeting in data.meetings" :key="meeting.id" class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between meeting-item">
               <div class="mb1 relative">
-                <span class="employee-name db">
-                  Meeting du 20 janvier
-                </span>
+                <inertia-link :href="meeting.url" class="employee-name db">
+                  {{ meeting.happened_at }}
+                </inertia-link>
               </div>
-              <span class="ma0 mb0 f7 grey">
+              <span v-if="meeting.preview_members" class="ma0 mb0 f7 grey">
                 <div class="flex items-center relative tr">
-                  <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                       width="32" height="32"
+                  <avatar v-for="member in meeting.preview_members" :key="member.id" :avatar="member.avatar" :url="member.url" :size="25"
+                          :classes="'br-100 small-avatar'"
                   />
-                  <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                       width="32" height="32"
-                  />
-                  <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                       width="32" height="32"
-                  />
-                  <div class="pl2 f7 more-members relative gray">
-                    {{ $t('project.menu_other_member', { count: 3 }) }}
+                  <div v-if="meeting.remaining_members_count > 0" class="pl2 f7 more-members relative gray">
+                    + {{ meeting.remaining_members_count }}
                   </div>
                 </div>
               </span>
             </li>
-            <li class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between meeting-item">
-              <div class="mb1 relative">
-                <span class="employee-name db">
-                  Meeting du 20 janvier
-                </span>
-              </div>
-              <span class="ma0 mb0 f7 grey">
-                <div class="flex items-center relative tr">
-                  <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                       width="32" height="32"
-                  />
-                  <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                       width="32" height="32"
-                  />
-                  <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                       width="32" height="32"
-                  />
-                </div>
-              </span>
-            </li>
-            <li class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between meeting-item">
-              <div class="mb1 relative">
-                <span class="employee-name db">
-                  Meeting du 20 janvier
-                </span>
-              </div>
-              <span class="ma0 mb0 f7 grey">
-                <div class="flex items-center relative tr">
-                  <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                       width="32" height="32"
-                  />
-                  <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                       width="32" height="32"
-                  />
-                  <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                       width="32" height="32"
-                  />
-                </div>
-              </span>
-            </li>
-            <li class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between meeting-item">
-              <div class="mb1 relative">
-                <span class="employee-name db">
-                  Meeting du 20 janvier
-                </span>
-              </div>
-              <span class="ma0 mb0 f7 grey">
-                <div class="flex items-center relative tr">
-                  <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                       width="32" height="32"
-                  />
-                  <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                       width="32" height="32"
-                  />
-                  <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                       width="32" height="32"
-                  />
-                </div>
-              </span>
-            </li>
           </ul>
+        </div>
+
+        <!-- blank state -->
+        <div v-else class="br3 bg-white box z-1 pa3 tc">
+          <img loading="lazy" src="/img/streamline-icon-factory-engineer-3@140x140.png" width="140" height="140" alt="meeting"
+               class=""
+          />
+          <h3 class="fw4 f5 lh-copy">
+            {{ $t('group.meeting_index_blank') }}
+          </h3>
         </div>
       </div>
     </div>
@@ -143,11 +87,13 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Avatar from '@/Shared/Avatar';
 import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu';
 
 export default {
   components: {
     Layout,
+    Avatar,
     GroupMenu,
   },
 
@@ -160,8 +106,8 @@ export default {
       type: Object,
       default: null,
     },
-    meetings: {
-      type: Array,
+    data: {
+      type: Object,
       default: null,
     },
     tab: {
@@ -173,7 +119,6 @@ export default {
   data() {
     return {
       processingSearch: false,
-      localMembers: null,
       showModal: false,
       removeMode: false,
       idToDelete: 0,
@@ -186,10 +131,6 @@ export default {
         errors: [],
       },
     };
-  },
-
-  created() {
-    this.localMembers = this.members;
   },
 
   mounted() {

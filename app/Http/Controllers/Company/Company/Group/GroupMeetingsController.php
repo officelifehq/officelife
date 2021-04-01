@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers\Company\Company\Group;
 
+use Carbon\Carbon;
 use Inertia\Inertia;
+use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Models\Company\Group;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Meeting;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Group\CreateMeeting;
+use App\Services\Company\Group\AddGuestToMeeting;
+use App\Services\Company\Group\UpdateMeetingDate;
+use App\Services\Company\Group\RemoveGuestFromMeeting;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Group\GroupShowViewHelper;
 use App\Http\ViewHelpers\Company\Group\GroupMeetingsViewHelper;
@@ -41,7 +48,7 @@ class GroupMeetingsController extends Controller
         return Inertia::render('Company/Group/Meetings/Index', [
             'group' => $info,
             'tab' => 'meetings',
-            'meetings' => $meetings,
+            'data' => $meetings,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -139,6 +146,130 @@ class GroupMeetingsController extends Controller
 
         return response()->json([
             'data' => true,
+        ]);
+    }
+
+    /**
+     * Get the list of potential participants for this meeting.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $groupId
+     * @param int $meetingId
+     * @return JsonResponse
+     */
+    public function search(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+
+        try {
+            $group = Group::where('company_id', $company->id)
+                ->findOrFail($groupId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        try {
+            $meeting = Meeting::where('group_id', $group->id)
+                ->findOrFail($meetingId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $potentialMembers = GroupMeetingsViewHelper::potentialGuests(
+            $meeting,
+            $company,
+            $request->input('searchTerm')
+        );
+
+        return response()->json([
+            'data' => $potentialMembers,
+        ]);
+    }
+
+    /**
+     * Add participant to the meeting.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $groupId
+     * @param int $meetingId
+     */
+    public function addParticipant(Request $request, int $companyId, int $groupId, int $meetingId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $employee = (new AddGuestToMeeting)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'group_id' => $groupId,
+            'meeting_id' => $meetingId,
+            'employee_id' => $request->input('id'),
+        ]);
+
+        return response()->json([
+            'data' => [
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => ImageHelper::getAvatar($employee, 23),
+                'was_a_guest' => true,
+                'attended' => false,
+            ],
+        ]);
+    }
+
+    /**
+     * Remove participant from the meeting.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $groupId
+     * @param int $meetingId
+     */
+    public function removeParticipant(Request $request, int $companyId, int $groupId, int $meetingId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        (new RemoveGuestFromMeeting)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'group_id' => $groupId,
+            'meeting_id' => $meetingId,
+            'employee_id' => $request->input('id'),
+        ]);
+
+        return response()->json([
+            'data' => true,
+        ]);
+    }
+
+    /**
+     * Set the meeting date.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $groupId
+     * @param int $meetingId
+     */
+    public function setDate(Request $request, int $companyId, int $groupId, int $meetingId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $date = Carbon::createFromDate($request->input('year'), $request->input('month'), $request->input('day'));
+
+        (new UpdateMeetingDate)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'group_id' => $groupId,
+            'meeting_id' => $meetingId,
+            'date' => $date->format('Y-m-d'),
+        ]);
+
+        return response()->json([
+            'data' => DateHelper::formatDate($date),
         ]);
     }
 }

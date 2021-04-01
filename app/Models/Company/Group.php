@@ -44,10 +44,10 @@ class Group extends Model
     /**
      * Get the meeting records associated with the group.
      *
-     * @return BelongsToMany
+     * @return hasMany
      */
     public function meetings()
     {
-        return $this->belongsToMany(Employee::class)->withTimestamps();
+        return $this->hasMany(Meeting::class);
     }
 }

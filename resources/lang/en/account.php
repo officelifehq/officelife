@@ -309,6 +309,7 @@ return [
     'log_file_added_to_project' => 'Added a file called :name in the project called :project_name.',
     'log_project_file_destroyed' => 'Deleted a file called :name in the project called :project_name.',
     'log_add_guest_to_meeting' => 'Added :employee_name in a meeting of the project called :project_name.',
+    'log_meeting_date_set' => 'Set the meeting date in a meeting of the project called :project_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',

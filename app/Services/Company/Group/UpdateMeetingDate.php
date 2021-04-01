@@ -6,11 +6,10 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Group;
 use App\Services\BaseService;
-use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Meeting;
 use App\Models\Company\Employee;
 
-class RemoveEmployeeAsParticipantOfMeeting extends BaseService
+class UpdateMeetingDate extends BaseService
 {
     private array $data;
     private Employee $employee;
@@ -29,12 +28,12 @@ class RemoveEmployeeAsParticipantOfMeeting extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'group_id' => 'required|integer|exists:groups,id',
             'meeting_id' => 'required|integer|exists:meetings,id',
-            'employee_id' => 'required|integer|exists:employees,id',
+            'date' => 'required|date_format:Y-m-d',
         ];
     }
 
     /**
-     * Remove an employee as participant from a meeting.
+     * Set the meeting date.
      *
      * @param array $data
      */
@@ -43,7 +42,7 @@ class RemoveEmployeeAsParticipantOfMeeting extends BaseService
         $this->data = $data;
         $this->validate();
 
-        $this->detachEmployee();
+        $this->setDate();
         $this->log();
     }
 
@@ -56,8 +55,6 @@ class RemoveEmployeeAsParticipantOfMeeting extends BaseService
             ->asNormalUser()
             ->canExecuteService();
 
-        $this->employee = $this->validateEmployeeBelongsToCompany($this->data);
-
         $this->group = Group::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['group_id']);
 
@@ -65,31 +62,17 @@ class RemoveEmployeeAsParticipantOfMeeting extends BaseService
             ->findOrFail($this->data['meeting_id']);
     }
 
-    private function detachEmployee(): void
+    private function setDate(): void
     {
-        $this->meeting->employees()->detach($this->data['employee_id']);
+        $this->meeting->happened_at = $this->data['date'];
+        $this->meeting->save();
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'employee_removed_from_meeting',
-            'author_id' => $this->author->id,
-            'author_name' => $this->author->name,
-            'audited_at' => Carbon::now(),
-            'objects' => json_encode([
-                'group_id' => $this->group->id,
-                'group_name' => $this->group->name,
-                'employee_id' => $this->employee->id,
-                'employee_name' => $this->employee->name,
-                'meeting_id' => $this->meeting->id,
-            ]),
-        ])->onQueue('low');
-
-        LogEmployeeAudit::dispatch([
-            'employee_id' => $this->employee->id,
-            'action' => 'employee_removed_from_meeting',
+            'action' => 'meeting_date_set',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),

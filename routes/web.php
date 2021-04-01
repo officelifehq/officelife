@@ -352,6 +352,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::get('{group}/meetings/create', 'Company\\Company\\Group\\GroupMeetingsController@create')->name('groups.meetings.new');
                 Route::get('{group}/meetings/{meeting}', 'Company\\Company\\Group\\GroupMeetingsController@show')->name('groups.meetings.show');
                 Route::post('{group}/meetings/{meeting}/toggle', 'Company\\Company\\Group\\GroupMeetingsController@toggleParticipant');
+                Route::post('{group}/meetings/{meeting}/search', 'Company\\Company\\Group\\GroupMeetingsController@search');
+                Route::post('{group}/meetings/{meeting}/add', 'Company\\Company\\Group\\GroupMeetingsController@addParticipant');
+                Route::post('{group}/meetings/{meeting}/remove', 'Company\\Company\\Group\\GroupMeetingsController@removeParticipant');
+                Route::post('{group}/meetings/{meeting}/setDate', 'Company\\Company\\Group\\GroupMeetingsController@setDate');
             });
 
             Route::prefix('hr')->group(function () {

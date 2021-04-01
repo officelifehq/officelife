@@ -11,11 +11,11 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
+use App\Services\Company\Group\RemoveGuestFromMeeting;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Group\RemoveEmployeeAsParticipantOfMeeting;
 
-class RemoveEmployeeAsParticipantOfMeetingTest extends TestCase
+class RemoveGuestFromMeetingTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -68,7 +68,7 @@ class RemoveEmployeeAsParticipantOfMeetingTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new RemoveEmployeeAsParticipantOfMeeting)->execute($request);
+        (new RemoveGuestFromMeeting)->execute($request);
     }
 
     /** @test */
@@ -118,7 +118,7 @@ class RemoveEmployeeAsParticipantOfMeetingTest extends TestCase
             'employee_id' => $dwight->id,
         ];
 
-        (new RemoveEmployeeAsParticipantOfMeeting)->execute($request);
+        (new RemoveGuestFromMeeting)->execute($request);
 
         $this->assertDatabaseMissing('employee_meeting', [
             'meeting_id' => $meeting->id,

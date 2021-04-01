@@ -53,6 +53,9 @@
 
           <!-- RIGHT COLUMN -->
           <div class="fl w-30-l w-100 pl4-l">
+            <!-- date -->
+            <date :group-id="group.id" :meeting="meeting" />
+
             <!-- participants -->
             <participants :group-id="group.id" :meeting="meeting" />
           </div>
@@ -66,12 +69,14 @@
 import Layout from '@/Shared/Layout';
 import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu';
 import Participants from '@/Pages/Company/Group/Meetings/Partials/Participants';
+import Date from '@/Pages/Company/Group/Meetings/Partials/Date';
 
 export default {
   components: {
     Layout,
     GroupMenu,
     Participants,
+    Date,
   },
 
   props: {
@@ -95,24 +100,7 @@ export default {
 
   data() {
     return {
-      processingSearch: false,
-      localMembers: null,
-      showModal: false,
-      removeMode: false,
-      idToDelete: 0,
-      potentialMembers: [],
-      loadingState: '',
-      form: {
-        searchTerm: null,
-        employee: null,
-        role: null,
-        errors: [],
-      },
     };
-  },
-
-  created() {
-    this.localMembers = this.members;
   },
 
   mounted() {

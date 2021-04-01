@@ -6,13 +6,16 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Group;
 use App\Services\BaseService;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Meeting;
+use App\Models\Company\Employee;
 
-class CreateMeeting extends BaseService
+class RemoveGuestFromMeeting extends BaseService
 {
-    protected array $data;
-    protected Group $group;
-    protected Meeting $meeting;
+    private array $data;
+    private Employee $employee;
+    private Group $group;
+    private Meeting $meeting;
 
     /**
      * Get the validation rules that apply to the service.
@@ -25,24 +28,23 @@ class CreateMeeting extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'group_id' => 'required|integer|exists:groups,id',
+            'meeting_id' => 'required|integer|exists:meetings,id',
+            'employee_id' => 'required|integer|exists:employees,id',
         ];
     }
 
     /**
-     * Create a meeting.
+     * Remove an employee as guest from a meeting.
      *
      * @param array $data
-     * @return Meeting
      */
-    public function execute(array $data): Meeting
+    public function execute(array $data): void
     {
         $this->data = $data;
         $this->validate();
-        $this->createMeeting();
-        $this->addParticipants();
-        $this->log();
 
-        return $this->meeting;
+        $this->detachEmployee();
+        $this->log();
     }
 
     private function validate(): void
@@ -54,34 +56,40 @@ class CreateMeeting extends BaseService
             ->asNormalUser()
             ->canExecuteService();
 
+        $this->employee = $this->validateEmployeeBelongsToCompany($this->data);
+
         $this->group = Group::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['group_id']);
+
+        $this->meeting = Meeting::where('group_id', $this->data['group_id'])
+            ->findOrFail($this->data['meeting_id']);
     }
 
-    private function createMeeting(): void
+    private function detachEmployee(): void
     {
-        $this->meeting = Meeting::create([
-            'group_id' => $this->data['group_id'],
-            'happened_at' => Carbon::now()->format('Y-m-d'),
-        ]);
-    }
-
-    private function addParticipants(): void
-    {
-        $members = $this->group->employees()
-            ->select('id')
-            ->get()
-            ->pluck('id')
-            ->toArray();
-
-        $this->meeting->employees()->syncWithoutDetaching($members);
+        $this->meeting->employees()->detach($this->data['employee_id']);
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'meeting_created',
+            'action' => 'employee_removed_from_meeting',
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'group_id' => $this->group->id,
+                'group_name' => $this->group->name,
+                'employee_id' => $this->employee->id,
+                'employee_name' => $this->employee->name,
+                'meeting_id' => $this->meeting->id,
+            ]),
+        ])->onQueue('low');
+
+        LogEmployeeAudit::dispatch([
+            'employee_id' => $this->employee->id,
+            'action' => 'employee_removed_from_meeting',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
