@@ -7,7 +7,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph5-ns mt4">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw7 br3 center breadcrumb relative z-0 f6 pb2">
