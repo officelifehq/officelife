@@ -4,7 +4,7 @@ namespace App\Http\ViewHelpers\Adminland;
 
 use App\Helpers\ImageHelper;
 use Illuminate\Support\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class AdminAuditLogViewHelper
 {
