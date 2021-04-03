@@ -3,6 +3,7 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -44,7 +45,7 @@ class Group extends Model
     /**
      * Get the meeting records associated with the group.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function meetings()
     {
