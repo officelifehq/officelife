@@ -1,6 +1,21 @@
 <style scoped>
-.log_date {
-  color: #777A88;
+.avatar {
+  width: 80px;
+  height: 80px;
+  top: 32px;
+  left: 50%;
+  margin-top: -40px; /* Half the height */
+  margin-left: -40px; /* Half the width */
+}
+
+.author-avatar {
+  width: 35px;
+  min-width: 35px;
+  margin-right: 16px;
+}
+
+.log-item:last-child {
+  border-bottom: 0;
 }
 </style>
 
@@ -29,27 +44,27 @@
             {{ $t('audit.title') }}
           </h2>
           <ul class="list pl0 mt0 center">
-            <li v-for="log in logs" :key="log.id"
-                class="flex items-center lh-copy pa2-l pa1 ph0-l bb b--black-10"
-            >
-              <div class="flex-auto">
-                <!-- log author -->
-                <inertia-link v-if="log.author.id" :href="'/' + $page.props.auth.company.id + '/employees/' + log.author.id" class="">
-                  {{ log.author.name }}
-                </inertia-link>
-                <span v-else class="black-70">
-                  {{ log.author.name }}
-                </span>
+            <li v-for="log in logs" :key="log.id" class="flex items-center lh-copy pa3 bb b--black-10 log-item">
+              <!-- avatar -->
+              <avatar v-if="log.author.avatar" :avatar="log.author.avatar" :size="35" :classes="'author-avatar br-100'" />
 
+              <div>
+                <div class="db f7 mb2">
+                  <!-- log author -->
+                  <inertia-link v-if="log.author.url" :href="log.author.url">{{ log.author.name }}</inertia-link>
+                  <span v-else>
+                    {{ log.author.name }}
+                  </span>
+                </div>
                 <!-- log content -->
-                <span class="">
+                <div class="mb1">
                   {{ log.localized_content }}
-                </span>
+                </div>
 
                 <!-- log date -->
-                <span class="db f6 log_date">
+                <p class="ma0 f7 gray">
                   {{ log.localized_audited_at }}
-                </span>
+                </p>
               </div>
             </li>
           </ul>
@@ -71,10 +86,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Avatar,
   },
 
   props: {
