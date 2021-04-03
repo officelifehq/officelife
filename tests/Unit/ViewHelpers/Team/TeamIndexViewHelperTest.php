@@ -40,7 +40,7 @@ class TeamIndexViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            '<strong>happy</strong>',
+            '<p><strong>happy</strong></p>',
             $collection->toArray()[0]['parsed_description']
         );
 
