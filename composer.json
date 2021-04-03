@@ -18,6 +18,7 @@
         "inertiajs/inertia-laravel": "^0",
         "laravel/framework": "^8.0",
         "laravel/helpers": "^1.1",
+        "laravel/sanctum": "^2.9",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
         "mariuzzo/laravel-js-localization": "^1.7",

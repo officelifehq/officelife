@@ -5,6 +5,7 @@ namespace App\Models\User;
 use App\Jobs\SendVerifyEmail;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -14,7 +15,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, LogsActivity, HasFactory;
+    use Notifiable, LogsActivity, HasFactory, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.

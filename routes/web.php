@@ -21,7 +21,7 @@ Route::post('login', 'Auth\\LoginController@login')->name('login.attempt');
 Route::get('invite/employee/{link}', 'Auth\\UserInvitationController@check');
 Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join')->name('invitation.join');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('home', 'HomeController@index')->name('home');
     Route::post('search/employees', 'HeaderSearchController@employees');
     Route::post('search/teams', 'HeaderSearchController@teams');
