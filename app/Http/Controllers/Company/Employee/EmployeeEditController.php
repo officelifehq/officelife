@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\TimezoneHelper;
 use App\Models\Company\Country;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
@@ -79,7 +80,9 @@ class EmployeeEditController extends Controller
                 'twitter_handle' => $employee->twitter_handle,
                 'slack_handle' => $employee->slack_handle,
                 'max_year' => Carbon::now()->year,
+                'timezone' => $employee->timezone,
             ],
+            'timezones' => TimezoneHelper::getListOfTimezones(),
             'permissions' => EmployeeShowViewHelper::permissions($loggedEmployee, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
