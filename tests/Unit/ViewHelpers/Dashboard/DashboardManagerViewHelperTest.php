@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Expense;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
@@ -26,20 +27,20 @@ class DashboardManagerViewHelperTest extends TestCase
     public function it_gets_a_collection_of_pending_expenses(): void
     {
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
         $request = [
             'company_id' => $dwight->company_id,
-            'author_id' => $dwight->id,
+            'author_id' => $michael->id,
             'employee_id' => $dwight->id,
             'manager_id' => $michael->id,
         ];
 
         (new AssignManager)->execute($request);
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $dwight->id,
             'status' => Expense::AWAITING_MANAGER_APPROVAL,
@@ -47,7 +48,7 @@ class DashboardManagerViewHelperTest extends TestCase
             'converted_to_currency' => 'EUR',
         ]);
 
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $dwight->id,
             'status' => Expense::CREATED,
@@ -61,17 +62,17 @@ class DashboardManagerViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $expense->id,
-                    'title' => 'Restaurant',
+                    'title' => $expense->title,
                     'amount' => '$1.00',
                     'converted_amount' => '€1.23',
                     'status' => 'manager_approval',
-                    'category' => 'travel',
+                    'category' => $expense->category->name,
                     'expensed_at' => 'Jan 01, 1999',
                     'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/manager/expenses/'.$expense->id,
                     'employee' => [
                         'id' => $dwight->id,
                         'name' => $dwight->name,
-                        'avatar' => $dwight->avatar,
+                        'avatar' => ImageHelper::getAvatar($dwight, 18),
                     ],
                 ],
             ],
@@ -87,7 +88,7 @@ class DashboardManagerViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'manager_approver_id' => $dwight->id,
@@ -118,10 +119,10 @@ class DashboardManagerViewHelperTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = $this->createAdministrator();
 
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $jim = factory(Employee::class)->create([
+        $jim = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -145,7 +146,7 @@ class DashboardManagerViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => $dwight->avatar,
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'entry' => [
@@ -157,7 +158,7 @@ class DashboardManagerViewHelperTest extends TestCase
                 1 => [
                     'id' => $jim->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => $jim->avatar,
+                    'avatar' => ImageHelper::getAvatar($jim, 35),
                     'position' => $jim->position->title,
                     'url' => env('APP_URL').'/'.$jim->company_id.'/employees/'.$jim->id,
                     'entry' => [
@@ -177,10 +178,10 @@ class DashboardManagerViewHelperTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = $this->createAdministrator();
 
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $jim = factory(Employee::class)->create([
+        $jim = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $status = EmployeeStatus::factory()->create([
@@ -212,7 +213,7 @@ class DashboardManagerViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => $dwight->avatar,
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'contract_information' => [
@@ -233,10 +234,10 @@ class DashboardManagerViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
 
         // creating two employees and adding timesheets after this
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $jim = factory(Employee::class)->create([
+        $jim = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

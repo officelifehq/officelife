@@ -24,9 +24,9 @@ class ProjectFactory extends Factory
     {
         return [
             'company_id' => Company::factory(),
-            'name' => 'API v3',
+            'name' => $this->faker->name,
             'code' => '123456',
-            'description' => 'it is going well',
+            'description' => $this->faker->sentence(),
             'status' => Project::CREATED,
         ];
     }

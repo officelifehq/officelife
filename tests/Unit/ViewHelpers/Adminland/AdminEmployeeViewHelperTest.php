@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Adminland;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Adminland\AdminEmployeeViewHelper;
@@ -16,12 +17,12 @@ class AdminEmployeeViewHelperTest extends TestCase
     public function it_gets_statistics_about_employees(): void
     {
         $michael = $this->createAdministrator();
-        factory(Employee::class)->create([
+        Employee::factory()->create([
             'company_id' => $michael->company_id,
             'hired_at' => Carbon::now(),
             'locked' => true,
         ]);
-        factory(Employee::class)->create([
+        Employee::factory()->create([
             'company_id' => $michael->company_id,
             'hired_at' => null,
             'locked' => false,
@@ -41,6 +42,8 @@ class AdminEmployeeViewHelperTest extends TestCase
                 'url_no_hiring_date' => env('APP_URL').'/'.$michael->company_id.'/account/employees/noHiringDate',
                 'url_permission' => env('APP_URL').'/'.$michael->company_id.'/account/employees/permission',
                 'url_new' => env('APP_URL').'/'.$michael->company_id.'/account/employees/create',
+                'url_upload' => env('APP_URL').'/'.$michael->company_id.'/account/employees/upload',
+                'url_upload_archive' => env('APP_URL').'/'.$michael->company_id.'/account/employees/upload/archives',
             ],
             $array
         );
@@ -59,7 +62,7 @@ class AdminEmployeeViewHelperTest extends TestCase
                     'id' => $michael->id,
                     'name' => $michael->name,
                     'permission_level' => $michael->permission_level,
-                    'avatar' => $michael->avatar,
+                    'avatar' => ImageHelper::getAvatar($michael),
                     'invitation_link' => $michael->invitation_link,
                     'invited' => (! $michael->invitation_used_at && $michael->invitation_link) === true,
                     'lock_status' => $michael->locked,

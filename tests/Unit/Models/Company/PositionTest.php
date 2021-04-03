@@ -14,15 +14,15 @@ class PositionTest extends TestCase
     /** @test */
     public function it_belongs_to_company(): void
     {
-        $position = factory(Position::class)->create([]);
+        $position = Position::factory()->create([]);
         $this->assertTrue($position->company()->exists());
     }
 
     /** @test */
     public function it_belongs_to_many_employees(): void
     {
-        $position = factory(Position::class)->create([]);
-        factory(Employee::class, 3)->create([
+        $position = Position::factory()->create([]);
+        Employee::factory(3)->create([
             'company_id' => $position->company_id,
             'position_id' => $position->id,
         ]);

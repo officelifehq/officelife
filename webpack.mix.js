@@ -5,7 +5,7 @@ require('laravel-mix-purgecss');
 let purgeCssOptions = {
   enabled: true,
   // List of regex of CSS class to not remove
-  whitelistPatterns: [/^ball-pulse/, /^ball-clip-rotate/, /^vs__/, /^dot-/, /^expense-badge-/, /^timesheet-badge-/],
+  whitelistPatterns: [/^ball-pulse/, /^ball-clip-rotate/, /^vs__/, /^dot-/, /^expense-badge-/, /^timesheet-badge-/, /^failed/],
   // List of regex of CSS class name whose child path CSS class will not be removed
   //  ex: to exclude "jane" in "mary jane": add "mary")
   whitelistPatternsChildren: [/^vs-/],

@@ -21,7 +21,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -55,7 +55,7 @@
                   {{ $t('employee.edit_information_menu') }}
                 </inertia-link>
               </li>
-              <li v-if="canSeeContractInfoTab" class="di mr2">
+              <li v-if="permissions.can_edit_contract_information" class="di mr2">
                 <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/contract/edit'" data-cy="menu-contract-link" class="no-underline bb-0 ph3 pv2 selected">
                   {{ $t('employee.edit_information_menu_contract') }}
                 </inertia-link>
@@ -264,9 +264,9 @@ export default {
       type: Object,
       default: null,
     },
-    canSeeContractInfoTab: {
-      type: Boolean,
-      default: true,
+    permissions: {
+      type: Object,
+      default: null,
     },
   },
 

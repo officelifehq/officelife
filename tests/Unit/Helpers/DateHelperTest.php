@@ -173,7 +173,8 @@ class DateHelperTest extends TestCase
     /** @test */
     public function it_generates_a_calendar(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->asAdministrator()->create([]);
+
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,

@@ -19,7 +19,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -112,6 +112,11 @@
               <li class="pa2 pl0 relative">
                 📡 <inertia-link :href="'/' + $page.props.auth.company.id + '/account/audit'" data-cy="audit-admin-link">
                   {{ $t('account.home_audit_log') }}
+                </inertia-link>
+              </li>
+              <li class="pa2 pl0 relative">
+                🗑 <inertia-link :href="'/' + $page.props.auth.company.id + '/account/cancel'" data-cy="audit-cancel-link">
+                  {{ $t('account.home_cancel_account') }}
                 </inertia-link>
               </li>
             </ul>

@@ -38,9 +38,7 @@ abstract class TestCase extends BaseTestCase
      */
     public function createAdministrator(): Employee
     {
-        return factory(Employee::class)->create([
-            'permission_level' => config('officelife.permission_level.administrator'),
-        ]);
+        return Employee::factory()->asAdministrator()->create();
     }
 
     /**
@@ -50,9 +48,7 @@ abstract class TestCase extends BaseTestCase
      */
     public function createHR(): Employee
     {
-        return factory(Employee::class)->create([
-            'permission_level' => config('officelife.permission_level.hr'),
-        ]);
+        return Employee::factory()->asHR()->create();
     }
 
     /**
@@ -62,9 +58,7 @@ abstract class TestCase extends BaseTestCase
      */
     public function createEmployee(): Employee
     {
-        return factory(Employee::class)->create([
-            'permission_level' => config('officelife.permission_level.user'),
-        ]);
+        return Employee::factory()->asNormalEmployee()->create();
     }
 
     /**
@@ -75,7 +69,7 @@ abstract class TestCase extends BaseTestCase
      */
     public function createAnotherEmployee(Employee $employee): Employee
     {
-        return factory(Employee::class)->create([
+        return Employee::factory()->create([
             'permission_level' => config('officelife.permission_level.user'),
             'company_id' => $employee->company_id,
         ]);
@@ -89,8 +83,7 @@ abstract class TestCase extends BaseTestCase
      */
     public function createDirectReport(Employee $employee): Employee
     {
-        $directReport = factory(Employee::class)->create([
-            'permission_level' => config('officelife.permission_level.user'),
+        $directReport = Employee::factory()->asAdministrator()->create([
             'company_id' => $employee->company_id,
         ]);
 

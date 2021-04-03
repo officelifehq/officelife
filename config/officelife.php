@@ -122,6 +122,26 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Uploadcare public key
+    |--------------------------------------------------------------------------
+    |
+    | The public key of Uploadcare, used to store uploaded documents.
+    |
+    */
+    'uploadcare_public_key' => env('UPLOADCARE_PUBLIC_KEY', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Uploadcare private key
+    |--------------------------------------------------------------------------
+    |
+    | The private key of Uploadcare, used to store uploaded documents.
+    |
+    */
+    'uploadcare_private_key' => env('UPLOADCARE_PRIVATE_KEY', null),
+
+    /*
+    |--------------------------------------------------------------------------
     | URL of the documentation center
     |--------------------------------------------------------------------------
     |
@@ -154,16 +174,21 @@ return [
         'team_recent_ship' => 'introduction.html',
         'team_recent_ship_create' => 'introduction.html',
         'account_general_company_name' => 'introduction.html',
-        'account_general_currency' => 'introduction.html',
+        'account_general_currency' => 'manage/company-management.html#currency',
+        'account_general_logo' => 'manage/company-management.html#logo',
+        'account_cancellation' => 'manage/company-management.html#account-cancellation',
         'employee_hiring_date' => 'manage/employee-management.html#hiring-date',
         'employee_work_anniversaries' => 'manage/employee-management.html#work-anniversaries',
         'employee_statuses' => 'manage/employee-management.html#employee-statuses',
         'contract_renewal_dashboard' => 'manage/employee-management.html#what-happens-when-the-contract-renewal-date-is-due',
         'managing_external_employees' => 'manage/employee-management.html#managing-external-employees',
         'one_on_ones' => 'introduction.html',
+        'project' => 'operate/project-management.html#overview',
         'project_decisions' => 'operate/project-management.html#project-decisions',
         'project_messages' => 'operate/project-management.html#project-messages',
         'project_tasks' => 'operate/project-management.html#project-tasks',
+        'project_files' => 'operate/project-management.html#project-files',
         'ecoffee' => 'grow/e-coffee.html#overview',
+        'import_employees' => 'manage/employee-management.html#importing-employees',
     ],
 ];

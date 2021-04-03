@@ -3,6 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Company;
 
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
 use App\Models\Company\Skill;
 use GrahamCampbell\TestBenchCore\HelperTrait;
@@ -18,7 +19,7 @@ class CompanySkillViewHelperTest extends TestCase
     public function it_gets_the_information_about_skills_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'php',
         ]);
@@ -49,21 +50,21 @@ class CompanySkillViewHelperTest extends TestCase
     public function it_gets_the_details_of_an_employee_with_all_employees_associated_with_it(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $team->employees()->attach([$michael->id]);
 
         $dwight = $this->createAnotherEmployee($michael);
 
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'php',
         ]);
         $skill->employees()->attach([$michael->id]);
         $skill->employees()->attach([$dwight->id]);
 
-        $skillB = factory(Skill::class)->create([
+        $skillB = Skill::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'java',
         ]);
@@ -81,7 +82,7 @@ class CompanySkillViewHelperTest extends TestCase
             $response->toArray()[0]['name']
         );
         $this->assertEquals(
-            $michael->avatar,
+            ImageHelper::getAvatar($michael, 65),
             $response->toArray()[0]['avatar']
         );
         $this->assertEquals(
@@ -119,7 +120,7 @@ class CompanySkillViewHelperTest extends TestCase
             $response->toArray()[1]['name']
         );
         $this->assertEquals(
-            $dwight->avatar,
+            ImageHelper::getAvatar($dwight, 65),
             $response->toArray()[1]['avatar']
         );
         $this->assertEquals(

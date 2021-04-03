@@ -40,7 +40,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">
@@ -172,7 +172,7 @@
                 <li v-for="member in localMembers" :key="member.id" :data-cy="'member-' + member.id" class="pa3 bb bb-gray flex items-center">
                   <!-- avatar -->
                   <div class="mr3">
-                    <img :src="member.avatar" alt="avatar" height="64" width="64" class="br-100" />
+                    <avatar :avatar="member.avatar" :size="64" :classes="'br-100'" />
                   </div>
 
                   <!-- name + information -->
@@ -242,10 +242,12 @@ import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import TextInput from '@/Shared/TextInput';
 import SelectBox from '@/Shared/Select';
 import LoadingButton from '@/Shared/LoadingButton';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Avatar,
     ProjectMenu,
     TextInput,
     SelectBox,

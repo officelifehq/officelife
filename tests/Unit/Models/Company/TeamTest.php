@@ -20,18 +20,18 @@ class TeamTest extends TestCase
     /** @test */
     public function it_belongs_to_company()
     {
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
         $this->assertTrue($sales->company()->exists());
     }
 
     /** @test */
     public function it_has_many_employees()
     {
-        $sales = factory(Team::class)->create([]);
-        $dwight = factory(Employee::class)->create([
+        $sales = Team::factory()->create([]);
+        $dwight = Employee::factory()->create([
             'company_id' => $sales->company_id,
         ]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $sales->company_id,
         ]);
 
@@ -44,8 +44,8 @@ class TeamTest extends TestCase
     /** @test */
     public function it_has_many_ships()
     {
-        $sales = factory(Team::class)->create([]);
-        factory(Ship::class, 2)->create([
+        $sales = Team::factory()->create([]);
+        Ship::factory()->count(2)->create([
             'team_id' => $sales->id,
         ]);
 
@@ -55,15 +55,17 @@ class TeamTest extends TestCase
     /** @test */
     public function it_has_a_leader()
     {
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([
+            'team_leader_id' => Employee::factory(),
+        ]);
         $this->assertTrue($sales->leader()->exists());
     }
 
     /** @test */
     public function it_has_many_links()
     {
-        $sales = factory(Team::class)->create([]);
-        factory(TeamUsefulLink::class, 2)->create([
+        $sales = Team::factory()->create([]);
+        TeamUsefulLink::factory()->count(2)->create([
             'team_id' => $sales->id,
         ]);
 
@@ -73,8 +75,8 @@ class TeamTest extends TestCase
     /** @test */
     public function it_has_many_news()
     {
-        $sales = factory(Team::class)->create([]);
-        factory(TeamNews::class, 2)->create([
+        $sales = Team::factory()->create([]);
+        TeamNews::factory()->count(2)->create([
             'team_id' => $sales->id,
         ]);
 
@@ -84,11 +86,11 @@ class TeamTest extends TestCase
     /** @test */
     public function it_has_many_projects()
     {
-        $sales = factory(Team::class)->create([]);
-        $apiv3 = factory(Project::class)->create([
+        $sales = Team::factory()->create([]);
+        $apiv3 = Project::factory()->create([
             'company_id' => $sales->company_id,
         ]);
-        $apiv4 = factory(Project::class)->create([
+        $apiv4 = Project::factory()->create([
             'company_id' => $sales->company_id,
         ]);
 
@@ -102,22 +104,22 @@ class TeamTest extends TestCase
     public function it_returns_the_number_of_team_members_who_have_completed_a_worklog_at_a_given_time()
     {
         $date = Carbon::now();
-        $sales = factory(Team::class)->create([]);
-        $dwight = factory(Employee::class)->create([
+        $sales = Team::factory()->create([]);
+        $dwight = Employee::factory()->create([
             'company_id' => $sales->company_id,
         ]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $sales->company_id,
         ]);
 
         $sales->employees()->syncWithoutDetaching([$dwight->id]);
         $sales->employees()->syncWithoutDetaching([$michael->id]);
 
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => $date,
         ]);
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $michael->id,
             'created_at' => $date,
         ]);

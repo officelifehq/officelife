@@ -10,6 +10,7 @@
     "license": "BSD-3-Clause",
     "require": {
         "php": "^7.4 || ^8.0",
+        "doctrine/dbal": "^3.0",
         "facade/ignition": "^2.0",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^2.0",
@@ -17,6 +18,7 @@
         "inertiajs/inertia-laravel": "^0",
         "laravel/framework": "^8.0",
         "laravel/helpers": "^1.1",
+        "laravel/sanctum": "^2.9",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
         "mariuzzo/laravel-js-localization": "^1.7",
@@ -24,7 +26,9 @@
         "parsedown/laravel": "^1.2",
         "sentry/sentry-laravel": "^2.3",
         "spatie/laravel-activitylog": "^3.1",
-        "tightenco/ziggy": "^1.0"
+        "spatie/simple-excel": "^1.13",
+        "tightenco/ziggy": "^1.0",
+        "uploadcare/uploadcare-php": "^3.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
@@ -39,6 +43,7 @@
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^5.0",
         "nunomaduro/larastan": "^0.6",
+        "nunomaduro/phpinsights": "dev-master",
         "phpstan/phpstan-deprecation-rules": "^0.12",
         "phpstan/phpstan-phpunit": "^0.12",
         "phpunit/phpunit": "^9.0",

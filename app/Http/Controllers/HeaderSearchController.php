@@ -19,11 +19,11 @@ class HeaderSearchController extends Controller
      */
     public function employees(Request $request): JsonResponse
     {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
         $search = $request->input('searchTerm');
-        $employees = Employee::search($search, InstanceHelper::getLoggedCompany()->id, 10, 'created_at desc', 'and locked = false');
 
         return response()->json([
-            'data' => HeaderSearchViewHelper::employees($employees),
+            'data' => HeaderSearchViewHelper::employees($loggedCompany, $search),
         ], 200);
     }
 
@@ -35,11 +35,11 @@ class HeaderSearchController extends Controller
      */
     public function teams(Request $request): JsonResponse
     {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
         $search = $request->input('searchTerm');
-        $teams = Team::search($search, InstanceHelper::getLoggedCompany()->id, 10, 'created_at desc');
 
         return response()->json([
-            'data' => HeaderSearchViewHelper::teams($teams),
+            'data' => HeaderSearchViewHelper::teams($loggedCompany, $search),
         ], 200);
     }
 }

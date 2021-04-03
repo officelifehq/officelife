@@ -5,17 +5,17 @@ namespace App\Models\User;
 use App\Jobs\SendVerifyEmail;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Http\Resources\Company\Notification\Notification as NotificationResource;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, LogsActivity, HasFactory;
+    use Notifiable, LogsActivity, HasFactory, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -61,6 +61,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $casts = [
+        'email_verified_at' => 'datetime',
         'show_help' => 'boolean',
     ];
 
@@ -114,36 +115,6 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return null;
-    }
-
-    /**
-     * Return the latest notifications for the user as the employee of the given
-     * company.
-     *
-     * @param Company $company
-     * @param int $numberOfNotificationsToFetch
-     *
-     * @return mixed
-     */
-    public function getLatestNotifications(Company $company, int $numberOfNotificationsToFetch = 5)
-    {
-        $employee = $this->getEmployeeObjectForCompany($company);
-
-        if (! $employee) {
-            return [];
-        }
-
-        $notifs = $employee->notifications()
-            ->where('read', false)
-            ->orderBy('created_at', 'desc')
-            ->take($numberOfNotificationsToFetch)
-            ->get();
-
-        if ($notifs->count() >= 1) {
-            return NotificationResource::collection($notifs);
-        }
-
-        return [];
     }
 
     /**

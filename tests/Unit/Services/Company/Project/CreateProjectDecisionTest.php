@@ -23,7 +23,7 @@ class CreateProjectDecisionTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);
@@ -35,7 +35,7 @@ class CreateProjectDecisionTest extends TestCase
     {
         $michael = $this->createHR();
         $dwight = $this->createAnotherEmployee($michael);
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);
@@ -47,7 +47,7 @@ class CreateProjectDecisionTest extends TestCase
     {
         $michael = $this->createEmployee();
         $dwight = $this->createAnotherEmployee($michael);
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);
@@ -70,7 +70,7 @@ class CreateProjectDecisionTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         $project->employees()->attach([$michael->id]);
 
         $this->expectException(ModelNotFoundException::class);
@@ -82,7 +82,7 @@ class CreateProjectDecisionTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createEmployee();
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $dwight, $project);

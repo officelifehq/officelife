@@ -20,13 +20,13 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mb3 mw7 br3 center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.props.auth.company.id + '/teams'">{{ $t('app.breadcrumb_team_list') }}</inertia-link>
@@ -121,6 +121,9 @@
               {{ $t('team.news_blank') }}
             </div>
           </div>
+
+          <!-- birthdays -->
+          <birthdays :birthdays="birthdays" />
         </div>
       </div>
     </div>
@@ -135,6 +138,7 @@ import TeamDescription from '@/Pages/Team/Partials/TeamDescription';
 import TeamLead from '@/Pages/Team/Partials/TeamLead';
 import TeamUsefulLink from '@/Pages/Team/Partials/TeamUsefulLink';
 import RecentShips from '@/Pages/Team/Partials/RecentShips';
+import Birthdays from '@/Pages/Team/Partials/Birthdays';
 
 export default {
   components: {
@@ -144,6 +148,7 @@ export default {
     TeamLead,
     TeamUsefulLink,
     RecentShips,
+    Birthdays,
   },
 
   directives: {
@@ -172,6 +177,10 @@ export default {
       default: null,
     },
     news: {
+      type: Array,
+      default: null,
+    },
+    birthdays: {
       type: Array,
       default: null,
     },

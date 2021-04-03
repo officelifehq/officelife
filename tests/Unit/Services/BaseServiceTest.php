@@ -71,8 +71,8 @@ class BaseServiceTest extends TestCase
     /** @test */
     public function it_validates_that_the_employee_belongs_to_the_company(): void
     {
-        $dunder = factory(Company::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $dunder = Company::factory()->create([]);
+        $michael = Employee::factory()->create([
             'company_id' => $dunder->id,
         ]);
 
@@ -88,8 +88,8 @@ class BaseServiceTest extends TestCase
         );
 
         // it throws an exception if the employee doesn't belong to the company
-        $dunder = factory(Company::class)->create([]);
-        $michael = factory(Employee::class)->create([]);
+        $dunder = Company::factory()->create([]);
+        $michael = $this->createAdministrator();
 
         $stub = $this->getMockForAbstractClass(BaseService::class);
 
@@ -103,8 +103,8 @@ class BaseServiceTest extends TestCase
     /** @test */
     public function it_validates_that_the_team_belongs_to_the_company(): void
     {
-        $dunder = factory(Company::class)->create([]);
-        $sales = factory(Team::class)->create([
+        $dunder = Company::factory()->create([]);
+        $sales = Team::factory()->create([
             'company_id' => $dunder->id,
         ]);
 
@@ -120,8 +120,8 @@ class BaseServiceTest extends TestCase
         );
 
         // it throws an exception if the employee doesn't belong to the company
-        $dunder = factory(Company::class)->create([]);
-        $sales = factory(Team::class)->create([]);
+        $dunder = Company::factory()->create([]);
+        $sales = Team::factory()->create([]);
 
         $stub = $this->getMockForAbstractClass(BaseService::class);
 
@@ -137,9 +137,7 @@ class BaseServiceTest extends TestCase
     {
         // administrator has all rights
         $stub = $this->getMockForAbstractClass(BaseService::class);
-        $michael = factory(Employee::class)->create([
-            'permission_level' => config('officelife.permission_level.administrator'),
-        ]);
+        $michael = Employee::factory()->asAdministrator()->create();
 
         $this->assertTrue(
             $stub->author($michael->id)
@@ -163,9 +161,7 @@ class BaseServiceTest extends TestCase
         );
 
         // test that an HR can't do an action reserved for an administrator
-        $michael = factory(Employee::class)->create([
-            'permission_level' => config('officelife.permission_level.hr'),
-        ]);
+        $michael = Employee::factory()->asHR()->create();
 
         $this->expectException(NotEnoughPermissionException::class);
         $stub->author($michael->id)
@@ -174,9 +170,7 @@ class BaseServiceTest extends TestCase
             ->canExecuteService();
 
         // test that an user can't do an action reserved for an administrator
-        $michael = factory(Employee::class)->create([
-            'permission_level' => config('officelife.permission_level.user'),
-        ]);
+        $michael = Employee::factory()->asNormalEmployee()->create();
 
         $this->expectException(NotEnoughPermissionException::class);
         $stub->author($michael->id)
@@ -185,9 +179,7 @@ class BaseServiceTest extends TestCase
             ->canExecuteService();
 
         // test that an user can't do an action reserved for an HR
-        $michael = factory(Employee::class)->create([
-            'permission_level' => config('officelife.permission_level.user'),
-        ]);
+        $michael = Employee::factory()->asNormalEmployee()->create();
 
         $this->expectException(NotEnoughPermissionException::class);
         $stub->author($michael->id)
@@ -197,9 +189,7 @@ class BaseServiceTest extends TestCase
 
         // test that a user can modify his own data regardless of his permission
         // level
-        $michael = factory(Employee::class)->create([
-            'permission_level' => config('officelife.permission_level.user'),
-        ]);
+        $michael = Employee::factory()->asNormalEmployee()->create();
 
         $this->assertTrue(
             $stub->author($michael->id)
@@ -209,8 +199,8 @@ class BaseServiceTest extends TestCase
 
         // test that it returns an exception if the company and the employee
         // doesn't match
-        $michael = factory(Employee::class)->create([]);
-        $dunder = factory(Company::class)->create([]);
+        $michael = $this->createAdministrator();
+        $dunder = Company::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $stub->author($michael->id)

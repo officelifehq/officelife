@@ -70,7 +70,7 @@ class UpdateEmployeeStatusTest extends TestCase
         Queue::fake();
 
         $employeeStatus = EmployeeStatus::factory()->create([]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $employeeStatus->company_id,
             'permission_level' => $permissionLevel,
         ]);

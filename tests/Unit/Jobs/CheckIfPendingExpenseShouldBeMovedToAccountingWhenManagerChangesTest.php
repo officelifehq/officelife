@@ -23,12 +23,12 @@ class CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChangesTest exten
         // 1 waiting for manager approval for an expense logged by an employee without a manager
         // 1 waiting for manager approval for an expense logged by an employee with a manager
         // 1 waiting for accounting approval
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'status' => Expense::AWAITING_MANAGER_APPROVAL,
         ]);
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $dwight->id,
             'status' => Expense::AWAITING_ACCOUTING_APPROVAL,
@@ -40,7 +40,7 @@ class CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChangesTest exten
             'manager_id' => $dwight->id,
         ];
         (new AssignManager)->execute($request);
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $jim->id,
             'status' => Expense::AWAITING_MANAGER_APPROVAL,

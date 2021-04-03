@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -25,6 +26,7 @@ class Company extends Model
         'name',
         'currency',
         'has_dummy_data',
+        'logo_file_id',
         'e_coffee_enabled',
     ];
 
@@ -226,6 +228,26 @@ class Company extends Model
     public function eCoffees()
     {
         return $this->hasMany(ECoffee::class);
+    }
+
+    /**
+     * Get all the import jobs in the company.
+     *
+     * @return HasMany
+     */
+    public function importJobs()
+    {
+        return $this->hasMany(ImportJob::class);
+    }
+
+    /**
+     * Get the logo associated with the company.
+     *
+     * @return HasOne
+     */
+    public function logo()
+    {
+        return $this->hasOne(File::class, 'id', 'logo_file_id');
     }
 
     /**

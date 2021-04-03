@@ -4,8 +4,10 @@ namespace Tests\Unit\ViewHelpers\Company\Project;
 
 use Tests\TestCase;
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
 use App\Models\Company\ProjectLink;
 use App\Models\Company\ProjectStatus;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -19,10 +21,10 @@ class ProjectViewHelperTest extends TestCase
     public function it_gets_the_list_of_projects(): void
     {
         $michael = $this->createAdministrator();
-        $projectA = factory(Project::class)->create([
+        $projectA = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectB = factory(Project::class)->create([
+        $projectB = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -32,20 +34,20 @@ class ProjectViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 0 => [
-                    'id' => $projectA->id,
-                    'name' => $projectA->name,
-                    'code' => $projectA->code,
-                    'status' => $projectA->status,
-                    'summary' => $projectA->summary,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectA->id,
-                ],
-                1 => [
                     'id' => $projectB->id,
                     'name' => $projectB->name,
                     'code' => $projectB->code,
                     'status' => $projectB->status,
                     'summary' => $projectB->summary,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectB->id,
+                ],
+                1 => [
+                    'id' => $projectA->id,
+                    'name' => $projectA->name,
+                    'code' => $projectA->code,
+                    'status' => $projectA->status,
+                    'summary' => $projectA->summary,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectA->id,
                 ],
             ],
             $array['projects']->toArray()
@@ -56,14 +58,14 @@ class ProjectViewHelperTest extends TestCase
     public function it_gets_information_about_the_project_summary(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
             'project_lead_id' => $michael->id,
         ]);
-        $link = factory(ProjectLink::class)->create([
+        $link = ProjectLink::factory()->create([
             'project_id' => $project->id,
         ]);
-        $status = factory(ProjectStatus::class)->create([
+        $status = ProjectStatus::factory()->create([
             'project_id' => $project->id,
         ]);
 
@@ -74,11 +76,11 @@ class ProjectViewHelperTest extends TestCase
             $array['id']
         );
         $this->assertEquals(
-            'API v3',
+            $project->name,
             $array['name']
         );
         $this->assertEquals(
-            'API v3',
+            $project->name,
             $array['name']
         );
         $this->assertEquals(
@@ -94,11 +96,11 @@ class ProjectViewHelperTest extends TestCase
             $array['status']
         );
         $this->assertEquals(
-            'it is going well',
+            $project->description,
             $array['raw_description']
         );
         $this->assertEquals(
-            '<p>it is going well</p>',
+            '<p>'.$project->description.'</p>',
             $array['parsed_description']
         );
         $this->assertEquals(
@@ -113,7 +115,7 @@ class ProjectViewHelperTest extends TestCase
             [
                 'id' => $michael->id,
                 'name' => $michael->name,
-                'avatar' => $michael->avatar,
+                'avatar' => ImageHelper::getAvatar($michael, 35),
                 'position' => [
                     'id' => $michael->position->id,
                     'title' => $michael->position->title,
@@ -142,7 +144,7 @@ class ProjectViewHelperTest extends TestCase
                 'author' => [
                     'id' => $status->author->id,
                     'name' => $status->author->name,
-                    'avatar' => $status->author->avatar,
+                    'avatar' => ImageHelper::getAvatar($status->author, 32),
                     'position' => (! $status->author->position) ? null : [
                         'id' => $status->author->position->id,
                         'title' => $status->author->position->title,
@@ -158,7 +160,7 @@ class ProjectViewHelperTest extends TestCase
     public function it_shows_information_to_edit_a_project(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -167,7 +169,7 @@ class ProjectViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 'id' => $project->id,
-                'name' => 'API v3',
+                'name' => $project->name,
                 'code' => $project->code,
                 'summary' => null,
             ],
@@ -179,7 +181,7 @@ class ProjectViewHelperTest extends TestCase
     public function it_shows_information_about_the_permissions_of_the_logged_user(): void
     {
         $michael = $this->createEmployee();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -226,7 +228,7 @@ class ProjectViewHelperTest extends TestCase
         $tom = $this->createAnotherEmployee($michael);
         $pam = $this->createAnotherEmployee($michael);
         $jenny = $this->createAnotherEmployee($michael);
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);
@@ -260,6 +262,56 @@ class ProjectViewHelperTest extends TestCase
         $this->assertEquals(
             1,
             $array['other_members_counter']
+        );
+    }
+
+    /** @test */
+    public function it_searches_employees_to_assign_a_project_lead(): void
+    {
+        $michael = Employee::factory()->create([
+            'first_name' => 'ale',
+            'last_name' => 'ble',
+            'email' => 'ale@ble',
+        ]);
+        $dwight = Employee::factory()->create([
+            'first_name' => 'alb',
+            'last_name' => 'bli',
+            'email' => 'alb@bli',
+            'company_id' => $michael->company_id,
+        ]);
+        // the following should not be included in the search results
+        Employee::factory()->create([
+            'first_name' => 'ale',
+            'last_name' => 'ble',
+            'email' => 'ale@ble',
+            'locked' => true,
+            'company_id' => $michael->company_id,
+        ]);
+
+        $collection = ProjectViewHelper::searchProjectLead($michael->company, 'e');
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $michael->id,
+                    'name' => $michael->name,
+                    'avatar' => ImageHelper::getAvatar($michael, 23),
+                ],
+            ],
+            $collection->toArray()
+        );
+
+        $collection = ProjectViewHelper::searchProjectLead($michael->company, 'bli');
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $dwight->id,
+                    'name' => $dwight->name,
+                    'avatar' => ImageHelper::getAvatar($dwight, 23),
+                ],
+            ],
+            $collection->toArray()
         );
     }
 }

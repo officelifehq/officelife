@@ -36,7 +36,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -78,7 +78,7 @@
               <!-- identity -->
               <div class="mb3">
                 <span class="pl3 db relative team-member">
-                  <img loading="lazy" :src="directReport.avatar" alt="avatar" class="br-100 absolute avatar" />
+                  <avatar :avatar="directReport.avatar" :size="64" :classes="'br-100 absolute avatar'" />
                   <inertia-link :href="directReport.url" class="mb2">{{ directReport.name }}</inertia-link>
                   <span class="title db f7 mt1">
                     {{ directReport.position }}
@@ -115,12 +115,14 @@
 import Layout from '@/Shared/Layout';
 import Help from '@/Shared/Help';
 import LoadingButton from '@/Shared/LoadingButton';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
     Help,
     LoadingButton,
+    Avatar,
   },
 
   props: {

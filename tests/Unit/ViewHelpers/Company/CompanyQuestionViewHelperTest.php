@@ -29,7 +29,7 @@ class CompanyQuestionViewHelperTest extends TestCase
     public function it_gets_the_information_about_questions_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $question = factory(Question::class)->create([
+        $question = Question::factory()->create([
             'company_id' => $michael->company_id,
             'title' => 'Do you like Dwight',
         ]);
@@ -44,7 +44,7 @@ class CompanyQuestionViewHelperTest extends TestCase
         );
 
         // now we'll call the helper again with a question that we've added answers to
-        factory(Answer::class)->create([
+        Answer::factory()->create([
             'question_id' => $question->id,
         ]);
 
@@ -69,12 +69,12 @@ class CompanyQuestionViewHelperTest extends TestCase
     public function it_gets_the_information_about_a_specific_question(): void
     {
         $michael = $this->createAdministrator();
-        $question = factory(Question::class)->create([
+        $question = Question::factory()->create([
             'company_id' => $michael->company_id,
             'title' => 'Do you like Dwight',
         ]);
 
-        factory(Answer::class, 3)->create([
+        Answer::factory()->count(3)->create([
             'question_id' => $question->id,
         ]);
 
@@ -105,7 +105,7 @@ class CompanyQuestionViewHelperTest extends TestCase
     public function it_gets_a_collection_of_teams(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

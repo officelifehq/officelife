@@ -3,9 +3,11 @@
 namespace App\Http\ViewHelpers\Team;
 
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use App\Helpers\StringHelper;
+use App\Models\Company\Company;
 use Illuminate\Support\Collection;
 
 class TeamRecentShipViewHelper
@@ -29,7 +31,7 @@ class TeamRecentShipViewHelper
                 $employeeCollection->push([
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => $employee->avatar,
+                    'avatar' => ImageHelper::getAvatar($employee, 21),
                     'url' => route('employees.show', [
                         'company' => $team->company,
                         'employee' => $employee,
@@ -70,7 +72,7 @@ class TeamRecentShipViewHelper
             $employeeCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => ImageHelper::getAvatar($employee, 44),
                 'position' => (! $employee->position) ? null : [
                     'title' => $employee->position->title,
                 ],
@@ -93,5 +95,38 @@ class TeamRecentShipViewHelper
                 'ship' => $ship->id,
             ]),
         ];
+    }
+
+    /**
+     * Search all potential team members for this ship.
+     *
+     * @param Company $company
+     * @param string $criteria
+     * @return Collection
+     */
+    public static function search(Company $company, string $criteria): Collection
+    {
+        $potentialEmployees = $company->employees()
+            ->select('id', 'first_name', 'last_name', 'avatar_file_id')
+            ->notLocked()
+            ->where(function ($query) use ($criteria) {
+                $query->where('first_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('email', 'LIKE', '%'.$criteria.'%');
+            })
+            ->orderBy('last_name', 'asc')
+            ->take(10)
+            ->get();
+
+        $employeesCollection = collect([]);
+        foreach ($potentialEmployees as $employee) {
+            $employeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => ImageHelper::getAvatar($employee, 23),
+            ]);
+        }
+
+        return $employeesCollection;
     }
 }

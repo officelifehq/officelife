@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
@@ -103,7 +104,7 @@ class ProjectMembersController extends Controller
             'data' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => ImageHelper::getAvatar($employee, 64),
                 'role' => $request->input('role'),
                 'added_at' => DateHelper::formatDate(Carbon::now()),
                 'position' => (! $employee->position) ? null : [

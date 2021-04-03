@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
@@ -131,22 +132,8 @@ class AdminExpenseController extends Controller
      */
     public function search(Request $request, int $companyId): JsonResponse
     {
-        $potentialEmployees = Employee::search(
-            $request->input('searchTerm'),
-            $companyId,
-            10,
-            'created_at desc',
-            'and locked = false and can_manage_expenses = false',
-        );
-
-        $employees = collect([]);
-        foreach ($potentialEmployees as $employee) {
-            $employees->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'avatar' => $employee->avatar,
-            ]);
-        }
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $employees = AdminExpenseViewHelper::search($loggedCompany, $request->input('searchTerm'));
 
         return response()->json([
             'data' => $employees,
@@ -177,7 +164,7 @@ class AdminExpenseController extends Controller
             'data' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => ImageHelper::getAvatar($employee, 23),
                 'url' => route('employees.show', [
                     'company' => $loggedCompany,
                     'employee' => $employee,

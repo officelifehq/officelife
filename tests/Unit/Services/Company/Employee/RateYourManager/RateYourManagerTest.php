@@ -24,11 +24,11 @@ class RateYourManagerTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $survey = factory(RateYourManagerSurvey::class)->create([
+        $survey = RateYourManagerSurvey::factory()->create([
             'manager_id' => $michael->id,
             'active' => true,
         ]);
-        $answer = factory(RateYourManagerAnswer::class)->create([
+        $answer = RateYourManagerAnswer::factory()->create([
             'employee_id' => $dwight->id,
             'rate_your_manager_survey_id' => $survey->id,
         ]);
@@ -40,11 +40,11 @@ class RateYourManagerTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $survey = factory(RateYourManagerSurvey::class)->create([
+        $survey = RateYourManagerSurvey::factory()->create([
             'manager_id' => $michael->id,
             'active' => true,
         ]);
-        $answer = factory(RateYourManagerAnswer::class)->create([
+        $answer = RateYourManagerAnswer::factory()->create([
             'employee_id' => $dwight->id,
             'rate_your_manager_survey_id' => $survey->id,
         ]);
@@ -58,7 +58,7 @@ class RateYourManagerTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $answer = factory(RateYourManagerAnswer::class)->create([
+        $answer = RateYourManagerAnswer::factory()->create([
             'employee_id' => $dwight->id,
         ]);
 
@@ -71,11 +71,11 @@ class RateYourManagerTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $survey = factory(RateYourManagerSurvey::class)->create([
+        $survey = RateYourManagerSurvey::factory()->create([
             'manager_id' => $michael->id,
             'active' => false,
         ]);
-        $answer = factory(RateYourManagerAnswer::class)->create([
+        $answer = RateYourManagerAnswer::factory()->create([
             'employee_id' => $dwight->id,
             'rate_your_manager_survey_id' => $survey->id,
         ]);
@@ -100,11 +100,11 @@ class RateYourManagerTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createEmployee();
-        $survey = factory(RateYourManagerSurvey::class)->create([
+        $survey = RateYourManagerSurvey::factory()->create([
             'manager_id' => $michael->id,
             'active' => true,
         ]);
-        $answer = factory(RateYourManagerAnswer::class)->create([
+        $answer = RateYourManagerAnswer::factory()->create([
             'employee_id' => $dwight->id,
             'rate_your_manager_survey_id' => $survey->id,
         ]);

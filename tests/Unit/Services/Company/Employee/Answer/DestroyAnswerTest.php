@@ -24,7 +24,7 @@ class DestroyAnswerTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $question = factory(Question::class)->create([
+        $question = Question::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $dwight, $question);
@@ -35,7 +35,7 @@ class DestroyAnswerTest extends TestCase
     {
         $michael = $this->createHR();
         $dwight = $this->createAnotherEmployee($michael);
-        $question = factory(Question::class)->create([
+        $question = Question::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $dwight, $question);
@@ -45,7 +45,7 @@ class DestroyAnswerTest extends TestCase
     public function own_employee_can_create_the_answer(): void
     {
         $michael = $this->createEmployee();
-        $question = factory(Question::class)->create([
+        $question = Question::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $michael, $question);
@@ -58,7 +58,7 @@ class DestroyAnswerTest extends TestCase
 
         $michael = $this->createEmployee();
         $dwight = $this->createAnotherEmployee($michael);
-        $question = factory(Question::class)->create([
+        $question = Question::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $dwight, $question);
@@ -82,7 +82,7 @@ class DestroyAnswerTest extends TestCase
 
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $question = factory(Question::class)->create([]);
+        $question = Question::factory()->create([]);
 
         $this->executeService($michael, $dwight, $question);
     }
@@ -91,7 +91,7 @@ class DestroyAnswerTest extends TestCase
     {
         Queue::fake();
 
-        $answer = factory(Answer::class)->create([
+        $answer = Answer::factory()->create([
             'question_id' => $question->id,
         ]);
 

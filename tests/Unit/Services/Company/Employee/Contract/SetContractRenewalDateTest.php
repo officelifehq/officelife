@@ -58,7 +58,7 @@ class SetContractRenewalDateTest extends TestCase
     /** @test */
     public function it_throws_an_exception_if_the_date_is_not_valid(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
         $request = [
             'company_id' => $michael->company_id,
@@ -76,7 +76,7 @@ class SetContractRenewalDateTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
         $request = [
             'company_id' => $michael->company_id,

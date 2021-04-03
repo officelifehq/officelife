@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Company\Project;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Helpers\StringHelper;
 use App\Helpers\InstanceHelper;
@@ -41,7 +42,7 @@ class ProjectController extends Controller
     public function index(Request $request, int $companyId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
-        $statistics = CompanyViewHelper::statistics($company);
+        $statistics = CompanyViewHelper::information($company);
 
         return Inertia::render('Company/Project/Index', [
             'statistics' => $statistics,
@@ -330,7 +331,7 @@ class ProjectController extends Controller
             'data' => [
                 'id' => $lead->id,
                 'name' => $lead->name,
-                'avatar' => $lead->avatar,
+                'avatar' => ImageHelper::getAvatar($lead, 35),
                 'position' => (! $lead->position) ? null : [
                     'id' => $lead->position->id,
                     'title' => $lead->position->title,
@@ -397,22 +398,8 @@ class ProjectController extends Controller
      */
     public function search(Request $request, int $companyId): JsonResponse
     {
-        $potentialEmployees = Employee::search(
-            $request->input('searchTerm'),
-            $companyId,
-            10,
-            'created_at desc',
-            'and locked = false',
-        );
-
-        $employees = collect([]);
-        foreach ($potentialEmployees as $employee) {
-            $employees->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'avatar' => $employee->avatar,
-            ]);
-        }
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $employees = ProjectViewHelper::searchProjectLead($loggedCompany, $request->input('searchTerm'));
 
         return response()->json([
             'data' => $employees,

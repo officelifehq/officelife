@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use OutOfRangeException;
 use App\Helpers\DateHelper;
 use Illuminate\Support\Str;
+use App\Helpers\ImageHelper;
+use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
 use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
@@ -22,7 +24,7 @@ class CompanyViewHelper
      * @param Company $company
      * @return array
      */
-    public static function statistics(Company $company): array
+    public static function information(Company $company): array
     {
         $teams = $company->teams->count();
         $employees = $company->employees()->notLocked()->count();
@@ -30,6 +32,7 @@ class CompanyViewHelper
         return [
             'number_of_teams' => $teams,
             'number_of_employees' => $employees,
+            'logo' => $company->logo ? ImageHelper::getImage($company->logo, 200, 200) : null,
         ];
     }
 
@@ -69,7 +72,7 @@ class CompanyViewHelper
                     'company' => $company,
                     'question' => $question->id,
                 ]),
-                ];
+            ];
         });
 
         return [
@@ -93,7 +96,6 @@ class CompanyViewHelper
         $employees = $company->employees()
             ->where('locked', false)
             ->whereNotNull('birthdate')
-            ->select('id', 'first_name', 'last_name', 'avatar', 'birthdate')
             ->get();
 
         $now = Carbon::now();
@@ -108,7 +110,7 @@ class CompanyViewHelper
                 $birthdaysCollection->push([
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => $employee->avatar,
+                    'avatar' => ImageHelper::getAvatar($employee, 35),
                     'birthdate' => DateHelper::formatMonthAndDay($birthdateWithCurrentYear),
                     'sort_key' => Carbon::createFromDate($now->year, $birthdateWithCurrentYear->month, $birthdateWithCurrentYear->day)->format('Y-m-d'),
                     'url' => route('employees.show', [
@@ -136,7 +138,6 @@ class CompanyViewHelper
     {
         $now = Carbon::now();
         $employees = $company->employees()
-            ->select('id', 'first_name', 'last_name', 'avatar', 'hired_at', 'position_id')
             ->where('locked', false)
             ->whereNotNull('hired_at')
             ->whereDate('hired_at', '>=', $now->copy()->startOfWeek(Carbon::MONDAY))
@@ -157,7 +158,7 @@ class CompanyViewHelper
                     'employee' => $employee->id,
                 ]),
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => ImageHelper::getAvatar($employee, 35),
                 'hired_at' => DateHelper::formatDayAndMonthInParenthesis($date),
                 'position' => (! $position) ? null : $position->title,
             ]);
@@ -243,7 +244,7 @@ class CompanyViewHelper
      */
     public static function latestNews(Company $company): array
     {
-        $companyNewsCount = $company->news()->count();
+        $totalCompanyNews = $company->news()->count();
 
         $news = $company->news()
             ->orderBy('id', 'desc')
@@ -253,6 +254,7 @@ class CompanyViewHelper
         $newsCollection = collect([]);
         foreach ($news as $new) {
             $newsCollection->push([
+                'id' => $new->id,
                 'title' => $new->title,
                 'extract' => StringHelper::parse(Str::words($new->content, 20, ' ...')),
                 'author_name' => $new->author_name,
@@ -260,8 +262,11 @@ class CompanyViewHelper
         }
 
         return [
-            'count' => $companyNewsCount,
+            'count' => $totalCompanyNews,
             'news' => $newsCollection,
+            'view_all_url' => route('company.news.index', [
+                'company' => $company,
+            ]),
         ];
     }
 
@@ -316,8 +321,143 @@ class CompanyViewHelper
 
         return [
             'id' => $game->id,
-            'avatar_to_find' => $employeeToFind->avatar,
+            'avatar_to_find' => ImageHelper::getAvatar($employeeToFind, 80),
             'choices' => $choices,
+        ];
+    }
+
+    /**
+     * Information about the employees in the company.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function employees(Company $company): array
+    {
+        // number of employees in total
+        $totalNumberOfEmployees = $company->employees()->notLocked()->count();
+
+        // 10 random employees
+        $tenRandomEmployeesCollection = collect([]);
+        $allEmployees = $company->employees()
+            ->notLocked()
+            ->with('picture')
+            ->inRandomOrder()
+            ->take(10)
+            ->get();
+
+        foreach ($allEmployees as $employee) {
+            $tenRandomEmployeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => ImageHelper::getAvatar($employee, 32),
+                'url' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+            ]);
+        }
+
+        // ten random employees
+
+        // number of employees hired in the current year
+        $employeesHiredInTheCurrentYear = $company->employees()
+            ->notLocked()
+            ->whereYear('hired_at', (string) Carbon::now()->year)
+            ->count();
+
+        return [
+            'employees_hired_in_the_current_year' => $employeesHiredInTheCurrentYear,
+            'ten_random_employees' => $tenRandomEmployeesCollection,
+            'number_of_employees_left' => $totalNumberOfEmployees - $tenRandomEmployeesCollection->count(),
+            'view_all_url' => route('employees.index', [
+                'company' => $company,
+            ]),
+        ];
+    }
+
+    /**
+     * Information about employee's genders in the company.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function demography(Company $company): array
+    {
+        $stat = DB::table('employees')
+            ->where('locked', false)
+            ->where('company_id', $company->id)
+            ->join('pronouns', 'employees.pronoun_id', '=', 'pronouns.id')
+            ->selectRaw("count(case when pronouns.label = '".Pronoun::HE."' then 1 end) as he")
+            ->selectRaw("count(case when pronouns.label = '".Pronoun::SHE."' then 1 end) as she")
+            ->selectRaw("count(case when pronouns.label = '".Pronoun::THEY."' then 1 end) as they")
+            ->selectRaw("count(case when pronouns.label = '".Pronoun::PER."' then 1 end) as per")
+            ->selectRaw("count(case when pronouns.label = '".Pronoun::VE."' then 1 end) as ve")
+            ->selectRaw("count(case when pronouns.label = '".Pronoun::XE."' then 1 end) as xe")
+            ->selectRaw("count(case when pronouns.label = '".Pronoun::ZE."' then 1 end) as ze")
+            ->first();
+
+        return [
+            'he' => $stat->he,
+            'she' => $stat->she,
+            'they' => $stat->they,
+            'per' => $stat->per,
+            've' => $stat->ve,
+            'xe' => $stat->xe,
+            'ze' => $stat->ze,
+        ];
+    }
+
+    public static function teams(Company $company): array
+    {
+        $randomTeams = $company
+            ->teams()
+            ->with('employees')
+            ->inRandomOrder()
+            ->take(3)
+            ->get();
+
+        $teamsCollection = collect();
+        foreach ($randomTeams as $team) {
+            $employeesCollection = collect([]);
+
+            $employees = $team->employees()->with('picture')
+                ->inRandomOrder()
+                ->take(3)
+                ->get();
+
+            $numberOfEmployeesInTeam = $team->employees()->count();
+
+            foreach ($employees as $employee) {
+                $employeesCollection->push([
+                    'id' => $employee->id,
+                    'avatar' => ImageHelper::getAvatar($employee, 32),
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $employee,
+                    ]),
+                ]);
+            }
+
+            $remainingEmployees = $numberOfEmployeesInTeam - 3;
+
+            $teamsCollection->push([
+                'id' => $team->id,
+                'name' => $team->name,
+                'employees' => $employeesCollection,
+                'total_remaining_employees' => $remainingEmployees < 0 ? 0 : $remainingEmployees,
+                'url' => route('team.show', [
+                    'company' => $company,
+                    'team' => $team,
+                ]),
+            ]);
+        }
+
+        return [
+            'random_teams' => $teamsCollection,
+            'view_all_url' => route('teams.index', [
+                'company' => $company,
+            ]),
         ];
     }
 }

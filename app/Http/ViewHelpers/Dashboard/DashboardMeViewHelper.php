@@ -4,11 +4,13 @@ namespace App\Http\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Helpers\MoneyHelper;
 use App\Helpers\QuestionHelper;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
+use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Money\Currencies\ISOCurrencies;
@@ -47,7 +49,7 @@ class DashboardMeViewHelper
                 'employee' => [
                     'id' => $answer->employee->id,
                     'name' => $answer->employee->name,
-                    'avatar' => $answer->employee->avatar,
+                    'avatar' => ImageHelper::getAvatar($answer->employee, 22),
                 ],
             ]);
         }
@@ -235,7 +237,7 @@ class DashboardMeViewHelper
             $managersCollection->push([
                 'id' => $manager->id,
                 'name' => $manager->name,
-                'avatar' => $manager->avatar,
+                'avatar' => ImageHelper::getAvatar($manager, 35),
                 'position' => (! $manager->position) ? null : $manager->position->title,
                 'url' => route('employees.show', [
                     'company' => $company,
@@ -348,13 +350,13 @@ class DashboardMeViewHelper
             'e_coffee_id' => $latestECoffee->id,
             'happened' => $match->happened,
             'employee' => [
-                'avatar' => $employee->avatar,
+                'avatar' => ImageHelper::getAvatar($employee),
             ],
             'other_employee' => [
                 'id' => $otherEmployee->id,
                 'name' => $otherEmployee->name,
                 'first_name' => $otherEmployee->first_name,
-                'avatar' => $otherEmployee->avatar,
+                'avatar' => ImageHelper::getAvatar($otherEmployee, 55),
                 'position' => $otherEmployee->position ? $otherEmployee->position->title : null,
                 'url' => route('employees.show', [
                     'company' => $company,
@@ -363,5 +365,58 @@ class DashboardMeViewHelper
                 'teams' => $teamsCollection->count() == 0 ? null : $teamsCollection,
             ],
         ];
+    }
+
+    /**
+     * Get the projects the employee participates in.
+     *
+     * @param Employee $employee
+     * @param Company $company
+     * @return Collection|null
+     */
+    public static function projects(Employee $employee, Company $company): ?Collection
+    {
+        $openProjects = $employee->projects()
+            ->where('status', Project::STARTED)
+            ->orWhere('status', Project::PAUSED)
+            ->with('employees')
+            ->get();
+
+        $projectsCollection = collect([]);
+        foreach ($openProjects as $project) {
+            $members = $project->employees()
+                ->inRandomOrder()
+                ->take(3)
+                ->get();
+
+            $totalMembersCount = $project->employees()->count();
+            $totalMembersCount = $totalMembersCount - $members->count();
+
+            $membersCollection = collect([]);
+            foreach ($members as $member) {
+                $membersCollection->push([
+                    'id' => $member->id,
+                    'avatar' => ImageHelper::getAvatar($member, 32),
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $member,
+                    ]),
+                ]);
+            }
+
+            $projectsCollection->push([
+                'id' => $project->id,
+                'name' => $project->name,
+                'code' => $project->code,
+                'url' => route('projects.show', [
+                    'company' => $company,
+                    'project' => $project,
+                ]),
+                'preview_members' => $membersCollection,
+                'remaining_members_count' => $totalMembersCount,
+            ]);
+        }
+
+        return $projectsCollection;
     }
 }

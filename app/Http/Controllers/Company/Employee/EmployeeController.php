@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Employee;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
@@ -40,7 +41,7 @@ class EmployeeController extends Controller
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => ImageHelper::getAvatar($employee, 64),
                 'teams' => $employee->teams,
                 'position' => (! $employee->position) ? null : [
                     'id' => $employee->position->id,
@@ -109,6 +110,7 @@ class EmployeeController extends Controller
 
         return Inertia::render('Employee/Show', [
             'menu' => 'presentation',
+            'uploadcarePublicKey' => config('officelife.uploadcare_public_key'),
             'employee' => $employee,
             'permissions' => $permissions,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -146,7 +148,7 @@ class EmployeeController extends Controller
             'data' => [
                 'id' => $manager->id,
                 'name' => $manager->name,
-                'avatar' => $manager->avatar,
+                'avatar' => ImageHelper::getAvatar($manager),
                 'position' => (! $manager->position) ? null : [
                     'id' => $manager->position->id,
                     'title' => $manager->position->title,
@@ -186,7 +188,7 @@ class EmployeeController extends Controller
             'data' =>[
                 'id' => $directReport->id,
                 'name' => $directReport->name,
-                'avatar' => $directReport->avatar,
+                'avatar' => ImageHelper::getAvatar($directReport),
                 'position' => (! $directReport->position) ? null : [
                     'id' => $directReport->position->id,
                     'title' => $directReport->position->title,

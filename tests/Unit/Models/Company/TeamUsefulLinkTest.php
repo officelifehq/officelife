@@ -13,14 +13,14 @@ class TeamUsefulLinkTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_a_team(): void
     {
-        $teamUsefulLink = factory(TeamUsefulLink::class)->create([]);
+        $teamUsefulLink = TeamUsefulLink::factory()->create([]);
         $this->assertTrue($teamUsefulLink->team()->exists());
     }
 
     /** @test */
     public function it_returns_an_object(): void
     {
-        $link = factory(TeamUsefulLink::class)->create([
+        $link = TeamUsefulLink::factory()->create([
             'created_at' => '2020-01-12 00:00:00',
         ]);
 
@@ -39,7 +39,7 @@ class TeamUsefulLinkTest extends ApiTestCase
     /** @test */
     public function it_returns_the_label_attribute_if_it_is_defined(): void
     {
-        $teamUsefulLink = factory(TeamUsefulLink::class)->create([
+        $teamUsefulLink = TeamUsefulLink::factory()->create([
             'label' => 'slack',
             'url' => 'https://slack.com',
         ]);
@@ -53,7 +53,7 @@ class TeamUsefulLinkTest extends ApiTestCase
     /** @test */
     public function it_returns_the_url_attribute_if_the_label_is_not_defined(): void
     {
-        $teamUsefulLink = factory(TeamUsefulLink::class)->create([
+        $teamUsefulLink = TeamUsefulLink::factory()->create([
             'label' => null,
             'url' => 'https://slack.com',
         ]);

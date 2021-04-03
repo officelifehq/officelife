@@ -45,7 +45,7 @@ class CreateTeamTest extends TestCase
     public function it_cant_create_a_team_with_a_not_unique_name_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        factory(Team::class)->create([
+        Team::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'Product',
         ]);
@@ -61,7 +61,7 @@ class CreateTeamTest extends TestCase
     public function it_can_create_a_team_with_a_name_already_taken_by_a_team_in_another_company(): void
     {
         $michael = $this->createAdministrator();
-        factory(Team::class)->create([
+        Team::factory()->create([
             'name' => 'Product',
         ]);
 

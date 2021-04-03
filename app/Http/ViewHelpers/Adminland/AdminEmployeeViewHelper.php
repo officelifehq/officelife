@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Adminland;
 
+use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
@@ -54,6 +55,12 @@ class AdminEmployeeViewHelper
             'url_new' => route('account.employees.new', [
                 'company' => $company,
             ]),
+            'url_upload' => route('account.employees.upload', [
+                'company' => $company,
+            ]),
+            'url_upload_archive' => route('account.employees.upload.archive', [
+                'company' => $company,
+            ]),
         ];
 
         return $stats;
@@ -77,7 +84,7 @@ class AdminEmployeeViewHelper
                 'id' => $employee->id,
                 'name' => $employee->name,
                 'permission_level' => $employee->permission_level,
-                'avatar' => $employee->avatar,
+                'avatar' => ImageHelper::getAvatar($employee, 64),
                 'invitation_link' => $employee->invitation_link,
                 'invited' => (! $employee->invitation_used_at && $employee->invitation_link) === true,
                 'lock_status' => $employee->locked,

@@ -22,7 +22,7 @@ class CreateTeamNewsTest extends TestCase
     public function it_creates_a_team_news_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -33,7 +33,7 @@ class CreateTeamNewsTest extends TestCase
     public function it_creates_a_team_news_as_hr(): void
     {
         $michael = $this->createHR();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -44,7 +44,7 @@ class CreateTeamNewsTest extends TestCase
     public function it_creates_a_team_news_as_normal_user(): void
     {
         $michael = $this->createEmployee();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -66,7 +66,7 @@ class CreateTeamNewsTest extends TestCase
     public function it_fails_if_the_team_is_not_part_of_the_company(): void
     {
         $michael = $this->createEmployee();
-        $team = factory(Team::class)->create([]);
+        $team = Team::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $team);

@@ -28,7 +28,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -123,7 +123,7 @@
             <div v-show="form.employees.length > 0" class="ba bb-gray mb3 mt4">
               <div v-for="employee in form.employees" :key="employee.id" class="pa2 db bb-gray bb" data-cy="members-list">
                 <span class="pl3 db relative team-member">
-                  <img loading="lazy" :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />
+                  <avatar :avatar="employee.avatar" :size="23" :classes="'br-100 absolute avatar'" />
 
                   {{ employee.name }}
 
@@ -162,10 +162,12 @@ import Layout from '@/Shared/Layout';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import Help from '@/Shared/Help';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Avatar,
     TextInput,
     TextArea,
     Errors,

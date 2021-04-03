@@ -7,7 +7,7 @@ return [
     'tab_manager' => 'Manager area',
     'tab_hr' => 'HR area',
 
-    'dstate' => 'You are not associated with a team at the moment.',
+    'blank_state' => 'You are not associated with a team at the moment.',
 
     'morale_title' => 'How do you feel?',
     'morale_success_message' => 'Thanks for telling us how you feel.',
@@ -239,4 +239,6 @@ return [
     'e_coffee_match_cta' => 'Mark as happened',
     'e_coffee_match_happened_title' => 'Thanks for talking to {name} this week.',
     'e_coffee_match_happened_desc' => 'See you next week for a new match!',
+
+    'project_title' => 'Active projects you are part of',
 ];

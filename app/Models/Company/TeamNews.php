@@ -3,14 +3,17 @@
 namespace App\Models\Company;
 
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TeamNews extends Model
 {
-    use LogsActivity;
+    use LogsActivity,
+        HasFactory;
 
     protected $table = 'team_news';
 
@@ -73,7 +76,7 @@ class TeamNews extends Model
             'author' => [
                 'id' => is_null($this->author) ? null : $this->author->id,
                 'name' => is_null($this->author) ? $this->author_name : $this->author->name,
-                'avatar' => is_null($this->author) ? null : $this->author->avatar,
+                'avatar' => is_null($this->author) ? null : ImageHelper::getAvatar($this->author),
             ],
             'localized_created_at' => DateHelper::formatShortDateWithTime($this->created_at),
             'created_at' => $this->created_at,

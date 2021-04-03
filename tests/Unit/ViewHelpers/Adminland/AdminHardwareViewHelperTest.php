@@ -3,6 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Adminland;
 
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Hardware;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -31,11 +32,11 @@ class AdminHardwareViewHelperTest extends TestCase
     public function it_gets_the_information_about_hardware_used_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $androidPhone = factory(Hardware::class)->create([
+        $androidPhone = Hardware::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'Android phone',
         ]);
-        $iosPhone = factory(Hardware::class)->create([
+        $iosPhone = Hardware::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'iOS phone',
             'employee_id' => $michael->id,
@@ -65,7 +66,7 @@ class AdminHardwareViewHelperTest extends TestCase
                 'employee' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => $michael->avatar,
+                    'avatar' => ImageHelper::getAvatar($michael, 18),
                 ],
             ],
             $response['hardware_collection'][1]
@@ -101,11 +102,11 @@ class AdminHardwareViewHelperTest extends TestCase
     public function it_gets_the_information_about_available_hardware_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $androidPhone = factory(Hardware::class)->create([
+        $androidPhone = Hardware::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'Android phone',
         ]);
-        $iosPhone = factory(Hardware::class)->create([
+        $iosPhone = Hardware::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'iOS phone',
             'employee_id' => $michael->id,
@@ -137,11 +138,11 @@ class AdminHardwareViewHelperTest extends TestCase
     public function it_gets_the_information_about_lent_hardware_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $androidPhone = factory(Hardware::class)->create([
+        $androidPhone = Hardware::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'Android phone',
         ]);
-        $iosPhone = factory(Hardware::class)->create([
+        $iosPhone = Hardware::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'iOS phone',
             'employee_id' => $michael->id,
@@ -162,7 +163,7 @@ class AdminHardwareViewHelperTest extends TestCase
                 'employee' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => $michael->avatar,
+                    'avatar' => ImageHelper::getAvatar($michael, 18),
                 ],
             ],
             $response['hardware_collection'][0]

@@ -18,7 +18,7 @@ class HolidayHelperTest extends TestCase
     /** @test */
     public function it_returns_the_number_of_holidays_earned_each_month(): void
     {
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'amount_of_allowed_holidays' => 30,
         ]);
 
@@ -33,10 +33,10 @@ class HolidayHelperTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
-        $policy = factory(CompanyPTOPolicy::class)->create([
+        $policy = CompanyPTOPolicy::factory()->create([
             'year' => 2018,
         ]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'amount_of_allowed_holidays' => 30,
         ]);
 
@@ -48,7 +48,7 @@ class HolidayHelperTest extends TestCase
                 $isWorked = false;
             }
 
-            factory(CompanyCalendar::class)->create([
+            CompanyCalendar::factory()->create([
                 'company_pto_policy_id' => $policy->id,
                 'day' => $date->format('Y-m-d'),
                 'is_worked' => $isWorked,
@@ -66,11 +66,11 @@ class HolidayHelperTest extends TestCase
     /** @test */
     public function it_returns_the_number_of_holidays_earned_each_day(): void
     {
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'amount_of_allowed_holidays' => 30,
         ]);
 
-        $policy = factory(CompanyPTOPolicy::class)->create([
+        $policy = CompanyPTOPolicy::factory()->create([
             'year' => 2018,
         ]);
 
@@ -83,11 +83,11 @@ class HolidayHelperTest extends TestCase
     /** @test */
     public function it_checks_if_a_day_is_worked_in_the_company(): void
     {
-        $policy = factory(CompanyPTOPolicy::class)->create([
+        $policy = CompanyPTOPolicy::factory()->create([
             'year' => 2018,
         ]);
 
-        factory(CompanyCalendar::class)->create([
+        CompanyCalendar::factory()->create([
             'company_pto_policy_id' => $policy->id,
             'day' => '2018-10-01',
             'is_worked' => true,
@@ -103,11 +103,11 @@ class HolidayHelperTest extends TestCase
     /** @test */
     public function it_checks_if_a_day_is_not_worked_in_the_company(): void
     {
-        $policy = factory(CompanyPTOPolicy::class)->create([
+        $policy = CompanyPTOPolicy::factory()->create([
             'year' => 2018,
         ]);
 
-        factory(CompanyCalendar::class)->create([
+        CompanyCalendar::factory()->create([
             'company_pto_policy_id' => $policy->id,
             'day' => '2018-10-01',
             'is_worked' => false,

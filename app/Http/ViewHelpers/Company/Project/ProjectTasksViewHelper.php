@@ -5,6 +5,7 @@ namespace App\Http\ViewHelpers\Company\Project;
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\TimeHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
 use Illuminate\Support\Collection;
@@ -62,7 +63,7 @@ class ProjectTasksViewHelper
                 'assignee' => $assignee ? [
                     'id' => $assignee->id,
                     'name' => $assignee->name,
-                    'avatar' => $assignee->avatar,
+                    'avatar' => ImageHelper::getAvatar($assignee, 15),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $assignee,
@@ -108,7 +109,7 @@ class ProjectTasksViewHelper
                     'assignee' => $assignee ? [
                         'id' => $assignee->id,
                         'name' => $assignee->name,
-                        'avatar' => $assignee->avatar,
+                        'avatar' => ImageHelper::getAvatar($assignee, 15),
                         'url' => route('employees.show', [
                             'company' => $company,
                             'employee' => $assignee,
@@ -202,7 +203,7 @@ class ProjectTasksViewHelper
             'author' => $author ? [
                 'id' => $author->id,
                 'name' => $author->name,
-                'avatar' => $author->avatar,
+                'avatar' => ImageHelper::getAvatar($author, 35),
                 'role' => $role ? $role->role : null,
                 'added_at' => $role ? DateHelper::formatDate(Carbon::createFromFormat('Y-m-d H:i:s', $role->created_at)) : null,
                 'position' => (! $author->position) ? null : $author->position->title,
@@ -214,7 +215,7 @@ class ProjectTasksViewHelper
             'assignee' => $assignee ? [
                 'id' => $assignee->id,
                 'name' => $assignee->name,
-                'avatar' => $assignee->avatar,
+                'avatar' => ImageHelper::getAvatar($assignee, 35),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $assignee,
@@ -261,7 +262,7 @@ class ProjectTasksViewHelper
         // on long tasks, and this would not be efficient at all
         $timeTrackingEntries = DB::table('time_tracking_entries')
             ->join('employees', 'time_tracking_entries.employee_id', '=', 'employees.id')
-            ->select('time_tracking_entries.id', 'time_tracking_entries.duration', 'time_tracking_entries.happened_at', 'employees.id as employee_id', 'employees.avatar', 'employees.first_name', 'employees.last_name')
+            ->select('time_tracking_entries.id', 'time_tracking_entries.duration', 'time_tracking_entries.happened_at', 'employees.id as employee_id', 'employees.first_name', 'employees.last_name')
             ->where('project_task_id', $projectTask->id)
             ->orderBy('time_tracking_entries.happened_at', 'desc')
             ->get();
@@ -277,7 +278,6 @@ class ProjectTasksViewHelper
                 'employee' => [
                     'id' => $timeTrackingEntry->employee_id,
                     'name' => $timeTrackingEntry->first_name.' '.$timeTrackingEntry->last_name,
-                    'avatar' => $timeTrackingEntry->avatar,
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $timeTrackingEntry->employee_id,

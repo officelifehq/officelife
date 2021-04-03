@@ -21,11 +21,11 @@ class DestroyProjectDecisionTest extends TestCase
     public function it_destroys_a_decision_from_a_project_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);
-        $projectDecision = factory(ProjectDecision::class)->create([
+        $projectDecision = ProjectDecision::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->executeService($michael, $project, $projectDecision);
@@ -35,11 +35,11 @@ class DestroyProjectDecisionTest extends TestCase
     public function it_destroys_a_decision_from_a_project_as_hr(): void
     {
         $michael = $this->createHR();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);
-        $projectDecision = factory(ProjectDecision::class)->create([
+        $projectDecision = ProjectDecision::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->executeService($michael, $project, $projectDecision);
@@ -49,11 +49,11 @@ class DestroyProjectDecisionTest extends TestCase
     public function it_destroys_a_decision_from_a_project_as_normal_user(): void
     {
         $michael = $this->createEmployee();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);
-        $projectDecision = factory(ProjectDecision::class)->create([
+        $projectDecision = ProjectDecision::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->executeService($michael, $project, $projectDecision);
@@ -74,9 +74,9 @@ class DestroyProjectDecisionTest extends TestCase
     public function it_fails_if_the_project_is_not_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         $project->employees()->attach([$michael->id]);
-        $projectDecision = factory(ProjectDecision::class)->create([
+        $projectDecision = ProjectDecision::factory()->create([
             'project_id' => $project->id,
         ]);
 
@@ -88,11 +88,11 @@ class DestroyProjectDecisionTest extends TestCase
     public function it_fails_if_the_project_decision_is_not_part_of_the_project(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);
-        $projectDecision = factory(ProjectDecision::class)->create([]);
+        $projectDecision = ProjectDecision::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $project, $projectDecision);

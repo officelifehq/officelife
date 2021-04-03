@@ -42,7 +42,7 @@ class VoteGuessEmployeeGameTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -55,8 +55,8 @@ class VoteGuessEmployeeGameTest extends TestCase
     /** @test */
     public function it_fails_if_the_game_is_not_linked_to_the_employee(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        $dwight = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create([]);
+        $dwight = Employee::factory()->create([]);
         $game = $this->populateAccount($dwight);
 
         $request = [

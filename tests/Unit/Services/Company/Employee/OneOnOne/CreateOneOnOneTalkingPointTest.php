@@ -23,7 +23,7 @@ class CreateOneOnOneTalkingPointTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
-        $entry = factory(OneOnOneEntry::class)->create([
+        $entry = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
         ]);
@@ -35,7 +35,7 @@ class CreateOneOnOneTalkingPointTest extends TestCase
     {
         $michael = $this->createHR();
         $dwight = $this->createDirectReport($michael);
-        $entry = factory(OneOnOneEntry::class)->create([
+        $entry = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
         ]);
@@ -58,7 +58,7 @@ class CreateOneOnOneTalkingPointTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
-        $entry = factory(OneOnOneEntry::class)->create([
+        $entry = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
         ]);

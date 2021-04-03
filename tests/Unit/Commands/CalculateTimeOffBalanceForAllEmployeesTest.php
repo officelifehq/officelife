@@ -17,7 +17,7 @@ class CalculateTimeOffBalanceForAllEmployeesTest extends TestCase
     public function it_triggers_the_job(): void
     {
         Bus::fake();
-        factory(Employee::class)->create([]);
+        Employee::factory()->create([]);
 
         $this->artisan('timeoff:calculate 2019-02-02');
         Bus::assertDispatched(CalculateTimeOffBalance::class);

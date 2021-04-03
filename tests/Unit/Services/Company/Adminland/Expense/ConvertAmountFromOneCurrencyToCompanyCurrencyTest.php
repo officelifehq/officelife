@@ -30,13 +30,13 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $company = factory(Company::class)->create([
+        $company = Company::factory()->create([
             'currency' => 'USD',
         ]);
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $company->id,
         ]);
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'employee_id' => $employee->id,
             'currency' => 'EUR',
             'amount' => '10000',
@@ -74,13 +74,13 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $company = factory(Company::class)->create([
+        $company = Company::factory()->create([
             'currency' => 'USD',
         ]);
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $company->id,
         ]);
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'employee_id' => $employee->id,
             'currency' => 'USD',
             'amount' => '10000',
@@ -110,13 +110,13 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $company = factory(Company::class)->create([
+        $company = Company::factory()->create([
             'currency' => 'CAD',
         ]);
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $company->id,
         ]);
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'employee_id' => $employee->id,
             'currency' => 'EUR',
             'amount' => '10000',

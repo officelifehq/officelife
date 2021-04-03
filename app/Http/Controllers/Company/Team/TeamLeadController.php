@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Company\Team;
 
 use Inertia\Response;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Team\SetTeamLead;
@@ -24,24 +24,11 @@ class TeamLeadController extends Controller
      */
     public function search(Request $request, int $companyId, int $teamId): JsonResponse
     {
-        $potentialTeamLeads = Employee::search(
-            $request->input('searchTerm'),
-            $companyId,
-            10,
-            'created_at desc',
-            'and locked = false',
-        );
-
-        $leads = collect([]);
-        foreach ($potentialTeamLeads as $lead) {
-            $leads->push([
-                'id' => $lead->id,
-                'name' => $lead->name,
-            ]);
-        }
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $employees = TeamShowViewHelper::searchPotentialLead($loggedCompany, $request->input('searchTerm'));
 
         return response()->json([
-            'data' => $leads,
+            'data' => $employees,
         ], 200);
     }
 
@@ -71,7 +58,7 @@ class TeamLeadController extends Controller
             'data' => [
                 'id' => $lead->id,
                 'name' => $lead->name,
-                'avatar' => $lead->avatar,
+                'avatar' => ImageHelper::getAvatar($lead, 35),
                 'position' => (! $lead->position) ? null : [
                     'title' => $lead->position->title,
                 ],

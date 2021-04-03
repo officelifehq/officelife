@@ -5,6 +5,7 @@ namespace App\Http\ViewHelpers\Dashboard;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
 use App\Helpers\BirthdayHelper;
 use Illuminate\Support\Collection;
@@ -17,7 +18,6 @@ class DashboardTeamViewHelper
      * team.
      *
      * @param Team $team
-     *
      * @return array
      */
     public static function birthdays(Team $team): array
@@ -51,7 +51,7 @@ class DashboardTeamViewHelper
                         'employee' => $employee,
                     ]),
                     'name' => $employee->name,
-                    'avatar' => $employee->avatar,
+                    'avatar' => ImageHelper::getAvatar($employee, 35),
                     'birthdate' => DateHelper::formatMonthAndDay($employee->birthdate),
                     'sort_key' => Carbon::createFromDate($now->year, $employee->birthdate->month, $employee->birthdate->day)->format('Y-m-d'),
                 ]);
@@ -69,7 +69,6 @@ class DashboardTeamViewHelper
      * Array containing all employees who work from home in the given team.
      *
      * @param Team $team
-     *
      * @return Collection
      */
     public static function workFromHome(Team $team): Collection
@@ -96,7 +95,7 @@ class DashboardTeamViewHelper
                     'employee' => $employee,
                 ]),
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => ImageHelper::getAvatar($employee, 35),
                 'position' => $employee->position,
             ]);
         }
@@ -108,7 +107,6 @@ class DashboardTeamViewHelper
      * Array containing all the teams.
      *
      * @param Collection $teams
-     *
      * @return Collection
      */
     public static function teams(Collection $teams): Collection
@@ -132,7 +130,6 @@ class DashboardTeamViewHelper
      * Collection containing all the recent ships entry for the given team.
      *
      * @param Team $team
-     *
      * @return Collection
      */
     public static function ships(Team $team): Collection
@@ -147,7 +144,7 @@ class DashboardTeamViewHelper
                 $employeeCollection->push([
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => $employee->avatar,
+                    'avatar' => ImageHelper::getAvatar($employee, 17),
                     'url' => route('employees.show', [
                         'company' => $team->company,
                         'employee' => $employee,
@@ -183,7 +180,6 @@ class DashboardTeamViewHelper
      *
      * @param Team $team
      * @param Carbon $date
-     *
      * @return array
      */
     public static function worklogs(Team $team, Carbon $date): array
@@ -226,7 +222,6 @@ class DashboardTeamViewHelper
      * the next week for this team.
      *
      * @param Team $team
-     *
      * @return Collection
      */
     public static function upcomingNewHires(Team $team): Collection
@@ -245,7 +240,7 @@ class DashboardTeamViewHelper
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => ImageHelper::getAvatar($employee, 35),
                 'hired_at' => DateHelper::formatDayAndMonthInParenthesis($employee->hired_at),
                 'position' => (! $employee->position) ? null : [
                     'id' => $employee->position->id,
@@ -266,7 +261,6 @@ class DashboardTeamViewHelper
      * employees in this team.
      *
      * @param Team $team
-     *
      * @return Collection
      */
     public static function upcomingHiredDateAnniversaries(Team $team): Collection
@@ -301,7 +295,7 @@ class DashboardTeamViewHelper
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => ImageHelper::getAvatar($employee, 35),
                 'anniversary_date' => DateHelper::formatDayAndMonthInParenthesis($employee->hired_at->setYear($now->year)),
                 'anniversary_age' => $now->year - $employee->hired_at->year,
                 'url' => route('employees.show', [

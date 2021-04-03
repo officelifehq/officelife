@@ -13,14 +13,14 @@ class AuditLogTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_a_company(): void
     {
-        $auditLog = factory(AuditLog::class)->create([]);
+        $auditLog = AuditLog::factory()->create([]);
         $this->assertTrue($auditLog->company()->exists());
     }
 
     /** @test */
     public function it_returns_the_date_attribute(): void
     {
-        $auditLog = factory(AuditLog::class)->create([
+        $auditLog = AuditLog::factory()->create([
             'audited_at' => '2017-01-22 17:56:03',
         ]);
         $this->assertEquals(
@@ -32,7 +32,7 @@ class AuditLogTest extends ApiTestCase
     /** @test */
     public function it_returns_the_object_attribute(): void
     {
-        $auditLog = factory(AuditLog::class)->create([]);
+        $auditLog = AuditLog::factory()->create([]);
         $this->assertEquals(
             1,
             $auditLog->object->{'user'}
@@ -44,7 +44,7 @@ class AuditLogTest extends ApiTestCase
     {
         $michael = $this->createAdministrator();
 
-        $auditLog = factory(AuditLog::class)->create([
+        $auditLog = AuditLog::factory()->create([
             'action' => 'employee_invited_to_become_user',
             'objects' => json_encode([
                 'author_id' => $michael->user->id,

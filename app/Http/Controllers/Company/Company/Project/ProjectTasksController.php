@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Helpers\TimeHelper;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
@@ -143,7 +144,7 @@ class ProjectTasksController extends Controller
                 'assignee' => $task->assignee ? [
                     'id' => $task->assignee->id,
                     'name' => $task->assignee->name,
-                    'avatar' => $task->assignee->avatar,
+                    'avatar' => ImageHelper::getAvatar($task->assignee),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $task->assignee,
@@ -207,7 +208,7 @@ class ProjectTasksController extends Controller
                 'assignee' => $task->assignee ? [
                     'id' => $task->assignee->id,
                     'name' => $task->assignee->name,
-                    'avatar' => $task->assignee->avatar,
+                    'avatar' => ImageHelper::getAvatar($task->assignee),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $task->assignee,

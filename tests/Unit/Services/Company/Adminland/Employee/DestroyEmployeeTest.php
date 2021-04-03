@@ -23,6 +23,7 @@ class DestroyEmployeeTest extends TestCase
         $michael = $this->createAdministrator();
         $this->executeService($michael);
     }
+
     /** @test */
     public function it_destroys_an_employee_as_hr(): void
     {
@@ -54,7 +55,7 @@ class DestroyEmployeeTest extends TestCase
     public function it_fails_if_the_employee_does_not_match_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create();
 
         $request = [
             'company_id' => $dwight->company_id,
@@ -69,7 +70,7 @@ class DestroyEmployeeTest extends TestCase
     private function executeService(Employee $michael): void
     {
         Queue::fake();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

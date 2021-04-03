@@ -15,15 +15,15 @@ class CompanyPTOPolicyTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_a_company(): void
     {
-        $policy = factory(CompanyPTOPolicy::class)->create([]);
+        $policy = CompanyPTOPolicy::factory()->create([]);
         $this->assertTrue($policy->company()->exists());
     }
 
     /** @test */
     public function it_has_many_calendars(): void
     {
-        $policy = factory(CompanyPTOPolicy::class)->create([]);
-        factory(CompanyCalendar::class, 2)->create([
+        $policy = CompanyPTOPolicy::factory()->create([]);
+        CompanyCalendar::factory()->count(2)->create([
             'company_pto_policy_id' => $policy->id,
         ]);
 
@@ -33,8 +33,8 @@ class CompanyPTOPolicyTest extends ApiTestCase
     /** @test */
     public function it_returns_an_object(): void
     {
-        $dunder = factory(Company::class)->create([]);
-        $ptoPolicy = factory(CompanyPTOPolicy::class)->create([
+        $dunder = Company::factory()->create([]);
+        $ptoPolicy = CompanyPTOPolicy::factory()->create([
             'company_id' => $dunder->id,
             'year' => 2020,
             'total_worked_days' => 250,

@@ -21,7 +21,7 @@ class DestroySkillTest extends TestCase
     public function it_deletes_a_skill_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $skill);
@@ -31,7 +31,7 @@ class DestroySkillTest extends TestCase
     public function it_deletes_a_skill_as_hr(): void
     {
         $michael = $this->createHR();
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $skill);
@@ -41,7 +41,7 @@ class DestroySkillTest extends TestCase
     public function it_cant_delete_the_skill_as_normal_user(): void
     {
         $michael = $this->createEmployee();
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -66,7 +66,7 @@ class DestroySkillTest extends TestCase
         $this->expectException(ModelNotFoundException::class);
 
         $michael = $this->createAdministrator();
-        $skill = factory(Skill::class)->create([]);
+        $skill = Skill::factory()->create([]);
 
         $this->executeService($michael, $skill);
     }

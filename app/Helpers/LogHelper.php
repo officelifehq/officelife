@@ -1064,8 +1064,28 @@ class LogHelper
                 ]);
                 break;
 
+            case 'file_added_to_project':
+                $sentence = trans('account.log_file_added_to_project', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'name' => $log->object->{'name'},
+                ]);
+                break;
+
+            case 'project_file_destroyed':
+                $sentence = trans('account.log_project_file_destroyed', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'name' => $log->object->{'name'},
+                ]);
+                break;
+
             case 'toggle_e_coffee_process':
                 $sentence = trans('account.log_toggle_e_coffee_process');
+                break;
+
+            case 'company_logo_changed':
+                $sentence = trans('account.log_company_logo_changed');
                 break;
 
             default:

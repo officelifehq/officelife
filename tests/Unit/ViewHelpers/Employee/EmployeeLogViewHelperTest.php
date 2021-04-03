@@ -3,6 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Employee;
 
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeLog;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -15,11 +16,11 @@ class EmployeeLogViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_employee_logs(): void
     {
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'first_name' => 'michael',
             'last_name' => 'scott',
         ]);
-        $log = factory(EmployeeLog::class)->create([
+        $log = EmployeeLog::factory()->create([
             'author_id' => $michael->id,
             'employee_id' => $michael->id,
             'author_name' => 'michael scott',
@@ -35,12 +36,27 @@ class EmployeeLogViewHelperTest extends TestCase
                 'author' => [
                     'id' => $michael->id,
                     'name' => 'michael scott',
-                    'avatar' => $michael->avatar,
+                    'avatar' => ImageHelper::getAvatar($michael, 34),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
                 'localized_audited_at' => 'Jan 12, 2020 00:00',
             ],
             EmployeeLogViewHelper::list($logs, $michael->company)->toArray()[0]
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_information_about_the_employee(): void
+    {
+        $michael = Employee::factory()->create();
+
+        $this->assertEquals(
+            [
+                'id' => $michael->id,
+                'name' => $michael->name,
+                'avatar' => ImageHelper::getAvatar($michael, 80),
+            ],
+            EmployeeLogViewHelper::employee($michael)
         );
     }
 }

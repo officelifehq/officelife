@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
@@ -37,7 +38,7 @@ class EmployeePositionController extends Controller
             'data' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => ImageHelper::getAvatar($employee),
                 'position' => ($employee->position) ? $employee->position : null,
             ],
         ], 200);
@@ -67,7 +68,7 @@ class EmployeePositionController extends Controller
             'data' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => ImageHelper::getAvatar($employee),
                 'position' => null,
             ],
         ], 200);

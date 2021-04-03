@@ -2,7 +2,9 @@
 
 namespace Tests\Unit\ViewHelpers\Team;
 
+use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use App\Models\Company\Employee;
@@ -17,15 +19,15 @@ class TeamShowViewHelperTest extends TestCase
     public function it_gets_a_collection_of_employees(): void
     {
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         // create one final employee with a locked status (shouldn't appear in the results)
-        factory(Employee::class)->create([
+        Employee::factory()->create([
             'company_id' => $michael->company_id,
             'locked' => true,
         ]);
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -41,7 +43,7 @@ class TeamShowViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => $michael->avatar,
+                    'avatar' => ImageHelper::getAvatar($michael, 35),
                     'position' => [
                         'id' => $michael->position->id,
                         'title' => $michael->position->title,
@@ -51,7 +53,7 @@ class TeamShowViewHelperTest extends TestCase
                 1 => [
                     'id' => $dwight->id,
                     'name' => $dwight->name,
-                    'avatar' => $dwight->avatar,
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'position' => [
                         'id' => $dwight->position->id,
                         'title' => $dwight->position->title,
@@ -67,13 +69,13 @@ class TeamShowViewHelperTest extends TestCase
     public function it_gets_a_collection_of_recent_ships(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $featureA = factory(Ship::class)->create([
+        $featureA = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
-        $featureB = factory(Ship::class)->create([
+        $featureB = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
         $featureA->employees()->attach([$michael->id]);
@@ -91,7 +93,7 @@ class TeamShowViewHelperTest extends TestCase
                         0 => [
                             'id' => $michael->id,
                             'name' => $michael->name,
-                            'avatar' => $michael->avatar,
+                            'avatar' => ImageHelper::getAvatar($michael, 17),
                             'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                         ],
                     ],
@@ -114,6 +116,112 @@ class TeamShowViewHelperTest extends TestCase
                 ],
             ],
             $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_searches_employees_to_assign_a_team_lead(): void
+    {
+        $michael = Employee::factory()->create([
+            'first_name' => 'ale',
+            'last_name' => 'ble',
+            'email' => 'ale@ble',
+        ]);
+        $dwight = Employee::factory()->create([
+            'first_name' => 'alb',
+            'last_name' => 'bli',
+            'email' => 'alb@bli',
+            'company_id' => $michael->company_id,
+        ]);
+        // the following should not be included in the search results
+        Employee::factory()->create([
+            'first_name' => 'ale',
+            'last_name' => 'ble',
+            'email' => 'ale@ble',
+            'locked' => true,
+            'company_id' => $michael->company_id,
+        ]);
+
+        $collection = TeamShowViewHelper::searchPotentialLead($michael->company, 'e');
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $michael->id,
+                    'name' => $michael->name,
+                ],
+            ],
+            $collection->toArray()
+        );
+
+        $collection = TeamShowViewHelper::searchPotentialLead($michael->company, 'bli');
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $dwight->id,
+                    'name' => $dwight->name,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_birthdates(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $sales = Team::factory()->create([]);
+        $michael = Employee::factory()->create([
+            'birthdate' => null,
+            'company_id' => $sales->company_id,
+        ]);
+        $dwight = Employee::factory()->create([
+            'birthdate' => '1892-01-29',
+            'first_name' => 'Dwight',
+            'last_name' => 'Schrute',
+            'company_id' => $sales->company_id,
+        ]);
+        $angela = Employee::factory()->create([
+            'birthdate' => '1989-01-05',
+            'first_name' => 'Angela',
+            'last_name' => 'Bernard',
+            'company_id' => $sales->company_id,
+        ]);
+        $john = Employee::factory()->create([
+            'birthdate' => '1989-03-20',
+            'company_id' => $sales->company_id,
+        ]);
+
+        $sales->employees()->syncWithoutDetaching([$michael->id]);
+        $sales->employees()->syncWithoutDetaching([$dwight->id]);
+        $sales->employees()->syncWithoutDetaching([$angela->id]);
+        $sales->employees()->syncWithoutDetaching([$john->id]);
+
+        $array = TeamShowViewHelper::birthdays($sales, $michael->company);
+
+        $this->assertEquals(2, count($array));
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $angela->id,
+                    'name' => 'Angela Bernard',
+                    'avatar' => ImageHelper::getAvatar($angela, 35),
+                    'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$angela->id,
+                    'birthdate' => 'January 5th',
+                    'sort_key' => '2018-01-05',
+                ],
+                1 => [
+                    'id' => $dwight->id,
+                    'name' => 'Dwight Schrute',
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
+                    'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$dwight->id,
+                    'birthdate' => 'January 29th',
+                    'sort_key' => '2018-01-29',
+                ],
+            ],
+            $array
         );
     }
 }

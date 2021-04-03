@@ -22,7 +22,7 @@ class UpdateExpenseCategoryTest extends TestCase
     public function it_updates_an_expense_category_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $category = factory(ExpenseCategory::class)->create([
+        $category = ExpenseCategory::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $category);
@@ -32,7 +32,7 @@ class UpdateExpenseCategoryTest extends TestCase
     public function it_updates_an_expense_category_as_hr(): void
     {
         $michael = $this->createHR();
-        $category = factory(ExpenseCategory::class)->create([
+        $category = ExpenseCategory::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $category);
@@ -42,7 +42,7 @@ class UpdateExpenseCategoryTest extends TestCase
     public function normal_user_cant_execute_the_service(): void
     {
         $michael = $this->createEmployee();
-        $category = factory(ExpenseCategory::class)->create([
+        $category = ExpenseCategory::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -66,7 +66,7 @@ class UpdateExpenseCategoryTest extends TestCase
     {
         $employeeStatus = EmployeeStatus::factory()->create([]);
         $michael = $this->createAdministrator();
-        $category = factory(ExpenseCategory::class)->create([]);
+        $category = ExpenseCategory::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $category);

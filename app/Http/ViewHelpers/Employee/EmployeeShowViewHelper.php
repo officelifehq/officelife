@@ -5,6 +5,7 @@ namespace App\Http\ViewHelpers\Employee;
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\TimeHelper;
+use App\Helpers\ImageHelper;
 use App\Helpers\MoneyHelper;
 use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
@@ -44,7 +45,7 @@ class EmployeeShowViewHelper
             'name' => $employee->name,
             'first_name' => $employee->first_name,
             'last_name' => $employee->last_name,
-            'avatar' => $employee->avatar,
+            'avatar' => ImageHelper::getAvatar($employee, 300),
             'email' => $employee->email,
             'phone' => $employee->phone_number,
             'twitter_handle' => $employee->twitter_handle,
@@ -102,6 +103,10 @@ class EmployeeShowViewHelper
                     'employee' => $employee,
                 ]),
                 'edit' => route('employee.show.edit', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'edit_address' => route('employee.show.edit.address', [
                     'company' => $company,
                     'employee' => $employee,
                 ]),
@@ -269,6 +274,21 @@ class EmployeeShowViewHelper
             $canSeeTimesheets = true;
         }
 
+        // can update avatar
+        $canUpdateAvatar = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canUpdateAvatar = true;
+        }
+
+        // can edit hired at information
+        $canEditHiredAt = $loggedEmployee->permission_level <= 200;
+
+        // can edit contact information
+        $canEditContractInfoTab = $loggedEmployee->permission_level <= 200;
+        if ($employee->status) {
+            $canEditContractInfoTab = $employee->status->type == EmployeeStatus::EXTERNAL;
+        }
+
         return [
             'can_see_full_birthdate' => $canSeeFullBirthdate,
             'can_manage_hierarchy' => $canManageHierarchy,
@@ -291,6 +311,9 @@ class EmployeeShowViewHelper
             'can_see_one_on_one_with_manager' => $canSeeOneOnOneWithManager,
             'can_see_contract_renewal_date' => $canSeeContractRenewalDate,
             'can_see_timesheets' => $canSeeTimesheets,
+            'can_update_avatar' => $canUpdateAvatar,
+            'can_edit_hired_at_information' => $canEditHiredAt,
+            'can_edit_contract_information' => $canEditContractInfoTab,
         ];
     }
 
@@ -314,7 +337,7 @@ class EmployeeShowViewHelper
             $managersOfEmployee->push([
                 'id' => $manager->id,
                 'name' => $manager->name,
-                'avatar' => $manager->avatar,
+                'avatar' => ImageHelper::getAvatar($manager, 35),
                 'position' => (! $manager->position) ? null : [
                     'id' => $manager->position->id,
                     'title' => $manager->position->title,
@@ -349,7 +372,7 @@ class EmployeeShowViewHelper
             $directReportsOfEmployee->push([
                 'id' => $directReport->id,
                 'name' => $directReport->name,
-                'avatar' => $directReport->avatar,
+                'avatar' => ImageHelper::getAvatar($directReport, 35),
                 'position' => (! $directReport->position) ? null : [
                     'id' => $directReport->position->id,
                     'title' => $directReport->position->title,
@@ -538,7 +561,7 @@ class EmployeeShowViewHelper
                 $employeeCollection->push([
                     'id' => $employeeImpacted->id,
                     'name' => $employeeImpacted->name,
-                    'avatar' => $employeeImpacted->avatar,
+                    'avatar' => ImageHelper::getAvatar($employeeImpacted, 17),
                     'url' => route('employees.show', [
                         'company' => $employee->company,
                         'employee' => $employeeImpacted,
@@ -669,7 +692,7 @@ class EmployeeShowViewHelper
                 'manager' => [
                     'id' => $oneOnOne->manager->id,
                     'name' => $oneOnOne->manager->name,
-                    'avatar' => $oneOnOne->manager->avatar,
+                    'avatar' => ImageHelper::getAvatar($oneOnOne->manager, 18),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $oneOnOne->manager,
@@ -893,7 +916,7 @@ class EmployeeShowViewHelper
                     'id' => $withEmployee->id,
                     'name' => $withEmployee->name,
                     'first_name' => $withEmployee->first_name,
-                    'avatar' => $withEmployee->avatar,
+                    'avatar' => ImageHelper::getAvatar($withEmployee, 35),
                     'position' => $withEmployee->position ? $withEmployee->position->title : null,
                     'url' => route('employees.show', [
                         'company' => $company,

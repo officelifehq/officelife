@@ -22,10 +22,10 @@ class UpdateTeamUsefulLinkTest extends TestCase
     public function it_updates_a_team_useful_link_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $link = factory(TeamUsefulLink::class)->create([
+        $link = TeamUsefulLink::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -36,10 +36,10 @@ class UpdateTeamUsefulLinkTest extends TestCase
     public function it_updates_a_team_useful_link_as_hr(): void
     {
         $michael = $this->createHR();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $link = factory(TeamUsefulLink::class)->create([
+        $link = TeamUsefulLink::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -50,10 +50,10 @@ class UpdateTeamUsefulLinkTest extends TestCase
     public function it_updates_a_team_useful_link_as_normal_user(): void
     {
         $michael = $this->createEmployee();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $link = factory(TeamUsefulLink::class)->create([
+        $link = TeamUsefulLink::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -63,12 +63,12 @@ class UpdateTeamUsefulLinkTest extends TestCase
     /** @test */
     public function it_cant_update_a_link_with_the_wrong_team(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        $dwight = factory(Employee::class)->create([]);
-        $team = factory(Team::class)->create([
+        $michael = Employee::factory()->create([]);
+        $dwight = Employee::factory()->create([]);
+        $team = Team::factory()->create([
             'company_id' => $dwight->company_id,
         ]);
-        $link = factory(TeamUsefulLink::class)->create([
+        $link = TeamUsefulLink::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -88,7 +88,7 @@ class UpdateTeamUsefulLinkTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -102,11 +102,11 @@ class UpdateTeamUsefulLinkTest extends TestCase
     {
         Queue::fake();
 
-        $michael = factory(Employee::class)->create([]);
-        $team = factory(Team::class)->create([
+        $michael = Employee::factory()->create([]);
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $link = factory(TeamUsefulLink::class)->create([
+        $link = TeamUsefulLink::factory()->create([
             'team_id' => $team->id,
         ]);
 

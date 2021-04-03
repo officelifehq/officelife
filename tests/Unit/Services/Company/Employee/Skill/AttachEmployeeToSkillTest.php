@@ -31,7 +31,7 @@ class AttachEmployeeToSkillTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'peo',
         ]);

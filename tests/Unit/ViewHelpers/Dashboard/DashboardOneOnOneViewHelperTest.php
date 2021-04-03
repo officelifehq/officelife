@@ -3,6 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\OneOnOneNote;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\OneOnOneActionItem;
@@ -20,21 +21,21 @@ class DashboardOneOnOneViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
 
-        $entry = factory(OneOnOneEntry::class)->create([
+        $entry = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'happened_at' => '2020-09-09',
         ]);
 
-        $talkingPoint = factory(OneOnOneTalkingPoint::class)->create([
+        $talkingPoint = OneOnOneTalkingPoint::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
 
-        $actionItem = factory(OneOnOneActionItem::class)->create([
+        $actionItem = OneOnOneActionItem::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
 
-        $note = factory(OneOnOneNote::class)->create([
+        $note = OneOnOneNote::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
 
@@ -46,7 +47,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             [
                 'id' => $entry->employee->id,
                 'name' => $entry->employee->name,
-                'avatar' => $entry->employee->avatar,
+                'avatar' => ImageHelper::getAvatar($entry->employee, 22),
                 'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$entry->employee->id,
             ],
             $array['employee']
@@ -55,7 +56,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             [
                 'id' => $entry->manager->id,
                 'name' => $entry->manager->name,
-                'avatar' => $entry->manager->avatar,
+                'avatar' => ImageHelper::getAvatar($entry->manager, 22),
                 'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$entry->manager->id,
             ],
             $array['manager']
@@ -64,7 +65,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $talkingPoint->id,
-                    'description' => 'what are you doing right now',
+                    'description' => $talkingPoint->description,
                     'checked' => false,
                 ],
             ],
@@ -74,7 +75,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $actionItem->id,
-                    'description' => 'what are you doing right now',
+                    'description' => $actionItem->description,
                     'checked' => false,
                 ],
             ],
@@ -84,7 +85,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $note->id,
-                    'note' => 'what are you doing right now',
+                    'note' => $note->note,
                 ],
             ],
             $array['notes']->toArray()

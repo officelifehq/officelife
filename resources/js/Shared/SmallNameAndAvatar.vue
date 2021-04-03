@@ -6,7 +6,9 @@ span {
 
 <template>
   <div class="relative di">
-    <img loading="lazy" :src="avatar" class="absolute br-100" alt="avatar" :style="style" />
+    <img loading="lazy" :src="avatar.normal" :srcset="avatar.normal + ' 1x,' + avatar.retina + ' 2x'" class="absolute br-100" alt="avatar"
+         :style="style"
+    />
     <inertia-link v-if="url" :href="url" :class="classes + ' ' + fontSize" :style="avatarMarginLeft">{{ name }}</inertia-link>
     <span v-else :class="classes + ' ' + fontSize" :style="avatarMarginLeft">
       {{ name }}
@@ -22,7 +24,7 @@ export default {
       default: null,
     },
     avatar: {
-      type: String,
+      type: Object,
       default: null,
     },
     classes: {

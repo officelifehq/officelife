@@ -4,6 +4,8 @@ namespace Tests\Unit\ViewHelpers\Adminland;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
+use App\Models\Company\File;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Adminland\AdminGeneralViewHelper;
@@ -22,6 +24,17 @@ class AdminGeneralViewHelperTest extends TestCase
         $dwight = $this->createAnotherEmployee($michael);
         $dwight->permission_level = 100;
         $dwight->save();
+
+        File::factory()->count(3)->create([
+            'company_id' => $michael->company_id,
+            'size' => 123,
+        ]);
+
+        $michael->company->logo_file_id = File::factory()->create([
+            'company_id' => $michael->company_id,
+            'size' => 123,
+        ])->id;
+        $michael->company->save();
 
         $response = AdminGeneralViewHelper::information($michael->company);
 
@@ -45,13 +58,23 @@ class AdminGeneralViewHelperTest extends TestCase
             $response['currency']
         );
 
+        $this->assertEquals(
+            0.492,
+            $response['total_size']
+        );
+
+        $this->assertEquals(
+            ImageHelper::getImage($michael->company->logo, 300, 300),
+            $response['logo']
+        );
+
         $response['administrators']->sortBy('id');
 
         $this->assertEquals(
             [
                 'id' => $michael->id,
                 'name' => $michael->name,
-                'avatar' => $michael->avatar,
+                'avatar' => ImageHelper::getAvatar($michael, 22),
                 'url_view' => route('employees.show', [
                     'company' => $michael->company,
                     'employee' => $michael,

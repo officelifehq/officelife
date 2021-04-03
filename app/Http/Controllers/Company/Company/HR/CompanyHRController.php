@@ -24,7 +24,7 @@ class CompanyHRController extends Controller
         $employee = InstanceHelper::getLoggedEmployee();
 
         $eCoffees = CompanyHRViewHelper::eCoffees($company);
-        $statistics = CompanyViewHelper::statistics($company);
+        $statistics = CompanyViewHelper::information($company);
 
         return Inertia::render('Company/HR/Index', [
             'tab' => 'hr',

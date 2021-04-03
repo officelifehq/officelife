@@ -2,15 +2,15 @@
 
 namespace App\Models\Company;
 
-use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Hardware extends Model
 {
     use LogsActivity,
-        Searchable;
+        HasFactory;
 
     /**
      * The table associated with the model.
@@ -26,27 +26,6 @@ class Hardware extends Model
      */
     protected $fillable = [
         'company_id',
-        'name',
-        'serial_number',
-    ];
-
-    /**
-     * The attributes that are searchable with the trait.
-     *
-     * @var array
-     */
-    protected $searchableColumns = [
-        'name',
-        'serial_number',
-    ];
-
-    /**
-     * The list of columns we want the Searchable trait to select.
-     *
-     * @var array
-     */
-    protected $returnFromSearch = [
-        'id',
         'name',
         'serial_number',
     ];

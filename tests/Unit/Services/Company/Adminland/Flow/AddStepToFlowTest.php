@@ -41,8 +41,8 @@ class AddStepToFlowTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $employee = factory(Employee::class)->create([]);
-        $flow = factory(Flow::class)->create([
+        $employee = Employee::factory()->create();
+        $flow = Flow::factory()->create([
             'company_id' => $employee->company_id,
         ]);
 
@@ -58,7 +58,7 @@ class AddStepToFlowTest extends TestCase
 
     private function executeService(Employee $michael): void
     {
-        $flow = factory(Flow::class)->create([
+        $flow = Flow::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

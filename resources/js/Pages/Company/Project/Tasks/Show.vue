@@ -58,7 +58,7 @@ input[type=checkbox] {
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">
@@ -210,13 +210,7 @@ input[type=checkbox] {
               <span class="f7 mr2">
                 {{ entry.created_at }}
               </span>
-              <small-name-and-avatar
-                :name="entry.employee.name"
-                :avatar="entry.employee.avatar"
-                :classes="'f4 fw4 mr3'"
-                :top="'0px'"
-                :margin-between-name-avatar="'29px'"
-              />
+              <span>{{ entry.employee.name }}</span>
               <span class="mr3 absolute right-0 duration">
                 {{ entry.duration }}
               </span>
@@ -239,7 +233,7 @@ input[type=checkbox] {
           <!-- information about the author -->
           <div v-if="localTask.author" class="flex mb4">
             <div class="mr2">
-              <img :src="localTask.author.avatar" alt="avatar" height="35" width="35" class="br-100" />
+              <avatar :avatar="localTask.author.avatar" :size="35" :classes="'br-100'" />
             </div>
 
             <div>
@@ -327,19 +321,19 @@ input[type=checkbox] {
 <script>
 import Layout from '@/Shared/Layout';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 import BallClipRotate from 'vue-loaders/dist/loaders/ball-clip-rotate';
 import TextInput from '@/Shared/TextInput';
 import TextArea from '@/Shared/TextArea';
 import SelectBox from '@/Shared/Select';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextDuration from '@/Shared/TextDuration';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Avatar,
     ProjectMenu,
-    SmallNameAndAvatar,
     'ball-clip-rotate': BallClipRotate.component,
     TextInput,
     TextArea,

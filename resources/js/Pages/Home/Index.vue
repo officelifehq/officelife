@@ -35,7 +35,7 @@
 </style>
 
 <template>
-  <layout title="Home" :no-menu="true" :notifications="notifications">
+  <layout :no-menu="true" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- Blank state -->
       <div v-show="employees.length == 0" class="cf mt4 mt5-l mw7 center">
@@ -80,6 +80,7 @@
             <inertia-link :href="'/' + employee.company_id + '/welcome'">
               <div class="br3 mb3 bg-white box pa3 home-index-company fw5 relative" :data-cy="'company-' + employee.company_id">
                 {{ employee.company_name }}
+
                 <span class="absolute normal f6">
                   {{ $tc('home.number_of_employees', employee.number_of_employees, { count: employee.number_of_employees }) }}
                 </span>
