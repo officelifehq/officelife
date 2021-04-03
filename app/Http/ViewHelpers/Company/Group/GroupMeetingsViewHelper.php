@@ -161,4 +161,57 @@ class GroupMeetingsViewHelper
 
         return $employeesCollection;
     }
+
+    /**
+     * Get agenda of the meeting.
+     *
+     * @param Meeting $meeting
+     * @param Company $company
+     * @return Collection
+     */
+    public static function agenda(Meeting $meeting, Company $company): Collection
+    {
+        $items = $meeting->agendaItems()
+            ->orderBy('id', 'asc')
+            ->with('presenter')
+            ->with('decisions')
+            ->get();
+
+        $agendaCollection = collect([]);
+        $counter = 1;
+        foreach ($items as $agendaItem) {
+            $presenter = $agendaItem->presenter;
+
+            // decisions
+            $decisionsCollection = collect([]);
+            foreach ($agendaItem->decisions as $decision) {
+                $decisionsCollection->push([
+                    'id' => $decision->id,
+                    'description' => $decision->description,
+                ]);
+            }
+
+            // preparing final collection
+            $agendaCollection->push([
+                'id' => $agendaItem->id,
+                'position' => $counter,
+                'summary' => $agendaItem->summary,
+                'description' => $agendaItem->description,
+                'presenter' => $presenter ? [
+                    'id' => $presenter->id,
+                    'name' => $presenter->name,
+                    'avatar' => ImageHelper::getAvatar($presenter, 23),
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $presenter,
+                    ]),
+                ] : null,
+                'decisions' => $decisionsCollection,
+            ]);
+
+            $counter++;
+        }
+
+        return $agendaCollection;
+    }
 }

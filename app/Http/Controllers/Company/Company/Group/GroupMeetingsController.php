@@ -15,6 +15,7 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Group\CreateMeeting;
 use App\Services\Company\Group\DestroyMeeting;
+use App\Services\Company\Group\CreateAgendaItem;
 use App\Services\Company\Group\AddGuestToMeeting;
 use App\Services\Company\Group\UpdateMeetingDate;
 use App\Services\Company\Group\RemoveGuestFromMeeting;
@@ -116,10 +117,12 @@ class GroupMeetingsController extends Controller
 
         $groupInfo = GroupShowViewHelper::information($group, $loggedCompany);
         $meetingInfo = GroupMeetingsViewHelper::show($meeting, $loggedCompany);
+        $agenda = GroupMeetingsViewHelper::agenda($meeting, $loggedCompany);
 
         return Inertia::render('Company/Group/Meetings/Show', [
             'group' => $groupInfo,
             'meeting' => $meetingInfo,
+            'agenda' => $agenda,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -196,7 +199,7 @@ class GroupMeetingsController extends Controller
      * @param int $groupId
      * @param int $meetingId
      */
-    public function addParticipant(Request $request, int $companyId, int $groupId, int $meetingId)
+    public function addParticipant(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -228,7 +231,7 @@ class GroupMeetingsController extends Controller
      * @param int $groupId
      * @param int $meetingId
      */
-    public function removeParticipant(Request $request, int $companyId, int $groupId, int $meetingId)
+    public function removeParticipant(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -254,7 +257,7 @@ class GroupMeetingsController extends Controller
      * @param int $groupId
      * @param int $meetingId
      */
-    public function setDate(Request $request, int $companyId, int $groupId, int $meetingId)
+    public function setDate(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -282,7 +285,7 @@ class GroupMeetingsController extends Controller
      * @param int $groupId
      * @param int $meetingId
      */
-    public function destroy(Request $request, int $companyId, int $groupId, int $meetingId)
+    public function destroy(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -292,6 +295,26 @@ class GroupMeetingsController extends Controller
             'author_id' => $loggedEmployee->id,
             'group_id' => $groupId,
             'meeting_id' => $meetingId,
+        ]);
+
+        return response()->json([
+            'data' => true,
+        ]);
+    }
+
+    public function createAgendaItem(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        (new CreateAgendaItem)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'group_id' => $groupId,
+            'meeting_id' => $meetingId,
+            'summary' => $request->input('summary'),
+            'description' => $request->input('description'),
+            'presented_by_id' => $request->input('presented_by_id'),
         ]);
 
         return response()->json([

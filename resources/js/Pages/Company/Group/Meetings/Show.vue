@@ -43,12 +43,11 @@
       </div>
 
       <div class="mw8 center br3 mb5 relative z-1">
-        <p>Meeting</p>
-
         <div class="cf center">
           <!-- LEFT COLUMN -->
           <div class="fl w-70-l w-100">
-            <p>left</p>
+            <!-- agenda -->
+            <agenda :group-id="group.id" :meeting="meeting" :agenda="agenda" />
           </div>
 
           <!-- RIGHT COLUMN -->
@@ -84,6 +83,7 @@ import Layout from '@/Shared/Layout';
 import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu';
 import Participants from '@/Pages/Company/Group/Meetings/Partials/Participants';
 import Date from '@/Pages/Company/Group/Meetings/Partials/Date';
+import Agenda from '@/Pages/Company/Group/Meetings/Partials/Agenda';
 
 export default {
   components: {
@@ -91,6 +91,7 @@ export default {
     GroupMenu,
     Participants,
     Date,
+    Agenda,
   },
 
   props: {
@@ -104,6 +105,10 @@ export default {
     },
     meeting: {
       type: Object,
+      default: null,
+    },
+    agenda: {
+      type: Array,
       default: null,
     },
     tab: {

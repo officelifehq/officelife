@@ -357,6 +357,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::post('{group}/meetings/{meeting}/add', 'Company\\Company\\Group\\GroupMeetingsController@addParticipant');
                 Route::post('{group}/meetings/{meeting}/remove', 'Company\\Company\\Group\\GroupMeetingsController@removeParticipant');
                 Route::post('{group}/meetings/{meeting}/setDate', 'Company\\Company\\Group\\GroupMeetingsController@setDate');
+                Route::post('{group}/meetings/{meeting}/addAgendaItem', 'Company\\Company\\Group\\GroupMeetingsController@createAgendaItem');
             });
 
             Route::prefix('hr')->group(function () {
