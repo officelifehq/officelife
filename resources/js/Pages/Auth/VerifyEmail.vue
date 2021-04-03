@@ -15,7 +15,7 @@
 </style>
 
 <template>
-  <layout title="Home" :no-menu="true" :notifications="notifications">
+  <layout title="Home" :no-menu="true" :show-help-on-page="false">
     <div class="ph2 ph0-ns">
       <div class="cf mt4 mw7 center br3 mb3 bg-white box">
         <div class="pa3 tc">
@@ -71,7 +71,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.route('verification.resend'))
+      axios.post(this.route('verification.send'))
         .then(response => {
           this.loadingState = null;
           this.resend = true;

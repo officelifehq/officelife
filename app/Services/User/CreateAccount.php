@@ -5,10 +5,14 @@ namespace App\Services\User;
 use App\Models\User\User;
 use Illuminate\Support\Str;
 use App\Services\BaseService;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Fortify\Contracts\CreatesNewUsers;
 
-class CreateAccount extends BaseService
+class CreateAccount extends BaseService implements CreatesNewUsers
 {
+    use PasswordValidationRules;
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -17,13 +21,29 @@ class CreateAccount extends BaseService
     public function rules(): array
     {
         return [
-            'email' => 'required|unique:users,email|email|max:255',
-            'password' => 'required|alpha_dash|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique(User::class),
+            ],
+            'password' => $this->passwordRules(),
             'first_name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
             'middle_name' => 'nullable|string|max:255',
             'nickname' => 'nullable|string|max:255',
         ];
+    }
+
+    /**
+     * Validate and create a newly registered user.
+     *
+     * @param  array  $input
+     * @return User
+     */
+    public function create(array $input): User
+    {
+        return $this->execute($input);
     }
 
     /**
@@ -38,6 +58,13 @@ class CreateAccount extends BaseService
         $this->validateRules($data);
 
         $user = $this->createUser($data);
+
+        if (! config('mail.verify') || User::count() == 1) {
+            // if it's the first user, we can skip the email verification
+            $user->markEmailAsVerified();
+        } else {
+            $user->sendEmailVerificationNotification();
+        }
 
         return $user;
     }

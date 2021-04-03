@@ -9,6 +9,7 @@
           {{ emoji }}
         </span>
         {{ text }}
+        <slot></slot>
       </span>
     </button>
   </div>

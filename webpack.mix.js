@@ -1,5 +1,5 @@
 let mix = require('laravel-mix');
-const path = require('path')
+const path = require('path');
 require('laravel-mix-purgecss');
 
 let purgeCssOptions = {
@@ -18,7 +18,6 @@ mix.js('resources/js/app.js', 'public/js')
     output: { chunkFilename: 'js/[name].js?id=[chunkhash]' },
     resolve: {
       alias: {
-        vue$: 'vue/dist/vue.runtime.esm.js',
         '@': path.resolve('resources/js'),
       },
     },
@@ -26,5 +25,8 @@ mix.js('resources/js/app.js', 'public/js')
   .babelConfig({
     plugins: ['@babel/plugin-syntax-dynamic-import'],
   })
-  .version()
   .sourceMaps(false);
+
+if (mix.inProduction()) {
+  mix.version();
+}
