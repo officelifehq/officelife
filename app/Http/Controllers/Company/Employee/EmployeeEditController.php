@@ -109,8 +109,6 @@ class EmployeeEditController extends Controller
 
         (new SetPersonalDetails)->execute($data);
 
-        $date = Carbon::createFromDate($request->input('year'), $request->input('month'), $request->input('day'));
-
         $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
