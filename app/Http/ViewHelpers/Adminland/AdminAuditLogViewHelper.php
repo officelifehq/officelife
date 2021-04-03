@@ -4,17 +4,10 @@ namespace App\Http\ViewHelpers\Adminland;
 
 use App\Helpers\ImageHelper;
 use Illuminate\Support\Collection;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class AdminAuditLogViewHelper
 {
-    /**
-     * Get all the audit logs.
-     *
-     * @param LengthAwarePaginator $logs
-     * @return Collection
-     */
-    public static function index(LengthAwarePaginator $logs): Collection
+    public static function index($logs): Collection
     {
         $logsCollection = collect([]);
         foreach ($logs as $log) {

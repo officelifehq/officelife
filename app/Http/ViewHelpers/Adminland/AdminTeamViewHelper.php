@@ -5,7 +5,6 @@ namespace App\Http\ViewHelpers\Adminland;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
 use Illuminate\Support\Collection;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class AdminTeamViewHelper
 {
@@ -53,10 +52,10 @@ class AdminTeamViewHelper
     /**
      * Get all the team audit logs.
      *
-     * @param LengthAwarePaginator $logs
+     * @param mixed $logs
      * @return Collection
      */
-    public static function logs(LengthAwarePaginator $logs): Collection
+    public static function logs($logs): Collection
     {
         $logsCollection = collect([]);
         foreach ($logs as $log) {
