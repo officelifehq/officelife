@@ -30,7 +30,7 @@ nav {
     color: #4d4d4f;
 
     &:hover,
-    &:selected {
+    &:active {
       border-bottom-width: 0;
     }
 
