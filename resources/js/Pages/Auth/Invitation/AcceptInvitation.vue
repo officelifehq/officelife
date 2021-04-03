@@ -1,5 +1,5 @@
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <div class="cf mw6 center br3 mb3 bg-white box">
         <div class="pa3">
