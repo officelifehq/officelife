@@ -1,9 +1,4 @@
 <style lang="scss" scoped>
-.avatar {
-  border: 2px solid #fff;
-  height: 20px;
-  width: 20px;
-}
 </style>
 
 <template>
@@ -24,14 +19,20 @@
       <div class="cf mw7 center" :class="{'bg-white box relative z-1': teams.length == 0}">
         <!-- list of teams -->
         <div v-for="team in teams" v-show="teams.length > 0" :key="team.id" class="bg-white box mb4 pa3">
-          <div class="">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id" class="">{{ team.name }}</inertia-link>
-            <span>({{ team.employees.length }} members)</span>
+          <div class="mb2">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id" class="mr1">{{ team.name }}</inertia-link>
+            <span class="f7">
+              ({{ $tc('team.index_count', team.employees.length, { count: team.employees.length}) }})
+            </span>
           </div>
-          <div v-html="team.parsed_description"></div>
+
+          <!-- team description -->
+          <div class="parsed-content" v-html="team.parsed_description"></div>
+
+          <!-- team members -->
           <ul v-show="team.employees.length > 0" class="list relative pl0 mb0">
             <li v-for="employee in team.employees" :key="employee.id" class="di relative">
-              <img loading="lazy" :src="employee.avatar" class="br-100 avatar pointer" alt="avatar" @click.prevent="load(employee)" />
+              <avatar :avatar="employee.avatar" :url="employee.url" :size="23" :classes="'br-100 mr2'" />
             </li>
           </ul>
         </div>
@@ -42,7 +43,7 @@
             {{ $t('team.team_list_blank') }}
           </p>
 
-          <img loading="lazy" height="140" class="db center mb4" alt="no expenses to validate" src="/img/streamline-icon-designer-team-6@140x140.png" />
+          <img loading="lazy" height="140" class="db center mb4" alt="no teams in account" src="/img/streamline-icon-designer-team-6@140x140.png" />
         </div>
       </div>
     </div>
@@ -51,10 +52,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Avatar,
   },
 
   props: {
@@ -76,9 +79,6 @@ export default {
   },
 
   methods: {
-    load(employee) {
-      this.$inertia.visit('/' + this.$page.props.auth.company.id + '/employees/' + employee.id);
-    }
   }
 };
 
