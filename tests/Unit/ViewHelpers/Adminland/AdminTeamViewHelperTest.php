@@ -78,7 +78,7 @@ class AdminTeamViewHelperTest extends ApiTestCase
                     'id' => is_null($auditLogA->author) ? null : $auditLogA->author->id,
                     'name' => is_null($auditLogA->author) ? $auditLogA->author_name : $auditLogA->author->name,
                     'avatar' => ImageHelper::getAvatar($auditLogA->author, 35),
-                    'url' => env('APP_URL').'/'.$auditLogA->author->company_id.'/employees/'.$auditLogA->id,
+                    'url' => env('APP_URL').'/'.$auditLogA->author->company_id.'/employees/'.$auditLogA->author->id,
                 ],
                 'localized_audited_at' => 'Jan 12, 2020 00:00',
                 'audited_at' => $auditLogA->audited_at,
