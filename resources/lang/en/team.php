@@ -4,6 +4,8 @@ return [
     'new_title' => 'Create team',
     'new_name' => 'Name',
 
+    'index_count' => '{count} member|{count} members',
+
     'count_team_members' => '{count} team member|{count} team members',
     'count_team_news' => '{count} news|{count} news',
     'most_recent_team_member' => 'This team has :count members, the newest being :link.',
