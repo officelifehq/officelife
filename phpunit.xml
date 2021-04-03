@@ -37,5 +37,6 @@
     <env name="QUEUE_CONNECTION" value="sync"/>
     <env name="SESSION_DRIVER" value="array"/>
     <env name="DEBUGBAR_ENABLED" value="false"/>
+    <env name="COMPLEX_PASSWORD" value="false"/>
   </php>
 </phpunit>
