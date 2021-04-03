@@ -183,6 +183,7 @@ return [
         'contract_renewal_dashboard' => 'manage/employee-management.html#what-happens-when-the-contract-renewal-date-is-due',
         'managing_external_employees' => 'manage/employee-management.html#managing-external-employees',
         'one_on_ones' => 'introduction.html',
+        'project' => 'operate/project-management.html#overview',
         'project_decisions' => 'operate/project-management.html#project-decisions',
         'project_messages' => 'operate/project-management.html#project-messages',
         'project_tasks' => 'operate/project-management.html#project-tasks',

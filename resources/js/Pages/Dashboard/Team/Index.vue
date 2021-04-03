@@ -67,27 +67,6 @@
           :recent-ships="recentShips"
         />
       </div>
-
-      <div>
-        <div class="pa3">
-          <h2>Team</h2>
-          <ul>
-            <li>team agenda</li>
-            <li>anniversaires</li>
-            <li>latest news</li>
-            <li>view who is at work or from home</li>
-            <li>view team activities</li>
-            <li>managers: view direct reports</li>
-            <li>manager: view time off requests</li>
-            <li>manager: view morale</li>
-            <li>manager: expense approval</li>
-            <li>manager: one on one</li>
-            <li>revue 360 de son boss ou d'employées</li>
-            <li>gérer les renouvellements de contrats des équipes temporaires</li>
-            <li>page de "office"</li>
-          </ul>
-        </div>
-      </div>
     </div>
   </layout>
 </template>
