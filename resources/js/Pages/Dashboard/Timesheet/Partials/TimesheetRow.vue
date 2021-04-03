@@ -4,6 +4,12 @@
   max-width: 400px;
 }
 
+.blank {
+  background-color: rgb(232, 232, 232);
+  color: #959595;
+  font-size: 10px;
+}
+
 .off-days {
   color: #4b7682;
   background-color: #e6f5f9;
@@ -41,7 +47,7 @@
     </div>
 
     <!-- monday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
+    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc" :class="isEmpty(localRow.days[0].total_of_minutes)">
       <text-duration
         v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
         :hours="localRow.days[0].hours"
@@ -56,7 +62,7 @@
     </div>
 
     <!-- tuesday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
+    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc" :class="isEmpty(localRow.days[1].total_of_minutes)">
       <text-duration
         v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
         :hours="localRow.days[1].hours"
@@ -71,7 +77,7 @@
     </div>
 
     <!-- wednesday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
+    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc" :class="isEmpty(localRow.days[2].total_of_minutes)">
       <text-duration
         v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
         :hours="localRow.days[2].hours"
@@ -86,7 +92,7 @@
     </div>
 
     <!-- thursday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
+    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc" :class="isEmpty(localRow.days[3].total_of_minutes)">
       <text-duration
         v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
         :hours="localRow.days[3].hours"
@@ -101,7 +107,7 @@
     </div>
 
     <!-- friday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
+    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc" :class="isEmpty(localRow.days[4].total_of_minutes)">
       <text-duration
         v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
         :hours="localRow.days[4].hours"
@@ -110,7 +116,7 @@
         :datacy="'timesheet-' + timesheet.id + '-day-4'"
         @update="updateDayInformation($event, 4)"
       />
-      <span v-else class="">
+      <span v-else>
         {{ formatTime(localRow.days[4].total_of_minutes) }}
       </span>
     </div>
@@ -241,6 +247,10 @@ export default {
   },
 
   methods: {
+    isEmpty(timeInMinutes) {
+      return (timeInMinutes == 0) ? 'blank' : '';
+    },
+
     updateDayInformation(payload, day) {
       var duration = parseInt(payload);
       this.saveInDB(day, duration);

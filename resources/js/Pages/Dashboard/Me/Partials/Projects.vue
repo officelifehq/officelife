@@ -26,6 +26,8 @@
       <span class="mr1">
         🦺
       </span> {{ $t('dashboard.project_title') }}
+
+      <help :url="$page.props.help_links.project" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box">
@@ -54,10 +56,12 @@
 
 <script>
 import Avatar from '@/Shared/Avatar';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
     Avatar,
+    Help,
   },
 
   props: {
