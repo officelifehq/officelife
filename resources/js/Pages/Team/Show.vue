@@ -121,6 +121,9 @@
               {{ $t('team.news_blank') }}
             </div>
           </div>
+
+          <!-- birthdays -->
+          <birthdays :birthdays="birthdays" />
         </div>
       </div>
     </div>
@@ -135,6 +138,7 @@ import TeamDescription from '@/Pages/Team/Partials/TeamDescription';
 import TeamLead from '@/Pages/Team/Partials/TeamLead';
 import TeamUsefulLink from '@/Pages/Team/Partials/TeamUsefulLink';
 import RecentShips from '@/Pages/Team/Partials/RecentShips';
+import Birthdays from '@/Pages/Team/Partials/Birthdays';
 
 export default {
   components: {
@@ -144,6 +148,7 @@ export default {
     TeamLead,
     TeamUsefulLink,
     RecentShips,
+    Birthdays,
   },
 
   directives: {
@@ -172,6 +177,10 @@ export default {
       default: null,
     },
     news: {
+      type: Array,
+      default: null,
+    },
+    birthdays: {
       type: Array,
       default: null,
     },

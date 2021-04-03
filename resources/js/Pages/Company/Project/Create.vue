@@ -107,6 +107,7 @@
                             :errors="$page.props.errors.name"
                             :label="$t('project.create_input_project_lead')"
                             :required="false"
+                            autocomplete="off"
                             @keyup="search"
                             @input="search"
                             @esc-key-pressed="showAssignProjectLead = false"
