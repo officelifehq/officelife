@@ -5,7 +5,7 @@ namespace App\Http\ViewHelpers\Adminland;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
 use Illuminate\Support\Collection;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class AdminTeamViewHelper
 {
