@@ -78,7 +78,20 @@ class TimezoneHelper
      * @param int $timezoneNumber
      * @return string
      */
-    public static function getTimezoneFriendlyName(int $timezoneNumber): string
+    public static function getTimezoneNameById(int $timezoneNumber): string
     {
+        $timezones = DateTimeZone::listIdentifiers();
+
+        $timezoneCollection = collect();
+        $numberOfTimezones = 0;
+        foreach ($timezones as $timezone) {
+            $array = self::formatTimezone($timezone);
+            $timezoneCollection->push([
+                'value' => $numberOfTimezones,
+                'label' => $array['name'],
+            ]);
+
+            $numberOfTimezones++;
+        }
     }
 }
