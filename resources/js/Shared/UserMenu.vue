@@ -77,6 +77,14 @@ svg {
               {{ $t('app.header_switch_company') }}
             </inertia-link>
           </li>
+          <li class="pa2 relative bb bb-gray bb-gray-hover">
+            <span class="dib icon relative">
+              <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" viewBox="0 0 19 19" width="19" height="19"><g transform="matrix(1.3571428571428572,0,0,1.3571428571428572,0,0)"><path d="M12.385,7.9V6.1l.8-1.009a1.076,1.076,0,0,0,.091-1.21l-.438-.758a1.076,1.076,0,0,0-1.093-.527l-1.277.194-1.562-.9L8.44.684a1.075,1.075,0,0,0-1-.684H6.562a1.075,1.075,0,0,0-1,.684l-.471,1.2-1.562.9L2.25,2.594a1.076,1.076,0,0,0-1.093.527l-.438.758A1.076,1.076,0,0,0,.81,5.089L1.615,6.1V7.9L.81,8.911a1.076,1.076,0,0,0-.091,1.21l.438.758a1.076,1.076,0,0,0,1.093.527l1.277-.194,1.562.9.471,1.2a1.075,1.075,0,0,0,1,.684h.876a1.075,1.075,0,0,0,1-.684l.471-1.2,1.562-.9,1.277.194a1.076,1.076,0,0,0,1.093-.527l.438-.758a1.076,1.076,0,0,0-.091-1.21ZM7,9.25A2.25,2.25,0,1,1,9.25,7,2.25,2.25,0,0,1,7,9.25Z" fill="#8ca3ce" stroke="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="0"></path></g></svg>
+            </span>
+            <inertia-link :href="route('profile.show')" class="no-color no-underline" data-cy="logout-button">
+              Preferences
+            </inertia-link>
+          </li>
           <li class="pa2 relative bb-gray-hover">
             <span class="dib icon relative">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

@@ -191,7 +191,9 @@ nav {
 
     <div :class="[ modalFind ? 'bg-modal-find' : '' ]" @click.prevent="modalFind = false"></div>
 
-    <slot></slot>
+    <main>
+      <slot></slot>
+    </main>
 
     <!-- toggle help -->
     <div v-if="showHelpOnPage">

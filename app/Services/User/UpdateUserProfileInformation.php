@@ -5,7 +5,6 @@ namespace App\Services\User;
 use App\Services\BaseService;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 
 class UpdateUserProfileInformation extends BaseService implements UpdatesUserProfileInformation
@@ -30,8 +29,7 @@ class UpdateUserProfileInformation extends BaseService implements UpdatesUserPro
             ],
         ])->validateWithBag('updateProfileInformation');
 
-        if ($input['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
+        if ($input['email'] !== $user->email) {
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([

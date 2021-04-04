@@ -59,7 +59,7 @@ class AppServiceProvider extends ServiceProvider
         Inertia::share([
             'auth' => function () {
                 return [
-                    'user' => Auth::user() ? [
+                    'user' => Auth::check() ? [
                         'id' => Auth::user()->id,
                         'first_name' => Auth::user()->first_name,
                         'last_name' => Auth::user()->last_name,
@@ -67,8 +67,8 @@ class AppServiceProvider extends ServiceProvider
                         'name' => Auth::user()->name,
                         'show_help' => Auth::user()->show_help,
                     ] : null,
-                    'company' => Auth::user() && ! is_null(InstanceHelper::getLoggedCompany()) ? InstanceHelper::getLoggedCompany() : null,
-                    'employee' => Auth::user() && ! is_null(InstanceHelper::getLoggedEmployee()) ? [
+                    'company' => Auth::check() && ! is_null(InstanceHelper::getLoggedCompany()) ? InstanceHelper::getLoggedCompany() : null,
+                    'employee' => Auth::check() && ! is_null(InstanceHelper::getLoggedEmployee()) ? [
                         'id' => InstanceHelper::getLoggedEmployee()->id,
                         'first_name' => InstanceHelper::getLoggedEmployee()->first_name,
                         'last_name' => InstanceHelper::getLoggedEmployee()->last_name,
