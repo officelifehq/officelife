@@ -7,9 +7,11 @@ use Tests\TestCase;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Task;
 use App\Models\Company\Answer;
+use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
 use App\Models\Company\Project;
+use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
 use App\Models\Company\ECoffeeMatch;
@@ -458,6 +460,53 @@ class DashboardMeViewHelperTest extends TestCase
         $this->assertEquals(
             3,
             $collection->toArray()[0]['preview_members']->count()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_company_currency(): void
+    {
+        $company = Company::factory()->create([
+            'currency' => 'USD',
+        ]);
+
+        $this->assertEquals(
+            [
+                'id' => 'USD',
+                'code' => 'USD',
+            ],
+            DashboardMeViewHelper::companyCurrency($company)
+        );
+    }
+
+    /** @test */
+    public function it_gets_information_about_worklogs(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $this->assertEquals(
+            [
+                'has_already_logged_a_worklog_today' => false,
+                'has_worklog_history' => false,
+            ],
+            DashboardMeViewHelper::worklogs($michael)
+        );
+
+        Worklog::factory()->create([
+            'employee_id' => $michael->id,
+            'created_at' => Carbon::now()->subDays(2),
+        ]);
+        Worklog::factory()->create([
+            'employee_id' => $michael->id,
+            'created_at' => Carbon::now(),
+        ]);
+
+        $this->assertEquals(
+            [
+                'has_already_logged_a_worklog_today' => true,
+                'has_worklog_history' => true,
+            ],
+            DashboardMeViewHelper::worklogs($michael)
         );
     }
 }

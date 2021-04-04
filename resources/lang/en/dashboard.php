@@ -6,6 +6,7 @@ return [
     'tab_expenses' => 'Accountant area',
     'tab_manager' => 'Manager area',
     'tab_hr' => 'HR area',
+    'tab_timesheets' => 'Your timesheets',
 
     'blank_state' => 'You are not associated with a team at the moment.',
 

@@ -44,9 +44,7 @@
       />
 
       <worklogs
-        :worklog-count="worklogCount"
-        :employee="employee"
-        class="mb5"
+        :worklogs="worklogs"
       />
 
       <morale
@@ -111,10 +109,6 @@ export default {
       type: Object,
       default: null,
     },
-    worklogCount: {
-      type: Number,
-      default: 0,
-    },
     moraleCount: {
       type: Number,
       default: 0,
@@ -164,6 +158,10 @@ export default {
       default: null,
     },
     projects: {
+      type: Array,
+      default: null,
+    },
+    worklogs: {
       type: Object,
       default: null,
     },

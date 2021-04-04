@@ -31,11 +31,9 @@ class DashboardMeController extends Controller
             'view' => 'me',
         ])->onQueue('low');
 
-        $worklogCount = $employee->worklogs()->count();
-
         $employeeInformation = [
             'id' => $employee->id,
-            'has_logged_worklog_today' => $employee->hasAlreadyLoggedWorklogToday(),
+            //'has_logged_worklog_today' => $employee->hasAlreadyLoggedWorklogToday(),
             'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
             'dashboard_view' => 'me',
             'can_manage_expenses' => $employee->can_manage_expenses,
@@ -45,14 +43,8 @@ class DashboardMeController extends Controller
             'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
         ];
 
-        $defaultCompanyCurrency = [
-            'id' => $company->currency,
-            'code' => $company->currency,
-        ];
-
         return Inertia::render('Dashboard/Me/Index', [
             'employee' => $employeeInformation,
-            'worklogCount' => $worklogCount,
             'notifications' => NotificationHelper::getNotifications($employee),
             'ownerPermissionLevel' => config('officelife.permission_level.administrator'),
             'tasks' => DashboardMeViewHelper::tasks($employee),
@@ -62,9 +54,10 @@ class DashboardMeController extends Controller
             'rateYourManagerAnswers' => DashboardMeViewHelper::rateYourManagerAnswers($employee),
             'oneOnOnes' => DashboardMeViewHelper::oneOnOnes($employee),
             'contractRenewal' => DashboardMeViewHelper::contractRenewal($employee),
-            'defaultCurrency' => $defaultCompanyCurrency,
+            'defaultCurrency' => DashboardMeViewHelper::companyCurrency($company),
             'eCoffee' => DashboardMeViewHelper::eCoffee($employee, $company),
             'projects' => DashboardMeViewHelper::projects($employee, $company),
+            'worklogs' => DashboardMeViewHelper::worklogs($employee),
         ]);
     }
 }

@@ -1,68 +1,68 @@
 <template>
-  <div>
+  <div class="mb5">
     <div class="cf mw7 center mb2 fw5">
       <span class="mr1">
         🔨
       </span> {{ $t('dashboard.worklog_title') }}
     </div>
 
-    <div class="cf mw7 center br3 mb3 bg-white box">
-      <div class="pa3">
+    <div class="cf mw7 center br3 mb3 bg-white box pa3">
+      <div v-if="!editMode && !displaySuccessMessage">
         <!-- employee hasn't logged yet -->
-        <p v-show="!editorShown && !updatedEmployee.has_logged_worklog_today" class="db mt0">
+        <p v-if="!localWorklogs.has_already_logged_a_worklog_today" class="db mt0">
           <span class="dib-ns db mb0-ns mb2 lh-copy">
             {{ $t('dashboard.worklog_placeholder') }}
           </span>
-          <inertia-link v-show="updatedWorklogCount != 0" :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/worklogs'" class="f6 ml2-ns pointer">
-            {{ $t('dashboard.worklog_read_previous_entries') }}
-          </inertia-link>
-        </p>
-
-        <!-- employee has already logged -->
-        <p v-show="!editorShown && updatedEmployee.has_logged_worklog_today && !successMessage" class="db mb0 mt0">
-          <span class="dib-ns db mb0-ns mb2">
-            {{ $t('dashboard.worklog_already_logged') }}
-          </span>
-          <inertia-link v-show="updatedWorklogCount != 0" :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/worklogs'" class="ml2-ns pointer">
+          <inertia-link v-if="localWorklogs.has_worklog_history" :href="localWorklogs.url_all" class="f6 ml2-ns pointer">
             {{ $t('dashboard.worklog_read_previous_entries') }}
           </inertia-link>
         </p>
 
         <!-- button to log the worklog -->
-        <p v-show="!editorShown && !updatedEmployee.has_logged_worklog_today" class="ma0">
+        <p v-if="!localWorklogs.has_already_logged_a_worklog_today" class="ma0">
           <a class="btn dib" data-cy="log-worklog-cta" @click.prevent="showEditor">
             {{ $t('dashboard.worklog_cta') }}
           </a>
         </p>
 
-        <!-- Shows the editor -->
-        <div v-show="editorShown && !successMessage">
-          <form @submit.prevent="store()">
-            <errors :errors="form.errors" :classes="'mb2'" />
-
-            <text-area
-              ref="editor"
-              v-model="form.content"
-              :datacy="'worklog-content'"
-              @esc-key-pressed="editorShown = false"
-            />
-            <p class="db lh-copy f6">
-              👋 {{ $t('dashboard.worklog_entry_description') }}
-            </p>
-            <p class="ma0">
-              <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-log-worklog'" />
-              <a class="pointer" @click.prevent="editorShown = false">
-                {{ $t('app.cancel') }}
-              </a>
-            </p>
-          </form>
-        </div>
-
-        <!-- employee just logged the worklog, we display the success message -->
-        <p v-show="successMessage" class="db mb3 mt4 tc">
-          {{ $t('dashboard.worklog_added') }}
+        <!-- employee has already logged -->
+        <p v-if="localWorklogs.has_already_logged_a_worklog_today" class="db mb0 mt0">
+          <span class="dib-ns db mb0-ns mb2">
+            {{ $t('dashboard.worklog_already_logged') }}
+          </span>
+          <inertia-link :href="localWorklogs.url_all" class="ml2-ns pointer">
+            {{ $t('dashboard.worklog_read_previous_entries') }}
+          </inertia-link>
         </p>
       </div>
+
+      <!-- Shows the editor -->
+      <div v-if="editMode">
+        <form @submit.prevent="store()">
+          <errors :errors="form.errors" :classes="'mb2'" />
+
+          <text-area
+            ref="editor"
+            v-model="form.content"
+            :datacy="'worklog-content'"
+            @esc-key-pressed="editMode = false"
+          />
+          <p class="db lh-copy f6">
+            👋 {{ $t('dashboard.worklog_entry_description') }}
+          </p>
+          <p class="ma0">
+            <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-log-worklog'" />
+            <a class="pointer" @click.prevent="editMode = false">
+              {{ $t('app.cancel') }}
+            </a>
+          </p>
+        </form>
+      </div>
+
+      <!-- employee just logged the worklog, we display the success message -->
+      <p v-if="displaySuccessMessage" class="db mb3 mt4 tc">
+        {{ $t('dashboard.worklog_added') }}
+      </p>
     </div>
   </div>
 </template>
@@ -80,11 +80,7 @@ export default {
   },
 
   props: {
-    worklogCount: {
-      type: Number,
-      default: 0,
-    },
-    employee: {
+    worklogs: {
       type: Object,
       default: null,
     },
@@ -92,21 +88,19 @@ export default {
 
   data() {
     return {
-      editorShown: false,
+      editMode: false,
       form: {
         content: null,
         errors: [],
       },
-      updatedWorklogCount: 0,
-      updatedEmployee: null,
+      localWorklogs: null,
       loadingState: '',
-      successMessage: false,
+      displaySuccessMessage: false,
     };
   },
 
   created: function() {
-    this.updatedWorklogCount = this.worklogCount;
-    this.updatedEmployee = this.employee;
+    this.localWorklogs = this.worklogs;
   },
 
   methods: {
@@ -115,7 +109,7 @@ export default {
     },
 
     showEditor() {
-      this.editorShown = true;
+      this.editMode = true;
 
       this.$nextTick(() => {
         this.$refs['editor'].$refs['input'].focus();
@@ -124,21 +118,21 @@ export default {
 
     store() {
       this.loadingState = 'loading';
-      this.successMessage = true;
-      this.editorShown = false;
-      this.updatedEmployee.has_logged_worklog_today = true;
+      this.editMode = false;
 
       axios.post(`${this.$page.props.auth.company.id}/dashboard/worklog`, this.form)
         .then(response => {
           flash(this.$t('dashboard.worklog_success_message'), 'success');
-          this.updatedWorklogCount = this.updatedWorklogCount + 1;
+
           this.loadingState = null;
+          this.displaySuccessMessage = true;
+          this.localWorklogs.has_already_logged_a_worklog_today = true;
+          this.localWorklogs.has_worklog_history = true;
         })
         .catch(error => {
           this.loadingState = null;
-          this.successMessage = false;
-          this.editorShown = true;
-          this.updatedEmployee.has_logged_worklog_today = false;
+          this.displaySuccessMessage = false;
+          this.editMode = true;
           this.form.errors = error.response.data;
         });
     },

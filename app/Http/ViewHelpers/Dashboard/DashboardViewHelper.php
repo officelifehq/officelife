@@ -19,7 +19,7 @@ use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
 
-class DashboardMeViewHelper
+class DashboardViewHelper
 {
     /**
      * Array containing all the information about the current active question.
@@ -115,7 +115,7 @@ class DashboardMeViewHelper
     }
 
     /**
-     * Get all the currencies used in this OfficeLife instance.
+     * Get all the currencies used in the instance.
      *
      * @return Collection|null
      */
@@ -418,37 +418,5 @@ class DashboardMeViewHelper
         }
 
         return $projectsCollection;
-    }
-
-    /**
-     * Get the company currency.
-     *
-     * @param Company $company
-     * @return array|null
-     */
-    public static function companyCurrency(Company $company): ?array
-    {
-        return [
-            'id' => $company->currency,
-            'code' => $company->currency,
-        ];
-    }
-
-    /**
-     * Get the information about worklogs.
-     *
-     * @param Employee $employee
-     * @return array|null
-     */
-    public static function worklogs(Employee $employee): ?array
-    {
-        return [
-            'has_already_logged_a_worklog_today' => $employee->hasAlreadyLoggedWorklogToday(),
-            'has_worklog_history' => $employee->worklogs()->count() > 0 ? true : false,
-            'url_all' => route('employee.work.worklogs', [
-                'company' => $employee->company_id,
-                'employee' => $employee,
-            ]),
-        ];
     }
 }
