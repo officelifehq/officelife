@@ -451,4 +451,17 @@ class DashboardMeViewHelper
             ]),
         ];
     }
+
+    /**
+     * Get the information about the morale.
+     *
+     * @param Employee $employee
+     * @return array|null
+     */
+    public static function morale(Employee $employee): ?array
+    {
+        return [
+            'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
+        ];
+    }
 }

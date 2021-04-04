@@ -33,8 +33,6 @@ class DashboardMeController extends Controller
 
         $employeeInformation = [
             'id' => $employee->id,
-            //'has_logged_worklog_today' => $employee->hasAlreadyLoggedWorklogToday(),
-            'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
             'dashboard_view' => 'me',
             'can_manage_expenses' => $employee->can_manage_expenses,
             'is_manager' => $employee->directReports->count() > 0,
@@ -58,6 +56,7 @@ class DashboardMeController extends Controller
             'eCoffee' => DashboardMeViewHelper::eCoffee($employee, $company),
             'projects' => DashboardMeViewHelper::projects($employee, $company),
             'worklogs' => DashboardMeViewHelper::worklogs($employee),
+            'morale' => DashboardMeViewHelper::morale($employee),
         ]);
     }
 }

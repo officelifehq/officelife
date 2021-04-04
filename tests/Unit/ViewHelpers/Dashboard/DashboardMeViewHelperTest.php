@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Task;
 use App\Models\Company\Answer;
+use App\Models\Company\Morale;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
@@ -488,6 +489,7 @@ class DashboardMeViewHelperTest extends TestCase
             [
                 'has_already_logged_a_worklog_today' => false,
                 'has_worklog_history' => false,
+                'url_all' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/work/worklogs',
             ],
             DashboardMeViewHelper::worklogs($michael)
         );
@@ -505,8 +507,34 @@ class DashboardMeViewHelperTest extends TestCase
             [
                 'has_already_logged_a_worklog_today' => true,
                 'has_worklog_history' => true,
+                'url_all' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/work/worklogs',
             ],
             DashboardMeViewHelper::worklogs($michael)
+        );
+    }
+
+    /** @test */
+    public function it_gets_information_about_morale(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $this->assertEquals(
+            [
+                'has_logged_morale_today' => false,
+            ],
+            DashboardMeViewHelper::morale($michael)
+        );
+
+        Morale::factory()->create([
+            'employee_id' => $michael->id,
+            'created_at' => Carbon::now(),
+        ]);
+
+        $this->assertEquals(
+            [
+                'has_logged_morale_today' => true,
+            ],
+            DashboardMeViewHelper::morale($michael)
         );
     }
 }

@@ -48,8 +48,7 @@
       />
 
       <morale
-        :morale-count="moraleCount"
-        :employee="employee"
+        :morale="morale"
       />
 
       <question
@@ -109,10 +108,6 @@ export default {
       type: Object,
       default: null,
     },
-    moraleCount: {
-      type: Number,
-      default: 0,
-    },
     notifications: {
       type: Array,
       default: null,
@@ -123,6 +118,10 @@ export default {
     },
     tasks: {
       type: Array,
+      default: null,
+    },
+    morale: {
+      type: Object,
       default: null,
     },
     categories: {
