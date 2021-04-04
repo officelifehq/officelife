@@ -10,6 +10,7 @@ use App\Models\Company\Company;
 use App\Models\Company\Expense;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Dashboard\DashboardExpenseViewHelper;
 use App\Services\Company\Employee\Expense\AcceptExpenseAsAccountant;
@@ -34,16 +35,8 @@ class DashboardExpensesController extends Controller
         $awaitingManagerExpenses = DashboardExpenseViewHelper::waitingForManagerApproval($company);
         $acceptedOrRejected = DashboardExpenseViewHelper::acceptedAndRejected($company);
 
-        $employeeInformation = [
-            'id' => $employee->id,
-            'dashboard_view' => 'expenses',
-            'is_manager' => $employee->directReports->count() > 0,
-            'can_manage_expenses' => $employee->can_manage_expenses,
-            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
-        ];
-
         return Inertia::render('Dashboard/Expenses/Index', [
-            'employee' => $employeeInformation,
+            'employee' => DashboardViewHelper::information($employee, 'expenses'),
             'awaitingAccountingExpenses' => $awaitingAccountingExpenses,
             'awaitingManagerExpenses' => $awaitingManagerExpenses,
             'acceptedOrRejected' => $acceptedOrRejected,
