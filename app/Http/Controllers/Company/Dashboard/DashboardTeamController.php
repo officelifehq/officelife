@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\UpdateDashboardPreference;
+use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Dashboard\DashboardTeamViewHelper;
 
@@ -44,16 +45,6 @@ class DashboardTeamController extends Controller
         $employee = InstanceHelper::getLoggedEmployee();
         $teams = $employee->teams()->with('employees')->with('ships')->get();
 
-        $employeeInformation = [
-            'id' => $employee->id,
-            'has_logged_worklog_today' => $employee->hasAlreadyLoggedWorklogToday(),
-            'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
-            'dashboard_view' => 'team',
-            'can_manage_expenses' => $employee->can_manage_expenses,
-            'is_manager' => $employee->directReports->count() > 0,
-            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
-        ];
-
         UpdateDashboardPreference::dispatch([
             'employee_id' => $employee->id,
             'company_id' => $company->id,
@@ -64,7 +55,7 @@ class DashboardTeamController extends Controller
         if ($teams->count() == 0) {
             return Inertia::render('Dashboard/Team/Partials/MyTeamEmptyState', [
                 'company' => $company,
-                'employee' => $employeeInformation,
+                'employee' => DashboardViewHelper::information($employee, 'team'),
                 'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
                 'message' => trans('dashboard.blank_state'),
             ]);
@@ -87,7 +78,7 @@ class DashboardTeamController extends Controller
             if (! $exists) {
                 return Inertia::render('Dashboard/Team/Partials/MyTeamEmptyState', [
                     'company' => $company,
-                    'employee' => $employeeInformation,
+                    'employee' => DashboardViewHelper::information($employee, 'team'),
                     'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
                     'message' => trans('dashboard.team_not_allowed'),
                 ]);
@@ -137,7 +128,7 @@ class DashboardTeamController extends Controller
 
         return Inertia::render('Dashboard/Team/Index', [
             'company' => $company,
-            'employee' => $employeeInformation,
+            'employee' => DashboardViewHelper::information($employee, 'team'),
             'teams' => $teams,
             'currentTeam' => $team->id,
             'worklogDates' => $dates,

@@ -14,6 +14,7 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Company\DirectReport;
 use App\Jobs\UpdateDashboardPreference;
+use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Dashboard\DashboardManagerViewHelper;
 use App\Services\Company\Employee\Expense\AcceptExpenseAsManager;
@@ -52,21 +53,13 @@ class DashboardManagerController extends Controller
             'view' => 'manager',
         ])->onQueue('low');
 
-        $employeeInformation = [
-            'id' => $employee->id,
-            'dashboard_view' => 'manager',
-            'is_manager' => true,
-            'can_manage_expenses' => $employee->can_manage_expenses,
-            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
-        ];
-
         $pendingExpenses = DashboardManagerViewHelper::pendingExpenses($employee, $directReports);
         $oneOnOnes = DashboardManagerViewHelper::oneOnOnes($employee, $directReports);
         $contractRenewals = DashboardManagerViewHelper::contractRenewals($employee, $directReports);
         $timesheetsStats = DashboardManagerViewHelper::employeesWithTimesheetsToApprove($employee, $directReports);
 
         return Inertia::render('Dashboard/Manager/Index', [
-            'employee' => $employeeInformation,
+            'employee' => DashboardViewHelper::information($employee, 'manager'),
             'notifications' => NotificationHelper::getNotifications($employee),
             'pendingExpenses' => $pendingExpenses,
             'oneOnOnes' => $oneOnOnes,

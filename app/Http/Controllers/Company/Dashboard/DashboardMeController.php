@@ -9,6 +9,7 @@ use App\Models\Company\Company;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\UpdateDashboardPreference;
+use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
 use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
 
 class DashboardMeController extends Controller
@@ -29,17 +30,8 @@ class DashboardMeController extends Controller
             'view' => 'me',
         ])->onQueue('low');
 
-        $employeeInformation = [
-            'id' => $employee->id,
-            'dashboard_view' => 'me',
-            'can_manage_expenses' => $employee->can_manage_expenses,
-            'is_manager' => $employee->directReports->count() > 0,
-            'question' => DashboardMeViewHelper::question($employee),
-            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
-        ];
-
         return Inertia::render('Dashboard/Me/Index', [
-            'employee' => $employeeInformation,
+            'employee' => DashboardViewHelper::information($employee, 'me'),
             'notifications' => NotificationHelper::getNotifications($employee),
             'ownerPermissionLevel' => config('officelife.permission_level.administrator'),
             'tasks' => DashboardMeViewHelper::tasks($employee),
@@ -55,6 +47,7 @@ class DashboardMeController extends Controller
             'worklogs' => DashboardMeViewHelper::worklogs($employee),
             'morale' => DashboardMeViewHelper::morale($employee),
             'workFromHome' => DashboardMeViewHelper::workFromHome($employee),
+            'question' => DashboardMeViewHelper::question($employee),
         ]);
     }
 }

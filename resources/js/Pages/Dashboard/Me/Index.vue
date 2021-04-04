@@ -52,6 +52,7 @@
 
       <question
         :employee="employee"
+        :question="question"
       />
 
       <task
@@ -164,6 +165,10 @@ export default {
       default: null,
     },
     workFromHome: {
+      type: Object,
+      default: null,
+    },
+    question: {
       type: Object,
       default: null,
     },

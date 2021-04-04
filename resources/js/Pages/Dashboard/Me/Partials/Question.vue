@@ -37,7 +37,7 @@
             <!-- CTA to add an answer -->
             <p v-if="!addMode">
               <a class="btn dib ml6 mr2" data-cy="log-answer-cta" @click.prevent="showEditor()">{{ $t('dashboard.question_cta') }}</a>
-              <span class="f6 silver di-l db mt4 mt0-l">{{ $tc('dashboard.question_number_of_answers', question.number_of_answers, { number: question.number_of_answers }) }}</span>
+              <span class="f6 silver di-l db mt4 mt0-l">{{ $tc('dashboard.question_number_of_answers', localQuestion.number_of_answers, { number: localQuestion.number_of_answers }) }}</span>
             </p>
 
             <!-- Add the answer form -->
@@ -71,7 +71,7 @@
         <div class="cf mw7 center br3 mb3 bg-white box relative">
           <div class="pa3">
             <p class="f5 fw6 mt0 mb1 lh-copy">{{ question.title }}</p>
-            <p class="f6 silver mb3 mt0">{{ $tc('dashboard.question_number_of_answers', question.number_of_answers, { number: question.number_of_answers }) }}</p>
+            <p class="f6 silver mb3 mt0">{{ $tc('dashboard.question_number_of_answers', localQuestion.number_of_answers, { number: localQuestion.number_of_answers }) }}</p>
 
             <div v-for="answer in answers" :key="answer.id" class="bb-gray relative answer-entry" :data-cy="'answer-content-' + answer.id">
               <!-- avatar -->
@@ -132,7 +132,7 @@
               </div>
             </div>
           </div>
-          <div v-if="question.number_of_answers > 3" class="ph3 pv2 tc f6 bt bb-gray">
+          <div v-if="localQuestion.number_of_answers > 3" class="ph3 pv2 tc f6 bt bb-gray">
             <a data-cy="view-all-work-from-home" :href="question.url">{{ $t('dashboard.question_answer_link') }}</a>
           </div>
         </div>
@@ -156,6 +156,10 @@ export default {
   },
 
   props: {
+    question: {
+      type: Object,
+      default: null,
+    },
     employee: {
       type: Object,
       default: null,
@@ -164,13 +168,13 @@ export default {
 
   data() {
     return {
+      localQuestion: null,
       hasAlreadyAnswered: false,
       addMode: false,
       editMode: false,
       deletionMode: false,
       idToUpdate: 0,
       idToDelete: 0,
-      question: null,
       answers: Array,
       form: {
         id: 0,
@@ -182,10 +186,10 @@ export default {
   },
 
   created: function() {
-    if (this.employee.question) {
-      this.hasAlreadyAnswered = this.employee.question.employee_has_answered;
-      this.question = this.employee.question;
-      this.answers = this.employee.question.answers;
+    if (this.question) {
+      this.localQuestion = this.question;
+      this.hasAlreadyAnswered = this.question.employee_has_answered;
+      this.answers = this.question.answers;
       this.form.id = this.question.id;
     }
   },
@@ -227,11 +231,11 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/question', this.form)
+      axios.post(`${this.$page.props.auth.company.id}/dashboard/question`, this.form)
         .then(response => {
           this.loadingState = null;
           this.answers = response.data.data;
-          this.question.number_of_answers++;
+          this.localQuestion.number_of_answers++;
           this.hasAlreadyAnswered = true;
           this.editMode = false;
           flash(this.$t('dashboard.question_answer_submitted'), 'success');
@@ -246,7 +250,7 @@ export default {
     update(answer) {
       this.loadingState = 'loading';
 
-      axios.put('/' + this.$page.props.auth.company.id + '/dashboard/question/' + answer.id, this.form)
+      axios.put(`${this.$page.props.auth.company.id}/dashboard/question/${answer.id}`, this.form)
         .then(response => {
           this.loadingState = null;
           flash(this.$t('dashboard.question_answer_updated'), 'success');
@@ -264,7 +268,7 @@ export default {
     },
 
     destroy(answer) {
-      axios.delete('/' + this.$page.props.auth.company.id + '/dashboard/question/' + answer.id)
+      axios.delete(`${this.$page.props.auth.company.id}/dashboard/question/${answer.id}`)
         .then(response => {
           flash(this.$t('dashboard.question_answer_destroyed'), 'success');
 

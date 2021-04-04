@@ -14,13 +14,11 @@
   <div class="cf mw7 center br3 mt5 mb5">
     <!-- employee information -->
     <div class="flex items-center mb5">
-      <img loading="lazy" src="https://ucarecdn.com/a95cbf7b-9f28-438a-a1fc-8c8d93be4939/-/scale_crop/55x55/smart/" srcset="https://ucarecdn.com/a95cbf7b-9f28-438a-a1fc-8c8d93be4939/-/scale_crop/55x55/smart/ 1x,https://ucarecdn.com/a95cbf7b-9f28-438a-a1fc-8c8d93be4939/-/scale_crop/110x110/smart/ 2x" alt="avatar" class="pointer avatar br-100 mr4"
-           width="55" height="55"
-      />
+      <avatar :avatar="employee.avatar" :size="55" :classes="'pointer avatar br-100 mr4'" />
 
       <div>
         <h2 class="fw3 mt0 mb2">
-          Hey Michael!
+          Hi {{ employee.name }}!
         </h2>
         <p class="ma0 lh-copy welcome">Here is a quick summary of what’s happening for you and the teams you are part of, and the actions you have to take.</p>
       </div>
@@ -53,8 +51,13 @@
 </template>
 
 <script>
+import Avatar from '@/Shared/Avatar';
 
 export default {
+  components: {
+    Avatar,
+  },
+
   props: {
     employee: {
       type: Object,
