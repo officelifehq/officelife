@@ -58,9 +58,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             ]);
             Route::post('expense', 'Company\\Dashboard\\DashboardMeExpenseController@store')->name('dashboard.expense.store');
 
-            // company
-            Route::get('company', 'Company\\Dashboard\\DashboardCompanyController@index')->name('dashboard.company');
-
             // timesheet
             Route::get('timesheet/projects', 'Company\\Dashboard\\DashboardTimesheetController@projects')->name('dashboard.timesheet.projects');
             Route::get('timesheet/{timesheet}/projects/{project}/tasks', 'Company\\Dashboard\\DashboardTimesheetController@tasks')->name('dashboard.timesheet.tasks');

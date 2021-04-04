@@ -7,12 +7,16 @@ use Tests\TestCase;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Task;
 use App\Models\Company\Answer;
+use App\Models\Company\Morale;
+use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
 use App\Models\Company\Project;
+use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
 use App\Models\Company\ECoffeeMatch;
+use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
@@ -458,6 +462,106 @@ class DashboardMeViewHelperTest extends TestCase
         $this->assertEquals(
             3,
             $collection->toArray()[0]['preview_members']->count()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_company_currency(): void
+    {
+        $company = Company::factory()->create([
+            'currency' => 'USD',
+        ]);
+
+        $this->assertEquals(
+            [
+                'id' => 'USD',
+                'code' => 'USD',
+            ],
+            DashboardMeViewHelper::companyCurrency($company)
+        );
+    }
+
+    /** @test */
+    public function it_gets_information_about_worklogs(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $this->assertEquals(
+            [
+                'has_already_logged_a_worklog_today' => false,
+                'has_worklog_history' => false,
+                'url_all' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/work/worklogs',
+            ],
+            DashboardMeViewHelper::worklogs($michael)
+        );
+
+        Worklog::factory()->create([
+            'employee_id' => $michael->id,
+            'created_at' => Carbon::now()->subDays(2),
+        ]);
+        Worklog::factory()->create([
+            'employee_id' => $michael->id,
+            'created_at' => Carbon::now(),
+        ]);
+
+        $this->assertEquals(
+            [
+                'has_already_logged_a_worklog_today' => true,
+                'has_worklog_history' => true,
+                'url_all' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/work/worklogs',
+            ],
+            DashboardMeViewHelper::worklogs($michael)
+        );
+    }
+
+    /** @test */
+    public function it_gets_information_about_morale(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $this->assertEquals(
+            [
+                'has_logged_morale_today' => false,
+            ],
+            DashboardMeViewHelper::morale($michael)
+        );
+
+        Morale::factory()->create([
+            'employee_id' => $michael->id,
+            'created_at' => Carbon::now(),
+        ]);
+
+        $this->assertEquals(
+            [
+                'has_logged_morale_today' => true,
+            ],
+            DashboardMeViewHelper::morale($michael)
+        );
+    }
+
+    /** @test */
+    public function it_gets_information_about_working_from_home(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $this->assertEquals(
+            [
+                'has_worked_from_home_today' => false,
+            ],
+            DashboardMeViewHelper::workFromHome($michael)
+        );
+
+        WorkFromHome::factory()->create([
+            'employee_id' => $michael->id,
+            'date' => Carbon::now()->format('Y-m-d 00:00:00'),
+            'work_from_home' => true,
+        ]);
+
+        $this->assertEquals(
+            [
+                'has_worked_from_home_today' => true,
+            ],
+            DashboardMeViewHelper::workFromHome($michael)
         );
     }
 }

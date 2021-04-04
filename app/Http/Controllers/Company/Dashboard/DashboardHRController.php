@@ -8,6 +8,7 @@ use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\UpdateDashboardPreference;
+use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
 use App\Http\ViewHelpers\Dashboard\DashboardHRViewHelper;
 
 class DashboardHRController extends Controller
@@ -33,19 +34,11 @@ class DashboardHRController extends Controller
             'view' => 'hr',
         ])->onQueue('low');
 
-        $employeeInformation = [
-            'id' => $employee->id,
-            'dashboard_view' => 'hr',
-            'is_manager' => true,
-            'can_manage_expenses' => $employee->can_manage_expenses,
-            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
-        ];
-
         $employeesWithoutManagersWithPendingTimesheets = DashboardHRViewHelper::employeesWithoutManagersWithPendingTimesheets($company);
         $statisticsAboutTimesheets = DashboardHRViewHelper::statisticsAboutTimesheets($company);
 
         return Inertia::render('Dashboard/HR/Index', [
-            'employee' => $employeeInformation,
+            'employee' => DashboardViewHelper::information($employee, 'hr'),
             'notifications' => NotificationHelper::getNotifications($employee),
             'employeesWithoutManagersWithPendingTimesheets' => $employeesWithoutManagersWithPendingTimesheets,
             'statisticsAboutTimesheets' => $statisticsAboutTimesheets,

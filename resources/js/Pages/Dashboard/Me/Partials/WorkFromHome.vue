@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb5">
     <div class="cf mw7 center mb2 fw5 relative">
       <span class="mr1">
         🏡
@@ -43,7 +43,7 @@ export default {
   },
 
   props: {
-    employee: {
+    workFromHome: {
       type: Object,
       default: null,
     },
@@ -55,14 +55,12 @@ export default {
         content: Boolean,
         errors: [],
       },
-      updatedEmployee: null,
       successMessage: false,
     };
   },
 
   created: function() {
-    this.updatedEmployee = this.employee;
-    this.form.content = this.updatedEmployee.has_worked_from_home_today;
+    this.form.content = this.workFromHome.has_worked_from_home_today;
   },
 
   methods: {
@@ -70,7 +68,7 @@ export default {
       this.form.errors = [];
       this.form.content = payload;
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/workFromHome', this.form)
+      axios.post(`${this.$page.props.auth.company.id}/dashboard/workFromHome`, this.form)
         .then(response => {
           flash(this.$t('dashboard.work_from_home_success'), 'success');
         })
