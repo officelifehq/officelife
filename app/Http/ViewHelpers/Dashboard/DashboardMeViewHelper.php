@@ -13,6 +13,7 @@ use App\Models\Company\Expense;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use App\Helpers\WorkFromHomeHelper;
 use Money\Currencies\ISOCurrencies;
 use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\OneOnOneEntry;
@@ -462,6 +463,19 @@ class DashboardMeViewHelper
     {
         return [
             'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
+        ];
+    }
+
+    /**
+     * Get the information about working from home.
+     *
+     * @param Employee $employee
+     * @return array|null
+     */
+    public static function workFromHome(Employee $employee): ?array
+    {
+        return [
+            'has_worked_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
         ];
     }
 }

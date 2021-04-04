@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Company\Dashboard;
 
-use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Helpers\NotificationHelper;
-use App\Helpers\WorkFromHomeHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\UpdateDashboardPreference;
 use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
@@ -36,7 +34,6 @@ class DashboardMeController extends Controller
             'dashboard_view' => 'me',
             'can_manage_expenses' => $employee->can_manage_expenses,
             'is_manager' => $employee->directReports->count() > 0,
-            'has_worked_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
             'question' => DashboardMeViewHelper::question($employee),
             'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
         ];
@@ -57,6 +54,7 @@ class DashboardMeController extends Controller
             'projects' => DashboardMeViewHelper::projects($employee, $company),
             'worklogs' => DashboardMeViewHelper::worklogs($employee),
             'morale' => DashboardMeViewHelper::morale($employee),
+            'workFromHome' => DashboardMeViewHelper::workFromHome($employee),
         ]);
     }
 }

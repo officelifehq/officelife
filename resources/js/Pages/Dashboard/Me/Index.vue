@@ -39,8 +39,7 @@
       />
 
       <work-from-home
-        :employee="employee"
-        class="mb5"
+        :work-from-home="workFromHome"
       />
 
       <worklogs
@@ -161,6 +160,10 @@ export default {
       default: null,
     },
     worklogs: {
+      type: Object,
+      default: null,
+    },
+    workFromHome: {
       type: Object,
       default: null,
     },

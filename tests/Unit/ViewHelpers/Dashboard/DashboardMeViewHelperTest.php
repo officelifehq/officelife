@@ -16,6 +16,7 @@ use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
 use App\Models\Company\ECoffeeMatch;
+use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
@@ -535,6 +536,32 @@ class DashboardMeViewHelperTest extends TestCase
                 'has_logged_morale_today' => true,
             ],
             DashboardMeViewHelper::morale($michael)
+        );
+    }
+
+    /** @test */
+    public function it_gets_information_about_working_from_home(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $this->assertEquals(
+            [
+                'has_worked_from_home_today' => false,
+            ],
+            DashboardMeViewHelper::workFromHome($michael)
+        );
+
+        WorkFromHome::factory()->create([
+            'employee_id' => $michael->id,
+            'date' => Carbon::now()->format('Y-m-d 00:00:00'),
+            'work_from_home' => true,
+        ]);
+
+        $this->assertEquals(
+            [
+                'has_worked_from_home_today' => true,
+            ],
+            DashboardMeViewHelper::workFromHome($michael)
         );
     }
 }
