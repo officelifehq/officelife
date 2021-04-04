@@ -231,11 +231,11 @@ export default {
       default: null,
     },
     duration: {
-      type: Object,
+      type: String,
       default: null,
     },
     url: {
-      type: Object,
+      type: String,
       default: null,
     },
   },

@@ -46,9 +46,10 @@ class TeamController extends Controller
     public function show(Request $request, int $companyId, int $teamId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
 
         try {
-            $team = Team::where('company_id', $companyId)
+            $team = Team::where('company_id', $loggedCompany->id)
                 ->with('leader')
                 ->findOrFail($teamId);
         } catch (ModelNotFoundException $e) {
@@ -56,7 +57,7 @@ class TeamController extends Controller
         }
 
         // employees
-        $employeesCollection = TeamShowViewHelper::employees($team);
+        $teamMembers = TeamShowViewHelper::employees($team);
 
         // recent ships
         $recentShipsCollection = TeamShowViewHelper::recentShips($team);
@@ -67,15 +68,18 @@ class TeamController extends Controller
 
         // does the current logged user belongs to the team?
         // this is useful to know whether the user can do actions because he's part of the team
-        $belongsToTheTeam = $employeesCollection->filter(function ($employee) use ($loggedEmployee) {
+        $belongsToTheTeam = $teamMembers->filter(function ($employee) use ($loggedEmployee) {
             return $employee['id'] === $loggedEmployee->id;
         });
 
         // most recent member
         $mostRecentMember = trans('team.most_recent_team_member', [
-            'count' => $employeesCollection->count(),
-            'link' => ($employeesCollection->count() > 0) ? $employeesCollection->take(1)->first()['name'] : '',
+            'count' => $teamMembers->count(),
+            'link' => ($teamMembers->count() > 0) ? $teamMembers->take(1)->first()['name'] : '',
         ]);
+
+        // birthdays
+        $birthdays = TeamShowViewHelper::birthdays($team, $loggedCompany);
 
         return Inertia::render('Team/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -83,8 +87,9 @@ class TeamController extends Controller
             'news' => $newsCollection,
             'newsCount' => $news->count(),
             'mostRecentEmployee' => $mostRecentMember,
-            'employeeCount' => $employeesCollection->count(),
-            'employees' => $employeesCollection,
+            'employeeCount' => $teamMembers->count(),
+            'employees' => $teamMembers,
+            'birthdays' => $birthdays,
             'userBelongsToTheTeam' => $belongsToTheTeam->count() > 0,
             'links' => TeamUsefulLinkCollection::prepare($team->links),
             'recentShips' => $recentShipsCollection,

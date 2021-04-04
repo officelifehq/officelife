@@ -58,7 +58,7 @@ input[type=checkbox] {
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">

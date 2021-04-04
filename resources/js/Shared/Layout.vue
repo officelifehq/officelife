@@ -29,7 +29,8 @@ nav {
   a {
     color: #4d4d4f;
 
-    &:hover {
+    &:hover,
+    &:active {
       border-bottom-width: 0;
     }
 

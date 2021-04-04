@@ -2,9 +2,12 @@
 
 namespace App\Http\ViewHelpers\Team;
 
+use Carbon\Carbon;
+use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
 use App\Helpers\StringHelper;
+use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
 
@@ -147,5 +150,60 @@ class TeamShowViewHelper
         }
 
         return $employeesCollection;
+    }
+
+    /**
+     * Get all the upcoming birthdays for employees in the given team.
+     *
+     * @param Team $team
+     * @param Company $company
+     * @return array
+     */
+    public static function birthdays(Team $team, Company $company): array
+    {
+        $employees = $team->employees()
+            ->whereNotNull('employees.birthdate')
+            ->where('employees.locked', false)
+            ->get();
+
+        // // remove employees without birthdates
+        // $employees = $employees->filter(function ($employee) {
+        //     return ! is_null($employee->birthdate);
+        // });
+
+        // // remove employees that are locked
+        // $employees = $employees->filter(function ($employee) {
+        //     return ! $employee->locked;
+        // });
+
+        // build the collection of data
+        $birthdaysCollection = collect([]);
+        $now = Carbon::now();
+
+        foreach ($employees as $employee) {
+            if (! $employee->birthdate) {
+                continue;
+            }
+
+            if (BirthdayHelper::isBirthdayInXDays($now, $employee->birthdate, 30)) {
+                $birthdaysCollection->push([
+                    'id' => $employee->id,
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $employee,
+                    ]),
+                    'name' => $employee->name,
+                    'avatar' => ImageHelper::getAvatar($employee, 35),
+                    'birthdate' => DateHelper::formatMonthAndDay($employee->birthdate),
+                    'sort_key' => Carbon::createFromDate($now->year, $employee->birthdate->month, $employee->birthdate->day)->format('Y-m-d'),
+                ]);
+            }
+        }
+
+        // sort the entries by soonest birthdates
+        // we need to use values()->all() so it resets the keys properly.
+        $birthdaysCollection = $birthdaysCollection->sortBy('sort_key')->values()->all();
+
+        return $birthdaysCollection;
     }
 }

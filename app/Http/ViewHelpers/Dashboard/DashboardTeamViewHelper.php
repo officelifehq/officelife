@@ -18,7 +18,6 @@ class DashboardTeamViewHelper
      * team.
      *
      * @param Team $team
-     *
      * @return array
      */
     public static function birthdays(Team $team): array
@@ -70,7 +69,6 @@ class DashboardTeamViewHelper
      * Array containing all employees who work from home in the given team.
      *
      * @param Team $team
-     *
      * @return Collection
      */
     public static function workFromHome(Team $team): Collection
@@ -109,7 +107,6 @@ class DashboardTeamViewHelper
      * Array containing all the teams.
      *
      * @param Collection $teams
-     *
      * @return Collection
      */
     public static function teams(Collection $teams): Collection
@@ -133,7 +130,6 @@ class DashboardTeamViewHelper
      * Collection containing all the recent ships entry for the given team.
      *
      * @param Team $team
-     *
      * @return Collection
      */
     public static function ships(Team $team): Collection
@@ -184,7 +180,6 @@ class DashboardTeamViewHelper
      *
      * @param Team $team
      * @param Carbon $date
-     *
      * @return array
      */
     public static function worklogs(Team $team, Carbon $date): array
@@ -227,7 +222,6 @@ class DashboardTeamViewHelper
      * the next week for this team.
      *
      * @param Team $team
-     *
      * @return Collection
      */
     public static function upcomingNewHires(Team $team): Collection
@@ -267,7 +261,6 @@ class DashboardTeamViewHelper
      * employees in this team.
      *
      * @param Team $team
-     *
      * @return Collection
      */
     public static function upcomingHiredDateAnniversaries(Team $team): Collection

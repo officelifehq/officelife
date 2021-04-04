@@ -29,7 +29,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -107,6 +107,7 @@
                             :errors="$page.props.errors.name"
                             :label="$t('project.create_input_project_lead')"
                             :required="false"
+                            autocomplete="off"
                             @keyup="search"
                             @input="search"
                             @esc-key-pressed="showAssignProjectLead = false"
@@ -133,7 +134,7 @@
             <div v-if="form.projectLead" class="mb3 mt2 bt bb-gray pt3">
               <p class="mt0 db fw4 lh-copy f6 mb1">Lead by</p>
               <span class="ba bb-gray br3 pa2 pl3 db relative team-member">
-                <img loading="lazy" :src="form.projectLead.avatar" class="br-100 absolute avatar" alt="avatar" />
+                <avatar :avatar="form.projectLead.avatar" :size="23" :classes="'br-100 absolute avatar'" />
 
                 {{ form.projectLead.name }}
 
@@ -168,6 +169,7 @@ import TextArea from '@/Shared/TextArea';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
+import Avatar from '@/Shared/Avatar';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import Help from '@/Shared/Help';
@@ -175,6 +177,7 @@ import Help from '@/Shared/Help';
 export default {
   components: {
     Layout,
+    Avatar,
     TextInput,
     TextArea,
     Errors,

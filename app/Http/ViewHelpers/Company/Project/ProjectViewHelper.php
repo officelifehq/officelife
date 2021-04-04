@@ -66,7 +66,10 @@ class ProjectViewHelper
             ]);
         }
 
-        $author = $latestStatus->author;
+        $author = null;
+        if (! is_null($latestStatus)) {
+            $author = $latestStatus->author;
+        }
 
         return [
             'id' => $project->id,
@@ -232,6 +235,7 @@ class ProjectViewHelper
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
+                'avatar' => ImageHelper::getAvatar($employee, 23),
             ]);
         }
 

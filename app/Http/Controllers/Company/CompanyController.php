@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Company;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
-use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
-use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
@@ -16,19 +14,6 @@ use App\Services\Company\Adminland\Company\CreateCompany;
 
 class CompanyController extends Controller
 {
-    /**
-     * Company details.
-     *
-     * @return Response
-     */
-    public function index(): Response
-    {
-        return Inertia::render('Dashboard/MyCompany', [
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'ownerPermissionLevel' => config('officelife.permission_level.administrator'),
-        ]);
-    }
-
     /**
      * Show the create company form.
      *

@@ -9,6 +9,7 @@ use App\Models\Company\Task;
 use App\Models\Company\Answer;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
+use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
 use App\Models\Company\ECoffeeMatch;
@@ -424,5 +425,39 @@ class DashboardMeViewHelperTest extends TestCase
         ]);
 
         $this->assertNull(DashboardMeViewHelper::eCoffee($michael, $company));
+    }
+
+    /** @test */
+    public function it_returns_a_list_of_projects(): void
+    {
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $jim = $this->createAnotherEmployee($michael);
+        $jan = $this->createAnotherEmployee($michael);
+
+        // projects
+        $projectStarted = Project::factory()->create([
+            'company_id' => $michael->company_id,
+            'status' => Project::STARTED,
+        ]);
+        $projectClosed = Project::factory()->create([
+            'company_id' => $michael->company_id,
+            'status' => Project::CLOSED,
+        ]);
+
+        $projectStarted->employees()->syncWithoutDetaching([$michael->id, $dwight->id, $jim->id, $jan->id]);
+        $projectClosed->employees()->syncWithoutDetaching([$michael->id]);
+
+        $collection = DashboardMeViewHelper::projects($michael, $michael->company);
+
+        $this->assertEquals(
+            1,
+            $collection->count()
+        );
+
+        $this->assertEquals(
+            3,
+            $collection->toArray()[0]['preview_members']->count()
+        );
     }
 }

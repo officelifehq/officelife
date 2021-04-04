@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models\Company;
 
 use Tests\TestCase;
+use App\Models\Company\File;
 use App\Models\Company\Team;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
@@ -144,5 +145,17 @@ class ProjectTest extends TestCase
             ->create();
 
         $this->assertTrue($project->timeTrackingEntries()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_files(): void
+    {
+        $project = Project::factory()
+            ->create();
+
+        $file = File::factory()->create();
+        $project->files()->sync([$file->id]);
+
+        $this->assertTrue($project->files()->exists());
     }
 }

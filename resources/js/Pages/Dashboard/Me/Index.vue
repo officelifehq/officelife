@@ -6,9 +6,14 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <dashboard-menu :employee="employee" />
+
+      <projects
+        v-if="projects.length > 0"
+        :projects="projects"
+      />
 
       <e-coffee
         v-if="eCoffee"
@@ -65,27 +70,6 @@
         :currencies="currencies"
         :default-currency="defaultCurrency"
       />
-
-      <div class="cf mt4 mw7 center br3 mb3 bg-white box">
-        <div class="pa3">
-          <h2>Me</h2>
-          <ul>
-            <li>View holidays</li>
-            <li>Book time off</li>
-            <li>Log morale</li>
-            <li>Reply to what you've done this week</li>
-            <li>Log an expense</li>
-            <li>View one on ones</li>
-            <li>View all my tasks</li>
-            <li>quizz hebdo pour apprendre à connaitre</li>
-            <li>donner des statistics sur le nombre de femmes/hommes avec un poste à responsabilité</li>
-            <li>donner le ratio homme/femme par poste dans l'onglet Positions</li>
-            <li>rechercher par "position"</li>
-            <li>gestion du materiel informatique</li>
-            <li>Onboarding questionaire</li>
-          </ul>
-        </div>
-      </div>
     </div>
   </layout>
 </template>
@@ -103,6 +87,7 @@ import ContractRenewalDate from '@/Pages/Dashboard/Me/Partials/ContractRenewalDa
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 import ECoffee from '@/Pages/Dashboard/Me/Partials/ECoffee';
+import Projects from '@/Pages/Dashboard/Me/Partials/Projects';
 
 export default {
   components: {
@@ -118,6 +103,7 @@ export default {
     ContractRenewalDate,
     DashboardMenu,
     ECoffee,
+    Projects,
   },
 
   props: {
@@ -174,6 +160,10 @@ export default {
       default: null,
     },
     eCoffee: {
+      type: Object,
+      default: null,
+    },
+    projects: {
       type: Object,
       default: null,
     },

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\ViewHelpers\Team;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Ship;
@@ -163,6 +164,64 @@ class TeamShowViewHelperTest extends TestCase
                 ],
             ],
             $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_birthdates(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $sales = Team::factory()->create([]);
+        $michael = Employee::factory()->create([
+            'birthdate' => null,
+            'company_id' => $sales->company_id,
+        ]);
+        $dwight = Employee::factory()->create([
+            'birthdate' => '1892-01-29',
+            'first_name' => 'Dwight',
+            'last_name' => 'Schrute',
+            'company_id' => $sales->company_id,
+        ]);
+        $angela = Employee::factory()->create([
+            'birthdate' => '1989-01-05',
+            'first_name' => 'Angela',
+            'last_name' => 'Bernard',
+            'company_id' => $sales->company_id,
+        ]);
+        $john = Employee::factory()->create([
+            'birthdate' => '1989-03-20',
+            'company_id' => $sales->company_id,
+        ]);
+
+        $sales->employees()->syncWithoutDetaching([$michael->id]);
+        $sales->employees()->syncWithoutDetaching([$dwight->id]);
+        $sales->employees()->syncWithoutDetaching([$angela->id]);
+        $sales->employees()->syncWithoutDetaching([$john->id]);
+
+        $array = TeamShowViewHelper::birthdays($sales, $michael->company);
+
+        $this->assertEquals(2, count($array));
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $angela->id,
+                    'name' => 'Angela Bernard',
+                    'avatar' => ImageHelper::getAvatar($angela, 35),
+                    'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$angela->id,
+                    'birthdate' => 'January 5th',
+                    'sort_key' => '2018-01-05',
+                ],
+                1 => [
+                    'id' => $dwight->id,
+                    'name' => 'Dwight Schrute',
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
+                    'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$dwight->id,
+                    'birthdate' => 'January 29th',
+                    'sort_key' => '2018-01-29',
+                ],
+            ],
+            $array
         );
     }
 }

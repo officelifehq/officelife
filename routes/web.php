@@ -21,7 +21,7 @@ Route::post('login', 'Auth\\LoginController@login')->name('login.attempt');
 Route::get('invite/employee/{link}', 'Auth\\UserInvitationController@check');
 Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join')->name('invitation.join');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('home', 'HomeController@index')->name('home');
     Route::post('search/employees', 'HeaderSearchController@employees');
     Route::post('search/teams', 'HeaderSearchController@teams');
@@ -273,6 +273,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('skills/{skill}', 'Company\\Company\\SkillController@update');
             Route::delete('skills/{skill}', 'Company\\Company\\SkillController@destroy');
 
+            // Projects
             Route::prefix('projects')->group(function () {
                 Route::get('', 'Company\\Company\\Project\\ProjectController@index');
                 Route::get('create', 'Company\\Company\\Project\\ProjectController@create');
@@ -323,6 +324,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::delete('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@destroy');
                 Route::get('{project}/tasks/{task}/timeTrackingEntries', 'Company\\Company\\Project\\ProjectTasksController@timeTrackingEntries');
                 Route::post('{project}/tasks/{task}/log', 'Company\\Company\\Project\\ProjectTasksController@logTime');
+
+                // files
+                Route::get('{project}/files', 'Company\\Company\\Project\\ProjectFilesController@index');
+                Route::post('{project}/files', 'Company\\Company\\Project\\ProjectFilesController@store');
+                Route::delete('{project}/files/{file}', 'Company\\Company\\Project\\ProjectFilesController@destroy');
             });
 
             Route::prefix('hr')->group(function () {

@@ -11,7 +11,6 @@ use App\Helpers\PaginatorHelper;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Collections\TeamLogCollection;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Adminland\Team\UpdateTeam;
 use App\Services\Company\Adminland\Team\DestroyTeam;
@@ -130,7 +129,7 @@ class AdminTeamController extends Controller
 
         $logs = $team->logs()->with('author')->paginate(15);
 
-        $logsCollection = TeamLogCollection::prepare($logs);
+        $logsCollection = AdminTeamViewHelper::logs($logs);
 
         return Inertia::render('Adminland/Team/Logs', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),

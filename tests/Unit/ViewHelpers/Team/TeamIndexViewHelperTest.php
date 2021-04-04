@@ -19,6 +19,7 @@ class TeamIndexViewHelperTest extends TestCase
         $dwight = $this->createAnotherEmployee($michael);
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
+            'description' => '**happy**',
         ]);
 
         $team->employees()->attach([$michael->id]);
@@ -39,16 +40,24 @@ class TeamIndexViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
+            '<p><strong>happy</strong></p>',
+            $collection->toArray()[0]['parsed_description']
+        );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/teams/'.$team->id,
+            $collection->toArray()[0]['url']
+        );
+
+        $this->assertEquals(
             [
                 0 => [
                     'id' => $michael->id,
-                    'name' => $michael->name,
                     'avatar' => ImageHelper::getAvatar($michael, 20),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
                 1 => [
                     'id' => $dwight->id,
-                    'name' => $dwight->name,
                     'avatar' => ImageHelper::getAvatar($dwight, 20),
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                 ],
