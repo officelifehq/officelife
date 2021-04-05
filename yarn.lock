@@ -897,9 +897,9 @@
     purgecss "^2.3.0"
 
 "@inertiajs/inertia-vue@^0.5.5":
-  version "0.5.6"
-  resolved "https://registry.yarnpkg.com/@inertiajs/inertia-vue/-/inertia-vue-0.5.6.tgz#e62e239cd8f335597a07593dcab59f9115ccba99"
-  integrity sha512-GJelEtUlhJX8to7ggxn73Hk4wnHDTCHgyJ7dxZ9EnYu0MXdb9F59vNaFCn/ozZt30M0Jdgi05vrM4nTem6l4mg==
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/@inertiajs/inertia-vue/-/inertia-vue-0.5.9.tgz#278c15f36a1ff7f3a6ae0cce688f860350c91426"
+  integrity sha512-dh+tLFmjV7J44lj2JigONyquKAMArxXA2Dkv97/fXXJvr57AcDrrSkQWv2g0xkmuDRSuGO0T4edk350VEqS3Ag==
   dependencies:
     lodash.clonedeep "^4.5.0"
 
