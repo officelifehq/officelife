@@ -3,6 +3,8 @@
 namespace App\Http\ViewHelpers\Team;
 
 use Carbon\Carbon;
+use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
 use App\Helpers\StringHelper;
 use App\Helpers\BirthdayHelper;

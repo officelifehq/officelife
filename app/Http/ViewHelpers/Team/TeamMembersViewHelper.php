@@ -2,10 +2,10 @@
 
 namespace App\Http\ViewHelpers\Team;
 
+use Carbon\Carbon;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
 use App\Models\Company\Company;
-use Carbon\Carbon;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use App\Helpers\WorkFromHomeHelper;

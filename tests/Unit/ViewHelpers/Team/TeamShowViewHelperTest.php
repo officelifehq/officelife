@@ -33,7 +33,7 @@ class TeamShowViewHelperTest extends TestCase
         ]);
 
         // create one employee work from home on today
-        factory(WorkFromHome::class)->create([
+        WorkFromHome::factory()->create([
             'employee_id' => $michael->id,
             'date' => Carbon::now()->format('Y-m-d 00:00:00'),
         ]);
