@@ -23,7 +23,7 @@
         {{ $t('app.optional') }}
       </span>
     </label>
-    <multiselect v-model="selected"
+    <multiselect v-model="proxyValue"
                  :options="options"
                  :value-prop="customValueKey"
                  :label="customLabelKey"
@@ -31,7 +31,6 @@
                  class="style-chooser"
                  :data-cy="datacy"
                  :close-on-select="true"
-                 @change="broadcast"
     />
     <div v-if="errors.length" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
@@ -51,12 +50,17 @@ export default {
     Multiselect,
   },
 
+  model: {
+    prop: 'modelValue',
+    event: 'update:modelValue'
+  },
+
   props: {
     id: {
       type: String,
       default: 'text-input-',
     },
-    value: {
+    modelValue: {
       type: Object,
       default: null,
     },
@@ -107,7 +111,7 @@ export default {
   },
 
   emits: [
-    'esc-key-pressed', 'input'
+    'esc-key-pressed', 'update:modelValue'
   ],
 
   data() {
@@ -118,8 +122,16 @@ export default {
   },
 
   computed: {
+    proxyValue: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
+    },
     realId() {
-      return this.id + this._uid;
+      return this.id + this._.uid;
     },
   },
 
@@ -133,7 +145,6 @@ export default {
   },
 
   mounted() {
-    this.selected = this.value;
     this.localErrors = this.errors;
   },
 
@@ -143,7 +154,7 @@ export default {
     },
 
     broadcast(value) {
-      this.$emit('input', value);
+      this.$emit('update:modelValue', value);
     },
   },
 };

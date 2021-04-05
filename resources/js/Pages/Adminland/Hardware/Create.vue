@@ -73,7 +73,6 @@ input[type=radio] {
                 :label="$t('account.hardware_create_lend_hardware')"
                 :extra-class-upper-div="'mb0 relative'"
                 :required="false"
-                @change="updateStatus($event)"
               />
 
               <select-box v-if="form.lend_hardware"
@@ -153,9 +152,9 @@ export default {
   },
 
   methods: {
-    updateStatus(payload) {
-      this.form.lend_hardware = payload;
-    },
+    // updateStatus(payload) {
+    //   this.form.lend_hardware = payload;
+    // },
 
     submit() {
       this.loadingState = 'loading';

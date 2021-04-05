@@ -236,8 +236,11 @@ export default {
   },
 
   watch: {
-    expenses(value) {
-      this.localExpenses = value;
+    expenses: {
+      handler(value) {
+        this.localExpenses = value;
+      },
+      deep: true
     }
   },
 
@@ -277,7 +280,7 @@ export default {
           this.loadingState = null;
           this.localExpenses.unshift(response.data.data);
           this.hideAddMode();
-          flash(this.$t('dashboard.expense_submitted'), 'success');
+          this.flash(this.$t('dashboard.expense_submitted'), 'success');
         })
         .catch(error => {
           this.loadingState = null;

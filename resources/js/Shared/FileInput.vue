@@ -37,7 +37,7 @@
            :autofocus="autofocus"
            :value="value"
            :data-cy="datacy"
-           @change="$emit('change', $event.target.value)"
+           @change="$emit('update:modelValue', $event.target.value)"
     />
     <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
@@ -52,12 +52,17 @@
 export default {
   inheritAttrs: false,
 
+  model: {
+    prop: 'modelValue',
+    event: 'update:modelValue'
+  },
+
   props: {
     id: {
       type: String,
       default: 'text-file-input-',
     },
-    value: {
+    modelValue: {
       type: String,
       default: '',
     },
@@ -100,7 +105,7 @@ export default {
   },
 
   emits: [
-    'change'
+    'update:modelValue'
   ],
 
   data() {
@@ -111,7 +116,7 @@ export default {
 
   computed: {
     realId() {
-      return this.id + this._uid;
+      return this.id + this._.uid;
     },
 
     hasError() {

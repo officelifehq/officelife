@@ -112,7 +112,7 @@
                             :placeholder="$t('team.recent_ship_new_credit_help')"
                             :required="false"
                             @keyup="search"
-                            @input="search"
+                            @update:model-value="search"
                             @esc-key-pressed="showDeciders = false"
                 />
                 <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
@@ -313,7 +313,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -398,7 +398,7 @@ export default {
           this.localDecisions.splice(id, 1);
           this.deleteActionConfirmation = false;
 
-          flash(this.$t('project.decision_index_destroy_success'), 'success');
+          this.flash(this.$t('project.decision_index_destroy_success'), 'success');
         })
         .catch(error => {
           this.loadingState = null;

@@ -175,7 +175,7 @@ export default {
     assign(team) {
       axios.post(`${this.$page.props.auth.company.id}/employees/${this.employee.id}/team`, team)
         .then(response => {
-          flash(this.$t('employee.team_modal_assign_success'), 'success');
+          this.flash(this.$t('employee.team_modal_assign_success'), 'success');
 
           this.localEmployeeTeams = response.data;
         })
@@ -187,7 +187,7 @@ export default {
     reset(team) {
       axios.delete(`${this.$page.props.auth.company.id}/employees/${this.employee.id}/team/${team.id}`)
         .then(response => {
-          flash(this.$t('employee.team_modal_unassign_success'), 'success');
+          this.flash(this.$t('employee.team_modal_unassign_success'), 'success');
 
           this.localEmployeeTeams = response.data;
         })

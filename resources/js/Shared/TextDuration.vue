@@ -124,7 +124,7 @@ export default {
 
   computed: {
     realId() {
-      return this.id + this._uid;
+      return this.id + this._.uid;
     },
   },
 

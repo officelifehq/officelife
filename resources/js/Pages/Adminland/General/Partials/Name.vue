@@ -117,7 +117,7 @@ export default {
           this.updatedName = this.form.name;
           this.editMode = false;
           this.form.errors = null;
-          flash(this.$t('account.general_rename_success'), 'success');
+          this.flash(this.$t('account.general_rename_success'), 'success');
         })
         .catch(error => {
           this.editMode = true;

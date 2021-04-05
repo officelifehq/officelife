@@ -169,7 +169,7 @@ export default {
           this.loadingState = null;
           this.alreadyAnswered = true;
           this.answerMode = true;
-          flash(this.$t('dashboard.rate_your_manager_submitted'), 'success');
+          this.flash(this.$t('dashboard.rate_your_manager_submitted'), 'success');
         })
         .catch(error => {
           this.loadingState = null;
@@ -187,7 +187,7 @@ export default {
           this.answerMode = true;
           this.commentMode = false;
           this.showFinalSucessMessage = true;
-          flash(this.$t('dashboard.rate_your_manager_submitted'), 'success');
+          this.flash(this.$t('dashboard.rate_your_manager_submitted'), 'success');
         })
         .catch(error => {
           this.loadingState = null;

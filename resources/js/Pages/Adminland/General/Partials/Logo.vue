@@ -90,7 +90,7 @@ export default {
       axios.post(`/${this.$page.props.auth.company.id}/account/general/logo`, this.form)
         .then(response => {
           this.localLogo = response.data.data;
-          flash(this.$t('account.general_logo_success'), 'success');
+          this.flash(this.$t('account.general_logo_success'), 'success');
         })
         .catch(error => {
           this.loadingState = null;

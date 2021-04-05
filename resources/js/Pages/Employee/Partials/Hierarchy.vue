@@ -309,11 +309,17 @@ export default {
   },
 
   watch: {
-    managersOfEmployee(value) {
-      this.localManagersOfEmployee = value;
+    managersOfEmployee: {
+      handler(value) {
+        this.localManagersOfEmployee = value;
+      },
+      deep: true
     },
-    directReports(value) {
-      this.localDirectReports = value;
+    directReports: {
+      handler(value) {
+        this.localDirectReports = value;
+      },
+      deep: true
     },
   },
 
@@ -384,7 +390,7 @@ export default {
     assignManager(manager) {
       axios.put(this.route('employee.manager.assign', [this.$page.props.auth.company.id, this.employee.id]), manager)
         .then(response => {
-          flash(this.$t('employee.hierarchy_modal_add_manager_success'), 'success');
+          this.flash(this.$t('employee.hierarchy_modal_add_manager_success'), 'success');
           this.localManagersOfEmployee.push(response.data.data);
           this.modal = 'hide';
         })
@@ -396,7 +402,7 @@ export default {
     assignDirectReport(directReport) {
       axios.put(this.route('employee.directReport.assign', [this.$page.props.auth.company.id, this.employee.id]), directReport)
         .then(response => {
-          flash(this.$t('employee.hierarchy_modal_add_direct_report_success'), 'success');
+          this.flash(this.$t('employee.hierarchy_modal_add_direct_report_success'), 'success');
           this.localDirectReports.push(response.data.data);
           this.modal = 'hide';
         })
@@ -408,7 +414,7 @@ export default {
     unassignManager(manager) {
       axios.put(this.route('employee.manager.unassign', [this.$page.props.auth.company.id, this.employee.id]), manager)
         .then(response => {
-          flash(this.$t('employee.hierarchy_modal_remove_manager_success'), 'success');
+          this.flash(this.$t('employee.hierarchy_modal_remove_manager_success'), 'success');
 
           this.localManagersOfEmployee.splice(this.localManagersOfEmployee.findIndex(i => i.id === response.data.data.id), 1);
           this.deleteEmployeeConfirmation = false;
@@ -422,7 +428,7 @@ export default {
     unassignDirectReport(directReport) {
       axios.put(this.route('employee.directReport.unassign', [this.$page.props.auth.company.id, this.employee.id]), directReport)
         .then(response => {
-          flash(this.$t('employee.hierarchy_modal_remove_direct_report_success'), 'success');
+          this.flash(this.$t('employee.hierarchy_modal_remove_direct_report_success'), 'success');
 
           this.localDirectReports.splice(this.localDirectReports.findIndex(i => i.id === response.data.data.id), 1);
           this.deleteEmployeeConfirmation = false;

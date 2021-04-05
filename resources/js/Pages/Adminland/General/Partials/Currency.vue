@@ -110,7 +110,7 @@ export default {
         .then(response => {
           this.updatedCurrency = this.form.currency;
           this.editMode = false;
-          flash(this.$t('account.general_currency_rename_success'), 'success');
+          this.flash(this.$t('account.general_currency_rename_success'), 'success');
         })
         .catch(error => {
           this.editMode = true;

@@ -293,7 +293,7 @@ export default {
 
       axios.post(this.route('questions.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
-          flash(this.$t('account.question_creation_success'), 'success');
+          this.flash(this.$t('account.question_creation_success'), 'success');
 
           this.loadingState = null;
           this.form.title = null;
@@ -311,7 +311,7 @@ export default {
 
       axios.put(this.route('questions.update', [this.$page.props.auth.company.id, question.id]), this.form)
         .then(response => {
-          flash(this.$t('account.question_update_success'), 'success');
+          this.flash(this.$t('account.question_update_success'), 'success');
 
           this.questionToRename = 0;
           this.form.title = null;
@@ -330,7 +330,7 @@ export default {
     destroy(question) {
       axios.delete(this.route('questions.destroy', [this.$page.props.auth.company.id, question.id]))
         .then(response => {
-          flash(this.$t('account.question_destroy_success'), 'success');
+          this.flash(this.$t('account.question_destroy_success'), 'success');
 
           this.questionToDelete = 0;
           var id = this.localQuestions.findIndex(x => x.id === question.id);
@@ -344,7 +344,7 @@ export default {
     activate(question) {
       axios.put(this.route('questions.activate', [this.$page.props.auth.company.id, question.id]))
         .then(response => {
-          flash(this.$t('account.question_activate_success'), 'success');
+          this.flash(this.$t('account.question_activate_success'), 'success');
 
           this.localQuestions = response.data.data;
           this.questionToActivate = 0;
@@ -357,7 +357,7 @@ export default {
     deactivate(question) {
       axios.put(this.route('questions.deactivate', [this.$page.props.auth.company.id, question.id]))
         .then(response => {
-          flash(this.$t('account.question_deactivate_success'), 'success');
+          this.flash(this.$t('account.question_deactivate_success'), 'success');
 
           this.localQuestions = response.data.data;
           this.questionToDeactivate = 0;

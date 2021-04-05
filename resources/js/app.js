@@ -18,12 +18,9 @@ langs.loadLanguage('en', true).then((locale) => {
         initialPage: JSON.parse(el.dataset.page),
         resolveComponent: (name) => require(`./Pages/${name}`).default,
         locale: locale.locale,
-
-        // global methods
-        methods: require('./methods').default
       }),
   })
-    .mixin({ methods: { route } })
+    .mixin({ methods: _.assign({ route }, require('./methods').default) })
     .use(InertiaPlugin)
     .use(langs.i18n)
     .mount(el);

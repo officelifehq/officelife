@@ -137,7 +137,7 @@
                         :label="$t('dashboard.timesheet_create_choose_project')"
                         :data-cy="'project-selector'"
                         :required="true"
-                        @input="showTasks($event)"
+                        @update:modelValue="showTasks($event)"
             />
 
             <select-box
@@ -150,7 +150,7 @@
               :label="$t('dashboard.timesheet_create_choose_task')"
               :required="true"
               :data-cy="'task-selector'"
-              @input="showTasks($event)"
+              @update:modelValue="showTasks($event)"
             />
           </span>
 
@@ -320,7 +320,7 @@ export default {
     this.refreshWeeklyTotal();
 
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
 
       localStorage.removeItem('success');
     }

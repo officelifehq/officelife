@@ -367,7 +367,7 @@ export default {
     update(id) {
       axios.put('/' + this.$page.props.auth.company.id + '/account/ptopolicies/' + id, this.form)
         .then(response => {
-          flash(this.$t('account.pto_policies_update'), 'success');
+          this.flash(this.$t('account.pto_policies_update'), 'success');
 
           this.idToUpdate = 0;
           this.form.year = null;

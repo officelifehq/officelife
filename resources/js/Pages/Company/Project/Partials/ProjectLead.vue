@@ -214,7 +214,7 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/lead/assign`, this.form)
         .then(response => {
-          flash(this.$t('project.summary_project_lead_added_success'), 'success');
+          this.flash(this.$t('project.summary_project_lead_added_success'), 'success');
 
           this.localProject.project_lead = response.data.data;
           this.editMode = false;
@@ -227,7 +227,7 @@ export default {
     removeLead() {
       axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/lead/clear`)
         .then(response => {
-          flash(this.$t('project.summary_project_lead_cleared_success'), 'success');
+          this.flash(this.$t('project.summary_project_lead_cleared_success'), 'success');
 
           this.localProject.project_lead = null;
           this.removeMode = false;

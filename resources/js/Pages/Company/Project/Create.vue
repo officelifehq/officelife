@@ -109,7 +109,7 @@
                             :required="false"
                             autocomplete="off"
                             @keyup="search"
-                            @input="search"
+                            @update:model-value="search"
                             @esc-key-pressed="showAssignProjectLead = false"
                 />
                 <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />

@@ -127,7 +127,7 @@ export default {
 
       axios.post(`${this.$page.props.auth.company.id}/employees/${this.employee.id}/description`, this.form)
         .then(response => {
-          flash(this.$t('employee.description_success'), 'success');
+          this.flash(this.$t('employee.description_success'), 'success');
 
           this.updatedEmployee = response.data.data;
           this.showEdit = false;
@@ -142,7 +142,7 @@ export default {
     clear() {
       axios.delete(`${this.$page.props.auth.company.id}/employees/${this.employee.id}/description/${this.employee.id}`)
         .then(response => {
-          flash(this.$t('employee.description_success'), 'success');
+          this.flash(this.$t('employee.description_success'), 'success');
 
           this.updatedEmployee = response.data.data;
           this.showEdit = false;

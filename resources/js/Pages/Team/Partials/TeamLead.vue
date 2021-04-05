@@ -228,7 +228,7 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/lead', this.form)
         .then(response => {
-          flash(this.$t('team.team_lead_added'), 'success');
+          this.flash(this.$t('team.team_lead_added'), 'success');
 
           this.localTeam.team_leader = response.data.data;
           this.editMode = false;
@@ -244,7 +244,7 @@ export default {
     removeTeamLead() {
       axios.delete('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/lead/' + this.localTeam.team_leader.id)
         .then(response => {
-          flash(this.$t('team.team_lead_removed'), 'success');
+          this.flash(this.$t('team.team_lead_removed'), 'success');
 
           this.localTeam.team_leader = null;
           this.removeMode = false;

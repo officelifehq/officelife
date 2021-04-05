@@ -35,13 +35,13 @@
            :type="type"
            :name="name"
            :autofocus="autofocus"
-           :value="value"
+           :value="modelValue"
            :step="step"
            :max="max"
            :min="min"
            :placeholder="placeholder"
            :data-cy="datacy"
-           @input="$emit('input', $event.target.value)"
+           @input="$emit('update:modelValue', $event.target.value)"
            @keydown.esc="sendEscKey"
     />
     <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
@@ -57,6 +57,11 @@
 export default {
   inheritAttrs: false,
 
+  model: {
+    prop: 'modelValue',
+    event: 'update:modelValue'
+  },
+
   props: {
     id: {
       type: String,
@@ -70,7 +75,7 @@ export default {
       type: String,
       default: null,
     },
-    value: {
+    modelValue: {
       type: [String, Number],
       default: '',
     },
@@ -125,7 +130,7 @@ export default {
   },
 
   emits: [
-    'esc-key-pressed', 'input'
+    'esc-key-pressed', 'update:modelValue'
   ],
 
   data() {
@@ -136,7 +141,7 @@ export default {
 
   computed: {
     realId() {
-      return this.id + this._uid;
+      return this.id + this._.uid;
     },
 
     hasError() {

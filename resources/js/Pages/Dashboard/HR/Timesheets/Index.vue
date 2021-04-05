@@ -172,7 +172,7 @@ export default {
 
       axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/timesheets/${timesheet.id}/approve`)
         .then(response => {
-          flash(this.$t('dashboard.manager_timesheet_approved'), 'success');
+          this.flash(this.$t('dashboard.manager_timesheet_approved'), 'success');
           this.removeEntry(timesheet, directReport);
           this.loadingStateApprove = '';
         })
@@ -187,7 +187,7 @@ export default {
 
       axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/timesheets/${timesheet.id}/reject`)
         .then(response => {
-          flash(this.$t('dashboard.manager_timesheet_rejected'), 'success');
+          this.flash(this.$t('dashboard.manager_timesheet_rejected'), 'success');
           this.removeEntry(timesheet, directReport);
           this.loadingStateReject = '';
         })

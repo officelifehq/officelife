@@ -60,12 +60,12 @@ export default {
   },
 
   model: {
-    prop: 'value',
+    prop: 'modelValue',
     event: 'change'
   },
 
   props: {
-    value: {
+    modelValue: {
       type: Array,
       default: null,
     },
@@ -108,7 +108,7 @@ export default {
     },
 
     updateAction(event, action) {
-      Vue.set(this.localActions, this.localActions.indexOf(action), event);
+      this.localActions[this.localActions.indexOf(action)] = event;
 
       // check whether the actions are "complete" to prevent submitting a wrong
       // json to the backend

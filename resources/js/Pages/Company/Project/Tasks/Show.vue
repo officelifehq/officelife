@@ -397,7 +397,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -424,7 +424,7 @@ export default {
     toggle() {
       axios.put(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${this.localTask.id}/toggle`)
         .then(response => {
-          flash(this.$t('project.task_show_status'), 'success');
+          this.flash(this.$t('project.task_show_status'), 'success');
           this.localTask.completed = !this.localTask.completed;
         })
         .catch(error => {

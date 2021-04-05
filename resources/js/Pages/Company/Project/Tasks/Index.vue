@@ -248,7 +248,7 @@ export default {
     }
 
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -285,7 +285,7 @@ export default {
           this.localTaskLists.push(response.data.data);
           this.form.title = null;
           this.form.description = null;
-          flash(this.$t('project.task_list_create_success'), 'success');
+          this.flash(this.$t('project.task_list_create_success'), 'success');
         })
         .catch(error => {
           this.loadingState = null;
@@ -306,7 +306,7 @@ export default {
 
           this.form.title = null;
           this.form.description = null;
-          flash(this.$t('project.task_list_update_success'), 'success');
+          this.flash(this.$t('project.task_list_update_success'), 'success');
         })
         .catch(error => {
           this.loadingState = null;

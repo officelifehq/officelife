@@ -129,7 +129,7 @@ export default {
     this.localNews = this.news;
 
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -139,7 +139,7 @@ export default {
       this.errors = [];
       axios.delete(this.route('account_news.news.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
-          flash(this.$t('account.company_news_success_destroy'), 'success');
+          this.flash(this.$t('account.company_news_success_destroy'), 'success');
 
           this.idToDelete = 0;
           id = this.localNews.findIndex(x => x.id === id);

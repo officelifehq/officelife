@@ -219,7 +219,7 @@ export default {
 
       axios.put('/' + this.$page.props.auth.company.id + '/company/skills/' + this.skill.id, this.form)
         .then(response => {
-          flash(this.$t('company.skill_update_success'), 'success');
+          this.flash(this.$t('company.skill_update_success'), 'success');
           this.updatedName = this.form.name;
           this.editMode = false;
         })

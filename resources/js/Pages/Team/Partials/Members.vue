@@ -43,7 +43,7 @@
                       :placeholder="$t('team.members_add_input_help')"
                       :required="false"
                       @keyup="search"
-                      @input="search"
+                      @update:model-value="search"
           />
           <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
         </form>
@@ -196,7 +196,7 @@ export default {
           this.potentialMembers = [];
           this.form.searchTerm = '';
 
-          flash(this.$t('account.employee_statuses_success_destroy'), 'success');
+          this.flash(this.$t('account.employee_statuses_success_destroy'), 'success');
         })
         .catch(error => {
           this.form.errors = error.response.data;
@@ -211,7 +211,7 @@ export default {
           var id = this.listOfEmployees.findIndex(member => member.id === employee.id);
           this.listOfEmployees.splice(id, 1);
 
-          flash(this.$t('account.employee_statuses_success_destroy'), 'success');
+          this.flash(this.$t('account.employee_statuses_success_destroy'), 'success');
         })
         .catch(error => {
           this.form.errors = error.response.data;

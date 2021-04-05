@@ -147,8 +147,11 @@ export default {
   },
 
   watch: {
-    categories(value) {
-      this.localCategories = value;
+    categories: {
+      handler(value) {
+        this.localCategories = value;
+      },
+      deep: true
     }
   },
 
@@ -183,7 +186,7 @@ export default {
 
       axios.post(this.route('account.expenses.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
-          flash(this.$t('account.expense_category_success'), 'success');
+          this.flash(this.$t('account.expense_category_success'), 'success');
 
           this.loadingState = null;
           this.form.name = null;
@@ -199,7 +202,7 @@ export default {
     update(id) {
       axios.put(this.route('account.expenses.update', [this.$page.props.auth.company.id, id]), this.form)
         .then(response => {
-          flash(this.$t('account.expense_category_update_success'), 'success');
+          this.flash(this.$t('account.expense_category_update_success'), 'success');
 
           this.idToUpdate = 0;
           this.form.name = null;
@@ -215,7 +218,7 @@ export default {
     destroy(id) {
       axios.delete(this.route('account.expenses.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
-          flash(this.$t('account.expense_category_delete_success'), 'success');
+          this.flash(this.$t('account.expense_category_delete_success'), 'success');
 
           this.idToDelete = 0;
           id = this.localCategories.findIndex(x => x.id === id);

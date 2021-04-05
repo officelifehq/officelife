@@ -72,7 +72,7 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/dashboard/workFromHome', this.form)
         .then(response => {
-          flash(this.$t('dashboard.work_from_home_success'), 'success');
+          this.flash(this.$t('dashboard.work_from_home_success'), 'success');
         })
         .catch(error => {
           this.successMessage = false;

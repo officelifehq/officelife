@@ -47,7 +47,7 @@
                     :placeholder="$t('team.recent_ship_new_credit_help')"
                     :required="true"
                     @keyup="search"
-                    @input="search"
+                    @update:model-value="search"
                     @esc-key-pressed="modal = false"
         />
         <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
@@ -157,7 +157,7 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/account/expenses', this.form)
         .then(response => {
-          flash(this.$t('account.employee_statuses_success_new'), 'success');
+          this.flash(this.$t('account.employee_statuses_success_new'), 'success');
 
           this.loadingState = null;
           this.form.name = null;
@@ -175,7 +175,7 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/account/expenses/employee', this.form)
         .then(response => {
-          flash(this.$t('account.expense_employees_assign_success'), 'success');
+          this.flash(this.$t('account.expense_employees_assign_success'), 'success');
 
           this.resetForm();
           this.localEmployees.unshift(response.data.data);
@@ -190,7 +190,7 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/account/expenses/removeEmployee', this.form)
         .then(response => {
-          flash(this.$t('account.expense_employees_unassign_success'), 'success');
+          this.flash(this.$t('account.expense_employees_unassign_success'), 'success');
 
           this.resetForm();
           var changedId = this.localEmployees.findIndex(x => x.id === employee.id);

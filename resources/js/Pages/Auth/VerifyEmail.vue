@@ -62,7 +62,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -75,7 +75,7 @@ export default {
         .then(response => {
           this.loadingState = null;
           this.resend = true;
-          flash(this.$t('auth.confirmation_fresh'), 'success');
+          this.flash(this.$t('auth.confirmation_fresh'), 'success');
         })
         .catch(error => {
           this.loadingState = null;

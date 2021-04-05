@@ -251,7 +251,7 @@ export default {
           this.form.description = null;
           this.form.assignee_id = null;
           this.loadingState = null;
-          flash(this.$t('project.task_create_success'), 'success');
+          this.flash(this.$t('project.task_create_success'), 'success');
         })
         .catch(error => {
           this.loadingState = null;
@@ -297,7 +297,7 @@ export default {
     destroy(id) {
       axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${id}`)
         .then(response => {
-          flash(this.$t('project.task_delete_success'), 'success');
+          this.flash(this.$t('project.task_delete_success'), 'success');
           id = this.localTasks.findIndex(x => x.id === id);
           this.localTasks.splice(id, 1);
         })

@@ -119,7 +119,7 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/description', this.form)
         .then(response => {
-          flash(this.$t('team.description_success'), 'success');
+          this.flash(this.$t('team.description_success'), 'success');
 
           this.updatedTeam = response.data.data;
           this.form.description = this.updatedTeam.raw_description;

@@ -35,11 +35,11 @@
               :class="{ error: errors.length }"
               :required="required"
               :type="type"
-              :value="value"
+              :value="modelValue"
               :data-cy="datacy"
               :rows="rows"
               :maxlength="maxlength"
-              @input="$emit('input', $event.target.value)"
+              @input="$emit('update:modelValue', $event.target.value)"
               @keydown.esc="sendEscKey"
     ></textarea>
 
@@ -57,6 +57,11 @@
 export default {
   inheritAttrs: false,
 
+  model: {
+    prop: 'modelValue',
+    event: 'update:modelValue'
+  },
+
   props: {
     id: {
       type: String,
@@ -66,7 +71,7 @@ export default {
       type: String,
       default: 'text',
     },
-    value: {
+    modelValue: {
       type: String,
       default: '',
     },
@@ -105,7 +110,7 @@ export default {
   },
 
   emits: [
-    'esc-key-pressed', 'input'
+    'esc-key-pressed', 'update:modelValue'
   ],
 
   data() {
@@ -116,7 +121,7 @@ export default {
 
   computed: {
     realId() {
-      return this.id + this._uid;
+      return this.id + this._.uid;
     },
   },
 

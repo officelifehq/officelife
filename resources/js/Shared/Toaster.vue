@@ -29,9 +29,6 @@
 </template>
 
 <script>
-
-import Emitter from 'tiny-emitter';
-
 export default {
 
   props: {
@@ -62,39 +59,35 @@ export default {
 
     if (this.message) {
       this.messageText = this.message;
-      this.flash();
+      this.show();
     }
 
     const self = this;
 
-    const emitter = new Emitter();
-    emitter.on(
-      'flash', data => self.flash(data)
-    );
+    this.$on('flash', data => self.show(data));
   },
 
   methods: {
-    flash(data) {
+    show(data) {
       if (data) {
         this.messageText = data.message;
         this.levelClass = 'is-' + data.level;
       }
 
-      const self = this;
-
-      setTimeout(() => {
-        self.isOpen = true;
-      }, 100);
-
+      this.act(true, 100);
       this.hide();
     },
 
     hide() {
+      this.act(false, this.closeAfter);
+    },
+
+    act(action, timeout) {
       const self = this;
 
       setTimeout(() => {
-        self.isOpen = false;
-      }, self.closeAfter);
+        self.isOpen = action;
+      }, timeout);
     }
   },
 };

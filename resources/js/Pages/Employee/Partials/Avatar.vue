@@ -70,7 +70,7 @@ export default {
     this.localAvatar = this.employee.avatar;
 
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
 
       localStorage.removeItem('success');
     }

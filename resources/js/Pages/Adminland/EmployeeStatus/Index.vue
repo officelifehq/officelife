@@ -268,7 +268,7 @@ export default {
 
       axios.post(this.route('account_employeestatuses.employeestatuses.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
-          flash(this.$t('account.employee_statuses_success_new'), 'success');
+          this.flash(this.$t('account.employee_statuses_success_new'), 'success');
 
           this.loadingState = null;
           this.form.name = null;
@@ -285,7 +285,7 @@ export default {
     update(id) {
       axios.put(this.route('account_employeestatuses.employeestatuses.update', [this.$page.props.auth.company.id, id]), this.form)
         .then(response => {
-          flash(this.$t('account.employee_statuses_success_update'), 'success');
+          this.flash(this.$t('account.employee_statuses_success_update'), 'success');
 
           this.idToUpdate = 0;
           this.form.name = null;
@@ -302,7 +302,7 @@ export default {
     destroy(id) {
       axios.delete(this.route('account_employeestatuses.employeestatuses.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
-          flash(this.$t('account.employee_statuses_success_destroy'), 'success');
+          this.flash(this.$t('account.employee_statuses_success_destroy'), 'success');
 
           this.idToDelete = 0;
           var changedId = this.localStatuses.findIndex(x => x.id === id);

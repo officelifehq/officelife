@@ -205,7 +205,7 @@ export default {
 
       axios.post(this.route('positions.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
-          flash(this.$t('account.position_success_new'), 'success');
+          this.flash(this.$t('account.position_success_new'), 'success');
 
           this.loadingState = null;
           this.form.title = null;
@@ -221,7 +221,7 @@ export default {
     update(id) {
       axios.put(this.route('positions.update', [this.$page.props.auth.company.id, id]), this.form)
         .then(response => {
-          flash(this.$t('account.position_success_update'), 'success');
+          this.flash(this.$t('account.position_success_update'), 'success');
 
           this.idToUpdate = 0;
           this.form.title = null;
@@ -237,7 +237,7 @@ export default {
     destroy(id) {
       axios.delete(this.route('positions.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
-          flash(this.$t('account.position_success_destroy'), 'success');
+          this.flash(this.$t('account.position_success_destroy'), 'success');
 
           this.idToDelete = 0;
           id = this.localPositions.findIndex(x => x.id === id);

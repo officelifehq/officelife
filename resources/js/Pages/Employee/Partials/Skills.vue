@@ -89,7 +89,7 @@
                       :datacy="'search-skill'"
                       :extra-class-upper-div="'mb0'"
                       @keyup="search"
-                      @input="search"
+                      @update:model-value="search"
                       @esc-key-pressed="toggleEditMode()"
           />
           <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />

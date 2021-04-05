@@ -74,7 +74,8 @@ input[type=checkbox] {
       <div class="flex items-start">
         <input
           :id="id"
-          v-model="updatedValue"
+          v-model="proxyValue"
+          :value="value"
           :data-cy="datacy + '-single-item'"
           type="checkbox"
           class="relative"
@@ -82,7 +83,6 @@ input[type=checkbox] {
           :required="required"
           :name="name"
           :disabled="!editable"
-          @change="emitValue()"
         />
 
         <!-- content of the checkbox -->
@@ -148,12 +148,21 @@ export default {
     SmallNameAndAvatar,
   },
 
+  model: {
+    prop: 'modelValue',
+    event: 'update:modelValue'
+  },
+
   props: {
     id: {
       type: String,
       default: '',
     },
     value: {
+      type: Boolean,
+      default: null,
+    },
+    modelValue: {
       type: Boolean,
       default: false,
     },
@@ -212,12 +221,11 @@ export default {
   },
 
   emits: [
-    'update', 'destroy', 'change'
+    'update', 'destroy', 'update:modelValue'
   ],
 
   data() {
     return {
-      updatedValue: false,
       hover: false,
       idToDelete: 0,
       localErrors: [],
@@ -225,32 +233,32 @@ export default {
   },
 
   computed: {
+    proxyValue: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
+    },
     hasError() {
       return this.errors.length > 0 && this.required;
     }
   },
 
   watch: {
-    value(newValue) {
-      this.updatedValue = newValue;
-    },
     errors(value) {
       this.localErrors = value;
     },
   },
 
   mounted() {
-    this.updatedValue = this.value;
     this.localErrors = this.errors;
   },
 
   methods: {
     focus() {
       this.$refs.input.focus();
-    },
-
-    emitValue() {
-      this.$emit('change', this.updatedValue);
     },
 
     showHover() {

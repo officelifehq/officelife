@@ -335,7 +335,7 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/rate/store`, this.form)
         .then(response => {
-          flash(this.$t('employee.edit_contract_rate_add_success'), 'success');
+          this.flash(this.$t('employee.edit_contract_rate_add_success'), 'success');
 
           this.loadingRateState = null;
 
@@ -358,7 +358,7 @@ export default {
     destroyRate(rateId) {
       axios.delete(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/rate/${rateId}`)
         .then(response => {
-          flash(this.$t('employee.edit_contract_rate_destroy_success'), 'success');
+          this.flash(this.$t('employee.edit_contract_rate_destroy_success'), 'success');
 
           // set the current active rate as inactive
           var id = this.localRates.findIndex(x => x.id === rateId);

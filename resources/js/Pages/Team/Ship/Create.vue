@@ -98,7 +98,7 @@
                             :placeholder="$t('team.recent_ship_new_credit_help')"
                             :required="false"
                             @keyup="search"
-                            @input="search"
+                            @update:model-value="search"
                             @esc-key-pressed="showTeamMembers = false"
                 />
                 <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />

@@ -199,7 +199,7 @@ export default {
     removeLink(link) {
       axios.delete('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/links/' + link.id)
         .then(response => {
-          flash(this.$t('team.team_lead_removed'), 'success');
+          this.flash(this.$t('team.team_lead_removed'), 'success');
 
           this.updatedLinks.splice(this.updatedLinks.findIndex(i => i.id === response.data.data), 1);
           this.editMode = false;

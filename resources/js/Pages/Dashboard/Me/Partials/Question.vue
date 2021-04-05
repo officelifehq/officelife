@@ -234,7 +234,7 @@ export default {
           this.question.number_of_answers++;
           this.hasAlreadyAnswered = true;
           this.editMode = false;
-          flash(this.$t('dashboard.question_answer_submitted'), 'success');
+          this.flash(this.$t('dashboard.question_answer_submitted'), 'success');
         })
         .catch(error => {
           this.loadingState = null;
@@ -249,7 +249,7 @@ export default {
       axios.put('/' + this.$page.props.auth.company.id + '/dashboard/question/' + answer.id, this.form)
         .then(response => {
           this.loadingState = null;
-          flash(this.$t('dashboard.question_answer_updated'), 'success');
+          this.flash(this.$t('dashboard.question_answer_updated'), 'success');
 
           var id = this.answers.findIndex(x => x.id === answer.id);
           this.$set(this.answers, id, response.data.data);
@@ -266,7 +266,7 @@ export default {
     destroy(answer) {
       axios.delete('/' + this.$page.props.auth.company.id + '/dashboard/question/' + answer.id)
         .then(response => {
-          flash(this.$t('dashboard.question_answer_destroyed'), 'success');
+          this.flash(this.$t('dashboard.question_answer_destroyed'), 'success');
 
           this.idToDelete = 0;
           var id = this.answers.findIndex(x => x.id == answer.id);

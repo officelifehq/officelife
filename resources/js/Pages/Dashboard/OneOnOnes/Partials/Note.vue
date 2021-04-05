@@ -223,7 +223,7 @@ export default {
     destroy(id) {
       axios.delete('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/notes/' + id)
         .then(response => {
-          flash(this.$t('dashboard.one_on_ones_note_deletion_success'), 'success');
+          this.flash(this.$t('dashboard.one_on_ones_note_deletion_success'), 'success');
           id = this.localNotes.findIndex(x => x.id === id);
           this.localNotes.splice(id, 1);
           this.noteToDelete = 0;

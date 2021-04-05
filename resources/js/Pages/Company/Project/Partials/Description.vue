@@ -113,7 +113,7 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/description`, this.form)
         .then(response => {
-          flash(this.$t('project.summary_description_success'), 'success');
+          this.flash(this.$t('project.summary_description_success'), 'success');
           this.localProject.raw_description = response.data.data.raw_description;
           this.localProject.parsed_description = response.data.data.parsed_description;
           this.loadingState = null;
