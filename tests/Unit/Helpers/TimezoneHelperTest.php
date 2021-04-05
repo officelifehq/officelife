@@ -16,7 +16,7 @@ class TimezoneHelperTest extends TestCase
         $array = TimezoneHelper::getListOfTimezones();
 
         $this->assertEquals(
-            426,
+            425,
             count($array)
         );
 
