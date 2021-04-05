@@ -10,7 +10,6 @@ class TimezoneHelper
     /**
      * Get the list of timezones.
      *
-     * @param int $minutes
      * @return array
      */
     public static function getListOfTimezones(): array
