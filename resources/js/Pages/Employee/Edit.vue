@@ -184,7 +184,7 @@
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
                 <strong>{{ $t('employee.edit_information_timezone') }}</strong>
                 <p class="f7 silver lh-copy pr3-ns">
-                  {{ $t('employee.edit_information_birthdate_timezone') }}
+                  {{ $t('employee.edit_information_timezone_help') }}
                 </p>
               </div>
 
@@ -194,7 +194,7 @@
                             :options="timezones"
                             :name="'timezone'"
                             :errors="$page.props.errors.timezone"
-                            :label="$t('employee.edit_information_country')"
+                            :label="$t('employee.edit_information_timezone_label')"
                             :placeholder="$t('app.choose_value')"
                             :required="true"
                             :value="form.timezone"
@@ -380,6 +380,7 @@ export default {
     this.form.phone = this.employee.phone;
     this.form.twitter = this.employee.twitter_handle;
     this.form.slack = this.employee.slack_handle;
+    this.form.timezone = this.employee.timezone;
 
     if (this.employee.birthdate != null) {
       this.form.year = this.employee.birthdate.year;

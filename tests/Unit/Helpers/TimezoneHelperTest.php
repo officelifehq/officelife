@@ -13,27 +13,39 @@ class TimezoneHelperTest extends TestCase
     /** @test */
     public function it_gets_a_list_of_timezones(): void
     {
-        $collection = TimezoneHelper::getListOfTimezones();
+        $array = TimezoneHelper::getListOfTimezones();
 
         $this->assertEquals(
             426,
-            $collection->count()
+            count($array)
         );
 
         $this->assertEquals(
             [
-                'value' => 3,
-                'label' => '(UTC +01:00) Africa/Algiers',
+                'value' => 'Africa/Banjul',
+                'label' => '(UTC +00:00) Africa/Banjul',
             ],
-            $collection->toArray()[3]
+            $array[3]
         );
 
         $this->assertEquals(
             [
-                'value' => 300,
-                'label' => '(UTC +00:00) Atlantic/Reykjavik',
+                'value' => 'Antarctica/Rothera',
+                'label' => '(UTC -03:00) Rothera (Antarctica/Rothera)',
             ],
-            $collection->toArray()[300]
+            $array[300]
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_timezone_as_an_array(): void
+    {
+        $this->assertEquals(
+            [
+                'value' => 'Africa/Banjul',
+                'label' => '(UTC +00:00) Africa/Banjul',
+            ],
+            TimezoneHelper::getTimezoneKeyValue('Africa/Banjul')
         );
     }
 }

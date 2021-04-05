@@ -4,7 +4,6 @@ namespace App\Helpers;
 
 use DateTimeZone;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
 
 class TimezoneHelper
 {
@@ -12,86 +11,100 @@ class TimezoneHelper
      * Get the list of timezones.
      *
      * @param int $minutes
-     * @return Collection
+     * @return array
      */
-    public static function getListOfTimezones(): Collection
+    public static function getListOfTimezones(): array
     {
         $timezones = DateTimeZone::listIdentifiers();
 
         $timezoneCollection = collect();
-        $numberOfTimezones = 0;
         foreach ($timezones as $timezone) {
-            $array = self::formatTimezone($timezone);
+            $formatedTimezone = self::formatTimezone($timezone);
             $timezoneCollection->push([
-                'value' => $numberOfTimezones,
-                'label' => $array['name'],
-                'sort_key' => $array['offset'],
+                'value' => $formatedTimezone['name'],
+                'label' => $formatedTimezone['friendly_name'],
+                'sort_key' => $formatedTimezone['offset'],
             ]);
-
-            $numberOfTimezones++;
         }
 
+        // we need to remove the keys we don't need as the view needs only 2 keys
         $timezoneCollection = $timezoneCollection->sortBy('sort_key');
         $timezoneCollection = $timezoneCollection->map(function ($item) {
             return array_only($item, ['value', 'label']);
         });
 
-        return $timezoneCollection;
+        // we need to reset the keys before converting it to an array
+        // otherwise, Vue doesn't like it
+        return $timezoneCollection->values()->toArray();
     }
 
     /**
-     * Format a timezone to be displayed (english only).
+     * Format a timezone to be displayed (english locale only).
      *
      * @param string $timezone
      * @return array
      */
     private static function formatTimezone(string $timezone): array
     {
-        $dtimezone = new DateTimeZone($timezone);
-        $time = Carbon::now($timezone);
-
-        $offset = $time->format('P');
-
-        $loc = $dtimezone->getLocation();
+        $offset = self::getOffset($timezone);
 
         if ($timezone == 'UTC') {
-            $friendlyName = '(UTC) Universal Time Coordinated';
+            $timezoneName = 'UTC';
         } else {
-            $timezoneName = $time->tzName;
-
-            if (empty($loc['comments'])) {
-                $friendlyName = '(UTC '.$offset.') '.$timezoneName;
-            } else {
-                $friendlyName = '(UTC '.$offset.') '.$loc['comments'].' ('.$timezoneName.')';
-            }
+            $timezoneName = Carbon::now($timezone)->tzName;
         }
 
+        $friendlyName = self::getTimezoneFriendlyName($timezoneName, $offset);
+
         return [
-            'name' => $friendlyName,
+            'name' => $timezoneName,
+            'friendly_name' => $friendlyName,
             'offset' => $offset,
         ];
     }
 
+    private static function getTimezoneFriendlyName(string $timezoneName, string $offset): string
+    {
+        $dtimezone = new DateTimeZone($timezoneName);
+        $location = $dtimezone->getLocation();
+
+        if ($timezoneName == 'UTC') {
+            $friendlyName = '(UTC) Universal Time Coordinated';
+        } else {
+            if (empty($location['comments'])) {
+                $friendlyName = '(UTC '.$offset.') '.$timezoneName;
+            } else {
+                $friendlyName = '(UTC '.$offset.') '.$location['comments'].' ('.$timezoneName.')';
+            }
+        }
+
+        return $friendlyName;
+    }
+
+    private static function getOffset(string $timezoneName): string
+    {
+        return Carbon::now($timezoneName)->format('P');
+    }
+
     /**
-     * Get a friendly timezone name based on the index of the timezone.
+     * Get the value/label combo of the timezone in an array based on its codename.
      *
-     * @param int $timezoneNumber
-     * @return string
+     * @param string $timezoneName
+     * @return array
      */
-    public static function getTimezoneNameById(int $timezoneNumber): string
+    public static function getTimezoneKeyValue(string $timezoneName): array
     {
         $timezones = DateTimeZone::listIdentifiers();
 
-        $timezoneCollection = collect();
-        $numberOfTimezones = 0;
         foreach ($timezones as $timezone) {
-            $array = self::formatTimezone($timezone);
-            $timezoneCollection->push([
-                'value' => $numberOfTimezones,
-                'label' => $array['name'],
-            ]);
-
-            $numberOfTimezones++;
+            if ($timezoneName == Carbon::now($timezone)->tzName) {
+                return [
+                    'value' => $timezoneName,
+                    'label' => self::getTimezoneFriendlyName($timezoneName, self::getOffset($timezoneName)),
+                ];
+            }
         }
+
+        return [];
     }
 }
