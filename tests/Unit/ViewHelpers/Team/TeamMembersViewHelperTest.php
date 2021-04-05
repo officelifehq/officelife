@@ -97,7 +97,7 @@ class TeamMembersViewHelperTest extends TestCase
             [
                 'id' => $michael->id,
                 'name' => $michael->name,
-                'avatar' => $michael->avatar,
+                'avatar' => ImageHelper::getAvatar($michael, 35),
                 'position' => $michael->position,
                 'workFromHome' => true,
             ],
