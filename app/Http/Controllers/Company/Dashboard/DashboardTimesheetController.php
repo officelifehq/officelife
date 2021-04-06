@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\UpdateDashboardPreference;
+use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Timesheet\SubmitTimesheet;
 use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
@@ -38,14 +39,6 @@ class DashboardTimesheetController extends Controller
             'view' => 'timesheet',
         ])->onQueue('low');
 
-        $employeeInformation = [
-            'id' => $employee->id,
-            'dashboard_view' => 'timesheet',
-            'can_manage_expenses' => $employee->can_manage_expenses,
-            'is_manager' => $employee->directReports->count() > 0,
-            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
-        ];
-
         $currentTimesheet = (new CreateOrGetTimesheet)->execute([
             'company_id' => $company->id,
             'author_id' => $employee->id,
@@ -62,7 +55,7 @@ class DashboardTimesheetController extends Controller
         $rejectedTimesheets = DashboardTimesheetViewHelper::rejectedTimesheets($employee);
 
         return Inertia::render('Dashboard/Timesheet/Index', [
-            'employee' => $employeeInformation,
+            'employee' => DashboardViewHelper::information($employee, 'timesheet'),
             'timesheet' => $timesheetInformation,
             'approverInformation' => $approverInformation,
             'daysHeader' => $daysInHeader,
@@ -82,13 +75,6 @@ class DashboardTimesheetController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $employeeInformation = [
-            'id' => $employee->id,
-            'dashboard_view' => 'timesheet',
-            'can_manage_expenses' => $employee->can_manage_expenses,
-            'is_manager' => $employee->directReports->count() > 0,
-        ];
-
         try {
             $timesheet = Timesheet::where('company_id', $company->id)
                 ->where('employee_id', $employee->id)
@@ -106,7 +92,7 @@ class DashboardTimesheetController extends Controller
         $rejectedTimesheets = DashboardTimesheetViewHelper::rejectedTimesheets($employee);
 
         return Inertia::render('Dashboard/Timesheet/Index', [
-            'employee' => $employeeInformation,
+            'employee' => DashboardViewHelper::information($employee, 'timesheet'),
             'daysHeader' => $daysInHeader,
             'timesheet' => $timesheetInfo,
             'approverInformation' => $approverInformation,
