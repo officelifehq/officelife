@@ -12,11 +12,15 @@ class DateHelper
      * short format like "Oct 29, 1981".
      *
      * @param Carbon $date
-     *
+     * @param string $timezone
      * @return string
      */
-    public static function formatDate(Carbon $date): string
+    public static function formatDate(Carbon $date, string $timezone = null): string
     {
+        if ($timezone) {
+            $date->setTimezone($timezone);
+        }
+
         return $date->format(trans('format.date'));
     }
 
