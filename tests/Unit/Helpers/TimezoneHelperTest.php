@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Helpers;
 
+use DateTimeZone;
 use Tests\TestCase;
 use App\Helpers\TimezoneHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -16,7 +17,7 @@ class TimezoneHelperTest extends TestCase
         $array = TimezoneHelper::getListOfTimezones();
 
         $this->assertEquals(
-            425,
+            count(DateTimeZone::listIdentifiers()),
             count($array)
         );
 
