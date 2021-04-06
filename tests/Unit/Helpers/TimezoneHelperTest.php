@@ -21,20 +21,13 @@ class TimezoneHelperTest extends TestCase
             count($array)
         );
 
-        $this->assertEquals(
-            [
-                'value' => 'Africa/Banjul',
-                'label' => '(UTC +00:00) Africa/Banjul',
-            ],
-            $array[3]
+        $this->assertArrayHasKey(
+            'value',
+            $array[0]
         );
-
-        $this->assertEquals(
-            [
-                'value' => 'Antarctica/Rothera',
-                'label' => '(UTC -03:00) Rothera (Antarctica/Rothera)',
-            ],
-            $array[300]
+        $this->assertArrayHasKey(
+            'label',
+            $array[0]
         );
     }
 
