@@ -68,6 +68,7 @@
         <PossiblyNullPropertyAssignmentValue errorLevel="info" />
         <PossiblyNullPropertyFetch errorLevel="info" />
         <PossiblyNullReference errorLevel="info" />
+        <PossiblyFalseIterator errorLevel="info" />
 
         <!-- level 5 issues - should be avoided at mosts costs... -->
 
