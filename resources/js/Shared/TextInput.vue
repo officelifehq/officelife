@@ -30,18 +30,17 @@
     <input :id="realId"
            :ref="customRef"
            v-bind="$attrs"
+           v-model="proxyValue"
            class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
            :required="required"
            :type="type"
            :name="name"
            :autofocus="autofocus"
-           :value="modelValue"
            :step="step"
            :max="max"
            :min="min"
            :placeholder="placeholder"
            :data-cy="datacy"
-           @input="$emit('update:modelValue', $event.target.value)"
            @keydown.esc="sendEscKey"
     />
     <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
@@ -140,6 +139,15 @@ export default {
   },
 
   computed: {
+    proxyValue: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
+    },
+
     realId() {
       return this.id + this._.uid;
     },

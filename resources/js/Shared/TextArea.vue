@@ -31,15 +31,14 @@
     <textarea :id="realId"
               :ref="customRef"
               v-bind="$attrs"
+              v-model="proxyValue"
               class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
               :class="{ error: errors.length }"
               :required="required"
               :type="type"
-              :value="modelValue"
               :data-cy="datacy"
               :rows="rows"
               :maxlength="maxlength"
-              @input="$emit('update:modelValue', $event.target.value)"
               @keydown.esc="sendEscKey"
     ></textarea>
 
@@ -120,6 +119,14 @@ export default {
   },
 
   computed: {
+    proxyValue: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
+    },
     realId() {
       return this.id + this._.uid;
     },

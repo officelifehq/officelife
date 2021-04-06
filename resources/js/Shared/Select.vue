@@ -1,5 +1,5 @@
 <style lang="scss" scoped>
-@import '@vueform/multiselect/themes/default.css';
+@import 'vue-next-select/dist/index.css';
 
 .optional-badge {
   border-radius: 4px;
@@ -13,6 +13,7 @@
 .style-chooser .vs__dropdown-menu {
   border: 0;
 }
+
 </style>
 
 <template>
@@ -23,14 +24,13 @@
         {{ $t('app.optional') }}
       </span>
     </label>
-    <multiselect v-model="proxyValue"
-                 :options="options"
-                 :value-prop="customValueKey"
-                 :label="customLabelKey"
-                 :placeholder="placeholder"
-                 class="style-chooser"
-                 :data-cy="datacy"
-                 :close-on-select="true"
+    <vue-select v-model="proxyValue"
+                :options="options"
+                :value-by="customValueKey"
+                :label-by="customLabelKey"
+                :placeholder="placeholder"
+                :data-cy="datacy"
+                :close-on-select="true"
     />
     <div v-if="errors.length" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
@@ -43,11 +43,11 @@
 
 <script>
 
-import Multiselect from '@vueform/multiselect';
+import VueSelect from 'vue-next-select';
 
 export default {
   components: {
-    Multiselect,
+    VueSelect,
   },
 
   model: {
@@ -61,7 +61,7 @@ export default {
       default: 'text-input-',
     },
     modelValue: {
-      type: Object,
+      type: [Object, String, Number],
       default: null,
     },
     name: {
@@ -102,7 +102,7 @@ export default {
     },
     customValueKey: {
       type: String,
-      default: 'id',
+      default: 'value',
     },
     customLabelKey: {
       type: String,
@@ -116,7 +116,6 @@ export default {
 
   data() {
     return {
-      selected: null,
       localErrors: [],
     };
   },
@@ -136,9 +135,6 @@ export default {
   },
 
   watch: {
-    value(newValue) {
-      this.selected = newValue;
-    },
     errors(value) {
       this.localErrors = value;
     },
@@ -151,10 +147,6 @@ export default {
   methods: {
     sendEscKey() {
       this.$emit('esc-key-pressed');
-    },
-
-    broadcast(value) {
-      this.$emit('update:modelValue', value);
     },
   },
 };

@@ -8,7 +8,7 @@ const purgeCssOptions = {
   whitelistPatterns: [/^ball-pulse/, /^ball-clip-rotate/, /^vs__/, /^dot-/, /^expense-badge-/, /^timesheet-badge-/, /^failed/, /^multiselect/, /^is-/, /^no-caret/],
   // List of regex of CSS class name whose child path CSS class will not be removed
   //  ex: to exclude "jane" in "mary jane": add "mary")
-  whitelistPatternsChildren: [/^vs-/],
+  whitelistPatternsChildren: [/^vue-loaders/, /^vs-/],
 };
 
 mix.js('resources/js/app.js', 'public/js').vue()

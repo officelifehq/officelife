@@ -61,7 +61,7 @@ export default {
 
   model: {
     prop: 'modelValue',
-    event: 'change'
+    event: 'update:modelValue'
   },
 
   props: {
@@ -72,7 +72,7 @@ export default {
   },
 
   emits: [
-    'change', 'completed'
+    'update:modelValue', 'completed'
   ],
 
   data() {
@@ -91,7 +91,7 @@ export default {
   },
 
   mounted() {
-    this.localActions = this.value;
+    this.localActions = this.modelValue;
   },
 
   methods: {
@@ -103,7 +103,7 @@ export default {
       });
 
       this.showActionMenu = false;
-      this.$emit('change', this.localActions);
+      this.$emit('update:modelValue', this.localActions);
       this.$emit('completed', this.complete);
     },
 

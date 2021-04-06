@@ -142,7 +142,7 @@ export default {
       form: {
         name: null,
         serial: null,
-        employee_id: null,
+        employee_id: 0,
         lend_hardware: false,
         errors: [],
       },
