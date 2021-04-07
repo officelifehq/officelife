@@ -95,6 +95,7 @@
                     :errors="$page.props.errors.currency"
                     :label="$t('dashboard.expense_create_currency')"
                     :custom-label-key="'code'"
+                    :custom-value-key="'id'"
                     :placeholder="$t('dashboard.expense_create_currency')"
                     :required="true"
                     :value="form.currency"
@@ -110,6 +111,7 @@
                           :name="'category'"
                           :label="$t('dashboard.expense_create_category')"
                           :custom-label-key="'name'"
+                          :custom-value-key="'id'"
                           :errors="$page.props.errors.category"
                           :placeholder="$t('dashboard.expense_create_category')"
                           :required="false"
@@ -246,7 +248,7 @@ export default {
 
   mounted() {
     this.localExpenses = this.expenses;
-    this.form.currency = this.defaultCurrency;
+    this.form.currency = this.defaultCurrency.id;
   },
 
   methods: {
