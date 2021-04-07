@@ -137,7 +137,7 @@
                         :label="$t('dashboard.timesheet_create_choose_project')"
                         :data-cy="'project-selector'"
                         :required="true"
-                        @update:modelValue="showTasks($event)"
+                        @update:modelValue="showTasks"
             />
 
             <select-box
@@ -150,7 +150,7 @@
               :label="$t('dashboard.timesheet_create_choose_task')"
               :required="true"
               :data-cy="'task-selector'"
-              @update:modelValue="showTasks($event)"
+              @update:modelValue="showTasks"
             />
           </span>
 
@@ -365,7 +365,7 @@ export default {
     },
 
     getTasksList() {
-      axios.get(`/${this.$page.props.auth.company.id}/dashboard/timesheet/${this.timesheet.id}/projects/${this.form.project.value}/tasks`)
+      axios.get(`/${this.$page.props.auth.company.id}/dashboard/timesheet/${this.timesheet.id}/projects/${this.form.project}/tasks`)
         .then(response => {
           this.tasks = response.data.data;
         })
@@ -387,12 +387,15 @@ export default {
     },
 
     addBlankTimesheetRow() {
+      let project = this.projects[this.projects.findIndex(p => p.value === this.form.project)];
+      let task = this.tasks[this.tasks.findIndex(t => t.value === this.form.task)];
+
       this.timesheetRows.push({
-        project_id: this.form.project.value,
-        project_name: this.form.project.label,
-        project_code: this.form.project.code,
-        task_id: this.form.task.value,
-        task_title: this.form.task.label,
+        project_id: this.form.project,
+        project_name: project.label,
+        project_code: project.code,
+        task_id: this.form.task,
+        task_title: task.label,
         total_this_week: 0,
         days: [
           {

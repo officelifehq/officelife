@@ -66,7 +66,7 @@ input[type=checkbox] {
     <!-- actions - available on mouse hover on desktop -->
     <div v-show="editable" :class="hover ? 'di' : 'visibility-hidden'" class="hide-actions di f6 bg-white ph1 pv1 br3">
       <!-- edit -->
-      <span :data-cy="datacy + '-edit'" class="di mr1 bb b--dotted bt-0 bl-0 br-0 pointer" @click="$emit('update', itemId)">
+      <span :data-cy="datacy + '-edit'" class="di mr1 bb b--dotted bt-0 bl-0 br-0 pointer" @click="$emit('edit', itemId)">
         {{ $t('app.edit') }}
       </span>
 
@@ -87,6 +87,7 @@ input[type=checkbox] {
       <div class="flex items-start">
         <input
           :id="id"
+          :ref="'input'"
           v-model="proxyValue"
           :value="value"
           :data-cy="datacy + '-single-item'"
@@ -124,7 +125,7 @@ input[type=checkbox] {
           <!-- actions - only shown on mobile -->
           <div class="show-actions">
             <!-- edit -->
-            <span class="di mr1 bb b--dotted bt-0 bl-0 br-0 pointer" @click="$emit('update', itemId)">
+            <span class="di mr1 bb b--dotted bt-0 bl-0 br-0 pointer" @click="$emit('edit', itemId)">
               {{ $t('app.edit') }}
             </span>
 
@@ -171,7 +172,7 @@ export default {
 
   model: {
     prop: 'modelValue',
-    event: 'change'
+    event: 'update:modelValue'
   },
 
   props: {
@@ -250,7 +251,7 @@ export default {
   },
 
   emits: [
-    'update', 'destroy', 'update:modelValue'
+    'edit', 'destroy', 'update:modelValue'
   ],
 
   data() {

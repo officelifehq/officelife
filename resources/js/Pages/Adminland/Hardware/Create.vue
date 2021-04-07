@@ -152,10 +152,6 @@ export default {
   },
 
   methods: {
-    // updateStatus(payload) {
-    //   this.form.lend_hardware = payload;
-    // },
-
     submit() {
       this.loadingState = 'loading';
       if (this.form.employee_id) {

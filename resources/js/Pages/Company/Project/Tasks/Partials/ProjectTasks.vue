@@ -55,8 +55,8 @@
           :required="true"
           :url="task.url"
           :duration="task.duration"
-          @change="toggle(task.id)"
-          @update="showEditTask(task)"
+          @update:modelValue="toggle(task.id)"
+          @edit="showEditTask(task)"
           @destroy="destroy(task.id)"
         />
 
@@ -82,7 +82,6 @@
                           :label="$t('project.task_edit_assignee')"
                           :placeholder="$t('app.choose_value')"
                           :required="false"
-                          :value="form.assignee_id"
                           :datacy="'assignee_selector'"
               />
             </div>
@@ -123,7 +122,6 @@
                         :label="$t('project.task_edit_assignee')"
                         :placeholder="$t('app.choose_value')"
                         :required="false"
-                        :value="form.assignee_id"
                         :datacy="'country_selector'"
             />
           </div>
@@ -209,35 +207,26 @@ export default {
       this.form.description = null;
 
       this.$nextTick(() => {
-        this.$refs['newTaskItem'].$refs['input'].focus();
+        this.$refs.newTaskItem.focus();
       });
     },
 
     showEditTask(task) {
       this.taskToEdit = task.id;
       this.form.title = task.title;
-      if (task.assignee) {
-        this.form.assignee_id = {
-          value: task.assignee.id,
-          label: task.assignee.name,
-        };
-      }
+      this.form.assignee_id = task.assignee ? task.assignee.id : null;
 
       // this is really barbaric, but I need to do this to
       // first: target the TextInput with the right ref attribute
       // second: target within the component, the refs of the input text
       // this is because we try here to access $refs from a child component
       this.$nextTick(() => {
-        this.$refs[`task${task.id}`][0].$refs['input'].focus();
+        this.$refs[`task${task.id}`].focus();
       });
     },
 
     store() {
       this.loadingState = 'loading';
-
-      if (this.form.assignee_id) {
-        this.form.assignee_id = this.form.assignee_id.value;
-      }
 
       if (this.form.task_list_id == 0) {
         this.form.task_list_id = null;
@@ -270,10 +259,6 @@ export default {
 
     update(task) {
       this.loadingState = 'loading';
-
-      if (this.form.assignee_id) {
-        this.form.assignee_id = this.form.assignee_id.value;
-      }
 
       if (this.form.task_list_id == 0) {
         this.form.task_list_id = null;

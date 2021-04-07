@@ -157,10 +157,6 @@ export default {
     }
   },
 
-  emits: [
-    'lead-set'
-  ],
-
   data() {
     return {
       processingSearch: false,
@@ -233,8 +229,7 @@ export default {
           this.localTeam.team_leader = response.data.data;
           this.editMode = false;
 
-          const emitter = new Emitter();
-          emitter.emit('lead-set', response.data.data);
+          this.$emitt('lead-set', response.data.data);
         })
         .catch(error => {
           this.form.errors = error.response.data;

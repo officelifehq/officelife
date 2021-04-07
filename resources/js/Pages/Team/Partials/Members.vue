@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .avatar {
   left: 1px;
   top: 5px;
@@ -107,9 +109,7 @@
 <script>
 import TextInput from '@/Shared/TextInput';
 import Avatar from '@/Shared/Avatar';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
-import Emitter from 'tiny-emitter';
 
 export default {
   components: {
@@ -152,8 +152,7 @@ export default {
 
     // when a team lead is set, we must react to the event emitted by the
     // TeamLead.vue component and add the team lead to the list of employees
-    const emitter = new Emitter();
-    emitter.on('lead-set', employee => {
+    this.$on('lead-set', employee => {
       var id = this.listOfEmployees.findIndex(member => member.id === employee.id);
 
       if (id === -1) {
