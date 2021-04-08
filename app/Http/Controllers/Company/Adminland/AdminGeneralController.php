@@ -25,8 +25,10 @@ class AdminGeneralController extends Controller
      */
     public function index(): Response
     {
-        $company = InstanceHelper::getLoggedCompany();
-        $information = AdminGeneralViewHelper::information($company);
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $information = AdminGeneralViewHelper::information($loggedCompany, $loggedEmployee);
         $currencies = AdminGeneralViewHelper::currencies();
 
         return Inertia::render('Adminland/General/Index', [

@@ -77,7 +77,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
             'created_at' => '2017-01-01 01:00:00',
         ]);
 
-        $collection = EmployeeOneOnOneViewHelper::list($dwight->oneOnOneEntriesAsEmployee, $dwight);
+        $collection = EmployeeOneOnOneViewHelper::list($dwight->oneOnOneEntriesAsEmployee, $dwight, $michael);
 
         $this->assertEquals(3, $collection->count());
 
@@ -154,7 +154,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
             'one_on_one_entry_id' => $entry->id,
         ]);
 
-        $array = EmployeeOneOnOneViewHelper::details($entry);
+        $array = EmployeeOneOnOneViewHelper::details($entry, $michael);
 
         $this->assertEquals($entry->id, $array['id']);
         $this->assertEquals('Sep 09, 2020', $array['happened_at']);

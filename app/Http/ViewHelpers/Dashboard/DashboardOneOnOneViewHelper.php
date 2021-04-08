@@ -4,6 +4,7 @@ namespace App\Http\ViewHelpers\Dashboard;
 
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
+use App\Models\Company\Employee;
 use App\Models\Company\OneOnOneEntry;
 
 class DashboardOneOnOneViewHelper
@@ -11,10 +12,11 @@ class DashboardOneOnOneViewHelper
     /**
      * Get the details of a one on one.
      *
-     * @var OneOnOneEntry
+     * @param OneOnOneEntry $entry
+     * @param Employee $employee
      * @return array
      */
-    public static function details(OneOnOneEntry $entry): array
+    public static function details(OneOnOneEntry $entry, Employee $employee): array
     {
         // get previous and next entries, if they exist
         $previousEntry = OneOnOneEntry::where('id', '<', $entry->id)
@@ -62,7 +64,7 @@ class DashboardOneOnOneViewHelper
 
         $array = [
             'id' => $entry->id,
-            'happened_at' => DateHelper::formatDate($entry->happened_at),
+            'happened_at' => DateHelper::formatDate($entry->happened_at, $employee->timezone),
             'happened' => $entry->happened,
             'employee' => [
                 'id' => $entry->employee->id,
@@ -86,14 +88,14 @@ class DashboardOneOnOneViewHelper
             'action_items' => $actionItems,
             'notes' => $notes,
             'previous_entry' => $previousEntry ? [
-                'happened_at' => DateHelper::formatDate($previousEntry->happened_at),
+                'happened_at' => DateHelper::formatDate($previousEntry->happened_at, $employee->timezone),
                 'url' => route('dashboard.oneonones.show', [
                     'company' => $company,
                     'entry' => $previousEntry,
                 ]),
             ] : null,
             'next_entry' => $nextEntry ? [
-                'happened_at' => DateHelper::formatDate($nextEntry->happened_at),
+                'happened_at' => DateHelper::formatDate($nextEntry->happened_at, $employee->timezone),
                 'url' => route('dashboard.oneonones.show', [
                     'company' => $company,
                     'entry' => $nextEntry,

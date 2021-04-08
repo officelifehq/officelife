@@ -12,11 +12,15 @@ class DateHelper
      * short format like "Oct 29, 1981".
      *
      * @param Carbon $date
-     *
+     * @param string $timezone
      * @return string
      */
-    public static function formatDate(Carbon $date): string
+    public static function formatDate(Carbon $date, string $timezone = null): string
     {
+        if ($timezone) {
+            $date->setTimezone($timezone);
+        }
+
         return $date->format(trans('format.date'));
     }
 
@@ -25,11 +29,15 @@ class DateHelper
      * short format like "Oct 29, 1981 19:32".
      *
      * @param Carbon $date
-     *
+     * @param string $timezone
      * @return string
      */
-    public static function formatShortDateWithTime(Carbon $date): string
+    public static function formatShortDateWithTime(Carbon $date, string $timezone = null): string
     {
+        if ($timezone) {
+            $date->setTimezone($timezone);
+        }
+
         return $date->format(trans('format.short_date_year_time'));
     }
 
@@ -37,7 +45,6 @@ class DateHelper
      * Return the day and the month in a format like "July 29th".
      *
      * @param Carbon $date
-     *
      * @return string
      */
     public static function formatMonthAndDay(Carbon $date): string
@@ -49,7 +56,6 @@ class DateHelper
      * Return the day and the month in a format like "Jul 29".
      *
      * @param Carbon $date
-     *
      * @return string
      */
     public static function formatShortMonthAndDay(Carbon $date): string
@@ -61,7 +67,6 @@ class DateHelper
      * Return the day and the month in a format like "Monday (July 29th)".
      *
      * @param Carbon $date
-     *
      * @return string
      */
     public static function formatDayAndMonthInParenthesis(Carbon $date): string
@@ -73,7 +78,6 @@ class DateHelper
      * Return the complete date like "Monday, July 29th 2020".
      *
      * @param Carbon $date
-     *
      * @return string
      */
     public static function formatFullDate(Carbon $date): string
@@ -85,7 +89,6 @@ class DateHelper
      * Translate the given month to a string using the locale of the app.
      *
      * @param Carbon $date
-     *
      * @return string
      */
     public static function translateMonth(Carbon $date): string
@@ -97,7 +100,6 @@ class DateHelper
      * Calculate the next occurence in the future for this date.
      *
      * @param Carbon $date
-     *
      * @return Carbon
      */
     public static function getNextOccurence(Carbon $date): Carbon
@@ -119,7 +121,6 @@ class DateHelper
      * Get the number of days in a given year.
      *
      * @param Carbon $date
-     *
      * @return int
      */
     public static function getNumberOfDaysInYear(Carbon $date): int
@@ -131,7 +132,6 @@ class DateHelper
      * Determine if the date is in the future, in the present or in the past.
      *
      * @param Carbon $date
-     *
      * @return string
      */
     public static function determineDateStatus(Carbon $date): string
@@ -179,7 +179,6 @@ class DateHelper
      *
      * @param CompanyPTOPolicy $ptoPolicy
      * @param string $locale
-     *
      * @return array
      */
     public static function prepareCalendar(CompanyPTOPolicy $ptoPolicy, string $locale = 'en'): array
