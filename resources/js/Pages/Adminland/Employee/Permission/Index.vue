@@ -38,7 +38,7 @@
           <h2 class="pa3 tc normal mb0">
             {{ $t('account.employee_permission_title', { name: employee.name}) }}
 
-            <help :url="$page.props.help_links.account_employee_lock" :datacy="'help-icon-employee-lock'" :top="'1px'" />
+            <help :url="$page.props.help_links.account_employee_permission" :top="'1px'" />
           </h2>
 
           <form @submit.prevent="submit">
