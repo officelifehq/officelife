@@ -41,7 +41,7 @@ class EmployeeWorkController extends Controller
         $permissions = EmployeeShowViewHelper::permissions($loggedEmployee, $employee);
 
         // worklogs
-        $worklogsCollection = EmployeeShowViewHelper::worklogs($employee);
+        $worklogsCollection = EmployeeShowViewHelper::worklogs($employee, $loggedEmployee);
 
         // work from home
         $workFromHomeStats = EmployeeShowViewHelper::workFromHomeStats($employee);

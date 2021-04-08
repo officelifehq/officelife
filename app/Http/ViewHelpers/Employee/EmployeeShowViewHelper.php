@@ -389,13 +389,14 @@ class EmployeeShowViewHelper
     }
 
     /**
-     * Array containing a collection of all worklogs with the morale and a
-     * link to the detailled page of the worklogs.
+     * Get a collection of all worklogs with the morale and a
+     * link to the detailed page of the worklogs.
      *
      * @param Employee $employee
+     * @param Employee $loggedEmployee
      * @return array
      */
-    public static function worklogs(Employee $employee): array
+    public static function worklogs(Employee $employee, Employee $loggedEmployee): array
     {
         $worklogs = $employee->worklogs()->latest()->take(7)->get();
         $morales = $employee->morales()->latest()->take(7)->get();
@@ -415,7 +416,7 @@ class EmployeeShowViewHelper
             });
 
             $worklogsCollection->push(
-                WorklogHelper::getDailyInformationForEmployee($day, $worklog, $morale)
+                WorklogHelper::getDailyInformationForEmployee($day, $worklog, $morale, $loggedEmployee)
             );
         }
 

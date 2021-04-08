@@ -209,7 +209,7 @@ class EmployeeShowViewHelperTest extends TestCase
             ]);
         }
 
-        $array = EmployeeShowViewHelper::worklogs($michael);
+        $array = EmployeeShowViewHelper::worklogs($michael, $michael);
         $this->assertEquals(2, count($array));
         $this->assertArrayHasKey(
             'worklogs_collection',

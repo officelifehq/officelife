@@ -175,13 +175,13 @@ class DashboardExpenseViewHelper
     }
 
     /**
-     * Array containing information about the given expense.
+     * Get all the information about the given expense.
      *
      * @param Expense $expense
-     * @param Employee $employee
+     * @param Employee $loggedEmployee
      * @return array
      */
-    public static function expense(Expense $expense, Employee $employee): array
+    public static function expense(Expense $expense, Employee $loggedEmployee): array
     {
         $manager = $expense->managerApprover;
         $accountant = $expense->accountingApprover;
@@ -190,16 +190,16 @@ class DashboardExpenseViewHelper
         $expense = [
             'id' => $expense->id,
             'title' => $expense->title,
-            'created_at' => DateHelper::formatDate($expense->created_at, $employee->timezone),
+            'created_at' => DateHelper::formatDate($expense->created_at, $loggedEmployee->timezone),
             'amount' => MoneyHelper::format($expense->amount, $expense->currency),
             'status' => $expense->status,
             'category' => ($expense->category) ? $expense->category->name : null,
-            'expensed_at' => DateHelper::formatDate($expense->expensed_at, $employee->timezone),
+            'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
             'converted_amount' => $expense->converted_amount ?
                 MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                 null,
             'converted_at' => $expense->converted_at ?
-                DateHelper::formatShortDateWithTime($expense->converted_at, $employee->timezone) :
+                DateHelper::formatShortDateWithTime($expense->converted_at, $loggedEmployee->timezone) :
                 null,
             'exchange_rate' => $expense->exchange_rate,
             'exchange_rate_explanation' => '1 '.$expense->converted_to_currency.' = '.$expense->exchange_rate.' '.$expense->currency,
@@ -213,7 +213,7 @@ class DashboardExpenseViewHelper
                 'name' => $expense->manager_approver_name,
             ],
             'manager_approver_approved_at' => $expense->manager_approver_approved_at ?
-                DateHelper::formatDate($expense->manager_approver_approved_at, $employee->timezone) :
+                DateHelper::formatDate($expense->manager_approver_approved_at, $loggedEmployee->timezone) :
                 null,
             'manager_rejection_explanation' => $expense->manager_rejection_explanation,
             'accountant' => $accountant ? [
@@ -226,7 +226,7 @@ class DashboardExpenseViewHelper
                 'name' => $expense->accounting_approver_name,
             ],
             'accounting_approver_approved_at' => ($expense->accounting_approver_approved_at) ?
-                DateHelper::formatDate($expense->accounting_approver_approved_at, $employee->timezone) :
+                DateHelper::formatDate($expense->accounting_approver_approved_at, $loggedEmployee->timezone) :
                 null,
             'accounting_rejection_explanation' => $expense->accounting_rejection_explanation,
             'employee' => $expenseEmployee ? [
