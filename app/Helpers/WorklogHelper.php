@@ -16,7 +16,7 @@ class WorklogHelper
      * @param Carbon $date
      * @param Worklog|null $worklog
      * @param Morale|null $morale
-     * @param Employee $employee
+     * @param Employee $loggedEmployee
      * @return array
      */
     public static function getDailyInformationForEmployee(Carbon $date, Worklog $worklog = null, Morale $morale = null, Employee $loggedEmployee): array

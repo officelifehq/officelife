@@ -31,7 +31,7 @@ class EmployeeShowViewHelper
      *
      * @param Employee $employee
      * @param array $permissions
-     * @param Employee $employee
+     * @param Employee $loggedEmployee
      * @return array
      */
     public static function informationAboutEmployee(Employee $employee, array $permissions, Employee $loggedEmployee): array
@@ -621,7 +621,7 @@ class EmployeeShowViewHelper
      *
      * @param Employee $employee
      * @param array $permissions
-     * @param Employee $employee
+     * @param Employee $loggedEmployee
      * @return array|null
      */
     public static function expenses(Employee $employee, array $permissions, Employee $loggedEmployee): ?array
@@ -673,7 +673,7 @@ class EmployeeShowViewHelper
      *
      * @param Employee $employee
      * @param array $permissions
-     * @param Employee $employee
+     * @param Employee $loggedEmployee
      * @return array|null
      */
     public static function oneOnOnes(Employee $employee, array $permissions, Employee $loggedEmployee): ?array
