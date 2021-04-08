@@ -21,10 +21,12 @@ class AdminAuditController extends Controller
      */
     public function index(Request $request): Response
     {
-        $company = InstanceHelper::getLoggedCompany();
-        $logs = $company->logs()->with('author')->paginate(15);
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $logsCollection = AdminAuditLogViewHelper::index($logs);
+        $logs = $loggedCompany->logs()->with('author')->paginate(15);
+
+        $logsCollection = AdminAuditLogViewHelper::index($logs, $loggedEmployee);
 
         return Inertia::render('Adminland/Audit/Index', [
             'logs' => $logsCollection,

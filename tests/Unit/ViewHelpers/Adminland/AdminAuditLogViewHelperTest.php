@@ -34,7 +34,7 @@ class AdminAuditLogViewHelperTest extends TestCase
         ]);
 
         $logs = $michael->company->logs()->with('author')->paginate(15);
-        $collection = AdminAuditLogViewHelper::index($logs);
+        $collection = AdminAuditLogViewHelper::index($logs, $michael);
 
         $this->assertEquals(
             2,
@@ -54,7 +54,6 @@ class AdminAuditLogViewHelperTest extends TestCase
                     'url' => env('APP_URL').'/'.$auditLogA->company_id.'/employees/'.$auditLogA->author->id,
                 ],
                 'localized_audited_at' => 'Jan 12, 2020 00:00',
-                'audited_at' => $auditLogA->audited_at,
             ],
             $collection[0]
         );

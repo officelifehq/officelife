@@ -56,7 +56,7 @@ class DashboardExpensesController extends Controller
     public function show(Request $request, int $companyId, int $expenseId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         // can this expense been seen by someone in this company?
         try {
@@ -71,8 +71,8 @@ class DashboardExpensesController extends Controller
         }
 
         return Inertia::render('Dashboard/Expenses/Approve', [
-            'expense' => DashboardExpenseViewHelper::expense($expense, $employee),
-            'notifications' => NotificationHelper::getNotifications($employee),
+            'expense' => DashboardExpenseViewHelper::expense($expense, $loggedEmployee),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }
 

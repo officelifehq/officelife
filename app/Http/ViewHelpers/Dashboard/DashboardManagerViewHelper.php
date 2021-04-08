@@ -69,29 +69,29 @@ class DashboardManagerViewHelper
     }
 
     /**
-     * Array containing information about the given expense.
+     * Get all information about the given expense.
      *
      * @param Expense $expense
-     * @param Employee $employee
+     * @param Employee $loggedEmployee
      * @return array
      */
-    public static function expense(Expense $expense, Employee $employee): array
+    public static function expense(Expense $expense, Employee $loggedEmployee): array
     {
         $expenseEmployee = $expense->employee;
 
         $expense = [
             'id' => $expense->id,
             'title' => $expense->title,
-            'created_at' => DateHelper::formatDate($expense->created_at, $employee->timezone),
+            'created_at' => DateHelper::formatDate($expense->created_at, $loggedEmployee->timezone),
             'amount' => MoneyHelper::format($expense->amount, $expense->currency),
             'status' => $expense->status,
             'category' => ($expense->category) ? $expense->category->name : null,
-            'expensed_at' => DateHelper::formatDate($expense->expensed_at, $employee->timezone),
+            'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
             'converted_amount' => $expense->converted_amount ?
                 MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                 null,
             'converted_at' => $expense->converted_at ?
-                DateHelper::formatShortDateWithTime($expense->converted_at) :
+                DateHelper::formatShortDateWithTime($expense->converted_at, $loggedEmployee->timezone) :
                 null,
             'exchange_rate' => $expense->exchange_rate,
             'employee' => $expenseEmployee ? [

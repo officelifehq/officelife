@@ -2,12 +2,14 @@
 
 namespace App\Http\ViewHelpers\Adminland;
 
+use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
+use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 
 class AdminAuditLogViewHelper
 {
-    public static function index($logs): Collection
+    public static function index($logs, Employee $loggedEmployee): Collection
     {
         $logsCollection = collect([]);
         foreach ($logs as $log) {
@@ -27,8 +29,7 @@ class AdminAuditLogViewHelper
                         'employee' => $author,
                     ]),
                 ],
-                'localized_audited_at' => $log->date,
-                'audited_at' => $log->audited_at,
+                'localized_audited_at' => DateHelper::formatShortDateWithTime($log->audited_at, $loggedEmployee->timezone),
             ]);
         }
 
