@@ -124,7 +124,7 @@ class DashboardManagerController extends Controller
 
         $expense = $this->canAccess($company, $expenseId, $employee);
 
-        $expense = DashboardManagerViewHelper::expense($expense);
+        $expense = DashboardManagerViewHelper::expense($expense, $employee);
 
         return Inertia::render('Dashboard/Manager/ApproveExpense', [
             'notifications' => NotificationHelper::getNotifications($employee),

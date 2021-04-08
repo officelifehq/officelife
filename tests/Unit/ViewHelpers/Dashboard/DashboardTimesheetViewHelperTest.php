@@ -165,7 +165,7 @@ class DashboardTimesheetViewHelperTest extends TestCase
             'status' => Timesheet::OPEN,
         ]);
 
-        $array = DashboardTimesheetViewHelper::approverInformation($timesheet);
+        $array = DashboardTimesheetViewHelper::approverInformation($timesheet, $michael);
         $this->assertEmpty($array);
 
         // change the timesheet to approved BUT without an existing approver
@@ -176,7 +176,7 @@ class DashboardTimesheetViewHelperTest extends TestCase
         $timesheet->save();
         $timesheet->refresh();
 
-        $array = DashboardTimesheetViewHelper::approverInformation($timesheet);
+        $array = DashboardTimesheetViewHelper::approverInformation($timesheet, $michael);
 
         $this->assertEquals(
             [
@@ -193,7 +193,7 @@ class DashboardTimesheetViewHelperTest extends TestCase
         $timesheet->save();
         $timesheet->refresh();
 
-        $array = DashboardTimesheetViewHelper::approverInformation($timesheet);
+        $array = DashboardTimesheetViewHelper::approverInformation($timesheet, $michael);
         $this->assertEquals(
             [
                 'id' => $michael->id,

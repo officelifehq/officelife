@@ -31,9 +31,9 @@ class DashboardExpensesController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $awaitingAccountingExpenses = DashboardExpenseViewHelper::waitingForAccountingApproval($company);
-        $awaitingManagerExpenses = DashboardExpenseViewHelper::waitingForManagerApproval($company);
-        $acceptedOrRejected = DashboardExpenseViewHelper::acceptedAndRejected($company);
+        $awaitingAccountingExpenses = DashboardExpenseViewHelper::waitingForAccountingApproval($company, $employee);
+        $awaitingManagerExpenses = DashboardExpenseViewHelper::waitingForManagerApproval($company, $employee);
+        $acceptedOrRejected = DashboardExpenseViewHelper::acceptedAndRejected($company, $employee);
 
         return Inertia::render('Dashboard/Expenses/Index', [
             'employee' => DashboardViewHelper::information($employee, 'expenses'),
@@ -71,7 +71,7 @@ class DashboardExpensesController extends Controller
         }
 
         return Inertia::render('Dashboard/Expenses/Approve', [
-            'expense' => DashboardExpenseViewHelper::expense($expense),
+            'expense' => DashboardExpenseViewHelper::expense($expense, $employee),
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }
@@ -105,7 +105,7 @@ class DashboardExpensesController extends Controller
         }
 
         return Inertia::render('Dashboard/Expenses/Show', [
-            'expense' => DashboardExpenseViewHelper::expense($expense),
+            'expense' => DashboardExpenseViewHelper::expense($expense, $employee),
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }

@@ -27,7 +27,7 @@ class EmployeeWorkController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         try {
-            $employee = Employee::where('company_id', $companyId)
+            $employee = Employee::where('company_id', $loggedCompany->id)
                 ->where('id', $employeeId)
                 ->with('company')
                 ->with('user')
@@ -53,7 +53,7 @@ class EmployeeWorkController extends Controller
         $projects = EmployeeShowViewHelper::projects($employee, $loggedCompany);
 
         // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
-        $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
+        $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions, $loggedEmployee);
 
         return Inertia::render('Employee/Work/Index', [
             'menu' => 'work',

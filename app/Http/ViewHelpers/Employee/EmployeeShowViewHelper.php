@@ -31,9 +31,10 @@ class EmployeeShowViewHelper
      *
      * @param Employee $employee
      * @param array $permissions
+     * @param Employee $employee
      * @return array
      */
-    public static function informationAboutEmployee(Employee $employee, array $permissions): array
+    public static function informationAboutEmployee(Employee $employee, array $permissions, Employee $loggedEmployee): array
     {
         $address = $employee->getCurrentAddress();
         $company = $employee->company;
@@ -54,20 +55,20 @@ class EmployeeShowViewHelper
             'holidays' => $employee->getHolidaysInformation(),
             'birthdate' => (! $employee->birthdate) ? null :
                 ($permissions['can_see_full_birthdate'] ? [
-                    'date' => DateHelper::formatDate($employee->birthdate),
+                    'date' => DateHelper::formatDate($employee->birthdate, $loggedEmployee->timezone),
                     'age' => Carbon::now()->year - $employee->birthdate->year,
                 ] : [
                     'date' => DateHelper::formatMonthAndDay($employee->birthdate),
                 ]),
             'hired_at' => (! $employee->hired_at) ? null : [
-                'full' => DateHelper::formatDate($employee->hired_at),
+                'full' => DateHelper::formatDate($employee->hired_at, $loggedEmployee->timezone),
                 'year' => $employee->hired_at->year,
                 'month' => $employee->hired_at->month,
                 'day' => $employee->hired_at->day,
             ],
             'contract_renewed_at' => (! $employee->contract_renewed_at) ? null :
                 ($permissions['can_see_contract_renewal_date'] ? [
-                    'date' => DateHelper::formatDate($employee->contract_renewed_at),
+                    'date' => DateHelper::formatDate($employee->contract_renewed_at, $loggedEmployee->timezone),
                 ] : null),
             'contract_rate' => (! $rate) ? null :
                 ($permissions['can_see_contract_renewal_date'] ? [
@@ -612,16 +613,17 @@ class EmployeeShowViewHelper
     }
 
     /**
-     * Array containing information about the expenses associated with the
+     * Get the information about the expenses associated with the
      * employee.
      * On the employee profile page, we only see expenses logged in the last
      * 30 days.
      *
      * @param Employee $employee
      * @param array $permissions
+     * @param Employee $employee
      * @return array|null
      */
-    public static function expenses(Employee $employee, array $permissions): ?array
+    public static function expenses(Employee $employee, array $permissions, Employee $loggedEmployee): ?array
     {
         if (! $permissions['can_see_expenses']) {
             return null;
@@ -641,7 +643,7 @@ class EmployeeShowViewHelper
                 'title' => $expense->title,
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
@@ -670,9 +672,10 @@ class EmployeeShowViewHelper
      *
      * @param Employee $employee
      * @param array $permissions
+     * @param Employee $employee
      * @return array|null
      */
-    public static function oneOnOnes(Employee $employee, array $permissions): ?array
+    public static function oneOnOnes(Employee $employee, array $permissions, Employee $loggedEmployee): ?array
     {
         if (! $permissions['can_see_one_on_one_with_manager']) {
             return null;
@@ -688,7 +691,7 @@ class EmployeeShowViewHelper
         foreach ($oneOnOnes as $oneOnOne) {
             $collection->push([
                 'id' => $oneOnOne->id,
-                'happened_at' => DateHelper::formatDate($oneOnOne->happened_at),
+                'happened_at' => DateHelper::formatDate($oneOnOne->happened_at, $loggedEmployee->timezone),
                 'manager' => [
                     'id' => $oneOnOne->manager->id,
                     'name' => $oneOnOne->manager->name,

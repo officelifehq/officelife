@@ -29,7 +29,7 @@ class EmployeePerformanceController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         try {
-            $employee = Employee::where('company_id', $companyId)
+            $employee = Employee::where('company_id', $company->id)
                 ->where('id', $employeeId)
                 ->with('company')
                 ->with('user')
@@ -43,13 +43,13 @@ class EmployeePerformanceController extends Controller
         $permissions = EmployeeShowViewHelper::permissions($loggedEmployee, $employee);
 
         // the latest one on ones
-        $oneOnOnes = EmployeeShowViewHelper::oneOnOnes($employee, $permissions);
+        $oneOnOnes = EmployeeShowViewHelper::oneOnOnes($employee, $permissions, $loggedEmployee);
 
         // surveys
         $surveys = EmployeePerformanceViewHelper::latestRateYourManagerSurveys($employee);
 
         // information about the employee, that depends on what the logged Employee can see
-        $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
+        $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions, $loggedEmployee);
 
         return Inertia::render('Employee/Performance/Index', [
             'menu' => 'performance',

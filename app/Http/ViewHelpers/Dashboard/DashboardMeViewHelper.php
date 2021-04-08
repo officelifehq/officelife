@@ -159,7 +159,7 @@ class DashboardMeViewHelper
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
                 'category' => ($expense->category) ? $expense->category->name : null,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $employee->timezone),
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
@@ -287,14 +287,14 @@ class DashboardMeViewHelper
 
         if ($employee->contract_renewed_at->isBefore($now)) {
             return [
-                'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
+                'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at, $employee->timezone),
                 'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
                 'late' => true,
             ];
         }
 
         return [
-            'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
+            'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at, $employee->timezone),
             'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
             'late' => false,
         ];

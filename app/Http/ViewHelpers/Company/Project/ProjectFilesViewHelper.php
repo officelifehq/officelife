@@ -6,6 +6,7 @@ use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 
 class ProjectFilesViewHelper
@@ -14,9 +15,10 @@ class ProjectFilesViewHelper
      * Collection containing the information about the files in the project.
      *
      * @param Project $project
+     * @param Employee $employee
      * @return Collection
      */
-    public static function index(Project $project): Collection
+    public static function index(Project $project, Employee $employee): Collection
     {
         $company = $project->company;
 
@@ -43,7 +45,7 @@ class ProjectFilesViewHelper
                         'employee' => $uploader,
                     ]),
                 ] : $file->uploader_name,
-                'created_at' => DateHelper::formatDate($file->created_at),
+                'created_at' => DateHelper::formatDate($file->created_at, $employee->timezone),
             ]);
         }
 

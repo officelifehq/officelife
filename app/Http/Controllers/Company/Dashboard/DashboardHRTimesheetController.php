@@ -64,7 +64,7 @@ class DashboardHRTimesheetController extends Controller
 
         $timesheetInformation = DashboardTimesheetViewHelper::show($timesheet);
         $daysInHeader = DashboardTimesheetViewHelper::daysHeader($timesheet);
-        $approverInformation = DashboardTimesheetViewHelper::approverInformation($timesheet);
+        $approverInformation = DashboardTimesheetViewHelper::approverInformation($timesheet, $employee);
 
         return Inertia::render('Dashboard/HR/Timesheets/Show', [
             'employee' => [
