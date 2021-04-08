@@ -11,8 +11,9 @@ use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\Employee\ChangePermission;
+use App\Services\Company\Adminland\Employee\ChangePermissionLevel;
 
-class ChangePermissionTest extends TestCase
+class ChangePermissionLevelTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -50,7 +51,7 @@ class ChangePermissionTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new ChangePermission)->execute($request);
+        (new ChangePermissionLevel)->execute($request);
     }
 
     /** @test */
@@ -80,7 +81,7 @@ class ChangePermissionTest extends TestCase
             'permission_level' => config('officelife.permission_level.hr'),
         ];
 
-        $michael = (new ChangePermission)->execute($request);
+        $michael = (new ChangePermissionLevel)->execute($request);
 
         $this->assertDatabaseHas('employees', [
             'id' => $michael->id,
