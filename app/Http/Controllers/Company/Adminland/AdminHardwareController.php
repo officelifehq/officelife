@@ -102,6 +102,7 @@ class AdminHardwareController extends Controller
     public function show(Request $request, int $companyId, int $hardwareId)
     {
         $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
 
         try {
             $hardware = Hardware::where('company_id', $company->id)
@@ -122,7 +123,7 @@ class AdminHardwareController extends Controller
             ] : null,
         ];
 
-        $history = AdminHardwareViewHelper::history($hardware);
+        $history = AdminHardwareViewHelper::history($hardware, $employee);
 
         return Inertia::render('Adminland/Hardware/Show', [
             'hardware' => $information,

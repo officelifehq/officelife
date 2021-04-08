@@ -189,6 +189,7 @@ class EmployeeTimesheetController extends Controller
     public function show(Request $request, int $companyId, int $employeeId, int $timesheetId)
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         try {
             $timesheet = Timesheet::where('company_id', $loggedCompany->id)
@@ -208,7 +209,7 @@ class EmployeeTimesheetController extends Controller
 
         $timesheetInfo = DashboardTimesheetViewHelper::show($timesheet);
         $daysInHeader = DashboardTimesheetViewHelper::daysHeader($timesheet);
-        $approverInformation = DashboardTimesheetViewHelper::approverInformation($timesheet);
+        $approverInformation = DashboardTimesheetViewHelper::approverInformation($timesheet, $loggedEmployee);
 
         return Inertia::render('Employee/Administration/Timesheets/Show', [
             'employee' => [

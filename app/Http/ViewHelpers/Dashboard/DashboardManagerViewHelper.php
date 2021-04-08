@@ -46,7 +46,7 @@ class DashboardManagerViewHelper
                     'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                     'status' => $expense->status,
                     'category' => ($expense->category) ? $expense->category->name : null,
-                    'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                    'expensed_at' => DateHelper::formatDate($expense->expensed_at, $manager->timezone),
                     'converted_amount' => $expense->converted_amount ?
                         MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                         null,
@@ -69,36 +69,37 @@ class DashboardManagerViewHelper
     }
 
     /**
-     * Array containing information about the given expense.
+     * Get all information about the given expense.
      *
      * @param Expense $expense
+     * @param Employee $loggedEmployee
      * @return array
      */
-    public static function expense(Expense $expense): array
+    public static function expense(Expense $expense, Employee $loggedEmployee): array
     {
-        $employee = $expense->employee;
+        $expenseEmployee = $expense->employee;
 
         $expense = [
             'id' => $expense->id,
             'title' => $expense->title,
-            'created_at' => DateHelper::formatDate($expense->created_at),
+            'created_at' => DateHelper::formatDate($expense->created_at, $loggedEmployee->timezone),
             'amount' => MoneyHelper::format($expense->amount, $expense->currency),
             'status' => $expense->status,
             'category' => ($expense->category) ? $expense->category->name : null,
-            'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+            'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
             'converted_amount' => $expense->converted_amount ?
                 MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                 null,
             'converted_at' => $expense->converted_at ?
-                DateHelper::formatShortDateWithTime($expense->converted_at) :
+                DateHelper::formatShortDateWithTime($expense->converted_at, $loggedEmployee->timezone) :
                 null,
             'exchange_rate' => $expense->exchange_rate,
-            'employee' => $employee ? [
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'avatar' => ImageHelper::getAvatar($employee),
-                'position' => $employee->position ? $employee->position->title : null,
-                'status' => $employee->status ? $employee->status->name : null,
+            'employee' => $expenseEmployee ? [
+                'id' => $expenseEmployee->id,
+                'name' => $expenseEmployee->name,
+                'avatar' => ImageHelper::getAvatar($expenseEmployee),
+                'position' => $expenseEmployee->position ? $expenseEmployee->position->title : null,
+                'status' => $expenseEmployee->status ? $expenseEmployee->status->name : null,
             ] : [
                 'employee_name' => $expense->employee_name,
             ],
@@ -208,7 +209,7 @@ class DashboardManagerViewHelper
                     'employee' => $employee,
                 ]),
                 'contract_information' => [
-                    'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
+                    'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at, $manager->timezone),
                     'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
                     'late' => $employee->contract_renewed_at->isBefore($now),
                 ],

@@ -18,18 +18,6 @@ class AuditLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_date_attribute(): void
-    {
-        $auditLog = AuditLog::factory()->create([
-            'audited_at' => '2017-01-22 17:56:03',
-        ]);
-        $this->assertEquals(
-            'Jan 22, 2017 17:56',
-            $auditLog->date
-        );
-    }
-
-    /** @test */
     public function it_returns_the_object_attribute(): void
     {
         $auditLog = AuditLog::factory()->create([]);

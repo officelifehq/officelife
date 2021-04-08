@@ -98,7 +98,7 @@ class DashboardManagerViewHelperTest extends TestCase
             'converted_to_currency' => 'EUR',
         ]);
 
-        $expense = DashboardManagerViewHelper::expense($expense);
+        $expense = DashboardManagerViewHelper::expense($expense, $michael);
 
         $this->assertArrayHasKey('id', $expense);
         $this->assertArrayHasKey('title', $expense);

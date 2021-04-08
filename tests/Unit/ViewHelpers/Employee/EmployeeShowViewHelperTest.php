@@ -53,12 +53,12 @@ class EmployeeShowViewHelperTest extends TestCase
 
         (new CreateCompanyPTOPolicy)->execute($request);
 
-        $michael = [
+        $array = [
             'can_see_complete_address' => true,
             'can_see_full_birthdate' => true,
         ];
 
-        $array = EmployeeShowViewHelper::informationAboutEmployee($dwight, $michael);
+        $array = EmployeeShowViewHelper::informationAboutEmployee($dwight, $array, $michael);
 
         $this->assertArrayHasKey('id', $array);
         $this->assertArrayHasKey('first_name', $array);
@@ -209,7 +209,7 @@ class EmployeeShowViewHelperTest extends TestCase
             ]);
         }
 
-        $array = EmployeeShowViewHelper::worklogs($michael);
+        $array = EmployeeShowViewHelper::worklogs($michael, $michael);
         $this->assertEquals(2, count($array));
         $this->assertArrayHasKey(
             'worklogs_collection',
@@ -433,7 +433,7 @@ class EmployeeShowViewHelperTest extends TestCase
             'created_at' => '2010-01-01 01:00:00',
         ]);
 
-        $array = EmployeeShowViewHelper::expenses($michael, ['can_see_expenses' => true]);
+        $array = EmployeeShowViewHelper::expenses($michael, ['can_see_expenses' => true], $michael);
 
         $this->assertEquals(1, $array['expenses']->count());
 
@@ -466,7 +466,7 @@ class EmployeeShowViewHelperTest extends TestCase
             $array['totalPastExpenses']
         );
 
-        $array = EmployeeShowViewHelper::expenses($michael, ['can_see_expenses' => false]);
+        $array = EmployeeShowViewHelper::expenses($michael, ['can_see_expenses' => false], $michael);
         $this->assertNull($array);
     }
 
@@ -499,7 +499,7 @@ class EmployeeShowViewHelperTest extends TestCase
             'created_at' => '2016-01-01 01:00:00',
         ]);
 
-        $array = EmployeeShowViewHelper::oneOnOnes($dwight, ['can_see_one_on_one_with_manager' => true]);
+        $array = EmployeeShowViewHelper::oneOnOnes($dwight, ['can_see_one_on_one_with_manager' => true], $michael);
 
         $this->assertEquals(3, $array['entries']->count());
 
@@ -547,7 +547,7 @@ class EmployeeShowViewHelperTest extends TestCase
             $array['view_all_url']
         );
 
-        $array = EmployeeShowViewHelper::oneOnOnes($dwight, ['can_see_one_on_one_with_manager' => false]);
+        $array = EmployeeShowViewHelper::oneOnOnes($dwight, ['can_see_one_on_one_with_manager' => false], $michael);
         $this->assertNull($array);
     }
 

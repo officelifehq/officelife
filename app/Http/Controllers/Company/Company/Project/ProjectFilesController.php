@@ -33,10 +33,11 @@ class ProjectFilesController extends Controller
      */
     public function index(Request $request, int $companyId, int $projectId)
     {
-        $company = InstanceHelper::getLoggedCompany();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         try {
-            $project = Project::where('company_id', $company->id)
+            $project = Project::where('company_id', $loggedCompany->id)
                 ->findOrFail($projectId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -45,7 +46,7 @@ class ProjectFilesController extends Controller
         return Inertia::render('Company/Project/Files/Index', [
             'tab' => 'files',
             'project' => ProjectViewHelper::info($project),
-            'files' => ProjectFilesViewHelper::index($project),
+            'files' => ProjectFilesViewHelper::index($project, $loggedEmployee),
             'uploadcarePublicKey' => config('officelife.uploadcare_public_key'),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
@@ -105,7 +106,7 @@ class ProjectFilesController extends Controller
                         'employee' => $loggedEmployee,
                     ]),
                 ],
-                'created_at' => DateHelper::formatDate($file->created_at),
+                'created_at' => DateHelper::formatDate($file->created_at, $loggedEmployee->timezone),
             ],
         ], 200);
     }

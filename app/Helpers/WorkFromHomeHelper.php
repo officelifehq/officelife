@@ -7,7 +7,6 @@ use App\Models\Company\Employee;
 
 class WorkFromHomeHelper
 {
-
     /**
      * Indicates if the given employee has indicated he worked from home on the
      * given date.

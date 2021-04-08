@@ -39,7 +39,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             'one_on_one_entry_id' => $entry->id,
         ]);
 
-        $array = DashboardOneOnOneViewHelper::details($entry);
+        $array = DashboardOneOnOneViewHelper::details($entry, $michael);
 
         $this->assertEquals($entry->id, $array['id']);
         $this->assertEquals('Sep 09, 2020', $array['happened_at']);

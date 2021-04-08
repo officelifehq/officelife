@@ -6,6 +6,7 @@ use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 
 class ProjectDecisionsViewHelper
@@ -14,9 +15,10 @@ class ProjectDecisionsViewHelper
      * Array containing the information about the decisions made in the project.
      *
      * @param Project $project
+     * @param Employee $employee
      * @return Collection
      */
-    public static function decisions(Project $project): Collection
+    public static function decisions(Project $project, Employee $employee): Collection
     {
         $company = $project->company;
         $decisions = $project->decisions()
@@ -44,7 +46,7 @@ class ProjectDecisionsViewHelper
             $decisionsCollection->push([
                 'id' => $decision->id,
                 'title' => $decision->title,
-                'decided_at' => DateHelper::formatDate($decision->decided_at),
+                'decided_at' => DateHelper::formatDate($decision->decided_at, $employee->timezone),
                 'deciders' => $decidersCollection,
             ]);
         }

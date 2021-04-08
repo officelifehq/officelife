@@ -48,9 +48,10 @@ class ProjectViewHelper
      *
      * @param Project $project
      * @param Company $company
+     * @param Employee $employee
      * @return array
      */
-    public static function summary(Project $project, Company $company): array
+    public static function summary(Project $project, Company $company, Employee $employee): array
     {
         $lead = $project->lead;
         $latestStatus = $project->statuses()->with('author')->latest()->first();
@@ -83,7 +84,7 @@ class ProjectViewHelper
                 'title' => $latestStatus->title,
                 'status' => $latestStatus->status,
                 'description' => StringHelper::parse($latestStatus->description),
-                'written_at' => DateHelper::formatDate($latestStatus->created_at),
+                'written_at' => DateHelper::formatDate($latestStatus->created_at, $employee->timezone),
                 'author' => $author ? [
                     'id' => $author->id,
                     'name' => $author->name,

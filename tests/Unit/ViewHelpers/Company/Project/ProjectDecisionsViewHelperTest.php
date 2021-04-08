@@ -25,7 +25,7 @@ class ProjectDecisionsViewHelperTest extends TestCase
         ]);
         $projectDecision->deciders()->attach([$michael->id]);
         $projectDecision->deciders()->attach([$jim->id]);
-        $collection = ProjectDecisionsViewHelper::decisions($projectDecision->project);
+        $collection = ProjectDecisionsViewHelper::decisions($projectDecision->project, $michael);
 
         $this->assertEquals(
             [

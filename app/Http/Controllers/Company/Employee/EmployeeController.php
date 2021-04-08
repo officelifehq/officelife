@@ -106,7 +106,7 @@ class EmployeeController extends Controller
         $ecoffees = EmployeeShowViewHelper::eCoffees($employee, $company);
 
         // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
-        $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
+        $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions, $loggedEmployee);
 
         return Inertia::render('Employee/Show', [
             'menu' => 'presentation',
