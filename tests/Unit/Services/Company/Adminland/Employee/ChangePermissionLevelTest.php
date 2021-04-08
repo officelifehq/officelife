@@ -10,7 +10,6 @@ use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\Employee\ChangePermission;
 use App\Services\Company\Adminland\Employee\ChangePermissionLevel;
 
 class ChangePermissionLevelTest extends TestCase
@@ -68,7 +67,7 @@ class ChangePermissionLevelTest extends TestCase
         ];
 
         $this->expectException(ModelNotFoundException::class);
-        (new ChangePermission)->execute($request);
+        (new ChangePermissionLevel)->execute($request);
     }
 
     private function executeService(Employee $michael, int $permission): void
