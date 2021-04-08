@@ -34,7 +34,7 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
             'import_job_id' => $importJobB->id,
         ]);
 
-        $array = AdminUploadEmployeeViewHelper::index($michael->company);
+        $array = AdminUploadEmployeeViewHelper::index($michael->company, $michael);
 
         $this->assertEquals(
             [
@@ -95,7 +95,7 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
             'skipped_during_upload_reason' => 'invalid_email',
         ]);
 
-        $array = AdminUploadEmployeeViewHelper::show($importJob);
+        $array = AdminUploadEmployeeViewHelper::show($importJob, $michael);
 
         $this->assertEquals(
             $importJob->id,

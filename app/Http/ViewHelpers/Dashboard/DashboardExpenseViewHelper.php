@@ -13,14 +13,14 @@ use Illuminate\Support\Collection;
 class DashboardExpenseViewHelper
 {
     /**
-     * Array containing all the expenses that are waiting for accounting
-     * approval in the company.
+     * Get all the expenses that are waiting for accounting approval in the
+     * company.
      *
      * @param Company $company
-     * @param Employee $employee
+     * @param Employee $loggedEmployee
      * @return Collection|null
      */
-    public static function waitingForAccountingApproval(Company $company, Employee $employee): ?Collection
+    public static function waitingForAccountingApproval(Company $company, Employee $loggedEmployee): ?Collection
     {
         $expenses = $company->expenses()
             ->with('category')
@@ -39,7 +39,7 @@ class DashboardExpenseViewHelper
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
                 'category' => ($expense->category) ? $expense->category->name : null,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $employee->timezone),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
@@ -66,14 +66,14 @@ class DashboardExpenseViewHelper
     }
 
     /**
-     * Array containing all the expenses that are waiting for manager
+     * Get all the expenses that are waiting for manager
      * approval in the company.
      *
      * @param Company $company
-     * @param Employee $employee
+     * @param Employee $loggedEmployee
      * @return Collection|null
      */
-    public static function waitingForManagerApproval(Company $company, Employee $employee): ?Collection
+    public static function waitingForManagerApproval(Company $company, Employee $loggedEmployee): ?Collection
     {
         $expenses = $company->expenses()
             ->with('category')
@@ -103,7 +103,7 @@ class DashboardExpenseViewHelper
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
                 'category' => ($expense->category) ? $expense->category->name : null,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $employee->timezone),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
@@ -126,14 +126,14 @@ class DashboardExpenseViewHelper
     }
 
     /**
-     * Array containing all the expenses that have been either accepted or
+     * Get all the expenses that have been either accepted or
      * rejected.
      *
      * @param Company $company
-     * @param Employee $employee
+     * @param Employee $loggedEmployee
      * @return Collection|null
      */
-    public static function acceptedAndRejected(Company $company, Employee $employee): ?Collection
+    public static function acceptedAndRejected(Company $company, Employee $loggedEmployee): ?Collection
     {
         $expenses = $company->expenses()
             ->with('category')
@@ -153,7 +153,7 @@ class DashboardExpenseViewHelper
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
                 'category' => ($expense->category) ? $expense->category->name : null,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $employee->timezone),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,

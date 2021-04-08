@@ -36,7 +36,7 @@ class AdminGeneralViewHelperTest extends TestCase
         ])->id;
         $michael->company->save();
 
-        $response = AdminGeneralViewHelper::information($michael->company);
+        $response = AdminGeneralViewHelper::information($michael->company, $michael);
 
         $this->assertEquals(
             $michael->company_id,
