@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .avatar {
   left: 1px;
   top: 5px;
@@ -129,7 +131,6 @@
 <script>
 import Errors from '@/Shared/Errors';
 import IconDelete from '@/Shared/IconDelete';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import vClickOutside from 'v-click-outside';
 import Avatar from '@/Shared/Avatar';

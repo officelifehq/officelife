@@ -1,4 +1,6 @@
 <style scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .list-employees > ul {
   padding-left: 43px;
 }
@@ -257,7 +259,6 @@
 import IconDelete from '@/Shared/IconDelete';
 import Avatar from '@/Shared/Avatar';
 import vClickOutside from 'v-click-outside';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {

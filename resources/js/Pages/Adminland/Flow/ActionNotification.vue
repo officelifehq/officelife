@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .actions-dots {
   top: 15px;
 }
@@ -214,7 +216,6 @@
 
 <script>
 import vClickOutside from 'v-click-outside';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {

@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .list-no-line-bottom {
   li:last-child {
     border-bottom: 0;
@@ -244,7 +246,6 @@ import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 import vClickOutside from 'v-click-outside';
 import IconDelete from '@/Shared/IconDelete';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import LoadingButton from '@/Shared/LoadingButton';
 import Help from '@/Shared/Help';

@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .find-box {
   border: 1px solid rgba(27,31,35,.15);
   box-shadow: 0 3px 12px rgba(27,31,35,.15);
@@ -217,7 +219,6 @@ import UserMenu from '@/Shared/UserMenu';
 import LoadingButton from '@/Shared/LoadingButton';
 import NotificationsComponent from '@/Shared/Notifications';
 import Toaster from '@/Shared/Toaster';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
