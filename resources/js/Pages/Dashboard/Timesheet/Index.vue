@@ -197,33 +197,11 @@
               </div>
             </div>
 
-            <!-- daily total: monday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[0]) }}
-            </div>
-            <!-- daily total: tuesday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[1]) }}
-            </div>
-            <!-- daily total: wednesday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[2]) }}
-            </div>
-            <!-- daily total: thursday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[3]) }}
-            </div>
-            <!-- daily total: friday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[4]) }}
-            </div>
-            <!-- daily total: saturday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray off-days f7 gray">
-              {{ formatTime(dailyStats[5]) }}
-            </div>
-            <!-- daily total: sunday -->
-            <div class="tc pv2 bt bl bb bb-gray off-days f7 gray">
-              {{ formatTime(dailyStats[6]) }}
+            <!-- daily total -->
+            <div v-for="n in 7" :key="n" class="tc pv2 dtc bt bl bb bb-gray f7 gray"
+                 :class="[ n === 6 || n === 7 ? 'off-days' : '' ]"
+            >
+              {{ formatTime(dailyStats[n-1]) }}
             </div>
           </div>
         </div>
@@ -336,9 +314,7 @@ export default {
     // the data has changed in the child
     refreshDayInformation({id, day, value}) {
       var id = this.timesheetRows.findIndex(x => x.task_id === id);
-      var row = this.timesheetRows[id];
-      row.days[day].total_of_minutes = value;
-      this.$set(this.timesheetRows, id, row);
+      this.timesheetRows[id].days[day].total_of_minutes = value;
     },
 
     showProjectList() {
@@ -434,9 +410,7 @@ export default {
 
     updateWeeklyTotal({id, value}) {
       var id = this.timesheetRows.findIndex(x => x.task_id === id);
-      var row = this.timesheetRows[id];
-      row.total_this_week = value;
-      this.$set(this.timesheetRows, id, row);
+      this.timesheetRows[id].total_this_week = value;
 
       this.refreshWeeklyTotal();
       this.refreshDailyTotal();

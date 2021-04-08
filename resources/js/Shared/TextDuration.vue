@@ -38,14 +38,14 @@ input[type=number] {
       </span>
 
       <!-- hours -->
-      <the-mask v-model="localHours"
+      <the-mask :value="proxyHours"
                 mask="##"
                 class="br2 f5 pt2 pb0 ph1 outline-0 di tc bg-white"
                 type="text"
                 :masked="false"
                 placeholder="00"
                 :data-cy="datacy + '-hours'"
-                @input="broadcastTotal()"
+                @input="proxyHours = $event.target.value"
       />
 
       <!-- separator -->
@@ -58,26 +58,33 @@ input[type=number] {
         min.
       </span>
 
-      <the-mask v-model="localMinutes"
+      <the-mask :value="proxyMinutes"
                 mask="##"
                 class="br2 f5 pt2 pb0 ph1 outline-0 di tc bg-white"
                 type="text"
                 :masked="false"
                 placeholder="00"
                 :data-cy="datacy + '-minutes'"
-                @input="broadcastTotal()"
+                @input="proxyMinutes = $event.target.value"
       />
     </div>
   </div>
 </template>
 
 <script>
-import {TheMask} from 'vue-the-mask';
+import TheMask from 'vue-the-mask/src/component';
 
 export default {
 
-  components: {TheMask},
-  inheritAttrs: false,
+  components: {
+    TheMask
+  },
+  //  inheritAttrs: false,
+
+  model: {
+    prop: 'modelValue',
+    event: 'update:modelValue'
+  },
 
   props: {
     id: {
@@ -88,17 +95,17 @@ export default {
       type: String,
       default: '',
     },
-    total: {
+    modelValue: {
       type: Number,
       default: 0,
     },
     hours: {
       type: Number,
-      default: 0,
+      default: undefined,
     },
     minutes: {
       type: Number,
-      default: 0,
+      default: undefined,
     },
     datacy: {
       type: String,
@@ -111,18 +118,37 @@ export default {
   },
 
   emits: [
-    'update'
+    'update:modelValue', 'update:hours', 'update:minutes'
   ],
 
   data() {
     return {
-      localHours: 0,
-      localMinutes: 0,
-      durationInMinutes: 0,
+      localHours: undefined,
+      localMinutes: undefined,
     };
   },
 
   computed: {
+    proxyHours: {
+      get() {
+        return this.localHours;
+      },
+      set(value) {
+        this.localHours = parseInt(value);
+        this.$emit('update:hours', this.localHours);
+        this.updateModelValue();
+      },
+    },
+    proxyMinutes: {
+      get() {
+        return this.localMinutes;
+      },
+      set(value) {
+        this.localMinutes = parseInt(value);
+        this.$emit('update:minutes', this.localMinutes);
+        this.updateModelValue();
+      },
+    },
     realId() {
       return this.id + this._.uid;
     },
@@ -132,26 +158,20 @@ export default {
     this.$nextTick(() => {
       this.localHours = this.hours;
       this.localMinutes = this.minutes;
-      this.durationInMinutes = this.total;
     });
   },
 
   methods: {
-    broadcastTotal() {
-      var hours = 0;
-      var minutes = 0;
-
-      if (this.localHours) {
-        hours = parseInt(this.localHours) * 60;
+    updateModelValue() {
+      let value = 0;
+      if (this.proxyHours !== undefined) {
+        value += this.proxyHours * 60;
       }
-
-      if (this.localMinutes) {
-        minutes = parseInt(this.localMinutes);
+      if (this.proxyMinutes !== undefined) {
+        value += this.proxyMinutes;
       }
-
-      this.durationInMinutes = hours + minutes;
-      this.$emit('update', this.durationInMinutes);
-    },
-  },
+      this.$emit('update:modelValue', value);
+    }
+  }
 };
 </script>
