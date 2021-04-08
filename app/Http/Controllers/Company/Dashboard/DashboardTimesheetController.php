@@ -30,32 +30,32 @@ class DashboardTimesheetController extends Controller
      */
     public function index(): Response
     {
-        $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         UpdateDashboardPreference::dispatch([
-            'employee_id' => $employee->id,
-            'company_id' => $company->id,
+            'employee_id' => $loggedEmployee->id,
+            'company_id' => $loggedCompany->id,
             'view' => 'timesheet',
         ])->onQueue('low');
 
         $currentTimesheet = (new CreateOrGetTimesheet)->execute([
-            'company_id' => $company->id,
-            'author_id' => $employee->id,
-            'employee_id' => $employee->id,
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'employee_id' => $loggedEmployee->id,
             'date' => Carbon::now()->format('Y-m-d'),
         ]);
 
         $timesheetInformation = DashboardTimesheetViewHelper::show($currentTimesheet);
         $daysInHeader = DashboardTimesheetViewHelper::daysHeader($currentTimesheet);
-        $nextTimesheet = DashboardTimesheetViewHelper::nextTimesheet($currentTimesheet, $employee);
-        $previousTimesheet = DashboardTimesheetViewHelper::previousTimesheet($currentTimesheet, $employee);
-        $approverInformation = DashboardTimesheetViewHelper::approverInformation($currentTimesheet);
-        $currentTimesheet = DashboardTimesheetViewHelper::currentTimesheet($employee);
-        $rejectedTimesheets = DashboardTimesheetViewHelper::rejectedTimesheets($employee);
+        $nextTimesheet = DashboardTimesheetViewHelper::nextTimesheet($currentTimesheet, $loggedEmployee);
+        $previousTimesheet = DashboardTimesheetViewHelper::previousTimesheet($currentTimesheet, $loggedEmployee);
+        $approverInformation = DashboardTimesheetViewHelper::approverInformation($currentTimesheet, $loggedEmployee);
+        $currentTimesheet = DashboardTimesheetViewHelper::currentTimesheet($loggedEmployee);
+        $rejectedTimesheets = DashboardTimesheetViewHelper::rejectedTimesheets($loggedEmployee);
 
         return Inertia::render('Dashboard/Timesheet/Index', [
-            'employee' => DashboardViewHelper::information($employee, 'timesheet'),
+            'employee' => DashboardViewHelper::information($loggedEmployee, 'timesheet'),
             'timesheet' => $timesheetInformation,
             'approverInformation' => $approverInformation,
             'daysHeader' => $daysInHeader,
@@ -63,7 +63,7 @@ class DashboardTimesheetController extends Controller
             'previousTimesheet' => $previousTimesheet,
             'currentTimesheet' => $currentTimesheet,
             'rejectedTimesheets' => $rejectedTimesheets,
-            'notifications' => NotificationHelper::getNotifications($employee),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }
 
@@ -72,12 +72,12 @@ class DashboardTimesheetController extends Controller
      */
     public function show(Request $request, int $companyId, int $timesheetId)
     {
-        $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         try {
-            $timesheet = Timesheet::where('company_id', $company->id)
-                ->where('employee_id', $employee->id)
+            $timesheet = Timesheet::where('company_id', $loggedCompany->id)
+                ->where('employee_id', $loggedEmployee->id)
                 ->findOrFail($timesheetId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -85,14 +85,14 @@ class DashboardTimesheetController extends Controller
 
         $timesheetInfo = DashboardTimesheetViewHelper::show($timesheet);
         $daysInHeader = DashboardTimesheetViewHelper::daysHeader($timesheet);
-        $nextTimesheet = DashboardTimesheetViewHelper::nextTimesheet($timesheet, $employee);
-        $previousTimesheet = DashboardTimesheetViewHelper::previousTimesheet($timesheet, $employee);
-        $currentTimesheet = DashboardTimesheetViewHelper::currentTimesheet($employee);
-        $approverInformation = DashboardTimesheetViewHelper::approverInformation($timesheet);
-        $rejectedTimesheets = DashboardTimesheetViewHelper::rejectedTimesheets($employee);
+        $nextTimesheet = DashboardTimesheetViewHelper::nextTimesheet($timesheet, $loggedEmployee);
+        $previousTimesheet = DashboardTimesheetViewHelper::previousTimesheet($timesheet, $loggedEmployee);
+        $currentTimesheet = DashboardTimesheetViewHelper::currentTimesheet($loggedEmployee);
+        $approverInformation = DashboardTimesheetViewHelper::approverInformation($timesheet, $loggedEmployee);
+        $rejectedTimesheets = DashboardTimesheetViewHelper::rejectedTimesheets($loggedEmployee);
 
         return Inertia::render('Dashboard/Timesheet/Index', [
-            'employee' => DashboardViewHelper::information($employee, 'timesheet'),
+            'employee' => DashboardViewHelper::information($loggedEmployee, 'timesheet'),
             'daysHeader' => $daysInHeader,
             'timesheet' => $timesheetInfo,
             'approverInformation' => $approverInformation,
@@ -100,7 +100,7 @@ class DashboardTimesheetController extends Controller
             'previousTimesheet' => $previousTimesheet,
             'currentTimesheet' => $currentTimesheet,
             'rejectedTimesheets' => $rejectedTimesheets,
-            'notifications' => NotificationHelper::getNotifications($employee),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }
 

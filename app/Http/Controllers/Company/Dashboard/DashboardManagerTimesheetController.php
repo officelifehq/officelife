@@ -65,23 +65,23 @@ class DashboardManagerTimesheetController extends Controller
     public function show(Request $request, int $companyId, int $timesheetId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $timesheet = $this->canAccess($company, $timesheetId, $employee);
+        $timesheet = $this->canAccess($company, $timesheetId, $loggedEmployee);
 
         $timesheetInformation = DashboardTimesheetViewHelper::show($timesheet);
         $daysInHeader = DashboardTimesheetViewHelper::daysHeader($timesheet);
-        $approverInformation = DashboardTimesheetViewHelper::approverInformation($timesheet);
+        $approverInformation = DashboardTimesheetViewHelper::approverInformation($timesheet, $loggedEmployee);
 
         return Inertia::render('Dashboard/Manager/Timesheets/Show', [
             'employee' => [
-                'id' => $employee->id,
-                'name' => $employee->name,
+                'id' => $loggedEmployee->id,
+                'name' => $loggedEmployee->name,
             ],
             'daysHeader' => $daysInHeader,
             'timesheet' => $timesheetInformation,
             'approverInformation' => $approverInformation,
-            'notifications' => NotificationHelper::getNotifications($employee),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }
 
