@@ -65,8 +65,8 @@ export default {
       default: '',
     },
     value: {
-      type: Boolean,
-      default: null,
+      type: [Boolean, String],
+      default: true,
     },
     modelValue: {
       type: Boolean,

@@ -83,7 +83,6 @@ input[type=radio] {
                           :errors="$page.props.errors.employee_id"
                           :placeholder="$t('account.hardware_create_lend_name')"
                           :required="false"
-                          :value="form.employee_id"
                           :datacy="'employee-selector'"
               />
             </div>
@@ -142,7 +141,7 @@ export default {
       form: {
         name: null,
         serial: null,
-        employee_id: 0,
+        employee_id: null,
         lend_hardware: false,
         errors: [],
       },
@@ -154,8 +153,8 @@ export default {
   methods: {
     submit() {
       this.loadingState = 'loading';
-      if (this.form.employee_id) {
-        this.form.employee_id = this.form.employee_id.value;
+      if (!this.form.lend_hardware) {
+        this.form.employee_id = null;
       }
 
       axios.post('/' + this.$page.props.auth.company.id + '/account/hardware', this.form)
