@@ -179,12 +179,12 @@ class AdminEmployeeController extends Controller
             return redirect('/home');
         }
 
-        return Inertia::render('Adminland/Employee/Lock', [
+        return Inertia::render('Adminland/Employee/Lock/Index', [
             'employee' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
             ],
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }
 
@@ -242,12 +242,12 @@ class AdminEmployeeController extends Controller
             return redirect('/home');
         }
 
-        return Inertia::render('Adminland/Employee/Unlock', [
+        return Inertia::render('Adminland/Employee/Unlock/Index', [
             'employee' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
             ],
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }
 
@@ -310,7 +310,7 @@ class AdminEmployeeController extends Controller
                 'id' => $employee->id,
                 'name' => $employee->name,
             ],
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }
 
