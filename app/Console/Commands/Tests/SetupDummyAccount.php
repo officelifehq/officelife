@@ -5,6 +5,7 @@ namespace App\Console\Commands\Tests;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Faker\Factory as Faker;
+use App\Jobs\LogTeamsMorale;
 use App\Models\Company\File;
 use App\Models\Company\Team;
 use App\Models\User\Pronoun;
@@ -787,6 +788,8 @@ class SetupDummyAccount extends Command
         Employee::where('id', $this->debra->id)->update([
             'hired_at' => Carbon::now()->addDay(),
         ]);
+
+        $this->employees = Employee::all();
     }
 
     private function addSpecificDataToEmployee(Employee $employee, ?string $description, Pronoun $pronoun, Team $team, EmployeeStatus $status, Position $position, string $birthdate = null, Employee $manager = null, Team $leaderOfTeam = null): void
@@ -1027,7 +1030,6 @@ class SetupDummyAccount extends Command
     {
         $this->info('☐ Add work from home information (this might take some time)');
 
-        $this->employees = Employee::all();
         foreach ($this->employees as $employee) {
             $twoYearsAgo = Carbon::now()->subYears(2);
             while (! $twoYearsAgo->isTomorrow()) {
@@ -1264,6 +1266,9 @@ class SetupDummyAccount extends Command
                     'date' => $twoYearsAgo->format('Y-m-d'),
                 ]);
             }
+
+            // dispatch team morale
+            LogTeamsMorale::dispatch($twoYearsAgo);
 
             $twoYearsAgo->addDay();
         }
