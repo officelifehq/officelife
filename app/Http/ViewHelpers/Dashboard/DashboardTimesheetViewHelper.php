@@ -15,7 +15,7 @@ use App\Services\Company\Employee\Timesheet\CreateOrGetTimesheet;
 class DashboardTimesheetViewHelper
 {
     /**
-     * Array containing information about a given timesheet.
+     * Get information about a given timesheet.
      * A timesheet is a set of rows.
      * Each row is a task from a project.
      * Each row is split into 7 days, each one being the entry for the task
@@ -95,9 +95,10 @@ class DashboardTimesheetViewHelper
      * approved or rejected.
      *
      * @param Timesheet $timesheet
+     * @param Employee $employee
      * @return array
      */
-    public static function approverInformation(Timesheet $timesheet): array
+    public static function approverInformation(Timesheet $timesheet, Employee $employee): array
     {
         if ($timesheet->status != Timesheet::APPROVED && $timesheet->status != Timesheet::REJECTED) {
             return [];
@@ -115,7 +116,7 @@ class DashboardTimesheetViewHelper
             $information = [
                 'id' => $approver->id,
                 'name' => $approver->name,
-                'approved_at' => DateHelper::formatDate($timesheet->approved_at),
+                'approved_at' => DateHelper::formatDate($timesheet->approved_at, $employee->timezone),
                 'avatar' => ImageHelper::getAvatar($approver),
                 'url' => route('employees.show', [
                     'company' => $timesheet->company,

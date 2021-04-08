@@ -69,6 +69,7 @@ class ProjectTasksController extends Controller
     public function show(Request $request, int $companyId, int $projectId, int $taskId)
     {
         $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
 
         try {
             $project = Project::where('company_id', $company->id)
@@ -89,7 +90,7 @@ class ProjectTasksController extends Controller
         return Inertia::render('Company/Project/Tasks/Show', [
             'tab' => 'tasks',
             'project' => ProjectViewHelper::info($projectTask->project),
-            'task' => ProjectTasksViewHelper::taskDetails($projectTask, $company),
+            'task' => ProjectTasksViewHelper::taskDetails($projectTask, $company, $employee),
             'members' => ProjectTasksViewHelper::members($project),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
@@ -286,6 +287,7 @@ class ProjectTasksController extends Controller
     public function timeTrackingEntries(Request $request, int $companyId, int $projectId, int $taskId): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
 
         try {
             $project = Project::where('company_id', $company->id)
@@ -302,7 +304,7 @@ class ProjectTasksController extends Controller
         }
 
         return response()->json([
-            'data' => ProjectTasksViewHelper::timeTrackingEntries($projectTask, $company),
+            'data' => ProjectTasksViewHelper::timeTrackingEntries($projectTask, $company, $employee),
         ], 200);
     }
 

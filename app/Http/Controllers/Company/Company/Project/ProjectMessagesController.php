@@ -147,7 +147,7 @@ class ProjectMessagesController extends Controller
         return Inertia::render('Company/Project/Messages/Show', [
             'tab' => 'messages',
             'project' => ProjectViewHelper::info($project),
-            'message' => ProjectMessagesViewHelper::show($message),
+            'message' => ProjectMessagesViewHelper::show($message, $loggedEmployee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

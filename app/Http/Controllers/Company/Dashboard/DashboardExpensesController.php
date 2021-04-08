@@ -31,9 +31,9 @@ class DashboardExpensesController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $awaitingAccountingExpenses = DashboardExpenseViewHelper::waitingForAccountingApproval($company);
-        $awaitingManagerExpenses = DashboardExpenseViewHelper::waitingForManagerApproval($company);
-        $acceptedOrRejected = DashboardExpenseViewHelper::acceptedAndRejected($company);
+        $awaitingAccountingExpenses = DashboardExpenseViewHelper::waitingForAccountingApproval($company, $employee);
+        $awaitingManagerExpenses = DashboardExpenseViewHelper::waitingForManagerApproval($company, $employee);
+        $acceptedOrRejected = DashboardExpenseViewHelper::acceptedAndRejected($company, $employee);
 
         return Inertia::render('Dashboard/Expenses/Index', [
             'employee' => DashboardViewHelper::information($employee, 'expenses'),
@@ -56,7 +56,7 @@ class DashboardExpensesController extends Controller
     public function show(Request $request, int $companyId, int $expenseId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         // can this expense been seen by someone in this company?
         try {
@@ -71,8 +71,8 @@ class DashboardExpensesController extends Controller
         }
 
         return Inertia::render('Dashboard/Expenses/Approve', [
-            'expense' => DashboardExpenseViewHelper::expense($expense),
-            'notifications' => NotificationHelper::getNotifications($employee),
+            'expense' => DashboardExpenseViewHelper::expense($expense, $loggedEmployee),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }
 
@@ -105,7 +105,7 @@ class DashboardExpensesController extends Controller
         }
 
         return Inertia::render('Dashboard/Expenses/Show', [
-            'expense' => DashboardExpenseViewHelper::expense($expense),
+            'expense' => DashboardExpenseViewHelper::expense($expense, $employee),
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }

@@ -47,7 +47,7 @@ class EmployeeOneOnOneController extends Controller
                 'id' => $employeeId,
                 'name' => $employee->name,
             ],
-            'oneOnOnes' => EmployeeOneOnOneViewHelper::list($oneOnOnes, $employee),
+            'oneOnOnes' => EmployeeOneOnOneViewHelper::list($oneOnOnes, $employee, $loggedEmployee),
             'statistics' => EmployeeOneOnOneViewHelper::stats($oneOnOnes),
             'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
@@ -81,7 +81,7 @@ class EmployeeOneOnOneController extends Controller
             return redirect('home');
         }
 
-        $details = EmployeeOneOnOneViewHelper::details($entry);
+        $details = EmployeeOneOnOneViewHelper::details($entry, $employee);
 
         return Inertia::render('Employee/Performance/OneOnOnes/Show', [
             'employee' => [

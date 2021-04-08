@@ -41,7 +41,7 @@ class ProjectFilesViewHelperTest extends TestCase
             $fileWithoutUploader->id,
         ]);
 
-        $collection = ProjectFilesViewHelper::index($project);
+        $collection = ProjectFilesViewHelper::index($project, $michael);
 
         $this->assertEquals(
             [

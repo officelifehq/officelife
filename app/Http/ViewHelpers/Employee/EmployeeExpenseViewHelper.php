@@ -47,7 +47,7 @@ class EmployeeExpenseViewHelper
         ];
     }
 
-    public static function list(Employee $employee, $expenses): Collection
+    public static function list(Employee $employee, $expenses, Employee $loggedEmployee): Collection
     {
         $company = $employee->company;
 
@@ -58,7 +58,7 @@ class EmployeeExpenseViewHelper
                 'title' => $expense->title,
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,

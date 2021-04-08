@@ -84,7 +84,7 @@ class ProjectMessagesViewHelperTest extends TestCase
             'author_id' => $michael->id,
         ]);
 
-        $array = ProjectMessagesViewHelper::show($projectMessage);
+        $array = ProjectMessagesViewHelper::show($projectMessage, $michael);
         $this->assertEquals(
             [
                 'id' => $projectMessage->id,

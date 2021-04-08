@@ -25,12 +25,13 @@ class CompanyNewsController extends Controller
     public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
 
-        $newsCollection = CompanyNewsViewHelper::index($company);
+        $newsCollection = CompanyNewsViewHelper::index($company, $employee);
 
         return Inertia::render('Company/News/Index', [
             'news' => $newsCollection,
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }
 
@@ -62,7 +63,7 @@ class CompanyNewsController extends Controller
         return Inertia::render('Company/Question/Show', [
             'teams' =>$teams,
             'question' => $answersCollection,
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'notifications' => NotificationHelper::getNotifications($employee),
             'paginator' => PaginatorHelper::getData($answers),
         ]);
     }

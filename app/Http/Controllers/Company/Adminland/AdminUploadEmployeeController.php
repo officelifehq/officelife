@@ -26,11 +26,13 @@ class AdminUploadEmployeeController extends Controller
      */
     public function index(): Response
     {
-        $company = InstanceHelper::getLoggedCompany();
-        $importJobs = AdminUploadEmployeeViewHelper::index($company);
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $importJobs = AdminUploadEmployeeViewHelper::index($loggedCompany, $loggedEmployee);
 
         return Inertia::render('Adminland/Employee/Archives/Index', [
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
             'importJobs' => $importJobs,
         ]);
     }
@@ -96,6 +98,7 @@ class AdminUploadEmployeeController extends Controller
     public function show(Request $request, int $companyId, int $jobId)
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         try {
             $job = ImportJob::where('company_id', $loggedCompany->id)
@@ -104,7 +107,7 @@ class AdminUploadEmployeeController extends Controller
             return redirect('home');
         }
 
-        $details = AdminUploadEmployeeViewHelper::show($job);
+        $details = AdminUploadEmployeeViewHelper::show($job, $loggedEmployee);
 
         return Inertia::render('Adminland/Employee/Archives/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
