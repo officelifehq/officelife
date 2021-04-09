@@ -37,7 +37,7 @@
 
 <script>
 import Help from '@/Shared/Help';
-import Uploadcare from 'uploadcare-vue';
+import Uploadcare from 'uploadcare-vue/src/Uploadcare.vue';
 
 export default {
   components: {

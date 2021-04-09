@@ -197,7 +197,6 @@
                             :label="$t('employee.edit_information_timezone_label')"
                             :placeholder="$t('app.choose_value')"
                             :required="true"
-                            :value="form.timezone"
                 />
               </div>
             </div>
@@ -398,7 +397,6 @@ export default {
   methods: {
     submit() {
       this.loadingState = 'loading';
-      this.form.timezone = this.form.timezone.value;
 
       axios.post(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/update`, this.form)
         .then(response => {
