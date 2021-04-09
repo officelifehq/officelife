@@ -206,11 +206,10 @@ class TeamShowViewHelper
      * - last month.
      *
      * @param Team $team
-     * @param Company $company
      * @param Employee $loggedEmployee
      * @return array
      */
-    public static function morale(Team $team, Company $company, Employee $loggedEmployee): array
+    public static function morale(Team $team, Employee $loggedEmployee): array
     {
         // yesterday
         $yesterday = Carbon::now($loggedEmployee->timezone)->yesterday();
@@ -237,9 +236,18 @@ class TeamShowViewHelper
             ->avg('average');
 
         return [
-            'yesterday' => round($moraleOfYesterday->average, 3),
-            'last_week' => round($moraleOfLastWeek, 3),
-            'last_month' => round($moraleOfLastMonth, 3),
+            'yesterday' => [
+                'average' => $moraleOfYesterday ? round($moraleOfYesterday->average, 3) : null,
+                'percent' => $moraleOfYesterday ? round($moraleOfYesterday->average * 100 / 3, 0) : null,
+            ],
+            'last_week' => [
+                'average' => $moraleOfLastWeek ? round($moraleOfLastWeek, 3) : null,
+                'percent' => $moraleOfLastWeek ? round($moraleOfLastWeek * 100 / 3, 0) : null,
+            ],
+            'last_month' => [
+                'average' => $moraleOfLastMonth ? round($moraleOfLastMonth, 3) : null,
+                'percent' => $moraleOfLastMonth ? round($moraleOfLastMonth * 100 / 3, 0) : null,
+            ],
         ];
     }
 }

@@ -280,13 +280,22 @@ class TeamShowViewHelperTest extends TestCase
             $lastMonthFirstDay->addDay();
         }
 
-        $array = TeamShowViewHelper::morale($sales, $sales->company, $michael);
+        $array = TeamShowViewHelper::morale($sales, $michael);
 
         $this->assertEquals(
             [
-                'yesterday' => 3.0,
-                'last_week' => 2.446,
-                'last_month' => 2.416,
+                'yesterday' => [
+                    'average' => 3.0,
+                    'percent' => 100,
+                ],
+                'last_week' => [
+                    'average' => 2.446,
+                    'percent' => 82,
+                ],
+                'last_month' => [
+                    'average' => 2.416,
+                    'percent' => 81,
+                ],
             ],
             $array
         );

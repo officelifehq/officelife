@@ -124,6 +124,9 @@
 
           <!-- birthdays -->
           <birthdays :birthdays="birthdays" />
+
+          <!-- morale -->
+          <morale :morale="morale" />
         </div>
       </div>
     </div>
@@ -139,6 +142,7 @@ import TeamLead from '@/Pages/Team/Partials/TeamLead';
 import TeamUsefulLink from '@/Pages/Team/Partials/TeamUsefulLink';
 import RecentShips from '@/Pages/Team/Partials/RecentShips';
 import Birthdays from '@/Pages/Team/Partials/Birthdays';
+import Morale from '@/Pages/Team/Partials/Morale';
 
 export default {
   components: {
@@ -149,6 +153,7 @@ export default {
     TeamUsefulLink,
     RecentShips,
     Birthdays,
+    Morale,
   },
 
   directives: {
@@ -197,6 +202,10 @@ export default {
       default: null,
     },
     recentShips: {
+      type: Array,
+      default: null,
+    },
+    morale: {
       type: Array,
       default: null,
     },
