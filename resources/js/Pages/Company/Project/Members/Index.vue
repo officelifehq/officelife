@@ -314,7 +314,7 @@ export default {
       this.form.role = null;
 
       this.$nextTick(() => {
-        this.$refs['newRole'].$refs['input'].focus();
+        this.$refs.newRole.focus();
       });
     },
 

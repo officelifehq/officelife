@@ -225,10 +225,6 @@ export default {
       this.form.title = task.title;
       this.form.assignee_id = task.assignee ? task.assignee.id : null;
 
-      // this is really barbaric, but I need to do this to
-      // first: target the TextInput with the right ref attribute
-      // second: target within the component, the refs of the input text
-      // this is because we try here to access $refs from a child component
       this.$nextTick(() => {
         this.$refs[`task${task.id}`].focus();
       });

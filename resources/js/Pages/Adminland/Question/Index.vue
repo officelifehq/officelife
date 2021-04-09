@@ -274,11 +274,7 @@ export default {
       this.form.active = question.active;
 
       this.$nextTick(() => {
-        // this is really barbaric, but I need to do this to
-        // first: target the TextInput with the right ref attribute
-        // second: target within the component, the refs of the input text
-        // this is because we try here to access $refs from a child component
-        this.$refs[`name${question.id}`][0].$refs[`name${question.id}`].focus();
+        this.$refs[`name${question.id}`].focus();
       });
     },
 
@@ -293,7 +289,7 @@ export default {
       this.form.errors = [];
 
       this.$nextTick(() => {
-        this.$refs['newQuestionModal'].$refs['input'].focus();
+        this.$refs.newQuestionModal.focus();
       });
     },
 

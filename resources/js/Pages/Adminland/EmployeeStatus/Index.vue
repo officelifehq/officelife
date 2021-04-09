@@ -255,7 +255,7 @@ export default {
       this.form.errors = null;
 
       this.$nextTick(() => {
-        this.$refs['newStatus'].$refs['input'].focus();
+        this.$refs.newStatus.focus();
       });
     },
 
@@ -264,11 +264,7 @@ export default {
       this.form.checked = status.type == 'internal' ? false : true;
 
       this.$nextTick(() => {
-        // this is really barbaric, but I need to do this to
-        // first: target the TextInput with the right ref attribute
-        // second: target within the component, the refs of the input text
-        // this is because we try here to access $refs from a child component
-        this.$refs[`name${status.id}`][0].$refs[`name${status.id}`].focus();
+        this.$refs[`name${status.id}`].focus();
       });
     },
 

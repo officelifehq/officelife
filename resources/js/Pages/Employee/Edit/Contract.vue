@@ -304,7 +304,7 @@ export default {
       this.addRateMode = true;
 
       this.$nextTick(() => {
-        this.$refs['newRate'].$refs['input'].focus();
+        this.$refs.newRate.focus();
       });
     },
 

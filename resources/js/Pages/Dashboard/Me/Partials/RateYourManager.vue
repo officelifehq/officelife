@@ -199,7 +199,7 @@ export default {
       this.commentMode = true;
 
       this.$nextTick(() => {
-        this.$refs[`editor-${answer.id}`][0].$refs['input'].focus();
+        this.$refs[`editor-${answer.id}`].focus();
       });
     },
 

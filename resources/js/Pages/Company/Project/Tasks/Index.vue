@@ -274,7 +274,7 @@ export default {
       this.form.description = null;
 
       this.$nextTick(() => {
-        this.$refs['newTaskList'].$refs['input'].focus();
+        this.$refs.newTaskList.focus();
       });
     },
 
@@ -285,7 +285,7 @@ export default {
       this.form.description = taskList.description;
 
       this.$nextTick(() => {
-        this.$refs[`editTaskList${taskList.id}`][0].$refs['input'].focus();
+        this.$refs[`editTaskList${taskList.id}`].focus();
       });
     },
 

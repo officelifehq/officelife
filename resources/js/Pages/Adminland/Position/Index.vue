@@ -193,7 +193,7 @@ export default {
       this.modal = true;
 
       this.$nextTick(() => {
-        this.$refs['newPositionModal'].$refs['input'].focus();
+        this.$refs.newPositionModal.focus();
       });
     },
 
@@ -201,11 +201,7 @@ export default {
       this.idToUpdate = position.id;
 
       this.$nextTick(() => {
-        // this is really barbaric, but I need to do this to
-        // first: target the TextInput with the right ref attribute
-        // second: target within the component, the refs of the input text
-        // this is because we try here to access $refs from a child component
-        this.$refs[`title${position.id}`][0].$refs[`title${position.id}`].focus();
+        this.$refs[`title${position.id}`].focus();
       });
     },
 

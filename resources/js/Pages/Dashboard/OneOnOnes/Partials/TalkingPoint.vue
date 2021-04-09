@@ -169,7 +169,7 @@ export default {
       this.form.description = null;
 
       this.$nextTick(() => {
-        this.$refs['newTalkingPoint'].$refs['input'].focus();
+        this.$refs.newTalkingPoint.focus();
       });
     },
 
@@ -177,12 +177,8 @@ export default {
       this.talkingPointToEdit = id;
       this.form.description = description;
 
-      // this is really barbaric, but I need to do this to
-      // first: target the TextInput with the right ref attribute
-      // second: target within the component, the refs of the input text
-      // this is because we try here to access $refs from a child component
       this.$nextTick(() => {
-        this.$refs[`talkingPoint${id}`][0].$refs['input'].focus();
+        this.$refs[`talkingPoint${id}`].focus();
       });
     },
 

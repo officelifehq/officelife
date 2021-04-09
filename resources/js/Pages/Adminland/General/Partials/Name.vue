@@ -107,7 +107,7 @@ export default {
       this.form.errors = null;
 
       this.$nextTick(() => {
-        this.$refs['renameField'].$refs['input'].focus();
+        this.$refs.renameField.focus();
       });
     },
 

@@ -169,15 +169,15 @@ export default {
 
   methods: {
     focus() {
-      this.$refs.input.focus();
+      this.$refs[this.customRef].focus();
     },
 
     select() {
-      this.$refs.input.select();
+      this.$refs[this.customRef].select();
     },
 
     setSelectionRange(start, end) {
-      this.$refs.input.setSelectionRange(start, end);
+      this.$refs[this.customRef].setSelectionRange(start, end);
     },
 
     sendEscKey() {

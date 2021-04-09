@@ -185,7 +185,7 @@ export default {
       this.searchTerm = null;
 
       this.$nextTick(() => {
-        this.$refs['search-skill-input'].$refs['input'].focus();
+        this.$refs.search-skill-input.focus();
       });
     },
 

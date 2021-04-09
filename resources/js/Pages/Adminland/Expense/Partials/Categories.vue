@@ -165,7 +165,7 @@ export default {
       this.form.name = '';
 
       this.$nextTick(() => {
-        this.$refs['newCategory'].$refs['input'].focus();
+        this.$refs.newCategory.focus();
       });
     },
 
@@ -173,11 +173,7 @@ export default {
       this.idToUpdate = category.id;
 
       this.$nextTick(() => {
-        // this is really barbaric, but I need to do this to
-        // first: target the TextInput with the right ref attribute
-        // second: target within the component, the refs of the input text
-        // this is because we try here to access $refs from a child component
-        this.$refs[`title${category.id}`][0].$refs[`title${category.id}`].focus();
+        this.$refs[`title${category.id}`].focus();
       });
     },
 

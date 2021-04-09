@@ -265,7 +265,7 @@ export default {
       this.addMode = true;
 
       this.$nextTick(() => {
-        this.$refs['expenseTitle'].$refs['input'].focus();
+        this.$refs.expenseTitle.focus();
       });
     },
 

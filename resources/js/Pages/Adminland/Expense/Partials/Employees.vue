@@ -148,7 +148,7 @@ export default {
       this.resetForm();
 
       this.$nextTick(() => {
-        this.$refs['employee-input'].$refs['input'].focus();
+        this.$refs.employee-input.focus();
       });
     },
 

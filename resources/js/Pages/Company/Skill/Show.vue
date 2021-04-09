@@ -210,7 +210,7 @@ export default {
       this.editMode = true;
 
       this.$nextTick(() => {
-        this.$refs['editModal'].$refs['input'].focus();
+        this.$refs.editModal.focus();
       });
     },
 

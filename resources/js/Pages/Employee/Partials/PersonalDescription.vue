@@ -118,7 +118,7 @@ export default {
       this.showEdit = true;
       this.form.description = this.updatedEmployee.raw_description;
       this.$nextTick(() => {
-        this.$refs['editModal'].$refs['input'].focus();
+        this.$refs.editModal.focus();
       });
     },
 

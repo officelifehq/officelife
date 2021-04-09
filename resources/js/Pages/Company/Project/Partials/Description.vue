@@ -104,7 +104,7 @@ export default {
       this.form.description = this.localProject.raw_description;
 
       this.$nextTick(() => {
-        this.$refs['editModal'].$refs['input'].focus();
+        this.$refs.editModal.focus();
       });
     },
 

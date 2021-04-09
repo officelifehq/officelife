@@ -412,7 +412,7 @@ export default {
       this.hideTimeTrackingEntries = false;
 
       this.$nextTick(() => {
-        this.$refs['newName'].$refs['input'].focus();
+        this.$refs.newName.focus();
       });
     },
 

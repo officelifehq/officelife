@@ -208,7 +208,7 @@ export default {
       this.addMode = true;
 
       this.$nextTick(() => {
-        this.$refs['editor'].$refs['input'].focus();
+        this.$refs.editor.focus();
       });
     },
 
@@ -218,7 +218,7 @@ export default {
       this.idToUpdate = answer.id;
 
       this.$nextTick(() => {
-        this.$refs[`name${answer.id}`][0].$refs['input'].focus();
+        this.$refs[`name${answer.id}`].focus();
       });
     },
 

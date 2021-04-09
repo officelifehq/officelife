@@ -327,7 +327,7 @@ export default {
       this.form.searchTerm = null;
 
       this.$nextTick(() => {
-        this.$refs['newDecision'].$refs['input'].focus();
+        this.$refs.newDecision.focus();
       });
     },
 
