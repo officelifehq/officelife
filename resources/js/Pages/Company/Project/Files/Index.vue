@@ -118,7 +118,7 @@ import Layout from '@/Shared/Layout';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import Help from '@/Shared/Help';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
-import Uploadcare from 'uploadcare-vue';
+import Uploadcare from 'uploadcare-vue/src/Uploadcare.vue';
 
 export default {
   components: {

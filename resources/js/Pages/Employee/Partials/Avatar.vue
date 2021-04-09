@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Uploadcare from '../../../../../node_modules/uploadcare-vue/src/Uploadcare.vue';
+import Uploadcare from 'uploadcare-vue/src/Uploadcare.vue';
 import TheAvatar from '@/Shared/Avatar';
 
 export default {
@@ -86,13 +86,13 @@ export default {
       this.form.mime_type = file.mimeType;
       this.form.size = file.size;
 
-      this.importCSV();
+      this.importAvatar();
     },
 
     onError() {
     },
 
-    importCSV() {
+    importAvatar() {
       this.loadingState = 'loading';
 
       axios.put(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/avatar/update`, this.form)
