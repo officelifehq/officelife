@@ -81,7 +81,7 @@
     <div v-if="editMode" class="br3 bg-white box z-1 pa3">
       <form @submit.prevent="search">
         <div class="relative">
-          <text-input :ref="'search-skill-input'"
+          <text-input :ref="'searchSkillInput'"
                       v-model="form.searchTerm"
                       :errors="$page.props.errors.lastname"
                       :label="$t('employee.skills_search_term')"
@@ -185,7 +185,7 @@ export default {
       this.searchTerm = null;
 
       this.$nextTick(() => {
-        this.$refs.search-skill-input.focus();
+        this.$refs.searchSkillInput.focus();
       });
     },
 

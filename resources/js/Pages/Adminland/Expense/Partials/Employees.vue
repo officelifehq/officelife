@@ -39,7 +39,7 @@
     <!-- search employees -->
     <div v-if="modal == true" class="bb bb-gray pt3">
       <form class="relative" @submit.prevent="search">
-        <text-input :ref="'employee-input'"
+        <text-input :ref="'employeeInput'"
                     v-model="form.searchTerm"
                     :datacy="'potential-employees'"
                     :errors="$page.props.errors.name"
@@ -148,7 +148,7 @@ export default {
       this.resetForm();
 
       this.$nextTick(() => {
-        this.$refs.employee-input.focus();
+        this.$refs.employeeInput.focus();
       });
     },
 
