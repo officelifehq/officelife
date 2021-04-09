@@ -109,19 +109,21 @@ $config = [
 // on fortrabbit: construct credentials from App secrets
 if (getenv('APP_SECRETS')) {
     $secrets = json_decode(file_get_contents(getenv('APP_SECRETS')), true);
-    $servers = [[
-        'host' => $secrets['MEMCACHE']['HOST1'],
-        'port' => $secrets['MEMCACHE']['PORT1'],
-        'weight' => 100,
-    ]];
-    if ($secrets['MEMCACHE']['COUNT'] > 1) {
-        $servers []= [
-            'host' => $secrets['MEMCACHE']['HOST2'],
-            'port' => $secrets['MEMCACHE']['PORT2'],
+    if (array_key_exists('MEMCACHE', $secrets)) {
+        $servers = [[
+            'host' => $secrets['MEMCACHE']['HOST1'],
+            'port' => $secrets['MEMCACHE']['PORT1'],
             'weight' => 100,
-        ];
+        ]];
+        if ($secrets['MEMCACHE']['COUNT'] > 1) {
+            $servers []= [
+                'host' => $secrets['MEMCACHE']['HOST2'],
+                'port' => $secrets['MEMCACHE']['PORT2'],
+                'weight' => 100,
+            ];
+        }
+        Arr::set($config, 'stores.memcached.servers', $servers);
     }
-    Arr::set($config, 'stores.memcached.servers', $servers);
 }
 
 if (extension_loaded('memcached')) {
