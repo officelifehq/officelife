@@ -152,8 +152,17 @@ export default {
     };
   },
 
+  watch: {
+    entry: {
+      handler(value) {
+        this.localActionItems = value.action_items;
+      },
+      deep: true
+    }
+  },
+
   created() {
-    this.localActionItems= this.entry.action_items;
+    this.localActionItems = this.entry.action_items;
   },
 
   methods: {
@@ -206,8 +215,7 @@ export default {
           this.loadingState = null;
           this.form.description = null;
 
-          var id = this.localActionItems.findIndex(x => x.id === itemId);
-          this.$set(this.localActionItems, id, response.data.data);
+          this.localActionItems[this.localActionItems.findIndex(x => x.id === itemId)] = response.data.data;
         })
         .catch(error => {
           this.loadingState = null;

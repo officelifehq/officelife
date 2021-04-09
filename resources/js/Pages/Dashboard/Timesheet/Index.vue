@@ -137,7 +137,7 @@
                         :label="$t('dashboard.timesheet_create_choose_project')"
                         :data-cy="'project-selector'"
                         :required="true"
-                        @update:modelValue="showTasks"
+                        @update:model-value="showTasks"
             />
 
             <select-box
@@ -150,7 +150,7 @@
               :label="$t('dashboard.timesheet_create_choose_task')"
               :required="true"
               :data-cy="'task-selector'"
-              @update:modelValue="showTasks"
+              @update:model-value="showTasks"
             />
           </span>
 

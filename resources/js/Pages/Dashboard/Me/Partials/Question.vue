@@ -185,6 +185,15 @@ export default {
     };
   },
 
+  watch: {
+    question: {
+      handler(value) {
+        this.answers = value.answers;
+      },
+      deep: true
+    }
+  },
+
   created: function() {
     if (this.question) {
       this.localQuestion = this.question;
@@ -255,8 +264,7 @@ export default {
           this.loadingState = null;
           this.flash(this.$t('dashboard.question_answer_updated'), 'success');
 
-          var id = this.answers.findIndex(x => x.id === answer.id);
-          this.$set(this.answers, id, response.data.data);
+          this.answers[this.answers.findIndex(x => x.id === answer.id)] = response.data.data;
 
           this.idToUpdate = 0;
           this.editMode = false;

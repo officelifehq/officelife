@@ -226,6 +226,15 @@ export default {
     };
   },
 
+  watch: {
+    statuses: {
+      handler(value) {
+        this.localStatuses = value;
+      },
+      deep: true
+    }
+  },
+
   mounted() {
     this.localStatuses = this.statuses;
   },
@@ -291,8 +300,7 @@ export default {
           this.form.name = null;
           this.form.type = 'internal';
 
-          var changedId = this.localStatuses.findIndex(x => x.id === id);
-          this.$set(this.localStatuses, changedId, response.data.data);
+          this.localStatuses[this.localStatuses.findIndex(x => x.id === id)] = response.data.data;
         })
         .catch(error => {
           this.form.errors = error.response.data;

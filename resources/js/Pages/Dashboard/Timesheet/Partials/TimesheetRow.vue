@@ -55,7 +55,7 @@
         :hours="localRow.days[n-1].hours"
         :minutes="localRow.days[n-1].minutes"
         :datacy="'timesheet-' + timesheet.id + '-day-0'"
-        @update:modelValue="updateDayInformation($event, n-1)"
+        @update:model-value="updateDayInformation($event, n-1)"
       />
       <span v-else>
         {{ formatTime(localRow.days[n-1].total_of_minutes) }}

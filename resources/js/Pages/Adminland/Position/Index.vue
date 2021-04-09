@@ -175,6 +175,15 @@ export default {
     };
   },
 
+  watch: {
+    positions: {
+      handler(value) {
+        this.localPositions = value;
+      },
+      deep: true
+    }
+  },
+
   mounted() {
     this.localPositions = this.positions;
   },
@@ -226,8 +235,7 @@ export default {
           this.idToUpdate = 0;
           this.form.title = null;
 
-          id = this.localPositions.findIndex(x => x.id === id);
-          this.$set(this.localPositions, id, response.data.data);
+          this.localPositions[this.localPositions.findIndex(x => x.id === id)] = response.data.data;
         })
         .catch(error => {
           this.form.errors = error.response.data;

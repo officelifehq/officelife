@@ -243,6 +243,15 @@ export default {
     };
   },
 
+  watch: {
+    teams: {
+      handler(value) {
+        this.localTeams = value;
+      },
+      deep: true
+    }
+  },
+
   mounted() {
     this.localTeams = this.teams;
   },
@@ -304,8 +313,7 @@ export default {
           this.teamToRename = 0;
           this.form.name = null;
 
-          var id = this.localTeams.findIndex(x => x.id === team.id);
-          this.$set(this.localTeams, id, response.data.data);
+          this.localTeams[this.localTeams.findIndex(x => x.id === team.id)] = response.data.data;
         })
         .catch(error => {
           this.form.errors = error.response.data;

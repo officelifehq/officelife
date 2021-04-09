@@ -147,8 +147,17 @@ export default {
     };
   },
 
+  watch: {
+    entry: {
+      handler(value) {
+        this.localNotes = value.notes;
+      },
+      deep: true
+    }
+  },
+
   created() {
-    this.localNotes= this.entry.notes;
+    this.localNotes = this.entry.notes;
   },
 
   methods: {
@@ -211,8 +220,7 @@ export default {
           this.loadingState = null;
           this.form.description = null;
 
-          var id = this.localNotes.findIndex(x => x.id === itemId);
-          this.$set(this.localNotes, id, response.data.data);
+          this.localNotes[this.localNotes.findIndex(x => x.id === itemId)] = response.data.data;
         })
         .catch(error => {
           this.loadingState = null;

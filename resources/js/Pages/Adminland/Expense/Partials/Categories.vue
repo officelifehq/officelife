@@ -207,8 +207,7 @@ export default {
           this.idToUpdate = 0;
           this.form.name = null;
 
-          id = this.localCategories.findIndex(x => x.id === id);
-          this.$set(this.localCategories, id, response.data.data);
+          this.localCategories[this.localCategories.findIndex(x => x.id === id)] = response.data.data;
         })
         .catch(error => {
           this.form.errors = error.response.data;

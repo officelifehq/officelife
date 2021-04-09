@@ -55,7 +55,7 @@
           :required="true"
           :url="task.url"
           :duration="task.duration"
-          @update:modelValue="toggle(task.id)"
+          @update:model-value="toggle(task.id)"
           @edit="showEditTask(task)"
           @destroy="destroy(task.id)"
         />
@@ -188,9 +188,18 @@ export default {
     };
   },
 
+  watch: {
+    tasks: {
+      handler(value) {
+        this.localTasks = value;
+      },
+      deep: true
+    }
+  },
+
   mounted() {
     if (this.tasks) {
-      this.localTasks= this.tasks;
+      this.localTasks = this.tasks;
     }
 
     if (this.taskList) {
@@ -270,8 +279,7 @@ export default {
           this.loadingState = null;
           this.form.title = null;
 
-          var id = this.localTasks.findIndex(x => x.id === task.id);
-          this.$set(this.localTasks, id, response.data.data);
+          this.localTasks[this.localTasks.findIndex(x => x.id === task.id)] = response.data.data;
         })
         .catch(error => {
           this.loadingState = null;

@@ -238,6 +238,20 @@ export default {
     }
   },
 
+  watch: {
+    tasks: {
+      handler(value) {
+        if (value.tasks_without_lists) {
+          this.localTasks =  value.tasks_without_lists;
+        }
+        if (value.task_lists) {
+          this.localTaskLists =  value.task_lists;
+        }
+      },
+      deep: true
+    }
+  },
+
   mounted() {
     if (this.tasks.tasks_without_lists) {
       this.localTasks =  this.tasks.tasks_without_lists;
@@ -301,8 +315,7 @@ export default {
           this.loadingState = null;
           this.editListMode = false;
 
-          var id = this.localTaskLists.findIndex(x => x.id === taskList.id);
-          this.$set(this.localTaskLists, id, response.data.data);
+          this.localTaskLists[this.localTaskLists.findIndex(x => x.id === taskList.id)] = response.data.data;
 
           this.form.title = null;
           this.form.description = null;

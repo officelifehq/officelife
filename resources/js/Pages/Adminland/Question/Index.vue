@@ -252,6 +252,15 @@ export default {
     };
   },
 
+  watch: {
+    questions: {
+      handler(value) {
+        this.localQuestions = value;
+      },
+      deep: true
+    }
+  },
+
   mounted() {
     this.localQuestions = this.questions;
   },
@@ -318,8 +327,7 @@ export default {
           this.form.active = false;
           this.loadingState = null;
 
-          var id = this.localQuestions.findIndex(x => x.id === question.id);
-          this.$set(this.localQuestions, id, response.data.data);
+          this.localQuestions[this.localQuestions.findIndex(x => x.id === question.id)] = response.data.data;
         })
         .catch(error => {
           this.loadingState = null;

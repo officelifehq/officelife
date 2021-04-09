@@ -150,8 +150,17 @@ export default {
     };
   },
 
+  watch: {
+    entry: {
+      handler(value) {
+        this.localTalkingPoints = value.talking_points;
+      },
+      deep: true
+    }
+  },
+
   created() {
-    this.localTalkingPoints= this.entry.talking_points;
+    this.localTalkingPoints = this.entry.talking_points;
   },
 
   methods: {
@@ -204,8 +213,7 @@ export default {
           this.loadingState = null;
           this.form.description = null;
 
-          var id = this.localTalkingPoints.findIndex(x => x.id === itemId);
-          this.$set(this.localTalkingPoints, id, response.data.data);
+          this.localTalkingPoints[this.localTalkingPoints.findIndex(x => x.id === itemId)] = response.data.data;
         })
         .catch(error => {
           this.loadingState = null;
