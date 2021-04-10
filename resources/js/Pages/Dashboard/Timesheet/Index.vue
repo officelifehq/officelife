@@ -129,7 +129,8 @@
           </div>
 
           <span v-else class="bb b--dotted bt-0 bl-0 br-0 pointer">
-            <select-box v-model="form.project"
+            <select-box :ref="'projects'"
+                        v-model="form.project"
                         :options="projects"
                         :name="'project_id'"
                         :errors="$page.props.errors.project_id"
@@ -141,6 +142,7 @@
             />
 
             <select-box v-if="displayTasks"
+                        :ref="'tasks'"
                         v-model="form.task"
                         :options="tasks"
                         :name="'task_id'"
@@ -362,15 +364,12 @@ export default {
     },
 
     addBlankTimesheetRow() {
-      let project = this.projects[this.projects.findIndex(p => p.value === this.form.project)];
-      let task = this.tasks[this.tasks.findIndex(t => t.value === this.form.task)];
-
       this.timesheetRows.push({
         project_id: this.form.project,
-        project_name: project.label,
-        project_code: project.code,
+        project_name: this.$refs.projects.proxyValue.label,
+        project_code: this.$refs.projects.proxyValue.code,
         task_id: this.form.task,
-        task_title: task.label,
+        task_title: this.$refs.tasks.proxyValue.label,
         total_this_week: 0,
         days: [
           {
