@@ -69,7 +69,7 @@ class EmployeeExpenseViewHelperTest extends TestCase
             'created_at' => '2019-01-01 01:00:00',
         ]);
 
-        $collection = EmployeeExpenseViewHelper::list($michael, $michael->expenses);
+        $collection = EmployeeExpenseViewHelper::list($michael, $michael->expenses, $michael);
 
         $this->assertEquals(
             [

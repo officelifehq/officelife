@@ -69,7 +69,7 @@ class ProjectViewHelperTest extends TestCase
             'project_id' => $project->id,
         ]);
 
-        $array = ProjectViewHelper::summary($project, $michael->company);
+        $array = ProjectViewHelper::summary($project, $michael->company, $michael);
 
         $this->assertEquals(
             $project->id,

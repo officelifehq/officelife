@@ -5,6 +5,7 @@ namespace App\Helpers;
 use Carbon\Carbon;
 use App\Models\Company\Morale;
 use App\Models\Company\Worklog;
+use App\Models\Company\Employee;
 
 class WorklogHelper
 {
@@ -15,13 +16,13 @@ class WorklogHelper
      * @param Carbon $date
      * @param Worklog|null $worklog
      * @param Morale|null $morale
-     *
+     * @param Employee $loggedEmployee
      * @return array
      */
-    public static function getDailyInformationForEmployee(Carbon $date, Worklog $worklog = null, Morale $morale = null): array
+    public static function getDailyInformationForEmployee(Carbon $date, Worklog $worklog = null, Morale $morale = null, Employee $loggedEmployee): array
     {
         return [
-            'date' => DateHelper::formatShortDateWithTime($date),
+            'date' => DateHelper::formatShortDateWithTime($date, $loggedEmployee->timezone),
             'friendly_date' => DateHelper::formatDayAndMonthInParenthesis($date),
             'status' => DateHelper::determineDateStatus($date),
             'worklog_parsed_content' => is_null($worklog) ? null : StringHelper::parse($worklog->content),

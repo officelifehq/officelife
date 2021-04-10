@@ -49,7 +49,7 @@ class DashboardMeExpenseController extends Controller
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
                 'category' => ($expense->category) ? $expense->category->name : null,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $employee->timezone),
                 'url' => route('employee.administration.expenses.show', [
                     'company' => $employee->company,
                     'employee' => $employee,

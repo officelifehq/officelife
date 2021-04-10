@@ -97,22 +97,14 @@ class TeamShowViewHelperTest extends TestCase
                             'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                         ],
                     ],
-                    'url' => route('ships.show', [
-                        'company' => $featureA->team->company,
-                        'team' => $featureA->team,
-                        'ship' => $featureA->id,
-                    ]),
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/teams/'.$team->id.'/ships/'.$featureA->id,
                 ],
                 1 => [
                     'id' => $featureB->id,
                     'title' => $featureB->title,
                     'description' => $featureB->description,
                     'employees' => null,
-                    'url' => route('ships.show', [
-                        'company' => $featureB->team->company,
-                        'team' => $featureB->team,
-                        'ship' => $featureB->id,
-                    ]),
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/teams/'.$team->id.'/ships/'.$featureB->id,
                 ],
             ],
             $collection->toArray()

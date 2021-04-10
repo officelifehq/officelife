@@ -39,23 +39,20 @@
       />
 
       <work-from-home
-        :employee="employee"
-        class="mb5"
+        :work-from-home="workFromHome"
       />
 
       <worklogs
-        :worklog-count="worklogCount"
-        :employee="employee"
-        class="mb5"
+        :worklogs="worklogs"
       />
 
       <morale
-        :morale-count="moraleCount"
-        :employee="employee"
+        :morale="morale"
       />
 
       <question
         :employee="employee"
+        :question="question"
       />
 
       <task
@@ -111,14 +108,6 @@ export default {
       type: Object,
       default: null,
     },
-    worklogCount: {
-      type: Number,
-      default: 0,
-    },
-    moraleCount: {
-      type: Number,
-      default: 0,
-    },
     notifications: {
       type: Array,
       default: null,
@@ -129,6 +118,10 @@ export default {
     },
     tasks: {
       type: Array,
+      default: null,
+    },
+    morale: {
+      type: Object,
       default: null,
     },
     categories: {
@@ -164,6 +157,18 @@ export default {
       default: null,
     },
     projects: {
+      type: Array,
+      default: null,
+    },
+    worklogs: {
+      type: Object,
+      default: null,
+    },
+    workFromHome: {
+      type: Object,
+      default: null,
+    },
+    question: {
       type: Object,
       default: null,
     },

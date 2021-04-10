@@ -13,6 +13,7 @@ use App\Models\Company\Expense;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use App\Helpers\WorkFromHomeHelper;
 use Money\Currencies\ISOCurrencies;
 use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\OneOnOneEntry;
@@ -115,7 +116,7 @@ class DashboardMeViewHelper
     }
 
     /**
-     * Get all the currencies used in the instance.
+     * Get all the currencies used in this OfficeLife instance.
      *
      * @return Collection|null
      */
@@ -158,7 +159,7 @@ class DashboardMeViewHelper
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
                 'category' => ($expense->category) ? $expense->category->name : null,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $employee->timezone),
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
@@ -286,14 +287,14 @@ class DashboardMeViewHelper
 
         if ($employee->contract_renewed_at->isBefore($now)) {
             return [
-                'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
+                'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at, $employee->timezone),
                 'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
                 'late' => true,
             ];
         }
 
         return [
-            'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
+            'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at, $employee->timezone),
             'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
             'late' => false,
         ];
@@ -418,5 +419,63 @@ class DashboardMeViewHelper
         }
 
         return $projectsCollection;
+    }
+
+    /**
+     * Get the company currency.
+     *
+     * @param Company $company
+     * @return array|null
+     */
+    public static function companyCurrency(Company $company): ?array
+    {
+        return [
+            'id' => $company->currency,
+            'code' => $company->currency,
+        ];
+    }
+
+    /**
+     * Get the information about worklogs.
+     *
+     * @param Employee $employee
+     * @return array|null
+     */
+    public static function worklogs(Employee $employee): ?array
+    {
+        return [
+            'has_already_logged_a_worklog_today' => $employee->hasAlreadyLoggedWorklogToday(),
+            'has_worklog_history' => $employee->worklogs()->count() > 0 ? true : false,
+            'url_all' => route('employee.work.worklogs', [
+                'company' => $employee->company_id,
+                'employee' => $employee,
+            ]),
+        ];
+    }
+
+    /**
+     * Get the information about the morale.
+     *
+     * @param Employee $employee
+     * @return array|null
+     */
+    public static function morale(Employee $employee): ?array
+    {
+        return [
+            'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
+        ];
+    }
+
+    /**
+     * Get the information about working from home.
+     *
+     * @param Employee $employee
+     * @return array|null
+     */
+    public static function workFromHome(Employee $employee): ?array
+    {
+        return [
+            'has_worked_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
+        ];
     }
 }

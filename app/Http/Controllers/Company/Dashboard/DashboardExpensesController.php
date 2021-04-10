@@ -10,6 +10,7 @@ use App\Models\Company\Company;
 use App\Models\Company\Expense;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Dashboard\DashboardExpenseViewHelper;
 use App\Services\Company\Employee\Expense\AcceptExpenseAsAccountant;
@@ -30,20 +31,12 @@ class DashboardExpensesController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $awaitingAccountingExpenses = DashboardExpenseViewHelper::waitingForAccountingApproval($company);
-        $awaitingManagerExpenses = DashboardExpenseViewHelper::waitingForManagerApproval($company);
-        $acceptedOrRejected = DashboardExpenseViewHelper::acceptedAndRejected($company);
-
-        $employeeInformation = [
-            'id' => $employee->id,
-            'dashboard_view' => 'expenses',
-            'is_manager' => $employee->directReports->count() > 0,
-            'can_manage_expenses' => $employee->can_manage_expenses,
-            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
-        ];
+        $awaitingAccountingExpenses = DashboardExpenseViewHelper::waitingForAccountingApproval($company, $employee);
+        $awaitingManagerExpenses = DashboardExpenseViewHelper::waitingForManagerApproval($company, $employee);
+        $acceptedOrRejected = DashboardExpenseViewHelper::acceptedAndRejected($company, $employee);
 
         return Inertia::render('Dashboard/Expenses/Index', [
-            'employee' => $employeeInformation,
+            'employee' => DashboardViewHelper::information($employee, 'expenses'),
             'awaitingAccountingExpenses' => $awaitingAccountingExpenses,
             'awaitingManagerExpenses' => $awaitingManagerExpenses,
             'acceptedOrRejected' => $acceptedOrRejected,
@@ -63,7 +56,7 @@ class DashboardExpensesController extends Controller
     public function show(Request $request, int $companyId, int $expenseId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         // can this expense been seen by someone in this company?
         try {
@@ -78,8 +71,8 @@ class DashboardExpensesController extends Controller
         }
 
         return Inertia::render('Dashboard/Expenses/Approve', [
-            'expense' => DashboardExpenseViewHelper::expense($expense),
-            'notifications' => NotificationHelper::getNotifications($employee),
+            'expense' => DashboardExpenseViewHelper::expense($expense, $loggedEmployee),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }
 
@@ -112,7 +105,7 @@ class DashboardExpensesController extends Controller
         }
 
         return Inertia::render('Dashboard/Expenses/Show', [
-            'expense' => DashboardExpenseViewHelper::expense($expense),
+            'expense' => DashboardExpenseViewHelper::expense($expense, $employee),
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }

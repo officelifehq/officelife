@@ -45,7 +45,7 @@ class EmployeeExpenseController extends Controller
                 'id' => $employeeId,
                 'name' => $employee->name,
             ],
-            'expenses' => EmployeeExpenseViewHelper::list($employee, $expenses),
+            'expenses' => EmployeeExpenseViewHelper::list($employee, $expenses, $loggedEmployee),
             'statistics' => EmployeeExpenseViewHelper::stats($employee, $expenses),
             'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
@@ -76,7 +76,7 @@ class EmployeeExpenseController extends Controller
             'employee' => [
                 'id' => $employeeId,
             ],
-            'expense' => DashboardExpenseViewHelper::expense($expense),
+            'expense' => DashboardExpenseViewHelper::expense($expense, $loggedEmployee),
             'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }

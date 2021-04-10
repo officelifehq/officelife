@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\TimezoneHelper;
 use App\Models\Company\Country;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Place\CreatePlace;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\ViewHelpers\Employee\EmployeeEditViewHelper;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
@@ -59,27 +61,8 @@ class EmployeeEditController extends Controller
         }
 
         return Inertia::render('Employee/Edit', [
-            'employee' => [
-                'id' => $employee->id,
-                'first_name' => $employee->first_name,
-                'last_name' => $employee->last_name,
-                'name' => $employee->name,
-                'email' => $employee->email,
-                'phone' => $employee->phone_number,
-                'birthdate' => (! $employee->birthdate) ? null : [
-                    'year' => $employee->birthdate->year,
-                    'month' => $employee->birthdate->month,
-                    'day' => $employee->birthdate->day,
-                ],
-                'hired_at' => (! $employee->hired_at) ? null : [
-                    'year' => $employee->hired_at->year,
-                    'month' => $employee->hired_at->month,
-                    'day' => $employee->hired_at->day,
-                ],
-                'twitter_handle' => $employee->twitter_handle,
-                'slack_handle' => $employee->slack_handle,
-                'max_year' => Carbon::now()->year,
-            ],
+            'employee' => EmployeeEditViewHelper::show($employee),
+            'timezones' => TimezoneHelper::getListOfTimezones(),
             'permissions' => EmployeeShowViewHelper::permissions($loggedEmployee, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
@@ -105,6 +88,7 @@ class EmployeeEditController extends Controller
             'last_name' => $request->input('last_name'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
+            'timezone' => $request->input('timezone'),
         ];
 
         (new SetPersonalDetails)->execute($data);

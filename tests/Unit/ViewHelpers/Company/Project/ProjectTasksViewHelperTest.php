@@ -198,7 +198,7 @@ class ProjectTasksViewHelperTest extends TestCase
             'assignee_id' => $michael->id,
         ]);
 
-        $array = ProjectTasksViewHelper::getTaskFullDetails($projectTaskA, $michael->company);
+        $array = ProjectTasksViewHelper::getTaskFullDetails($projectTaskA, $michael->company, $michael);
 
         $this->assertEquals(
             [
@@ -286,7 +286,7 @@ class ProjectTasksViewHelperTest extends TestCase
             'duration' => 100,
         ]);
 
-        $array = ProjectTasksViewHelper::taskDetails($projectTask, $michael->company);
+        $array = ProjectTasksViewHelper::taskDetails($projectTask, $michael->company, $michael);
 
         $this->assertEquals(
             [
@@ -354,7 +354,7 @@ class ProjectTasksViewHelperTest extends TestCase
             'duration' => 100,
         ]);
 
-        $collection = ProjectTasksViewHelper::timeTrackingEntries($projectTask, $michael->company);
+        $collection = ProjectTasksViewHelper::timeTrackingEntries($projectTask, $michael->company, $michael);
 
         $this->assertEquals(
             [

@@ -52,6 +52,10 @@ return [
     'employee_unlock_description' => 'Are you sure you want to unlock {name}’s account? Unlocking an account is immediate.',
     'employee_unlock_success' => 'The employee has been unlocked with success.',
 
+    'employee_permission_safest' => 'safest choice',
+    'employee_permission_title' => 'Change permissions of {name}',
+    'employee_permission_success' => 'The employee has been updated.',
+
     'employee_new_basic_information' => 'Basic information',
     'employee_new_title' => 'Add an employee to {name}',
     'employee_new_firstname' => 'First name',
@@ -61,7 +65,7 @@ return [
     'employee_new_administrator' => 'Administrator',
     'employee_new_hr' => 'Human Resource Representative',
     'employee_new_user' => 'Employee',
-    'employee_new_administrator_desc' => 'Can do everything, including account management.',
+    'employee_new_administrator_desc' => 'Can do everything, including account management. Caution: the employee will have access to everything, including all private data of other employees.',
     'employee_new_hr_desc' => 'Have access to most features, including reading and writing private information, but can\'t manage the account itself.',
     'employee_new_user_desc' => 'Can see all teams and employees, but can not manage the account or read private information.',
     'employee_new_send_email' => 'Send an email to this person with a link to setup the account.',

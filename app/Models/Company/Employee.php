@@ -40,6 +40,7 @@ class Employee extends Model
         'email',
         'first_name',
         'last_name',
+        'timezone',
         'birthdate',
         'hired_at',
         'description',

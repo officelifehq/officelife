@@ -69,7 +69,7 @@ class ProjectController extends Controller
 
         return Inertia::render('Company/Project/Show', [
             'project' => ProjectViewHelper::info($project),
-            'projectDetails' => ProjectViewHelper::summary($project, $company),
+            'projectDetails' => ProjectViewHelper::summary($project, $company, $employee),
             'permissions' => ProjectViewHelper::permissions($project, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
@@ -536,7 +536,7 @@ class ProjectController extends Controller
         }
 
         return Inertia::render('Company/Project/CreateStatus', [
-            'project' => ProjectViewHelper::summary($project, $company),
+            'project' => ProjectViewHelper::summary($project, $company, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

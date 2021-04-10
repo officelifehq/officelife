@@ -31,7 +31,7 @@ class CompanyNewsViewHelperTest extends TestCase
             'author_name' => 'John Legend',
         ]);
 
-        $collection = CompanyNewsViewHelper::index($michael->company);
+        $collection = CompanyNewsViewHelper::index($michael->company, $michael);
 
         $this->assertEquals(
             [

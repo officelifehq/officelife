@@ -32,6 +32,7 @@ class ProjectDecisionsController extends Controller
     public function index(Request $request, int $companyId, int $projectId)
     {
         $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
 
         try {
             $project = Project::where('company_id', $company->id)
@@ -45,7 +46,7 @@ class ProjectDecisionsController extends Controller
         return Inertia::render('Company/Project/Decisions/Index', [
             'tab' => 'decisions',
             'project' => ProjectViewHelper::info($project),
-            'decisions' => ProjectDecisionsViewHelper::decisions($project),
+            'decisions' => ProjectDecisionsViewHelper::decisions($project, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -146,7 +147,7 @@ class ProjectDecisionsController extends Controller
             'data' => [
                 'id' => $projectDecision->id,
                 'title' => $projectDecision->title,
-                'decided_at' => DateHelper::formatDate($projectDecision->decided_at),
+                'decided_at' => DateHelper::formatDate($projectDecision->decided_at, $loggedEmployee->timezone),
                 'deciders' => $decidersCollection,
             ],
         ], 201);

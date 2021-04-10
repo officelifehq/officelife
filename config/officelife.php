@@ -171,6 +171,7 @@ return [
         'account_hardware_create' => 'introduction.html',
         'account_employee_delete' => 'manage/employee-management.html#deleting-an-employee',
         'account_employee_lock' => 'manage/employee-management.html#locking-an-employee',
+        'account_employee_permission' => 'manage/employee-management.html#changing-employee-role-permission',
         'team_recent_ship' => 'introduction.html',
         'team_recent_ship_create' => 'introduction.html',
         'account_general_company_name' => 'introduction.html',

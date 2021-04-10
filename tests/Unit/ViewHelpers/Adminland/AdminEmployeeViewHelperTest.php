@@ -40,7 +40,6 @@ class AdminEmployeeViewHelperTest extends TestCase
                 'url_active' => env('APP_URL').'/'.$michael->company_id.'/account/employees/active',
                 'url_locked' => env('APP_URL').'/'.$michael->company_id.'/account/employees/locked',
                 'url_no_hiring_date' => env('APP_URL').'/'.$michael->company_id.'/account/employees/noHiringDate',
-                'url_permission' => env('APP_URL').'/'.$michael->company_id.'/account/employees/permission',
                 'url_new' => env('APP_URL').'/'.$michael->company_id.'/account/employees/create',
                 'url_upload' => env('APP_URL').'/'.$michael->company_id.'/account/employees/upload',
                 'url_upload_archive' => env('APP_URL').'/'.$michael->company_id.'/account/employees/upload/archives',
@@ -79,6 +78,10 @@ class AdminEmployeeViewHelperTest extends TestCase
                         'employee' => $michael,
                     ]),
                     'url_unlock' => route('account.unlock', [
+                        'company' => $michael->company,
+                        'employee' => $michael,
+                    ]),
+                    'url_permission' => route('account.employees.permission', [
                         'company' => $michael->company,
                         'employee' => $michael,
                     ]),
