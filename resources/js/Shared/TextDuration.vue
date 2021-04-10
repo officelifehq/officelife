@@ -38,14 +38,14 @@ input[type=number] {
       </span>
 
       <!-- hours -->
-      <the-mask :value="proxyHours"
+      <the-mask :value="localHours"
                 mask="##"
                 class="br2 f5 pt2 pb0 ph1 outline-0 di tc bg-white"
                 type="text"
                 :masked="false"
                 placeholder="00"
                 :data-cy="datacy + '-hours'"
-                @input="proxyHours = $event.target.value"
+                @input="updateHours"
       />
 
       <!-- separator -->
@@ -58,14 +58,14 @@ input[type=number] {
         min.
       </span>
 
-      <the-mask :value="proxyMinutes"
+      <the-mask :value="localMinutes"
                 mask="##"
                 class="br2 f5 pt2 pb0 ph1 outline-0 di tc bg-white"
                 type="text"
                 :masked="false"
                 placeholder="00"
                 :data-cy="datacy + '-minutes'"
-                @input="proxyMinutes = $event.target.value"
+                @input="updateMinutes"
       />
     </div>
   </div>
@@ -79,7 +79,6 @@ export default {
   components: {
     TheMask
   },
-  //  inheritAttrs: false,
 
   model: {
     prop: 'modelValue',
@@ -125,28 +124,17 @@ export default {
   },
 
   computed: {
-    proxyHours: {
-      get() {
-        return this.localHours;
-      },
-      set(value) {
-        this.localHours = parseInt(value);
-        this.$emit('update:hours', this.localHours);
-        this.updateModelValue();
-      },
-    },
-    proxyMinutes: {
-      get() {
-        return this.localMinutes;
-      },
-      set(value) {
-        this.localMinutes = parseInt(value);
-        this.$emit('update:minutes', this.localMinutes);
-        this.updateModelValue();
-      },
-    },
     realId() {
       return this.id + this._.uid;
+    },
+  },
+
+  watch: {
+    hours(value) {
+      this.localHours = value;
+    },
+    minutes(value) {
+      this.localMinutes = value;
     },
   },
 
@@ -158,13 +146,29 @@ export default {
   },
 
   methods: {
+    updateHours(e) {
+      if (e.isTrusted) {
+        let value = parseInt(e.target.value);
+        this.localHours = value === undefined || isNaN(value) ? '0' : e.target.value;
+        this.$emit('update:hours', value);
+        this.updateModelValue();
+      }
+    },
+    updateMinutes(e) {
+      if (e.isTrusted) {
+        let value = parseInt(e.target.value);
+        this.localMinutes = value === undefined || isNaN(value) ? '0' : e.target.value;
+        this.$emit('update:minutes', value);
+        this.updateModelValue();
+      }
+    },
     updateModelValue() {
       let value = 0;
-      if (this.proxyHours !== undefined) {
-        value += this.proxyHours * 60;
+      if (this.localHours !== undefined) {
+        value += parseInt(this.localHours) * 60;
       }
-      if (this.proxyMinutes !== undefined) {
-        value += this.proxyMinutes;
+      if (this.localMinutes !== undefined) {
+        value += parseInt(this.localMinutes);
       }
       this.$emit('update:modelValue', value);
     }

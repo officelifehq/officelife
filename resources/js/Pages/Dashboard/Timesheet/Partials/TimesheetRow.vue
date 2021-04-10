@@ -47,15 +47,14 @@
     </div>
 
     <div v-for="n in 7" :key="n" class="ph2 pv2 dtc bl bb bb-gray v-mid tc"
-         :class="[isEmpty(localRow.days[n-1].total_of_minutes), n === 6 || n === 7 ? 'off-days' : '']"
+         :class="{ 'blank': isEmpty(localRow.days[n-1].total_of_minutes), 'off-days': n === 6 || n === 7 }"
     >
-      <text-duration
-        v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
-        v-model="localRow.days[n-1].total_of_minutes"
-        :hours="localRow.days[n-1].hours"
-        :minutes="localRow.days[n-1].minutes"
-        :datacy="'timesheet-' + timesheet.id + '-day-0'"
-        @update:model-value="updateDayInformation($event, n-1)"
+      <text-duration v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
+                     v-model="localRow.days[n-1].total_of_minutes"
+                     :hours="localRow.days[n-1].hours"
+                     :minutes="localRow.days[n-1].minutes"
+                     :datacy="'timesheet-' + timesheet.id + '-day-0'"
+                     @update:model-value="updateDayInformation($event, n-1)"
       />
       <span v-else>
         {{ formatTime(localRow.days[n-1].total_of_minutes) }}
@@ -88,7 +87,7 @@ export default {
   },
 
   emits: [
-    'day-updated', 'update-weeklt-total', 'row-deleted'
+    'day-updated', 'update-weekly-total', 'row-deleted'
   ],
 
   data() {
@@ -163,7 +162,7 @@ export default {
 
   methods: {
     isEmpty(timeInMinutes) {
-      return (timeInMinutes == 0) ? 'blank' : '';
+      return timeInMinutes == undefined || timeInMinutes === 0;
     },
 
     updateDayInformation(payload, day) {
