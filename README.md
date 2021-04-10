@@ -39,9 +39,9 @@ We are not yet ready for production. We've been developing this project for more
 
 ## Core team
 
-OfficeLife is made by @djaiss and @asbiin.
+OfficeLife is made by [@djaiss](https://github.com/djaiss) and [@asbiin](https://github.com/asbiin).
 
-We've made another project called @monicahq.
+We've made another project called [@monicahq](https://github.com/monicahq/monica).
 
 ## License
 
