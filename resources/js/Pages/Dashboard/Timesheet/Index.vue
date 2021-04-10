@@ -140,17 +140,16 @@
                         @update:model-value="showTasks"
             />
 
-            <select-box
-              v-if="displayTasks"
-              v-model="form.task"
-              :options="tasks"
-              :name="'task_id'"
-              :errors="$page.props.errors.task_id"
-              :placeholder="$t('dashboard.timesheet_create_choose_task')"
-              :label="$t('dashboard.timesheet_create_choose_task')"
-              :required="true"
-              :data-cy="'task-selector'"
-              @update:model-value="showTasks"
+            <select-box v-if="displayTasks"
+                        v-model="form.task"
+                        :options="tasks"
+                        :name="'task_id'"
+                        :errors="$page.props.errors.task_id"
+                        :placeholder="$t('dashboard.timesheet_create_choose_task')"
+                        :label="$t('dashboard.timesheet_create_choose_task')"
+                        :required="true"
+                        :data-cy="'task-selector'"
+                        @update:model-value="showTasks"
             />
           </span>
 

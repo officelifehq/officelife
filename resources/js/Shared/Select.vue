@@ -24,20 +24,19 @@
         {{ $t('app.optional') }}
       </span>
     </label>
-    <v-select :model-value="localValue"
+    <v-select v-model="proxyValue"
               :options="options"
               :label="customLabelKey"
               :placeholder="placeholder"
               class="style-chooser"
               :data-cy="datacy"
               :close-on-select="true"
-              @update:modelValue="onUpdate"
     >
       <!-- all this complex code below just to make sure the select box is required -->
       <template #search="{ attributes, events }">
         <input
           class="vs__search"
-          :required="required && !localValue"
+          :required="required && !proxyValue"
           v-bind="attributes"
           v-on="events"
         />
@@ -127,36 +126,38 @@ export default {
 
   data() {
     return {
-      localValue: null,
       localErrors: [],
     };
   },
 
   computed: {
+    proxyValue: {
+      get() {
+        return this.options[this.options.findIndex(p => p[this.customValueKey] === this.modelValue)];
+      },
+      set(value) {
+        this.$emit('update:modelValue', value[this.customValueKey]);
+      }
+    },
+    labelValue() {
+      return this.proxyValue[this.customLabelKey];
+    },
     realId() {
       return this.id + this._.uid;
     },
   },
 
   watch: {
-    modelValue(value) {
-      this.localValue = value;
-    },
     errors(value) {
       this.localErrors = value;
     },
   },
 
   mounted() {
-    this.localValue = this.modelValue;
     this.localErrors = this.errors;
   },
 
   methods: {
-    onUpdate(value) {
-      this.localValue = value[this.customValueKey];
-      this.$emit('update:modelValue', this.localValue);
-    },
     sendEscKey() {
       this.$emit('esc-key-pressed');
     },

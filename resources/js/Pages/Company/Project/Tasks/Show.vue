@@ -162,13 +162,13 @@ input[type=checkbox] {
               <div class="cf bb bb-gray">
                 <!-- assigned to -->
                 <div class="fl w-50 br bb-gray pa3 bg-gray stat-left-corner">
-                  <select-box v-model="form.assignee_id"
+                  <select-box :ref="'assignee'"
+                              v-model="form.assignee_id"
                               :options="members"
                               :errors="$page.props.errors.assignee_id"
                               :label="$t('project.task_edit_assignee')"
                               :placeholder="$t('app.choose_value')"
                               :required="false"
-                              :value="form.assignee_id"
                               :datacy="'country_selector'"
                   />
                 </div>
@@ -452,8 +452,7 @@ export default {
       var newAssigneeName = null;
 
       if (this.form.assignee_id) {
-        newAssigneeName = this.form.assignee_id.label;
-        this.form.assignee_id = this.form.assignee_id.value;
+        newAssigneeName = this.$refs.assignee.labelValue;
       }
 
       if (this.form.task_list_id == 0) {

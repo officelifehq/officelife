@@ -115,7 +115,6 @@
                           :errors="$page.props.errors.category"
                           :placeholder="$t('dashboard.expense_create_category')"
                           :required="false"
-                          :value="form.category"
                           :datacy="'expense-category'"
               />
 
