@@ -37,11 +37,8 @@
           </inertia-link>
 
           <!-- position -->
-          <span v-if="hire.position" class="title db f7 mt1 lh-copy">
-            {{ $t('company.new_hires_date_with_position', { date: hire.hired_at, position: hire.position }) }}
-          </span>
-          <span v-else class="title db f7 mt1">
-            {{ $t('company.new_hires_date', { date: hire.hired_at }) }}
+          <span class="title db f7 mt1 lh-copy">
+            {{ hire.hired_at }}
           </span>
         </li>
       </ul>
