@@ -143,7 +143,7 @@
             👋 {{ $t('dashboard.expense_create_help') }}
           </p>
           <p class="ma0">
-            <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2 mb0-ns mb2-ns'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-expense'" />
+            <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3 mr2 mb0-ns mb2-ns'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-expense'" />
             <a data-cy="expense-create-cancel" class="pointer mb0-ns mt2 mt0-ns mb3 dib" @click.prevent="hideAddMode()">
               {{ $t('app.cancel') }}
             </a>

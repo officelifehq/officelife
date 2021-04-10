@@ -33,7 +33,7 @@
       <div class="lh-copy ma0 pa3 bb bb-gray">
         <p class="silver f6 ma0 mb1">{{ $t('team.team_lead_label') }}</p>
         <span class="pl3 db team-lead relative">
-          <avatar :avatar="localTeam.team_leader.avatar" :size="35" :classes="'br-100 absolute avatar'" />
+          <avatar :avatar="localTeam.team_leader.avatar" :size="35" :class="'br-100 absolute avatar'" />
           <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + localTeam.team_leader.id" class="mb2" data-cy="current-team-lead">
             {{ localTeam.team_leader.name }}
           </inertia-link>
@@ -56,7 +56,7 @@
             <div v-show="$page.props.auth.employee.permission_level <= 200" v-click-outside="hideRemovalMode" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn">
               <ul class="list ma0 pa0">
                 <li v-show="!removalConfirmation" class="pv2 relative">
-                  <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+                  <icon-delete :class="'icon-delete relative'" :width="15" :height="15" />
                   <a class="pointer ml1 c-delete" data-cy="remove-team-lead-button" @click.prevent="removalConfirmation = true">
                     {{ $t('team.team_lead_remove_confirmation') }}
                   </a>

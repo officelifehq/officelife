@@ -189,7 +189,7 @@ input[type=checkbox] {
                       {{ $t('app.cancel') }}
                     </inertia-link>
                   </div>
-                  <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
+                  <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
                 </div>
               </div>
             </form>
@@ -233,7 +233,7 @@ input[type=checkbox] {
           <!-- information about the author -->
           <div v-if="localTask.author" class="flex mb4">
             <div class="mr2">
-              <avatar :avatar="localTask.author.avatar" :size="35" :classes="'br-100'" />
+              <avatar :avatar="localTask.author.avatar" :size="35" :class="'br-100'" />
             </div>
 
             <div>
@@ -295,7 +295,7 @@ input[type=checkbox] {
                   <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" data-cy="cancel-add-description" @click="logTimeMode = false">
                     {{ $t('app.cancel') }}
                   </a>
-                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
+                  <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
                 </div>
               </form>
             </div>

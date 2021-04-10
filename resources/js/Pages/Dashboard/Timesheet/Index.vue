@@ -155,7 +155,7 @@
 
           <!-- Actions -->
           <div v-if="projects.length != 0">
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 mr2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-timesheet-new-row'" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 mr2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-timesheet-new-row'" />
             <a data-cy="cancel-button" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="displayNewEntry = false">
               {{ $t('app.cancel') }}
             </a>

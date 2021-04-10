@@ -95,7 +95,7 @@
 
             <!-- actions -->
             <p class="ma0">
-              <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.submit')" :cypress-selector="'submit-answer'" />
+              <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.submit')" :cypress-selector="'submit-answer'" />
               <a class="pointer" @click.prevent="commentMode = false">
                 {{ $t('app.cancel') }}
               </a>

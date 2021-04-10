@@ -73,7 +73,7 @@
                     :name="entry.manager.name"
                     :avatar="entry.manager.avatar"
                     :url="entry.manager.url"
-                    :classes="'f4 fw4'"
+                    :class="'f4 fw4'"
                     :top="'0px'"
                     :margin-between-name-avatar="'29px'"
                   />

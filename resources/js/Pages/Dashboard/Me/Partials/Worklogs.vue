@@ -39,7 +39,7 @@
       <!-- Shows the editor -->
       <div v-if="editMode">
         <form @submit.prevent="store()">
-          <errors :errors="form.errors" :classes="'mb2'" />
+          <errors :errors="form.errors" :class="'mb2'" />
 
           <text-area
             ref="editor"
@@ -51,7 +51,7 @@
             👋 {{ $t('dashboard.worklog_entry_description') }}
           </p>
           <p class="ma0">
-            <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-log-worklog'" />
+            <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-log-worklog'" />
             <a class="pointer" @click.prevent="editMode = false">
               {{ $t('app.cancel') }}
             </a>

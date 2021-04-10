@@ -27,7 +27,7 @@
     <!-- rename company form -->
     <div v-if="editMode" class="ph3">
       <form @submit.prevent="submit">
-        <errors :errors="form.errors" :classes="'mb3'" />
+        <errors :errors="form.errors" :class="'mb3'" />
 
         <ul class="list pl0">
           <li class="mb3 flex-ns items-center">
@@ -57,7 +57,7 @@
                 {{ $t('app.cancel') }}
               </a>
             </div>
-            <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.rename')" :cypress-selector="'submit-rename-company-button'" />
+            <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.rename')" :cypress-selector="'submit-rename-company-button'" />
           </div>
         </div>
       </form>

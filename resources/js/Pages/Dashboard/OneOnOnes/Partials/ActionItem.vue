@@ -55,7 +55,7 @@
           :datacy="'action-item-' + actionItem.id"
           :label="actionItem.description"
           :extra-class-upper-div="'mb0 relative'"
-          :classes="'mb0 mr1'"
+          :class="'mb0 mr1'"
           :maxlength="255"
           :required="true"
           :editable="!entry.happened"
@@ -78,7 +78,7 @@
             />
             <!-- actions -->
             <div>
-              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-action-item-cta" :state="loadingState" :text="$t('app.update')" />
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-action-item-cta" :state="loadingState" :text="$t('app.update')" />
               <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="actionItemToEdit = 0">
                 {{ $t('app.cancel') }}
               </a>
@@ -106,7 +106,7 @@
           />
           <!-- actions -->
           <div>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="add-action-item-cta" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="add-action-item-cta" />
             <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addActionItemMode = false">
               {{ $t('app.cancel') }}
             </a>

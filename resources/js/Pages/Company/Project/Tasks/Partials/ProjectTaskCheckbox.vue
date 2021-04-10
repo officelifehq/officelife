@@ -93,10 +93,10 @@ input[type=checkbox] {
           :data-cy="datacy + '-single-item'"
           type="checkbox"
           class="relative"
-          :class="classes"
           :required="required"
           :name="name"
           :disabled="!editable"
+          v-bind="$attrs"
         />
 
         <!-- content of the checkbox -->
@@ -107,7 +107,7 @@ input[type=checkbox] {
             v-if="assignee"
             :name="assignee.name"
             :avatar="assignee.avatar"
-            :classes="'gray'"
+            :class="'gray'"
             :size="'15px'"
             :font-size="'f7'"
             :top="'4px'"
@@ -166,9 +166,11 @@ input[type=checkbox] {
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 
 export default {
+
   components: {
     SmallNameAndAvatar,
   },
+  inheritAttrs: false,
 
   model: {
     prop: 'modelValue',
@@ -219,10 +221,6 @@ export default {
     checked: {
       type: Boolean,
       default: false,
-    },
-    classes: {
-      type: String,
-      default: 'mb3',
     },
     extraClassUpperDiv: {
       type: String,

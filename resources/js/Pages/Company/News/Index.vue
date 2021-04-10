@@ -48,7 +48,7 @@
                 :name="newsItem.author.name"
                 :avatar="newsItem.author.avatar"
                 :url="newsItem.author.url"
-                :classes="'f4 fw4'"
+                :class="'f4 fw4'"
                 :top="'0px'"
                 :margin-between-name-avatar="'29px'"
               />

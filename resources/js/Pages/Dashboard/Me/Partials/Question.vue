@@ -55,7 +55,7 @@
                   👋 {{ $t('dashboard.question_answer_help') }}
                 </p>
                 <p class="ma0">
-                  <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-answer'" />
+                  <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-answer'" />
                   <a class="pointer" @click.prevent="addMode = false">
                     {{ $t('app.cancel') }}
                   </a>
@@ -123,7 +123,7 @@
                     👋 {{ $t('dashboard.question_answer_help') }}
                   </p>
                   <p class="ma0">
-                    <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.update')" :cypress-selector="'submit-edit-answer'" />
+                    <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.update')" :cypress-selector="'submit-edit-answer'" />
                     <a class="pointer" @click.prevent="hideEditModal()">
                       {{ $t('app.cancel') }}
                     </a>

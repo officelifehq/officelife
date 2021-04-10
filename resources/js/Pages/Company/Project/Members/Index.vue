@@ -158,7 +158,7 @@
 
                 <!-- Actions -->
                 <div class="pa3 cf flex-ns">
-                  <loading-button :classes="'btn add mr2 w-auto-ns w-100 pv2 ph3 db dib-ns mb3 mb0-ns'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-member'" />
+                  <loading-button :class="'btn add mr2 w-auto-ns w-100 pv2 ph3 db dib-ns mb3 mb0-ns'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-member'" />
                   <a class="btn dib-ns db tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2" data-cy="cancel-button" @click.prevent="showModal = false">
                     {{ $t('app.cancel') }}
                   </a>
@@ -172,7 +172,7 @@
                 <li v-for="member in localMembers" :key="member.id" :data-cy="'member-' + member.id" class="pa3 bb bb-gray flex items-center">
                   <!-- avatar -->
                   <div class="mr3">
-                    <avatar :avatar="member.avatar" :size="64" :classes="'br-100'" />
+                    <avatar :avatar="member.avatar" :size="64" :class="'br-100'" />
                   </div>
 
                   <!-- name + information -->

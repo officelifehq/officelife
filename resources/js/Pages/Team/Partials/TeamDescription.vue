@@ -43,7 +43,7 @@
                 {{ $t('app.cancel') }}
               </a>
             </div>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'team-description-submit-description-button'" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'team-description-submit-description-button'" />
           </div>
         </div>
       </form>

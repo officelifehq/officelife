@@ -213,7 +213,7 @@ td, th {
                     <a class="btn dib-l db mb2 mb0-ns" :data-cy="'list-edit-cancel-button-' + ptoPolicy.id" @click.prevent="idToUpdate = 0">
                       {{ $t('app.cancel') }}
                     </a>
-                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-edit-cta-button-' + ptoPolicy.id" :state="loadingState" :text="$t('app.update')" />
+                    <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-edit-cta-button-' + ptoPolicy.id" :state="loadingState" :text="$t('app.update')" />
                   </div>
                 </form>
               </div>
@@ -266,6 +266,16 @@ export default {
     };
   },
 
+  computed: {
+    isOff(holiday) {
+      let weekend = holiday.day_of_week == 0 || holiday.day_of_week == 6;
+      return {
+        weekend: weekend,
+        off: holiday.is_worked == false && !weekend,
+      };
+    },
+  },
+
   watch: {
     ptoPolicies: {
       handler(value) {
@@ -280,19 +290,6 @@ export default {
   },
 
   methods: {
-    isOff: function (holiday) {
-      var classes = '';
-      if (holiday.day_of_week == 0 || holiday.day_of_week == 6) {
-        classes = 'weekend';
-      }
-
-      if (holiday.is_worked == false && holiday.day_of_week != 0 && holiday.day_of_week != 6) {
-        classes = classes + ' off';
-      }
-
-      return classes;
-    },
-
     toggleUpdate(ptoPolicy) {
       if (!this.editModal) {
         this.load(ptoPolicy);

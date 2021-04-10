@@ -76,7 +76,7 @@
                 <small-name-and-avatar
                   :name="message.author.name"
                   :avatar="message.author.avatar"
-                  :classes="'f4 fw4'"
+                  :class="'f4 fw4'"
                   :top="'0px'"
                   :margin-between-name-avatar="'29px'"
                 />

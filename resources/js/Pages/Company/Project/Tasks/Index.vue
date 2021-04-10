@@ -100,7 +100,7 @@
                   <!-- actions -->
                   <div class="flex justify-between">
                     <div>
-                      <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'edit-task-list-cta-' + taskList.id" :state="loadingState" :text="$t('app.update')" />
+                      <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'edit-task-list-cta-' + taskList.id" :state="loadingState" :text="$t('app.update')" />
                       <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="editListMode = false">{{ $t('app.cancel') }}</a>
                     </div>
 
@@ -151,7 +151,7 @@
 
                 <!-- actions -->
                 <div>
-                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="store-task-list-cta" :state="loadingState" :text="$t('app.save')" />
+                  <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="store-task-list-cta" :state="loadingState" :text="$t('app.save')" />
                   <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addListMode = false">{{ $t('app.cancel') }}</a>
                 </div>
               </form>

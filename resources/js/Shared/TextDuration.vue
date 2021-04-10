@@ -31,7 +31,7 @@ input[type=number] {
 </style>
 
 <template>
-  <div :class="classes" class="ba bb-gray br3 pa1 pt2 container">
+  <div class="ba bb-gray br3 pa1 pt2 container">
     <div class="relative">
       <span class="legend gray tc absolute f7">
         hours
@@ -108,10 +108,6 @@ export default {
       default: undefined,
     },
     datacy: {
-      type: String,
-      default: '',
-    },
-    classes: {
       type: String,
       default: '',
     },

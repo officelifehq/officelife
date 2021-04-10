@@ -97,7 +97,7 @@
                         {{ $t('app.cancel') }}
                       </a>
                     </div>
-                    <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="submit-add-team-button" />
+                    <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="submit-add-team-button" />
                   </div>
                 </div>
               </form>
@@ -162,7 +162,7 @@
                     <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" :data-cy="'list-rename-cancel-button-' + team.id" @click.prevent="teamToRename = 0">
                       {{ $t('app.cancel') }}
                     </a>
-                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + team.id" :state="loadingState" :text="$t('app.update')" />
+                    <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + team.id" :state="loadingState" :text="$t('app.update')" />
                   </div>
                 </form>
               </template>
@@ -181,7 +181,7 @@
                   <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3 mr3" :data-cy="'list-destroy-cancel-button-' + team.id" @click.prevent="teamToDelete = 0">
                     {{ $t('app.cancel') }}
                   </a>
-                  <loading-button :classes="'btn destroy w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-destroy-cta-button-' + team.id" :state="loadingState" :text="$t('app.delete')" />
+                  <loading-button :class="'btn destroy w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-destroy-cta-button-' + team.id" :state="loadingState" :text="$t('app.delete')" />
                 </form>
               </template>
             </li>

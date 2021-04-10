@@ -177,7 +177,7 @@
                       <a class="btn dib-l db mb2 mb0-ns" @click.prevent="addRateMode = false ; form.name = ''">
                         {{ $t('app.cancel') }}
                       </a>
-                      <loading-button :classes="'btn add w-auto-ns w-100 mb2 mb0-ns pv2 ph3'" data-cy="modal-add-rate-cta" :state="loadingState" :text="$t('app.add')" />
+                      <loading-button :class="'btn add w-auto-ns w-100 mb2 mb0-ns pv2 ph3'" data-cy="modal-add-rate-cta" :state="loadingState" :text="$t('app.add')" />
                     </div>
                   </div>
                 </form>
@@ -221,7 +221,7 @@
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-edit-contract-employee-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-edit-contract-employee-button'" />
               </div>
             </div>
           </form>

@@ -151,7 +151,7 @@
           </p>
           <ul class="list mv0">
             <li v-for="manager in localManagersOfEmployee" :key="manager.id" class="mb3 relative bb-gray-hover">
-              <avatar :avatar="manager.avatar" :size="35" :classes="'br-100 absolute avatar'" />
+              <avatar :avatar="manager.avatar" :size="35" :class="'br-100 absolute avatar'" />
               <inertia-link :href="manager.url" class="mb2">
                 {{ manager.name }}
               </inertia-link>
@@ -174,7 +174,7 @@
                 <div v-show="permissions.can_manage_hierarchy" v-click-outside="hideManagerModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
                   <ul class="list ma0 pa0">
                     <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
-                      <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+                      <icon-delete :class="'icon-delete relative'" :width="15" :height="15" />
                       <a class="pointer ml1 c-delete" data-cy="remove-manager-button" @click.prevent="deleteEmployeeConfirmation = true">
                         {{ $t('employee.hierarchy_modal_remove_manager') }}
                       </a>
@@ -205,7 +205,7 @@
           <ul class="list mv0">
             <li v-for="directReport in localDirectReports" :key="directReport.id" class="mb3 relative bb-gray-hover">
               <!-- avatar -->
-              <avatar :avatar="directReport.avatar" :size="35" :classes="'br-100 absolute avatar'" />
+              <avatar :avatar="directReport.avatar" :size="35" :class="'br-100 absolute avatar'" />
 
               <!-- name -->
               <inertia-link :href="directReport.url" class="mb2">
@@ -230,7 +230,7 @@
                 <div v-show="permissions.can_manage_hierarchy" v-click-outside="hideDirectReportModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
                   <ul class="list ma0 pa0">
                     <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
-                      <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+                      <icon-delete :class="'icon-delete relative'" :width="15" :height="15" />
                       <a class="pointer ml1 c-delete" data-cy="remove-directreport-button" @click.prevent="deleteEmployeeConfirmation = true">
                         {{ $t('employee.hierarchy_modal_remove_direct_report') }}
                       </a>

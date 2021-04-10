@@ -32,7 +32,7 @@ img {
 
           <!-- Actions -->
           <div class="flex-ns justify-between">
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('company.next_step_cta')" data-cy="create-company-submit" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('company.next_step_cta')" data-cy="create-company-submit" />
           </div>
         </form>
       </div>

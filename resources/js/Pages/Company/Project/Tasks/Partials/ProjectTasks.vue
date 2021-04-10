@@ -50,7 +50,7 @@
           :label="task.title"
           :extra-class-upper-div="'mb0 relative'"
           :assignee="task.assignee"
-          :classes="'mb0 mr1'"
+          :class="'mb0 mr1'"
           :maxlength="255"
           :required="true"
           :url="task.url"
@@ -88,7 +88,7 @@
 
             <!-- actions -->
             <div>
-              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'edit-task-cta-' + task.id" :state="loadingState" :text="$t('app.update')" />
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'edit-task-cta-' + task.id" :state="loadingState" :text="$t('app.update')" />
               <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="taskToEdit = 0">
                 {{ $t('app.cancel') }}
               </a>
@@ -128,7 +128,7 @@
 
           <!-- actions -->
           <div>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :data-cy="'task-list-' + form.task_list_id + '-add-task-cta'" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :data-cy="'task-list-' + form.task_list_id + '-add-task-cta'" />
             <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addTaskMode = false">
               {{ $t('app.cancel') }}
             </a>

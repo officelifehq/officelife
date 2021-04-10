@@ -76,7 +76,7 @@
             />
             <!-- actions -->
             <div>
-              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-note-cta" :state="loadingState" :text="$t('app.update')" />
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-note-cta" :state="loadingState" :text="$t('app.update')" />
               <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="noteToEdit = 0">
                 {{ $t('app.cancel') }}
               </a>
@@ -102,7 +102,7 @@
           />
           <!-- actions -->
           <div>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="add-new-note-cta" :state="loadingState" :text="$t('app.add')" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="add-new-note-cta" :state="loadingState" :text="$t('app.add')" />
             <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addNoteMode = false">
               {{ $t('app.cancel') }}
             </a>

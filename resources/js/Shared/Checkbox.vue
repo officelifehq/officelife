@@ -30,10 +30,10 @@ input[type=checkbox] {
         :value="value"
         type="checkbox"
         class="relative mr2"
-        :class="classes"
         :required="required"
         :name="name"
         :data-cy="datacy"
+        v-bind="$attrs"
       />
       <label v-if="label" class="fw4 lh-copy f5 pointer di" :for="id">
         <span v-html="label"></span>
@@ -54,6 +54,8 @@ input[type=checkbox] {
 
 <script>
 export default {
+  inheritAttrs: false,
+
   model: {
     prop: 'modelValue',
     event: 'update:modelValue'
@@ -99,10 +101,6 @@ export default {
     required: {
       type: Boolean,
       default: false,
-    },
-    classes: {
-      type: String,
-      default: '',
     },
     extraClassUpperDiv: {
       type: String,

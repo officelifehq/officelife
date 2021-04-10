@@ -139,7 +139,7 @@
             <div v-show="form.employees.length > 0" class="ba bb-gray mb3 mt4">
               <div v-for="employee in form.employees" :key="employee.id" class="pa2 db bb-gray bb" data-cy="members-list">
                 <span class="pl3 db relative deciders">
-                  <avatar :avatar="employee.avatar" :size="22" :classes="'br-100 absolute avatar'" />
+                  <avatar :avatar="employee.avatar" :size="22" :class="'br-100 absolute avatar'" />
 
                   {{ employee.name }}
 
@@ -159,7 +159,7 @@
                     {{ $t('app.cancel') }}
                   </a>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-decision-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-decision-button'" />
               </div>
             </div>
           </form>
@@ -188,7 +188,7 @@
                       <small-name-and-avatar
                         :name="decider.name"
                         :avatar="decider.avatar"
-                        :classes="'f4 fw4'"
+                        :class="'f4 fw4'"
                         :top="'0px'"
                         :margin-between-name-avatar="'29px'"
                       />
@@ -206,7 +206,7 @@
               <div v-if="decision.id == decisionToDelete" v-click-outside="hideAction" class="popupmenu action-menu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
                 <ul class="list ma0 pa0">
                   <li v-show="!deleteActionConfirmation" class="pv2 relative">
-                    <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+                    <icon-delete :class="'icon-delete relative'" :width="15" :height="15" />
                     <a :data-cy="'decision-delete-' + decision.id" class="pointer ml1 c-delete" @click.prevent="deleteActionConfirmation = true">
                       {{ $t('project.decision_index_delete') }}
                     </a>

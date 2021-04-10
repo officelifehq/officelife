@@ -10,7 +10,7 @@
 
     <div class="cf mw7 center br3 mb3 bg-white box">
       <div class="pa3 relative">
-        <errors :errors="form.errors" :classes="'mb2'" />
+        <errors :errors="form.errors" :class="'mb2'" />
 
         <checkbox
           :id="'home'"

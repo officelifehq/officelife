@@ -125,7 +125,7 @@
             <div v-show="form.employees.length > 0" class="ba bb-gray mb3 mt4">
               <div v-for="employee in form.employees" :key="employee.id" class="pa2 db bb-gray bb" data-cy="members-list">
                 <span class="pl3 db relative team-member">
-                  <avatar :avatar="employee.avatar" :size="23" :classes="'br-100 absolute avatar'" />
+                  <avatar :avatar="employee.avatar" :size="23" :class="'br-100 absolute avatar'" />
 
                   {{ employee.name }}
 
@@ -145,7 +145,7 @@
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-ship-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-ship-button'" />
               </div>
             </div>
           </form>

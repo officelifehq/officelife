@@ -46,7 +46,7 @@
           <ul class="list pl0 mt0 center">
             <li v-for="log in logs" :key="log.id" class="flex items-center lh-copy pa3 bb b--black-10 log-item">
               <!-- avatar -->
-              <avatar v-if="log.author.avatar" :avatar="log.author.avatar" :size="35" :classes="'author-avatar br-100'" />
+              <avatar v-if="log.author.avatar" :avatar="log.author.avatar" :size="35" :class="'author-avatar br-100'" />
 
               <div>
                 <div class="db f7 mb2">

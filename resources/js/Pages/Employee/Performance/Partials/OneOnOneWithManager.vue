@@ -34,7 +34,7 @@
               v-if="oneOnOne.manager.id"
               :name="oneOnOne.manager.name"
               :avatar="oneOnOne.manager.avatar"
-              :classes="'gray'"
+              :class="'gray'"
               :size="'18px'"
               :top="'2px'"
               :margin-between-name-avatar="'25px'"
