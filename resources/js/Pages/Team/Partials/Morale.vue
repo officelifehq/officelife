@@ -31,6 +31,7 @@
 
     <div class="cf mw7 center br3 mb3 bg-white box">
       <div class="fl w-third pa2">
+        <p>{{ morale.yesterday.percent }}</p>
         <div class="progress-bar mb2">
           <span class="bar">
             <span class="progress" :style="'width: 34%;'"></span>
@@ -38,6 +39,7 @@
         </div>
       </div>
       <div class="fl w-third pa2">
+        <p>{{ morale.last_week.percent }}</p>
         <div class="progress-bar mb2">
           <span class="bar">
             <span class="progress" :style="'width: 100%;'"></span>
@@ -45,6 +47,7 @@
         </div>
       </div>
       <div class="fl w-third pa2">
+        <p>{{ morale.last_month.percent }}</p>
         <div class="progress-bar mb2">
           <span class="bar">
             <span class="progress" :style="'width: 100%;'"></span>
