@@ -130,8 +130,6 @@ class AddEmployeeToCompany extends BaseService
 
     /**
      * Add a welcome message for the employee.
-     *
-     * @param array $data
      */
     private function notifyEmployee(): void
     {

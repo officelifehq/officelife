@@ -182,7 +182,6 @@ export default {
         errors: [],
       },
       loadingState: '',
-      errorTemplate: Error,
     };
   },
 
@@ -192,7 +191,7 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/account/employees', this.form)
         .then(response => {
-          localStorage.success = 'The employee has been added';
+          localStorage.success = this.$t('company.employee_new_success');
           this.$inertia.visit('/' + response.data.company_id + '/account/employees');
         })
         .catch(error => {
