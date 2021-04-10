@@ -3,12 +3,13 @@ const path = require('path');
 require('laravel-mix-purgecss');
 
 const purgeCssOptions = {
-  enabled: true,
-  // List of regex of CSS class to not remove
-  whitelistPatterns: [/^ball-pulse/, /^ball-clip-rotate/, /^vs__/, /^dot-/, /^expense-badge-/, /^timesheet-badge-/, /^failed/, /^multiselect/, /^is-/, /^no-caret/],
-  // List of regex of CSS class name whose child path CSS class will not be removed
-  //  ex: to exclude "jane" in "mary jane": add "mary")
-  whitelistPatternsChildren: [/^vue-loaders/, /^vs-/],
+  safelist: {
+    // List of regex of CSS class to not remove
+    standard: [/^ball-pulse/, /^ball-clip-rotate/, /^vs__/, /^dot-/, /^expense-badge-/, /^timesheet-badge-/, /^failed/],
+    // List of regex of CSS class name whose child path CSS class will not be removed
+    //  ex: to exclude "jane" in "mary jane": add "mary")
+    deep: [/^vue-loaders/, /^vs-/],
+  }
 };
 
 mix.js('resources/js/app.js', 'public/js').vue()

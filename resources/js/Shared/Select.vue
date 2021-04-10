@@ -1,5 +1,5 @@
 <style lang="scss" scoped>
-@import 'vue-next-select/dist/index.css';
+@import 'vue-select/src/scss/vue-select.scss';
 
 .optional-badge {
   border-radius: 4px;
@@ -24,14 +24,25 @@
         {{ $t('app.optional') }}
       </span>
     </label>
-    <vue-select v-model="proxyValue"
-                :options="options"
-                :value-by="customValueKey"
-                :label-by="customLabelKey"
-                :placeholder="placeholder"
-                :data-cy="datacy"
-                :close-on-select="true"
-    />
+    <v-select :model-value="localValue"
+              :options="options"
+              :label="customLabelKey"
+              :placeholder="placeholder"
+              class="style-chooser"
+              :data-cy="datacy"
+              :close-on-select="true"
+              @update:modelValue="onUpdate"
+    >
+      <!-- all this complex code below just to make sure the select box is required -->
+      <template #search="{ attributes, events }">
+        <input
+          class="vs__search"
+          :required="required && !localValue"
+          v-bind="attributes"
+          v-on="events"
+        />
+      </template>
+    </v-select>
     <div v-if="errors.length" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
     </div>
@@ -43,11 +54,11 @@
 
 <script>
 
-import VueSelect from 'vue-next-select';
+import vSelect from 'vue-select/src/index.js';
 
 export default {
   components: {
-    VueSelect,
+    vSelect,
   },
 
   model: {
@@ -116,35 +127,36 @@ export default {
 
   data() {
     return {
+      localValue: null,
       localErrors: [],
     };
   },
 
   computed: {
-    proxyValue: {
-      get() {
-        return this.modelValue;
-      },
-      set(value) {
-        this.$emit('update:modelValue', value);
-      },
-    },
     realId() {
       return this.id + this._.uid;
     },
   },
 
   watch: {
+    modelValue(value) {
+      this.localValue = value;
+    },
     errors(value) {
       this.localErrors = value;
     },
   },
 
   mounted() {
+    this.localValue = this.modelValue;
     this.localErrors = this.errors;
   },
 
   methods: {
+    onUpdate(value) {
+      this.localValue = value[this.customValueKey];
+      this.$emit('update:modelValue', this.localValue);
+    },
     sendEscKey() {
       this.$emit('esc-key-pressed');
     },
