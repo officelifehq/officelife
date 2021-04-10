@@ -4,6 +4,7 @@ namespace Tests\Unit\Services\Company\Adminland\Employee;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use Faker\Factory as Faker;
 use App\Helpers\ImageHelper;
 use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
@@ -12,6 +13,7 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use App\Models\Company\CompanyPTOPolicy;
+use App\Exceptions\EmailAlreadyUsedException;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
 use App\Mail\Company\InviteEmployeeToBecomeUserMail;
@@ -26,16 +28,16 @@ class AddEmployeeToCompanyTest extends TestCase
     public function it_adds_an_employee_to_a_company_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $this->executeService($michael, false);
-        $this->executeService($michael, true);
+        $this->executeService($michael, false, Faker::create()->email);
+        $this->executeService($michael, true, Faker::create()->email);
     }
 
     /** @test */
     public function it_adds_an_employee_to_a_company_as_hr(): void
     {
         $michael = $this->createHR();
-        $this->executeService($michael, false);
-        $this->executeService($michael, true);
+        $this->executeService($michael, false, Faker::create()->email);
+        $this->executeService($michael, true, Faker::create()->email);
     }
 
     /** @test */
@@ -44,8 +46,20 @@ class AddEmployeeToCompanyTest extends TestCase
         $michael = $this->createEmployee();
 
         $this->expectException(NotEnoughPermissionException::class);
-        $this->executeService($michael, true);
-        $this->executeService($michael, false);
+        $this->executeService($michael, true, Faker::create()->email);
+        $this->executeService($michael, false, Faker::create()->email);
+    }
+
+    /** @test */
+    public function it_cant_add_an_employee_with_an_email_address_already_used(): void
+    {
+        $michael = Employee::factory()->create([
+            'email' => 'dwight@dundermifflin.com',
+            'permission_level' => 100,
+        ]);
+
+        $this->expectException(EmailAlreadyUsedException::class);
+        $this->executeService($michael, false, 'dwight@dundermifflin.com');
     }
 
     /** @test */
@@ -63,7 +77,7 @@ class AddEmployeeToCompanyTest extends TestCase
         (new AddEmployeeToCompany)->execute($request);
     }
 
-    private function executeService(Employee $michael, bool $sendEmail): void
+    private function executeService(Employee $michael, bool $sendEmail, string $email): void
     {
         Queue::fake();
         Mail::fake();
@@ -78,7 +92,7 @@ class AddEmployeeToCompanyTest extends TestCase
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
-            'email' => 'dwight@dundermifflin.com',
+            'email' => $email,
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
             'permission_level' => config('officelife.permission_level.user'),
@@ -98,17 +112,18 @@ class AddEmployeeToCompanyTest extends TestCase
             'company_id' => $michael->company_id,
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
+            'email' => $email,
             'amount_of_allowed_holidays' => 30,
         ]);
 
         $this->assertNotNull(ImageHelper::getAvatar($dwight));
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight, $email) {
             return $job->auditLog['action'] === 'employee_added_to_company' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'employee_id' => $dwight->id,
-                    'employee_email' => 'dwight@dundermifflin.com',
+                    'employee_email' => $email,
                     'employee_first_name' => 'Dwight',
                     'employee_last_name' => 'Schrute',
                     'employee_name' => 'Dwight Schrute',

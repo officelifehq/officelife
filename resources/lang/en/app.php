@@ -49,6 +49,7 @@ return [
     'error_project_code_already_exists' => 'This project code is already used. Pick a new one.',
     'error_more' => 'See more...',
     'error_exception' => 'Exception:',
+    'error_email_already_taken' => 'This email is already taken.',
 
     'previous' => 'Previous',
     'next' => 'Next',

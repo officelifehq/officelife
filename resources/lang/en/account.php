@@ -70,6 +70,7 @@ return [
     'employee_new_user_desc' => 'Can see all teams and employees, but can not manage the account or read private information.',
     'employee_new_send_email' => 'Send an email to this person with a link to setup the account.',
     'employee_new_send_email_optional' => 'This is optional - you will be able to invite this person later.',
+    'employee_new_success' => 'The employee has been added.',
 
     'teams_title' => 'All the teams listed in {company}',
     'teams_number_teams' => '{company} has one team. | {company} has {count} teams.',
