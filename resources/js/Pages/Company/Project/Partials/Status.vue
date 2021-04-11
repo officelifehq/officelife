@@ -44,23 +44,23 @@
     <div class="pa0-ns pa3">
       <!-- start button -->
       <div v-if="localProject.status == 'created'" class="mb3">
-        <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('project.summary_cta_start_project')" data-cy="start-project" @click="start()" />
+        <loading-button :class="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('project.summary_cta_start_project')" data-cy="start-project" @click="start()" />
       </div>
 
       <!-- pause or close buttons -->
       <div v-if="localProject.status == 'started' || localProject.status == 'paused'" class="mb3">
-        <loading-button v-if="localProject.status != 'paused'" :classes="'btn w-auto-ns w-100 pv2 ph3 mr2 mb0-ns mb2'" :state="loadingPauseState" :text="$t('project.summary_cta_pause_project')" data-cy="pause-project"
+        <loading-button v-if="localProject.status != 'paused'" :class="'btn w-auto-ns w-100 pv2 ph3 mr2 mb0-ns mb2'" :state="loadingPauseState" :text="$t('project.summary_cta_pause_project')" data-cy="pause-project"
                         @click="pause()"
         />
-        <loading-button v-if="localProject.status != 'started'" :classes="'btn w-auto-ns w-100 pv2 ph3 mr2 mb0-ns mb2'" :state="loadingUnpauseState" :text="$t('project.summary_cta_unpause_project')" data-cy="unpause-project"
+        <loading-button v-if="localProject.status != 'started'" :class="'btn w-auto-ns w-100 pv2 ph3 mr2 mb0-ns mb2'" :state="loadingUnpauseState" :text="$t('project.summary_cta_unpause_project')" data-cy="unpause-project"
                         @click="unpause()"
         />
-        <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingCloseState" :text="$t('project.summary_cta_close_project')" data-cy="close-project" @click="close()" />
+        <loading-button :class="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingCloseState" :text="$t('project.summary_cta_close_project')" data-cy="close-project" @click="close()" />
       </div>
 
       <!-- reopen -->
       <div v-if="localProject.status == 'closed'" class="mb3">
-        <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('project.summary_cta_reopen_project')" data-cy="start-project" @click="start()" />
+        <loading-button :class="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('project.summary_cta_reopen_project')" data-cy="start-project" @click="start()" />
       </div>
     </div>
   </div>

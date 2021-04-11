@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-select/src/scss/vue-select.scss';
+
 .optional-badge {
   border-radius: 4px;
   color: #283e59;
@@ -11,6 +13,7 @@
 .style-chooser .vs__dropdown-menu {
   border: 0;
 }
+
 </style>
 
 <template>
@@ -21,20 +24,19 @@
         {{ $t('app.optional') }}
       </span>
     </label>
-    <v-select v-model="selected"
+    <v-select v-model="proxyValue"
               :options="options"
+              :label="customLabelKey"
               :placeholder="placeholder"
               class="style-chooser"
-              :label="customLabelKey"
               :data-cy="datacy"
               :close-on-select="true"
-              @input="broadcast"
     >
       <!-- all this complex code below just to make sure the select box is required -->
-      <template #search="{attributes, events}">
+      <template #search="{ attributes, events }">
         <input
           class="vs__search"
-          :required="required && !selected"
+          :required="required && !proxyValue"
           v-bind="attributes"
           v-on="events"
         />
@@ -50,23 +52,26 @@
 </template>
 
 <script>
-import vSelect from 'vue-select';
-import 'vue-select/dist/vue-select.css';
+
+import vSelect from 'vue-select/src/index.js';
 
 export default {
   components: {
     vSelect,
   },
 
+  model: {
+    prop: 'modelValue',
+    event: 'update:modelValue'
+  },
+
   props: {
     id: {
       type: String,
-      default() {
-        return `text-input-${this._uid}`;
-      },
+      default: 'text-input-',
     },
-    value: {
-      type: Object,
+    modelValue: {
+      type: [Object, String, Number],
       default: null,
     },
     name: {
@@ -105,40 +110,56 @@ export default {
       type: Array,
       default: () => [],
     },
+    customValueKey: {
+      type: String,
+      default: 'value',
+    },
     customLabelKey: {
       type: String,
       default: 'label',
     },
   },
 
+  emits: [
+    'esc-key-pressed', 'update:modelValue'
+  ],
+
   data() {
     return {
-      selected: null,
       localErrors: [],
     };
   },
 
-  watch: {
-    value(newValue) {
-      this.selected = newValue;
+  computed: {
+    proxyValue: {
+      get() {
+        return this.options[this.options.findIndex(p => p[this.customValueKey] === this.modelValue)];
+      },
+      set(value) {
+        this.$emit('update:modelValue', value[this.customValueKey]);
+      }
     },
+    labelValue() {
+      return this.proxyValue[this.customLabelKey];
+    },
+    realId() {
+      return this.id + this._.uid;
+    },
+  },
+
+  watch: {
     errors(value) {
       this.localErrors = value;
     },
   },
 
   mounted() {
-    this.selected = this.value;
     this.localErrors = this.errors;
   },
 
   methods: {
     sendEscKey() {
       this.$emit('esc-key-pressed');
-    },
-
-    broadcast(value) {
-      this.$emit('input', value);
     },
   },
 };

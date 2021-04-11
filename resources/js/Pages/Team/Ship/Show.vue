@@ -1,11 +1,6 @@
 <style lang="scss" scoped>
 .ship-avatar {
-  img {
-    left: 1px;
-    top: 5px;
-    width: 44px;
-  }
-
+  left: 1px;
   text-decoration: none;
   border-bottom: none;
 }
@@ -85,7 +80,7 @@
             <ul class="list ma0 pa0">
               <li v-for="employee in ship.employees" :key="employee.id" class="mb3">
                 <span class="pl3 db relative team-member">
-                  <inertia-link :href="employee.url" class="ship-avatar" alt="avatar"><img loading="lazy" :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" /></inertia-link>
+                  <avatar :avatar="employee.avatar" :class="'ship-avatar br-100 absolute'" :url="employee.url" :size="44" />
 
                   <div class="name relative">
                     <inertia-link :href="employee.url" class="mb2" :data-cy="'ship-list-employee-' + employee.id">{{ employee.name }}</inertia-link>
@@ -110,10 +105,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Avatar,
   },
 
   props: {
@@ -149,7 +146,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },

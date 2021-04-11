@@ -19,19 +19,19 @@
                 @success="onSuccess"
                 @error="onError"
     >
-      <avatar :avatar="localAvatar" :size="300" />
+      <the-avatar :avatar="localAvatar" :size="300" />
     </uploadcare>
   </div>
 </template>
 
 <script>
-import Uploadcare from 'uploadcare-vue';
-import Avatar from '@/Shared/Avatar';
+import Uploadcare from 'uploadcare-vue/src/Uploadcare.vue';
+import TheAvatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Uploadcare,
-    Avatar,
+    TheAvatar,
   },
 
   props: {
@@ -70,7 +70,7 @@ export default {
     this.localAvatar = this.employee.avatar;
 
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
 
       localStorage.removeItem('success');
     }
@@ -86,13 +86,13 @@ export default {
       this.form.mime_type = file.mimeType;
       this.form.size = file.size;
 
-      this.importCSV();
+      this.importAvatar();
     },
 
     onError() {
     },
 
-    importCSV() {
+    importAvatar() {
       this.loadingState = 'loading';
 
       axios.put(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/avatar/update`, this.form)

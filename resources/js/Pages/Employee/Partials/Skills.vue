@@ -81,7 +81,7 @@
     <div v-if="editMode" class="br3 bg-white box z-1 pa3">
       <form @submit.prevent="search">
         <div class="relative">
-          <text-input :ref="'search-skill-input'"
+          <text-input :ref="'searchSkillInput'"
                       v-model="form.searchTerm"
                       :errors="$page.props.errors.lastname"
                       :label="$t('employee.skills_search_term')"
@@ -89,7 +89,7 @@
                       :datacy="'search-skill'"
                       :extra-class-upper-div="'mb0'"
                       @keyup="search"
-                      @input="search"
+                      @update:model-value="search"
                       @esc-key-pressed="toggleEditMode()"
           />
           <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
@@ -185,7 +185,7 @@ export default {
       this.searchTerm = null;
 
       this.$nextTick(() => {
-        this.$refs['search-skill-input'].$refs['input'].focus();
+        this.$refs.searchSkillInput.focus();
       });
     },
 

@@ -40,13 +40,13 @@
 
       <!-- CTA -->
       <form v-if="! localeCoffee.happened" @submit.prevent="markAsHappened">
-        <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('dashboard.e_coffee_match_cta')" :cypress-selector="'mark-ecoffee-as-happened'" />
+        <loading-button :class="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('dashboard.e_coffee_match_cta')" :cypress-selector="'mark-ecoffee-as-happened'" />
       </form>
 
       <!-- avatars -->
       <div class="absolute-ns avatars tc">
         <img class="avatar br-100" loading="lazy" src="/img/streamline-icon-coffee-idea-sparking@140x140.png" alt="avatar" />
-        <avatar :avatar="localeCoffee.other_employee.avatar" :size="55" :classes="'avatar br-100'" />
+        <avatar :avatar="localeCoffee.other_employee.avatar" :size="55" :class="'avatar br-100'" />
       </div>
     </div>
 
@@ -58,7 +58,7 @@
       <!-- avatars -->
       <div class="absolute-ns avatars tc">
         <img class="avatar br-100" loading="lazy" src="/img/streamline-icon-coffee-idea-sparking@140x140.png" alt="avatar" />
-        <avatar :avatar="localeCoffee.other_employee.avatar" :size="55" :classes="'avatar br-100'" />
+        <avatar :avatar="localeCoffee.other_employee.avatar" :size="55" :class="'avatar br-100'" />
       </div>
     </div>
   </div>

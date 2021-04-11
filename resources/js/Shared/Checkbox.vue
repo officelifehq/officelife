@@ -26,14 +26,14 @@ input[type=checkbox] {
     <div class="flex items-start">
       <input
         :id="id"
-        v-model="updatedValue"
+        v-model="proxyValue"
+        :value="value"
         type="checkbox"
         class="relative mr2"
-        :class="classes"
         :required="required"
         :name="name"
         :data-cy="datacy"
-        @change="$emit('change', updatedValue)"
+        v-bind="$attrs"
       />
       <label v-if="label" class="fw4 lh-copy f5 pointer di" :for="id">
         <span v-html="label"></span>
@@ -54,12 +54,23 @@ input[type=checkbox] {
 
 <script>
 export default {
+  inheritAttrs: false,
+
+  model: {
+    prop: 'modelValue',
+    event: 'update:modelValue'
+  },
+
   props: {
     id: {
       type: String,
       default: '',
     },
     value: {
+      type: [Boolean, String],
+      default: true,
+    },
+    modelValue: {
       type: Boolean,
       default: false,
     },
@@ -91,40 +102,43 @@ export default {
       type: Boolean,
       default: false,
     },
-    classes: {
-      type: String,
-      default: '',
-    },
     extraClassUpperDiv: {
       type: String,
       default: '',
     },
   },
 
+  emits: [
+    'update:modelValue'
+  ],
+
   data() {
     return {
-      updatedValue: false,
       localErrors: [],
     };
   },
 
   computed: {
+    proxyValue: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
+    },
     hasError() {
       return this.localErrors.length > 0 && this.required;
     }
   },
 
   watch: {
-    value(newValue) {
-      this.updatedValue = newValue;
-    },
     errors(value) {
       this.localErrors = value;
     },
   },
 
   mounted() {
-    this.updatedValue = this.value;
     this.localErrors = this.errors;
   },
 

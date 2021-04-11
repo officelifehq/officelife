@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$page.props.auth.user.show_help" :class="classes" class="di relative pointer" :data-cy="datacy" :data-url="finalURL"
+  <div v-if="$page.props.auth.user.show_help" class="di relative pointer" :data-cy="datacy" :data-url="finalURL"
        :style="'top:' + top"
        @click="goTo()"
   >
@@ -12,10 +12,6 @@
 <script>
 export default {
   props: {
-    classes: {
-      type: String,
-      default: '',
-    },
     url: {
       type: String,
       default: '',

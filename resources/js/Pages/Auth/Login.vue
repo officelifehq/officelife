@@ -20,7 +20,7 @@
       </div>
       <div class="">
         <!-- Form Errors -->
-        <errors :errors="errors" :classes="'mb3'" />
+        <errors :errors="errors" :class="'mb3'" />
 
         <form @submit.prevent="submit">
           <text-input v-model="form.email"
@@ -41,7 +41,7 @@
 
           <!-- Actions -->
           <div class="flex-ns justify-between">
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.login_cta')" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.login_cta')" />
           </div>
         </form>
       </div>

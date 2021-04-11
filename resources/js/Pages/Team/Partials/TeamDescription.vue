@@ -43,7 +43,7 @@
                 {{ $t('app.cancel') }}
               </a>
             </div>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'team-description-submit-description-button'" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'team-description-submit-description-button'" />
           </div>
         </div>
       </form>
@@ -119,7 +119,7 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/description', this.form)
         .then(response => {
-          flash(this.$t('team.description_success'), 'success');
+          this.flash(this.$t('team.description_success'), 'success');
 
           this.updatedTeam = response.data.data;
           this.form.description = this.updatedTeam.raw_description;

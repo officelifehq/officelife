@@ -44,10 +44,7 @@ class EmployeeEditViewHelperTest extends TestCase
                 'twitter_handle' => $michael->twitter_handle,
                 'slack_handle' => $michael->slack_handle,
                 'max_year' => 2018,
-                'timezone' => [
-                    'value' => 'Africa/Banjul',
-                    'label' => '(UTC +00:00) Africa/Banjul',
-                ],
+                'timezone' => 'Africa/Banjul',
             ],
             $array
         );

@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .avatar {
   left: 1px;
   top: 5px;
@@ -109,7 +111,7 @@
                             :required="false"
                             autocomplete="off"
                             @keyup="search"
-                            @input="search"
+                            @update:model-value="search"
                             @esc-key-pressed="showAssignProjectLead = false"
                 />
                 <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
@@ -134,7 +136,7 @@
             <div v-if="form.projectLead" class="mb3 mt2 bt bb-gray pt3">
               <p class="mt0 db fw4 lh-copy f6 mb1">Lead by</p>
               <span class="ba bb-gray br3 pa2 pl3 db relative team-member">
-                <avatar :avatar="form.projectLead.avatar" :size="23" :classes="'br-100 absolute avatar'" />
+                <avatar :avatar="form.projectLead.avatar" :size="23" :class="'br-100 absolute avatar'" />
 
                 {{ form.projectLead.name }}
 
@@ -153,7 +155,7 @@
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.create')" :cypress-selector="'submit-create-project-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.create')" :cypress-selector="'submit-create-project-button'" />
               </div>
             </div>
           </form>
@@ -170,7 +172,6 @@ import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
 import Avatar from '@/Shared/Avatar';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import Help from '@/Shared/Help';
 

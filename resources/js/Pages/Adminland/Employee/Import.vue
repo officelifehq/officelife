@@ -67,7 +67,7 @@ input[type=radio] {
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.import_review')" :cypress-selector="'submit-import-employee-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.import_review')" :cypress-selector="'submit-import-employee-button'" />
               </div>
             </div>
           </form>
@@ -81,7 +81,7 @@ input[type=radio] {
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
-import Uploadcare from 'uploadcare-vue';
+import Uploadcare from 'uploadcare-vue/src/Uploadcare.vue';
 
 export default {
   components: {

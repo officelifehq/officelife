@@ -28,18 +28,17 @@
       </span>
     </label>
 
-    <textarea :id="id"
+    <textarea :id="realId"
               :ref="customRef"
               v-bind="$attrs"
+              v-model="proxyValue"
               class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
               :class="{ error: errors.length }"
               :required="required"
               :type="type"
-              :value="value"
               :data-cy="datacy"
               :rows="rows"
               :maxlength="maxlength"
-              @input="$emit('input', $event.target.value)"
               @keydown.esc="sendEscKey"
     ></textarea>
 
@@ -57,18 +56,21 @@
 export default {
   inheritAttrs: false,
 
+  model: {
+    prop: 'modelValue',
+    event: 'update:modelValue'
+  },
+
   props: {
     id: {
       type: String,
-      default() {
-        return `text-area-${this._uid}`;
-      },
+      default: 'text-area-',
     },
     type: {
       type: String,
       default: 'text',
     },
-    value: {
+    modelValue: {
       type: String,
       default: '',
     },
@@ -106,10 +108,28 @@ export default {
     },
   },
 
+  emits: [
+    'esc-key-pressed', 'update:modelValue'
+  ],
+
   data() {
     return {
       localErrors: [],
     };
+  },
+
+  computed: {
+    proxyValue: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
+    },
+    realId() {
+      return this.id + this._.uid;
+    },
   },
 
   watch: {
@@ -124,15 +144,15 @@ export default {
 
   methods: {
     focus() {
-      this.$refs.input.focus();
+      this.$refs[this.customRef].focus();
     },
 
     select() {
-      this.$refs.input.select();
+      this.$refs[this.customRef].select();
     },
 
     setSelectionRange(start, end) {
-      this.$refs.input.setSelectionRange(start, end);
+      this.$refs[this.customRef].setSelectionRange(start, end);
     },
 
     sendEscKey() {

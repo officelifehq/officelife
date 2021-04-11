@@ -55,7 +55,7 @@
           :datacy="'action-item-' + actionItem.id"
           :label="actionItem.description"
           :extra-class-upper-div="'mb0 relative'"
-          :classes="'mb0 mr1'"
+          :class="'mb0 mr1'"
           :maxlength="255"
           :required="true"
           :editable="!entry.happened"
@@ -78,7 +78,7 @@
             />
             <!-- actions -->
             <div>
-              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-action-item-cta" :state="loadingState" :text="$t('app.update')" />
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-action-item-cta" :state="loadingState" :text="$t('app.update')" />
               <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="actionItemToEdit = 0">
                 {{ $t('app.cancel') }}
               </a>
@@ -106,7 +106,7 @@
           />
           <!-- actions -->
           <div>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="add-action-item-cta" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="add-action-item-cta" />
             <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addActionItemMode = false">
               {{ $t('app.cancel') }}
             </a>
@@ -152,8 +152,17 @@ export default {
     };
   },
 
+  watch: {
+    entry: {
+      handler(value) {
+        this.localActionItems = value.action_items;
+      },
+      deep: true
+    }
+  },
+
   created() {
-    this.localActionItems= this.entry.action_items;
+    this.localActionItems = this.entry.action_items;
   },
 
   methods: {
@@ -161,12 +170,8 @@ export default {
       this.actionItemToEdit = id;
       this.form.description = description;
 
-      // this is really barbaric, but I need to do this to
-      // first: target the TextInput with the right ref attribute
-      // second: target within the component, the refs of the input text
-      // this is because we try here to access $refs from a child component
       this.$nextTick(() => {
-        this.$refs[`actionItem${id}`][0].$refs['input'].focus();
+        this.$refs[`actionItem${id}`].focus();
       });
     },
 
@@ -175,7 +180,7 @@ export default {
       this.form.description = null;
 
       this.$nextTick(() => {
-        this.$refs['newActionItem'].$refs['input'].focus();
+        this.$refs.newActionItem.focus();
       });
     },
 
@@ -206,8 +211,7 @@ export default {
           this.loadingState = null;
           this.form.description = null;
 
-          var id = this.localActionItems.findIndex(x => x.id === itemId);
-          this.$set(this.localActionItems, id, response.data.data);
+          this.localActionItems[this.localActionItems.findIndex(x => x.id === itemId)] = response.data.data;
         })
         .catch(error => {
           this.loadingState = null;
@@ -227,7 +231,7 @@ export default {
     destroy(id) {
       axios.delete('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems/' + id)
         .then(response => {
-          flash(this.$t('dashboard.one_on_ones_note_deletion_success'), 'success');
+          this.flash(this.$t('dashboard.one_on_ones_note_deletion_success'), 'success');
           id = this.localActionItems.findIndex(x => x.id === id);
           this.localActionItems.splice(id, 1);
         })

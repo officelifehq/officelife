@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .avatar {
   left: 1px;
   top: 5px;
@@ -98,7 +100,7 @@
                             :placeholder="$t('team.recent_ship_new_credit_help')"
                             :required="false"
                             @keyup="search"
-                            @input="search"
+                            @update:model-value="search"
                             @esc-key-pressed="showTeamMembers = false"
                 />
                 <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
@@ -123,7 +125,7 @@
             <div v-show="form.employees.length > 0" class="ba bb-gray mb3 mt4">
               <div v-for="employee in form.employees" :key="employee.id" class="pa2 db bb-gray bb" data-cy="members-list">
                 <span class="pl3 db relative team-member">
-                  <avatar :avatar="employee.avatar" :size="23" :classes="'br-100 absolute avatar'" />
+                  <avatar :avatar="employee.avatar" :size="23" :class="'br-100 absolute avatar'" />
 
                   {{ employee.name }}
 
@@ -143,7 +145,7 @@
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-ship-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-ship-button'" />
               </div>
             </div>
           </form>
@@ -159,7 +161,6 @@ import TextArea from '@/Shared/TextArea';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import Help from '@/Shared/Help';
 import Avatar from '@/Shared/Avatar';

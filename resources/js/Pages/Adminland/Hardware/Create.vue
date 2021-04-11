@@ -73,7 +73,6 @@ input[type=radio] {
                 :label="$t('account.hardware_create_lend_hardware')"
                 :extra-class-upper-div="'mb0 relative'"
                 :required="false"
-                @change="updateStatus($event)"
               />
 
               <select-box v-if="form.lend_hardware"
@@ -84,7 +83,6 @@ input[type=radio] {
                           :errors="$page.props.errors.employee_id"
                           :placeholder="$t('account.hardware_create_lend_name')"
                           :required="false"
-                          :value="form.employee_id"
                           :datacy="'employee-selector'"
               />
             </div>
@@ -97,7 +95,7 @@ input[type=radio] {
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-hardware-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-hardware-button'" />
               </div>
             </div>
           </form>
@@ -153,14 +151,10 @@ export default {
   },
 
   methods: {
-    updateStatus(payload) {
-      this.form.lend_hardware = payload;
-    },
-
     submit() {
       this.loadingState = 'loading';
-      if (this.form.employee_id) {
-        this.form.employee_id = this.form.employee_id.value;
+      if (!this.form.lend_hardware) {
+        this.form.employee_id = null;
       }
 
       axios.post('/' + this.$page.props.auth.company.id + '/account/hardware', this.form)

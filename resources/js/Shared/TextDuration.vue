@@ -31,21 +31,21 @@ input[type=number] {
 </style>
 
 <template>
-  <div :class="classes" class="ba bb-gray br3 pa1 pt2 container">
+  <div class="ba bb-gray br3 pa1 pt2 container">
     <div class="relative">
       <span class="legend gray tc absolute f7">
         hours
       </span>
 
       <!-- hours -->
-      <the-mask v-model="localHours"
+      <the-mask :value="localHours"
                 mask="##"
                 class="br2 f5 pt2 pb0 ph1 outline-0 di tc bg-white"
                 type="text"
                 :masked="false"
                 placeholder="00"
                 :data-cy="datacy + '-hours'"
-                @input="broadcastTotal()"
+                @input="updateHours"
       />
 
       <!-- separator -->
@@ -58,92 +58,120 @@ input[type=number] {
         min.
       </span>
 
-      <the-mask v-model="localMinutes"
+      <the-mask :value="localMinutes"
                 mask="##"
                 class="br2 f5 pt2 pb0 ph1 outline-0 di tc bg-white"
                 type="text"
                 :masked="false"
                 placeholder="00"
                 :data-cy="datacy + '-minutes'"
-                @input="broadcastTotal()"
+                @input="updateMinutes"
       />
     </div>
   </div>
 </template>
 
 <script>
-import {TheMask} from 'vue-the-mask';
+import TheMask from 'vue-the-mask/src/component';
 
 export default {
 
-  components: {TheMask},
-  inheritAttrs: false,
+  components: {
+    TheMask
+  },
+
+  model: {
+    prop: 'modelValue',
+    event: 'update:modelValue'
+  },
 
   props: {
     id: {
       type: String,
-      default() {
-        return `text-input-${this._uid}`;
-      },
+      default: 'text-input-',
     },
     errors: {
       type: String,
       default: '',
     },
-    total: {
+    modelValue: {
       type: Number,
       default: 0,
     },
     hours: {
       type: Number,
-      default: 0,
+      default: undefined,
     },
     minutes: {
       type: Number,
-      default: 0,
+      default: undefined,
     },
     datacy: {
       type: String,
       default: '',
     },
-    classes: {
-      type: String,
-      default: '',
-    },
   },
+
+  emits: [
+    'update:modelValue', 'update:hours', 'update:minutes'
+  ],
 
   data() {
     return {
-      localHours: 0,
-      localMinutes: 0,
-      durationInMinutes: 0,
+      localHours: undefined,
+      localMinutes: undefined,
     };
+  },
+
+  computed: {
+    realId() {
+      return this.id + this._.uid;
+    },
+  },
+
+  watch: {
+    hours(value) {
+      this.localHours = value;
+    },
+    minutes(value) {
+      this.localMinutes = value;
+    },
   },
 
   mounted() {
     this.$nextTick(() => {
       this.localHours = this.hours;
       this.localMinutes = this.minutes;
-      this.durationInMinutes = this.total;
     });
   },
 
   methods: {
-    broadcastTotal() {
-      var hours = 0;
-      var minutes = 0;
-
-      if (this.localHours) {
-        hours = parseInt(this.localHours) * 60;
+    updateHours(e) {
+      if (e.isTrusted) {
+        let value = parseInt(e.target.value);
+        this.localHours = value === undefined || isNaN(value) ? '0' : e.target.value;
+        this.$emit('update:hours', value);
+        this.updateModelValue();
       }
-
-      if (this.localMinutes) {
-        minutes = parseInt(this.localMinutes);
-      }
-
-      this.durationInMinutes = hours + minutes;
-      this.$emit('update', this.durationInMinutes);
     },
-  },
+    updateMinutes(e) {
+      if (e.isTrusted) {
+        let value = parseInt(e.target.value);
+        this.localMinutes = value === undefined || isNaN(value) ? '0' : e.target.value;
+        this.$emit('update:minutes', value);
+        this.updateModelValue();
+      }
+    },
+    updateModelValue() {
+      let value = 0;
+      if (this.localHours !== undefined) {
+        value += parseInt(this.localHours) * 60;
+      }
+      if (this.localMinutes !== undefined) {
+        value += parseInt(this.localMinutes);
+      }
+      this.$emit('update:modelValue', value);
+    }
+  }
 };
 </script>

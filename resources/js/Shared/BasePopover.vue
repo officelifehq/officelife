@@ -35,6 +35,10 @@ export default {
     }
   },
 
+  emits: [
+    'close-popover'
+  ],
+
   data() {
     return {
       popperInstance: null

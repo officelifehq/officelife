@@ -97,7 +97,7 @@
                         {{ $t('app.cancel') }}
                       </a>
                     </div>
-                    <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="submit-add-team-button" />
+                    <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="submit-add-team-button" />
                   </div>
                 </div>
               </form>
@@ -162,7 +162,7 @@
                     <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" :data-cy="'list-rename-cancel-button-' + team.id" @click.prevent="teamToRename = 0">
                       {{ $t('app.cancel') }}
                     </a>
-                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + team.id" :state="loadingState" :text="$t('app.update')" />
+                    <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + team.id" :state="loadingState" :text="$t('app.update')" />
                   </div>
                 </form>
               </template>
@@ -181,7 +181,7 @@
                   <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3 mr3" :data-cy="'list-destroy-cancel-button-' + team.id" @click.prevent="teamToDelete = 0">
                     {{ $t('app.cancel') }}
                   </a>
-                  <loading-button :classes="'btn destroy w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-destroy-cta-button-' + team.id" :state="loadingState" :text="$t('app.delete')" />
+                  <loading-button :class="'btn destroy w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-destroy-cta-button-' + team.id" :state="loadingState" :text="$t('app.delete')" />
                 </form>
               </template>
             </li>
@@ -243,6 +243,15 @@ export default {
     };
   },
 
+  watch: {
+    teams: {
+      handler(value) {
+        this.localTeams = value;
+      },
+      deep: true
+    }
+  },
+
   mounted() {
     this.localTeams = this.teams;
   },
@@ -255,11 +264,7 @@ export default {
       this.form.name = team.name;
 
       this.$nextTick(() => {
-        // this is really barbaric, but I need to do this to
-        // first: target the TextInput with the right ref attribute
-        // second: target within the component, the refs of the input text
-        // this is because we try here to access $refs from a child component
-        this.$refs[`name${team.id}`][0].$refs[`name${team.id}`].focus();
+        this.$refs[`name${team.id}`].focus();
       });
     },
 
@@ -274,7 +279,7 @@ export default {
       this.form.errors = [];
 
       this.$nextTick(() => {
-        this.$refs['newTeam'].$refs['input'].focus();
+        this.$refs.newTeam.focus();
       });
     },
 
@@ -283,7 +288,7 @@ export default {
 
       axios.post(this.route('account_teams.teams.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
-          flash(this.$t('account.team_creation_success'), 'success');
+          this.flash(this.$t('account.team_creation_success'), 'success');
 
           this.loadingState = null;
           this.form.name = null;
@@ -299,13 +304,12 @@ export default {
     update(team) {
       axios.put(this.route('account_teams.teams.update', [this.$page.props.auth.company.id, team.id]), this.form)
         .then(response => {
-          flash(this.$t('account.team_update_success'), 'success');
+          this.flash(this.$t('account.team_update_success'), 'success');
 
           this.teamToRename = 0;
           this.form.name = null;
 
-          var id = this.localTeams.findIndex(x => x.id === team.id);
-          this.$set(this.localTeams, id, response.data.data);
+          this.localTeams[this.localTeams.findIndex(x => x.id === team.id)] = response.data.data;
         })
         .catch(error => {
           this.form.errors = error.response.data;
@@ -315,7 +319,7 @@ export default {
     destroy(team) {
       axios.delete(this.route('account_teams.teams.destroy', [this.$page.props.auth.company.id, team.id]))
         .then(response => {
-          flash(this.$t('account.team_destroy_success'), 'success');
+          this.flash(this.$t('account.team_destroy_success'), 'success');
 
           this.teamToDelete = 0;
           var id = this.localTeams.findIndex(x => x.id === team.id);

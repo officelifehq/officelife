@@ -145,7 +145,7 @@ export default {
     destroy(id) {
       axios.delete('/' + this.$page.props.auth.company.id + '/account/hardware/' + id)
         .then(response => {
-          flash(this.$t('account.position_success_destroy'), 'success');
+          this.flash(this.$t('account.position_success_destroy'), 'success');
           this.$inertia.visit('/' + this.$page.props.auth.company.id + '/account/hardware');
         })
         .catch(error => {

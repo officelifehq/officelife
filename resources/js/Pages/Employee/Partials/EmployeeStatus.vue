@@ -199,7 +199,7 @@ export default {
     assign(status) {
       axios.post(`${this.$page.props.auth.company.id}/employees/${this.employee.id}/employeestatuses`, status)
         .then(response => {
-          flash(this.$t('employee.status_modal_assign_success'), 'success');
+          this.flash(this.$t('employee.status_modal_assign_success'), 'success');
 
           this.updatedEmployee = response.data.data;
         })
@@ -211,7 +211,7 @@ export default {
     reset(status) {
       axios.delete(`${this.$page.props.auth.company.id}/employees/${this.employee.id}/employeestatuses/${status.id}`)
         .then(response => {
-          flash(this.$t('employee.status_modal_unassign_success'), 'success');
+          this.flash(this.$t('employee.status_modal_unassign_success'), 'success');
 
           this.updatedEmployee = response.data.data;
         })

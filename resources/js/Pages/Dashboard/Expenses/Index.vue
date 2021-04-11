@@ -65,7 +65,7 @@
                   v-if="expense.employee.id"
                   :name="expense.employee.name"
                   :avatar="expense.employee.avatar"
-                  :classes="'gray'"
+                  :class="'gray'"
                   :size="'18px'"
                   :top="'0px'"
                   :margin-between-name-avatar="'25px'"
@@ -137,7 +137,7 @@
                   :key="manager.id"
                   :name="manager.name"
                   :avatar="manager.avatar"
-                  :classes="'mr2'"
+                  :class="'mr2'"
                   :size="'18px'"
                   :top="'1px'"
                   :margin-between-name-avatar="'25px'"
@@ -210,7 +210,7 @@
                     v-if="expense.employee.id"
                     :name="expense.employee.name"
                     :avatar="expense.employee.avatar"
-                    :classes="'gray'"
+                    :class="'gray'"
                     :size="'18px'"
                     :top="'1px'"
                     :margin-between-name-avatar="'25px'"
@@ -277,7 +277,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
 
       localStorage.removeItem('success');
     }

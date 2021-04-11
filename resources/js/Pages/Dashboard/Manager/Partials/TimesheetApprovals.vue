@@ -46,7 +46,7 @@
           <!-- avatars -->
           <div v-if="timesheetsStats.employees.length > 0" class="pl6-ns pl3 mb3">
             <div class="flex items-center relative tr all-avatars">
-              <avatar v-for="member in timesheetsStats.employees" :key="member.id" :avatar="member.avatar" :size="32" :classes="'br-100 small-avatar'" />
+              <avatar v-for="member in timesheetsStats.employees" :key="member.id" :avatar="member.avatar" :size="32" :class="'br-100 small-avatar'" />
             </div>
           </div>
         </div>
