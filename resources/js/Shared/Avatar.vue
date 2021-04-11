@@ -7,7 +7,7 @@
 
 
 <template>
-  <div v-if="member && member.avatar" v-bind="$attrs">
+  <div v-if="member && member.avatar" v-bind="$attrs" class="di">
     <inertia-link v-if="url" :href="url" class="link">
       <img :loading="loading" :width="size" :height="size"
            :src="member.avatar.normal" :srcset="srcset"
