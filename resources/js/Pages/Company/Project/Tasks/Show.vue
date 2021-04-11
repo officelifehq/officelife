@@ -162,13 +162,13 @@ input[type=checkbox] {
               <div class="cf bb bb-gray">
                 <!-- assigned to -->
                 <div class="fl w-50 br bb-gray pa3 bg-gray stat-left-corner">
-                  <select-box v-model="form.assignee_id"
+                  <select-box :ref="'assignee'"
+                              v-model="form.assignee_id"
                               :options="members"
                               :errors="$page.props.errors.assignee_id"
                               :label="$t('project.task_edit_assignee')"
                               :placeholder="$t('app.choose_value')"
                               :required="false"
-                              :value="form.assignee_id"
                               :datacy="'country_selector'"
                   />
                 </div>
@@ -189,7 +189,7 @@ input[type=checkbox] {
                       {{ $t('app.cancel') }}
                     </inertia-link>
                   </div>
-                  <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
+                  <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
                 </div>
               </div>
             </form>
@@ -233,7 +233,7 @@ input[type=checkbox] {
           <!-- information about the author -->
           <div v-if="localTask.author" class="flex mb4">
             <div class="mr2">
-              <avatar :avatar="localTask.author.avatar" :size="35" :classes="'br-100'" />
+              <avatar :avatar="localTask.author.avatar" :size="35" :class="'br-100'" />
             </div>
 
             <div>
@@ -295,7 +295,7 @@ input[type=checkbox] {
                   <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" data-cy="cancel-add-description" @click="logTimeMode = false">
                     {{ $t('app.cancel') }}
                   </a>
-                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
+                  <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
                 </div>
               </form>
             </div>
@@ -397,7 +397,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -412,7 +412,7 @@ export default {
       this.hideTimeTrackingEntries = false;
 
       this.$nextTick(() => {
-        this.$refs['newName'].$refs['input'].focus();
+        this.$refs.newName.focus();
       });
     },
 
@@ -424,7 +424,7 @@ export default {
     toggle() {
       axios.put(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${this.localTask.id}/toggle`)
         .then(response => {
-          flash(this.$t('project.task_show_status'), 'success');
+          this.flash(this.$t('project.task_show_status'), 'success');
           this.localTask.completed = !this.localTask.completed;
         })
         .catch(error => {
@@ -452,8 +452,7 @@ export default {
       var newAssigneeName = null;
 
       if (this.form.assignee_id) {
-        newAssigneeName = this.form.assignee_id.label;
-        this.form.assignee_id = this.form.assignee_id.value;
+        newAssigneeName = this.$refs.assignee.labelValue;
       }
 
       if (this.form.task_list_id == 0) {

@@ -46,108 +46,18 @@
       </div>
     </div>
 
-    <!-- monday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc" :class="isEmpty(localRow.days[0].total_of_minutes)">
-      <text-duration
-        v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
-        :hours="localRow.days[0].hours"
-        :minutes="localRow.days[0].minutes"
-        :total="localRow.days[0].total_of_minutes"
-        :datacy="'timesheet-' + timesheet.id + '-day-0'"
-        @update="updateDayInformation($event, 0)"
+    <div v-for="n in 7" :key="n" class="ph2 pv2 dtc bl bb bb-gray v-mid tc"
+         :class="{ 'blank': isEmpty(localRow.days[n-1].total_of_minutes), 'off-days': n === 6 || n === 7 }"
+    >
+      <text-duration v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
+                     v-model="localRow.days[n-1].total_of_minutes"
+                     :hours="localRow.days[n-1].hours"
+                     :minutes="localRow.days[n-1].minutes"
+                     :datacy="'timesheet-' + timesheet.id + '-day-0'"
+                     @update:model-value="updateDayInformation($event, n-1)"
       />
       <span v-else>
-        {{ formatTime(localRow.days[0].total_of_minutes) }}
-      </span>
-    </div>
-
-    <!-- tuesday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc" :class="isEmpty(localRow.days[1].total_of_minutes)">
-      <text-duration
-        v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
-        :hours="localRow.days[1].hours"
-        :minutes="localRow.days[1].minutes"
-        :total="localRow.days[1].total_of_minutes"
-        :datacy="'timesheet-' + timesheet.id + '-day-1'"
-        @update="updateDayInformation($event, 1)"
-      />
-      <span v-else class="">
-        {{ formatTime(localRow.days[1].total_of_minutes) }}
-      </span>
-    </div>
-
-    <!-- wednesday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc" :class="isEmpty(localRow.days[2].total_of_minutes)">
-      <text-duration
-        v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
-        :hours="localRow.days[2].hours"
-        :minutes="localRow.days[2].minutes"
-        :total="localRow.days[2].total_of_minutes"
-        :datacy="'timesheet-' + timesheet.id + '-day-2'"
-        @update="updateDayInformation($event, 2)"
-      />
-      <span v-else class="">
-        {{ formatTime(localRow.days[2].total_of_minutes) }}
-      </span>
-    </div>
-
-    <!-- thursday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc" :class="isEmpty(localRow.days[3].total_of_minutes)">
-      <text-duration
-        v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
-        :hours="localRow.days[3].hours"
-        :minutes="localRow.days[3].minutes"
-        :total="localRow.days[3].total_of_minutes"
-        :datacy="'timesheet-' + timesheet.id + '-day-3'"
-        @update="updateDayInformation($event, 3)"
-      />
-      <span v-else class="">
-        {{ formatTime(localRow.days[3].total_of_minutes) }}
-      </span>
-    </div>
-
-    <!-- friday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc" :class="isEmpty(localRow.days[4].total_of_minutes)">
-      <text-duration
-        v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
-        :hours="localRow.days[4].hours"
-        :minutes="localRow.days[4].minutes"
-        :total="localRow.days[4].total_of_minutes"
-        :datacy="'timesheet-' + timesheet.id + '-day-4'"
-        @update="updateDayInformation($event, 4)"
-      />
-      <span v-else>
-        {{ formatTime(localRow.days[4].total_of_minutes) }}
-      </span>
-    </div>
-
-    <!-- saturday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid off-days tc">
-      <text-duration
-        v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
-        :hours="localRow.days[5].hours"
-        :minutes="localRow.days[5].minutes"
-        :total="localRow.days[5].total_of_minutes"
-        :datacy="'timesheet-' + timesheet.id + '-day-5'"
-        @update="updateDayInformation($event, 5)"
-      />
-      <span v-else class="">
-        {{ formatTime(localRow.days[5].total_of_minutes) }}
-      </span>
-    </div>
-
-    <!-- sunday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid off-days tc">
-      <text-duration
-        v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
-        :hours="localRow.days[6].hours"
-        :minutes="localRow.days[6].minutes"
-        :total="localRow.days[6].total_of_minutes"
-        :datacy="'timesheet-' + timesheet.id + '-day-6'"
-        @update="updateDayInformation($event, 6)"
-      />
-      <span v-else class="">
-        {{ formatTime(localRow.days[6].total_of_minutes) }}
+        {{ formatTime(localRow.days[n-1].total_of_minutes) }}
       </span>
     </div>
   </div>
@@ -175,6 +85,10 @@ export default {
       default: '',
     },
   },
+
+  emits: [
+    'day-updated', 'update-weekly-total', 'row-deleted'
+  ],
 
   data() {
     return {
@@ -248,7 +162,7 @@ export default {
 
   methods: {
     isEmpty(timeInMinutes) {
-      return (timeInMinutes == 0) ? 'blank' : '';
+      return timeInMinutes == undefined || timeInMinutes === 0;
     },
 
     updateDayInformation(payload, day) {
@@ -265,11 +179,7 @@ export default {
       var totalDurationInMinutes = 0;
 
       for(var i = 0; i < 7; i++){
-        if (i == 0) {
-          totalDurationInMinutes = parseInt(this.localRow.days[0].total_of_minutes);
-        } else {
-          totalDurationInMinutes = totalDurationInMinutes + parseInt(this.localRow.days[i].total_of_minutes);
-        }
+        totalDurationInMinutes += parseInt(this.localRow.days[i].total_of_minutes);
       }
 
       this.total = this.formatTime(totalDurationInMinutes);

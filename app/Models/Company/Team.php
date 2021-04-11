@@ -3,6 +3,7 @@
 namespace App\Models\Company;
 
 use Carbon\Carbon;
+use App\Helpers\ImageHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -134,7 +135,7 @@ class Team extends Model
                 ['worklogs.created_at', 'LIKE', $date->format('Y-m-d').'%'],
                 ['employee_team.team_id', '=', $this->id],
             ])
-            ->select('worklogs.content', 'employees.id', 'employees.first_name', 'employees.email', 'employees.last_name')
+            ->select('worklogs.content', 'employees.id', 'employees.first_name', 'employees.email', 'employees.last_name', 'employees.avatar_file_id')
             ->get();
 
         foreach ($worklogs as $worklog) {
@@ -143,7 +144,9 @@ class Team extends Model
             $employee->email = $worklog->email;
             $employee->first_name = $worklog->first_name;
             $employee->last_name = $worklog->last_name;
+            $employee->avatar_file_id = $worklog->avatar_file_id;
             $worklog->name = $employee->name;
+            $worklog->avatar = ImageHelper::getAvatar($employee, 22);
         }
 
         return $worklogs;

@@ -100,7 +100,7 @@
                   <!-- actions -->
                   <div class="flex justify-between">
                     <div>
-                      <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'edit-task-list-cta-' + taskList.id" :state="loadingState" :text="$t('app.update')" />
+                      <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'edit-task-list-cta-' + taskList.id" :state="loadingState" :text="$t('app.update')" />
                       <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="editListMode = false">{{ $t('app.cancel') }}</a>
                     </div>
 
@@ -151,7 +151,7 @@
 
                 <!-- actions -->
                 <div>
-                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="store-task-list-cta" :state="loadingState" :text="$t('app.save')" />
+                  <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="store-task-list-cta" :state="loadingState" :text="$t('app.save')" />
                   <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addListMode = false">{{ $t('app.cancel') }}</a>
                 </div>
               </form>
@@ -238,6 +238,20 @@ export default {
     }
   },
 
+  watch: {
+    tasks: {
+      handler(value) {
+        if (value.tasks_without_lists) {
+          this.localTasks =  value.tasks_without_lists;
+        }
+        if (value.task_lists) {
+          this.localTaskLists =  value.task_lists;
+        }
+      },
+      deep: true
+    }
+  },
+
   mounted() {
     if (this.tasks.tasks_without_lists) {
       this.localTasks =  this.tasks.tasks_without_lists;
@@ -248,7 +262,7 @@ export default {
     }
 
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -260,7 +274,7 @@ export default {
       this.form.description = null;
 
       this.$nextTick(() => {
-        this.$refs['newTaskList'].$refs['input'].focus();
+        this.$refs.newTaskList.focus();
       });
     },
 
@@ -271,7 +285,7 @@ export default {
       this.form.description = taskList.description;
 
       this.$nextTick(() => {
-        this.$refs[`editTaskList${taskList.id}`][0].$refs['input'].focus();
+        this.$refs[`editTaskList${taskList.id}`].focus();
       });
     },
 
@@ -285,7 +299,7 @@ export default {
           this.localTaskLists.push(response.data.data);
           this.form.title = null;
           this.form.description = null;
-          flash(this.$t('project.task_list_create_success'), 'success');
+          this.flash(this.$t('project.task_list_create_success'), 'success');
         })
         .catch(error => {
           this.loadingState = null;
@@ -301,12 +315,11 @@ export default {
           this.loadingState = null;
           this.editListMode = false;
 
-          var id = this.localTaskLists.findIndex(x => x.id === taskList.id);
-          this.$set(this.localTaskLists, id, response.data.data);
+          this.localTaskLists[this.localTaskLists.findIndex(x => x.id === taskList.id)] = response.data.data;
 
           this.form.title = null;
           this.form.description = null;
-          flash(this.$t('project.task_list_update_success'), 'success');
+          this.flash(this.$t('project.task_list_update_success'), 'success');
         })
         .catch(error => {
           this.loadingState = null;

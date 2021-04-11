@@ -132,7 +132,7 @@
                       v-if="item.employee"
                       :name="item.employee.name"
                       :avatar="item.employee.avatar"
-                      :classes="'gray'"
+                      :class="'gray'"
                       :size="'18px'"
                       :top="'0px'"
                       :margin-between-name-avatar="'25px'"

@@ -55,7 +55,7 @@
           :datacy="'talking-point-' + talkingPoint.id"
           :label="talkingPoint.description"
           :extra-class-upper-div="'mb0 relative'"
-          :classes="'mb0 mr1'"
+          :class="'mb0 mr1'"
           :maxlength="255"
           :required="true"
           :editable="!entry.happened"
@@ -78,7 +78,7 @@
             />
             <!-- actions -->
             <div>
-              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-talking-point-cta" :state="loadingState" :text="$t('app.update')" />
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-talking-point-cta" :state="loadingState" :text="$t('app.update')" />
               <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="talkingPointToEdit = 0">
                 {{ $t('app.cancel') }}
               </a>
@@ -104,7 +104,7 @@
           />
           <!-- actions -->
           <div>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="add-talking-point-cta" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="add-talking-point-cta" />
             <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addTalkingPointMode = false">
               {{ $t('app.cancel') }}
             </a>
@@ -150,8 +150,17 @@ export default {
     };
   },
 
+  watch: {
+    entry: {
+      handler(value) {
+        this.localTalkingPoints = value.talking_points;
+      },
+      deep: true
+    }
+  },
+
   created() {
-    this.localTalkingPoints= this.entry.talking_points;
+    this.localTalkingPoints = this.entry.talking_points;
   },
 
   methods: {
@@ -160,7 +169,7 @@ export default {
       this.form.description = null;
 
       this.$nextTick(() => {
-        this.$refs['newTalkingPoint'].$refs['input'].focus();
+        this.$refs.newTalkingPoint.focus();
       });
     },
 
@@ -168,12 +177,8 @@ export default {
       this.talkingPointToEdit = id;
       this.form.description = description;
 
-      // this is really barbaric, but I need to do this to
-      // first: target the TextInput with the right ref attribute
-      // second: target within the component, the refs of the input text
-      // this is because we try here to access $refs from a child component
       this.$nextTick(() => {
-        this.$refs[`talkingPoint${id}`][0].$refs['input'].focus();
+        this.$refs[`talkingPoint${id}`].focus();
       });
     },
 
@@ -204,8 +209,7 @@ export default {
           this.loadingState = null;
           this.form.description = null;
 
-          var id = this.localTalkingPoints.findIndex(x => x.id === itemId);
-          this.$set(this.localTalkingPoints, id, response.data.data);
+          this.localTalkingPoints[this.localTalkingPoints.findIndex(x => x.id === itemId)] = response.data.data;
         })
         .catch(error => {
           this.loadingState = null;
@@ -225,7 +229,7 @@ export default {
     destroy(id) {
       axios.delete('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/talkingPoints/' + id)
         .then(response => {
-          flash(this.$t('dashboard.one_on_ones_note_deletion_success'), 'success');
+          this.flash(this.$t('dashboard.one_on_ones_note_deletion_success'), 'success');
           id = this.localTalkingPoints.findIndex(x => x.id === id);
           this.localTalkingPoints.splice(id, 1);
         })

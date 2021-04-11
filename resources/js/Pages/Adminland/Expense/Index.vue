@@ -96,7 +96,7 @@ export default {
       this.form.name = '';
 
       this.$nextTick(() => {
-        this.$refs['newCategory'].$refs['input'].focus();
+        this.$refs.newCategory.focus();
       });
     },
   }

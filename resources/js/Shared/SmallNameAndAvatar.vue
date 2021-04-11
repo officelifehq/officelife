@@ -9,8 +9,8 @@ span {
     <img loading="lazy" :src="avatar.normal" :srcset="avatar.normal + ' 1x,' + avatar.retina + ' 2x'" class="absolute br-100" alt="avatar"
          :style="style"
     />
-    <inertia-link v-if="url" :href="url" :class="classes + ' ' + fontSize" :style="avatarMarginLeft">{{ name }}</inertia-link>
-    <span v-else :class="classes + ' ' + fontSize" :style="avatarMarginLeft">
+    <inertia-link v-if="url" :href="url" :class="fontSize" :style="avatarMarginLeft" v-bind="$attrs">{{ name }}</inertia-link>
+    <span v-else :class="fontSize" :style="avatarMarginLeft" v-bind="$attrs">
       {{ name }}
     </span>
   </div>
@@ -18,6 +18,8 @@ span {
 
 <script>
 export default {
+  inheritAttrs: false,
+
   props: {
     name: {
       type: String,
@@ -25,10 +27,6 @@ export default {
     },
     avatar: {
       type: Object,
-      default: null,
-    },
-    classes: {
-      type: String,
       default: null,
     },
     top: {

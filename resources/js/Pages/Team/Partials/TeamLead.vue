@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .avatar {
   left: 1px;
   top: 5px;
@@ -31,7 +33,7 @@
       <div class="lh-copy ma0 pa3 bb bb-gray">
         <p class="silver f6 ma0 mb1">{{ $t('team.team_lead_label') }}</p>
         <span class="pl3 db team-lead relative">
-          <avatar :avatar="localTeam.team_leader.avatar" :size="35" :classes="'br-100 absolute avatar'" />
+          <avatar :avatar="localTeam.team_leader.avatar" :size="35" :class="'br-100 absolute avatar'" />
           <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + localTeam.team_leader.id" class="mb2" data-cy="current-team-lead">
             {{ localTeam.team_leader.name }}
           </inertia-link>
@@ -54,7 +56,7 @@
             <div v-show="$page.props.auth.employee.permission_level <= 200" v-click-outside="hideRemovalMode" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn">
               <ul class="list ma0 pa0">
                 <li v-show="!removalConfirmation" class="pv2 relative">
-                  <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+                  <icon-delete :class="'icon-delete relative'" :width="15" :height="15" />
                   <a class="pointer ml1 c-delete" data-cy="remove-team-lead-button" @click.prevent="removalConfirmation = true">
                     {{ $t('team.team_lead_remove_confirmation') }}
                   </a>
@@ -129,7 +131,6 @@
 import Errors from '@/Shared/Errors';
 import Avatar from '@/Shared/Avatar';
 import IconDelete from '@/Shared/IconDelete';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import vClickOutside from 'v-click-outside';
 
@@ -223,12 +224,12 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/lead', this.form)
         .then(response => {
-          flash(this.$t('team.team_lead_added'), 'success');
+          this.flash(this.$t('team.team_lead_added'), 'success');
 
           this.localTeam.team_leader = response.data.data;
           this.editMode = false;
 
-          this.$root.$emit('lead-set', response.data.data);
+          this.$emitt('lead-set', response.data.data);
         })
         .catch(error => {
           this.form.errors = error.response.data;
@@ -238,7 +239,7 @@ export default {
     removeTeamLead() {
       axios.delete('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/lead/' + this.localTeam.team_leader.id)
         .then(response => {
-          flash(this.$t('team.team_lead_removed'), 'success');
+          this.flash(this.$t('team.team_lead_removed'), 'success');
 
           this.localTeam.team_leader = null;
           this.removeMode = false;

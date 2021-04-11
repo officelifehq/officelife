@@ -10,7 +10,7 @@
 
     <div class="cf mw7 center br3 mb3 bg-white box">
       <div class="pa3 relative">
-        <errors :errors="form.errors" :classes="'mb2'" />
+        <errors :errors="form.errors" :class="'mb2'" />
 
         <checkbox
           :id="'home'"
@@ -70,7 +70,7 @@ export default {
 
       axios.post(`${this.$page.props.auth.company.id}/dashboard/workFromHome`, this.form)
         .then(response => {
-          flash(this.$t('dashboard.work_from_home_success'), 'success');
+          this.flash(this.$t('dashboard.work_from_home_success'), 'success');
         })
         .catch(error => {
           this.successMessage = false;

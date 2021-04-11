@@ -50,13 +50,13 @@
           :label="task.title"
           :extra-class-upper-div="'mb0 relative'"
           :assignee="task.assignee"
-          :classes="'mb0 mr1'"
+          :class="'mb0 mr1'"
           :maxlength="255"
           :required="true"
           :url="task.url"
           :duration="task.duration"
-          @change="toggle(task.id)"
-          @update="showEditTask(task)"
+          @update:model-value="toggle(task.id)"
+          @edit="showEditTask(task)"
           @destroy="destroy(task.id)"
         />
 
@@ -82,14 +82,13 @@
                           :label="$t('project.task_edit_assignee')"
                           :placeholder="$t('app.choose_value')"
                           :required="false"
-                          :value="form.assignee_id"
                           :datacy="'assignee_selector'"
               />
             </div>
 
             <!-- actions -->
             <div>
-              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'edit-task-cta-' + task.id" :state="loadingState" :text="$t('app.update')" />
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'edit-task-cta-' + task.id" :state="loadingState" :text="$t('app.update')" />
               <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="taskToEdit = 0">
                 {{ $t('app.cancel') }}
               </a>
@@ -123,14 +122,13 @@
                         :label="$t('project.task_edit_assignee')"
                         :placeholder="$t('app.choose_value')"
                         :required="false"
-                        :value="form.assignee_id"
                         :datacy="'country_selector'"
             />
           </div>
 
           <!-- actions -->
           <div>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :data-cy="'task-list-' + form.task_list_id + '-add-task-cta'" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :data-cy="'task-list-' + form.task_list_id + '-add-task-cta'" />
             <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addTaskMode = false">
               {{ $t('app.cancel') }}
             </a>
@@ -190,9 +188,18 @@ export default {
     };
   },
 
+  watch: {
+    tasks: {
+      handler(value) {
+        this.localTasks = value;
+      },
+      deep: true
+    }
+  },
+
   mounted() {
     if (this.tasks) {
-      this.localTasks= this.tasks;
+      this.localTasks = this.tasks;
     }
 
     if (this.taskList) {
@@ -209,35 +216,22 @@ export default {
       this.form.description = null;
 
       this.$nextTick(() => {
-        this.$refs['newTaskItem'].$refs['input'].focus();
+        this.$refs.newTaskItem.focus();
       });
     },
 
     showEditTask(task) {
       this.taskToEdit = task.id;
       this.form.title = task.title;
-      if (task.assignee) {
-        this.form.assignee_id = {
-          value: task.assignee.id,
-          label: task.assignee.name,
-        };
-      }
+      this.form.assignee_id = task.assignee ? task.assignee.id : null;
 
-      // this is really barbaric, but I need to do this to
-      // first: target the TextInput with the right ref attribute
-      // second: target within the component, the refs of the input text
-      // this is because we try here to access $refs from a child component
       this.$nextTick(() => {
-        this.$refs[`task${task.id}`][0].$refs['input'].focus();
+        this.$refs[`task${task.id}`].focus();
       });
     },
 
     store() {
       this.loadingState = 'loading';
-
-      if (this.form.assignee_id) {
-        this.form.assignee_id = this.form.assignee_id.value;
-      }
 
       if (this.form.task_list_id == 0) {
         this.form.task_list_id = null;
@@ -251,7 +245,7 @@ export default {
           this.form.description = null;
           this.form.assignee_id = null;
           this.loadingState = null;
-          flash(this.$t('project.task_create_success'), 'success');
+          this.flash(this.$t('project.task_create_success'), 'success');
         })
         .catch(error => {
           this.loadingState = null;
@@ -271,10 +265,6 @@ export default {
     update(task) {
       this.loadingState = 'loading';
 
-      if (this.form.assignee_id) {
-        this.form.assignee_id = this.form.assignee_id.value;
-      }
-
       if (this.form.task_list_id == 0) {
         this.form.task_list_id = null;
       }
@@ -285,8 +275,7 @@ export default {
           this.loadingState = null;
           this.form.title = null;
 
-          var id = this.localTasks.findIndex(x => x.id === task.id);
-          this.$set(this.localTasks, id, response.data.data);
+          this.localTasks[this.localTasks.findIndex(x => x.id === task.id)] = response.data.data;
         })
         .catch(error => {
           this.loadingState = null;
@@ -297,7 +286,7 @@ export default {
     destroy(id) {
       axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${id}`)
         .then(response => {
-          flash(this.$t('project.task_delete_success'), 'success');
+          this.flash(this.$t('project.task_delete_success'), 'success');
           id = this.localTasks.findIndex(x => x.id === id);
           this.localTasks.splice(id, 1);
         })

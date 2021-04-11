@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .avatar {
   left: 1px;
   top: 5px;
@@ -43,7 +45,7 @@
                       :placeholder="$t('team.members_add_input_help')"
                       :required="false"
                       @keyup="search"
-                      @input="search"
+                      @update:model-value="search"
           />
           <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
         </form>
@@ -68,7 +70,7 @@
       <div v-if="listOfEmployees.length > 0" class="pa3 flex flex-wrap employee-list">
         <div v-for="employee in listOfEmployees" :key="employee.id" class="mb4 mr3" data-cy="members-list">
           <span class="pl3 db relative team-member">
-            <avatar :avatar="employee.avatar" :size="35" :classes="'br-100 absolute avatar'" />
+            <avatar :avatar="employee.avatar" :size="35" :class="'br-100 absolute avatar'" />
 
             <!-- normal mode -->
             <inertia-link v-show="!editMode" :href="employee.url" class="mb2">
@@ -107,7 +109,6 @@
 <script>
 import TextInput from '@/Shared/TextInput';
 import Avatar from '@/Shared/Avatar';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
@@ -151,7 +152,7 @@ export default {
 
     // when a team lead is set, we must react to the event emitted by the
     // TeamLead.vue component and add the team lead to the list of employees
-    this.$root.$on('lead-set', employee => {
+    this.$on('lead-set', employee => {
       var id = this.listOfEmployees.findIndex(member => member.id === employee.id);
 
       if (id === -1) {
@@ -194,7 +195,7 @@ export default {
           this.potentialMembers = [];
           this.form.searchTerm = '';
 
-          flash(this.$t('account.employee_statuses_success_destroy'), 'success');
+          this.flash(this.$t('account.employee_statuses_success_destroy'), 'success');
         })
         .catch(error => {
           this.form.errors = error.response.data;
@@ -209,7 +210,7 @@ export default {
           var id = this.listOfEmployees.findIndex(member => member.id === employee.id);
           this.listOfEmployees.splice(id, 1);
 
-          flash(this.$t('account.employee_statuses_success_destroy'), 'success');
+          this.flash(this.$t('account.employee_statuses_success_destroy'), 'success');
         })
         .catch(error => {
           this.form.errors = error.response.data;

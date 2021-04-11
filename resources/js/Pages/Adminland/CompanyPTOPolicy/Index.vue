@@ -77,7 +77,7 @@ td, th {
 
           <!-- LIST OF EXISTING PTO POLICIES -->
           <ul class="list pl0 mv0 center ba br2 bb-gray" data-cy="pto-policies-list">
-            <li v-for="ptoPolicy in ptoPolicies" :key="ptoPolicy.id" class="pv3 ph3 bb bb-gray bb-gray-hover">
+            <li v-for="ptoPolicy in localPtoPolicies" :key="ptoPolicy.id" class="pv3 ph3 bb bb-gray bb-gray-hover">
               <!-- title and edit button -->
               <h3 class="ma0 mb3 f3 fw5 relative">
                 {{ $t('account.pto_policies_edit_year', { year: ptoPolicy.year}) }}
@@ -177,37 +177,7 @@ td, th {
                       <thead>
                         <tr class="f6 tc">
                           <th scope="col">{{ $t('account.pto_policies_month') }}</th>
-                          <th scope="col">1</th>
-                          <th scope="col">2</th>
-                          <th scope="col">3</th>
-                          <th scope="col">4</th>
-                          <th scope="col">5</th>
-                          <th scope="col">6</th>
-                          <th scope="col">7</th>
-                          <th scope="col">8</th>
-                          <th scope="col">9</th>
-                          <th scope="col">10</th>
-                          <th scope="col">11</th>
-                          <th scope="col">12</th>
-                          <th scope="col">13</th>
-                          <th scope="col">14</th>
-                          <th scope="col">15</th>
-                          <th scope="col">16</th>
-                          <th scope="col">17</th>
-                          <th scope="col">18</th>
-                          <th scope="col">19</th>
-                          <th scope="col">20</th>
-                          <th scope="col">21</th>
-                          <th scope="col">22</th>
-                          <th scope="col">23</th>
-                          <th scope="col">24</th>
-                          <th scope="col">25</th>
-                          <th scope="col">26</th>
-                          <th scope="col">27</th>
-                          <th scope="col">28</th>
-                          <th scope="col">29</th>
-                          <th scope="col">30</th>
-                          <th scope="col">31</th>
+                          <th v-for="n in 31" :key="n" scope="col">{{ n }}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -243,7 +213,7 @@ td, th {
                     <a class="btn dib-l db mb2 mb0-ns" :data-cy="'list-edit-cancel-button-' + ptoPolicy.id" @click.prevent="idToUpdate = 0">
                       {{ $t('app.cancel') }}
                     </a>
-                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-edit-cta-button-' + ptoPolicy.id" :state="loadingState" :text="$t('app.update')" />
+                    <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-edit-cta-button-' + ptoPolicy.id" :state="loadingState" :text="$t('app.update')" />
                   </div>
                 </form>
               </div>
@@ -280,6 +250,7 @@ export default {
 
   data() {
     return {
+      localPtoPolicies: null,
       totalWorkedDays: 0,
       editModal: false,
       loadingState: '',
@@ -295,20 +266,30 @@ export default {
     };
   },
 
-  methods: {
-    isOff: function (holiday) {
-      var classes = '';
-      if (holiday.day_of_week == 0 || holiday.day_of_week == 6) {
-        classes = 'weekend';
-      }
-
-      if (holiday.is_worked == false && holiday.day_of_week != 0 && holiday.day_of_week != 6) {
-        classes = classes + ' off';
-      }
-
-      return classes;
+  computed: {
+    isOff(holiday) {
+      let weekend = holiday.day_of_week == 0 || holiday.day_of_week == 6;
+      return {
+        weekend: weekend,
+        off: holiday.is_worked == false && !weekend,
+      };
     },
+  },
 
+  watch: {
+    ptoPolicies: {
+      handler(value) {
+        this.localPtoPolicies = value;
+      },
+      deep: true
+    }
+  },
+
+  mounted() {
+    this.localPtoPolicies = this.ptoPolicies;
+  },
+
+  methods: {
     toggleUpdate(ptoPolicy) {
       if (!this.editModal) {
         this.load(ptoPolicy);
@@ -367,13 +348,12 @@ export default {
     update(id) {
       axios.put('/' + this.$page.props.auth.company.id + '/account/ptopolicies/' + id, this.form)
         .then(response => {
-          flash(this.$t('account.pto_policies_update'), 'success');
+          this.flash(this.$t('account.pto_policies_update'), 'success');
 
           this.idToUpdate = 0;
           this.form.year = null;
 
-          id = this.ptoPolicies.findIndex(x => x.id === id);
-          this.$set(this.ptoPolicies, id, response.data.data);
+          this.localPtoPolicies[this.localPtoPolicies.findIndex(x => x.id === id)] = response.data.data;
         })
         .catch(error => {
           this.form.errors = error.response.data;

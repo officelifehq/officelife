@@ -46,7 +46,7 @@
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn destroy w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.lock')" :cypress-selector="'submit-lock-employee-button'" />
+                <loading-button :class="'btn destroy w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.lock')" :cypress-selector="'submit-lock-employee-button'" />
               </div>
             </div>
           </form>

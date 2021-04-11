@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .avatar {
   left: 1px;
   top: 5px;
@@ -32,7 +34,7 @@
     <template v-if="localProject.project_lead">
       <div class="lh-copy ma0">
         <span class="db project-lead relative">
-          <avatar :avatar="localProject.project_lead.avatar" :size="35" :classes="'br-100 absolute avatar'" />
+          <avatar :avatar="localProject.project_lead.avatar" :size="35" :class="'br-100 absolute avatar'" />
           <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + localProject.project_lead.id" class="mb2" data-cy="current-project-lead">
             {{ localProject.project_lead.name }}
           </inertia-link>
@@ -57,7 +59,7 @@
 
                 <!-- click to remove -->
                 <li v-show="!removalConfirmation" class="pv2 relative">
-                  <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+                  <icon-delete :class="'icon-delete relative'" :width="15" :height="15" />
                   <a class="pointer ml1 c-delete" data-cy="remove-project-lead-button" @click.prevent="removalConfirmation = true">
                     {{ $t('project.summary_project_lead_remove_label') }}
                   </a>
@@ -129,7 +131,6 @@
 <script>
 import Errors from '@/Shared/Errors';
 import IconDelete from '@/Shared/IconDelete';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import vClickOutside from 'v-click-outside';
 import Avatar from '@/Shared/Avatar';
@@ -214,7 +215,7 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/lead/assign`, this.form)
         .then(response => {
-          flash(this.$t('project.summary_project_lead_added_success'), 'success');
+          this.flash(this.$t('project.summary_project_lead_added_success'), 'success');
 
           this.localProject.project_lead = response.data.data;
           this.editMode = false;
@@ -227,7 +228,7 @@ export default {
     removeLead() {
       axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/lead/clear`)
         .then(response => {
-          flash(this.$t('project.summary_project_lead_cleared_success'), 'success');
+          this.flash(this.$t('project.summary_project_lead_cleared_success'), 'success');
 
           this.localProject.project_lead = null;
           this.removeMode = false;

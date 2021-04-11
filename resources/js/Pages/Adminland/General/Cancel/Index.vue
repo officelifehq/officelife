@@ -74,7 +74,7 @@
                   {{ $t('app.cancel') }}
                 </inertia-link>
               </div>
-              <loading-button :classes="'btn destroy w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('account.cancel_cta')" />
+              <loading-button :class="'btn destroy w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('account.cancel_cta')" />
             </div>
           </form>
         </div>
