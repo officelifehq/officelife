@@ -146,7 +146,7 @@ class Team extends Model
             $employee->last_name = $worklog->last_name;
             $employee->avatar_file_id = $worklog->avatar_file_id;
             $worklog->name = $employee->name;
-            $worklog->avatar = ImageHelper::getAvatar($employee, 34);
+            $worklog->avatar = ImageHelper::getAvatar($employee, 22);
         }
 
         return $worklogs;
