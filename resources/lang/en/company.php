@@ -34,8 +34,10 @@ return [
     'recent_skills_view_all' => 'View all skills ({count})',
 
     'new_hires_title' => 'New hires this week',
-    'new_hires_date' => 'Starts on {date}',
-    'new_hires_date_with_position' => 'Starts on {date} as {position}',
+    'new_hires_date_future' => 'Starts on {date}',
+    'new_hires_date_past' => 'Started on {date}',
+    'new_hires_date_with_position_future' => 'Starts on :date as :position',
+    'new_hires_date_with_position_past' => 'Started on :date as :position',
     'new_hires_blank' => 'There are no new hires this week.',
 
     'recent_ships_title' => 'Recent ships',
