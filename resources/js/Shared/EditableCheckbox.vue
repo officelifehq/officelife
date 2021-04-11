@@ -74,15 +74,15 @@ input[type=checkbox] {
       <div class="flex items-start">
         <input
           :id="id"
-          v-model="updatedValue"
+          v-model="proxyValue"
+          :value="value"
           :data-cy="datacy + '-single-item'"
           type="checkbox"
           class="relative"
-          :class="classes"
           :required="required"
           :name="name"
           :disabled="!editable"
-          @change="emitValue()"
+          v-bind="$attrs"
         />
 
         <!-- content of the checkbox -->
@@ -93,7 +93,7 @@ input[type=checkbox] {
             v-if="assignee"
             :name="assignee.name"
             :avatar="assignee.avatar"
-            :classes="'gray'"
+            :class="'gray'"
             :size="'15px'"
             :font-size="'f7'"
             :top="'4px'"
@@ -144,8 +144,15 @@ input[type=checkbox] {
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 
 export default {
+
   components: {
     SmallNameAndAvatar,
+  },
+  inheritAttrs: false,
+
+  model: {
+    prop: 'modelValue',
+    event: 'update:modelValue'
   },
 
   props: {
@@ -154,6 +161,10 @@ export default {
       default: '',
     },
     value: {
+      type: Boolean,
+      default: null,
+    },
+    modelValue: {
       type: Boolean,
       default: false,
     },
@@ -189,10 +200,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    classes: {
-      type: String,
-      default: 'mb3',
-    },
     extraClassUpperDiv: {
       type: String,
       default: 'mb3',
@@ -211,9 +218,12 @@ export default {
     },
   },
 
+  emits: [
+    'update', 'destroy', 'update:modelValue'
+  ],
+
   data() {
     return {
-      updatedValue: false,
       hover: false,
       idToDelete: 0,
       localErrors: [],
@@ -221,32 +231,32 @@ export default {
   },
 
   computed: {
+    proxyValue: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
+    },
     hasError() {
       return this.errors.length > 0 && this.required;
     }
   },
 
   watch: {
-    value(newValue) {
-      this.updatedValue = newValue;
-    },
     errors(value) {
       this.localErrors = value;
     },
   },
 
   mounted() {
-    this.updatedValue = this.value;
     this.localErrors = this.errors;
   },
 
   methods: {
     focus() {
       this.$refs.input.focus();
-    },
-
-    emitValue() {
-      this.$emit('change', this.updatedValue);
     },
 
     showHover() {

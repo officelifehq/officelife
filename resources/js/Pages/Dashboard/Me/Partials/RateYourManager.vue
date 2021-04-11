@@ -95,7 +95,7 @@
 
             <!-- actions -->
             <p class="ma0">
-              <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.submit')" :cypress-selector="'submit-answer'" />
+              <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.submit')" :cypress-selector="'submit-answer'" />
               <a class="pointer" @click.prevent="commentMode = false">
                 {{ $t('app.cancel') }}
               </a>
@@ -169,7 +169,7 @@ export default {
           this.loadingState = null;
           this.alreadyAnswered = true;
           this.answerMode = true;
-          flash(this.$t('dashboard.rate_your_manager_submitted'), 'success');
+          this.flash(this.$t('dashboard.rate_your_manager_submitted'), 'success');
         })
         .catch(error => {
           this.loadingState = null;
@@ -187,7 +187,7 @@ export default {
           this.answerMode = true;
           this.commentMode = false;
           this.showFinalSucessMessage = true;
-          flash(this.$t('dashboard.rate_your_manager_submitted'), 'success');
+          this.flash(this.$t('dashboard.rate_your_manager_submitted'), 'success');
         })
         .catch(error => {
           this.loadingState = null;
@@ -199,7 +199,7 @@ export default {
       this.commentMode = true;
 
       this.$nextTick(() => {
-        this.$refs[`editor-${answer.id}`][0].$refs['input'].focus();
+        this.$refs[`editor-${answer.id}`].focus();
       });
     },
 

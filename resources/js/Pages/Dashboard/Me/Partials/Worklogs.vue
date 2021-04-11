@@ -39,7 +39,7 @@
       <!-- Shows the editor -->
       <div v-if="editMode">
         <form @submit.prevent="store()">
-          <errors :errors="form.errors" :classes="'mb2'" />
+          <errors :errors="form.errors" :class="'mb2'" />
 
           <text-area
             ref="editor"
@@ -51,7 +51,7 @@
             👋 {{ $t('dashboard.worklog_entry_description') }}
           </p>
           <p class="ma0">
-            <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-log-worklog'" />
+            <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-log-worklog'" />
             <a class="pointer" @click.prevent="editMode = false">
               {{ $t('app.cancel') }}
             </a>
@@ -112,7 +112,7 @@ export default {
       this.editMode = true;
 
       this.$nextTick(() => {
-        this.$refs['editor'].$refs['input'].focus();
+        this.$refs.editor.focus();
       });
     },
 
@@ -122,7 +122,7 @@ export default {
 
       axios.post(`${this.$page.props.auth.company.id}/dashboard/worklog`, this.form)
         .then(response => {
-          flash(this.$t('dashboard.worklog_success_message'), 'success');
+          this.flash(this.$t('dashboard.worklog_success_message'), 'success');
 
           this.loadingState = null;
           this.displaySuccessMessage = true;

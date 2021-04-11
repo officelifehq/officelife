@@ -1,7 +1,8 @@
 <style lang="scss" scoped>
-.avatar {
+.ship-avatar {
   left: 1px;
-  top: 5px;
+  text-decoration: none;
+  border-bottom: none;
 }
 
 .name {
@@ -79,7 +80,7 @@
             <ul class="list ma0 pa0">
               <li v-for="employee in ship.employees" :key="employee.id" class="mb3">
                 <span class="pl3 db relative team-member">
-                  <avatar :avatar="employee.avatar" :url="employee.url" :size="44" :classes="'br-100 absolute avatar'" />
+                  <avatar :avatar="employee.avatar" :class="'ship-avatar br-100 absolute'" :url="employee.url" :size="44" />
 
                   <div class="name relative">
                     <inertia-link :href="employee.url" class="mb2" :data-cy="'ship-list-employee-' + employee.id">{{ employee.name }}</inertia-link>
@@ -145,14 +146,14 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
 
   methods: {
     destroy(id) {
-      axios.delete('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/ships/' + id)
+      axios.delete(`${this.$page.props.auth.company.id}/teams/${this.team.id}/ships/${id}`)
         .then(response => {
           localStorage.success = this.$t('team.recent_ship_deletion_success');
           this.$inertia.visit('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/ships');

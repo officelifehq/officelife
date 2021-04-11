@@ -158,7 +158,7 @@
 
                 <!-- Actions -->
                 <div class="pa3 cf flex-ns">
-                  <loading-button :classes="'btn add mr2 w-auto-ns w-100 pv2 ph3 db dib-ns mb3 mb0-ns'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-member'" />
+                  <loading-button :class="'btn add mr2 w-auto-ns w-100 pv2 ph3 db dib-ns mb3 mb0-ns'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-member'" />
                   <a class="btn dib-ns db tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2" data-cy="cancel-button" @click.prevent="showModal = false">
                     {{ $t('app.cancel') }}
                   </a>
@@ -172,7 +172,7 @@
                 <li v-for="member in localMembers" :key="member.id" :data-cy="'member-' + member.id" class="pa3 bb bb-gray flex items-center">
                   <!-- avatar -->
                   <div class="mr3">
-                    <avatar :avatar="member.avatar" :size="64" :classes="'br-100'" />
+                    <avatar :avatar="member.avatar" :size="64" :class="'br-100'" />
                   </div>
 
                   <!-- name + information -->
@@ -298,7 +298,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -314,7 +314,7 @@ export default {
       this.form.role = null;
 
       this.$nextTick(() => {
-        this.$refs['newRole'].$refs['input'].focus();
+        this.$refs.newRole.focus();
       });
     },
 
@@ -339,7 +339,7 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/members/store`, this.form)
         .then(response => {
-          flash(this.$t('project.members_index_add_success'), 'success');
+          this.flash(this.$t('project.members_index_add_success'), 'success');
           this.loadingState = null;
           this.form.role = null;
           this.form.employee = null;
@@ -357,7 +357,7 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/members/remove`, this.form)
         .then(response => {
-          flash(this.$t('project.members_index_remove_success'), 'success');
+          this.flash(this.$t('project.members_index_remove_success'), 'success');
 
           var id = this.localMembers.findIndex(x => x.id == employee);
           this.localMembers.splice(id, 1);

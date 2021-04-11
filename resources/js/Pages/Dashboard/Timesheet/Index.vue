@@ -129,7 +129,8 @@
           </div>
 
           <span v-else class="bb b--dotted bt-0 bl-0 br-0 pointer">
-            <select-box v-model="form.project"
+            <select-box :ref="'projects'"
+                        v-model="form.project"
                         :options="projects"
                         :name="'project_id'"
                         :errors="$page.props.errors.project_id"
@@ -137,26 +138,26 @@
                         :label="$t('dashboard.timesheet_create_choose_project')"
                         :data-cy="'project-selector'"
                         :required="true"
-                        @input="showTasks($event)"
+                        @update:model-value="showTasks"
             />
 
-            <select-box
-              v-if="displayTasks"
-              v-model="form.task"
-              :options="tasks"
-              :name="'task_id'"
-              :errors="$page.props.errors.task_id"
-              :placeholder="$t('dashboard.timesheet_create_choose_task')"
-              :label="$t('dashboard.timesheet_create_choose_task')"
-              :required="true"
-              :data-cy="'task-selector'"
-              @input="showTasks($event)"
+            <select-box v-if="displayTasks"
+                        :ref="'tasks'"
+                        v-model="form.task"
+                        :options="tasks"
+                        :name="'task_id'"
+                        :errors="$page.props.errors.task_id"
+                        :placeholder="$t('dashboard.timesheet_create_choose_task')"
+                        :label="$t('dashboard.timesheet_create_choose_task')"
+                        :required="true"
+                        :data-cy="'task-selector'"
+                        @update:model-value="showTasks"
             />
           </span>
 
           <!-- Actions -->
           <div v-if="projects.length != 0">
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 mr2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-timesheet-new-row'" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 mr2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-timesheet-new-row'" />
             <a data-cy="cancel-button" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="displayNewEntry = false">
               {{ $t('app.cancel') }}
             </a>
@@ -197,33 +198,11 @@
               </div>
             </div>
 
-            <!-- daily total: monday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[0]) }}
-            </div>
-            <!-- daily total: tuesday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[1]) }}
-            </div>
-            <!-- daily total: wednesday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[2]) }}
-            </div>
-            <!-- daily total: thursday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[3]) }}
-            </div>
-            <!-- daily total: friday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[4]) }}
-            </div>
-            <!-- daily total: saturday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray off-days f7 gray">
-              {{ formatTime(dailyStats[5]) }}
-            </div>
-            <!-- daily total: sunday -->
-            <div class="tc pv2 bt bl bb bb-gray off-days f7 gray">
-              {{ formatTime(dailyStats[6]) }}
+            <!-- daily total -->
+            <div v-for="n in 7" :key="n" class="tc pv2 dtc bt bl bb bb-gray f7 gray"
+                 :class="[ n === 6 || n === 7 ? 'off-days' : '' ]"
+            >
+              {{ formatTime(dailyStats[n-1]) }}
             </div>
           </div>
         </div>
@@ -320,7 +299,7 @@ export default {
     this.refreshWeeklyTotal();
 
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
 
       localStorage.removeItem('success');
     }
@@ -336,9 +315,7 @@ export default {
     // the data has changed in the child
     refreshDayInformation({id, day, value}) {
       var id = this.timesheetRows.findIndex(x => x.task_id === id);
-      var row = this.timesheetRows[id];
-      row.days[day].total_of_minutes = value;
-      this.$set(this.timesheetRows, id, row);
+      this.timesheetRows[id].days[day].total_of_minutes = value;
     },
 
     showProjectList() {
@@ -365,7 +342,7 @@ export default {
     },
 
     getTasksList() {
-      axios.get(`/${this.$page.props.auth.company.id}/dashboard/timesheet/${this.timesheet.id}/projects/${this.form.project.value}/tasks`)
+      axios.get(`/${this.$page.props.auth.company.id}/dashboard/timesheet/${this.timesheet.id}/projects/${this.form.project}/tasks`)
         .then(response => {
           this.tasks = response.data.data;
         })
@@ -388,11 +365,11 @@ export default {
 
     addBlankTimesheetRow() {
       this.timesheetRows.push({
-        project_id: this.form.project.value,
-        project_name: this.form.project.label,
-        project_code: this.form.project.code,
-        task_id: this.form.task.value,
-        task_title: this.form.task.label,
+        project_id: this.form.project,
+        project_name: this.$refs.projects.proxyValue.label,
+        project_code: this.$refs.projects.proxyValue.code,
+        task_id: this.form.task,
+        task_title: this.$refs.tasks.proxyValue.label,
         total_this_week: 0,
         days: [
           {
@@ -431,9 +408,7 @@ export default {
 
     updateWeeklyTotal({id, value}) {
       var id = this.timesheetRows.findIndex(x => x.task_id === id);
-      var row = this.timesheetRows[id];
-      row.total_this_week = value;
-      this.$set(this.timesheetRows, id, row);
+      this.timesheetRows[id].total_this_week = value;
 
       this.refreshWeeklyTotal();
       this.refreshDailyTotal();

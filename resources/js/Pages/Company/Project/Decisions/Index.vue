@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .list-no-line-bottom {
   li:last-child {
     border-bottom: 0;
@@ -112,7 +114,7 @@
                             :placeholder="$t('team.recent_ship_new_credit_help')"
                             :required="false"
                             @keyup="search"
-                            @input="search"
+                            @update:model-value="search"
                             @esc-key-pressed="showDeciders = false"
                 />
                 <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
@@ -137,7 +139,7 @@
             <div v-show="form.employees.length > 0" class="ba bb-gray mb3 mt4">
               <div v-for="employee in form.employees" :key="employee.id" class="pa2 db bb-gray bb" data-cy="members-list">
                 <span class="pl3 db relative deciders">
-                  <avatar :avatar="employee.avatar" :size="22" :classes="'br-100 absolute avatar'" />
+                  <avatar :avatar="employee.avatar" :size="22" :class="'br-100 absolute avatar'" />
 
                   {{ employee.name }}
 
@@ -157,7 +159,7 @@
                     {{ $t('app.cancel') }}
                   </a>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-decision-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-decision-button'" />
               </div>
             </div>
           </form>
@@ -186,7 +188,7 @@
                       <small-name-and-avatar
                         :name="decider.name"
                         :avatar="decider.avatar"
-                        :classes="'f4 fw4'"
+                        :class="'f4 fw4'"
                         :top="'0px'"
                         :margin-between-name-avatar="'29px'"
                       />
@@ -204,7 +206,7 @@
               <div v-if="decision.id == decisionToDelete" v-click-outside="hideAction" class="popupmenu action-menu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
                 <ul class="list ma0 pa0">
                   <li v-show="!deleteActionConfirmation" class="pv2 relative">
-                    <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+                    <icon-delete :class="'icon-delete relative'" :width="15" :height="15" />
                     <a :data-cy="'decision-delete-' + decision.id" class="pointer ml1 c-delete" @click.prevent="deleteActionConfirmation = true">
                       {{ $t('project.decision_index_delete') }}
                     </a>
@@ -244,7 +246,6 @@ import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 import vClickOutside from 'v-click-outside';
 import IconDelete from '@/Shared/IconDelete';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import LoadingButton from '@/Shared/LoadingButton';
 import Help from '@/Shared/Help';
@@ -313,7 +314,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -326,7 +327,7 @@ export default {
       this.form.searchTerm = null;
 
       this.$nextTick(() => {
-        this.$refs['newDecision'].$refs['input'].focus();
+        this.$refs.newDecision.focus();
       });
     },
 
@@ -398,7 +399,7 @@ export default {
           this.localDecisions.splice(id, 1);
           this.deleteActionConfirmation = false;
 
-          flash(this.$t('project.decision_index_destroy_success'), 'success');
+          this.flash(this.$t('project.decision_index_destroy_success'), 'success');
         })
         .catch(error => {
           this.loadingState = null;

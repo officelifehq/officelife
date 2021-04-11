@@ -31,7 +31,7 @@
           <div class="flex items-center">
             <div class="di">
               <avatar v-for="employee in team.employees" :key="employee.id" :url="employee.url" :avatar="employee.avatar" :size="32"
-                      :classes="'br-100 small-avatar pointer'"
+                      :class="'br-100 small-avatar pointer'"
               />
             </div>
 

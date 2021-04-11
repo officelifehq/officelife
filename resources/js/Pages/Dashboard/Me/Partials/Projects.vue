@@ -43,7 +43,7 @@
         <!-- project members -->
         <div class="flex items-center relative tr">
           <avatar v-for="member in project.preview_members" :key="member.id" :avatar="member.avatar" :url="member.url" :size="32"
-                  :classes="'br-100 small-avatar'"
+                  :class="'br-100 small-avatar'"
           />
           <div v-if="project.remaining_members_count > 0" class="pl2 f7 more-members relative gray">
             + {{ project.remaining_members_count }}

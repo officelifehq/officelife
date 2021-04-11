@@ -76,7 +76,7 @@
 
           <div v-if="message.author" class="flex mb4">
             <div class="mr3">
-              <avatar :avatar="message.author.avatar" :size="64" :classes="'br-100'" />
+              <avatar :avatar="message.author.avatar" :size="64" :class="'br-100'" />
             </div>
 
             <div>
@@ -182,7 +182,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },

@@ -60,16 +60,20 @@ export default {
   },
 
   model: {
-    prop: 'value',
-    event: 'change'
+    prop: 'modelValue',
+    event: 'update:modelValue'
   },
 
   props: {
-    value: {
+    modelValue: {
       type: Array,
       default: null,
     },
   },
+
+  emits: [
+    'update:modelValue', 'completed'
+  ],
 
   data() {
     return {
@@ -87,7 +91,7 @@ export default {
   },
 
   mounted() {
-    this.localActions = this.value;
+    this.localActions = this.modelValue;
   },
 
   methods: {
@@ -99,12 +103,12 @@ export default {
       });
 
       this.showActionMenu = false;
-      this.$emit('change', this.localActions);
+      this.$emit('update:modelValue', this.localActions);
       this.$emit('completed', this.complete);
     },
 
     updateAction(event, action) {
-      Vue.set(this.localActions, this.localActions.indexOf(action), event);
+      this.localActions[this.localActions.indexOf(action)] = event;
 
       // check whether the actions are "complete" to prevent submitting a wrong
       // json to the backend

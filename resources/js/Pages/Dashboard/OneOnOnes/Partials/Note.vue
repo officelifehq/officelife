@@ -76,7 +76,7 @@
             />
             <!-- actions -->
             <div>
-              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-note-cta" :state="loadingState" :text="$t('app.update')" />
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-note-cta" :state="loadingState" :text="$t('app.update')" />
               <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="noteToEdit = 0">
                 {{ $t('app.cancel') }}
               </a>
@@ -102,7 +102,7 @@
           />
           <!-- actions -->
           <div>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="add-new-note-cta" :state="loadingState" :text="$t('app.add')" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="add-new-note-cta" :state="loadingState" :text="$t('app.add')" />
             <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addNoteMode = false">
               {{ $t('app.cancel') }}
             </a>
@@ -147,8 +147,17 @@ export default {
     };
   },
 
+  watch: {
+    entry: {
+      handler(value) {
+        this.localNotes = value.notes;
+      },
+      deep: true
+    }
+  },
+
   created() {
-    this.localNotes= this.entry.notes;
+    this.localNotes = this.entry.notes;
   },
 
   methods: {
@@ -166,12 +175,8 @@ export default {
       this.noteToEdit = note.id;
       this.form.description = note.note;
 
-      // this is really barbaric, but I need to do this to
-      // first: target the TextInput with the right ref attribute
-      // second: target within the component, the refs of the input text
-      // this is because we try here to access $refs from a child component
       this.$nextTick(() => {
-        this.$refs[`note${note.id}`][0].$refs['input'].focus();
+        this.$refs[`note${note.id}`].focus();
       });
     },
 
@@ -180,7 +185,7 @@ export default {
       this.form.description = null;
 
       this.$nextTick(() => {
-        this.$refs['newNoteItem'].$refs['input'].focus();
+        this.$refs.newNoteItem.focus();
       });
     },
 
@@ -211,8 +216,7 @@ export default {
           this.loadingState = null;
           this.form.description = null;
 
-          var id = this.localNotes.findIndex(x => x.id === itemId);
-          this.$set(this.localNotes, id, response.data.data);
+          this.localNotes[this.localNotes.findIndex(x => x.id === itemId)] = response.data.data;
         })
         .catch(error => {
           this.loadingState = null;
@@ -223,7 +227,7 @@ export default {
     destroy(id) {
       axios.delete('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/notes/' + id)
         .then(response => {
-          flash(this.$t('dashboard.one_on_ones_note_deletion_success'), 'success');
+          this.flash(this.$t('dashboard.one_on_ones_note_deletion_success'), 'success');
           id = this.localNotes.findIndex(x => x.id === id);
           this.localNotes.splice(id, 1);
           this.noteToDelete = 0;

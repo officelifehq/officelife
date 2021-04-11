@@ -1,13 +1,4 @@
 <style lang="scss" scoped>
-.ship-avatar {
-  img {
-    top: 2px;
-  }
-
-  text-decoration: none;
-  border-bottom: none;
-}
-
 .graffiti {
   background-image: url('/img/confetti.png');
   background-repeat: repeat-x;
@@ -93,7 +84,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },

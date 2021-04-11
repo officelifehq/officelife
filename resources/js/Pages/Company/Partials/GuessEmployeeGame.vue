@@ -83,7 +83,7 @@
           <span>{{ $t('company.guess_employee_game_play_again') }}</span>
         </p>
       </div>
-      <avatar :avatar="updatedGame.avatar_to_find" :size="64" :classes="'absolute bottom-0 right-1 avatar'" />
+      <avatar :avatar="updatedGame.avatar_to_find" :size="64" :class="'absolute bottom-0 right-1 avatar'" />
     </div>
   </div>
 </template>

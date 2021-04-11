@@ -151,6 +151,24 @@ class CompanyViewHelper
             $date = $employee->hired_at;
             $position = $employee->position;
 
+            if ($position) {
+                $dateString = $date->isPast() ?
+                    trans('company.new_hires_date_with_position_past', [
+                        'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                        'position' => $position->title,
+                    ]) : trans('company.new_hires_date_with_position_future', [
+                        'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                        'position' => $position->title,
+                    ]);
+            } else {
+                $dateString = $date->isPast() ?
+                    trans('company.new_hires_date_past', [
+                        'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                    ]) : trans('company.new_hires_date_future', [
+                        'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                    ]);
+            }
+
             $newHiresCollection->push([
                 'id' => $employee->id,
                 'url' => route('employees.show', [
@@ -159,8 +177,7 @@ class CompanyViewHelper
                 ]),
                 'name' => $employee->name,
                 'avatar' => ImageHelper::getAvatar($employee, 35),
-                'hired_at' => DateHelper::formatDayAndMonthInParenthesis($date),
-                'position' => (! $position) ? null : $position->title,
+                'hired_at' => $dateString,
             ]);
         }
 

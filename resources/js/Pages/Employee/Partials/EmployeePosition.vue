@@ -141,7 +141,7 @@ export default {
     assign(position) {
       axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/position', position)
         .then(response => {
-          flash(this.$t('employee.position_modal_assign_success'), 'success');
+          this.flash(this.$t('employee.position_modal_assign_success'), 'success');
 
           this.title = response.data.data.position.title;
           this.updatedEmployee = response.data.data;
@@ -155,7 +155,7 @@ export default {
     reset() {
       axios.delete('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/position/' + this.updatedEmployee.position.id)
         .then(response => {
-          flash(this.$t('employee.position_modal_unassign_success'), 'success');
+          this.flash(this.$t('employee.position_modal_unassign_success'), 'success');
 
           this.title = '';
           this.modal = false;

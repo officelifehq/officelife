@@ -27,10 +27,10 @@
         <div class="cf pa3 pv4-ns bb bb-gray expense-actions">
           <!-- Actions about the expense -->
           <div v-if="!rejectMode" class="flex-ns justify-around">
-            <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3 mb0-ns mb3'" :state="rejectLoadingState" :emoji="'👎'" :text="$t('app.reject')" :cypress-selector="'expense-reject-button'"
+            <loading-button :class="'btn w-auto-ns w-100 pv2 ph3 mb0-ns mb3'" :state="rejectLoadingState" :emoji="'👎'" :text="$t('app.reject')" :cypress-selector="'expense-reject-button'"
                             @click="showRejectedModal()"
             />
-            <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :emoji="'👍'" :text="$t('app.approve')" :cypress-selector="'expense-accept-button'"
+            <loading-button :class="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :emoji="'👍'" :text="$t('app.approve')" :cypress-selector="'expense-accept-button'"
                             @click="accept()"
             />
           </div>
@@ -52,7 +52,7 @@
                 <span class="mr2">👋</span> {{ $t('dashboard.manager_expense_detail_visibility') }}
               </p>
               <p class="ma0">
-                <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.reject')" :cypress-selector="'submit-rejection'" @click="reject()" />
+                <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.reject')" :cypress-selector="'submit-rejection'" @click="reject()" />
                 <a class="pointer" data-cy="expense-rejection-cancel-modal" @click.prevent="rejectMode = false">
                   {{ $t('app.cancel') }}
                 </a>

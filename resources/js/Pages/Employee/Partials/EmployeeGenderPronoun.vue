@@ -177,7 +177,7 @@ export default {
     assign(pronoun) {
       axios.post(`${this.$page.props.auth.company.id}/employees/${this.employee.id}/pronoun`, pronoun)
         .then(response => {
-          flash(this.$t('employee.pronoun_modal_assign_success'), 'success');
+          this.flash(this.$t('employee.pronoun_modal_assign_success'), 'success');
 
           this.updatedEmployee = response.data.data;
         })
@@ -189,7 +189,7 @@ export default {
     reset(pronoun) {
       axios.delete(`${this.$page.props.auth.company.id}/employees/${this.employee.id}/pronoun/${pronoun.id}`)
         .then(response => {
-          flash(this.$t('employee.pronoun_modal_unassign_success'), 'success');
+          this.flash(this.$t('employee.pronoun_modal_unassign_success'), 'success');
 
           this.updatedEmployee = response.data.data;
         })

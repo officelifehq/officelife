@@ -95,6 +95,7 @@
                     :errors="$page.props.errors.currency"
                     :label="$t('dashboard.expense_create_currency')"
                     :custom-label-key="'code'"
+                    :custom-value-key="'id'"
                     :placeholder="$t('dashboard.expense_create_currency')"
                     :required="true"
                     :value="form.currency"
@@ -110,10 +111,10 @@
                           :name="'category'"
                           :label="$t('dashboard.expense_create_category')"
                           :custom-label-key="'name'"
+                          :custom-value-key="'id'"
                           :errors="$page.props.errors.category"
                           :placeholder="$t('dashboard.expense_create_category')"
                           :required="false"
-                          :value="form.category"
                           :datacy="'expense-category'"
               />
 
@@ -142,7 +143,7 @@
             👋 {{ $t('dashboard.expense_create_help') }}
           </p>
           <p class="ma0">
-            <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2 mb0-ns mb2-ns'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-expense'" />
+            <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3 mr2 mb0-ns mb2-ns'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-expense'" />
             <a data-cy="expense-create-cancel" class="pointer mb0-ns mt2 mt0-ns mb3 dib" @click.prevent="hideAddMode()">
               {{ $t('app.cancel') }}
             </a>
@@ -236,14 +237,17 @@ export default {
   },
 
   watch: {
-    expenses(value) {
-      this.localExpenses = value;
+    expenses: {
+      handler(value) {
+        this.localExpenses = value;
+      },
+      deep: true
     }
   },
 
   mounted() {
     this.localExpenses = this.expenses;
-    this.form.currency = this.defaultCurrency;
+    this.form.currency = this.defaultCurrency.id;
   },
 
   methods: {
@@ -260,7 +264,7 @@ export default {
       this.addMode = true;
 
       this.$nextTick(() => {
-        this.$refs['expenseTitle'].$refs['input'].focus();
+        this.$refs.expenseTitle.focus();
       });
     },
 
@@ -277,7 +281,7 @@ export default {
           this.loadingState = null;
           this.localExpenses.unshift(response.data.data);
           this.hideAddMode();
-          flash(this.$t('dashboard.expense_submitted'), 'success');
+          this.flash(this.$t('dashboard.expense_submitted'), 'success');
         })
         .catch(error => {
           this.loadingState = null;

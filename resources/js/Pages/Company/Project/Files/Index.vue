@@ -87,7 +87,7 @@
                     v-if="file.uploader.name"
                     :name="file.uploader.name"
                     :avatar="file.uploader.avatar"
-                    :classes="'gray'"
+                    :class="'gray'"
                     :size="'18px'"
                     :top="'0px'"
                     :margin-between-name-avatar="'25px'"
@@ -118,7 +118,7 @@ import Layout from '@/Shared/Layout';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import Help from '@/Shared/Help';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
-import Uploadcare from 'uploadcare-vue';
+import Uploadcare from 'uploadcare-vue/src/Uploadcare.vue';
 
 export default {
   components: {
@@ -172,7 +172,7 @@ export default {
     this.localFiles = this.files;
 
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -196,7 +196,7 @@ export default {
       axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/files`, this.form)
         .then(response => {
           this.localFiles.unshift(response.data.data);
-          flash(this.$t('project.file_upload_success'), 'success');
+          this.flash(this.$t('project.file_upload_success'), 'success');
         })
         .catch(error => {
           this.loadingState = null;
@@ -207,7 +207,7 @@ export default {
     destroy(id) {
       axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/files/${id}`)
         .then(response => {
-          flash(this.$t('project.file_deletion_success'), 'success');
+          this.flash(this.$t('project.file_deletion_success'), 'success');
 
           this.idToDelete = 0;
           id = this.localFiles.findIndex(x => x.id === id);

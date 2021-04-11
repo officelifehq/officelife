@@ -41,6 +41,7 @@ class TimeHelper
     public static function durationInHumanFormat(int $duration): string
     {
         $duration = self::convertToHoursAndMinutes($duration);
+
         $minutes = $duration['minutes'] == 0 ? '00' : $duration['minutes'];
 
         $time = trans('app.duration', [
