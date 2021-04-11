@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .actions-dots {
   top: 15px;
 }
@@ -175,7 +177,7 @@
     <div v-if="actionsModal" v-click-outside="toggleModals" class="popupmenu action-menu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
       <ul class="list ma0 pa0">
         <li v-show="!deleteActionConfirmation" class="pv2 relative">
-          <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+          <icon-delete :class="'icon-delete relative'" :width="15" :height="15" />
           <a class="pointer ml1 c-delete" @click.prevent="deleteActionConfirmation = true">
             {{ $t('account.flow_new_action_remove') }}
           </a>
@@ -214,11 +216,12 @@
 
 <script>
 import vClickOutside from 'v-click-outside';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
+import IconDelete from '@/Shared/IconDelete';
 
 export default {
   components: {
+    IconDelete,
     'ball-pulse-loader': BallPulseLoader.component,
   },
 
@@ -232,6 +235,10 @@ export default {
       default: null,
     }
   },
+
+  emits: [
+    'update', 'destroy'
+  ],
 
   data() {
     return {

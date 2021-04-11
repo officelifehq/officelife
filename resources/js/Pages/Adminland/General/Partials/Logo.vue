@@ -37,7 +37,7 @@
 
 <script>
 import Help from '@/Shared/Help';
-import Uploadcare from 'uploadcare-vue';
+import Uploadcare from 'uploadcare-vue/src/Uploadcare.vue';
 
 export default {
   components: {
@@ -90,7 +90,7 @@ export default {
       axios.post(`/${this.$page.props.auth.company.id}/account/general/logo`, this.form)
         .then(response => {
           this.localLogo = response.data.data;
-          flash(this.$t('account.general_logo_success'), 'success');
+          this.flash(this.$t('account.general_logo_success'), 'success');
         })
         .catch(error => {
           this.loadingState = null;

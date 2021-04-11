@@ -94,7 +94,7 @@
                 <a class="btn dib-l db mb2 mb0-ns" @click.prevent="modal = false ; form.name = ''">
                   {{ $t('app.cancel') }}
                 </a>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 mb0-ns pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
+                <loading-button :class="'btn add w-auto-ns w-100 mb2 mb0-ns pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
               </div>
             </div>
           </form>
@@ -136,7 +136,7 @@
                     <a class="btn dib-l db mb2 mb0-ns" :data-cy="'list-rename-cancel-button-' + status.id" @click.prevent="idToUpdate = 0">
                       {{ $t('app.cancel') }}
                     </a>
-                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + status.id" :state="loadingState" :text="$t('app.update')" />
+                    <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + status.id" :state="loadingState" :text="$t('app.update')" />
                   </div>
                 </form>
               </div>
@@ -226,6 +226,15 @@ export default {
     };
   },
 
+  watch: {
+    statuses: {
+      handler(value) {
+        this.localStatuses = value;
+      },
+      deep: true
+    }
+  },
+
   mounted() {
     this.localStatuses = this.statuses;
   },
@@ -246,7 +255,7 @@ export default {
       this.form.errors = null;
 
       this.$nextTick(() => {
-        this.$refs['newStatus'].$refs['input'].focus();
+        this.$refs.newStatus.focus();
       });
     },
 
@@ -255,11 +264,7 @@ export default {
       this.form.checked = status.type == 'internal' ? false : true;
 
       this.$nextTick(() => {
-        // this is really barbaric, but I need to do this to
-        // first: target the TextInput with the right ref attribute
-        // second: target within the component, the refs of the input text
-        // this is because we try here to access $refs from a child component
-        this.$refs[`name${status.id}`][0].$refs[`name${status.id}`].focus();
+        this.$refs[`name${status.id}`].focus();
       });
     },
 
@@ -268,7 +273,7 @@ export default {
 
       axios.post(this.route('account_employeestatuses.employeestatuses.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
-          flash(this.$t('account.employee_statuses_success_new'), 'success');
+          this.flash(this.$t('account.employee_statuses_success_new'), 'success');
 
           this.loadingState = null;
           this.form.name = null;
@@ -285,14 +290,13 @@ export default {
     update(id) {
       axios.put(this.route('account_employeestatuses.employeestatuses.update', [this.$page.props.auth.company.id, id]), this.form)
         .then(response => {
-          flash(this.$t('account.employee_statuses_success_update'), 'success');
+          this.flash(this.$t('account.employee_statuses_success_update'), 'success');
 
           this.idToUpdate = 0;
           this.form.name = null;
           this.form.type = 'internal';
 
-          var changedId = this.localStatuses.findIndex(x => x.id === id);
-          this.$set(this.localStatuses, changedId, response.data.data);
+          this.localStatuses[this.localStatuses.findIndex(x => x.id === id)] = response.data.data;
         })
         .catch(error => {
           this.form.errors = error.response.data;
@@ -302,7 +306,7 @@ export default {
     destroy(id) {
       axios.delete(this.route('account_employeestatuses.employeestatuses.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
-          flash(this.$t('account.employee_statuses_success_destroy'), 'success');
+          this.flash(this.$t('account.employee_statuses_success_destroy'), 'success');
 
           this.idToDelete = 0;
           var changedId = this.localStatuses.findIndex(x => x.id === id);

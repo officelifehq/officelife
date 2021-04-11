@@ -182,7 +182,7 @@
 
         <!-- cta -->
         <div v-if="!entry.happened" class="pa3 title-section bb bb-gray tc">
-          <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :emoji="'✅'" :text="$t('dashboard.one_on_ones_mark_happened')" :cypress-selector="'entry-mark-as-happened-button'"
+          <loading-button :class="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :emoji="'✅'" :text="$t('dashboard.one_on_ones_mark_happened')" :cypress-selector="'entry-mark-as-happened-button'"
                           @click="markAsHappened()"
           />
 

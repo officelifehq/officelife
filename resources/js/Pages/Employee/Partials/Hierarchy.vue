@@ -1,4 +1,6 @@
 <style scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .list-employees > ul {
   padding-left: 43px;
 }
@@ -149,7 +151,7 @@
           </p>
           <ul class="list mv0">
             <li v-for="manager in localManagersOfEmployee" :key="manager.id" class="mb3 relative bb-gray-hover">
-              <avatar :avatar="manager.avatar" :size="35" :classes="'br-100 absolute avatar'" />
+              <avatar :avatar="manager.avatar" :size="35" :class="'br-100 absolute avatar'" />
               <inertia-link :href="manager.url" class="mb2">
                 {{ manager.name }}
               </inertia-link>
@@ -172,7 +174,7 @@
                 <div v-show="permissions.can_manage_hierarchy" v-click-outside="hideManagerModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
                   <ul class="list ma0 pa0">
                     <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
-                      <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+                      <icon-delete :class="'icon-delete relative'" :width="15" :height="15" />
                       <a class="pointer ml1 c-delete" data-cy="remove-manager-button" @click.prevent="deleteEmployeeConfirmation = true">
                         {{ $t('employee.hierarchy_modal_remove_manager') }}
                       </a>
@@ -203,7 +205,7 @@
           <ul class="list mv0">
             <li v-for="directReport in localDirectReports" :key="directReport.id" class="mb3 relative bb-gray-hover">
               <!-- avatar -->
-              <avatar :avatar="directReport.avatar" :size="35" :classes="'br-100 absolute avatar'" />
+              <avatar :avatar="directReport.avatar" :size="35" :class="'br-100 absolute avatar'" />
 
               <!-- name -->
               <inertia-link :href="directReport.url" class="mb2">
@@ -228,7 +230,7 @@
                 <div v-show="permissions.can_manage_hierarchy" v-click-outside="hideDirectReportModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
                   <ul class="list ma0 pa0">
                     <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
-                      <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+                      <icon-delete :class="'icon-delete relative'" :width="15" :height="15" />
                       <a class="pointer ml1 c-delete" data-cy="remove-directreport-button" @click.prevent="deleteEmployeeConfirmation = true">
                         {{ $t('employee.hierarchy_modal_remove_direct_report') }}
                       </a>
@@ -257,7 +259,6 @@
 import IconDelete from '@/Shared/IconDelete';
 import Avatar from '@/Shared/Avatar';
 import vClickOutside from 'v-click-outside';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
@@ -309,11 +310,17 @@ export default {
   },
 
   watch: {
-    managersOfEmployee(value) {
-      this.localManagersOfEmployee = value;
+    managersOfEmployee: {
+      handler(value) {
+        this.localManagersOfEmployee = value;
+      },
+      deep: true
     },
-    directReports(value) {
-      this.localDirectReports = value;
+    directReports: {
+      handler(value) {
+        this.localDirectReports = value;
+      },
+      deep: true
     },
   },
 
@@ -384,7 +391,7 @@ export default {
     assignManager(manager) {
       axios.put(this.route('employee.manager.assign', [this.$page.props.auth.company.id, this.employee.id]), manager)
         .then(response => {
-          flash(this.$t('employee.hierarchy_modal_add_manager_success'), 'success');
+          this.flash(this.$t('employee.hierarchy_modal_add_manager_success'), 'success');
           this.localManagersOfEmployee.push(response.data.data);
           this.modal = 'hide';
         })
@@ -396,7 +403,7 @@ export default {
     assignDirectReport(directReport) {
       axios.put(this.route('employee.directReport.assign', [this.$page.props.auth.company.id, this.employee.id]), directReport)
         .then(response => {
-          flash(this.$t('employee.hierarchy_modal_add_direct_report_success'), 'success');
+          this.flash(this.$t('employee.hierarchy_modal_add_direct_report_success'), 'success');
           this.localDirectReports.push(response.data.data);
           this.modal = 'hide';
         })
@@ -408,7 +415,7 @@ export default {
     unassignManager(manager) {
       axios.put(this.route('employee.manager.unassign', [this.$page.props.auth.company.id, this.employee.id]), manager)
         .then(response => {
-          flash(this.$t('employee.hierarchy_modal_remove_manager_success'), 'success');
+          this.flash(this.$t('employee.hierarchy_modal_remove_manager_success'), 'success');
 
           this.localManagersOfEmployee.splice(this.localManagersOfEmployee.findIndex(i => i.id === response.data.data.id), 1);
           this.deleteEmployeeConfirmation = false;
@@ -422,7 +429,7 @@ export default {
     unassignDirectReport(directReport) {
       axios.put(this.route('employee.directReport.unassign', [this.$page.props.auth.company.id, this.employee.id]), directReport)
         .then(response => {
-          flash(this.$t('employee.hierarchy_modal_remove_direct_report_success'), 'success');
+          this.flash(this.$t('employee.hierarchy_modal_remove_direct_report_success'), 'success');
 
           this.localDirectReports.splice(this.localDirectReports.findIndex(i => i.id === response.data.data.id), 1);
           this.deleteEmployeeConfirmation = false;

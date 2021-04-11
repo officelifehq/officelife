@@ -59,8 +59,8 @@ class DashboardTimesheetViewHelper
                 $entriesCollection->push([
                     'day_of_week' => $currentDay->dayOfWeek,
                     'total_of_minutes' => $totalOfMinutes,
-                    'hours' => $statistics['hours'],
-                    'minutes' => $statistics['minutes'],
+                    'hours' => (int) $statistics['hours'],
+                    'minutes' => (int) $statistics['minutes'],
                 ]);
             }
 

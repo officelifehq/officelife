@@ -57,7 +57,7 @@
               </label>
               <input id="name" v-model="form.name" type="text" name="name" class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
                      required
-                     @change="checkComplete"
+                     @update:model-value="checkComplete"
               />
               <p class="f7 mb4 lh-title">
                 {{ $t('account.flow_new_help') }}
@@ -122,7 +122,7 @@
                     <p class="ma0 pa0 mb2">
                       {{ $t('account.flow_new_the_day_event_happens') }}
                     </p>
-                    <select v-model="form.type" @change="checkComplete">
+                    <select v-model="form.type" @update:model-value="checkComplete">
                       <option value="employee_joins_company">
                         {{ $t('account.flow_new_type_employee_joins_company') }}
                       </option>
@@ -196,7 +196,7 @@
                   </div>
 
                   <!-- list of actions -->
-                  <actions v-model="step.actions" @completed="checkComplete($event)" />
+                  <actions v-model="step.actions" @completed="checkComplete" />
                 </div>
 
                 <!-- DIVIDER -->
@@ -219,7 +219,7 @@
                     {{ $t('app.cancel') }}
                   </a>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-employee-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-employee-button'" />
               </div>
             </div>
           </form>
@@ -355,7 +355,7 @@ export default {
       axios.post('/' + this.$page.props.auth.company.id + '/account/flows', this.form)
         .then(response => {
           localStorage.success = 'The flow has been added';
-          Turbolinks.visit('/' + response.data.company_id + '/account/flows');
+          this.$inertia.visit('/' + response.data.company_id + '/account/flows');
         })
         .catch(error => {
           this.loadingState = null;
@@ -378,10 +378,15 @@ export default {
 
       else {
         // check if all the steps have the all actions they need
-        for (let actions of this.form.steps) {
-          for (let action of actions) {
-            if (action['complete'] === false || !action['complete']) {
-              isCompleteYet = false;
+        for (let step in this.form.steps) {
+          for (let actions in step) {
+            for (let action in actions) {
+              if (action['complete'] === false || !action['complete']) {
+                isCompleteYet = false;
+                break;
+              }
+            }
+            if (!isCompleteYet) {
               break;
             }
           }

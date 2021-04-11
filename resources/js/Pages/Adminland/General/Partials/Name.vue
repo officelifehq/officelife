@@ -27,7 +27,7 @@
     <!-- rename company form -->
     <div v-if="editMode" class="ph3">
       <form @submit.prevent="submit">
-        <errors :errors="form.errors" :classes="'mb3'" />
+        <errors :errors="form.errors" :class="'mb3'" />
 
         <ul class="list pl0">
           <li class="mb3 flex-ns items-center">
@@ -57,7 +57,7 @@
                 {{ $t('app.cancel') }}
               </a>
             </div>
-            <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.rename')" :cypress-selector="'submit-rename-company-button'" />
+            <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.rename')" :cypress-selector="'submit-rename-company-button'" />
           </div>
         </div>
       </form>
@@ -107,7 +107,7 @@ export default {
       this.form.errors = null;
 
       this.$nextTick(() => {
-        this.$refs['renameField'].$refs['input'].focus();
+        this.$refs.renameField.focus();
       });
     },
 
@@ -117,7 +117,7 @@ export default {
           this.updatedName = this.form.name;
           this.editMode = false;
           this.form.errors = null;
-          flash(this.$t('account.general_rename_success'), 'success');
+          this.flash(this.$t('account.general_rename_success'), 'success');
         })
         .catch(error => {
           this.editMode = true;

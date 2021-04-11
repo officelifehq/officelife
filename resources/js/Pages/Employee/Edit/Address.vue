@@ -116,7 +116,6 @@
                             :label="$t('employee.edit_information_country')"
                             :placeholder="$t('app.choose_value')"
                             :required="true"
-                            :value="form.country_id"
                             :datacy="'country_selector'"
                 />
               </div>
@@ -130,7 +129,7 @@
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-edit-employee-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-edit-employee-button'" />
               </div>
             </div>
           </form>
@@ -203,17 +202,13 @@ export default {
       this.form.street = this.employee.address.street;
       this.form.state = this.employee.address.province;
       this.form.postal_code = this.employee.address.postal_code;
-      this.form.country_id = {
-        label: this.employee.address.country.name,
-        value: this.employee.address.country.id,
-      };
+      this.form.country_id = this.employee.address.country.id;
     }
   },
 
   methods: {
     submit() {
       this.loadingState = 'loading';
-      this.form.country_id = this.form.country_id.value;
 
       axios.post(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/address/update`, this.form)
         .then(response => {

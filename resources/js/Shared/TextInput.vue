@@ -27,21 +27,20 @@
         {{ $t('app.optional') }}
       </span>
     </label>
-    <input :id="id"
+    <input :id="realId"
            :ref="customRef"
            v-bind="$attrs"
+           v-model="proxyValue"
            class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
            :required="required"
            :type="type"
            :name="name"
            :autofocus="autofocus"
-           :value="value"
            :step="step"
            :max="max"
            :min="min"
            :placeholder="placeholder"
            :data-cy="datacy"
-           @input="$emit('input', $event.target.value)"
            @keydown.esc="sendEscKey"
     />
     <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
@@ -57,12 +56,15 @@
 export default {
   inheritAttrs: false,
 
+  model: {
+    prop: 'modelValue',
+    event: 'update:modelValue'
+  },
+
   props: {
     id: {
       type: String,
-      default() {
-        return `text-input-${this._uid}`;
-      },
+      default: 'text-input-',
     },
     type: {
       type: String,
@@ -72,7 +74,7 @@ export default {
       type: String,
       default: null,
     },
-    value: {
+    modelValue: {
       type: [String, Number],
       default: '',
     },
@@ -126,6 +128,10 @@ export default {
     }
   },
 
+  emits: [
+    'esc-key-pressed', 'update:modelValue'
+  ],
+
   data() {
     return {
       localErrors: '',
@@ -133,6 +139,19 @@ export default {
   },
 
   computed: {
+    proxyValue: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
+    },
+
+    realId() {
+      return this.id + this._.uid;
+    },
+
     hasError() {
       return this.localErrors.length > 0 && this.required;
     }
@@ -150,15 +169,15 @@ export default {
 
   methods: {
     focus() {
-      this.$refs.input.focus();
+      this.$refs[this.customRef].focus();
     },
 
     select() {
-      this.$refs.input.select();
+      this.$refs[this.customRef].select();
     },
 
     setSelectionRange(start, end) {
-      this.$refs.input.setSelectionRange(start, end);
+      this.$refs[this.customRef].setSelectionRange(start, end);
     },
 
     sendEscKey() {

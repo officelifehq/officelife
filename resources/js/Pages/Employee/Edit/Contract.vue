@@ -177,7 +177,7 @@
                       <a class="btn dib-l db mb2 mb0-ns" @click.prevent="addRateMode = false ; form.name = ''">
                         {{ $t('app.cancel') }}
                       </a>
-                      <loading-button :classes="'btn add w-auto-ns w-100 mb2 mb0-ns pv2 ph3'" data-cy="modal-add-rate-cta" :state="loadingState" :text="$t('app.add')" />
+                      <loading-button :class="'btn add w-auto-ns w-100 mb2 mb0-ns pv2 ph3'" data-cy="modal-add-rate-cta" :state="loadingState" :text="$t('app.add')" />
                     </div>
                   </div>
                 </form>
@@ -221,7 +221,7 @@
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-edit-contract-employee-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-edit-contract-employee-button'" />
               </div>
             </div>
           </form>
@@ -304,7 +304,7 @@ export default {
       this.addRateMode = true;
 
       this.$nextTick(() => {
-        this.$refs['newRate'].$refs['input'].focus();
+        this.$refs.newRate.focus();
       });
     },
 
@@ -335,7 +335,7 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/rate/store`, this.form)
         .then(response => {
-          flash(this.$t('employee.edit_contract_rate_add_success'), 'success');
+          this.flash(this.$t('employee.edit_contract_rate_add_success'), 'success');
 
           this.loadingRateState = null;
 
@@ -358,7 +358,7 @@ export default {
     destroyRate(rateId) {
       axios.delete(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/rate/${rateId}`)
         .then(response => {
-          flash(this.$t('employee.edit_contract_rate_destroy_success'), 'success');
+          this.flash(this.$t('employee.edit_contract_rate_destroy_success'), 'success');
 
           // set the current active rate as inactive
           var id = this.localRates.findIndex(x => x.id === rateId);

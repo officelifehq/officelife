@@ -70,7 +70,7 @@
                 <a class="btn dib-l db mb2 mb0-ns" @click.prevent="modal = false">
                   {{ $t('app.cancel') }}
                 </a>
-                <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
+                <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
               </div>
             </div>
           </form>
@@ -169,7 +169,7 @@
                     <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" :data-cy="'list-rename-cancel-button-' + question.id" @click.prevent="questionToRename = 0">
                       {{ $t('app.cancel') }}
                     </a>
-                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + question.id" :state="loadingState" :text="$t('app.update')" />
+                    <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + question.id" :state="loadingState" :text="$t('app.update')" />
                   </div>
                 </form>
               </template>
@@ -188,7 +188,7 @@
                   <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3 mr3" :data-cy="'list-destroy-cancel-button-' + question.id" @click.prevent="questionToDelete = 0">
                     {{ $t('app.cancel') }}
                   </a>
-                  <loading-button :classes="'btn destroy w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-destroy-cta-button-' + question.id" :state="loadingState" :text="$t('app.delete')" />
+                  <loading-button :class="'btn destroy w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-destroy-cta-button-' + question.id" :state="loadingState" :text="$t('app.delete')" />
                 </form>
               </template>
             </li>
@@ -252,6 +252,15 @@ export default {
     };
   },
 
+  watch: {
+    questions: {
+      handler(value) {
+        this.localQuestions = value;
+      },
+      deep: true
+    }
+  },
+
   mounted() {
     this.localQuestions = this.questions;
   },
@@ -265,11 +274,7 @@ export default {
       this.form.active = question.active;
 
       this.$nextTick(() => {
-        // this is really barbaric, but I need to do this to
-        // first: target the TextInput with the right ref attribute
-        // second: target within the component, the refs of the input text
-        // this is because we try here to access $refs from a child component
-        this.$refs[`name${question.id}`][0].$refs[`name${question.id}`].focus();
+        this.$refs[`name${question.id}`].focus();
       });
     },
 
@@ -284,7 +289,7 @@ export default {
       this.form.errors = [];
 
       this.$nextTick(() => {
-        this.$refs['newQuestionModal'].$refs['input'].focus();
+        this.$refs.newQuestionModal.focus();
       });
     },
 
@@ -293,7 +298,7 @@ export default {
 
       axios.post(this.route('questions.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
-          flash(this.$t('account.question_creation_success'), 'success');
+          this.flash(this.$t('account.question_creation_success'), 'success');
 
           this.loadingState = null;
           this.form.title = null;
@@ -311,15 +316,14 @@ export default {
 
       axios.put(this.route('questions.update', [this.$page.props.auth.company.id, question.id]), this.form)
         .then(response => {
-          flash(this.$t('account.question_update_success'), 'success');
+          this.flash(this.$t('account.question_update_success'), 'success');
 
           this.questionToRename = 0;
           this.form.title = null;
           this.form.active = false;
           this.loadingState = null;
 
-          var id = this.localQuestions.findIndex(x => x.id === question.id);
-          this.$set(this.localQuestions, id, response.data.data);
+          this.localQuestions[this.localQuestions.findIndex(x => x.id === question.id)] = response.data.data;
         })
         .catch(error => {
           this.loadingState = null;
@@ -330,7 +334,7 @@ export default {
     destroy(question) {
       axios.delete(this.route('questions.destroy', [this.$page.props.auth.company.id, question.id]))
         .then(response => {
-          flash(this.$t('account.question_destroy_success'), 'success');
+          this.flash(this.$t('account.question_destroy_success'), 'success');
 
           this.questionToDelete = 0;
           var id = this.localQuestions.findIndex(x => x.id === question.id);
@@ -344,7 +348,7 @@ export default {
     activate(question) {
       axios.put(this.route('questions.activate', [this.$page.props.auth.company.id, question.id]))
         .then(response => {
-          flash(this.$t('account.question_activate_success'), 'success');
+          this.flash(this.$t('account.question_activate_success'), 'success');
 
           this.localQuestions = response.data.data;
           this.questionToActivate = 0;
@@ -357,7 +361,7 @@ export default {
     deactivate(question) {
       axios.put(this.route('questions.deactivate', [this.$page.props.auth.company.id, question.id]))
         .then(response => {
-          flash(this.$t('account.question_deactivate_success'), 'success');
+          this.flash(this.$t('account.question_deactivate_success'), 'success');
 
           this.localQuestions = response.data.data;
           this.questionToDeactivate = 0;

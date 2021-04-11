@@ -60,7 +60,7 @@
             <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" data-cy="cancel-add-description" @click="showEdit = false">
               {{ $t('app.cancel') }}
             </a>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'submit-add-description'" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'submit-add-description'" />
           </div>
           <p class="ma0 f7">
             <a href="#" class="dib tc w-auto-ns w-100 b--dotted bb bt-0 br-0 bl-0" data-cy="clear-description" @click.prevent="clear()">
@@ -118,7 +118,7 @@ export default {
       this.showEdit = true;
       this.form.description = this.updatedEmployee.raw_description;
       this.$nextTick(() => {
-        this.$refs['editModal'].$refs['input'].focus();
+        this.$refs.editModal.focus();
       });
     },
 
@@ -127,7 +127,7 @@ export default {
 
       axios.post(`${this.$page.props.auth.company.id}/employees/${this.employee.id}/description`, this.form)
         .then(response => {
-          flash(this.$t('employee.description_success'), 'success');
+          this.flash(this.$t('employee.description_success'), 'success');
 
           this.updatedEmployee = response.data.data;
           this.showEdit = false;
@@ -142,7 +142,7 @@ export default {
     clear() {
       axios.delete(`${this.$page.props.auth.company.id}/employees/${this.employee.id}/description/${this.employee.id}`)
         .then(response => {
-          flash(this.$t('employee.description_success'), 'success');
+          this.flash(this.$t('employee.description_success'), 'success');
 
           this.updatedEmployee = response.data.data;
           this.showEdit = false;

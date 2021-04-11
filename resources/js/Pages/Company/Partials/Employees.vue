@@ -29,7 +29,7 @@
 
         <div class="flex items-center relative tr employees">
           <avatar v-for="employee in employees.ten_random_employees" :key="employee.id" :avatar="employee.avatar" :size="32" :url="employee.url"
-                  :classes="'br-100 small-avatar pointer'"
+                  :class="'br-100 small-avatar pointer'"
           />
           <div v-if="employees.number_of_employees_left > 0" class="pl2 f7 more-members relative gray">
             {{ $t('project.menu_other_member', { count: employees.number_of_employees_left }) }}

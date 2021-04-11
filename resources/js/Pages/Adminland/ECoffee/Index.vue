@@ -69,8 +69,8 @@
               <form @submit.prevent="toggleProcess">
                 <errors :errors="form.errors" />
 
-                <loading-button v-if="!localECoffee.enabled" :classes="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.enable')" :cypress-selector="'enable-ecoffee-process'" />
-                <loading-button v-if="localECoffee.enabled" :classes="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.disable')" :cypress-selector="'disable-ecoffee-process'" />
+                <loading-button v-if="!localECoffee.enabled" :class="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.enable')" :cypress-selector="'enable-ecoffee-process'" />
+                <loading-button v-if="localECoffee.enabled" :class="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.disable')" :cypress-selector="'disable-ecoffee-process'" />
               </form>
             </div>
           </div>

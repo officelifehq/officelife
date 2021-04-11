@@ -5,7 +5,8 @@ span {
 </style>
 
 <template>
-  <img :loading="loading" :class="classes" class="pointer" :src="avatar.normal" :width="size"
+  <img v-if="avatar" :loading="loading" class="pointer" :src="avatar.normal"
+       :width="size"
        :height="size"
        :srcset="avatar.normal + ' 1x,' + avatar.retina + ' 2x'" :alt="alt"
        @click="navigateTo()"
@@ -17,10 +18,6 @@ export default {
   props: {
     avatar: {
       type: Object,
-      default: null,
-    },
-    classes: {
-      type: String,
       default: null,
     },
     url: {

@@ -29,7 +29,7 @@
     <div class="br3 bg-white box z-1 pa3 relative">
       <ul v-if="birthdays.length != 0" class="list pl0 ma0">
         <li v-for="birthday in birthdays" :key="birthday.id" class="mb3 pl3 db relative person">
-          <avatar :avatar="birthday.avatar" :size="35" :classes="'br-100 absolute avatar'" />
+          <avatar :avatar="birthday.avatar" :size="35" :class="'br-100 absolute avatar'" />
 
           <!-- normal mode -->
           <inertia-link :href="birthday.url" class="mb2">

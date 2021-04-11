@@ -3,7 +3,6 @@
 namespace App\Http\ViewHelpers\Employee;
 
 use Carbon\Carbon;
-use App\Helpers\TimezoneHelper;
 use App\Models\Company\Employee;
 
 class EmployeeEditViewHelper
@@ -36,7 +35,7 @@ class EmployeeEditViewHelper
             'twitter_handle' => $employee->twitter_handle,
             'slack_handle' => $employee->slack_handle,
             'max_year' => Carbon::now()->year,
-            'timezone' => TimezoneHelper::getTimezoneKeyValue($employee->timezone),
+            'timezone' => $employee->timezone,
         ];
     }
 }

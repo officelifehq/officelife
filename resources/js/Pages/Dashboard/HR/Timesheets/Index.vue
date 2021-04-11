@@ -78,7 +78,7 @@
               <!-- identity -->
               <div class="mb3">
                 <span class="pl3 db relative team-member">
-                  <avatar :avatar="directReport.avatar" :size="64" :classes="'br-100 absolute avatar'" />
+                  <avatar :avatar="directReport.avatar" :size="64" :class="'br-100 absolute avatar'" />
                   <inertia-link :href="directReport.url" class="mb2">{{ directReport.name }}</inertia-link>
                   <span class="title db f7 mt1">
                     {{ directReport.position }}
@@ -98,8 +98,8 @@
                   <!-- timesheet actions -->
                   <div>
                     <inertia-link :href="timesheet.url" class="mr2 f7">{{ $t('dashboard.manager_timesheet_view_details') }}</inertia-link>
-                    <loading-button :classes="'btn w-auto-ns w-100 mr2 pv2 ph3'" :state="loadingStateReject" :text="$t('app.reject')" :cypress-selector="'reject-timesheet-' + timesheet.id" @click="reject(timesheet, directReport)" />
-                    <loading-button :classes="'btn w-auto-ns w-100 mr2 pv2 ph3'" :state="loadingStateApprove" :text="$t('app.approve')" :cypress-selector="'approve-timesheet-' + timesheet.id" @click="approve(timesheet, directReport)" />
+                    <loading-button :class="'btn w-auto-ns w-100 mr2 pv2 ph3'" :state="loadingStateReject" :text="$t('app.reject')" :cypress-selector="'reject-timesheet-' + timesheet.id" @click="reject(timesheet, directReport)" />
+                    <loading-button :class="'btn w-auto-ns w-100 mr2 pv2 ph3'" :state="loadingStateApprove" :text="$t('app.approve')" :cypress-selector="'approve-timesheet-' + timesheet.id" @click="approve(timesheet, directReport)" />
                   </div>
                 </li>
               </ul>
@@ -172,7 +172,7 @@ export default {
 
       axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/timesheets/${timesheet.id}/approve`)
         .then(response => {
-          flash(this.$t('dashboard.manager_timesheet_approved'), 'success');
+          this.flash(this.$t('dashboard.manager_timesheet_approved'), 'success');
           this.removeEntry(timesheet, directReport);
           this.loadingStateApprove = '';
         })
@@ -187,7 +187,7 @@ export default {
 
       axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/timesheets/${timesheet.id}/reject`)
         .then(response => {
-          flash(this.$t('dashboard.manager_timesheet_rejected'), 'success');
+          this.flash(this.$t('dashboard.manager_timesheet_rejected'), 'success');
           this.removeEntry(timesheet, directReport);
           this.loadingStateReject = '';
         })

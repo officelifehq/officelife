@@ -35,7 +35,7 @@
           </p>
 
           <form class="di" @submit.prevent="submit">
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.confirmation_request_another_button')" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.confirmation_request_another_button')" />
           </form>
         </div>
       </div>
@@ -62,7 +62,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -75,7 +75,7 @@ export default {
         .then(response => {
           this.loadingState = null;
           this.resend = true;
-          flash(this.$t('auth.confirmation_fresh'), 'success');
+          this.flash(this.$t('auth.confirmation_fresh'), 'success');
         })
         .catch(error => {
           this.loadingState = null;

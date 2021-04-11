@@ -55,7 +55,7 @@
                   👋 {{ $t('dashboard.question_answer_help') }}
                 </p>
                 <p class="ma0">
-                  <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-answer'" />
+                  <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-answer'" />
                   <a class="pointer" @click.prevent="addMode = false">
                     {{ $t('app.cancel') }}
                   </a>
@@ -123,7 +123,7 @@
                     👋 {{ $t('dashboard.question_answer_help') }}
                   </p>
                   <p class="ma0">
-                    <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.update')" :cypress-selector="'submit-edit-answer'" />
+                    <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.update')" :cypress-selector="'submit-edit-answer'" />
                     <a class="pointer" @click.prevent="hideEditModal()">
                       {{ $t('app.cancel') }}
                     </a>
@@ -185,6 +185,15 @@ export default {
     };
   },
 
+  watch: {
+    question: {
+      handler(value) {
+        this.answers = value.answers;
+      },
+      deep: true
+    }
+  },
+
   created: function() {
     if (this.question) {
       this.localQuestion = this.question;
@@ -199,7 +208,7 @@ export default {
       this.addMode = true;
 
       this.$nextTick(() => {
-        this.$refs['editor'].$refs['input'].focus();
+        this.$refs.editor.focus();
       });
     },
 
@@ -209,7 +218,7 @@ export default {
       this.idToUpdate = answer.id;
 
       this.$nextTick(() => {
-        this.$refs[`name${answer.id}`][0].$refs['input'].focus();
+        this.$refs[`name${answer.id}`].focus();
       });
     },
 
@@ -238,7 +247,7 @@ export default {
           this.localQuestion.number_of_answers++;
           this.hasAlreadyAnswered = true;
           this.editMode = false;
-          flash(this.$t('dashboard.question_answer_submitted'), 'success');
+          this.flash(this.$t('dashboard.question_answer_submitted'), 'success');
         })
         .catch(error => {
           this.loadingState = null;
@@ -253,10 +262,9 @@ export default {
       axios.put(`${this.$page.props.auth.company.id}/dashboard/question/${answer.id}`, this.form)
         .then(response => {
           this.loadingState = null;
-          flash(this.$t('dashboard.question_answer_updated'), 'success');
+          this.flash(this.$t('dashboard.question_answer_updated'), 'success');
 
-          var id = this.answers.findIndex(x => x.id === answer.id);
-          this.$set(this.answers, id, response.data.data);
+          this.answers[this.answers.findIndex(x => x.id === answer.id)] = response.data.data;
 
           this.idToUpdate = 0;
           this.editMode = false;
@@ -270,7 +278,7 @@ export default {
     destroy(answer) {
       axios.delete(`${this.$page.props.auth.company.id}/dashboard/question/${answer.id}`)
         .then(response => {
-          flash(this.$t('dashboard.question_answer_destroyed'), 'success');
+          this.flash(this.$t('dashboard.question_answer_destroyed'), 'success');
 
           this.idToDelete = 0;
           var id = this.answers.findIndex(x => x.id == answer.id);
