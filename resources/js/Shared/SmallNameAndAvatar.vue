@@ -5,13 +5,22 @@ span {
 </style>
 
 <template>
-  <div class="relative di">
-    <img loading="lazy" :src="avatar.normal" :srcset="avatar.normal + ' 1x,' + avatar.retina + ' 2x'" class="absolute br-100" alt="avatar"
-         :style="style"
-    />
-    <inertia-link v-if="url" :href="url" :class="fontSize" :style="avatarMarginLeft" v-bind="$attrs">{{ name }}</inertia-link>
+  <div v-if="member" class="relative di">
+    <inertia-link v-if="member.url" :href="member.url"
+                  :class="fontSize" :style="avatarMarginLeft" v-bind="$attrs"
+    >
+      <img v-if="member.avatar" loading="lazy"
+           :src="member.avatar.normal" :srcset="srcset"
+           :alt="altValue"
+           :style="style" class="absolute br-100"
+      />{{ member.name }}
+    </inertia-link>
     <span v-else :class="fontSize" :style="avatarMarginLeft" v-bind="$attrs">
-      {{ name }}
+      <img v-if="member.avatar" loading="lazy"
+           :src="member.avatar.normal" :srcset="srcset"
+           :alt="altValue"
+           :style="style" class="absolute br-100"
+      />{{ member.name }}
     </span>
   </div>
 </template>
@@ -21,21 +30,13 @@ export default {
   inheritAttrs: false,
 
   props: {
-    name: {
-      type: String,
-      default: null,
-    },
-    avatar: {
+    member: {
       type: Object,
       default: null,
     },
     top: {
       type: String,
       default: '-2px',
-    },
-    url: {
-      type: String,
-      default: null,
     },
     size: {
       type: String,
@@ -48,16 +49,25 @@ export default {
     marginBetweenNameAvatar: {
       type: String,
       default: '29px',
-    }
+    },
+    alt: {
+      type: String,
+      default: 'avatar',
+    },
   },
 
   computed: {
     style: function () {
       return 'top:' + this.top + '; height:' + this.size + '; width:' + this.size + ';';
     },
-
     avatarMarginLeft: function () {
       return 'margin-left:' + this.marginBetweenNameAvatar;
+    },
+    srcset() {
+      return this.member.avatar.normal + ' 1x,' + this.member.avatar.retina + ' 2x';
+    },
+    altValue() {
+      return this.member.name ? this.member.name : this.alt;
     }
   }
 };

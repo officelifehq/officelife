@@ -70,9 +70,7 @@
               <div class="tr">
                 <span class="db f6">with
                   <small-name-and-avatar
-                    :name="entry.manager.name"
-                    :avatar="entry.manager.avatar"
-                    :url="entry.manager.url"
+                    :member="entry.manager"
                     :class="'f4 fw4'"
                     :top="'0px'"
                     :margin-between-name-avatar="'29px'"

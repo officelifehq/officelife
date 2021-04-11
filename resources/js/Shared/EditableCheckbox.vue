@@ -91,8 +91,7 @@ input[type=checkbox] {
 
           <small-name-and-avatar
             v-if="assignee"
-            :name="assignee.name"
-            :avatar="assignee.avatar"
+            :member="assignee"
             :class="'gray'"
             :size="'15px'"
             :font-size="'f7'"

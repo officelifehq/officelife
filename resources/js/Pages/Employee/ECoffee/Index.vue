@@ -43,7 +43,7 @@
         <ul v-if="eCoffees.length > 0" class="list pl0 ma0">
           <li v-for="ecoffee in eCoffees" :key="ecoffee.id" class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between ecoffee-item" :data-cy="'ecoffee-title-' + ecoffee.id">
             <div class="mb1 relative">
-              <avatar :avatar="ecoffee.with_employee.avatar" :size="35" :class="'br-100 absolute avatar'" />
+              <avatar :member="ecoffee.with_employee" :size="35" :class="'br-100 absolute avatar'" />
 
               <span class="employee-name db">
                 <inertia-link :href="ecoffee.with_employee.url" class="mb2">{{ ecoffee.with_employee.name }}</inertia-link>

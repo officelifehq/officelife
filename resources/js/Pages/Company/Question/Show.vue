@@ -53,10 +53,7 @@
 
           <div v-for="answer in answers" :key="answer.id" class="bb-gray relative answer-entry" :data-cy="'answer-content-' + answer.id">
             <!-- avatar -->
-            <small-name-and-avatar
-              :name="answer.employee.name"
-              :avatar="answer.employee.avatar"
-            />
+            <small-name-and-avatar :member="answer.employee" />
 
             <!-- content of the answer -->
             <div class="lh-copy content mt2 br3" v-html="answer.body">

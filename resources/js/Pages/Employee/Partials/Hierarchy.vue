@@ -151,7 +151,7 @@
           </p>
           <ul class="list mv0">
             <li v-for="manager in localManagersOfEmployee" :key="manager.id" class="mb3 relative bb-gray-hover">
-              <avatar :avatar="manager.avatar" :size="35" :class="'br-100 absolute avatar'" />
+              <avatar :member="manager" :size="35" :class="'br-100 absolute avatar'" />
               <inertia-link :href="manager.url" class="mb2">
                 {{ manager.name }}
               </inertia-link>
@@ -205,7 +205,7 @@
           <ul class="list mv0">
             <li v-for="directReport in localDirectReports" :key="directReport.id" class="mb3 relative bb-gray-hover">
               <!-- avatar -->
-              <avatar :avatar="directReport.avatar" :size="35" :class="'br-100 absolute avatar'" />
+              <avatar :member="directReport" :size="35" :class="'br-100 absolute avatar'" />
 
               <!-- name -->
               <inertia-link :href="directReport.url" class="mb2">

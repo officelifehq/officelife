@@ -115,7 +115,7 @@
         <!-- list of employees with this skill -->
         <ul class="list pl0 mb0" data-cy="list-of-employees">
           <li v-for="employee in employees" :key="employee.id" :data-cy="'employee-' + employee.id" class="relative ba bb-gray bb-gray-hover pa3 br3 flex items-center employee">
-            <avatar :avatar="employee.avatar" :size="64" :class="'avatar br-100'" />
+            <avatar :member="employee" :size="64" :class="'avatar br-100'" />
 
             <div class="ml3 mw-100">
               <inertia-link :href="employee.url">{{ employee.name }}</inertia-link>

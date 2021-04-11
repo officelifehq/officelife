@@ -130,8 +130,7 @@
                   <li class="mr3 di-ns db mb0-ns mb2" :data-cy="'hardware-item-user-' + item.id">
                     <small-name-and-avatar
                       v-if="item.employee"
-                      :name="item.employee.name"
-                      :avatar="item.employee.avatar"
+                      :member="item.employee"
                       :class="'gray'"
                       :size="'18px'"
                       :top="'0px'"

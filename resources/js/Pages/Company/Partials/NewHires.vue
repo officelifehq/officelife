@@ -29,7 +29,7 @@
     <div class="br3 bg-white box z-1 pa3 relative">
       <ul v-if="hires.length != 0" class="list pl0 ma0">
         <li v-for="hire in hires" :key="hire.id" class="mb3 pl3 db relative person">
-          <avatar :avatar="hire.avatar" :size="35" :class="'br-100 absolute avatar'" />
+          <avatar :member="hire" :size="35" :class="'br-100 absolute avatar'" />
 
           <!-- normal mode -->
           <inertia-link :href="hire.url" class="mb2">

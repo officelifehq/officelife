@@ -14,7 +14,7 @@
   <div class="cf mw7 center br3 mt5 mb5">
     <!-- employee information -->
     <div class="flex items-center mb5">
-      <avatar :avatar="employee.avatar" :size="55" :class="'pointer avatar br-100 mr4'" />
+      <avatar :member="employee" :size="55" :class="'pointer avatar br-100 mr4'" />
 
       <div>
         <h2 class="fw3 mt0 mb2">

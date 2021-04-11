@@ -34,7 +34,7 @@
     <template v-if="localProject.project_lead">
       <div class="lh-copy ma0">
         <span class="db project-lead relative">
-          <avatar :avatar="localProject.project_lead.avatar" :size="35" :class="'br-100 absolute avatar'" />
+          <avatar :member="localProject.project_lead" :size="35" :class="'br-100 absolute avatar'" />
           <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + localProject.project_lead.id" class="mb2" data-cy="current-project-lead">
             {{ localProject.project_lead.name }}
           </inertia-link>

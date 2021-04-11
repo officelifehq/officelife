@@ -55,8 +55,7 @@
           <div class="mr3 db mb3" :data-cy="'hardware-item-lend-' + hardware.id">
             <small-name-and-avatar
               v-if="hardware.employee"
-              :name="hardware.employee.name"
-              :avatar="hardware.employee.avatar"
+              :member="hardware.employee"
               :top="'0px'"
               :margin-between-name-avatar="'29px'"
             />

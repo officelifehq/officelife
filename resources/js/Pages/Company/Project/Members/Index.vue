@@ -172,7 +172,7 @@
                 <li v-for="member in localMembers" :key="member.id" :data-cy="'member-' + member.id" class="pa3 bb bb-gray flex items-center">
                   <!-- avatar -->
                   <div class="mr3">
-                    <avatar :avatar="member.avatar" :size="64" :class="'br-100'" />
+                    <avatar :member="member" :size="64" :class="'br-100'" />
                   </div>
 
                   <!-- name + information -->

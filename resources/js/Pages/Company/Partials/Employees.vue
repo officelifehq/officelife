@@ -28,7 +28,7 @@
         <p>{{ $t('company.employees_total', { count: statistics.number_of_employees }) }}</p>
 
         <div class="flex items-center relative tr employees">
-          <avatar v-for="employee in employees.ten_random_employees" :key="employee.id" :avatar="employee.avatar" :size="32" :url="employee.url"
+          <avatar v-for="employee in employees.ten_random_employees" :key="employee.id" :member="employee" :size="32" :url="employee.url"
                   :class="'br-100 small-avatar pointer'"
           />
           <div v-if="employees.number_of_employees_left > 0" class="pl2 f7 more-members relative gray">

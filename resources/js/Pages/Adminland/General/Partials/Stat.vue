@@ -23,8 +23,7 @@
         <ul class="dib list pl0">
           <li v-for="admin in information.administrators" :key="admin.id" class="db pb2 admin">
             <small-name-and-avatar
-              :name="admin.name"
-              :avatar="admin.avatar"
+              :member="admin"
               :class="'f4 fw4'"
               :top="'0px'"
               :margin-between-name-avatar="'29px'"

@@ -32,7 +32,7 @@
           <!-- team members -->
           <ul v-show="team.employees.length > 0" class="list relative pl0 mb0">
             <li v-for="employee in team.employees" :key="employee.id" class="di relative">
-              <avatar :avatar="employee.avatar" :url="employee.url" :size="23" :class="'br-100 mr2'" />
+              <avatar :member="employee" :size="23" :class="'br-100 mr2'" />
             </li>
           </ul>
         </div>

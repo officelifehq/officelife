@@ -47,7 +47,7 @@
             <!-- list of employees -->
             <ul class="list ma0">
               <li v-for="employee in recentShip.employees" :key="employee.id" class="mr1 di">
-                <avatar :avatar="employee.avatar" :class="'ship-avatar br-100 relative mr1 dib-ns dn'" :size="21" :data-cy="'ship-list-' + recentShip.id + '-avatar-' + employee.id" />
+                <avatar :member="employee" :class="'ship-avatar br-100 relative mr1 dib-ns dn'" :size="21" :data-cy="'ship-list-' + recentShip.id + '-avatar-' + employee.id" />
               </li>
             </ul>
           </div>

@@ -76,7 +76,7 @@
 
           <div v-if="message.author" class="flex mb4">
             <div class="mr3">
-              <avatar :avatar="message.author.avatar" :size="64" :class="'br-100'" />
+              <avatar :member="message.author" :size="64" :class="'br-100'" />
             </div>
 
             <div>

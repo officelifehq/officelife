@@ -63,8 +63,7 @@
               <div class="mb3">
                 <small-name-and-avatar
                   v-if="expense.employee.id"
-                  :name="expense.employee.name"
-                  :avatar="expense.employee.avatar"
+                  :member="expense.employee"
                   :class="'gray'"
                   :size="'18px'"
                   :top="'0px'"
@@ -120,8 +119,7 @@
                 <p class="ma0 mb2 f6 gray">{{ $t('dashboard.accounting_expense_managers_submitted_by') }}</p>
                 <small-name-and-avatar
                   v-if="expense.employee.id"
-                  :name="expense.employee.name"
-                  :avatar="expense.employee.avatar"
+                  :member="expense.employee"
                   :size="'18px'"
                   :top="'1px'"
                   :margin-between-name-avatar="'25px'"
@@ -135,8 +133,7 @@
                 <small-name-and-avatar
                   v-for="manager in expense.managers"
                   :key="manager.id"
-                  :name="manager.name"
-                  :avatar="manager.avatar"
+                  :member="manager"
                   :class="'mr2'"
                   :size="'18px'"
                   :top="'1px'"
@@ -208,8 +205,7 @@
                 <div class="dtc-ns db mb3 mb0-ns">
                   <small-name-and-avatar
                     v-if="expense.employee.id"
-                    :name="expense.employee.name"
-                    :avatar="expense.employee.avatar"
+                    :member="expense.employee"
                     :class="'gray'"
                     :size="'18px'"
                     :top="'1px'"

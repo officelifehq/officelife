@@ -74,8 +74,7 @@
 
               <div v-if="message.author" class="author tr">
                 <small-name-and-avatar
-                  :name="message.author.name"
-                  :avatar="message.author.avatar"
+                  :member="message.author"
                   :class="'f4 fw4'"
                   :top="'0px'"
                   :margin-between-name-avatar="'29px'"

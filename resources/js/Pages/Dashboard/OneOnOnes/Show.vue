@@ -66,8 +66,7 @@
             <li data-cy="employee-name" class="di tl">
               <small-name-and-avatar
                 v-if="entry.employee.id"
-                :name="entry.employee.name"
-                :avatar="entry.employee.avatar"
+                :member="entry.employee"
                 :size="'22px'"
                 :top="'0px'"
                 :margin-between-name-avatar="'29px'"
@@ -79,8 +78,7 @@
             <li data-cy="manager-name" class="di tl">
               <small-name-and-avatar
                 v-if="entry.manager.id"
-                :name="entry.manager.name"
-                :avatar="entry.manager.avatar"
+                :member="entry.manager"
                 :size="'22px'"
                 :top="'0px'"
                 :margin-between-name-avatar="'29px'"

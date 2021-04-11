@@ -19,7 +19,7 @@
                 @success="onSuccess"
                 @error="onError"
     >
-      <the-avatar :avatar="localAvatar" :size="300" />
+      <the-avatar :member="localMember" :size="300" />
     </uploadcare>
   </div>
 </template>
@@ -37,7 +37,7 @@ export default {
   props: {
     employee: {
       type: Object,
-      default: null,
+      default: () => {},
     },
     permissions: {
       type: Object,
@@ -51,7 +51,7 @@ export default {
 
   data() {
     return {
-      localAvatar: null,
+      localMember: {},
       form: {
         uuid: null,
         name: null,
@@ -67,7 +67,7 @@ export default {
   },
 
   mounted() {
-    this.localAvatar = this.employee.avatar;
+    this.localMember = this.employee;
 
     if (localStorage.success) {
       this.flash(localStorage.success, 'success');
@@ -97,7 +97,7 @@ export default {
 
       axios.put(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/avatar/update`, this.form)
         .then(response => {
-          this.localAvatar = response.data.avatar;
+          this.localMember = { avatar: response.data.avatar };
         })
         .catch(error => {
           this.loadingState = null;

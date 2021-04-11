@@ -31,7 +31,7 @@
       <!-- all birthdays -->
       <div v-for="employee in birthdays" :key="employee.id" class="pa3 fl w-third-l w-100" data-cy="birthdays-list">
         <span class="pl3 db relative team-member">
-          <avatar :avatar="employee.avatar" :size="35" :class="'br-100 absolute avatar'" />
+          <avatar :member="employee" :size="35" :class="'br-100 absolute avatar'" />
 
           <!-- normal mode -->
           <inertia-link :href="employee.url" class="mb2">

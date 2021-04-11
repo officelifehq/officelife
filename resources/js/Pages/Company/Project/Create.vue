@@ -136,7 +136,7 @@
             <div v-if="form.projectLead" class="mb3 mt2 bt bb-gray pt3">
               <p class="mt0 db fw4 lh-copy f6 mb1">Lead by</p>
               <span class="ba bb-gray br3 pa2 pl3 db relative team-member">
-                <avatar :avatar="form.projectLead.avatar" :size="23" :class="'br-100 absolute avatar'" />
+                <avatar :member="form.projectLead" :size="23" :class="'br-100 absolute avatar'" />
 
                 {{ form.projectLead.name }}
 

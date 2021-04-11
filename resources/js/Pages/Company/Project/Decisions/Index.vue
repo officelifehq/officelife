@@ -139,7 +139,7 @@
             <div v-show="form.employees.length > 0" class="ba bb-gray mb3 mt4">
               <div v-for="employee in form.employees" :key="employee.id" class="pa2 db bb-gray bb" data-cy="members-list">
                 <span class="pl3 db relative deciders">
-                  <avatar :avatar="employee.avatar" :size="22" :class="'br-100 absolute avatar'" />
+                  <avatar :member="employee" :size="22" :class="'br-100 absolute avatar'" />
 
                   {{ employee.name }}
 
@@ -186,8 +186,7 @@
                   <ul class="list pl0">
                     <li v-for="decider in decision.deciders" :key="decider.id" class="di mr2">
                       <small-name-and-avatar
-                        :name="decider.name"
-                        :avatar="decider.avatar"
+                        :member="decider"
                         :class="'f4 fw4'"
                         :top="'0px'"
                         :margin-between-name-avatar="'29px'"

@@ -1,27 +1,35 @@
 <style lang="scss" scoped>
-span {
-  margin-left: 29px;
+.link {
+  border-bottom: 0;
+  text-decoration: none;
 }
 </style>
 
+
 <template>
-  <img v-if="avatar" :loading="loading" class="pointer" :src="avatar.normal"
-       :width="size"
-       :height="size"
-       :srcset="avatar.normal + ' 1x,' + avatar.retina + ' 2x'" :alt="alt"
-       @click="navigateTo()"
-  />
+  <div v-if="member && member.avatar" v-bind="$attrs">
+    <inertia-link v-if="url" :href="url" class="link">
+      <img :loading="loading" :width="size" :height="size"
+           :src="member.avatar.normal" :srcset="srcset"
+           :alt="altValue"
+           v-bind="$attrs"
+      />
+    </inertia-link>
+    <img v-else :loading="loading" :width="size" :height="size"
+         :src="member.avatar.normal" :srcset="srcset"
+         :alt="altValue"
+         v-bind="$attrs"
+    />
+  </div>
 </template>
 
 <script>
 export default {
+  inheritAttrs: false,
+
   props: {
-    avatar: {
+    member: {
       type: Object,
-      default: null,
-    },
-    url: {
-      type: String,
       default: null,
     },
     size: {
@@ -38,12 +46,16 @@ export default {
     }
   },
 
-  methods: {
-    navigateTo() {
-      if (this.url) {
-        this.$inertia.visit(this.url);
-      }
+  computed: {
+    url() {
+      return typeof this.member.url === 'string' ? this.member.url : '';
     },
-  },
+    srcset() {
+      return this.member.avatar.normal + ' 1x,' + this.member.avatar.retina + ' 2x';
+    },
+    altValue() {
+      return this.member.name ? this.member.name : this.alt;
+    }
+  }
 };
 </script>

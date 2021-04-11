@@ -77,9 +77,7 @@
           <div v-for="currentEmployee in survey.direct_reports" :key="currentEmployee.id" class="mr3 mb3">
             <small-name-and-avatar
               v-if="currentEmployee.id"
-              :name="currentEmployee.name"
-              :avatar="currentEmployee.avatar"
-              :url="currentEmployee.url"
+              :member="currentEmployee"
               :size="'22px'"
               :top="'0px'"
               :margin-between-name-avatar="'28px'"
@@ -94,8 +92,7 @@
             <span v-if="answer.reveal_identity_to_manager" class="db mb2 gray">
               <small-name-and-avatar
                 v-if="answer.employee.id"
-                :name="answer.employee.name"
-                :avatar="answer.employee.avatar"
+                :member="answer.employee"
                 :class="'gray'"
                 :size="'18px'"
                 :top="'0px'"
