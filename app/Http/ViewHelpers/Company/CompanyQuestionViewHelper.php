@@ -35,10 +35,6 @@ class CompanyQuestionViewHelper
         foreach ($questions as $question) {
             $numberOfAnswers = $question->answers->count();
 
-            if ($numberOfAnswers == 0) {
-                continue;
-            }
-
             $questionCollection->push([
                 'id' => $question->id,
                 'title' => $question->title,
