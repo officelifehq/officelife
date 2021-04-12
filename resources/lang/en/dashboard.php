@@ -65,8 +65,8 @@ return [
     'question_answer_destroyed' => 'The answer has been deleted.',
     'question_answer_link' => 'View all answers of this question',
 
-    'team_recent_ships' => 'The 3 latest recent ships in this team',
-    'team_recent_ship_list_blank' => 'The team hasn’t ship anything recently.',
+    'team_recent_ships' => 'The 3 latest accomplishments in this team',
+    'team_recent_ship_list_blank' => 'The team hasn’t shipped anything recently.',
 
     'task_title' => 'Tasks',
 

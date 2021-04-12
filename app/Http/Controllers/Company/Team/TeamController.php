@@ -81,6 +81,9 @@ class TeamController extends Controller
         // birthdays
         $birthdays = TeamShowViewHelper::birthdays($team, $loggedCompany);
 
+        // morale
+        $morale = TeamShowViewHelper::morale($team, $loggedEmployee);
+
         return Inertia::render('Team/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'team' => TeamShowViewHelper::team($team),
@@ -93,6 +96,7 @@ class TeamController extends Controller
             'userBelongsToTheTeam' => $belongsToTheTeam->count() > 0,
             'links' => TeamUsefulLinkCollection::prepare($team->links),
             'recentShips' => $recentShipsCollection,
+            'morale' => $morale,
         ]);
     }
 }

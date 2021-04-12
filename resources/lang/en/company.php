@@ -40,7 +40,7 @@ return [
     'new_hires_date_with_position_past' => 'Started on :date as :position',
     'new_hires_blank' => 'There are no new hires this week.',
 
-    'recent_ships_title' => 'Recent ships',
+    'recent_ships_title' => 'Accomplishments',
 
     'questions_blank' => 'No questions have been asked to employees yet.',
     'questions_title' => 'Questions to get to know your colleagues',

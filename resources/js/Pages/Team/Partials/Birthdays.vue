@@ -15,9 +15,11 @@
 </style>
 
 <template>
-  <div class="mb5">
+  <div class="mb4">
     <div class="cf mw7 center mb2 fw5">
-      🥳 {{ $t('dashboard.team_birthdate_title') }}
+      <span class="mr1">
+        🥳
+      </span> {{ $t('dashboard.team_birthdate_title') }}
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box">

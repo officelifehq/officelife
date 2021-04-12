@@ -91,7 +91,9 @@
 
           <!-- News -->
           <h3 class="db fw5 mb3 flex justify-between items-center">
-            <span>🗞 {{ $tc('team.count_team_news', newsCount, { count: newsCount }) }}</span>
+            <span><span class="mr1">
+              🗞
+            </span> {{ $tc('team.count_team_news', newsCount, { count: newsCount }) }}</span>
             <inertia-link v-if="userBelongsToTheTeam || $page.props.auth.employee.permission_level <= 200" :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/news/create'" class="btn f5" data-cy="add-team-news">{{ $t('team.news_write') }}</inertia-link>
           </h3>
 
@@ -124,6 +126,9 @@
 
           <!-- birthdays -->
           <birthdays :birthdays="birthdays" />
+
+          <!-- morale -->
+          <morale :morale="morale" />
         </div>
       </div>
     </div>
@@ -139,6 +144,7 @@ import TeamLead from '@/Pages/Team/Partials/TeamLead';
 import TeamUsefulLink from '@/Pages/Team/Partials/TeamUsefulLink';
 import RecentShips from '@/Pages/Team/Partials/RecentShips';
 import Birthdays from '@/Pages/Team/Partials/Birthdays';
+import Morale from '@/Pages/Team/Partials/Morale';
 
 export default {
   components: {
@@ -149,6 +155,7 @@ export default {
     TeamUsefulLink,
     RecentShips,
     Birthdays,
+    Morale,
   },
 
   directives: {
@@ -197,6 +204,10 @@ export default {
       default: null,
     },
     recentShips: {
+      type: Array,
+      default: null,
+    },
+    morale: {
       type: Array,
       default: null,
     },

@@ -38,14 +38,14 @@
 
     <div class="cf center br3 mb3 bg-white box relative">
       <!-- BLANK STATE -->
-      <div v-if="surveys.surveys.length == 0" data-cy="expense-list-blank-state" class="pa3">
+      <div v-if="!surveys" data-cy="expense-list-blank-state" class="pa3">
         <img loading="lazy" class="db center mb4" height="140" alt="" src="/img/streamline-icon-customer-service-rating-1-4@140x140.png" />
 
         <p class="fw5 mt3 tc">{{ $t('dashboard.manager_rate_manager_blank_state') }}</p>
       </div>
 
       <!-- LIST OF SURVEYS -->
-      <ul v-if="surveys.surveys.length > 0" class="list mt0 pl0 mb0">
+      <ul v-else class="list mt0 pl0 mb0">
         <li v-for="survey in surveys.surveys" :key="survey.id" class="flex items-center pa3 bb bb-gray bb-gray-hover survey-item">
           <!-- date -->
           <div class="date">

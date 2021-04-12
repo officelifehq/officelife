@@ -4,6 +4,8 @@
       <span class="mr1">
         🙃
       </span> {{ $t('dashboard.morale_title') }}
+
+      <help :url="$page.props.help_links.employee-morale" :top="'2px'" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box pa3">
@@ -49,10 +51,12 @@
 
 <script>
 import Errors from '@/Shared/Errors';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
     Errors,
+    Help,
   },
 
   props: {
