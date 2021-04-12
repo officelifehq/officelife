@@ -201,10 +201,6 @@ export default {
         this.$refs[`editor-${answer.id}`].focus();
       });
     },
-
-    toggleReveal() {
-      this.form.reveal = !this.form.reveal;
-    }
   }
 };
 </script>
