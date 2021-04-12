@@ -59,7 +59,7 @@
           :maxlength="255"
           :required="true"
           :editable="!entry.happened"
-          @change="toggle(talkingPoint.id)"
+          @update:model-value="toggle(talkingPoint.id)"
           @update="showEditTalkingPoint(talkingPoint.id, talkingPoint.description)"
           @destroy="destroy(talkingPoint.id)"
         />

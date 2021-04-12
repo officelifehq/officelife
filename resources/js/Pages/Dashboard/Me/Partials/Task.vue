@@ -23,7 +23,7 @@
             :extra-class-upper-div="'mb0 relative'"
             :class="'mb0'"
             :required="true"
-            @change="updateStatus($event)"
+            @update:model-value="updateStatus($event)"
           />
         </li>
       </ul>

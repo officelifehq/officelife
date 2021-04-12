@@ -90,7 +90,6 @@
               :label="$t('dashboard.rate_your_manager_thanks_add_comment_reveal_identity')"
               :extra-class-upper-div="'mb0 relative'"
               :required="false"
-              @change="toggleReveal()"
             />
 
             <!-- actions -->
