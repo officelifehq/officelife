@@ -76,4 +76,7 @@ return [
     'recent_ship_show_date' => 'Written on {date} in {team}',
     'recent_ship_show_members' => 'Made possible by',
     'recent_ship_deletion_success' => 'The entry has been deleted.',
+
+    'morale_title' => 'Morale of the team members',
+    'morale_on_average' => 'On average',
 ];

@@ -287,14 +287,17 @@ class TeamShowViewHelperTest extends TestCase
                 'yesterday' => [
                     'average' => 3.0,
                     'percent' => 100,
+                    'emotion' => 'happy',
                 ],
                 'last_week' => [
                     'average' => 2.446,
                     'percent' => 82,
+                    'emotion' => 'happy',
                 ],
                 'last_month' => [
                     'average' => 2.416,
                     'percent' => 81,
+                    'emotion' => 'happy',
                 ],
             ],
             $array

@@ -239,15 +239,46 @@ class TeamShowViewHelper
             'yesterday' => [
                 'average' => $moraleOfYesterday ? round($moraleOfYesterday->average, 3) : null,
                 'percent' => $moraleOfYesterday ? round($moraleOfYesterday->average * 100 / 3, 0) : null,
+                'emotion' => $moraleOfYesterday ? self::emotion(round($moraleOfYesterday->average * 100 / 3, 0)) : null,
             ],
             'last_week' => [
                 'average' => $moraleOfLastWeek ? round($moraleOfLastWeek, 3) : null,
                 'percent' => $moraleOfLastWeek ? round($moraleOfLastWeek * 100 / 3, 0) : null,
+                'emotion' => $moraleOfLastWeek ? self::emotion(round($moraleOfLastWeek * 100 / 3, 0)) : null,
             ],
             'last_month' => [
                 'average' => $moraleOfLastMonth ? round($moraleOfLastMonth, 3) : null,
                 'percent' => $moraleOfLastMonth ? round($moraleOfLastMonth * 100 / 3, 0) : null,
+                'emotion' => $moraleOfLastMonth ? self::emotion(round($moraleOfLastMonth * 100 / 3, 0)) : null,
             ],
         ];
+    }
+
+    /**
+     * Calculates the emotion based on the morale represented in percent.
+     */
+    private static function emotion(float $percent): string
+    {
+        $emotion = '';
+
+        switch (true) {
+            case $percent <= 30:
+                $emotion = 'sad';
+                break;
+
+            case $percent > 30 && $percent <= 70:
+                $emotion = 'average';
+                break;
+
+            case $percent >= 70:
+                $emotion = 'happy';
+                break;
+
+            default:
+                $emotion = 'none';
+                break;
+        }
+
+        return $emotion;
     }
 }
