@@ -20,7 +20,6 @@ mix.js('resources/js/app.js', 'public/js').vue()
     resolve: {
       alias: {
         '@': path.resolve('resources/js'),
-        'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js',
       },
     },
     devtool: "inline-source-map",
