@@ -5,6 +5,8 @@ return [
     'menu_projects' => 'Projects',
     'menu_hr' => 'Human Resources',
 
+    'stat_founded_at' => 'founded',
+
     'new_name' => 'What is the name of your company?',
     'subtitle' => 'There is only one step to get started.',
     'next_step_cta' => 'Ok, let’s go',

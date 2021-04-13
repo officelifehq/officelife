@@ -39,6 +39,7 @@ class CompanyViewHelperTest extends TestCase
 
         $file = File::factory()->create();
         $michael->company->logo_file_id = $file->id;
+        $michael->company->founded_at = '2020:01:01 00:00:00';
         $michael->company->save();
 
         $response = CompanyViewHelper::information($michael->company);
@@ -48,6 +49,7 @@ class CompanyViewHelperTest extends TestCase
                 'number_of_teams' => 2,
                 'number_of_employees' => 3,
                 'logo' => ImageHelper::getImage($file, 200, 200),
+                'founded_at' => 2020,
             ],
             $response
         );
