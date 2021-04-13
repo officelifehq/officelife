@@ -87,7 +87,7 @@
                   :help="$t('account.employee_statuses_new_external_help')"
                   :extra-class-upper-div="'mb0 relative'"
                   :required="false"
-                  @change="updateType($event)"
+                  @update:model-value="updateType($event)"
                 />
               </div>
               <div class="fl w-30-ns w-100 tr">
@@ -129,7 +129,7 @@
                       :help="$t('account.employee_statuses_new_external_help')"
                       :extra-class-upper-div="'mb0 relative'"
                       :required="false"
-                      @change="updateType($event)"
+                      @update:model-value="updateType($event)"
                     />
                   </div>
                   <div class="fl w-30-ns w-100 tr">

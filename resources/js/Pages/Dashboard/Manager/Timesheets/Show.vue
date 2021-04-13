@@ -127,39 +127,10 @@
               </div>
             </div>
 
-            <!-- monday -->
-            <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
-              {{ formatTime(row.days[0].total_of_minutes) }}
-            </div>
-
-            <!-- tuesday -->
-            <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
-              {{ formatTime(row.days[1].total_of_minutes) }}
-            </div>
-
-            <!-- wednesday -->
-            <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
-              {{ formatTime(row.days[2].total_of_minutes) }}
-            </div>
-
-            <!-- thursday -->
-            <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
-              {{ formatTime(row.days[3].total_of_minutes) }}
-            </div>
-
-            <!-- friday -->
-            <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
-              {{ formatTime(row.days[4].total_of_minutes) }}
-            </div>
-
-            <!-- saturday -->
-            <div class="ph2 pv2 dtc bl bb bb-gray v-mid off-days tc">
-              {{ formatTime(row.days[5].total_of_minutes) }}
-            </div>
-
-            <!-- sunday -->
-            <div class="ph2 pv2 dtc bl bb bb-gray v-mid off-days tc">
-              {{ formatTime(row.days[6].total_of_minutes) }}
+            <div v-for="n in 7" :key="n" class="ph2 pv2 dtc bl bb bb-gray v-mid tc"
+                 :class="{ 'off-days': n === 6 || n === 7 }"
+            >
+              {{ formatTime(row.days[n-1].total_of_minutes) }}
             </div>
           </div>
 
@@ -176,33 +147,10 @@
               </div>
             </div>
 
-            <!-- daily total: monday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[0]) }}
-            </div>
-            <!-- daily total: tuesday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[1]) }}
-            </div>
-            <!-- daily total: wednesday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[2]) }}
-            </div>
-            <!-- daily total: thursday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[3]) }}
-            </div>
-            <!-- daily total: friday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[4]) }}
-            </div>
-            <!-- daily total: saturday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray off-days f7 gray">
-              {{ formatTime(dailyStats[5]) }}
-            </div>
-            <!-- daily total: sunday -->
-            <div class="tc pv2 bt bl bb bb-gray off-days f7 gray">
-              {{ formatTime(dailyStats[6]) }}
+            <div v-for="n in 7" :key="n" class="tc pv2 dtc bt bl bb bb-gray f7 gray"
+                 :class="{ 'off-days': n === 6 || n === 7 }"
+            >
+              {{ formatTime(dailyStats[n-1]) }}
             </div>
           </div>
         </div>

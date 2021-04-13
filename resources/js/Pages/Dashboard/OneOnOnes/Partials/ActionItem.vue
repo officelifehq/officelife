@@ -59,7 +59,7 @@
           :maxlength="255"
           :required="true"
           :editable="!entry.happened"
-          @change="toggle(actionItem.id)"
+          @update:model-value="toggle(actionItem.id)"
           @update="showEditActionItem(actionItem.id, actionItem.description)"
           @destroy="destroy(actionItem.id)"
         />

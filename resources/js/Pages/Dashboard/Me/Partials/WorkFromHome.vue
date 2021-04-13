@@ -19,7 +19,7 @@
           :label="$t('dashboard.work_from_home_cta')"
           :extra-class-upper-div="'mb0 relative'"
           :required="true"
-          @change="updateStatus($event)"
+          @update:model-value="updateStatus($event)"
         />
 
         <p class="f7 mv0 silver">
