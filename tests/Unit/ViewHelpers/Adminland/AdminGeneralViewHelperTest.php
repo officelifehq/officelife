@@ -34,6 +34,7 @@ class AdminGeneralViewHelperTest extends TestCase
             'company_id' => $michael->company_id,
             'size' => 123,
         ])->id;
+        $michael->company->founded_at = '2020:01:01 00:00:00';
         $michael->company->save();
 
         $response = AdminGeneralViewHelper::information($michael->company, $michael);
@@ -66,6 +67,11 @@ class AdminGeneralViewHelperTest extends TestCase
         $this->assertEquals(
             ImageHelper::getImage($michael->company->logo, 300, 300),
             $response['logo']
+        );
+
+        $this->assertEquals(
+            2020,
+            $response['founded_at']
         );
 
         $response['administrators']->sortBy('id');

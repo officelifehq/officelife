@@ -54,6 +54,9 @@ class AdminGeneralViewHelper
         // logo
         $logo = $company->logo ? ImageHelper::getImage($company->logo, 300, 300) : null;
 
+        // founded date
+        $foundedDate = $company->founded_at ? $company->founded_at->year : null;
+
         return [
             'id' => $company->id,
             'name' => $name,
@@ -63,6 +66,7 @@ class AdminGeneralViewHelper
             'total_size' => round($totalSize / 1000, 4),
             'logo' => $logo,
             'uploadcare_public_key' => config('officelife.uploadcare_public_key'),
+            'founded_at' => $foundedDate,
         ];
     }
 

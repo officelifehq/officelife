@@ -30,7 +30,7 @@
         <errors :errors="form.errors" :class="'mb3'" />
 
         <ul class="list pl0">
-          <li class="mb3 flex-ns items-center">
+          <li class="flex-ns items-center">
             <span class="dib-ns db mb0-ns mb2 title">{{ $t('account.general_rename_input') }}</span>
             <span>
               <text-input
@@ -50,7 +50,7 @@
         </ul>
 
         <!-- Actions -->
-        <div class="mt4 mb3">
+        <div class="mt2 mb3">
           <div class="flex-ns justify-between">
             <div>
               <a href="#" class="btn dib tc w-auto-ns w-100 pv2 ph3" data-cy="cancel-rename-company-button" @click.prevent="editMode = false">
