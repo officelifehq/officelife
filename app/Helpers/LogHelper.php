@@ -1088,6 +1088,12 @@ class LogHelper
                 $sentence = trans('account.log_company_logo_changed');
                 break;
 
+            case 'company_founded_date_updated':
+                $sentence = trans('account.log_company_founded_date_updated', [
+                    'founded_at' => $log->object->{'founded_at'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;

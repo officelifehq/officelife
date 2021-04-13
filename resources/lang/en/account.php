@@ -298,6 +298,7 @@ return [
     'log_company_logo_changed' => 'Changed the company logo.',
     'log_file_added_to_project' => 'Added a file called :name in the project called :project_name.',
     'log_project_file_destroyed' => 'Deleted a file called :name in the project called :project_name.',
+    'log_company_founded_date_updated' => 'Updated the founded date of the company to :founded_at.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
