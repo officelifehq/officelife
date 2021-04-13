@@ -126,7 +126,7 @@
 
                   <!-- number of answers -->
                   <li :data-cy="'question-number-of-answers-' + question.id" class="di pr2 pb2 pb0-ns">
-                    <inertia-link :href="question.url">{{ $tc('account.question_number_of_answers', question_number_of_answers, { count: question.number_of_answers}) }}</inertia-link>
+                    <inertia-link :href="question.url">{{ $tc('account.question_number_of_answers', question.number_of_answers, { count: question.number_of_answers}) }}</inertia-link>
                   </li>
 
                   <!-- rename -->
