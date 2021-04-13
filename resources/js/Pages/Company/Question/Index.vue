@@ -24,33 +24,48 @@
       </div>
 
       <!-- BODY -->
-      <div class="mw7 center br3 mb5 bg-white box relative z-1">
-        <!-- WHEN THERE ARE QUESTIONS -->
-        <div class="pa3 mt3">
-          <h2 class="tc normal mb4">
-            {{ $t('company.questions_title') }}
-          </h2>
+      <template v-if="questions">
+        <div class="mw7 center br3 mb5 bg-white box relative z-1">
+          <!-- WHEN THERE ARE QUESTIONS -->
+          <div class="pa3 mt3">
+            <h2 class="tc normal mb4">
+              {{ $t('company.questions_title') }}
+            </h2>
 
-          <!-- LIST OF QUESTIONS -->
-          <ul v-if="questions && questions.length != 0" class="list pl0 mt0 center">
-            <li
-              v-for="question in questions" :key="question.id"
-              class="pa3-l pa1 ph0-l bb b--black-10 question-item"
-            >
-              <!-- normal case (ie not rename mode) -->
-              <inertia-link :href="question.url" class="mb2-ns mb2 di-ns dib mt0-ns mt2" :data-cy="'list-question-' + question.id">{{ question.title }}</inertia-link>
-              <span class="ml2-ns ml0 f6 grey di-ns db mb2 mb0-ns">{{ $tc('company.question_number_of_answers', question.number_of_answers, { number: question.number_of_answers }) }}</span>
-            </li>
-          </ul>
+            <!-- LIST OF QUESTIONS -->
+            <ul v-show="questions.length != 0" class="list pl0 mt0 center">
+              <li
+                v-for="question in questions" :key="question.id"
+                class="pa3-l pa1 ph0-l bb b--black-10 question-item"
+              >
+                <!-- normal case (ie not rename mode) -->
+                <inertia-link :href="question.url" class="mb2-ns mb2 di-ns dib mt0-ns mt2" :data-cy="'list-question-' + question.id">{{ question.title }}</inertia-link>
+                <span class="ml2-ns ml0 f6 grey di-ns db mb2 mb0-ns">{{ $tc('company.question_number_of_answers', question.number_of_answers, { number: question.number_of_answers }) }}</span>
+              </li>
+            </ul>
+          </div>
+
           <!-- NO questions -->
-          <div v-else class="pa3">
+          <div v-show="questions.length == 0" class="pa3">
             <p class="tc measure center mb4 lh-copy" data-cy="questions-blank-message">
               {{ $t('account.questions_blank') }}
             </p>
             <img loading="lazy" class="db center mb4" alt="team" src="/img/streamline-icon-work-desk-sofa-3-1@140x140.png" />
           </div>
         </div>
-      </div>
+      </template>
+
+      <!-- blank state -->
+      <template v-else>
+        <div class="mw7 center br3 mb5 bg-white box relative z-1">
+          <p class="tc measure center mb4 lh-copy" data-cy="questions-blank-message">
+            {{ $t('account.questions_blank') }}
+          </p>
+          <img loading="lazy" class="db center mb4" alt="team" srcset="/img/company/account/blank-team-1x.png,
+                                        /img/company/account/blank-team-2x.png 2x"
+          />
+        </div>
+      </template>
     </div>
   </layout>
 </template>
