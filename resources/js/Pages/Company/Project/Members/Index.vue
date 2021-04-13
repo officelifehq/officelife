@@ -97,14 +97,13 @@
                   <div class="measure">
                     <!-- employee -->
                     <select-box :id="'employee'"
-                                v-model="form.employee"
+                                v-model="form.employee_id"
                                 :options="potentialMembers"
                                 :name="'employee'"
                                 :errors="$page.props.errors.employee"
                                 :label="$t('project.members_index_add_select_title')"
                                 :placeholder="$t('project.members_index_add_select_placeholder')"
                                 :required="true"
-                                :value="form.employee"
                                 :datacy="'members_selector'"
                     />
                     <p class="lh-copy">{{ $t('project.members_index_add_role') }}</p>
@@ -284,7 +283,7 @@ export default {
       potentialMembers: null,
       loadingState: '',
       form: {
-        employee: null,
+        employee_id: null,
         role: null,
         errors: [],
       },
@@ -342,7 +341,7 @@ export default {
           this.flash(this.$t('project.members_index_add_success'), 'success');
           this.loadingState = null;
           this.form.role = null;
-          this.form.employee = null;
+          this.form.employee_id = null;
           this.showModal = false;
           this.localMembers.unshift(response.data.data);
         })
@@ -352,8 +351,8 @@ export default {
         });
     },
 
-    remove(employee) {
-      this.form.employee = employee;
+    remove(employee_id) {
+      this.form.employee_id = employee_id;
 
       axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/members/remove`, this.form)
         .then(response => {

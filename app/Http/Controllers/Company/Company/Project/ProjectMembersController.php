@@ -94,7 +94,7 @@ class ProjectMembersController extends Controller
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
-            'employee_id' => $request->input('employee.value'),
+            'employee_id' => $request->input('employee_id'),
             'role' => $request->input('role'),
         ];
 
@@ -136,7 +136,7 @@ class ProjectMembersController extends Controller
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
-            'employee_id' => $request->input('employee'),
+            'employee_id' => $request->input('employee_id'),
         ];
 
         (new RemoveEmployeeFromProject)->execute($data);
