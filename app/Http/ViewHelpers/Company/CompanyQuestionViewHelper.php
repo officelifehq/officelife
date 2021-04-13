@@ -35,7 +35,7 @@ class CompanyQuestionViewHelper
         foreach ($questions as $question) {
             $numberOfAnswers = $question->answers->count();
 
-            if ($numberOfAnswers == 0) {
+            if ($numberOfAnswers == 0 && ! $question->active) {
                 continue;
             }
 
