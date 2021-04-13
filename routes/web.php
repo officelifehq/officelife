@@ -60,6 +60,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
             // timesheet
             Route::get('timesheet/projects', 'Company\\Dashboard\\DashboardTimesheetController@projects')->name('dashboard.timesheet.projects');
+            Route::get('timesheet/projects/create', 'Company\\Dashboard\\DashboardTimesheetProjectsController@create')->name('dashboard.timesheet.projects.create');
+            Route::post('timesheet/projects', 'Company\\Dashboard\\DashboardTimesheetProjectsController@store')->name('dashboard.timesheet.projects.store');
             Route::get('timesheet/{timesheet}/projects/{project}/tasks', 'Company\\Dashboard\\DashboardTimesheetController@tasks')->name('dashboard.timesheet.tasks');
             Route::resource('timesheet', 'Company\\Dashboard\\DashboardTimesheetController', ['as' => 'dashboard'])->only([
                 'index', 'show', 'destroy',
@@ -275,7 +277,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('', 'Company\\Company\\Project\\ProjectController@index');
                 Route::get('create', 'Company\\Company\\Project\\ProjectController@create');
                 Route::post('', 'Company\\Company\\Project\\ProjectController@store');
-                Route::post('search', 'Company\\Company\\Project\\ProjectController@search');
+                Route::post('search', 'Company\\Company\\Project\\ProjectController@search')->name('company.projects.search');
 
                 // project detail
                 Route::get('{project}', 'Company\\Company\\Project\\ProjectController@show')->name('projects.show');

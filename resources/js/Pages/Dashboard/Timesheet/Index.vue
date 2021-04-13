@@ -125,7 +125,7 @@
           <!-- message to display if there are no projects in the account -->
           <div v-if="projects.length == 0" class="tc">
             {{ $t('dashboard.timesheet_no_projects') }}
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/create'">{{ $t('dashboard.timesheet_create_project') }}</inertia-link>
+            <inertia-link :href="route('dashboard.timesheet.projects.create', { company: $page.props.auth.company.id })">{{ $t('dashboard.timesheet_create_project') }}</inertia-link>
           </div>
 
           <span v-else class="bb b--dotted bt-0 bl-0 br-0 pointer">

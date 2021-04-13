@@ -64,6 +64,7 @@ return [
     'breadcrumb_dashboard_hr' => 'Human Resources',
     'breadcrumb_dashboard_manager' => 'Manager',
     'breadcrumb_dashboard_manager_expense_details' => 'Expense details',
+    'breadcrumb_dashboard_timesheets' => 'Timesheets',
     'breadcrumb_account_home' => 'Account administration',
     'breadcrumb_account_manage_employees' => 'Manage employees',
     'breadcrumb_account_add_employee' => 'Add an employee',
