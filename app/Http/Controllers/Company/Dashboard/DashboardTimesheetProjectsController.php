@@ -67,8 +67,9 @@ class DashboardTimesheetProjectsController extends Controller
         return response()->json([
             'data' => [
                 'id' => $project->id,
-                'url' => route('dashboard.timesheet.index', [
+                'url' => route('projects.show', [
                     'company' => $company,
+                    'project' => $project,
                 ]),
             ],
         ], 201);
