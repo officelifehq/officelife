@@ -40,7 +40,7 @@
               >
                 <!-- normal case (ie not rename mode) -->
                 <inertia-link :href="question.url" class="mb2-ns mb2 di-ns dib mt0-ns mt2" :data-cy="'list-question-' + question.id">{{ question.title }}</inertia-link>
-                <span class="ml2-ns ml0 f6 grey di-ns db mb2 mb0-ns">{{ $tc('company.question_number_of_answers', question_number_of_answers, { number: question.number_of_answers }) }}</span>
+                <span class="ml2-ns ml0 f6 grey di-ns db mb2 mb0-ns">{{ $tc('company.question_number_of_answers', question.number_of_answers, { number: question.number_of_answers }) }}</span>
               </li>
             </ul>
           </div>
