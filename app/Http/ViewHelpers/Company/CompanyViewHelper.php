@@ -54,7 +54,7 @@ class CompanyViewHelper
         $latestQuestions = DB::table('questions')
             ->join('answers', 'questions.id', '=', 'answers.question_id')
             ->where('company_id', '=', $company->id)
-            ->groupBy('questions.id')
+            ->groupBy('questions.id', 'questions.title')
             ->orderByDesc('questions.id')
             ->limit(3)
             ->select('questions.id', 'questions.title')
