@@ -18,7 +18,7 @@ class ResetUserPassword extends BaseService implements ResetsUserPasswords
     public function rules(): array
     {
         return [
-            'password' => $this->passwordRules(),
+            'password' => $this->passwordRules(true),
         ];
     }
 

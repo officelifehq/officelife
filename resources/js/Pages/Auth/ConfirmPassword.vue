@@ -4,22 +4,23 @@
       <authentication-card-logo />
     </template>
 
-    <div class="mb-4 text-sm text-gray-600">
+    <div class="fw5 pt5">
       This is a secure area of the application. Please confirm your password before continuing.
     </div>
 
     <validation-errors class="mb-4" />
 
-    <form @submit.prevent="submit">
-      <div>
-        <input-label for="password" value="Password" />
-        <text-input id="password" v-model="form.password" type="password" class="mt-1 block w-full" required
-                    autocomplete="current-password" autofocus
-        />
-      </div>
+    <form class="pt2" @submit.prevent="submit">
+      <text-input v-model="form.password"
+                  :name="'password'"
+                  :errors="$page.props.errors.password"
+                  type="password"
+                  :label="$t('auth.register_password')"
+                  :required="true"
+      />
 
-      <div class="flex justify-end mt-4">
-        <loading-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+      <div class="flex items-center justify-end mt-4">
+        <loading-button class="ml-4" :class="'add mb4'" :state="form.processing">
           Confirm
         </loading-button>
       </div>
@@ -28,12 +29,12 @@
 </template>
 
 <script>
-import AuthenticationCard from '@/Shared/AuthenticationCard';
-import AuthenticationCardLogo from '@/Shared/AuthenticationCardLogo';
+import AuthenticationCard from '@/Shared/Layout/AuthenticationCard';
+import AuthenticationCardLogo from '@/Shared/Layout/AuthenticationCardLogo';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
-import InputLabel from '@/Shared/Label';
 import ValidationErrors from '@/Shared/ValidationErrors';
+import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
   components: {
@@ -41,13 +42,12 @@ export default {
     AuthenticationCardLogo,
     LoadingButton,
     TextInput,
-    InputLabel,
     ValidationErrors
   },
 
   data() {
     return {
-      form: this.$inertia.form({
+      form: useForm({
         password: '',
       })
     };

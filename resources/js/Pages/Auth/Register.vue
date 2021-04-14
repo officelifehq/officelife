@@ -16,7 +16,7 @@
     <form @submit.prevent="submit">
       <text-input v-model="form.email"
                   :name="'email'"
-                  :errors="$page.props.errors.email"
+                  :errors="form.errors.email"
                   :label="$t('auth.register_email')"
                   :help="$t('auth.register_email_help')"
                   :required="true"
@@ -24,26 +24,27 @@
 
       <text-input v-model="form.password"
                   :name="'password'"
-                  :errors="$page.props.errors.password"
+                  :errors="form.errors.password"
                   class="mb3"
                   type="password"
                   :label="$t('auth.register_password')"
                   :required="true"
-                  :extra-class-upper-div="'mb4'"
+                  :extra-class-upper-div="'mb3'"
       />
 
-      <checkbox
-        :id="'terms'"
-        v-model="form.terms"
-        :datacy="'accept-terms'"
-        :label="$t('auth.register_terms')"
-        :extra-class-upper-div="'mb3 relative'"
-        :required="true"
+      <checkbox :id="'terms'"
+                v-model="form.terms"
+                :datacy="'accept-terms'"
+                :label="$t('auth.register_terms')"
+                :extra-class-upper-div="'mb3 relative'"
+                :required="true"
       />
 
       <!-- Actions -->
       <div class="flex-ns justify-between">
-        <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.register_cta')" />
+        <loading-button :class="'add mb2'" :state="form.processing">
+          {{ $t('auth.register_cta') }}
+        </loading-button>
       </div>
     </form>
 
@@ -57,12 +58,13 @@
 </template>
 
 <script>
-import AuthenticationCard from '@/Shared/AuthenticationCard';
-import AuthenticationCardLogo from '@/Shared/AuthenticationCardLogo';
+import AuthenticationCard from '@/Shared/Layout/AuthenticationCard';
+import AuthenticationCardLogo from '@/Shared/Layout/AuthenticationCardLogo';
 import Checkbox from '@/Shared/Checkbox';
 import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
+import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
   components: {
@@ -74,29 +76,22 @@ export default {
     LoadingButton,
   },
 
-  props: {
-  },
-
   data() {
     return {
-      form: this.$inertia.form({
+      form: useForm({
         email: '',
         password: '',
         terms: false,
       }),
-      loadingState: '',
       errorTemplate: Error,
     };
   },
 
   methods: {
     submit() {
-      this.loadingState = 'loading';
-
       this.form.post(this.route('register'), {
         onFinish: () => {
           this.form.reset('password');
-          this.loadingState = null;
         }
       });
     },

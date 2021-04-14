@@ -6,17 +6,20 @@
       <h2 class="fw5 tc pt5">
         {{ $t('auth.login_salute') }}
       </h2>
-
       <p class="tc mb4">🥳 {{ $t('auth.login_title') }}</p>
     </template>
 
+    <div v-if="status" class="mt3 ba br3 pa3">
+      {{ status }}
+    </div>
+
     <!-- Form Errors -->
-    <errors :errors="errors" :classes="'mb3'" />
+    <errors :errors="errors" :class="'mb3'" />
 
     <form @submit.prevent="submit">
       <text-input v-model="form.email"
                   :name="'email'"
-                  :errors="$page.props.errors.email"
+                  :errors="form.errors.email"
                   :label="$t('auth.login_email')"
                   :required="true"
                   :type="'email'"
@@ -24,7 +27,7 @@
       />
       <text-input v-model="form.password"
                   :name="'password'"
-                  :errors="$page.props.errors.password"
+                  :errors="form.errors.password"
                   type="password"
                   :label="$t('auth.login_password')"
                   :required="true"
@@ -32,7 +35,7 @@
 
       <!-- Actions -->
       <div class="flex-ns justify-between">
-        <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.login_cta')" />
+        <loading-button :class="'add mb2'" :state="form.processing" :text="$t('auth.login_cta')" />
       </div>
     </form>
 
@@ -49,11 +52,12 @@
 </template>
 
 <script>
-import AuthenticationCard from '@/Shared/AuthenticationCard';
-import AuthenticationCardLogo from '@/Shared/AuthenticationCardLogo';
+import AuthenticationCard from '@/Shared/Layout/AuthenticationCard';
+import AuthenticationCardLogo from '@/Shared/Layout/AuthenticationCardLogo';
 import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
+import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
   components: {
@@ -69,17 +73,20 @@ export default {
       type: Boolean,
       default: false,
     },
+    status: {
+      type: String,
+      default: '',
+    },
   },
 
   data() {
     return {
-      form: this.$inertia.form({
+      form: useForm({
         email: '',
         password: '',
         remember: true
       }),
       errors: [],
-      loadingState: '',
       errorTemplate: Error,
     };
   },
@@ -90,8 +97,6 @@ export default {
 
   methods: {
     submit() {
-      this.loadingState = 'loading';
-
       this.form
         .transform(data => ({
           ... data,
@@ -99,12 +104,10 @@ export default {
         }))
         .post(this.route('login'), {
           onFinish: () => {
-            this.loadingState = null;
             this.form.reset('password');
           },
-          onError: () => {
-            this.loadingState = null;
-            //              this.errors = error.response.data;
+          onError: (error) => {
+            this.errors = error.response.data;
           }
         });
     },

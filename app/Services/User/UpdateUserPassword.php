@@ -20,7 +20,7 @@ class UpdateUserPassword extends BaseService implements UpdatesUserPasswords
     {
         return [
             'current_password' => ['required', 'string'],
-            'password' => $this->passwordRules(),
+            'password' => $this->passwordRules(true),
         ];
     }
 

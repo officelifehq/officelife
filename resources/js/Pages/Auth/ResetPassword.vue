@@ -2,34 +2,41 @@
   <authentication-card>
     <template #logo>
       <authentication-card-logo />
+
+      <p class="fw5 pt5">
+        Change your password here.
+      </p>
     </template>
 
     <validation-errors class="mb-4" />
 
     <form @submit.prevent="submit">
-      <div>
-        <input-label for="email" value="Email" />
-        <text-input id="email" v-model="form.email" type="email" class="mt-1 block w-full" required
-                    autofocus
-        />
-      </div>
+      <text-input v-model="form.email"
+                  :name="'email'"
+                  type="email"
+                  :errors="$page.props.errors.email"
+                  :label="$t('auth.register_email')"
+                  :required="true"
+      />
+      <text-input v-model="form.password"
+                  :name="'password'"
+                  :errors="$page.props.errors.password"
+                  type="password"
+                  :label="$t('auth.register_password')"
+                  :required="true"
+                  autocomplete="new-password"
+      />
+      <text-input v-model="form.password_confirmation"
+                  :name="'password_confirmation'"
+                  type="password"
+                  :label="$t('auth.register_password_confirmation')"
+                  :required="true"
+                  :extra-class-upper-div="'mb4'"
+                  autocomplete="new-password"
+      />
 
-      <div class="mt-4">
-        <input-label for="password" value="Password" />
-        <text-input id="password" v-model="form.password" type="password" class="mt-1 block w-full" required
-                    autocomplete="new-password"
-        />
-      </div>
-
-      <div class="mt-4">
-        <input-label for="password_confirmation" value="Confirm Password" />
-        <text-input id="password_confirmation" v-model="form.password_confirmation" type="password" class="mt-1 block w-full" required
-                    autocomplete="new-password"
-        />
-      </div>
-
-      <div class="flex items-center justify-end mt-4">
-        <loading-button :classes="['btn add w-auto-ns w-100 mb2 pv2 ph3', { 'opacity-25' : form.processing }]" :state="form.processing ? 'loading' : ''" :disabled="form.processing">
+      <div class="flex-ns justify-between">
+        <loading-button :class="'add mb2'" :state="form.processing">
           Reset Password
         </loading-button>
       </div>
@@ -38,12 +45,12 @@
 </template>
 
 <script>
-import AuthenticationCard from '@/Shared/AuthenticationCard';
-import AuthenticationCardLogo from '@/Shared/AuthenticationCardLogo';
+import AuthenticationCard from '@/Shared/Layout/AuthenticationCard';
+import AuthenticationCardLogo from '@/Shared/Layout/AuthenticationCardLogo';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
-import InputLabel from '@/Shared/Label';
 import ValidationErrors from '@/Shared/ValidationErrors';
+import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
   components: {
@@ -51,7 +58,6 @@ export default {
     AuthenticationCardLogo,
     LoadingButton,
     TextInput,
-    InputLabel,
     ValidationErrors
   },
 
@@ -68,7 +74,7 @@ export default {
 
   data() {
     return {
-      form: this.$inertia.form({
+      form: useForm({
         token: this.token,
         email: this.email,
         password: '',

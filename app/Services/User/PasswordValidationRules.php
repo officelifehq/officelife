@@ -9,9 +9,10 @@ trait PasswordValidationRules
     /**
      * Get the validation rules used to validate passwords.
      *
+     * @param boolean $confirmed
      * @return array
      */
-    protected function passwordRules()
+    protected function passwordRules($confirmed = false)
     {
         $passwordRules = new Password;
         if (config('auth.complex_password')) {
@@ -23,6 +24,7 @@ trait PasswordValidationRules
             'required',
             'string',
             $passwordRules,
+            $confirmed ? 'confirmed' : '',
         ];
     }
 }

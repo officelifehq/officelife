@@ -13,5 +13,17 @@
     <div class="tc">
       <slot name="footer"></slot>
     </div>
+
+    <toaster />
   </div>
 </template>
+
+<script>
+import Toaster from '@/Shared/Toaster';
+
+export default {
+  components: {
+    Toaster,
+  },
+};
+</script>
