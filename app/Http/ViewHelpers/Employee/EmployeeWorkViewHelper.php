@@ -48,8 +48,8 @@ class EmployeeWorkViewHelper
                 'id' => Str::uuid()->toString(), // it doesn't matter here, this is just for Vue and having an unique key
                 'date' => DateHelper::formatDayAndMonthInParenthesis($day),
                 'status' => DateHelper::determineDateStatus($day),
-                'worklog_parsed_content' => is_null($worklog) ? null : StringHelper::parse($worklog->content),
-                'morale' => is_null($morale) ? null : $morale->emoji,
+                'worklog_parsed_content' => $worklog ? StringHelper::parse($worklog->content) : null,
+                'morale' => $morale && $loggedEmployee->id == $employee->id ? $morale->emoji : null,
             ]);
         }
 
