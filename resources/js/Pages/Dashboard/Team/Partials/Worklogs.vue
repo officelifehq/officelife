@@ -63,10 +63,11 @@
     <div class="cf mw7 center mb2 fw5">
       🔨 {{ $t('dashboard.team_worklog_title') }}
     </div>
+
     <div v-show="teams.length != 0" class="cf mw7 center br3 mb3 bg-white box">
       <div class="pa3">
         <!-- table showing the dates -->
-        <div class="flex-ns justify-around pa0 tc mt4 mb3 bb bb-gray pb3">
+        <div class="flex-ns justify-around pa0 tc mb3 bb bb-gray pb3">
           <div v-for="worklogDate in worklogDates" :key="worklogDate.friendlyDate" class="dib-ns worklog-item relative pointer br2 db" :class="[{ selected: worklogDate == currentWorklogDate }, worklogDate.status]" @click.prevent="load(worklogDate)">
             <span class="dot br-100 dib absolute" :class="worklogDate.completionRate"></span>
             <!-- Display of the day -->

@@ -9,7 +9,6 @@ use App\Helpers\ImageHelper;
 use App\Helpers\MoneyHelper;
 use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
-use App\Helpers\WorklogHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
@@ -389,49 +388,6 @@ class EmployeeShowViewHelper
     }
 
     /**
-     * Get a collection of all worklogs with the morale and a
-     * link to the detailed page of the worklogs.
-     *
-     * @param Employee $employee
-     * @param Employee $loggedEmployee
-     * @return array
-     */
-    public static function worklogs(Employee $employee, Employee $loggedEmployee): array
-    {
-        $worklogs = $employee->worklogs()->latest()->take(7)->get();
-        $morales = $employee->morales()->latest()->take(7)->get();
-        $worklogsCollection = collect([]);
-        $currentDate = Carbon::now();
-
-        // worklogs from Monday to Friday of the current week
-        for ($i = 0; $i < 5; $i++) {
-            $day = $currentDate->copy()->startOfWeek()->addDays($i);
-
-            $worklog = $worklogs->first(function ($worklog) use ($day) {
-                return $worklog->created_at->format('Y-m-d') == $day->format('Y-m-d');
-            });
-
-            $morale = $morales->first(function ($morale) use ($day) {
-                return $morale->created_at->format('Y-m-d') == $day->format('Y-m-d');
-            });
-
-            $worklogsCollection->push(
-                WorklogHelper::getDailyInformationForEmployee($day, $worklog, $morale, $loggedEmployee)
-            );
-        }
-
-        $array = [
-            'worklogs_collection' => $worklogsCollection,
-            'url' => route('employee.work.worklogs', [
-                'company' => $employee->company,
-                'employee' => $employee,
-            ]),
-        ];
-
-        return $array;
-    }
-
-    /**
      * Array containing information about the number of times the employee has
      * been working from home this year.
      *
@@ -442,11 +398,11 @@ class EmployeeShowViewHelper
     {
         $now = Carbon::now();
         $currentYear = $now->year;
-        $workFromHomes = $employee->workFromHomes()->whereYear('date', (string) $currentYear)->get();
+        $workFromHomes = $employee->workFromHomes()->whereYear('date', (string) $currentYear)->count();
 
         return [
             'work_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, $now),
-            'number_times_this_year' => $workFromHomes->count(),
+            'number_times_this_year' => $workFromHomes,
             'url' => route('employee.work.workfromhome', [
                 'company' => $employee->company,
                 'employee' => $employee,
