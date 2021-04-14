@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb5">
     <div class="cf mw7 center mb2 fw5 relative">
       <span class="mr1">
         🏡
@@ -10,7 +10,7 @@
 
     <div class="cf mw7 center br3 mb3 bg-white box">
       <div class="pa3 relative">
-        <errors :errors="form.errors" :classes="'mb2'" />
+        <errors :errors="form.errors" :class="'mb2'" />
 
         <checkbox
           :id="'home'"
@@ -19,7 +19,7 @@
           :label="$t('dashboard.work_from_home_cta')"
           :extra-class-upper-div="'mb0 relative'"
           :required="true"
-          @change="updateStatus($event)"
+          @update:model-value="updateStatus($event)"
         />
 
         <p class="f7 mv0 silver">
@@ -43,7 +43,7 @@ export default {
   },
 
   props: {
-    employee: {
+    workFromHome: {
       type: Object,
       default: null,
     },
@@ -55,14 +55,12 @@ export default {
         content: Boolean,
         errors: [],
       },
-      updatedEmployee: null,
       successMessage: false,
     };
   },
 
   created: function() {
-    this.updatedEmployee = this.employee;
-    this.form.content = this.updatedEmployee.has_worked_from_home_today;
+    this.form.content = this.workFromHome.has_worked_from_home_today;
   },
 
   methods: {
@@ -70,9 +68,9 @@ export default {
       this.form.errors = [];
       this.form.content = payload;
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/workFromHome', this.form)
+      axios.post(`${this.$page.props.auth.company.id}/dashboard/workFromHome`, this.form)
         .then(response => {
-          flash(this.$t('dashboard.work_from_home_success'), 'success');
+          this.flash(this.$t('dashboard.work_from_home_success'), 'success');
         })
         .catch(error => {
           this.successMessage = false;

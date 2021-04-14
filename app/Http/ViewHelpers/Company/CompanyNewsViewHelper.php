@@ -5,6 +5,7 @@ namespace App\Http\ViewHelpers\Company;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
+use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 
 class CompanyNewsViewHelper
@@ -13,10 +14,10 @@ class CompanyNewsViewHelper
      * Get all the company news in the company.
      *
      * @param Company $company
-     *
+     * @param Employee $employee
      * @return Collection|null
      */
-    public static function index(Company $company): ?Collection
+    public static function index(Company $company, Employee $employee): ?Collection
     {
         $allNews = $company->news()->with('author')->orderBy('id', 'desc')->get();
 
@@ -37,7 +38,7 @@ class CompanyNewsViewHelper
                         'employee' => $author,
                     ]),
                 ] : $news->author_name,
-                'written_at' => DateHelper::formatDate($news->created_at),
+                'written_at' => DateHelper::formatDate($news->created_at, $employee->timezone),
             ]);
         }
 

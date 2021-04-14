@@ -2,7 +2,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -36,6 +36,11 @@
             :information="information"
           />
 
+          <!-- company founded -->
+          <founded-date
+            :information="information"
+          />
+
           <!-- Currency -->
           <currency
             :information="information"
@@ -58,6 +63,7 @@ import Name from '@/Pages/Adminland/General/Partials/Name';
 import Currency from '@/Pages/Adminland/General/Partials/Currency';
 import Stat from '@/Pages/Adminland/General/Partials/Stat';
 import Logo from '@/Pages/Adminland/General/Partials/Logo';
+import FoundedDate from '@/Pages/Adminland/General/Partials/FoundedDate';
 
 export default {
   components: {
@@ -66,6 +72,7 @@ export default {
     Currency,
     Stat,
     Logo,
+    FoundedDate,
   },
 
   props: {
@@ -85,7 +92,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
 
       localStorage.removeItem('success');
     }

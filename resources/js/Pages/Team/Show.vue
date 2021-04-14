@@ -20,7 +20,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mb3 mw7 br3 center breadcrumb relative z-0 f6 pb2">
@@ -91,7 +91,9 @@
 
           <!-- News -->
           <h3 class="db fw5 mb3 flex justify-between items-center">
-            <span>🗞 {{ $tc('team.count_team_news', newsCount, { count: newsCount }) }}</span>
+            <span><span class="mr1">
+              🗞
+            </span> {{ $tc('team.count_team_news', newsCount, { count: newsCount }) }}</span>
             <inertia-link v-if="userBelongsToTheTeam || $page.props.auth.employee.permission_level <= 200" :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/news/create'" class="btn f5" data-cy="add-team-news">{{ $t('team.news_write') }}</inertia-link>
           </h3>
 
@@ -121,6 +123,12 @@
               {{ $t('team.news_blank') }}
             </div>
           </div>
+
+          <!-- birthdays -->
+          <birthdays :birthdays="birthdays" />
+
+          <!-- morale -->
+          <morale :morale="morale" />
         </div>
       </div>
     </div>
@@ -135,6 +143,8 @@ import TeamDescription from '@/Pages/Team/Partials/TeamDescription';
 import TeamLead from '@/Pages/Team/Partials/TeamLead';
 import TeamUsefulLink from '@/Pages/Team/Partials/TeamUsefulLink';
 import RecentShips from '@/Pages/Team/Partials/RecentShips';
+import Birthdays from '@/Pages/Team/Partials/Birthdays';
+import Morale from '@/Pages/Team/Partials/Morale';
 
 export default {
   components: {
@@ -144,6 +154,8 @@ export default {
     TeamLead,
     TeamUsefulLink,
     RecentShips,
+    Birthdays,
+    Morale,
   },
 
   directives: {
@@ -175,6 +187,10 @@ export default {
       type: Array,
       default: null,
     },
+    birthdays: {
+      type: Array,
+      default: null,
+    },
     newsCount: {
       type: Number,
       default: null,
@@ -191,6 +207,10 @@ export default {
       type: Array,
       default: null,
     },
+    morale: {
+      type: Array,
+      default: null,
+    },
   },
 
   data() {
@@ -204,7 +224,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },

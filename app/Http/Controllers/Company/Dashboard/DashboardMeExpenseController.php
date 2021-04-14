@@ -25,17 +25,14 @@ class DashboardMeExpenseController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        // expense category
-        $category = $request->input('category') ? $request->input('category')['id'] : null;
-
         $data = [
             'author_id' => $employee->id,
             'employee_id' => $employee->id,
             'company_id' => $company->id,
-            'expense_category_id' => $category,
+            'expense_category_id' => $request->input('category'),
             'title' => $request->input('title'),
             'amount' => $request->input('amount') * 100,
-            'currency' => $request->input('currency')['code'],
+            'currency' => $request->input('currency'),
             'description' => $request->input('description'),
             'expensed_at' => Carbon::now()->format('Y-m-d'),
         ];
@@ -49,7 +46,7 @@ class DashboardMeExpenseController extends Controller
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
                 'category' => ($expense->category) ? $expense->category->name : null,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $employee->timezone),
                 'url' => route('employee.administration.expenses.show', [
                     'company' => $employee->company,
                     'employee' => $employee,

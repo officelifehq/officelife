@@ -20,11 +20,10 @@ class ProcessTeamMoraleTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
         $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
         $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-
-        $dwight = $this->createAnotherEmployee($michael);
 
         $sales->employees()->attach(
             $dwight->id,
@@ -32,7 +31,6 @@ class ProcessTeamMoraleTest extends TestCase
                 'created_at' => Carbon::now('UTC'),
             ]
         );
-
         $sales->employees()->attach(
             $michael->id,
             [
@@ -43,11 +41,12 @@ class ProcessTeamMoraleTest extends TestCase
         Morale::factory()->create([
             'employee_id' => $michael->id,
             'emotion' => 1,
+            'created_at' => Carbon::now('UTC'),
         ]);
-
         Morale::factory()->create([
             'employee_id' => $dwight->id,
             'emotion' => 3,
+            'created_at' => Carbon::now('UTC'),
         ]);
 
         $request = [
@@ -56,7 +55,6 @@ class ProcessTeamMoraleTest extends TestCase
         ];
 
         ProcessTeamMorale::dispatch($request);
-
         $this->assertEquals(
             1,
             MoraleTeamHistory::count()
@@ -69,7 +67,6 @@ class ProcessTeamMoraleTest extends TestCase
         ]);
 
         ProcessTeamMorale::dispatch($request);
-
         $this->assertEquals(
             1,
             MoraleTeamHistory::count()

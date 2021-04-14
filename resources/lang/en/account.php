@@ -52,6 +52,10 @@ return [
     'employee_unlock_description' => 'Are you sure you want to unlock {name}’s account? Unlocking an account is immediate.',
     'employee_unlock_success' => 'The employee has been unlocked with success.',
 
+    'employee_permission_safest' => 'safest choice',
+    'employee_permission_title' => 'Change permissions of {name}',
+    'employee_permission_success' => 'The employee has been updated.',
+
     'employee_new_basic_information' => 'Basic information',
     'employee_new_title' => 'Add an employee to {name}',
     'employee_new_firstname' => 'First name',
@@ -61,11 +65,12 @@ return [
     'employee_new_administrator' => 'Administrator',
     'employee_new_hr' => 'Human Resource Representative',
     'employee_new_user' => 'Employee',
-    'employee_new_administrator_desc' => 'Can do everything, including account management.',
+    'employee_new_administrator_desc' => 'Can do everything, including account management. Caution: the employee will have access to everything, including all private data of other employees.',
     'employee_new_hr_desc' => 'Have access to most features, including reading and writing private information, but can\'t manage the account itself.',
     'employee_new_user_desc' => 'Can see all teams and employees, but can not manage the account or read private information.',
     'employee_new_send_email' => 'Send an email to this person with a link to setup the account.',
     'employee_new_send_email_optional' => 'This is optional - you will be able to invite this person later.',
+    'employee_new_success' => 'The employee has been added.',
 
     'teams_title' => 'All the teams listed in {company}',
     'teams_number_teams' => '{company} has one team. | {company} has {count} teams.',
@@ -293,6 +298,7 @@ return [
     'log_company_logo_changed' => 'Changed the company logo.',
     'log_file_added_to_project' => 'Added a file called :name in the project called :project_name.',
     'log_project_file_destroyed' => 'Deleted a file called :name in the project called :project_name.',
+    'log_company_founded_date_updated' => 'Updated the founded date of the company to :founded_at.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -535,6 +541,11 @@ return [
     'general_logo_current' => 'Current logo',
     'general_logo_cta' => 'Upload a logo',
     'general_logo_success' => 'The logo has been changed.',
+    'general_founded_date_information' => 'Founded date',
+    'general_founded_date_label' => 'Date the company has been founded',
+    'general_founded_date_cta' => 'Change date',
+    'general_founded_date_no_date' => 'No date yet',
+    'general_founded_date_success' => 'The founded date has been changed.',
 
     'ecoffee_title' => 'E-Coffee sessions in the company',
     'ecoffee_desc' => 'E-Coffees are a great way for employees to take some time with another colleague and spend 15 minutes in a week to get to know him/her. The goal is to talk to everything but work. The more you know your colleagues, the more powerful their bonds.',

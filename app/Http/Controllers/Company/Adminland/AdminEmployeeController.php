@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
+use App\Exceptions\EmailAlreadyUsedException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\Employee\LockEmployee;
 use App\Http\ViewHelpers\Adminland\AdminEmployeeViewHelper;
@@ -144,7 +145,13 @@ class AdminEmployeeController extends Controller
             'send_invitation' => $request->input('send_invitation'),
         ];
 
-        (new AddEmployeeToCompany)->execute($data);
+        try {
+            (new AddEmployeeToCompany)->execute($data);
+        } catch (EmailAlreadyUsedException $e) {
+            return response()->json([
+                'message' => trans('app.error_email_already_taken'),
+            ], 500);
+        }
 
         return response()->json([
             'company_id' => $companyId,
@@ -179,12 +186,12 @@ class AdminEmployeeController extends Controller
             return redirect('/home');
         }
 
-        return Inertia::render('Adminland/Employee/Lock', [
+        return Inertia::render('Adminland/Employee/Lock/Index', [
             'employee' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
             ],
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }
 
@@ -242,12 +249,12 @@ class AdminEmployeeController extends Controller
             return redirect('/home');
         }
 
-        return Inertia::render('Adminland/Employee/Unlock', [
+        return Inertia::render('Adminland/Employee/Unlock/Index', [
             'employee' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
             ],
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }
 
@@ -310,7 +317,7 @@ class AdminEmployeeController extends Controller
                 'id' => $employee->id,
                 'name' => $employee->name,
             ],
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }
 

@@ -133,7 +133,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: webfactory/ssh-agent@v0.5.1
+      - uses: webfactory/ssh-agent@v0.5.2
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
@@ -165,7 +165,8 @@ jobs:
 
       - name: Deploy
         run: |
-          git push --force $REPO_URL
+          git remote add deploy $REPO_URL
+          git push deploy main:master --force
         env:
           # This avoids a failure when the client does not know the SSH Host already
           GIT_SSH_COMMAND: "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"

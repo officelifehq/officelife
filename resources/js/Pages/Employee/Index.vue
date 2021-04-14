@@ -5,7 +5,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -34,7 +34,7 @@
               v-for="employee in employees" :key="employee.id"
               class="flex lh-copy pa3-l pa1 ph0-l pv0-ns pv2 bb b--black-10 employee-item"
             >
-              <avatar :avatar="employee.avatar" :size="64" :classes="'w2 h2 w3-ns h3-ns br-100'" />
+              <avatar :avatar="employee.avatar" :size="64" :class="'w2 h2 w3-ns h3-ns br-100'" />
 
               <div class="pl3">
                 <!-- name -->

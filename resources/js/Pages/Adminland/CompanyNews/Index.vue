@@ -13,7 +13,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -129,7 +129,7 @@ export default {
     this.localNews = this.news;
 
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -139,7 +139,7 @@ export default {
       this.errors = [];
       axios.delete(this.route('account_news.news.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
-          flash(this.$t('account.company_news_success_destroy'), 'success');
+          this.flash(this.$t('account.company_news_success_destroy'), 'success');
 
           this.idToDelete = 0;
           id = this.localNews.findIndex(x => x.id === id);

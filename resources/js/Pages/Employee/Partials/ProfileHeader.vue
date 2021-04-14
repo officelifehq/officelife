@@ -22,8 +22,9 @@
 
     <div class="bg-white box pa3 mb5">
       <h2 class="normal mb3 mt0 fw5">
-        {{ employee.name }}
+        {{ employee.name }} <inertia-link v-if="permissions.can_edit_profile" :href="employee.url.edit" class="fw4 di f7 ml2">{{ $t('app.edit') }}</inertia-link>
       </h2>
+
       <ul class="list ma0 pl0 f6">
         <li class="mb2">
           <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

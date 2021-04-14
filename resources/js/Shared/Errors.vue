@@ -8,7 +8,7 @@
 
 <template>
   <div>
-    <div v-if="dataerror || exception" class="border-red ba br3 pa3" :class="classes">
+    <div v-if="dataerror || exception" class="border-red ba br3 pa3" v-bind="$attrs">
       <p class="mv0 fw6">{{ $t('app.error_title') }}</p>
       <template v-if="dataerror">
         <p v-if="flatten[0] != 'The given data was invalid.'" class="mb0">
@@ -45,11 +45,9 @@
 
 <script>
 export default {
+  inheritAttrs: false,
+
   props: {
-    classes: {
-      type: String,
-      default: '',
-    },
     errors: {
       type: [Object, Array],
       default: null,

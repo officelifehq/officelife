@@ -200,7 +200,7 @@ class AdminHardwareViewHelperTest extends TestCase
             'employee_id' => $michael->id,
         ]);
 
-        $response = AdminHardwareViewHelper::history($hardware);
+        $response = AdminHardwareViewHelper::history($hardware, $michael);
 
         $this->assertCount(
             3,

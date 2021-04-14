@@ -3,6 +3,7 @@
 namespace App\Http\ViewHelpers\Team;
 
 use App\Helpers\ImageHelper;
+use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
 
@@ -26,7 +27,6 @@ class TeamIndexViewHelper
             foreach ($team->employees()->with('picture')->get() as $employee) {
                 $employeesCollection->push([
                     'id' => $employee->id,
-                    'name' => $employee->name,
                     'avatar' => ImageHelper::getAvatar($employee, 20),
                     'url' => route('employees.show', [
                         'company' => $company,
@@ -38,7 +38,12 @@ class TeamIndexViewHelper
             $teamsCollection->push([
                 'id' => $team->id,
                 'name' => $team->name,
+                'parsed_description' => is_null($team->description) ? null : StringHelper::parse($team->description),
                 'employees' => $employeesCollection,
+                'url' => route('team.show', [
+                    'company' => $company,
+                    'team' => $team,
+                ]),
             ]);
         }
 

@@ -26,6 +26,8 @@
       <span class="mr1">
         🦺
       </span> {{ $t('dashboard.project_title') }}
+
+      <help :url="$page.props.help_links.project" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box">
@@ -41,7 +43,7 @@
         <!-- project members -->
         <div class="flex items-center relative tr">
           <avatar v-for="member in project.preview_members" :key="member.id" :avatar="member.avatar" :url="member.url" :size="32"
-                  :classes="'br-100 small-avatar'"
+                  :class="'br-100 small-avatar'"
           />
           <div v-if="project.remaining_members_count > 0" class="pl2 f7 more-members relative gray">
             + {{ project.remaining_members_count }}
@@ -54,15 +56,17 @@
 
 <script>
 import Avatar from '@/Shared/Avatar';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
     Avatar,
+    Help,
   },
 
   props: {
     projects: {
-      type: Object,
+      type: Array,
       default: null,
     },
   },

@@ -12,6 +12,7 @@ use App\Exceptions\NotEnoughPermissionException;
 class SetPersonalDetails extends BaseService
 {
     private Employee $employee;
+    private array $data;
 
     /**
      * Get the validation rules that apply to the service.
@@ -28,6 +29,7 @@ class SetPersonalDetails extends BaseService
             'last_name' => 'required|string|max:255',
             'email' => 'required|email:rfc|max:255',
             'phone' => 'nullable|max:255',
+            'timezone' => 'required|string|max:255',
         ];
     }
 
@@ -35,43 +37,46 @@ class SetPersonalDetails extends BaseService
      * Set the name and email address of an employee.
      *
      * @param array $data
-     *
      * @throws NotEnoughPermissionException
-     *
      * @return Employee
      */
     public function execute(array $data): Employee
     {
-        $this->validateRules($data);
-
-        $this->author($data['author_id'])
-            ->inCompany($data['company_id'])
-            ->asAtLeastHR()
-            ->canBypassPermissionLevelIfEmployee($data['employee_id'])
-            ->canExecuteService();
-
-        $this->employee = $this->validateEmployeeBelongsToCompany($data);
-
-        $this->save($data);
-
-        $this->log($data);
+        $this->data = $data;
+        $this->validate();
+        $this->save();
+        $this->log();
 
         return $this->employee->refresh();
     }
 
-    private function save(array $data): void
+    private function validate(): void
     {
-        $this->employee->first_name = $data['first_name'];
-        $this->employee->last_name = $data['last_name'];
-        $this->employee->email = $data['email'];
-        $this->employee->phone_number = $data['phone'];
+        $this->validateRules($this->data);
+
+        $this->author($this->data['author_id'])
+            ->inCompany($this->data['company_id'])
+            ->asAtLeastHR()
+            ->canBypassPermissionLevelIfEmployee($this->data['employee_id'])
+            ->canExecuteService();
+
+        $this->employee = $this->validateEmployeeBelongsToCompany($this->data);
+    }
+
+    private function save(): void
+    {
+        $this->employee->first_name = $this->data['first_name'];
+        $this->employee->last_name = $this->data['last_name'];
+        $this->employee->email = $this->data['email'];
+        $this->employee->phone_number = $this->data['phone'];
+        $this->employee->timezone = $this->data['timezone'];
         $this->employee->save();
     }
 
-    private function log(array $data): void
+    private function log(): void
     {
         LogAccountAudit::dispatch([
-            'company_id' => $data['company_id'],
+            'company_id' => $this->data['company_id'],
             'action' => 'employee_personal_details_set',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
@@ -84,7 +89,7 @@ class SetPersonalDetails extends BaseService
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
-            'employee_id' => $data['employee_id'],
+            'employee_id' => $this->data['employee_id'],
             'action' => 'personal_details_set',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,

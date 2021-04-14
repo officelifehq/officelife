@@ -55,7 +55,7 @@ class DashboardMeOneOnOneController extends Controller
             return redirect('home');
         }
 
-        $details = DashboardOneOnOneViewHelper::details($entry);
+        $details = DashboardOneOnOneViewHelper::details($entry, $employee);
 
         return Inertia::render('Dashboard/OneOnOnes/Show', [
             'entry' => $details,

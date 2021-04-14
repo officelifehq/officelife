@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 class AdminEmployeeViewHelper
 {
     /**
-     * Array containing statistics about the employees.
+     * Get all the statistics about the employees.
      *
      * @param EloquentCollection $employees
      * @param Company $company
@@ -49,9 +49,6 @@ class AdminEmployeeViewHelper
             'url_no_hiring_date' => route('account.employees.no_hiring_date', [
                 'company' => $company,
             ]),
-            'url_permission' => route('account.employees.permission', [
-                'company' => $company,
-            ]),
             'url_new' => route('account.employees.new', [
                 'company' => $company,
             ]),
@@ -67,7 +64,7 @@ class AdminEmployeeViewHelper
     }
 
     /**
-     * Collection containing information about all the employees in the company.
+     * Get information about all the employees in the company.
      */
     public static function all(EloquentCollection $employees, Company $company): Collection
     {
@@ -101,6 +98,10 @@ class AdminEmployeeViewHelper
                     'employee' => $employee,
                 ]),
                 'url_unlock' => route('account.unlock', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'url_permission' => route('account.employees.permission', [
                     'company' => $company,
                     'employee' => $employee,
                 ]),

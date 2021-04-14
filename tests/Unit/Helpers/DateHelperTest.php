@@ -25,6 +25,17 @@ class DateHelperTest extends TestCase
     }
 
     /** @test */
+    public function it_gets_the_date_with_english_locale_with_a_timezone(): void
+    {
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', '1978-10-01 17:56:03');
+
+        $this->assertEquals(
+            'Oct 02, 1978',
+            DateHelper::formatDate($date, 'Australia/Perth')
+        );
+    }
+
+    /** @test */
     public function it_gets_the_short_date_with_time_in_english_locale(): void
     {
         $date = Carbon::createFromFormat('Y-m-d H:i:s', '1978-10-01 17:56:03');
@@ -32,6 +43,17 @@ class DateHelperTest extends TestCase
         $this->assertEquals(
             'Oct 01, 1978 17:56',
             DateHelper::formatShortDateWithTime($date)
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_short_date_with_time_in_english_locale_with_a_timezone(): void
+    {
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', '1978-10-01 17:56:03');
+
+        $this->assertEquals(
+            'Oct 02, 1978 01:56',
+            DateHelper::formatShortDateWithTime($date, 'Australia/Perth')
         );
     }
 
@@ -54,6 +76,17 @@ class DateHelperTest extends TestCase
         $this->assertEquals(
             'Sunday (Oct 1st)',
             DateHelper::formatDayAndMonthInParenthesis($date)
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_day_and_the_month_in_parenthesis_with_a_timezone(): void
+    {
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', '1978-10-01 17:56:03');
+
+        $this->assertEquals(
+            'Monday (Oct 2nd)',
+            DateHelper::formatDayAndMonthInParenthesis($date, 'Australia/Perth')
         );
     }
 

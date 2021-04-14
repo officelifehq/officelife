@@ -22,9 +22,9 @@ class NotificationController extends Controller
      */
     public function index(Request $request, int $companyId): Response
     {
-        $employee = InstanceHelper::getLoggedEmployee();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $notifs = $employee->notifications()
+        $notifs = $loggedEmployee->notifications()
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -35,7 +35,7 @@ class NotificationController extends Controller
                 'action' => $notification->action,
                 'localized_content' => $notification->content,
                 'read' => $notification->read,
-                'created_at' => DateHelper::formatShortDateWithTime($notification->created_at),
+                'created_at' => DateHelper::formatShortDateWithTime($notification->created_at, $loggedEmployee->timezone),
             ]);
         }
 

@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Company\Dashboard;
 
-use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Helpers\NotificationHelper;
-use App\Helpers\WorkFromHomeHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\UpdateDashboardPreference;
+use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
 use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
 
 class DashboardMeController extends Controller
@@ -31,28 +30,8 @@ class DashboardMeController extends Controller
             'view' => 'me',
         ])->onQueue('low');
 
-        $worklogCount = $employee->worklogs()->count();
-
-        $employeeInformation = [
-            'id' => $employee->id,
-            'has_logged_worklog_today' => $employee->hasAlreadyLoggedWorklogToday(),
-            'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
-            'dashboard_view' => 'me',
-            'can_manage_expenses' => $employee->can_manage_expenses,
-            'is_manager' => $employee->directReports->count() > 0,
-            'has_worked_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
-            'question' => DashboardMeViewHelper::question($employee),
-            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
-        ];
-
-        $defaultCompanyCurrency = [
-            'id' => $company->currency,
-            'code' => $company->currency,
-        ];
-
         return Inertia::render('Dashboard/Me/Index', [
-            'employee' => $employeeInformation,
-            'worklogCount' => $worklogCount,
+            'employee' => DashboardViewHelper::information($employee, 'me'),
             'notifications' => NotificationHelper::getNotifications($employee),
             'ownerPermissionLevel' => config('officelife.permission_level.administrator'),
             'tasks' => DashboardMeViewHelper::tasks($employee),
@@ -62,9 +41,13 @@ class DashboardMeController extends Controller
             'rateYourManagerAnswers' => DashboardMeViewHelper::rateYourManagerAnswers($employee),
             'oneOnOnes' => DashboardMeViewHelper::oneOnOnes($employee),
             'contractRenewal' => DashboardMeViewHelper::contractRenewal($employee),
-            'defaultCurrency' => $defaultCompanyCurrency,
+            'defaultCurrency' => DashboardMeViewHelper::companyCurrency($company),
             'eCoffee' => DashboardMeViewHelper::eCoffee($employee, $company),
             'projects' => DashboardMeViewHelper::projects($employee, $company),
+            'worklogs' => DashboardMeViewHelper::worklogs($employee),
+            'morale' => DashboardMeViewHelper::morale($employee),
+            'workFromHome' => DashboardMeViewHelper::workFromHome($employee),
+            'question' => DashboardMeViewHelper::question($employee),
         ]);
     }
 }

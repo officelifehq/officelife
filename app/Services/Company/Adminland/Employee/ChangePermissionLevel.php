@@ -7,7 +7,7 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 
-class ChangePermission extends BaseService
+class ChangePermissionLevel extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.

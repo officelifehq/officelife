@@ -59,27 +59,6 @@ class TeamLog extends Model
     }
 
     /**
-     * Transform the object to an array representing this object.
-     *
-     * @return array
-     */
-    public function toObject(): array
-    {
-        return [
-            'id' => $this->id,
-            'action' => $this->action,
-            'objects' => json_decode($this->objects),
-            'localized_content' => $this->content,
-            'author' => [
-                'id' => is_null($this->author) ? null : $this->author->id,
-                'name' => is_null($this->author) ? $this->author_name : $this->author->name,
-            ],
-            'localized_audited_at' => $this->date,
-            'audited_at' => $this->audited_at,
-        ];
-    }
-
-    /**
      * Get the JSON object.
      *
      * @param mixed $value

@@ -10,7 +10,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <!-- company cover -->
     <div class="cover mb3" :style="'height: 25vh; background: url(https://images.unsplash.com/photo-1531973576160-7125cd663d86?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80) no-repeat center center'"></div>
 
@@ -33,9 +33,9 @@
               <p class="ttu f7 gray mb1 mt0 mr5">number of teams</p>
               <p class="mt0">{{ statistics.number_of_teams }}</p>
             </div>
-            <div class="">
-              <p class="ttu f7 gray mb1 mt0 mr5">founded</p>
-              <p class="mt0">1987</p>
+            <div v-if="statistics.founded_at" class="">
+              <p class="ttu f7 gray mb1 mt0 mr5">{{ $t('company.stat_founded_at') }}</p>
+              <p class="mt0">{{ statistics.founded_at }}</p>
             </div>
           </div>
         </div>

@@ -39,7 +39,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -116,7 +116,7 @@
 
             <!-- action to import the listing -->
             <form v-if="report.status != 'imported'" class="tc mb4" @submit.prevent="submit">
-              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('account.import_employees_archives_finalize_import', { count: report.number_of_entries_that_can_be_imported })" :cypress-selector="'submit-add-news-button'" />
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('account.import_employees_archives_finalize_import', { count: report.number_of_entries_that_can_be_imported })" :cypress-selector="'submit-add-news-button'" />
             </form>
           </div>
 

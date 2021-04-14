@@ -47,9 +47,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             ]);
             Route::post('expense', 'Company\\Dashboard\\DashboardMeExpenseController@store')->name('dashboard.expense.store');
 
-            // company
-            Route::get('company', 'Company\\Dashboard\\DashboardCompanyController@index')->name('dashboard.company');
-
             // timesheet
             Route::get('timesheet/projects', 'Company\\Dashboard\\DashboardTimesheetController@projects')->name('dashboard.timesheet.projects');
             Route::get('timesheet/{timesheet}/projects/{project}/tasks', 'Company\\Dashboard\\DashboardTimesheetController@tasks')->name('dashboard.timesheet.tasks');
@@ -342,6 +339,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('account/general/rename', 'Company\\Adminland\\AdminGeneralController@rename');
             Route::post('account/general/currency', 'Company\\Adminland\\AdminGeneralController@currency');
             Route::post('account/general/logo', 'Company\\Adminland\\AdminGeneralController@logo');
+            Route::post('account/general/date', 'Company\\Adminland\\AdminGeneralController@date');
 
             Route::get('account/cancel', 'Company\\Adminland\\AdminCancelAccountController@index');
             Route::delete('account/cancel', 'Company\\Adminland\\AdminCancelAccountController@destroy');
@@ -358,7 +356,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::get('account/employees/active', 'Company\\Adminland\\AdminEmployeeController@active')->name('account.employees.active');
             Route::get('account/employees/locked', 'Company\\Adminland\\AdminEmployeeController@locked')->name('account.employees.locked');
             Route::get('account/employees/noHiringDate', 'Company\\Adminland\\AdminEmployeeController@noHiringDate')->name('account.employees.no_hiring_date');
-            Route::get('account/employees/permission', 'Company\\Adminland\\AdminEmployeeController@permission')->name('account.employees.permission');
 
             //employee CRUD
             Route::get('account/employees/create', 'Company\\Adminland\\AdminEmployeeController@create')->name('account.employees.new');
@@ -374,8 +371,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('account/employees/{employee}/lock', 'Company\\Adminland\\AdminEmployeeController@lockAccount');
             Route::get('account/employees/{employee}/unlock', 'Company\\Adminland\\AdminEmployeeController@unlock')->name('account.unlock');
             Route::post('account/employees/{employee}/unlock', 'Company\\Adminland\\AdminEmployeeController@unlockAccount');
-            Route::get('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@index');
-            Route::post('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@store');
+            Route::get('account/employees/{employee}/permissions', 'Company\\Adminland\\AdminEmployeePermissionController@show')->name('account.employees.permission');
+            Route::post('account/employees/{employee}/permissions', 'Company\\Adminland\\AdminEmployeePermissionController@store');
 
             // team management
             Route::resource('account/teams', 'Company\\Adminland\\AdminTeamController', ['as' => 'account_teams']);

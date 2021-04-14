@@ -6,6 +6,7 @@ use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\File;
 use App\Models\Company\Company;
+use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Money\Currencies\ISOCurrencies;
@@ -16,9 +17,10 @@ class AdminGeneralViewHelper
      * Get all the information about the current company.
      *
      * @param mixed $company
+     * @param Employee $loggedEmployee
      * @return array|null
      */
-    public static function information($company): ?array
+    public static function information($company, Employee $loggedEmployee): ?array
     {
         $name = $company->name;
 
@@ -43,7 +45,7 @@ class AdminGeneralViewHelper
         }
 
         // creation date of the account
-        $creationDate = DateHelper::formatShortDateWithTime($company->created_at);
+        $creationDate = DateHelper::formatShortDateWithTime($company->created_at, $loggedEmployee->timezone);
 
         // total file sizes
         $totalSize = DB::table('files')->where('company_id', $company->id)
@@ -51,6 +53,9 @@ class AdminGeneralViewHelper
 
         // logo
         $logo = $company->logo ? ImageHelper::getImage($company->logo, 300, 300) : null;
+
+        // founded date
+        $foundedDate = $company->founded_at ? $company->founded_at->year : null;
 
         return [
             'id' => $company->id,
@@ -61,6 +66,7 @@ class AdminGeneralViewHelper
             'total_size' => round($totalSize / 1000, 4),
             'logo' => $logo,
             'uploadcare_public_key' => config('officelife.uploadcare_public_key'),
+            'founded_at' => $foundedDate,
         ];
     }
 

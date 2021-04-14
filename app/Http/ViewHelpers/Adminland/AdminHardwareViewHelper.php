@@ -6,6 +6,7 @@ use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
 use App\Models\Company\AuditLog;
+use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use Illuminate\Support\Collection;
 
@@ -174,9 +175,10 @@ class AdminHardwareViewHelper
      * how to do it differently.
      *
      * @param Hardware $hardware
+     * @param Employee $employee
      * @return Collection|null
      */
-    public static function history(Hardware $hardware): ?Collection
+    public static function history(Hardware $hardware, Employee $employee): ?Collection
     {
         $logs = AuditLog::where('company_id', $hardware->company_id)
             ->where('action', 'hardware_created')
@@ -207,7 +209,7 @@ class AdminHardwareViewHelper
 
             $logsCollection->push([
                 'id' => $log->id,
-                'date' => DateHelper::formatDate($log->audited_at),
+                'date' => DateHelper::formatDate($log->audited_at, $employee->timezone),
                 'sentence' => $sentence,
             ]);
         }

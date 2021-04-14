@@ -1,14 +1,4 @@
 <style lang="scss" scoped>
-.ship-avatar {
-  img {
-    top: 2px;
-    width: 21px;
-  }
-
-  text-decoration: none;
-  border-bottom: none;
-}
-
 .graffiti {
   background-image: url('/img/confetti.png');
   background-repeat: repeat-x;
@@ -17,7 +7,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -51,7 +41,7 @@
             <!-- list of employees -->
             <ul class="list ma0">
               <li v-for="employee in recentShip.employees" :key="employee.id" class="mr1 di">
-                <inertia-link :href="employee.url" class="ship-avatar"><img loading="lazy" :src="employee.avatar" class="br-100 relative mr1 dib-ns dn" alt="avatar" :data-cy="'ship-list-' + recentShip.id + '-avatar-' + employee.id" /></inertia-link>
+                <avatar :avatar="employee.avatar" :url="employee.url" :size="23" :classes="'br-100 relative mr1 dib-ns dn'" />
               </li>
             </ul>
           </div>
@@ -63,10 +53,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Avatar,
   },
 
   props: {
@@ -92,7 +84,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },

@@ -41,7 +41,7 @@
           <a class="btn dib-l db mb2 mb0-ns" @click.prevent="modal = false ; form.name = ''">
             {{ $t('app.cancel') }}
           </a>
-          <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
+          <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
         </div>
       </div>
     </form>
@@ -71,7 +71,7 @@
               <a class="btn dib-l db mb2 mb0-ns" :data-cy="'list-rename-cancel-button-' + category.id" @click.prevent="idToUpdate = 0">
                 {{ $t('app.cancel') }}
               </a>
-              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + category.id" :state="loadingState" :text="$t('app.update')" />
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + category.id" :state="loadingState" :text="$t('app.update')" />
             </div>
           </form>
         </div>
@@ -147,8 +147,11 @@ export default {
   },
 
   watch: {
-    categories(value) {
-      this.localCategories = value;
+    categories: {
+      handler(value) {
+        this.localCategories = value;
+      },
+      deep: true
     }
   },
 
@@ -162,7 +165,7 @@ export default {
       this.form.name = '';
 
       this.$nextTick(() => {
-        this.$refs['newCategory'].$refs['input'].focus();
+        this.$refs.newCategory.focus();
       });
     },
 
@@ -170,11 +173,7 @@ export default {
       this.idToUpdate = category.id;
 
       this.$nextTick(() => {
-        // this is really barbaric, but I need to do this to
-        // first: target the TextInput with the right ref attribute
-        // second: target within the component, the refs of the input text
-        // this is because we try here to access $refs from a child component
-        this.$refs[`title${category.id}`][0].$refs[`title${category.id}`].focus();
+        this.$refs[`title${category.id}`].focus();
       });
     },
 
@@ -183,7 +182,7 @@ export default {
 
       axios.post(this.route('account.expenses.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
-          flash(this.$t('account.expense_category_success'), 'success');
+          this.flash(this.$t('account.expense_category_success'), 'success');
 
           this.loadingState = null;
           this.form.name = null;
@@ -199,13 +198,12 @@ export default {
     update(id) {
       axios.put(this.route('account.expenses.update', [this.$page.props.auth.company.id, id]), this.form)
         .then(response => {
-          flash(this.$t('account.expense_category_update_success'), 'success');
+          this.flash(this.$t('account.expense_category_update_success'), 'success');
 
           this.idToUpdate = 0;
           this.form.name = null;
 
-          id = this.localCategories.findIndex(x => x.id === id);
-          this.$set(this.localCategories, id, response.data.data);
+          this.localCategories[this.localCategories.findIndex(x => x.id === id)] = response.data.data;
         })
         .catch(error => {
           this.form.errors = error.response.data;
@@ -215,7 +213,7 @@ export default {
     destroy(id) {
       axios.delete(this.route('account.expenses.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
-          flash(this.$t('account.expense_category_delete_success'), 'success');
+          this.flash(this.$t('account.expense_category_delete_success'), 'success');
 
           this.idToDelete = 0;
           id = this.localCategories.findIndex(x => x.id === id);

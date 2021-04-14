@@ -6,7 +6,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <dashboard-menu :employee="employee" />
 
@@ -39,23 +39,20 @@
       />
 
       <work-from-home
-        :employee="employee"
-        class="mb5"
+        :work-from-home="workFromHome"
       />
 
       <worklogs
-        :worklog-count="worklogCount"
-        :employee="employee"
-        class="mb5"
+        :worklogs="worklogs"
       />
 
       <morale
-        :morale-count="moraleCount"
-        :employee="employee"
+        :morale="morale"
       />
 
       <question
         :employee="employee"
+        :question="question"
       />
 
       <task
@@ -70,27 +67,6 @@
         :currencies="currencies"
         :default-currency="defaultCurrency"
       />
-
-      <div class="cf mt4 mw7 center br3 mb3 bg-white box">
-        <div class="pa3">
-          <h2>Me</h2>
-          <ul>
-            <li>View holidays</li>
-            <li>Book time off</li>
-            <li>Log morale</li>
-            <li>Reply to what you've done this week</li>
-            <li>Log an expense</li>
-            <li>View one on ones</li>
-            <li>View all my tasks</li>
-            <li>quizz hebdo pour apprendre à connaitre</li>
-            <li>donner des statistics sur le nombre de femmes/hommes avec un poste à responsabilité</li>
-            <li>donner le ratio homme/femme par poste dans l'onglet Positions</li>
-            <li>rechercher par "position"</li>
-            <li>gestion du materiel informatique</li>
-            <li>Onboarding questionaire</li>
-          </ul>
-        </div>
-      </div>
     </div>
   </layout>
 </template>
@@ -132,14 +108,6 @@ export default {
       type: Object,
       default: null,
     },
-    worklogCount: {
-      type: Number,
-      default: 0,
-    },
-    moraleCount: {
-      type: Number,
-      default: 0,
-    },
     notifications: {
       type: Array,
       default: null,
@@ -150,6 +118,10 @@ export default {
     },
     tasks: {
       type: Array,
+      default: null,
+    },
+    morale: {
+      type: Object,
       default: null,
     },
     categories: {
@@ -185,6 +157,18 @@ export default {
       default: null,
     },
     projects: {
+      type: Array,
+      default: null,
+    },
+    worklogs: {
+      type: Object,
+      default: null,
+    },
+    workFromHome: {
+      type: Object,
+      default: null,
+    },
+    question: {
       type: Object,
       default: null,
     },
