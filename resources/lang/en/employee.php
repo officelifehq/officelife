@@ -170,8 +170,8 @@ return [
     'hardware_title' => 'Hardware',
     'hardware_no_info' => 'No items have been lent yet.',
 
-    'recent_ship_title' => 'Recent ships',
-    'recent_ship_list_blank' =>'This person is not associated with a recent ship yet.',
+    'recent_ship_title' => 'Accomplishments',
+    'recent_ship_list_blank' => 'This person has not done any accomplishments yet.',
 
     'skills_title' => 'Skills',
     'skills_no_skill_yet' => 'No skills have been defined yet.',

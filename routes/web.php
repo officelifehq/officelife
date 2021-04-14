@@ -48,176 +48,172 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::get('', 'Company\\Dashboard\\DashboardController@index')->name('dashboard');
 
             // me
-            Route::get('me', 'Company\\Dashboard\\DashboardMeController@index')->name('dashboard.me');
+            Route::get('me', 'Company\\Dashboard\\Me\\DashboardMeController@index')->name('dashboard.me');
 
             Route::post('worklog', 'Company\\Dashboard\\DashboardWorklogController@store');
-            Route::post('morale', 'Company\\Dashboard\\DashboardMoraleController@store');
-            Route::post('workFromHome', 'Company\\Dashboard\\DashboardWorkFromHomeController@store');
-            Route::resource('question', 'Company\\Dashboard\\DashboardQuestionController')->only([
+            Route::post('morale', 'Company\\Dashboard\\Me\\DashboardMoraleController@store');
+            Route::post('workFromHome', 'Company\\Dashboard\\Me\\DashboardWorkFromHomeController@store');
+            Route::resource('question', 'Company\\Dashboard\\Me\\DashboardQuestionController')->only([
                 'store', 'update', 'destroy',
             ]);
-            Route::post('expense', 'Company\\Dashboard\\DashboardMeExpenseController@store')->name('dashboard.expense.store');
-
-            // timesheet
-            Route::get('timesheet/projects', 'Company\\Dashboard\\DashboardTimesheetController@projects')->name('dashboard.timesheet.projects');
-            Route::get('timesheet/{timesheet}/projects/{project}/tasks', 'Company\\Dashboard\\DashboardTimesheetController@tasks')->name('dashboard.timesheet.tasks');
-            Route::resource('timesheet', 'Company\\Dashboard\\DashboardTimesheetController', ['as' => 'dashboard'])->only([
-                'index', 'show', 'destroy',
-            ]);
-            Route::post('timesheet/{timesheet}/store', 'Company\\Dashboard\\DashboardTimesheetController@createTimeTrackingEntry')->name('dashboard.timesheet.entry.store');
-            Route::post('timesheet/{timesheet}/submit', 'Company\\Dashboard\\DashboardTimesheetController@submit')->name('dashboard.timesheet.entry.submit');
-            Route::put('timesheet/{timesheet}/row', 'Company\\Dashboard\\DashboardTimesheetController@destroyRow');
-
-            // team
-            Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index')->name('dashboard.team');
-            Route::get('team/{team}', 'Company\\Dashboard\\DashboardTeamController@index');
-            Route::get('team/{team}/{date}', 'Company\\Dashboard\\DashboardTeamController@worklogDetails');
+            Route::post('expense', 'Company\\Dashboard\\Me\\DashboardMeExpenseController@store')->name('dashboard.expense.store');
 
             // details of one on ones
-            Route::get('oneonones/{entry}', 'Company\\Dashboard\\DashboardMeOneOnOneController@show')->name('dashboard.oneonones.show');
-            Route::post('oneonones/{entry}/happened', 'Company\\Dashboard\\DashboardMeOneOnOneController@markHappened');
+            Route::get('oneonones/{entry}', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@show')->name('dashboard.oneonones.show');
+            Route::post('oneonones/{entry}/happened', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@markHappened');
 
-            Route::post('oneonones/{entry}/talkingPoints', 'Company\\Dashboard\\DashboardMeOneOnOneController@storeTalkingPoint');
-            Route::post('oneonones/{entry}/talkingPoints/{talkingPoint}/toggle', 'Company\\Dashboard\\DashboardMeOneOnOneController@toggleTalkingPoint');
-            Route::post('oneonones/{entry}/talkingPoints/{talkingPoint}', 'Company\\Dashboard\\DashboardMeOneOnOneController@updateTalkingPoint');
-            Route::delete('oneonones/{entry}/talkingPoints/{talkingPoint}', 'Company\\Dashboard\\DashboardMeOneOnOneController@destroyTalkingPoint');
+            Route::post('oneonones/{entry}/talkingPoints', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@storeTalkingPoint');
+            Route::post('oneonones/{entry}/talkingPoints/{talkingPoint}/toggle', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@toggleTalkingPoint');
+            Route::post('oneonones/{entry}/talkingPoints/{talkingPoint}', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@updateTalkingPoint');
+            Route::delete('oneonones/{entry}/talkingPoints/{talkingPoint}', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@destroyTalkingPoint');
 
-            Route::post('oneonones/{entry}/actionItems', 'Company\\Dashboard\\DashboardMeOneOnOneController@storeActionItem');
-            Route::post('oneonones/{entry}/actionItems/{actionItem}/toggle', 'Company\\Dashboard\\DashboardMeOneOnOneController@toggleActionItem');
-            Route::post('oneonones/{entry}/actionItems/{actionItem}', 'Company\\Dashboard\\DashboardMeOneOnOneController@updateActionItem');
-            Route::delete('oneonones/{entry}/actionItems/{actionItem}', 'Company\\Dashboard\\DashboardMeOneOnOneController@destroyActionItem');
+            Route::post('oneonones/{entry}/actionItems', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@storeActionItem');
+            Route::post('oneonones/{entry}/actionItems/{actionItem}/toggle', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@toggleActionItem');
+            Route::post('oneonones/{entry}/actionItems/{actionItem}', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@updateActionItem');
+            Route::delete('oneonones/{entry}/actionItems/{actionItem}', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@destroyActionItem');
 
-            Route::post('oneonones/{entry}/notes', 'Company\\Dashboard\\DashboardMeOneOnOneController@storeNote');
-            Route::post('oneonones/{entry}/notes/{note}', 'Company\\Dashboard\\DashboardMeOneOnOneController@updateNote');
-            Route::delete('oneonones/{entry}/notes/{note}', 'Company\\Dashboard\\DashboardMeOneOnOneController@destroyNote');
+            Route::post('oneonones/{entry}/notes', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@storeNote');
+            Route::post('oneonones/{entry}/notes/{note}', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@updateNote');
+            Route::delete('oneonones/{entry}/notes/{note}', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@destroyNote');
+
+            // rate your manager
+            Route::post('rate/{answer}', 'Company\\Dashboard\\Me\\DashboardRateYourManagerController@store');
+            Route::post('rate/{answer}/comment', 'Company\\Dashboard\\Me\\DashboardRateYourManagerController@storeComment');
 
             // ecoffee
-            Route::post('ecoffee/{ecoffee}/{match}', 'Company\\Dashboard\\DashboardMeECoffeeController@store');
+            Route::post('ecoffee/{ecoffee}/{match}', 'Company\\Dashboard\\Me\\DashboardMeECoffeeController@store');
+
+            // timesheets
+            Route::get('timesheet/projects', 'Company\\Dashboard\\Timesheets\\DashboardTimesheetController@projects')->name('dashboard.timesheet.projects');
+            Route::get('timesheet/{timesheet}/projects/{project}/tasks', 'Company\\Dashboard\\Timesheets\\DashboardTimesheetController@tasks')->name('dashboard.timesheet.tasks');
+            Route::resource('timesheet', 'Company\\Dashboard\\Timesheets\\DashboardTimesheetController', ['as' => 'dashboard'])->only([
+                'index', 'show', 'destroy',
+            ]);
+            Route::post('timesheet/{timesheet}/store', 'Company\\Dashboard\\Timesheets\\DashboardTimesheetController@createTimeTrackingEntry')->name('dashboard.timesheet.entry.store');
+            Route::post('timesheet/{timesheet}/submit', 'Company\\Dashboard\\Timesheets\\DashboardTimesheetController@submit')->name('dashboard.timesheet.entry.submit');
+            Route::put('timesheet/{timesheet}/row', 'Company\\Dashboard\\Timesheets\\DashboardTimesheetController@destroyRow');
+
+            // team
+            Route::get('team', 'Company\\Dashboard\\Teams\\DashboardTeamController@index')->name('dashboard.team');
+            Route::get('team/{team}', 'Company\\Dashboard\\Teams\\DashboardTeamController@index');
+            Route::get('team/{team}/{date}', 'Company\\Dashboard\\Teams\\DashboardTeamController@worklogDetails');
 
             // manager tab
             Route::prefix('manager')->group(function () {
-                Route::get('', 'Company\\Dashboard\\DashboardManagerController@index')->name('dashboard.manager');
-                Route::get('expenses/{expense}', 'Company\\Dashboard\\DashboardManagerController@showExpense')->name('dashboard.manager.expense.show');
-                Route::post('expenses/{expense}/accept', 'Company\\Dashboard\\DashboardManagerController@accept');
-                Route::post('expenses/{expense}/reject', 'Company\\Dashboard\\DashboardManagerController@reject');
+                Route::get('', 'Company\\Dashboard\\Manager\\DashboardManagerController@index')->name('dashboard.manager');
+                Route::get('expenses/{expense}', 'Company\\Dashboard\\Manager\\DashboardManagerController@showExpense')->name('dashboard.manager.expense.show');
+                Route::post('expenses/{expense}/accept', 'Company\\Dashboard\\Manager\\DashboardManagerController@accept');
+                Route::post('expenses/{expense}/reject', 'Company\\Dashboard\\Manager\\DashboardManagerController@reject');
 
                 // timesheets
-                Route::get('timesheets', 'Company\\Dashboard\\DashboardManagerTimesheetController@index')->name('dashboard.manager.timesheet.index');
-                Route::get('timesheets/{timesheet}', 'Company\\Dashboard\\DashboardManagerTimesheetController@show')->name('dashboard.manager.timesheet.show');
-                Route::post('timesheets/{timesheet}/approve', 'Company\\Dashboard\\DashboardManagerTimesheetController@approve');
-                Route::post('timesheets/{timesheet}/reject', 'Company\\Dashboard\\DashboardManagerTimesheetController@reject');
-
-                // rate your manager
-                Route::post('rate/{answer}', 'Company\\Dashboard\\DashboardRateYourManagerController@store');
-                Route::post('rate/{answer}/comment', 'Company\\Dashboard\\DashboardRateYourManagerController@storeComment');
+                Route::get('timesheets', 'Company\\Dashboard\\Manager\\DashboardManagerTimesheetController@index')->name('dashboard.manager.timesheet.index');
+                Route::get('timesheets/{timesheet}', 'Company\\Dashboard\\Manager\\DashboardManagerTimesheetController@show')->name('dashboard.manager.timesheet.show');
+                Route::post('timesheets/{timesheet}/approve', 'Company\\Dashboard\\Manager\\DashboardManagerTimesheetController@approve');
+                Route::post('timesheets/{timesheet}/reject', 'Company\\Dashboard\\Manager\\DashboardManagerTimesheetController@reject');
             });
 
             // hr tab
             Route::prefix('hr')->group(function () {
-                Route::get('', 'Company\\Dashboard\\DashboardHRController@index')->name('dashboard.hr');
+                Route::get('', 'Company\\Dashboard\\HR\\DashboardHRController@index')->name('dashboard.hr');
 
                 // timesheets
-                Route::get('timesheets', 'Company\\Dashboard\\DashboardHRTimesheetController@index')->name('dashboard.hr.timesheet.index');
-                Route::get('timesheets/{timesheet}', 'Company\\Dashboard\\DashboardHRTimesheetController@show')->name('dashboard.hr.timesheet.show');
-                Route::post('timesheets/{timesheet}/approve', 'Company\\Dashboard\\DashboardHRTimesheetController@approve');
-                Route::post('timesheets/{timesheet}/reject', 'Company\\Dashboard\\DashboardHRTimesheetController@reject');
+                Route::get('timesheets', 'Company\\Dashboard\\HR\\DashboardHRTimesheetController@index')->name('dashboard.hr.timesheet.index');
+                Route::get('timesheets/{timesheet}', 'Company\\Dashboard\\HR\\DashboardHRTimesheetController@show')->name('dashboard.hr.timesheet.show');
+                Route::post('timesheets/{timesheet}/approve', 'Company\\Dashboard\\HR\\DashboardHRTimesheetController@approve');
+                Route::post('timesheets/{timesheet}/reject', 'Company\\Dashboard\\HR\\DashboardHRTimesheetController@reject');
             });
         });
 
         Route::prefix('employees')->group(function () {
             Route::get('', 'Company\\Employee\\EmployeeController@index')->name('employees.index');
-            Route::get('{employee}', 'Company\\Employee\\EmployeeController@show')->name('employees.show');
 
-            Route::put('{employee}/assignManager', 'Company\\Employee\\EmployeeController@assignManager')->name('employee.manager.assign');
-            Route::put('{employee}/assignDirectReport', 'Company\\Employee\\EmployeeController@assignDirectReport')->name('employee.directReport.assign');
-            Route::post('{employee}/search/hierarchy', 'Company\\Employee\\EmployeeSearchController@hierarchy');
-            Route::put('{employee}/unassignManager', 'Company\\Employee\\EmployeeController@unassignManager')->name('employee.manager.unassign');
-            Route::put('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport')->name('employee.directReport.unassign');
-
-            Route::put('{employee}/avatar/update', 'Company\\Employee\\EmployeeEditAvatarController@update');
-
-            Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index')->name('employee.show.logs');
-
-            Route::get('{employee}/edit', 'Company\\Employee\\EmployeeEditController@show')->name('employee.show.edit');
-            Route::get('{employee}/address/edit', 'Company\\Employee\\EmployeeEditController@address')->name('employee.show.edit.address');
-            Route::get('{employee}/contract/edit', 'Company\\Employee\\EmployeeEditController@contract')->name('employee.show.edit.contract');
-            Route::post('{employee}/contract/update', 'Company\\Employee\\EmployeeEditController@updateContractInformation');
-            Route::post('{employee}/update', 'Company\\Employee\\EmployeeEditController@update');
-            Route::post('{employee}/address/update', 'Company\\Employee\\EmployeeEditController@updateAddress');
-            Route::post('{employee}/rate/store', 'Company\\Employee\\EmployeeEditController@storeRate');
-            Route::delete('{employee}/rate/{rate}', 'Company\\Employee\\EmployeeEditController@destroyRate');
-
-            Route::resource('{employee}/position', 'Company\\Employee\\EmployeePositionController')->only([
-                'store', 'destroy',
-            ]);
-
+            // common to all pages
             Route::resource('{employee}/team', 'Company\\Employee\\EmployeeTeamController')->only([
                 'index', 'store', 'destroy',
             ]);
-
+            Route::resource('{employee}/position', 'Company\\Employee\\EmployeePositionController')->only([
+                'store', 'destroy',
+            ]);
             Route::resource('{employee}/employeestatuses', 'Company\\Employee\\EmployeeStatusController')->only([
                 'index', 'store', 'destroy',
             ]);
-
             Route::resource('{employee}/pronoun', 'Company\\Employee\\EmployeePronounController')->only([
                 'store', 'destroy',
             ]);
-
             Route::resource('{employee}/description', 'Company\\Employee\\EmployeeDescriptionController')->only([
                 'store', 'destroy',
             ]);
 
-            Route::resource('{employee}/skills', 'Company\\Employee\\EmployeeSkillController')->only([
+            // Presentation tab
+            Route::get('{employee}', 'Company\\Employee\\Presentation\\EmployeePresentationController@show')->name('employees.show');
+            Route::put('{employee}/assignManager', 'Company\\Employee\\Presentation\\EmployeePresentationController@assignManager')->name('employee.manager.assign');
+            Route::put('{employee}/assignDirectReport', 'Company\\Employee\\Presentation\\EmployeePresentationController@assignDirectReport')->name('employee.directReport.assign');
+            Route::post('{employee}/search/hierarchy', 'Company\\Employee\\Presentation\\EmployeeSearchController@hierarchy');
+            Route::put('{employee}/unassignManager', 'Company\\Employee\\Presentation\\EmployeePresentationController@unassignManager')->name('employee.manager.unassign');
+            Route::put('{employee}/unassignDirectReport', 'Company\\Employee\\Presentation\\EmployeePresentationController@unassignDirectReport')->name('employee.directReport.unassign');
+            Route::resource('{employee}/skills', 'Company\\Employee\\Presentation\\EmployeeSkillController')->only([
                 'store', 'destroy',
             ]);
-            Route::post('{employee}/skills/search', 'Company\\Employee\\EmployeeSkillController@search')->name('skills.search');
+            Route::post('{employee}/skills/search', 'Company\\Employee\\Presentation\\EmployeeSkillController@search')->name('skills.search');
+            Route::get('{employee}/ecoffees', 'Company\\Employee\\Presentation\\eCoffee\\EmployeeECoffeeController@index')->name('employees.ecoffees.index');
 
-            Route::get('{employee}/ecoffees', 'Company\\Employee\\EmployeeECoffeeController@index')->name('employees.ecoffees.index');
+            // Edit page
+            Route::put('{employee}/avatar/update', 'Company\\Employee\\Edit\\EmployeeEditAvatarController@update');
+            Route::get('{employee}/edit', 'Company\\Employee\\Edit\\EmployeeEditController@show')->name('employee.show.edit');
+            Route::get('{employee}/address/edit', 'Company\\Employee\\Edit\\EmployeeEditController@address')->name('employee.show.edit.address');
+            Route::get('{employee}/contract/edit', 'Company\\Employee\\Edit\\EmployeeEditController@contract')->name('employee.show.edit.contract');
+            Route::post('{employee}/contract/update', 'Company\\Employee\\Edit\\EmployeeEditController@updateContractInformation');
+            Route::post('{employee}/update', 'Company\\Employee\\Edit\\EmployeeEditController@update');
+            Route::post('{employee}/address/update', 'Company\\Employee\\Edit\\EmployeeEditController@updateAddress');
+            Route::post('{employee}/rate/store', 'Company\\Employee\\Edit\\EmployeeEditController@storeRate');
+            Route::delete('{employee}/rate/{rate}', 'Company\\Employee\\Edit\\EmployeeEditController@destroyRate');
+
+            Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index')->name('employee.show.logs');
 
             // administration tab
             Route::prefix('{employee}/administration')->group(function () {
                 Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
-                    Route::get('', 'Company\\Employee\\EmployeeAdministrationController@show')->name('employees.administration.show');
+                    Route::get('', 'Company\\Employee\\Administration\\EmployeeAdministrationController@show')->name('employees.administration.show');
 
                     // expenses
-                    Route::resource('expenses', 'Company\\Employee\\EmployeeExpenseController', ['as' => 'employee.administration'])->only([
+                    Route::resource('expenses', 'Company\\Employee\\Administration\\Expenses\\EmployeeExpenseController', ['as' => 'employee.administration'])->only([
                         'index', 'show',
                     ]);
 
                     // timesheets
-                    Route::get('timesheets', 'Company\\Employee\\EmployeeTimesheetController@index')->name('employee.timesheets.index');
-                    Route::get('timesheets/{timesheet}', 'Company\\Employee\\EmployeeTimesheetController@show')->name('employee.timesheets.show');
-                    Route::get('timesheets/overview/{year}', 'Company\\Employee\\EmployeeTimesheetController@year')->name('employee.timesheets.year');
-                    Route::get('timesheets/overview/{year}/{month}', 'Company\\Employee\\EmployeeTimesheetController@month')->name('employee.timesheets.month');
+                    Route::get('timesheets', 'Company\\Employee\\Administration\\Timesheets\\EmployeeTimesheetController@index')->name('employee.timesheets.index');
+                    Route::get('timesheets/{timesheet}', 'Company\\Employee\\Administration\\Timesheets\\EmployeeTimesheetController@show')->name('employee.timesheets.show');
+                    Route::get('timesheets/overview/{year}', 'Company\\Employee\\Administration\\Timesheets\\EmployeeTimesheetController@year')->name('employee.timesheets.year');
+                    Route::get('timesheets/overview/{year}/{month}', 'Company\\Employee\\Administration\\Timesheets\\EmployeeTimesheetController@month')->name('employee.timesheets.month');
                 });
             });
 
             // work tab
             Route::prefix('{employee}/work')->group(function () {
-                Route::get('', 'Company\\Employee\\EmployeeWorkController@show')->name('employees.show.work');
+                Route::get('', 'Company\\Employee\\Work\\EmployeeWorkController@show')->name('employees.show.work');
 
                 // work from home
-                Route::get('workfromhome', 'Company\\Employee\\EmployeeWorkFromHomeController@index')->name('employee.work.workfromhome');
-                Route::get('workfromhome/{year}', 'Company\\Employee\\EmployeeWorkFromHomeController@year');
-                Route::get('workfromhome/{year}/{month}', 'Company\\Employee\\EmployeeWorkFromHomeController@month');
+                Route::get('workfromhome', 'Company\\Employee\\Work\\WorkFromHome\\EmployeeWorkFromHomeController@index')->name('employee.work.workfromhome');
+                Route::get('workfromhome/{year}', 'Company\\Employee\\Work\\WorkFromHome\\EmployeeWorkFromHomeController@year');
+                Route::get('workfromhome/{year}/{month}', 'Company\\Employee\\Work\\WorkFromHome\\EmployeeWorkFromHomeController@month');
 
                 // worklogs
-                Route::get('worklogs', 'Company\\Employee\\EmployeeWorklogController@index')->name('employee.work.worklogs');
-                Route::get('worklogs/{year}', 'Company\\Employee\\EmployeeWorklogController@year');
-                Route::get('worklogs/{year}/{month}', 'Company\\Employee\\EmployeeWorklogController@month');
+                Route::get('worklogs', 'Company\\Employee\\Work\\Worklog\\EmployeeWorklogController@index')->name('employee.work.worklogs');
+                Route::get('worklogs/{year}', 'Company\\Employee\\Work\\Worklog\\EmployeeWorklogController@year');
+                Route::get('worklogs/{year}/{month}', 'Company\\Employee\\Work\\Worklog\\EmployeeWorklogController@month');
             });
 
             // performance tab
             Route::prefix('{employee}/performance')->group(function () {
-                Route::get('', 'Company\\Employee\\EmployeePerformanceController@show')->name('employees.show.performance');
+                Route::get('', 'Company\\Employee\\Performance\\EmployeePerformanceController@show')->name('employees.show.performance');
 
                 // survey
-                Route::get('surveys', 'Company\\Employee\\EmployeeSurveysController@index')->name('employees.show.performance.survey.index');
-                Route::get('/surveys/{survey}', 'Company\\Employee\\EmployeeSurveysController@show')->name('employees.show.performance.survey.show');
+                Route::get('surveys', 'Company\\Employee\\Performance\\Surveys\\EmployeeSurveysController@index')->name('employees.show.performance.survey.index');
+                Route::get('/surveys/{survey}', 'Company\\Employee\\Performance\\Surveys\\EmployeeSurveysController@show')->name('employees.show.performance.survey.show');
 
                 // one on ones
-                Route::get('oneonones', 'Company\\Employee\\EmployeeOneOnOneController@index')->name('employees.show.performance.oneonones.index');
-                Route::get('oneonones/{oneonone}', 'Company\\Employee\\EmployeeOneOnOneController@show')->name('employees.show.performance.oneonones.show');
+                Route::get('oneonones', 'Company\\Employee\\Performance\\OneOnOnes\\EmployeeOneOnOneController@index')->name('employees.show.performance.oneonones.index');
+                Route::get('oneonones/{oneonone}', 'Company\\Employee\\Performance\\OneOnOnes\\EmployeeOneOnOneController@show')->name('employees.show.performance.oneonones.show');
             });
         });
 
@@ -335,11 +331,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
         // only available to accountant role
         Route::middleware(['accountant'])->group(function () {
-            Route::get('dashboard/expenses', 'Company\\Dashboard\\DashboardExpensesController@index');
-            Route::get('dashboard/expenses/{expense}/summary', 'Company\\Dashboard\\DashboardExpensesController@summary')->name('dashboard.expenses.summary');
-            Route::get('dashboard/expenses/{expense}', 'Company\\Dashboard\\DashboardExpensesController@show')->name('dashboard.expenses.show');
-            Route::post('dashboard/expenses/{expense}/accept', 'Company\\Dashboard\\DashboardExpensesController@accept');
-            Route::post('dashboard/expenses/{expense}/reject', 'Company\\Dashboard\\DashboardExpensesController@reject');
+            Route::get('dashboard/expenses', 'Company\\Dashboard\\Accountant\\DashboardExpensesController@index');
+            Route::get('dashboard/expenses/{expense}/summary', 'Company\\Dashboard\\Accountant\\DashboardExpensesController@summary')->name('dashboard.expenses.summary');
+            Route::get('dashboard/expenses/{expense}', 'Company\\Dashboard\\Accountant\\DashboardExpensesController@show')->name('dashboard.expenses.show');
+            Route::post('dashboard/expenses/{expense}/accept', 'Company\\Dashboard\\Accountant\\DashboardExpensesController@accept');
+            Route::post('dashboard/expenses/{expense}/reject', 'Company\\Dashboard\\Accountant\\DashboardExpensesController@reject');
         });
 
         // only available to administrator role

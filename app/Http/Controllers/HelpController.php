@@ -10,7 +10,7 @@ use App\Services\User\Preferences\ChangeHelpPreferences;
 class HelpController extends Controller
 {
     /**
-     * Perform search of an employee from the header.
+     * Toggle help preferences.
      *
      * @param Request $request
      * @return JsonResponse
