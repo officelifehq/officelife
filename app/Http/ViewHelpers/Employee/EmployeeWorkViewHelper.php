@@ -17,24 +17,19 @@ class EmployeeWorkViewHelper
      * - for each week, the worklogs of the 5 working days + the morale of the
      * employee (if the logged employee has the right to view this information).
      *
-     * Beware, the @firstDayOfWeek has to be a Carbon date with the right timezone
-     * properly set.
-     *
      * @param Employee $employee
      * @param Employee $loggedEmployee
-     * @param Carbon $firstDayOfWeek
+     * @param Carbon $startOfWeek
      * @return array
      */
-    public static function worklogs(Employee $employee, Employee $loggedEmployee, Carbon $firstDayOfWeek): array
+    public static function worklogs(Employee $employee, Employee $loggedEmployee, Carbon $startOfWeek): array
     {
-        $lastDayOfWeek = $firstDayOfWeek->copy()->endOfWeek();
-        $worklogs = $employee->worklogs()->whereBetween('hired_at', [$firstDayOfWeek, $lastDayOfWeek])->get();
-        $morales = $employee->morales()->whereBetween('hired_at', [$firstDayOfWeek, $lastDayOfWeek])->get();
-        $worklogsCollection = collect([]);
+        $worklogs = $employee->worklogs()->whereBetween('created_at', [$startOfWeek, $startOfWeek->copy()->endOfWeek()])->get();
+        $morales = $employee->morales()->whereBetween('created_at', [$startOfWeek, $startOfWeek->copy()->endOfWeek()])->get();
 
-        // worklogs from Monday to Friday of the current week
-        for ($i = 0; $i < 5; $i++) {
-            $day = $firstDayOfWeek->copy()->startOfWeek()->addDays($i);
+        $worklogsCollection = collect([]);
+        for ($i = 0; $i < 7; $i++) {
+            $day = $startOfWeek->copy()->startOfWeek()->addDays($i);
 
             $worklog = $worklogs->first(function ($worklog) use ($day) {
                 return $worklog->created_at->format('Y-m-d') == $day->format('Y-m-d');

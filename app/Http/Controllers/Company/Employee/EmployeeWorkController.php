@@ -10,6 +10,7 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
+use App\Http\ViewHelpers\Employee\EmployeeWorkViewHelper;
 
 class EmployeeWorkController extends Controller
 {
@@ -41,7 +42,7 @@ class EmployeeWorkController extends Controller
         $permissions = EmployeeShowViewHelper::permissions($loggedEmployee, $employee);
 
         // worklogs
-        $worklogsCollection = EmployeeShowViewHelper::worklogs($employee, $loggedEmployee);
+        $worklogsCollection = EmployeeWorkViewHelper::worklogs($employee, $loggedEmployee);
 
         // work from home
         $workFromHomeStats = EmployeeShowViewHelper::workFromHomeStats($employee);
