@@ -185,6 +185,7 @@ return [
         'account_general_company_name' => 'introduction.html',
         'account_general_currency' => 'manage/company-management.html#currency',
         'account_general_logo' => 'manage/company-management.html#logo',
+        'account_general_founded_date' => 'manage/company-management.html#defining-the-company-s-founded-date',
         'account_cancellation' => 'manage/company-management.html#account-cancellation',
         'one_on_ones' => 'introduction.html',
         'project' => 'operate/project-management.html#overview',

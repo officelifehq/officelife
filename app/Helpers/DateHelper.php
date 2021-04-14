@@ -67,10 +67,15 @@ class DateHelper
      * Return the day and the month in a format like "Monday (July 29th)".
      *
      * @param Carbon $date
+     * @param string $timezone
      * @return string
      */
-    public static function formatDayAndMonthInParenthesis(Carbon $date): string
+    public static function formatDayAndMonthInParenthesis(Carbon $date, string $timezone = null): string
     {
+        if ($timezone) {
+            $date->setTimezone($timezone);
+        }
+
         return $date->isoFormat(trans('format.day_month_parenthesis'));
     }
 

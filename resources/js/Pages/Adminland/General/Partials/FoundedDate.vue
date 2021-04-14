@@ -9,7 +9,7 @@
     <h3 class="ph3 fw5">
       {{ $t('account.general_founded_date_information') }}
 
-      <help :url="$page.props.help_links.account_general_currency" :datacy="'help-icon-general'" :top="'2px'" />
+      <help :url="$page.props.help_links.account_general_founded_date" :top="'2px'" />
     </h3>
 
     <!-- founded date of the company -->
