@@ -77,19 +77,19 @@ class EmployeeWorkViewHelper
             'id' => 1,
             'label' => '3 weeks ago',
             'range' => [
-                'start' => DateHelper::formatMonthAndDay($currentWeek->copy()->subWeek(3)->startOfWeek()),
-                'end' => DateHelper::formatMonthAndDay($currentWeek->copy()->subWeek(3)->endOfWeek()),
+                'start' => DateHelper::formatMonthAndDay($currentWeek->copy()->subWeeks(3)->startOfWeek()),
+                'end' => DateHelper::formatMonthAndDay($currentWeek->copy()->subWeeks(3)->endOfWeek()),
             ],
-            'start_of_week_date' => $currentWeek->copy()->subWeek(3)->format('Y-m-d'),
+            'start_of_week_date' => $currentWeek->copy()->subWeeks(3)->format('Y-m-d'),
         ]);
         $weeksCollection->push([
             'id' => 2,
             'label' => '2 weeks ago',
             'range' => [
-                'start' => DateHelper::formatMonthAndDay($currentWeek->copy()->subWeek(2)->startOfWeek()),
-                'end' => DateHelper::formatMonthAndDay($currentWeek->copy()->subWeek(2)->endOfWeek()),
+                'start' => DateHelper::formatMonthAndDay($currentWeek->copy()->subWeeks(2)->startOfWeek()),
+                'end' => DateHelper::formatMonthAndDay($currentWeek->copy()->subWeeks(2)->endOfWeek()),
             ],
-            'start_of_week_date' => $currentWeek->copy()->subWeek(2)->format('Y-m-d'),
+            'start_of_week_date' => $currentWeek->copy()->subWeeks(2)->format('Y-m-d'),
         ]);
         $weeksCollection->push([
             'id' => 3,
