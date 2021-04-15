@@ -14,7 +14,7 @@ class EmployeeWorkViewHelperTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_gets_a_collection_of_worklogs(): void
+    public function it_gets_the_details_of_a_worklog(): void
     {
         $date = Carbon::create(2018, 1, 1);
         Carbon::setTestNow($date);
@@ -36,42 +36,83 @@ class EmployeeWorkViewHelperTest extends TestCase
             ]);
         }
 
-        $array = EmployeeWorkViewHelper::worklogs($michael, $michael, $startOfWeek);
-
-        $this->assertEquals(2, count($array));
-
-        $this->assertArrayHasKey(
-            'data',
-            $array
-        );
-
-        $this->assertArrayHasKey(
-            'url',
-            $array
-        );
+        $array = EmployeeWorkViewHelper::worklog($michael, $michael, $startOfWeek, $date);
 
         $this->assertEquals(
             env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/work/worklogs',
             $array['url']
         );
 
-        $this->assertEquals(7, count($array['data']->toArray()));
+        $this->assertEquals(7, count($array['days']->toArray()));
 
         $this->assertEquals(
-            'Monday (Jan 1st)',
-            $array['data']->toArray()[0]['date']
-        );
-        $this->assertEquals(
-            'current',
-            $array['data']->toArray()[0]['status']
+            '2018-01-01',
+            $array['current_week']
         );
         $this->assertEquals(
             '<p>test</p>',
-            $array['data']->toArray()[0]['worklog_parsed_content']
+            $array['worklog_parsed_content']
         );
+
         $this->assertEquals(
             '😡 I’ve had a bad day',
-            $array['data']->toArray()[0]['morale']
+            $array['morale']
+        );
+
+        $this->assertEquals(
+            7,
+            $array['days']->count()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_different_weeks(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $michael = $this->createAdministrator();
+
+        $collection = EmployeeWorkViewHelper::weeks($michael);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => 1,
+                    'label' => '3 weeks ago',
+                    'range' => [
+                        'start' => 'December 11th',
+                        'end' => 'December 17th',
+                    ],
+                    'start_of_week_date' => '2017-12-11',
+                ],
+                1 => [
+                    'id' => 2,
+                    'label' => '2 weeks ago',
+                    'range' => [
+                        'start' => 'December 18th',
+                        'end' => 'December 24th',
+                    ],
+                    'start_of_week_date' => '2017-12-18',
+                ],
+                2 => [
+                    'id' => 3,
+                    'label' => 'Last week',
+                    'range' => [
+                        'start' => 'December 25th',
+                        'end' => 'December 31st',
+                    ],
+                    'start_of_week_date' => '2017-12-25',
+                ],
+                3 => [
+                    'id' => 4,
+                    'label' => 'Current week',
+                    'range' => [
+                        'start' => 'January 1st',
+                        'end' => 'January 7th',
+                    ],
+                    'start_of_week_date' => '2018-01-01',
+                ],
+            ],
+            $collection->toArray()
         );
     }
 }

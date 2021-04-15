@@ -7,6 +7,7 @@ use App\Helpers\DateHelper;
 use Illuminate\Support\Str;
 use App\Helpers\StringHelper;
 use App\Models\Company\Employee;
+use Illuminate\Support\Collection;
 
 class EmployeeWorkViewHelper
 {
@@ -20,36 +21,41 @@ class EmployeeWorkViewHelper
      * @param Employee $employee
      * @param Employee $loggedEmployee
      * @param Carbon $startOfWeek
+     * @param Carbon $selectedDay
      * @return array
      */
-    public static function worklogs(Employee $employee, Employee $loggedEmployee, Carbon $startOfWeek): array
+    public static function worklog(Employee $employee, Employee $loggedEmployee, Carbon $startOfWeek, Carbon $selectedDay): array
     {
         $worklogs = $employee->worklogs()->whereBetween('created_at', [$startOfWeek, $startOfWeek->copy()->endOfWeek()])->get();
-        $morales = $employee->morales()->whereBetween('created_at', [$startOfWeek, $startOfWeek->copy()->endOfWeek()])->get();
 
-        $worklogsCollection = collect([]);
+        $daysCollection = collect();
         for ($i = 0; $i < 7; $i++) {
-            $day = $startOfWeek->copy()->startOfWeek()->addDays($i);
-
+            $day = $startOfWeek->copy()->addDays($i);
             $worklog = $worklogs->first(function ($worklog) use ($day) {
                 return $worklog->created_at->format('Y-m-d') == $day->format('Y-m-d');
             });
 
-            $morale = $morales->first(function ($morale) use ($day) {
-                return $morale->created_at->format('Y-m-d') == $day->format('Y-m-d');
-            });
+            $day = $startOfWeek->copy()->startOfWeek()->addDays($i);
 
-            $worklogsCollection->push([
+            $daysCollection->push([
                 'id' => Str::uuid()->toString(), // it doesn't matter here, this is just for Vue and having an unique key
-                'date' => DateHelper::formatDayAndMonthInParenthesis($day),
+                'day' => DateHelper::day($day),
+                'day_number' => DateHelper::dayWithShortMonth($day),
+                'date' => $day->format('Y-m-d'),
                 'status' => DateHelper::determineDateStatus($day),
-                'worklog_parsed_content' => $worklog ? StringHelper::parse($worklog->content) : null,
-                'morale' => $morale && $loggedEmployee->id == $employee->id ? $morale->emoji : null,
+                'selected' => $selectedDay->format('Y-m-d') == $day->format('Y-m-d') ? 'selected' : '',
+                'worklog_done_for_this_day' => $worklog ? 'green' : '',
             ]);
         }
 
+        $worklog = $employee->worklogs()->whereDate('created_at', $selectedDay)->first();
+        $morale = $employee->morales()->whereDate('created_at', $selectedDay)->first();
+
         $array = [
-            'data' => $worklogsCollection,
+            'days' => $daysCollection,
+            'current_week' => $startOfWeek->copy()->format('Y-m-d'),
+            'worklog_parsed_content' => $worklog ? StringHelper::parse($worklog->content) : null,
+            'morale' => $morale && $loggedEmployee->id == $employee->id ? $morale->emoji : null,
             'url' => route('employee.work.worklogs', [
                 'company' => $employee->company,
                 'employee' => $employee,
@@ -57,5 +63,57 @@ class EmployeeWorkViewHelper
         ];
 
         return $array;
+    }
+
+    /**
+     * Get the current week date, and the three weeks prior to that.
+     *
+     * @param Employee $loggedEmployee
+     * @return Collection
+     */
+    public static function weeks(Employee $loggedEmployee): Collection
+    {
+        $date = Carbon::now()->setTimezone($loggedEmployee->timezone);
+        $currentWeek = $date->copy()->startofWeek();
+
+        $weeksCollection = collect([]);
+        $weeksCollection->push([
+            'id' => 1,
+            'label' => '3 weeks ago',
+            'range' => [
+                'start' => DateHelper::formatMonthAndDay($currentWeek->copy()->subWeek(3)->startOfWeek()),
+                'end' => DateHelper::formatMonthAndDay($currentWeek->copy()->subWeek(3)->endOfWeek()),
+            ],
+            'start_of_week_date' => $currentWeek->copy()->subWeek(3)->format('Y-m-d'),
+        ]);
+        $weeksCollection->push([
+            'id' => 2,
+            'label' => '2 weeks ago',
+            'range' => [
+                'start' => DateHelper::formatMonthAndDay($currentWeek->copy()->subWeek(2)->startOfWeek()),
+                'end' => DateHelper::formatMonthAndDay($currentWeek->copy()->subWeek(2)->endOfWeek()),
+            ],
+            'start_of_week_date' => $currentWeek->copy()->subWeek(2)->format('Y-m-d'),
+        ]);
+        $weeksCollection->push([
+            'id' => 3,
+            'label' => 'Last week',
+            'range' => [
+                'start' => DateHelper::formatMonthAndDay($currentWeek->copy()->subWeek()->startOfWeek()),
+                'end' => DateHelper::formatMonthAndDay($currentWeek->copy()->subWeek()->endOfWeek()),
+            ],
+            'start_of_week_date' => $currentWeek->copy()->subWeek()->format('Y-m-d'),
+        ]);
+        $weeksCollection->push([
+            'id' => 4,
+            'label' => 'Current week',
+            'range' => [
+                'start' => DateHelper::formatMonthAndDay($currentWeek->copy()->startOfWeek()),
+                'end' => DateHelper::formatMonthAndDay($currentWeek->copy()->endOfWeek()),
+            ],
+            'start_of_week_date' => $currentWeek->format('Y-m-d'),
+        ]);
+
+        return $weeksCollection;
     }
 }
