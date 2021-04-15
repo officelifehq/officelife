@@ -301,9 +301,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
                 // project members
                 Route::get('{project}/members', 'Company\\Company\\Project\\ProjectMembersController@index');
-                Route::get('{project}/members/search', 'Company\\Company\\Project\\ProjectMembersController@search');
-                Route::post('{project}/members/store', 'Company\\Company\\Project\\ProjectMembersController@store');
-                Route::post('{project}/members/remove', 'Company\\Company\\Project\\ProjectMembersController@remove');
+                Route::post('{project}/members/search', 'Company\\Company\\Project\\ProjectMembersController@search');
+                Route::post('{project}/members', 'Company\\Company\\Project\\ProjectMembersController@store');
+                Route::delete('{project}/members/{member}', 'Company\\Company\\Project\\ProjectMembersController@destroy');
 
                 // project messages
                 Route::resource('{project}/messages', 'Company\\Company\\Project\\ProjectMessagesController', ['as' => 'projects']);
