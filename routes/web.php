@@ -200,9 +200,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 // worklogs
                 Route::get('worklogs/week/{week}/day/{day}', 'Company\\Employee\\Work\\EmployeeWorkController@worklogDay');
                 Route::get('worklogs/week/{week}/day', 'Company\\Employee\\Work\\EmployeeWorkController@worklogDay');
-                Route::get('worklogs', 'Company\\Employee\\Work\\Worklog\\EmployeeWorklogController@index')->name('employee.work.worklogs');
-                // Route::get('worklogs/{year}', 'Company\\Employee\\Work\\Worklog\\EmployeeWorklogController@year');
-                // Route::get('worklogs/{year}/{month}', 'Company\\Employee\\Work\\Worklog\\EmployeeWorklogController@month');
             });
 
             // performance tab

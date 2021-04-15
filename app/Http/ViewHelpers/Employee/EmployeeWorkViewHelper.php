@@ -56,10 +56,6 @@ class EmployeeWorkViewHelper
             'current_week' => $startOfWeek->copy()->format('Y-m-d'),
             'worklog_parsed_content' => $worklog ? StringHelper::parse($worklog->content) : null,
             'morale' => $morale && $loggedEmployee->id == $employee->id ? $morale->emoji : null,
-            'url' => route('employee.work.worklogs', [
-                'company' => $employee->company,
-                'employee' => $employee,
-            ]),
         ];
 
         return $array;

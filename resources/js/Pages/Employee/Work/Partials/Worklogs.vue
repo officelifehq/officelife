@@ -115,12 +115,7 @@
 
         <!-- case of no content for the day -->
         <div v-if="!localWorklog.worklog_parsed_content" class="tc pa3">
-          😢  No worklog for that day
-        </div>
-
-        <!-- view more -->
-        <div v-if="permissions.can_see_work_log_history" class="ph3 pv2 tc f6 bt bb-gray">
-          <inertia-link :href="localWorklog.url" data-cy="view-all-worklogs">{{ $t('employee.worklog_view_all') }}</inertia-link>
+          {{ $t('employee.worklog_blank') }} 😭
         </div>
       </div>
     </div>

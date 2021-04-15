@@ -38,11 +38,6 @@ class EmployeeWorkViewHelperTest extends TestCase
 
         $array = EmployeeWorkViewHelper::worklog($michael, $michael, $startOfWeek, $date);
 
-        $this->assertEquals(
-            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/work/worklogs',
-            $array['url']
-        );
-
         $this->assertEquals(7, count($array['days']->toArray()));
 
         $this->assertEquals(
