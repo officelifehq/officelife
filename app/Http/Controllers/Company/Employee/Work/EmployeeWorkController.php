@@ -101,7 +101,7 @@ class EmployeeWorkController extends Controller
         $startOfWeek = Carbon::createFromFormat('Y-m-d', $week, $loggedEmployee->timezone);
 
         if (! $day) {
-            $day = $startOfWeek->copy()->addays(4);
+            $day = $startOfWeek->copy()->addDays(4);
         } else {
             $day = Carbon::createFromFormat('Y-m-d', $day, $loggedEmployee->timezone);
         }
