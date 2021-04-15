@@ -94,7 +94,7 @@ class ProjectMembersController extends Controller
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
-            'employee_id' => $request->input('employee.value'),
+            'employee_id' => $request->input('employee_id'),
             'role' => $request->input('role'),
         ];
 
@@ -125,9 +125,10 @@ class ProjectMembersController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     * @param int $employeeId
      * @return JsonResponse
      */
-    public function remove(Request $request, int $companyId, int $projectId): JsonResponse
+    public function destroy(Request $request, int $companyId, int $projectId, int $employeeId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
@@ -136,14 +137,14 @@ class ProjectMembersController extends Controller
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
-            'employee_id' => $request->input('employee'),
+            'employee_id' => $employeeId,
         ];
 
         (new RemoveEmployeeFromProject)->execute($data);
 
         return response()->json([
             'data' => [
-                'id' => $request->input('employee.value'),
+                'id' => $employeeId,
             ],
         ], 201);
     }
