@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Employee\Work;
 
+use Carbon\Carbon;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
@@ -10,6 +11,7 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
+use App\Http\ViewHelpers\Employee\EmployeeWorkViewHelper;
 
 class EmployeeWorkController extends Controller
 {
@@ -41,7 +43,10 @@ class EmployeeWorkController extends Controller
         $permissions = EmployeeShowViewHelper::permissions($loggedEmployee, $employee);
 
         // worklogs
-        $worklogsCollection = EmployeeShowViewHelper::worklogs($employee, $loggedEmployee);
+        $startOfWeek = Carbon::now()->setTimezone($loggedEmployee->timezone)->startOfWeek();
+        $currentDay = Carbon::now()->setTimezone($loggedEmployee->timezone);
+        $worklogsCollection = EmployeeWorkViewHelper::worklog($employee, $loggedEmployee, $startOfWeek, $currentDay);
+        $weeks = EmployeeWorkViewHelper::weeks($loggedEmployee);
 
         // work from home
         $workFromHomeStats = EmployeeShowViewHelper::workFromHomeStats($employee);
@@ -60,10 +65,51 @@ class EmployeeWorkController extends Controller
             'employee' => $employee,
             'permissions' => $permissions,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'worklogs' => $worklogsCollection,
+            'worklog' => $worklogsCollection,
+            'weeks' => $weeks,
             'workFromHomes' => $workFromHomeStats,
             'ships' => $ships,
             'projects' => $projects,
         ]);
+    }
+
+    /**
+     * Display the detail of a worklog for a specific day.
+     * If the day is null, we'll take the week given in parameter, and take the
+     * Friday of this week.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @param string $week
+     * @param string $day
+     * @return mixed
+     */
+    public function worklogDay(Request $request, int $companyId, int $employeeId, string $week, string $day = null)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        try {
+            $employee = Employee::where('company_id', $loggedCompany->id)
+                ->where('id', $employeeId)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $startOfWeek = Carbon::createFromFormat('Y-m-d', $week, $loggedEmployee->timezone);
+
+        if (! $day) {
+            $day = $startOfWeek->copy()->addDays(4);
+        } else {
+            $day = Carbon::createFromFormat('Y-m-d', $day, $loggedEmployee->timezone);
+        }
+
+        $worklog = EmployeeWorkViewHelper::worklog($employee, $loggedEmployee, $startOfWeek, $day);
+
+        return response()->json([
+            'data' => $worklog,
+        ], 200);
     }
 }

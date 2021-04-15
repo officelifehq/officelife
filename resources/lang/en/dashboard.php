@@ -28,7 +28,6 @@ return [
     'worklog_already_logged' => 'You have already logged your work today.',
     'worklog_added' => '🤟 You rock!',
     'worklog_cta' => 'Log your work',
-    'worklog_read_previous_entries' => 'Read your previous entries',
     'worklog_entry_description' => 'Your manager and your team members (if you are assigned to a team) will be able to read this status. Also, you won’t be able to edit this status once it’s submitted.',
     'worklog_success_message' => 'The entry has been saved.',
 

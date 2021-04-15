@@ -50,7 +50,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             // me
             Route::get('me', 'Company\\Dashboard\\Me\\DashboardMeController@index')->name('dashboard.me');
 
-            Route::post('worklog', 'Company\\Dashboard\\DashboardWorklogController@store');
+            Route::post('worklog', 'Company\\Dashboard\\Me\\DashboardWorklogController@store');
             Route::post('morale', 'Company\\Dashboard\\Me\\DashboardMoraleController@store');
             Route::post('workFromHome', 'Company\\Dashboard\\Me\\DashboardWorkFromHomeController@store');
             Route::resource('question', 'Company\\Dashboard\\Me\\DashboardQuestionController')->only([
@@ -198,9 +198,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('workfromhome/{year}/{month}', 'Company\\Employee\\Work\\WorkFromHome\\EmployeeWorkFromHomeController@month');
 
                 // worklogs
-                Route::get('worklogs', 'Company\\Employee\\Work\\Worklog\\EmployeeWorklogController@index')->name('employee.work.worklogs');
-                Route::get('worklogs/{year}', 'Company\\Employee\\Work\\Worklog\\EmployeeWorklogController@year');
-                Route::get('worklogs/{year}/{month}', 'Company\\Employee\\Work\\Worklog\\EmployeeWorklogController@month');
+                Route::get('worklogs/week/{week}/day/{day}', 'Company\\Employee\\Work\\EmployeeWorkController@worklogDay');
+                Route::get('worklogs/week/{week}/day', 'Company\\Employee\\Work\\EmployeeWorkController@worklogDay');
             });
 
             // performance tab
