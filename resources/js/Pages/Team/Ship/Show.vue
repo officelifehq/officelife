@@ -153,7 +153,7 @@ export default {
 
   methods: {
     destroy(id) {
-      axios.delete('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/ships/' + id)
+      axios.delete(`${this.$page.props.auth.company.id}/teams/${this.team.id}/ships/${id}`)
         .then(response => {
           localStorage.success = this.$t('team.recent_ship_deletion_success');
           this.$inertia.visit('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/ships');

@@ -5,6 +5,8 @@ return [
     'menu_projects' => 'Projects',
     'menu_hr' => 'Human Resources',
 
+    'stat_founded_at' => 'founded',
+
     'new_name' => 'What is the name of your company?',
     'subtitle' => 'There is only one step to get started.',
     'next_step_cta' => 'Ok, let’s go',
@@ -34,11 +36,13 @@ return [
     'recent_skills_view_all' => 'View all skills ({count})',
 
     'new_hires_title' => 'New hires this week',
-    'new_hires_date' => 'Starts on {date}',
-    'new_hires_date_with_position' => 'Starts on {date} as {position}',
+    'new_hires_date_future' => 'Starts on {date}',
+    'new_hires_date_past' => 'Started on {date}',
+    'new_hires_date_with_position_future' => 'Starts on :date as :position',
+    'new_hires_date_with_position_past' => 'Started on :date as :position',
     'new_hires_blank' => 'There are no new hires this week.',
 
-    'recent_ships_title' => 'Recent ships',
+    'recent_ships_title' => 'Accomplishments',
 
     'questions_blank' => 'No questions have been asked to employees yet.',
     'questions_title' => 'Questions to get to know your colleagues',

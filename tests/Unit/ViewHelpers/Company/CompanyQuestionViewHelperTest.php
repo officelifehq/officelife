@@ -32,15 +32,35 @@ class CompanyQuestionViewHelperTest extends TestCase
         $question = Question::factory()->create([
             'company_id' => $michael->company_id,
             'title' => 'Do you like Dwight',
+            'active' => false,
         ]);
 
         // the response should be an empty array as the question doesn't have
-        // any answer
+        // any answer and is not active
         $response = CompanyQuestionViewHelper::questions($michael->company);
 
         $this->assertEquals(
             0,
             count($response->toArray())
+        );
+
+        $question->active = true;
+        $question->save();
+
+        // the response now contains the question with no answer but is active
+        $response = CompanyQuestionViewHelper::questions($michael->company);
+
+        $this->assertEquals(
+            1,
+            count($response->toArray())
+        );
+        $this->assertArraySubset(
+            [
+                'title' => 'Do you like Dwight',
+                'number_of_answers' => 0,
+                'url' => env('APP_URL').'/'.$michael->company_id.'/company/questions/'.$question->id,
+            ],
+            $response->toArray()[0]
         );
 
         // now we'll call the helper again with a question that we've added answers to

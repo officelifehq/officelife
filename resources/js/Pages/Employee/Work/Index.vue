@@ -53,7 +53,9 @@
 
           <worklogs
             :permissions="permissions"
-            :worklogs="worklogs"
+            :employee="employee"
+            :worklog="worklog"
+            :weeks="weeks"
           />
 
           <recent-ships
@@ -110,7 +112,7 @@ export default {
       type: Array,
       default: null,
     },
-    worklogs: {
+    worklog: {
       type: Object,
       default: null,
     },
@@ -126,13 +128,10 @@ export default {
       type: Array,
       default: null,
     },
-  },
-
-  mounted() {
-    if (localStorage.success) {
-      this.flash(localStorage.success, 'success');
-      localStorage.removeItem('success');
-    }
+    weeks: {
+      type: Array,
+      default: null,
+    },
   },
 };
 

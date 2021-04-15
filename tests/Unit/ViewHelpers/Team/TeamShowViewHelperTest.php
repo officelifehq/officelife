@@ -8,6 +8,8 @@ use App\Helpers\ImageHelper;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use App\Models\Company\Employee;
+use Illuminate\Support\Facades\Log;
+use App\Models\Company\MoraleTeamHistory;
 use App\Http\ViewHelpers\Team\TeamShowViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -211,6 +213,91 @@ class TeamShowViewHelperTest extends TestCase
                     'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$dwight->id,
                     'birthdate' => 'January 29th',
                     'sort_key' => '2018-01-29',
+                ],
+            ],
+            $array
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_morale_stats(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $sales = Team::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        $sales->employees()->attach(
+            $dwight->id,
+            [
+                'created_at' => Carbon::now('UTC'),
+            ]
+        );
+        $sales->employees()->attach(
+            $michael->id,
+            [
+                'created_at' => Carbon::now('UTC'),
+            ]
+        );
+
+        // yesterday
+        MoraleTeamHistory::factory()->create([
+            'team_id' => $sales->id,
+            'average' => 3,
+            'created_at' => Carbon::now()->yesterday(),
+        ]);
+
+        // last week
+        $lastWeekMonday = Carbon::now()->startOfWeek()->subDays(7);
+        $lastWeekSunday = Carbon::now()->endOfWeek()->subDays(7);
+
+        while ($lastWeekMonday->format('Y-m-d') != $lastWeekSunday->format('Y-m-d')) {
+            MoraleTeamHistory::factory()->create([
+                'team_id' => $sales->id,
+                'average' => 2.4,
+                'created_at' => $lastWeekMonday,
+            ]);
+
+            //Log::info('date: '.$lastWeekMonday->format('Y-m-d'));
+            $lastWeekMonday->addDay();
+        }
+
+        // last month
+        $lastMonthFirstDay = Carbon::now()->startOfMonth()->subMonth();
+        $lastMonthLastDay = Carbon::now()->startOfMonth()->subDay();
+
+        while ($lastMonthFirstDay->format('Y-m-d') != $lastMonthLastDay->format('Y-m-d')) {
+            MoraleTeamHistory::factory()->create([
+                'team_id' => $sales->id,
+                'average' => 2.4,
+                'created_at' => $lastMonthFirstDay,
+            ]);
+
+            //Log::info('date: '.$lastMonthFirstDay->format('Y-m-d'));
+            $lastMonthFirstDay->addDay();
+        }
+
+        $array = TeamShowViewHelper::morale($sales, $michael);
+
+        $this->assertEquals(
+            [
+                'yesterday' => [
+                    'average' => 3.0,
+                    'percent' => 100,
+                    'emotion' => 'happy',
+                ],
+                'last_week' => [
+                    'average' => 2.446,
+                    'percent' => 82,
+                    'emotion' => 'happy',
+                ],
+                'last_month' => [
+                    'average' => 2.416,
+                    'percent' => 81,
+                    'emotion' => 'happy',
                 ],
             ],
             $array

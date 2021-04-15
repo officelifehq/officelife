@@ -28,7 +28,6 @@ return [
     'worklog_already_logged' => 'You have already logged your work today.',
     'worklog_added' => '🤟 You rock!',
     'worklog_cta' => 'Log your work',
-    'worklog_read_previous_entries' => 'Read your previous entries',
     'worklog_entry_description' => 'Your manager and your team members (if you are assigned to a team) will be able to read this status. Also, you won’t be able to edit this status once it’s submitted.',
     'worklog_success_message' => 'The entry has been saved.',
 
@@ -65,8 +64,8 @@ return [
     'question_answer_destroyed' => 'The answer has been deleted.',
     'question_answer_link' => 'View all answers of this question',
 
-    'team_recent_ships' => 'The 3 latest recent ships in this team',
-    'team_recent_ship_list_blank' => 'The team hasn’t ship anything recently.',
+    'team_recent_ships' => 'The 3 latest accomplishments in this team',
+    'team_recent_ship_list_blank' => 'The team hasn’t shipped anything recently.',
 
     'task_title' => 'Tasks',
 

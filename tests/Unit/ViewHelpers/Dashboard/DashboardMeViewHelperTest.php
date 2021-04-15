@@ -490,7 +490,6 @@ class DashboardMeViewHelperTest extends TestCase
             [
                 'has_already_logged_a_worklog_today' => false,
                 'has_worklog_history' => false,
-                'url_all' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/work/worklogs',
             ],
             DashboardMeViewHelper::worklogs($michael)
         );
@@ -508,7 +507,6 @@ class DashboardMeViewHelperTest extends TestCase
             [
                 'has_already_logged_a_worklog_today' => true,
                 'has_worklog_history' => true,
-                'url_all' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/work/worklogs',
             ],
             DashboardMeViewHelper::worklogs($michael)
         );

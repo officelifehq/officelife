@@ -39,6 +39,7 @@ class CompanyViewHelperTest extends TestCase
 
         $file = File::factory()->create();
         $michael->company->logo_file_id = $file->id;
+        $michael->company->founded_at = '2020:01:01 00:00:00';
         $michael->company->save();
 
         $response = CompanyViewHelper::information($michael->company);
@@ -48,6 +49,7 @@ class CompanyViewHelperTest extends TestCase
                 'number_of_teams' => 2,
                 'number_of_employees' => 3,
                 'logo' => ImageHelper::getImage($file, 200, 200),
+                'founded_at' => 2020,
             ],
             $response
         );
@@ -166,7 +168,7 @@ class CompanyViewHelperTest extends TestCase
             'company_id' => $sales->company_id,
         ]);
         $dwight = Employee::factory()->create([
-            'hired_at' => '2018-01-03',
+            'hired_at' => '2018-01-05',
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
             'company_id' => $sales->company_id,
@@ -197,16 +199,14 @@ class CompanyViewHelperTest extends TestCase
                     'name' => 'Angela Bernard',
                     'avatar' => ImageHelper::getAvatar($angela, 35),
                     'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$angela->id,
-                    'hired_at' => 'Monday (Jan 1st)',
-                    'position' => 'Assistant to the regional manager',
+                    'hired_at' => 'Started on Monday (Jan 1st) as Assistant to the regional manager',
                 ],
                 1 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
                     'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$dwight->id,
-                    'hired_at' => 'Wednesday (Jan 3rd)',
-                    'position' => 'Assistant to the regional manager',
+                    'hired_at' => 'Starts on Friday (Jan 5th) as Assistant to the regional manager',
                 ],
             ],
             $collection->toArray()

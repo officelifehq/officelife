@@ -446,10 +446,6 @@ class DashboardMeViewHelper
         return [
             'has_already_logged_a_worklog_today' => $employee->hasAlreadyLoggedWorklogToday(),
             'has_worklog_history' => $employee->worklogs()->count() > 0 ? true : false,
-            'url_all' => route('employee.work.worklogs', [
-                'company' => $employee->company_id,
-                'employee' => $employee,
-            ]),
         ];
     }
 

@@ -85,10 +85,7 @@ return [
     'worklog_blank' => 'There are no work logs yet 🤨',
     'worklog_title' => 'Work logs',
     'worklog_no_worklog' => 'No work log this day',
-    'worklog_view_all' => 'View worklog history',
-    'worklog_year_selector' => 'Choose a year:',
-    'worklog_filter_month' => 'Filter by month',
-    'worklog_blank_state_for_month' => 'There are no worklogs for this date 😭',
+    'worklog_blank' => 'There are no worklogs for this date',
 
     'status_title' => 'Status',
     'status_modal_title' => 'Employee status',
@@ -170,8 +167,8 @@ return [
     'hardware_title' => 'Hardware',
     'hardware_no_info' => 'No items have been lent yet.',
 
-    'recent_ship_title' => 'Recent ships',
-    'recent_ship_list_blank' =>'This person is not associated with a recent ship yet.',
+    'recent_ship_title' => 'Accomplishments',
+    'recent_ship_list_blank' => 'This person has not done any accomplishments yet.',
 
     'skills_title' => 'Skills',
     'skills_no_skill_yet' => 'No skills have been defined yet.',

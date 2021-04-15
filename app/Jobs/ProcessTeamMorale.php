@@ -33,10 +33,13 @@ class ProcessTeamMorale implements ShouldQueue
     }
 
     /**
-     * Execute the job.
+     * Gets all the employees of the team, and check the morale of each employee
+     * for the given day.
+     * This will let us pre-calculate team morale so data will load faster.
      */
     public function handle()
     {
+        // do we already have a record for today? if so, skip it.
         $moraleTeamHistory = MoraleTeamHistory::whereBetween('created_at', [
             $this->parameters['date']->toDateString().' 00:00:00',
             $this->parameters['date']->toDateString().' 23:59:59',
@@ -48,34 +51,23 @@ class ProcessTeamMorale implements ShouldQueue
             return;
         }
 
-        $employees = Team::find($this->parameters['team_id'])
+        $employeeIds = Team::find($this->parameters['team_id'])
             ->employees()
-            ->select('id')
-            ->get();
+            ->pluck('id')
+            ->toArray();
 
-        // calculate the average of all the morale
-        $sum = 0;
-        $numberOfEmployees = 0;
-        foreach ($employees as $employee) {
-            $morale = Morale::where('employee_id', $employee->id)
-                ->whereBetween('created_at', [
-                    $this->parameters['date']->toDateString().' 00:00:00',
-                    $this->parameters['date']->toDateString().' 23:59:59',
-                ])
-                ->first();
-
-            if (! is_null($morale)) {
-                $sum = $sum + $morale->emotion;
-                $numberOfEmployees = $numberOfEmployees + 1;
-            }
-        }
-
-        $average = $sum / $numberOfEmployees;
+        $averageMorale = Morale::whereIn('employee_id', $employeeIds)
+            ->whereBetween('created_at', [
+                $this->parameters['date']->toDateString().' 00:00:00',
+                $this->parameters['date']->toDateString().' 23:59:59',
+            ])
+            ->avg('emotion');
 
         MoraleTeamHistory::create([
             'team_id' => $this->parameters['team_id'],
-            'average' => $average,
-            'number_of_team_members' => $numberOfEmployees,
+            'average' => $averageMorale ? $averageMorale : 0,
+            'number_of_team_members' => count($employeeIds),
+            'created_at' => $this->parameters['date'],
         ]);
     }
 }

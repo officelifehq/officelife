@@ -33,6 +33,7 @@ class CompanyViewHelper
             'number_of_teams' => $teams,
             'number_of_employees' => $employees,
             'logo' => $company->logo ? ImageHelper::getImage($company->logo, 200, 200) : null,
+            'founded_at' => $company->founded_at ? $company->founded_at->year : null,
         ];
     }
 
@@ -53,7 +54,7 @@ class CompanyViewHelper
         $latestQuestions = DB::table('questions')
             ->join('answers', 'questions.id', '=', 'answers.question_id')
             ->where('company_id', '=', $company->id)
-            ->groupBy('questions.id')
+            ->groupBy('questions.id', 'questions.title')
             ->orderByDesc('questions.id')
             ->limit(3)
             ->select('questions.id', 'questions.title')
@@ -151,6 +152,24 @@ class CompanyViewHelper
             $date = $employee->hired_at;
             $position = $employee->position;
 
+            if ($position) {
+                $dateString = $date->isPast() ?
+                    trans('company.new_hires_date_with_position_past', [
+                        'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                        'position' => $position->title,
+                    ]) : trans('company.new_hires_date_with_position_future', [
+                        'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                        'position' => $position->title,
+                    ]);
+            } else {
+                $dateString = $date->isPast() ?
+                    trans('company.new_hires_date_past', [
+                        'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                    ]) : trans('company.new_hires_date_future', [
+                        'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                    ]);
+            }
+
             $newHiresCollection->push([
                 'id' => $employee->id,
                 'url' => route('employees.show', [
@@ -159,8 +178,7 @@ class CompanyViewHelper
                 ]),
                 'name' => $employee->name,
                 'avatar' => ImageHelper::getAvatar($employee, 35),
-                'hired_at' => DateHelper::formatDayAndMonthInParenthesis($date),
-                'position' => (! $position) ? null : $position->title,
+                'hired_at' => $dateString,
             ]);
         }
 

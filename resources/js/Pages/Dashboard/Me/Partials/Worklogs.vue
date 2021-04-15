@@ -13,9 +13,6 @@
           <span class="dib-ns db mb0-ns mb2 lh-copy">
             {{ $t('dashboard.worklog_placeholder') }}
           </span>
-          <inertia-link v-if="localWorklogs.has_worklog_history" :href="localWorklogs.url_all" class="f6 ml2-ns pointer">
-            {{ $t('dashboard.worklog_read_previous_entries') }}
-          </inertia-link>
         </p>
 
         <!-- button to log the worklog -->
@@ -30,9 +27,6 @@
           <span class="dib-ns db mb0-ns mb2">
             {{ $t('dashboard.worklog_already_logged') }}
           </span>
-          <inertia-link :href="localWorklogs.url_all" class="ml2-ns pointer">
-            {{ $t('dashboard.worklog_read_previous_entries') }}
-          </inertia-link>
         </p>
       </div>
 

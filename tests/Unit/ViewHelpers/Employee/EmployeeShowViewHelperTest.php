@@ -13,7 +13,6 @@ use App\Models\Company\Answer;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
 use App\Models\Company\Project;
-use App\Models\Company\Worklog;
 use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
@@ -192,32 +191,6 @@ class EmployeeShowViewHelperTest extends TestCase
                 ],
             ],
             $collection->toArray()
-        );
-    }
-
-    /** @test */
-    public function it_gets_a_collection_of_work_logs(): void
-    {
-        $date = Carbon::create(2018, 10, 10);
-        Carbon::setTestNow($date);
-        $michael = $this->createAdministrator();
-
-        for ($i = 0; $i < 5; $i++) {
-            Worklog::factory()->create([
-                'employee_id' => $michael->id,
-                'created_at' => $date->copy()->addDay(),
-            ]);
-        }
-
-        $array = EmployeeShowViewHelper::worklogs($michael, $michael);
-        $this->assertEquals(2, count($array));
-        $this->assertArrayHasKey(
-            'worklogs_collection',
-            $array
-        );
-        $this->assertArrayHasKey(
-            'url',
-            $array
         );
     }
 
