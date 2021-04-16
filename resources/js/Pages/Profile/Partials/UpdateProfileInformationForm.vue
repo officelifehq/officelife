@@ -18,15 +18,10 @@
                   :type="'email'"
                   :autofocus="true"
       />
-      <input-error :message="form.errors.email" class="mt2" />
     </template>
 
     <template #actions>
-      <action-message :on="form.recentlySuccessful" class="mr3">
-        Saved.
-      </action-message>
-
-      <loading-button class="mb3" :state="form.processing">
+      <loading-button class="add mb3" :state="form.processing">
         Save
       </loading-button>
     </template>
@@ -35,19 +30,15 @@
 
 <script>
 import LoadingButton from '@/Shared/LoadingButton';
-import FormSection from '@/Shared/FormSection';
+import FormSection from '@/Shared/Layout/FormSection';
 import TextInput from '@/Shared/TextInput';
-import InputError from '@/Shared/InputError';
-import ActionMessage from '@/Shared/ActionMessage';
 import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
   components: {
-    ActionMessage,
     LoadingButton,
     FormSection,
     TextInput,
-    InputError,
   },
 
   props: {
@@ -77,7 +68,10 @@ export default {
 
       this.form.post(route('user-profile-information.update'), {
         errorBag: 'updateProfileInformation',
-        preserveScroll: true
+        preserveScroll: true,
+        onSuccess: () => {
+          this.flash('Change saved.', 'success');
+        }
       });
     },
 

@@ -12,23 +12,25 @@
       <template #content>
         {{ content }}
 
-        <div class="mt-4">
-          <text-input ref="password" v-model="form.password" type="password"
-                      class="mt-1 block w-3/4"
-                      placeholder="Password"
-                      @keyup.enter="confirmPassword"
-          />
-
-          <input-error :message="form.error" class="mt-2" />
-        </div>
+        <text-input :ref="'password'"
+                    v-model="form.password"
+                    :name="'password'"
+                    :errors="form.errors.password"
+                    type="password"
+                    placeholder="Password"
+                    :required="true"
+                    :extra-class-upper-div="'mt2'"
+                    autocomplete="password"
+                    @keyup.enter="confirmPassword"
+        />
       </template>
 
       <template #footer>
-        <secondary-button @click="closeModal">
+        <loading-button type="button" @click="closeModal">
           Cancel
-        </secondary-button>
+        </loading-button>
 
-        <loading-button class="ml-2" :state="form.processing" @click="confirmPassword">
+        <loading-button :class="'add ml2'" :state="form.processing" @click="confirmPassword">
           {{ button }}
         </loading-button>
       </template>
@@ -40,8 +42,7 @@
 import LoadingButton from './LoadingButton';
 import DialogModal from './DialogModal';
 import TextInput from './TextInput';
-import InputError from './InputError';
-import SecondaryButton from './SecondaryButton';
+import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
 
@@ -49,18 +50,19 @@ export default {
     LoadingButton,
     DialogModal,
     TextInput,
-    InputError,
-    SecondaryButton,
   },
 
   props: {
     title: {
+      type: String,
       default: 'Confirm Password',
     },
     content: {
+      type: String,
       default: 'For your security, please confirm your password to continue.',
     },
     button: {
+      type: String,
       default: 'Confirm',
     }
   },
@@ -69,10 +71,9 @@ export default {
   data() {
     return {
       confirmingPassword: false,
-      form: {
+      form: useForm({
         password: '',
-        error: '',
-      },
+      }),
     };
   },
 
@@ -100,7 +101,7 @@ export default {
         this.$nextTick(() => this.$emit('confirmed'));
       }).catch(error => {
         this.form.processing = false;
-        this.form.error = error.response.data.errors.password[0];
+        this.form.errors = { password: error.response.data.errors.password[0] };
         this.$refs.password.focus();
       });
     },

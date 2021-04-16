@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import SectionTitle from './Layout/SectionTitle';
+import SectionTitle from './SectionTitle';
 
 export default {
 

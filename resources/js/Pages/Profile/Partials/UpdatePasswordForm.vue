@@ -38,11 +38,7 @@
     </template>
 
     <template #actions>
-      <action-message :on="form.recentlySuccessful" class="mr3">
-        Saved.
-      </action-message>
-
-      <loading-button class="mb3" :state="form.processing">
+      <loading-button class="add mb3" :state="form.processing">
         Save
       </loading-button>
     </template>
@@ -50,15 +46,13 @@
 </template>
 
 <script>
-import ActionMessage from '@/Shared/ActionMessage';
 import LoadingButton from '@/Shared/LoadingButton';
-import FormSection from '@/Shared/FormSection';
+import FormSection from '@/Shared/Layout/FormSection';
 import TextInput from '@/Shared/TextInput';
 import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
   components: {
-    ActionMessage,
     LoadingButton,
     FormSection,
     TextInput,
@@ -79,7 +73,10 @@ export default {
       this.form.put(route('user-password.update'), {
         errorBag: 'updatePassword',
         preserveScroll: true,
-        onSuccess: () => this.form.reset(),
+        onSuccess: () => {
+          this.flash('Change saved.', 'success');
+          this.form.reset();
+        },
         onError: () => {
           if (this.form.errors.password) {
             this.form.reset('password', 'password_confirmation');

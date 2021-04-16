@@ -1,18 +1,18 @@
 <template>
   <modal :show="show" :max-width="maxWidth" :closeable="closeable" @close="close">
-    <div class="px-6 py-4">
-      <div class="text-lg">
+    <div class="ph4 pv3">
+      <div class="f4 lh-copy">
         <slot name="title">
         </slot>
       </div>
 
-      <div class="mt-4">
+      <div class="mt4">
         <slot name="content">
         </slot>
       </div>
     </div>
 
-    <div class="px-6 py-4 bg-gray-100 text-right">
+    <div class="ph4 pv3 bg-black-10 tr">
       <slot name="footer">
       </slot>
     </div>
@@ -30,12 +30,15 @@ export default {
 
   props: {
     show: {
+      type: Boolean,
       default: false
     },
     maxWidth: {
-      default: '2xl'
+      type: String,
+      default: 'xl'
     },
     closeable: {
+      type: Boolean,
       default: true
     },
   },

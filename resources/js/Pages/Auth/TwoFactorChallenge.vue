@@ -21,7 +21,7 @@
         <text-input v-model="form.code"
                     :name="'code'"
                     :errors="$page.props.errors.code"
-                    :label="'Code'"
+                    :placeholder="'Code'"
                     :required="true"
                     inputmode="numeric"
                     autofocus
@@ -33,7 +33,7 @@
         <text-input v-model="form.recovery_code"
                     :name="'recovery_code'"
                     :errors="$page.props.errors.recovery_code"
-                    :label="'Recovery Code'"
+                    :placeholder="'Recovery Code'"
                     :required="true"
                     inputmode="numeric"
                     autocomplete="one-time-code"
@@ -41,7 +41,7 @@
       </div>
 
       <div class="flex-ns justify-between">
-        <button type="button" class="mb2 btn w-auto-ns w-100 pv2 ph3" @click.prevent="toggleRecovery">
+        <loading-button @click.prevent="toggleRecovery">
           <template v-if="! recovery">
             Use a recovery code
           </template>
@@ -49,7 +49,7 @@
           <template v-else>
             Use an authentication code
           </template>
-        </button>
+        </loading-button>
 
         <loading-button :class="'add mb2'" :state="form.processing">
           Log in

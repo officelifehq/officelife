@@ -1,3 +1,12 @@
+<style lang="scss" scoped>
+.grid {
+  display: grid;
+}
+.gap-1 {
+  gap: 0.25rem;
+}
+</style>
+
 <template>
   <action-section>
     <template #title>
@@ -9,15 +18,15 @@
     </template>
 
     <template #content>
-      <h3 v-if="twoFactorEnabled" class="text-lg font-medium text-gray-900">
+      <h3 v-if="twoFactorEnabled" class="fw6">
         You have enabled two factor authentication.
       </h3>
 
-      <h3 v-else class="text-lg font-medium text-gray-900">
+      <h3 v-else class="fw6">
         You have not enabled two factor authentication.
       </h3>
 
-      <div class="mt-3 max-w-xl text-sm text-gray-600">
+      <div class="mt3 f6">
         <p>
           When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.
         </p>
@@ -25,24 +34,24 @@
 
       <div v-if="twoFactorEnabled">
         <div v-if="qrCode">
-          <div class="mt-4 max-w-xl text-sm text-gray-600">
-            <p class="font-semibold">
+          <div class="mt4 f5">
+            <p class="fw6">
               Two factor authentication is now enabled. Scan the following QR code using your phone's authenticator application.
             </p>
           </div>
 
-          <div class="mt-4 dark:p-4 dark:w-56 dark:bg-white" v-html="qrCode">
+          <div class="mt4" v-html="qrCode">
           </div>
         </div>
 
         <div v-if="recoveryCodes.length > 0">
-          <div class="mt-4 max-w-xl text-sm text-gray-600">
-            <p class="font-semibold">
+          <div class="mt4 f5">
+            <p class="fw6">
               Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.
             </p>
           </div>
 
-          <div class="grid gap-1 max-w-xl mt-4 px-4 py-4 font-mono text-sm bg-gray-100 rounded-lg">
+          <div class="grid gap-1 mw6 mt4 pa3 br3 code f4 bg-gray">
             <div v-for="code in recoveryCodes" :key="code">
               {{ code }}
             </div>
@@ -50,10 +59,10 @@
         </div>
       </div>
 
-      <div class="mt-5">
+      <div class="mt2">
         <div v-if="! twoFactorEnabled">
           <confirms-password @confirmed="enableTwoFactorAuthentication">
-            <loading-button :state="enabling">
+            <loading-button class="add mb2" type="button" :state="enabling">
               Enable
             </loading-button>
           </confirms-password>
@@ -61,26 +70,21 @@
 
         <div v-else>
           <confirms-password @confirmed="regenerateRecoveryCodes">
-            <secondary-button v-if="recoveryCodes.length > 0"
-                              class="mr-3"
-            >
+            <loading-button v-if="recoveryCodes.length > 0" type="button" class="mr3">
               Regenerate Recovery Codes
-            </secondary-button>
+            </loading-button>
           </confirms-password>
 
           <confirms-password @confirmed="showRecoveryCodes">
-            <secondary-button v-if="recoveryCodes.length === 0" class="mr-3">
+            <loading-button v-if="recoveryCodes.length === 0" type="button" class="mr3">
               Show Recovery Codes
-            </secondary-button>
+            </loading-button>
           </confirms-password>
 
           <confirms-password @confirmed="disableTwoFactorAuthentication">
-            <danger-button
-              :class="{ 'opacity-25': disabling }"
-              :disabled="disabling"
-            >
+            <loading-button class="destroy mb2" type="button" :state="disabling">
               Disable
-            </danger-button>
+            </loading-button>
           </confirms-password>
         </div>
       </div>
@@ -89,20 +93,15 @@
 </template>
 
 <script>
-import ActionSection from '@/Shared/ActionSection';
+import ActionSection from '@/Shared/Layout/ActionSection';
 import LoadingButton from '@/Shared/LoadingButton';
 import ConfirmsPassword from '@/Shared/ConfirmsPassword';
-import DangerButton from '@/Shared/DangerButton';
-import SecondaryButton from '@/Shared/SecondaryButton';
-import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
   components: {
     ActionSection,
     LoadingButton,
     ConfirmsPassword,
-    DangerButton,
-    SecondaryButton,
   },
 
   data() {
@@ -125,7 +124,7 @@ export default {
     enableTwoFactorAuthentication() {
       this.enabling = true;
 
-      useForm().post('/user/two-factor-authentication', {}, {
+      this.$inertia.post('/user/two-factor-authentication', {}, {
         preserveScroll: true,
         onSuccess: () => Promise.all([
           this.showQrCode(),

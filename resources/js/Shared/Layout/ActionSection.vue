@@ -1,5 +1,5 @@
 <template>
-  <div class="br3 bg-white box z-1 pa3">
+  <div class="cf pa3 bb bb-gray">
     <section-title>
       <template #title>
         <slot name="title"></slot>
@@ -9,16 +9,14 @@
       </template>
     </section-title>
 
-    <div class="mt-5 md:mt-0 md:col-span-2">
-      <div class="px-4 py-5 sm:p-6 bg-white shadow sm:rounded-lg">
-        <slot name="content"></slot>
-      </div>
+    <div class="fl-ns w-two-thirds-ns w-100">
+      <slot name="content"></slot>
     </div>
   </div>
 </template>
 
 <script>
-import SectionTitle from './Layout/SectionTitle';
+import SectionTitle from './SectionTitle';
 
 export default {
   components: {
