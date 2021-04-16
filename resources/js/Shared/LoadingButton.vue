@@ -5,7 +5,7 @@
 <template>
   <div class="di">
     <button name="save" type="submit" :data-cy="cypressSelector" :disabled="loading"
-            v-bind="$attrs" :class="baseClass"
+            v-bind="$attrs" :class="defaultClass"
             @click="$emit('click')"
     >
       <ball-pulse-loader v-if="loading" color="#fff" />
@@ -39,7 +39,7 @@ export default {
       type: [String, Boolean],
       default: false,
     },
-    baseClass: {
+    defaultClass: {
       type: String,
       default: 'btn w-auto-ns w-100 pv2 ph3'
     },
