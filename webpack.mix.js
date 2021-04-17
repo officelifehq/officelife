@@ -27,7 +27,7 @@ mix.js('resources/js/app.js', 'public/js').vue()
       plugins: [
         new webpack.DefinePlugin({ "process.env.SENTRY_RELEASE": JSON.stringify(fs.existsSync(path.resolve('config/release')) ? fs.readFileSync(path.resolve('config/release')).toString() : '') }),
       ],
-      devtool: "inline-source-map",
+      devtool: mix.inProduction() ? "source-map" : "eval-cheap-module-source-map",
     };
   })
   .babelConfig({

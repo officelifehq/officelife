@@ -114,6 +114,15 @@ jobs:
             public/js
             public/css
             public/fonts
+            !public/**/*.map
+
+      - name: Store source maps
+        uses: actions/upload-artifact@v2
+        with:
+          name: sourcemaps
+          path: |
+            public/**/*.map
+
 
 
   ######################
@@ -188,6 +197,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Download source maps
+        uses: actions/download-artifact@v2
+        with:
+          name: sourcemaps
+          path: public
+
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
@@ -196,3 +211,4 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: ${{ secrets.SENTRY_ENVIRONMENT }}
+          sourcemaps: public/css/app.css.map,public/js/app.js.map
