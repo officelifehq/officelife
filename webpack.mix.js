@@ -1,5 +1,6 @@
 const mix = require('laravel-mix');
 const path = require('path');
+const fs = require('fs');
 require('laravel-mix-purgecss');
 
 const purgeCssOptions = {
@@ -15,14 +16,19 @@ const purgeCssOptions = {
 mix.js('resources/js/app.js', 'public/js').vue()
   .sass('resources/sass/app.scss', 'public/css')
   .purgeCss(purgeCssOptions)
-  .webpackConfig({
-    output: { chunkFilename: 'js/[name].js?id=[chunkhash]' },
-    resolve: {
-      alias: {
-        '@': path.resolve('resources/js'),
+  .webpackConfig(webpack => {
+    return {
+      output: { chunkFilename: 'js/[name].js?id=[chunkhash]' },
+      resolve: {
+        alias: {
+          '@': path.resolve('resources/js'),
+        },
       },
-    },
-    devtool: "inline-source-map",
+      plugins: [
+        new webpack.DefinePlugin({ "process.env.SENTRY_RELEASE": JSON.stringify(fs.existsSync(path.resolve('config/release')) ? fs.readFileSync(path.resolve('config/release')).toString() : '') }),
+      ],
+      devtool: "inline-source-map",
+    };
   })
   .babelConfig({
     plugins: ['@babel/plugin-syntax-dynamic-import'],
