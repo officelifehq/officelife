@@ -91,13 +91,6 @@ jobs:
       - name: Lint files
         run: yarn run lint:all
 
-      - name: Create release files
-        run: |
-          echo $GITHUB_SHA | cut -c-8 > config/release
-
-      - name: Build assets
-        run: yarn run production
-
       - name: Check if there is any file update needed
         id: check
         run: |
@@ -109,6 +102,13 @@ jobs:
             echo "::error::Resources are not up to date. Please rebuild with: 'yarn run lint:all' and 'yarn run prod'."
             exit -1
           fi
+
+      - name: Create release files
+        run: |
+          echo $GITHUB_SHA | cut -c-8 > config/release
+
+      - name: Build assets
+        run: yarn run production
 
       - name: Store assets
         uses: actions/upload-artifact@v2
