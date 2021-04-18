@@ -20,6 +20,11 @@ langs.loadLanguage('en', true).then((locale) => {
         resolveComponent: (name) => require(`./Pages/${name}`).default,
         locale: locale.locale,
       }),
+    mounted() {
+      this.$nextTick(() => {
+        Sentry.setContext(this, locale);
+      });
+    }
   });
 
   Sentry.init(app, process.env.SENTRY_RELEASE);
