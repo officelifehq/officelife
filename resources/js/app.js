@@ -4,6 +4,7 @@ require('./bootstrap');
 import { createApp, h } from 'vue';
 import { App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
+import Sentry from './sentry';
 
 const langs = require('./langs').default;
 
@@ -11,7 +12,7 @@ const el = document.getElementById('app');
 
 langs.loadLanguage('en', true).then((locale) => {
 
-  createApp({
+  const app = createApp({
     locale,
     render: () =>
       h(InertiaApp, {
@@ -19,8 +20,16 @@ langs.loadLanguage('en', true).then((locale) => {
         resolveComponent: (name) => require(`./Pages/${name}`).default,
         locale: locale.locale,
       }),
-  })
-    .mixin({ methods: _.assign({ route }, require('./methods').default) })
+    mounted() {
+      this.$nextTick(() => {
+        Sentry.setContext(this, locale);
+      });
+    }
+  });
+
+  Sentry.init(app, process.env.MIX_SENTRY_RELEASE);
+
+  app.mixin({ methods: _.assign({ route }, require('./methods').default) })
     .use(InertiaPlugin)
     .use(langs.i18n)
     .mount(el);

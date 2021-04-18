@@ -17,17 +17,15 @@ mix.js('resources/js/app.js', 'public/js').vue()
   .purgeCss(purgeCssOptions)
   .webpackConfig({
     output: { chunkFilename: 'js/[name].js?id=[chunkhash]' },
-    resolve: {
-      alias: {
-        '@': path.resolve('resources/js'),
-      },
-    },
-    devtool: "inline-source-map",
+  })
+  .alias({
+    vue$: path.join(__dirname, 'node_modules/vue/dist/vue.esm-bundler.js'),
+    '@': path.resolve('resources/js'),
   })
   .babelConfig({
     plugins: ['@babel/plugin-syntax-dynamic-import'],
   })
-  .sourceMaps(false)
+  .sourceMaps(process.env.MIX_PROD_SOURCE_MAPS || false, 'eval-cheap-module-source-map', 'source-map')
   .setResourceRoot('../');
 
 if (mix.inProduction()) {
