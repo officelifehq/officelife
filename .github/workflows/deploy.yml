@@ -217,4 +217,4 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: ${{ secrets.SENTRY_ENVIRONMENT }}
-          sourcemaps: public/css/app.css.map,public/js/app.js.map
+          sourcemaps: public/css/app.css.map public/js/app.js.map
