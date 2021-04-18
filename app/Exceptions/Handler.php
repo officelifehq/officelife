@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Throwable;
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
@@ -52,7 +53,19 @@ class Handler extends ExceptionHandler
             return Redirect::route('login');
         }
 
-        return parent::render($request, $e);
+        $response = parent::render($request, $e);
+
+        if (! app()->environment('local') && in_array($response->getStatusCode(), [500, 503, 404, 403])) {
+            return Inertia::render('Error', ['status' => $response->getStatusCode()])
+                ->toResponse($request)
+                ->setStatusCode($response->getStatusCode());
+        } elseif ($response->getStatusCode() === 419) {
+            return back()->with([
+                'message' => 'The page expired, please try again.',
+            ]);
+        }
+
+        return $response;
     }
 
     /**
