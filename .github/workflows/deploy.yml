@@ -90,6 +90,11 @@ jobs:
         run: yarn inst
       - name: Lint files
         run: yarn run lint:all
+
+      - name: Create release files
+        run: |
+          echo $GITHUB_SHA | cut -c-8 > config/release
+
       - name: Build assets
         run: yarn run production
 
@@ -113,7 +118,6 @@ jobs:
             public/mix-manifest.json
             public/js
             public/css
-            public/fonts
             !public/**/*.map
 
       - name: Store source maps
@@ -122,7 +126,6 @@ jobs:
           name: sourcemaps
           path: |
             public/**/*.map
-
 
 
   ######################
@@ -188,7 +191,7 @@ jobs:
   sentry:
     runs-on: ubuntu-latest
     name: Sentry release
-    needs: deploy
+    needs: build
     if: github.event_name != 'pull_request'
 
     environment: fortrabbit-sentry
