@@ -457,6 +457,7 @@ return [
     'pronoun_ve_ver' => 've/ver',
     'pronoun_xe_xem' => 'xe/xem',
     'pronoun_ze_hir' => 'ze/hir',
+    'pronoun_blank' => 'No gender',
 
     'questions_number_questions' => '{company} has {count} questions.',
     'questions_blank' => 'Ask questions about your colleagues so they can know each other better.',

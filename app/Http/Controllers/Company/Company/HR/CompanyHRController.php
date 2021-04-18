@@ -23,6 +23,7 @@ class CompanyHRController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
+        $genders = CompanyHRViewHelper::genderStats($company);
         $eCoffees = CompanyHRViewHelper::eCoffees($company);
         $statistics = CompanyViewHelper::information($company);
 
@@ -30,7 +31,8 @@ class CompanyHRController extends Controller
             'tab' => 'hr',
             'eCoffees' => $eCoffees,
             'statistics' => $statistics,
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'genders' => $genders,
+            'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }
 }
