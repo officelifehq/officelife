@@ -35,6 +35,7 @@ class CompanyController extends Controller
         $guessEmployeeGameInformation = CompanyViewHelper::guessEmployeeGameInformation($employee, $company);
         $employees = CompanyViewHelper::employees($company);
         $teams = CompanyViewHelper::teams($company);
+        $upcomingHiringDateAnniversaries = CompanyViewHelper::upcomingHiredDateAnniversaries($company);
 
         return Inertia::render('Company/Index', [
             'tab' => 'company',
@@ -48,6 +49,7 @@ class CompanyController extends Controller
             'game' => $guessEmployeeGameInformation,
             'employees' => $employees,
             'teams' => $teams,
+            'hiringDateAnniversaries' => $upcomingHiringDateAnniversaries,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

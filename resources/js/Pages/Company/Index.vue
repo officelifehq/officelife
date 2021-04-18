@@ -62,11 +62,13 @@
 
           <new-hires :hires="newHiresThisWeek" />
 
-          <recent-skills :skills="latestSkills" />
+          <upcoming-hiring-date-anniversaries :hiring-date-anniversaries="hiringDateAnniversaries" />
         </div>
 
         <div class="fl w-third-l w-100 pl4-l">
           <teams :teams="teams" :statistics="statistics" />
+
+          <recent-skills :skills="latestSkills" />
 
           <recent-ships :ships="latestShips" />
         </div>
@@ -87,6 +89,7 @@ import RecentShips from '@/Pages/Company/Partials/RecentShips';
 import RecentSkills from '@/Pages/Company/Partials/RecentSkills';
 import Employees from '@/Pages/Company/Partials/Employees';
 import Teams from '@/Pages/Company/Partials/Teams';
+import UpcomingHiringDateAnniversaries from '@/Pages/Company/Partials/UpcomingHiringDateAnniversaries';
 
 export default {
   components: {
@@ -101,6 +104,7 @@ export default {
     RecentSkills,
     Employees,
     Teams,
+    UpcomingHiringDateAnniversaries,
   },
 
   props: {
@@ -149,6 +153,10 @@ export default {
       default: null,
     },
     teams: {
+      type: Object,
+      default: null,
+    },
+    hiringDateAnniversaries: {
       type: Object,
       default: null,
     },
