@@ -64,6 +64,7 @@ class EmployeeShowViewHelper
                 'year' => $employee->hired_at->year,
                 'month' => $employee->hired_at->month,
                 'day' => $employee->hired_at->day,
+                'percent' => self::hiredAfterEmployee($employee, $loggedEmployee->company),
             ],
             'contract_renewed_at' => (! $employee->contract_renewed_at) ? null :
                 ($permissions['can_see_contract_renewal_date'] ? [
@@ -893,5 +894,29 @@ class EmployeeShowViewHelper
             ]),
             'eCoffees' => $eCoffeeCollection,
         ];
+    }
+
+    /**
+     * Get the percent of employees who have been hired after the given employee.
+     *
+     * @param Employee $employee
+     * @param Company $company
+     * @return ?int
+     */
+    public static function hiredAfterEmployee(Employee $employee, Company $company): ?int
+    {
+        $totalNumberOfEmployees = $company->employees()->count();
+        $employeesHiredAfterMe = $company->employees()
+            ->whereDate('hired_at', '>', $employee->hired_at)
+            ->where('employees.id', '!=', $employee->id)
+            ->count();
+
+        if ($employeesHiredAfterMe == 0) {
+            return 0;
+        }
+
+        $percent = round($employeesHiredAfterMe * 100 / $totalNumberOfEmployees);
+
+        return $percent;
     }
 }
