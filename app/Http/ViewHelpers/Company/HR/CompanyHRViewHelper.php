@@ -2,8 +2,11 @@
 
 namespace App\Http\ViewHelpers\Company\HR;
 
+use App\Models\User\Pronoun;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
+use App\Models\Company\Employee;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class CompanyHRViewHelper
@@ -95,5 +98,50 @@ class CompanyHRViewHelper
             'average_total_sessions' => $averageTotalSessions,
             'number_of_sessions' => $numberOfSessions,
         ];
+    }
+
+    /**
+     * Get the statistics about all the genders used in the company, sorted
+     * by the gender used the most.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function genderStats(Company $company): array
+    {
+        $pronouns = Pronoun::addSelect([
+                'number_of_employees' => Employee::selectRaw('count(*)')
+                    ->whereColumn('pronoun_id', 'pronouns.id')
+                    ->where('company_id', $company->id),
+            ])->get();
+
+        $pronouns = $pronouns->filter(function ($pronoun) {
+            return $pronoun->number_of_employees != 0;
+        });
+
+        $totalNumberOfEmployees = $company->employees()->count();
+        $totalNumberOfEmployeesWithoutPronoun = $company->employees()->whereNull('pronoun_id')->count();
+
+        $pronounCollection = collect();
+
+        // stat about employees without gender
+        $pronounCollection->push([
+            'id' => 0,
+            'label' => trans('account.pronoun_blank'),
+            'number_of_employees' => $totalNumberOfEmployeesWithoutPronoun,
+            'percent' => (int) round($totalNumberOfEmployeesWithoutPronoun * 100 / $totalNumberOfEmployees, 0),
+        ]);
+
+        // stats about genders
+        foreach ($pronouns as $pronoun) {
+            $pronounCollection->push([
+                'id' => $pronoun->id,
+                'label' => trans($pronoun->translation_key),
+                'number_of_employees' => (int) $pronoun->number_of_employees,
+                'percent' => (int) round($pronoun->number_of_employees * 100 / $totalNumberOfEmployees, 0),
+            ]);
+        }
+
+        return $pronounCollection->sortByDesc('percent')->values()->all();
     }
 }

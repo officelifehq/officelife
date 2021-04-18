@@ -78,7 +78,9 @@
         </div>
 
         <div class="fl w-third-l w-100 pl4-l">
-          2
+          <genders
+            :genders="genders"
+          />
         </div>
 
         <div class="fl w-third-l w-100 pl4-l">
@@ -92,12 +94,14 @@
 <script>
 import Layout from '@/Shared/Layout';
 import eCoffees from '@/Pages/Company/HR/Partials/eCoffees';
+import Genders from '@/Pages/Company/HR/Partials/Genders';
 import Tab from '@/Pages/Company/Partials/Tab';
 
 export default {
   components: {
     Layout,
     eCoffees,
+    Genders,
     Tab,
   },
 
@@ -111,6 +115,10 @@ export default {
       default: null,
     },
     eCoffees: {
+      type: Object,
+      default: null,
+    },
+    genders: {
       type: Object,
       default: null,
     },
