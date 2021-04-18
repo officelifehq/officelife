@@ -103,9 +103,12 @@ jobs:
             exit -1
           fi
 
-      - name: Create release files
+      - name: Prepare environment
         run: |
-          echo $GITHUB_SHA | cut -c-8 > config/release
+          { \
+            echo "MIX_PROD_SOURCE_MAPS=true"; \
+            echo "MIX_SENTRY_RELEASE=$GITHUB_SHA"; \
+          } | tee .env
 
       - name: Build assets
         run: yarn run production

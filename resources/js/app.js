@@ -27,7 +27,7 @@ langs.loadLanguage('en', true).then((locale) => {
     }
   });
 
-  Sentry.init(app, process.env.SENTRY_RELEASE);
+  Sentry.init(app, process.env.MIX_SENTRY_RELEASE);
 
   app.mixin({ methods: _.assign({ route }, require('./methods').default) })
     .use(InertiaPlugin)

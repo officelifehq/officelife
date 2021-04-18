@@ -1,6 +1,5 @@
 const mix = require('laravel-mix');
 const path = require('path');
-const fs = require('fs');
 require('laravel-mix-purgecss');
 
 const purgeCssOptions = {
@@ -16,24 +15,17 @@ const purgeCssOptions = {
 mix.js('resources/js/app.js', 'public/js').vue()
   .sass('resources/sass/app.scss', 'public/css')
   .purgeCss(purgeCssOptions)
-  .webpackConfig(webpack => {
-    return {
-      output: { chunkFilename: 'js/[name].js?id=[chunkhash]' },
-      resolve: {
-        alias: {
-          '@': path.resolve('resources/js'),
-        },
-      },
-      plugins: [
-        new webpack.DefinePlugin({ "process.env.SENTRY_RELEASE": JSON.stringify(fs.existsSync(path.resolve('config/release')) ? fs.readFileSync(path.resolve('config/release')).toString() : '') }),
-      ],
-      devtool: mix.inProduction() ? "source-map" : "eval-cheap-module-source-map",
-    };
+  .webpackConfig({
+    output: { chunkFilename: 'js/[name].js?id=[chunkhash]' },
+  })
+  .alias({
+    vue$: path.join(__dirname, 'node_modules/vue/dist/vue.esm-bundler.js'),
+    '@': path.resolve('resources/js'),
   })
   .babelConfig({
     plugins: ['@babel/plugin-syntax-dynamic-import'],
   })
-  .sourceMaps(false)
+  .sourceMaps(process.env.MIX_PROD_SOURCE_MAPS || false, 'eval-cheap-module-source-map', 'source-map')
   .setResourceRoot('../');
 
 if (mix.inProduction()) {
