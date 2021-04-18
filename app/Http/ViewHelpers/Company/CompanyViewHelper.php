@@ -3,11 +3,11 @@
 namespace App\Http\ViewHelpers\Company;
 
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use OutOfRangeException;
 use App\Helpers\DateHelper;
 use Illuminate\Support\Str;
 use App\Helpers\ImageHelper;
-use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
 use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
@@ -394,38 +394,6 @@ class CompanyViewHelper
         ];
     }
 
-    /**
-     * Information about employee's genders in the company.
-     *
-     * @param Company $company
-     * @return array
-     */
-    public static function demography(Company $company): array
-    {
-        $stat = DB::table('employees')
-            ->where('locked', false)
-            ->where('company_id', $company->id)
-            ->join('pronouns', 'employees.pronoun_id', '=', 'pronouns.id')
-            ->selectRaw("count(case when pronouns.label = '".Pronoun::HE."' then 1 end) as he")
-            ->selectRaw("count(case when pronouns.label = '".Pronoun::SHE."' then 1 end) as she")
-            ->selectRaw("count(case when pronouns.label = '".Pronoun::THEY."' then 1 end) as they")
-            ->selectRaw("count(case when pronouns.label = '".Pronoun::PER."' then 1 end) as per")
-            ->selectRaw("count(case when pronouns.label = '".Pronoun::VE."' then 1 end) as ve")
-            ->selectRaw("count(case when pronouns.label = '".Pronoun::XE."' then 1 end) as xe")
-            ->selectRaw("count(case when pronouns.label = '".Pronoun::ZE."' then 1 end) as ze")
-            ->first();
-
-        return [
-            'he' => $stat->he,
-            'she' => $stat->she,
-            'they' => $stat->they,
-            'per' => $stat->per,
-            've' => $stat->ve,
-            'xe' => $stat->xe,
-            'ze' => $stat->ze,
-        ];
-    }
-
     public static function teams(Company $company): array
     {
         $randomTeams = $company
@@ -477,5 +445,40 @@ class CompanyViewHelper
                 'company' => $company,
             ]),
         ];
+    }
+
+    public static function upcomingHiredDateAnniversaries(Company $company)
+    {
+        $employees = $company->employees()
+            ->notLocked()
+            ->whereNotNull('hired_at')
+            ->whereYear('hired_at', '!=', Carbon::now()->year)
+            ->get();
+
+        $now = Carbon::now();
+        $currentDay = $now->format('Y-m-d');
+        $dayIn7DaysFromNow = $now->copy()->addDays(7)->format('Y-m-d');
+        $next7Days = CarbonPeriod::create($currentDay, $dayIn7DaysFromNow);
+
+        $employees = $employees->filter(function ($employee) use ($next7Days, $now) {
+            return $next7Days->contains($employee->hired_at->setYear($now->year)->format('Y-m-d'));
+        });
+
+        $employeesCollection = collect([]);
+        foreach ($employees as $employee) {
+            $employeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => ImageHelper::getAvatar($employee, 35),
+                'anniversary_date' => DateHelper::formatDayAndMonthInParenthesis($employee->hired_at->setYear($now->year)),
+                'anniversary_age' => $now->year - $employee->hired_at->year,
+                'url' => route('employees.show', [
+                    'company' => $employee->company,
+                    'employee' => $employee,
+                ]),
+            ]);
+        }
+
+        return $employeesCollection;
     }
 }

@@ -29,6 +29,9 @@ return [
     'birthdays_title' => 'Birthdays this week',
     'birthdays_blank' => 'No one has a birthday this week.',
 
+    'upcoming_hiring_date_anniversary_title' => 'Upcoming work anniversaries',
+    'upcoming_hiring_date_anniversary_blank' => 'No one has a work anniversary in the next 7 days.',
+
     'company_news_title' => 'Latest company news',
     'company_news_blank' => 'No company news have been written yet.',
 
