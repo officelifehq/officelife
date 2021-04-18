@@ -303,4 +303,52 @@ class TeamShowViewHelperTest extends TestCase
             $array
         );
     }
+
+    /** @test */
+    public function it_gets_the_new_hires_in_the_next_week(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $sales = Team::factory()->create([]);
+        $michael = Employee::factory()->create([
+            'hired_at' => null,
+            'company_id' => $sales->company_id,
+        ]);
+        $dwight = Employee::factory()->create([
+            'hired_at' => Carbon::now()->addWeek()->format('Y-m-d'),
+            'first_name' => 'Dwight',
+            'last_name' => 'Schrute',
+            'company_id' => $sales->company_id,
+        ]);
+        $angela = Employee::factory()->create([
+            'hired_at' => '2018-01-01',
+            'first_name' => 'Angela',
+            'last_name' => 'Bernard',
+            'company_id' => $sales->company_id,
+        ]);
+        Employee::factory()->create([
+            'hired_at' => '2017-12-31',
+            'company_id' => $sales->company_id,
+        ]);
+
+        $sales->employees()->attach([$michael->id]);
+        $sales->employees()->attach([$dwight->id]);
+        $sales->employees()->attach([$angela->id]);
+
+        $collection = TeamShowViewHelper::newHiresNextWeek($sales, $sales->company);
+
+        $this->assertEquals(1, $collection->count());
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $dwight->id,
+                    'name' => 'Dwight Schrute',
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
+                    'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$dwight->id,
+                    'hired_at' => 'Starts on Monday (Jan 8th) as Assistant to the regional manager',
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
 }

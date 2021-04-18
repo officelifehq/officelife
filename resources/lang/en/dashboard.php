@@ -45,6 +45,9 @@ return [
     'team_dont_exist' => 'This team does not exist.',
     'team_viewing' => 'Viewing',
 
+    'team_upcoming_hires' => 'Starts on :date',
+    'team_upcoming_hires_with_position' => 'Starts on :date as :position',
+
     'team_work_from_home_title' => 'Who is working from home today',
     'team_work_from_home_blank' => 'No one is working from home today.',
 

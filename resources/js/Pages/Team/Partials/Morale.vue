@@ -70,7 +70,7 @@
 </style>
 
 <template>
-  <div class="mb5">
+  <div class="mb4">
     <div class="cf mw7 center mb2 fw5">
       <span class="mr1">
         🍻

@@ -79,4 +79,6 @@ return [
 
     'morale_title' => 'Morale of the team members',
     'morale_on_average' => 'On average',
+
+    'hires_next_week_title' => 'New hires in the next 7 days',
 ];
