@@ -21,11 +21,14 @@ langs.loadLanguage('en', true).then((locale) => {
         locale: locale.locale,
       }),
   });
+
+  Sentry.init(app, process.env.SENTRY_RELEASE);
+
   app.mixin({ methods: _.assign({ route }, require('./methods').default) })
     .use(InertiaPlugin)
     .use(langs.i18n)
     .mount(el);
 
   InertiaProgress.init({ color: '#4B5563' });
-  Sentry.init(app, process.env.SENTRY_RELEASE);
+
 });

@@ -4,15 +4,15 @@ import { Integrations } from '@sentry/tracing';
 
 export default {
   init(app, release) {
-    if (SentryConfig !== undefined && SentryConfig.enabled === true && SentryConfig.dsn !== '') {
+    if (typeof SentryConfig !== 'undefined' && SentryConfig.dsn !== '') {
       Sentry.init({
         dsn: SentryConfig.dsn,
-        environment: SentryConfig.environment || '',
+        environment: SentryConfig.environment || null,
         release: release || '',
-        tracesSampleRate: SentryConfig.tracesSampleRate || 1.0,
+        tracesSampleRate: SentryConfig.tracesSampleRate || 0.0,
         integrations: [
-          new VueIntegration({ Vue: app, attachProps: true}),
-          SentryConfig.tracing ? new Integrations.BrowserTracing() : null,
+          new VueIntegration({ Vue: app, attachProps: true }),
+          SentryConfig.tracesSampleRate > 0 ? new Integrations.BrowserTracing() : null,
         ],
       });
     }

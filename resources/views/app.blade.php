@@ -13,11 +13,9 @@
   @if (config('app.sentry.enabled'))
   <script>
     const SentryConfig = {!! \json_encode([
-      'enabled' => config('app.sentry.enabled'),
       'dsn' => config('sentry.dsn'),
       'environment' => config('sentry.environment'),
       'tracesSampleRate' => config('sentry.traces_sample_rate'),
-      'tracing' => config('app.sentry.tracing'),
     ]); !!}
   </script>
   @endif
