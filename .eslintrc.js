@@ -7,7 +7,7 @@ module.exports = {
       "plugin:vue/recommended"
     ],
     "parserOptions": {
-        "ecmaVersion": 2017,
+        "ecmaVersion": 12,
         "sourceType": "module"
     },
     "plugins": [
