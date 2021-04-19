@@ -8,9 +8,9 @@ use App\Helpers\ImageHelper;
 use App\Models\Company\File;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
-use App\Models\User\Pronoun;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
+use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
@@ -414,38 +414,6 @@ class CompanyViewHelperTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_information_about_demography(): void
-    {
-        $he = Pronoun::factory();
-        $michael = Employee::factory()->create([
-            'pronoun_id' => $he,
-        ]);
-
-        $she = Pronoun::factory()->create([
-            'label' => Pronoun::SHE,
-        ]);
-        Employee::factory()->count(2)->create([
-            'pronoun_id' => $she,
-            'company_id' => $michael->company_id,
-        ]);
-
-        $array = CompanyViewHelper::demography($michael->company);
-
-        $this->assertEquals(
-            [
-                'he' => 1,
-                'she' => 2,
-                'they' => 0,
-                'per' => 0,
-                've' => 0,
-                'xe' => 0,
-                'ze' => 0,
-            ],
-            $array
-        );
-    }
-
-    /** @test */
     public function it_gets_information_about_teams(): void
     {
         $michael = $this->createAdministrator();
@@ -473,6 +441,44 @@ class CompanyViewHelperTest extends TestCase
         $this->assertEquals(
             env('APP_URL').'/'.$michael->company_id.'/teams',
             $array['view_all_url']
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_list_of_upcoming_hiring_date_anniversaries(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $company = Company::factory()->create([]);
+
+        $dwight = Employee::factory()->create([
+            'company_id' => $company->id,
+            'hired_at' => '1990-01-02 00:00:00',
+        ]);
+        $michael = Employee::factory()->create([
+            'company_id' => $company->id,
+            'hired_at' => '1990-05-01 00:00:00',
+        ]);
+        $jim = Employee::factory()->create([
+            'company_id' => $company->id,
+            'hired_at' => '2017-04-02 00:00:00',
+            'locked' => true,
+        ]);
+
+        $collection = CompanyViewHelper::upcomingHiredDateAnniversaries($company);
+
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $dwight->id,
+                    'name' => $dwight->name,
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
+                    'anniversary_date' => 'Tuesday (Jan 2nd)',
+                    'anniversary_age' => '28',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
+                ],
+            ],
+            $collection->toArray()
         );
     }
 }

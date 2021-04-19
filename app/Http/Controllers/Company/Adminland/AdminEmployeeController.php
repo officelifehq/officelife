@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\Employee\LockEmployee;
 use App\Http\ViewHelpers\Adminland\AdminEmployeeViewHelper;
 use App\Services\Company\Adminland\Employee\UnlockEmployee;
+use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Services\Company\Adminland\Employee\DestroyEmployee;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 
@@ -134,9 +135,10 @@ class AdminEmployeeController extends Controller
     public function store(Request $request, int $companyId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
 
         $data = [
-            'company_id' => $companyId,
+            'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'email' => $request->input('email'),
             'first_name' => $request->input('first_name'),
@@ -146,12 +148,21 @@ class AdminEmployeeController extends Controller
         ];
 
         try {
-            (new AddEmployeeToCompany)->execute($data);
+            $employee = (new AddEmployeeToCompany)->execute($data);
         } catch (EmailAlreadyUsedException $e) {
             return response()->json([
                 'message' => trans('app.error_email_already_taken'),
             ], 500);
         }
+
+        (new SetHiringDate)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'employee_id' => $employee->id,
+            'year' => intval($request->input('year')),
+            'month' => intval($request->input('month')),
+            'day' => intval($request->input('day')),
+        ]);
 
         return response()->json([
             'company_id' => $companyId,

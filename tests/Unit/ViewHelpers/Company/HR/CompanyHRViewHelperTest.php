@@ -4,7 +4,10 @@ namespace Tests\Unit\ViewHelpers\Company\HR;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\User\Pronoun;
+use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
+use App\Models\Company\Employee;
 use App\Models\Company\ECoffeeMatch;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Company\HR\CompanyHRViewHelper;
@@ -92,6 +95,56 @@ class CompanyHRViewHelperTest extends TestCase
                 ],
                 'average_total_sessions' => 50.0,
                 'number_of_sessions' => 3,
+            ],
+            $array
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_stats_about_the_pronouns_used_in_the_company(): void
+    {
+        $company = Company::factory()->create();
+        Pronoun::all()->each(function (Pronoun $pronoun) {
+            $pronoun->delete();
+        });
+
+        $pronounMale = Pronoun::factory()->create([
+            'translation_key' => 'he/him',
+        ]);
+        $pronounFemale = Pronoun::factory()->create([
+            'translation_key' => 'female',
+        ]);
+        Employee::factory()->count(2)->create([
+            'company_id' => $company->id,
+            'pronoun_id' => $pronounMale->id,
+        ]);
+        Employee::factory()->create([
+            'company_id' => $company->id,
+            'pronoun_id' => $pronounFemale->id,
+        ]);
+
+        $array = CompanyHRViewHelper::genderStats($company);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $pronounMale->id,
+                    'label' => 'he/him',
+                    'number_of_employees' => 2,
+                    'percent' => 67,
+                ],
+                1 => [
+                    'id' => $pronounFemale->id,
+                    'label' => 'female',
+                    'number_of_employees' => 1,
+                    'percent' => 33,
+                ],
+                2 => [
+                    'id' => 0,
+                    'label' => 'No gender',
+                    'number_of_employees' => 0,
+                    'percent' => 0,
+                ],
             ],
             $array
         );

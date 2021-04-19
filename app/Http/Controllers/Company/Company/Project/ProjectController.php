@@ -535,7 +535,7 @@ class ProjectController extends Controller
             }
         }
 
-        return Inertia::render('Company/Project/CreateStatus', [
+        return Inertia::render('Company/Project/Status/Create', [
             'project' => ProjectViewHelper::summary($project, $company, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);

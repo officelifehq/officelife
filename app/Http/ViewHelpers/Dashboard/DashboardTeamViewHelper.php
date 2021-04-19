@@ -257,37 +257,27 @@ class DashboardTeamViewHelper
     }
 
     /**
-     * Array containing all the upcoming anniversaries of being hired for the
-     * employees in this team.
+     * Get all the upcoming hiring date anniversaries for employees in the team,
+     * from now to 7 days frow now.
      *
      * @param Team $team
      * @return Collection
      */
     public static function upcomingHiredDateAnniversaries(Team $team): Collection
     {
-        // remove employees that are locked
-        $employees = $team->employees;
-        $employees = $employees->filter(function ($employee) {
-            return ! $employee->locked;
-        });
-
-        // remove employees that don’t have an hired_at date
-        $employees = $employees->filter(function ($employee) {
-            return $employee->hired_at;
-        });
-
-        // remove employees that have a hired_at date of this year
-        $employees = $employees->filter(function ($employee) {
-            return ! $employee->hired_at->isCurrentYear();
-        });
+        $employees = $team->employees()
+            ->notLocked()
+            ->whereNotNull('hired_at')
+            ->whereYear('hired_at', '!=', Carbon::now()->year)
+            ->get();
 
         $now = Carbon::now();
-        $nextMonday = $now->format('Y-m-d');
-        $nextSunday = $now->copy()->addWeek()->endOfWeek(Carbon::SUNDAY)->format('Y-m-d');
-        $upcomingWeek = CarbonPeriod::create($nextMonday, $nextSunday);
+        $currentDay = $now->format('Y-m-d');
+        $dayIn7DaysFromNow = $now->copy()->addDays(7)->format('Y-m-d');
+        $next7Days = CarbonPeriod::create($currentDay, $dayIn7DaysFromNow);
 
-        $employees = $employees->filter(function ($employee) use ($upcomingWeek, $now) {
-            return $upcomingWeek->contains($employee->hired_at->setYear($now->year)->format('Y-m-d'));
+        $employees = $employees->filter(function ($employee) use ($next7Days, $now) {
+            return $next7Days->contains($employee->hired_at->setYear($now->year)->format('Y-m-d'));
         });
 
         $employeesCollection = collect([]);
