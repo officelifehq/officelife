@@ -117,7 +117,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/description', this.form)
+      axios.post(`${this.$page.props.auth.company.id}/teams/${this.team.id}/description`, this.form)
         .then(response => {
           this.flash(this.$t('team.description_success'), 'success');
 

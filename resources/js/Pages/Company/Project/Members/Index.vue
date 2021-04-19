@@ -97,14 +97,13 @@
                   <div class="measure">
                     <!-- employee -->
                     <select-box :id="'employee'"
-                                v-model="form.employee"
+                                v-model="form.employee_id"
                                 :options="potentialMembers"
                                 :name="'employee'"
-                                :errors="$page.props.errors.employee"
+                                :errors="$page.props.errors.employee_id"
                                 :label="$t('project.members_index_add_select_title')"
                                 :placeholder="$t('project.members_index_add_select_placeholder')"
                                 :required="true"
-                                :value="form.employee"
                                 :datacy="'members_selector'"
                     />
                     <p class="lh-copy">{{ $t('project.members_index_add_role') }}</p>
@@ -211,7 +210,7 @@
                       <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + member.id" @click.prevent="remove(member.id)">
                         {{ $t('app.yes') }}
                       </a>
-                      <a class="pointer" :data-cy="'list-delete-cancel-button-' + member.id" @click.prevent="idToDelete = 0">
+                      <a class="pointer" :data-cy="'list-delete-cancel-button-' + member.id" @click.prevent="removeMode = false; idToDelete = 0">
                         {{ $t('app.no') }}
                       </a>
                     </div>
@@ -284,7 +283,7 @@ export default {
       potentialMembers: null,
       loadingState: '',
       form: {
-        employee: null,
+        employee_id: null,
         role: null,
         errors: [],
       },
@@ -319,7 +318,7 @@ export default {
     },
 
     displayAddModal() {
-      axios.get(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/members/search`)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/members/search`)
         .then(response => {
           this.potentialMembers = response.data.data.potential_members;
           this.showModal = true;
@@ -337,14 +336,15 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/members/store`, this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/members`, this.form)
         .then(response => {
           this.flash(this.$t('project.members_index_add_success'), 'success');
           this.loadingState = null;
           this.form.role = null;
-          this.form.employee = null;
+          this.form.employee_id = null;
           this.showModal = false;
           this.localMembers.unshift(response.data.data);
+          this.updateRoles();
         })
         .catch(error => {
           this.loadingState = null;
@@ -352,22 +352,26 @@ export default {
         });
     },
 
-    remove(employee) {
-      this.form.employee = employee;
-
-      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/members/remove`, this.form)
+    remove(employee_id) {
+      axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/members/${employee_id}`)
         .then(response => {
           this.flash(this.$t('project.members_index_remove_success'), 'success');
 
-          var id = this.localMembers.findIndex(x => x.id == employee);
+          var id = this.localMembers.findIndex(x => x.id == employee_id);
           this.localMembers.splice(id, 1);
-
-          this.form.employee = null;
+          this.updateRoles();
         })
         .catch(error => {
           this.loadingState = null;
           this.form.errors = error.response.data;
         });
+    },
+
+    updateRoles() {
+      let roles = _.map(this.localMembers, member => {
+        return { id: member.id, role: member.role };
+      });
+      this.localRoles = _.sortBy(_.uniqBy(roles, 'role'), 'role');
     },
   }
 };

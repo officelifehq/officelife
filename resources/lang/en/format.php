@@ -22,4 +22,6 @@ return [
     'date' => 'M d, Y',
     'full_month' => 'F',
     'full_date' => 'dddd, MMM Do Y',
+    'day' => 'dddd',
+    'day_short_month' => 'M jS',
 ];

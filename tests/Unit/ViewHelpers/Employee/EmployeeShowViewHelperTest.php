@@ -13,7 +13,7 @@ use App\Models\Company\Answer;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
 use App\Models\Company\Project;
-use App\Models\Company\Worklog;
+use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
@@ -192,32 +192,6 @@ class EmployeeShowViewHelperTest extends TestCase
                 ],
             ],
             $collection->toArray()
-        );
-    }
-
-    /** @test */
-    public function it_gets_a_collection_of_work_logs(): void
-    {
-        $date = Carbon::create(2018, 10, 10);
-        Carbon::setTestNow($date);
-        $michael = $this->createAdministrator();
-
-        for ($i = 0; $i < 5; $i++) {
-            Worklog::factory()->create([
-                'employee_id' => $michael->id,
-                'created_at' => $date->copy()->addDay(),
-            ]);
-        }
-
-        $array = EmployeeShowViewHelper::worklogs($michael, $michael);
-        $this->assertEquals(2, count($array));
-        $this->assertArrayHasKey(
-            'worklogs_collection',
-            $array
-        );
-        $this->assertArrayHasKey(
-            'url',
-            $array
         );
     }
 
@@ -796,6 +770,27 @@ class EmployeeShowViewHelperTest extends TestCase
         $this->assertEquals(
             env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/ecoffees',
             $array['view_all_url']
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_information_of_who_has_been_hired_after_the_employee(): void
+    {
+        $michael = Employee::factory()->create([
+            'hired_at' => '2020-01-01 00:00:00',
+        ]);
+        Employee::factory()->count(2)->create([
+            'hired_at' => '2010-01-01 00:00:00',
+            'company_id' => $michael->company_id,
+        ]);
+        Employee::factory()->count(5)->create([
+            'hired_at' => '2030-01-01 00:00:00',
+            'company_id' => $michael->company_id,
+        ]);
+
+        $this->assertEquals(
+            63,
+            EmployeeShowViewHelper::hiredAfterEmployee($michael, $michael->company)
         );
     }
 }

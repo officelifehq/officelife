@@ -102,6 +102,28 @@ class DateHelper
     }
 
     /**
+     * Return the day as a string like "Wednesday".
+     *
+     * @param Carbon $date
+     * @return string
+     */
+    public static function day(Carbon $date): string
+    {
+        return $date->isoFormat(trans('format.day'));
+    }
+
+    /**
+     * Return the day as a string like "Jul. 29th".
+     *
+     * @param Carbon $date
+     * @return string
+     */
+    public static function dayWithShortMonth(Carbon $date): string
+    {
+        return $date->format(trans('format.day_short_month'));
+    }
+
+    /**
      * Calculate the next occurence in the future for this date.
      *
      * @param Carbon $date

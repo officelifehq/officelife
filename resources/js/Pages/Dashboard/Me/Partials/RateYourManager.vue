@@ -163,7 +163,7 @@ export default {
       this.loadingState = 'loading';
       this.form.rating = rating;
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/manager/rate/' + answer.id, this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/rate/' + answer.id, this.form)
         .then(response => {
           this.loadingState = null;
           this.alreadyAnswered = true;
@@ -179,7 +179,7 @@ export default {
     submitComment(answer) {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/manager/rate/' + answer.id + '/comment', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/rate/' + answer.id + '/comment', this.form)
         .then(response => {
           this.loadingState = null;
           this.alreadyAnswered = true;

@@ -84,6 +84,9 @@ class TeamController extends Controller
         // morale
         $morale = TeamShowViewHelper::morale($team, $loggedEmployee);
 
+        // upcoming hiring date anniversaries
+        $newHiresNextWeek = TeamShowViewHelper::newHiresNextWeek($team, $loggedCompany);
+
         return Inertia::render('Team/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'team' => TeamShowViewHelper::team($team),
@@ -97,6 +100,7 @@ class TeamController extends Controller
             'links' => TeamUsefulLinkCollection::prepare($team->links),
             'recentShips' => $recentShipsCollection,
             'morale' => $morale,
+            'newHiresNextWeek' => $newHiresNextWeek,
         ]);
     }
 }

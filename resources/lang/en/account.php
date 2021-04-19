@@ -56,11 +56,12 @@ return [
     'employee_permission_title' => 'Change permissions of {name}',
     'employee_permission_success' => 'The employee has been updated.',
 
-    'employee_new_basic_information' => 'Basic information',
+    'employee_new_basic_information' => 'Employee information',
     'employee_new_title' => 'Add an employee to {name}',
     'employee_new_firstname' => 'First name',
     'employee_new_lastname' => 'Last name',
     'employee_new_email' => 'Email address',
+    'employee_new_hiring_date' => 'When will the employee start?',
     'employee_new_permission_level' => 'Permissions',
     'employee_new_administrator' => 'Administrator',
     'employee_new_hr' => 'Human Resource Representative',
@@ -457,6 +458,7 @@ return [
     'pronoun_ve_ver' => 've/ver',
     'pronoun_xe_xem' => 'xe/xem',
     'pronoun_ze_hir' => 'ze/hir',
+    'pronoun_blank' => 'No gender',
 
     'questions_number_questions' => '{company} has {count} questions.',
     'questions_blank' => 'Ask questions about your colleagues so they can know each other better.',

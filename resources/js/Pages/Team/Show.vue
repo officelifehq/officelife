@@ -129,6 +129,9 @@
 
           <!-- morale -->
           <morale :morale="morale" />
+
+          <!-- hiring date anniversaries -->
+          <new-hires-next-week :hires="newHiresNextWeek" />
         </div>
       </div>
     </div>
@@ -140,6 +143,7 @@ import Layout from '@/Shared/Layout';
 import vClickOutside from 'v-click-outside';
 import Members from '@/Pages/Team/Partials/Members';
 import TeamDescription from '@/Pages/Team/Partials/TeamDescription';
+import NewHiresNextWeek from '@/Pages/Team/Partials/NewHiresNextWeek';
 import TeamLead from '@/Pages/Team/Partials/TeamLead';
 import TeamUsefulLink from '@/Pages/Team/Partials/TeamUsefulLink';
 import RecentShips from '@/Pages/Team/Partials/RecentShips';
@@ -151,6 +155,7 @@ export default {
     Layout,
     Members,
     TeamDescription,
+    NewHiresNextWeek,
     TeamLead,
     TeamUsefulLink,
     RecentShips,
@@ -208,6 +213,10 @@ export default {
       default: null,
     },
     morale: {
+      type: Array,
+      default: null,
+    },
+    newHiresNextWeek: {
       type: Array,
       default: null,
     },

@@ -166,7 +166,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/links`, this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/links`, this.form)
         .then(response => {
           this.localLinks.push(response.data.data);
 
@@ -183,7 +183,7 @@ export default {
     },
 
     removeLink(link) {
-      axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/links/${link.id}`)
+      axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/links/${link.id}`)
         .then(response => {
           this.localLinks.splice(this.localLinks.findIndex(i => i.id == link.id), 1);
           this.editMode = false;
