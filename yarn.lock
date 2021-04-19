@@ -929,9 +929,9 @@
     lodash.clonedeep "^4.5.0"
 
 "@inertiajs/inertia@^0.8.4":
-  version "0.8.6"
-  resolved "https://registry.yarnpkg.com/@inertiajs/inertia/-/inertia-0.8.6.tgz#30850e4005d50a997aa7af1c3cfdfccec9b8c2df"
-  integrity sha512-WHru6ZHV92d8HJqDYEFFEPTJdC9ogyISEO+hgR18PxzV19zqll51aUkmC5LFI/YGZ8kZyJVB+3k2YSvQs87opQ==
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/@inertiajs/inertia/-/inertia-0.8.7.tgz#6b92feef68d09a1cf5c2b786bf8bb46a61d8aac7"
+  integrity sha512-kCqfmBZbZ1845xYsMIk0LoYR1xzSkrMtyRefejPRx/cvVgK1drtpikoCJAov+OH6HI2lVhkhfnsFrEFl/rmx1A==
   dependencies:
     axios "^0.21.1"
     deepmerge "^4.0.0"
