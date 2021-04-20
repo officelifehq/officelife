@@ -13,7 +13,7 @@
         "e2e": "cypress run",
         "e2e-gui": "cypress open",
         "inst": "yarn install --ignore-engines --frozen-lockfile",
-        "lint": "eslint --ext .js,.vue resources/js/",
+        "lint": "eslint --ext .js,.vue *.js .*.js resources/js/",
         "lint:cypress": "eslint --ext .js tests/Features/",
         "lint:all": "yarn lint & yarn lint:cypress",
         "lint:fix": "yarn lint --fix & yarn lint:cypress --fix",
@@ -84,7 +84,7 @@
         "*.php": [
             "php ./vendor/bin/php-cs-fixer fix --config .php_cs"
         ],
-        "resources/js/**/*.{vue,js}": [
+        ".js|.*.js|resources/js/**/*.{vue,js}": [
             "yarn lint --fix"
         ],
         "tests/Features/**/*.js": [

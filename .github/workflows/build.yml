@@ -118,8 +118,6 @@ jobs:
         run: php artisan migrate --no-interaction -vvv
       - name: Run seeds
         run: php artisan db:seed --no-interaction -vvv
-      - name: Cache route
-        run: php artisan route:cache
 
     # Test
       - name: Run tests suite with coverage
