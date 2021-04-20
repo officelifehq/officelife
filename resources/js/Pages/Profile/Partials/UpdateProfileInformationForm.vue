@@ -9,6 +9,24 @@
     </template>
 
     <template #form>
+      <!-- First name -->
+      <text-input v-model="form.first_name"
+                  :name="'first_name'"
+                  :errors="form.errors.first_name"
+                  :label="$t('employee.edit_information_firstname')"
+                  :required="true"
+                  :autofocus="true"
+      />
+
+      <!-- Last name -->
+      <text-input v-model="form.last_name"
+                  :name="'last_name'"
+                  :errors="form.errors.last_name"
+                  :label="$t('employee.edit_information_lastname')"
+                  :required="true"
+                  :autofocus="true"
+      />
+
       <!-- Email -->
       <text-input v-model="form.email"
                   :name="'email'"
@@ -52,7 +70,8 @@ export default {
     return {
       form: useForm({
         _method: 'PUT',
-        name: this.user.name,
+        first_name: this.user.first_name,
+        last_name: this.user.last_name,
         email: this.user.email,
         photo: null,
       }),
@@ -70,7 +89,7 @@ export default {
         errorBag: 'updateProfileInformation',
         preserveScroll: true,
         onSuccess: () => {
-          this.flash(this.$t('app.change_saved'), 'success');
+          this.flash(this.$t('app.flash_change_saved'), 'success');
         }
       });
     },
