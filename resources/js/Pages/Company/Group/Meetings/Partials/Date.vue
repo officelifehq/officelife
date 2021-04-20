@@ -121,7 +121,7 @@ export default {
       this.editMode = true;
 
       this.$nextTick(() => {
-        this.$refs['year'].$refs['input'].focus();
+        this.$refs.year.focus();
       });
     },
 
@@ -130,7 +130,7 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/company/groups/${this.groupId}/meetings/${this.localMeeting.id}/setDate`, this.form)
         .then(response => {
-          flash(this.$t('group.meeting_show_date_updated'), 'success');
+          this.flash(this.$t('group.meeting_show_date_updated'), 'success');
 
           this.localMeeting.happened_at = response.data.data;
           this.editMode = false;

@@ -21,6 +21,7 @@ class AgendaItem extends Model
      */
     protected $fillable = [
         'meeting_id',
+        'position',
         'checked',
         'summary',
         'description',

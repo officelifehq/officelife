@@ -1,5 +1,5 @@
 <style lang="scss" scoped>
-.small-avatar {
+.small-avatar:not(:first-child) {
   margin-left: -8px;
   box-shadow: 0 0 0 2px #fff;
 }
@@ -60,7 +60,7 @@
               <span v-if="meeting.preview_members" class="ma0 mb0 f7 grey">
                 <div class="flex items-center relative tr">
                   <avatar v-for="member in meeting.preview_members" :key="member.id" :avatar="member.avatar" :url="member.url" :size="25"
-                          :classes="'br-100 small-avatar'"
+                          :class="'br-100 small-avatar'"
                   />
                   <div v-if="meeting.remaining_members_count > 0" class="pl2 f7 more-members relative gray">
                     + {{ meeting.remaining_members_count }}

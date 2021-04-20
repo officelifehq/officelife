@@ -76,8 +76,13 @@ class CreateAgendaItem extends BaseService
 
     private function createAgendaItem(): void
     {
+        // get the position of the agenda item
+        $max = AgendaItem::where('meeting_id', $this->meeting->id)
+            ->max('position');
+
         $this->agendaItem = AgendaItem::create([
             'meeting_id' => $this->data['meeting_id'],
+            'position' => $max + 1,
             'summary' => $this->data['summary'],
             'description' => $this->data['description'],
             'presented_by_id' => $this->data['presented_by_id'] ? $this->data['presented_by_id'] : null,

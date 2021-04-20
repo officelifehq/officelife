@@ -43,6 +43,7 @@ class CreateGroupsTable extends Migration
         Schema::create('agenda_items', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('meeting_id');
+            $table->integer('position');
             $table->boolean('checked')->default(false);
             $table->string('summary');
             $table->text('description')->nullable();

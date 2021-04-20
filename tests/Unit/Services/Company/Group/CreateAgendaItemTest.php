@@ -149,6 +149,7 @@ class CreateAgendaItemTest extends TestCase
 
         $this->assertDatabaseHas('agenda_items', [
             'id' => $agendaItem->id,
+            'position' => 1,
             'meeting_id' => $meeting->id,
             'summary' => 'Super agenda item',
             'presented_by_id' => $presenter ? $presenter->id : null,

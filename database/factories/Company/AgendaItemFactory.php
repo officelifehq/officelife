@@ -26,6 +26,7 @@ class AgendaItemFactory extends Factory
 
         return [
             'meeting_id' => $meeting->id,
+            'position' => 1,
             'summary' => 'This is the summary',
             'description' => 'This is the description',
         ];

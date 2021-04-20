@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Company\Group\CreateMeeting;
 use App\Services\Company\Group\DestroyMeeting;
 use App\Services\Company\Group\CreateAgendaItem;
+use App\Services\Company\Group\UpdateAgendaItem;
 use App\Services\Company\Group\AddGuestToMeeting;
 use App\Services\Company\Group\UpdateMeetingDate;
 use App\Services\Company\Group\RemoveGuestFromMeeting;
@@ -36,6 +37,7 @@ class GroupMeetingsController extends Controller
     public function index(Request $request, int $companyId, int $groupId)
     {
         $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
 
         try {
             $group = Group::where('company_id', $company->id)
@@ -51,7 +53,7 @@ class GroupMeetingsController extends Controller
             'group' => $info,
             'tab' => 'meetings',
             'data' => $meetings,
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }
 
@@ -302,12 +304,21 @@ class GroupMeetingsController extends Controller
         ]);
     }
 
+    /**
+     * Create an agenda item.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $groupId
+     * @param int $meetingId
+     * @return JsonResponse
+     */
     public function createAgendaItem(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        (new CreateAgendaItem)->execute([
+        $agendaItem = (new CreateAgendaItem)->execute([
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'group_id' => $groupId,
@@ -318,7 +329,48 @@ class GroupMeetingsController extends Controller
         ]);
 
         return response()->json([
-            'data' => true,
+            'data' => [
+                'id' => $agendaItem->id,
+                'summary' => $agendaItem->summary,
+                'description' => $agendaItem->description,
+                'position' => $agendaItem->position,
+            ],
+        ]);
+    }
+
+    /**
+     * Update the agenda item summary.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $groupId
+     * @param int $meetingId
+     * @param int $agendaItemId
+     * @return JsonResponse
+     */
+    public function updateSummary(Request $request, int $companyId, int $groupId, int $meetingId, int $agendaItemId): JsonResponse
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $agendaItem = (new UpdateAgendaItem)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'group_id' => $groupId,
+            'meeting_id' => $meetingId,
+            'agenda_item_id' => $agendaItemId,
+            'summary' => $request->input('summary'),
+            'description' => $request->input('description'),
+            'presented_by_id' => $request->input('presented_by_id'),
+        ]);
+
+        return response()->json([
+            'data' => [
+                'id' => $agendaItem->id,
+                'summary' => $agendaItem->summary,
+                'description' => $agendaItem->description,
+                'position' => $agendaItem->position,
+            ],
         ]);
     }
 }

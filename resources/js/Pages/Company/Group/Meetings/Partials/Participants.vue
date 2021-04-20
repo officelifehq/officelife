@@ -44,7 +44,7 @@
           <svg class="check-icon mr2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
           </svg>
-          <avatar :avatar="participant.avatar" :size="23" :classes="'br-100 mr2'" />
+          <avatar :avatar="participant.avatar" :size="23" :class="'br-100 mr2'" />
           <span class="name f5 lh-copy">{{ participant.name }}</span>
         </li>
       </ul>
@@ -61,7 +61,7 @@
             <svg v-if="!editMode" class="check-icon mr2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
-            <avatar :avatar="guest.avatar" :size="23" :classes="'br-100 mr2'" />
+            <avatar :avatar="guest.avatar" :size="23" :class="'br-100 mr2'" />
             <span class="name f5 lh-copy mr2">{{ guest.name }}</span>
           </div>
 
@@ -171,7 +171,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -202,7 +202,7 @@ export default {
             this.localGuests[id].attended = ! this.localGuests[id].attended;
           }
 
-          flash(this.$t('app.saved'), 'success');
+          this.flash(this.$t('app.saved'), 'success');
           this.form.id = null;
         })
         .catch(error => {
@@ -237,7 +237,7 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/company/groups/${this.groupId}/meetings/${this.meeting.meeting.id}/add`, this.form)
         .then(response => {
-          flash(this.$t('group.meeting_show_add_guest_success'), 'success');
+          this.flash(this.$t('group.meeting_show_add_guest_success'), 'success');
 
           this.localGuests.push(response.data.data);
           this.addMode = false;
@@ -254,7 +254,7 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/company/groups/${this.groupId}/meetings/${this.meeting.meeting.id}/remove`, this.form)
         .then(response => {
-          flash(this.$t('group.meeting_show_remove_guest_success'), 'success');
+          this.flash(this.$t('group.meeting_show_remove_guest_success'), 'success');
 
           var removedGuestId = this.localGuests.findIndex(x => x.id === guest.id);
           this.localGuests.splice(removedGuestId, 1);

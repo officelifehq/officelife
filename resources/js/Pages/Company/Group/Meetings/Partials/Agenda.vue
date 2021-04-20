@@ -15,10 +15,6 @@
   padding: 3px 10px 5px 8px;
   top: 16px;
 }
-
-.new-item {
-  left: 40px;
-}
 </style>
 
 <template>
@@ -41,16 +37,35 @@
         </div>
 
         <!-- agenda item -->
-        <div class="bg-white box pa3 w-100">
-          <ul class="list pl0 mb3">
-            <li class="di mb3 mr2 fw4 f4">{{ agendaItem.summary }}</li>
-            <li class="di"><a class="bb b--dotted mr2 bt-0 bl-0 br-0 pointer f7">Edit</a></li>
-            <li class="di"><a class="bb b--dotted mr2 bt-0 bl-0 br-0 pointer f7">Add more details</a></li>
-          </ul>
+        <div class="w-100">
+          <div class="bg-white box pa3 w-100">
+            <ul class="list pl0 mb0">
+              <!-- summary -->
+              <li v-if="agendaItemEditedId != agendaItem.id" class="di mr2 fw4 f4 pointer" @click="showEditSummary(agendaItem)">{{ agendaItem.summary }}</li>
 
-          <!-- description -->
-          <div v-if="agendaItem.description" class="db parsed-content mb3">
-            <p>Nous souhaitons mettre en place la fonctionnalité de gestion de "template" pour gérer ce besoin.</p>
+              <!-- edit summary -->
+              <li v-if="editSummaryMode && agendaItemEditedId == agendaItem.id">
+                <form @submit.prevent="editSummary(agendaItem)">
+                  <text-input :id="'summary'"
+                              :ref="'summary' + agendaItem.id"
+                              v-model="form.summary"
+                              :name="'summary'"
+                              :errors="$page.props.errors.summary"
+                              :required="true"
+                              @esc-key-pressed="hideEditAgendaItem()"
+                  />
+                </form>
+              </li>
+
+              <!-- add description -->
+              <li v-if="!agendaItem.description" class="di"><a class="bb b--dotted mr2 bt-0 bl-0 br-0 pointer f7">Add more details</a></li>
+            </ul>
+
+            <!-- description -->
+            <div v-if="agendaItem.description">
+              <div class="db parsed-content mb3" v-html="agendaItem.description"></div>
+              <span class="di"><a class="bb b--dotted mr2 bt-0 bl-0 br-0 pointer f7">Edit details</a></span>
+            </div>
           </div>
 
           <!-- decisions -->
@@ -78,7 +93,7 @@
       </li>
 
       <!-- Modal - Add agenda item -->
-      <div v-if="addAgendaItemMode" class="bg-gray new-item relative">
+      <li v-if="addAgendaItemMode" class="bg-white box pa3 bg-gray new-item relative">
         <form @submit.prevent="storeAgendaItem()">
           <!-- agenda item title + checkbox -->
           <div class="">
@@ -123,12 +138,12 @@
           <!-- Actions -->
           <div class="flex justify-between">
             <div>
-              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.update')" />
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.update')" />
               <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="hideAddAgendaItem()">{{ $t('app.cancel') }}</a>
             </div>
           </div>
         </form>
-      </div>
+      </li>
     </ul>
   </div>
 </template>
@@ -169,6 +184,8 @@ export default {
       addAgendaItemMode: false,
       addDescriptionMode: false,
       addPresenterMode: false,
+      editSummaryMode: false,
+      agendaItemEditedId: 0,
       form: {
         summary: null,
         description: null,
@@ -187,22 +204,40 @@ export default {
       this.addAgendaItemMode = true;
 
       this.$nextTick(() => {
-        this.$refs['summary'].$refs['input'].focus();
+        this.$refs.summary.focus();
       });
     },
 
     hideAddAgendaItem() {
       this.addAgendaItemMode = false;
-      this.form.summary = null;
+      this.clearForm();
       this.hideAddDescription();
       this.hideAddPresenter();
+    },
+
+    showEditSummary(agendaItem) {
+      this.form.summary = agendaItem.summary;
+      this.form.description = agendaItem.description;
+      this.form.presented_by_id = agendaItem.presented_by_id;
+      this.editSummaryMode = true;
+      this.agendaItemEditedId = agendaItem.id;
+
+      this.$nextTick(() => {
+        this.$refs[`summary${agendaItem.id}`].focus();
+      });
+    },
+
+    hideEditAgendaItem() {
+      this.clearForm();
+      this.editSummaryMode = false;
+      this.agendaItemEditedId = 0;
     },
 
     showAddDescription() {
       this.addDescriptionMode = true;
 
       this.$nextTick(() => {
-        this.$refs['description'].$refs['input'].focus();
+        this.$refs.description.focus();
       });
     },
 
@@ -220,16 +255,36 @@ export default {
       this.form.presented_by_id = null;
     },
 
+    clearForm() {
+      this.form.summary = null;
+      this.form.description = null;
+      this.form.presented_by_id = null;
+    },
+
     storeAgendaItem() {
       this.loadingState = 'loading';
 
       axios.post(`/${this.$page.props.auth.company.id}/company/groups/${this.groupId}/meetings/${this.meeting.meeting.id}/addAgendaItem`, this.form)
         .then(response => {
-          flash(this.$t('project.members_index_add_success'), 'success');
+          this.flash(this.$t('project.members_index_add_success'), 'success');
           this.loadingState = null;
-          this.form.employee = null;
-          this.showModal = false;
-          this.localMembers.unshift(response.data.data);
+          this.clearForm();
+          this.localAgenda.push(response.data.data);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    editSummary(agendaItem) {
+      axios.post(`/${this.$page.props.auth.company.id}/company/groups/${this.groupId}/meetings/${this.meeting.meeting.id}/updateSummary/${agendaItem.id}`, this.form)
+        .then(response => {
+          this.clearForm();
+          this.editSummaryMode = false;
+          this.agendaItemEditedId = 0;
+
+          this.localAgenda[this.localAgenda.findIndex(x => x.id === agendaItem.id)] = response.data.data;
         })
         .catch(error => {
           this.loadingState = null;
