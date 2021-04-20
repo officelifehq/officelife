@@ -6,7 +6,7 @@ return [
     'browser_sessions_description' => 'Manage and log out your active sessions on other browsers and devices.',
     'browser_sessions_message' => 'If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.',
     'browser_sessions_this_device' => 'This device',
-    'browser_sessions_last_active' => 'Last active',
+    'browser_sessions_last_active' => 'Last active {last_active}',
     'browser_sessions_logout' => 'Log Out Other Browser Sessions',
     'browser_sessions_logout_action' => 'Log Out Other Browser Sessions',
     'browser_sessions_confirm_password_title' => 'Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.',
