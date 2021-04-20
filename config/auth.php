@@ -124,6 +124,6 @@ return [
     |
     */
 
-    'complex_password' => (bool) env('COMPLEX_PASSWORD', true),
+    'complex_password' => env('COMPLEX_PASSWORD', true),
 
 ];

@@ -134,7 +134,7 @@ return [
     'features' => [
         Features::registration(),
         Features::resetPasswords(),
-        (bool) env('MAIL_VERIFY', true) ? Features::emailVerification() : null,
+        env('MAIL_VERIFY', true) ? Features::emailVerification() : null,
         Features::updateProfileInformation(),
         Features::updatePasswords(),
         Features::twoFactorAuthentication([
