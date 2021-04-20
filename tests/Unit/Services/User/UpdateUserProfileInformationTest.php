@@ -69,4 +69,22 @@ class UpdateUserProfileInformationTest extends TestCase
         $this->expectException(ValidationException::class);
         (new UpdateUserProfileInformation)->update($user, $request);
     }
+
+    /** @test */
+    public function it_fails_if_email_already_taken(): void
+    {
+        $user = User::factory()->create();
+        User::factory()->create([
+            'email' => 'test@test.com',
+        ]);
+
+        $request = [
+            'first_name' => 'First name',
+            'last_name' => 'Last name',
+            'email' => 'test@test.com',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new UpdateUserProfileInformation)->update($user, $request);
+    }
 }
