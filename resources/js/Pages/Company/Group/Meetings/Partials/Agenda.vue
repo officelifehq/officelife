@@ -15,6 +15,13 @@
   padding: 3px 10px 5px 8px;
   top: 16px;
 }
+
+.small-avatar {
+  top: -16px;
+  background-color: #fff;
+  padding: 4px;
+  right: 17px;
+}
 </style>
 
 <template>
@@ -38,7 +45,20 @@
 
         <!-- agenda item -->
         <div class="w-100">
-          <div class="bg-white box pa3 w-100">
+          <div class="bg-white box pa3 w-100 relative">
+            <!-- presented by -->
+            <div class="absolute small-avatar box">
+              <small-name-and-avatar
+                v-if="agendaItem.presenter"
+                :name="agendaItem.presenter.name"
+                :avatar="agendaItem.presenter.avatar"
+                :class="'gray'"
+                :size="'18px'"
+                :top="'0px'"
+                :margin-between-name-avatar="'25px'"
+              />
+            </div>
+
             <ul class="list pl0 mb0">
               <!-- summary -->
               <li v-if="agendaItemEditedId != agendaItem.id" class="di mr2 fw4 f4 pointer" @click="showEditSummary(agendaItem)">{{ agendaItem.summary }}</li>
@@ -59,6 +79,17 @@
 
               <!-- add description -->
               <li v-if="!agendaItem.description" class="di"><a class="bb b--dotted mr2 bt-0 bl-0 br-0 pointer f7">Add more details</a></li>
+
+              <!-- add description -->
+              <li v-if="addDescriptionMode" class="lh-copy">
+                <text-area :ref="'description'"
+                           v-model="form.description"
+                           :label="$t('account.company_news_new_content')"
+                           :required="false"
+                           :rows="10"
+                           @esc-key-pressed="hideAddDescription()"
+                />
+              </li>
             </ul>
 
             <!-- description -->
@@ -127,7 +158,7 @@
           <!-- add presenter -->
           <div v-if="addPresenterMode" class="cf mb2">
             <select-box v-model="form.presented_by_id"
-                        :options="members"
+                        :options="potentialPresenters"
                         :errors="$page.props.errors.presented_by_id"
                         :label="'Who will present?'"
                         :placeholder="$t('app.choose_value')"
@@ -153,6 +184,7 @@ import TextInput from '@/Shared/TextInput';
 import TextArea from '@/Shared/TextArea';
 import SelectBox from '@/Shared/Select';
 import LoadingButton from '@/Shared/LoadingButton';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 
 export default {
   components: {
@@ -160,6 +192,7 @@ export default {
     TextArea,
     SelectBox,
     LoadingButton,
+    SmallNameAndAvatar,
   },
 
   props: {
@@ -181,6 +214,7 @@ export default {
     return {
       loadingState: null,
       localAgenda: null,
+      potentialPresenters: [],
       addAgendaItemMode: false,
       addDescriptionMode: false,
       addPresenterMode: false,
@@ -248,6 +282,15 @@ export default {
 
     showAddPresenter() {
       this.addPresenterMode = true;
+
+      axios.get(`/${this.$page.props.auth.company.id}/company/groups/${this.groupId}/meetings/${this.meeting.meeting.id}/presenters`)
+        .then(response => {
+          this.potentialPresenters = response.data.data;
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
     },
 
     hideAddPresenter() {
@@ -268,7 +311,7 @@ export default {
         .then(response => {
           this.flash(this.$t('project.members_index_add_success'), 'success');
           this.loadingState = null;
-          this.clearForm();
+          this.hideAddAgendaItem();
           this.localAgenda.push(response.data.data);
         })
         .catch(error => {

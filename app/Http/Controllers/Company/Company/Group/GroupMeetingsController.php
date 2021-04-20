@@ -373,4 +373,36 @@ class GroupMeetingsController extends Controller
             ],
         ]);
     }
+
+    /**
+     * Get the potential presenters of the agenda item.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $groupId
+     * @param int $meetingId
+     * @return JsonResponse
+     */
+    public function getPresenters(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
+    {
+        try {
+            $meeting = Meeting::where('group_id', $groupId)
+                ->findOrFail($meetingId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        try {
+            Group::where('company_id', $companyId)
+                ->findOrFail($groupId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $presenters = GroupMeetingsViewHelper::potentialPresenters($meeting, InstanceHelper::getLoggedCompany());
+
+        return response()->json([
+            'data' => $presenters,
+        ]);
+    }
 }

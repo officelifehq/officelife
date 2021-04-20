@@ -2,12 +2,12 @@
 
 namespace App\Http\ViewHelpers\Company\Group;
 
+use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Company;
 use App\Models\Company\Group;
+use App\Models\Company\Company;
 use App\Models\Company\Meeting;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class GroupMeetingsViewHelper
@@ -213,4 +213,17 @@ class GroupMeetingsViewHelper
     }
 
     public static function potentialPresenters(Meeting $meeting, Company $company): Collection
+    {
+        $participants = $meeting->employees()->notLocked()->get();
+
+        $employeesCollection = collect([]);
+        foreach ($participants as $employee) {
+            $employeesCollection->push([
+                'value' => $employee->id,
+                'label' => $employee->name,
+            ]);
+        }
+
+        return $employeesCollection;
+    }
 }
