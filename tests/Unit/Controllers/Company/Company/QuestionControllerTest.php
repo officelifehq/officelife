@@ -33,8 +33,6 @@ class QuestionControllerTest extends TestCase
 
         $response = $this->get('/'.$employee->company_id.'/company/questions/'.$question->id.'/teams/'.$team->id);
 
-        $response->dump();
-
         $response->assertStatus(200);
 
         /** @var \Illuminate\Database\Connection */
