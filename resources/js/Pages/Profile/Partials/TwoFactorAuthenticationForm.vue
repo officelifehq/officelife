@@ -10,25 +10,25 @@
 <template>
   <action-section>
     <template #title>
-      Two Factor Authentication
+      {{ $t('profile.2fa_title') }}
     </template>
 
     <template #description>
-      Add additional security to your account using two factor authentication.
+      {{ $t('profile.2fa_description') }}
     </template>
 
     <template #content>
       <h3 v-if="twoFactorEnabled" class="fw6">
-        You have enabled two factor authentication.
+        {{ $t('profile.2fa_message_enabled') }}
       </h3>
 
       <h3 v-else class="fw6">
-        You have not enabled two factor authentication.
+        {{ $t('profile.2fa_message_disabled') }}
       </h3>
 
       <div class="mt3 f6">
         <p>
-          When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.
+          {{ $t('profile.2fa_disclaimer') }}
         </p>
       </div>
 
@@ -36,7 +36,7 @@
         <div v-if="qrCode">
           <div class="mt4 f5">
             <p class="fw6">
-              Two factor authentication is now enabled. Scan the following QR code using your phone's authenticator application.
+              {{ $t('profile.2fa_activated') }}
             </p>
           </div>
 
@@ -47,7 +47,7 @@
         <div v-if="recoveryCodes.length > 0">
           <div class="mt4 f5">
             <p class="fw6">
-              Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.
+              {{ $t('profile.2fa_recovery_codes') }}
             </p>
           </div>
 
@@ -63,7 +63,7 @@
         <div v-if="! twoFactorEnabled">
           <confirms-password @confirmed="enableTwoFactorAuthentication">
             <loading-button class="add mb2" type="button" :state="enabling">
-              Enable
+              {{ $t('app.enable') }}
             </loading-button>
           </confirms-password>
         </div>
@@ -71,19 +71,19 @@
         <div v-else>
           <confirms-password @confirmed="regenerateRecoveryCodes">
             <loading-button v-if="recoveryCodes.length > 0" type="button" class="mr3">
-              Regenerate Recovery Codes
+              {{ $t('profile.2fa_regenerate_recovery_codes_action') }}
             </loading-button>
           </confirms-password>
 
           <confirms-password @confirmed="showRecoveryCodes">
             <loading-button v-if="recoveryCodes.length === 0" type="button" class="mr3">
-              Show Recovery Codes
+              {{ $t('profile.2fa_show_recovery_codes_action') }}
             </loading-button>
           </confirms-password>
 
           <confirms-password @confirmed="disableTwoFactorAuthentication">
             <loading-button class="destroy mb2" type="button" :state="disabling">
-              Disable
+              {{ $t('app.disable') }}
             </loading-button>
           </confirms-password>
         </div>

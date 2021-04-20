@@ -8,8 +8,8 @@
             v-bind="$attrs" :class="defaultClass"
             @click="$emit('click')"
     >
-      <ball-pulse-loader v-if="loading" color="#fff" />
-      <span v-if="state != 'loading'">
+      <ball-pulse-loader v-show="loading" color="#fff" />
+      <span v-show="!state">
         <span v-if="emoji" class="mr2">
           {{ emoji }}
         </span>
@@ -57,7 +57,7 @@ export default {
 
   computed: {
     loading() {
-      return typeof this.state === 'string' ? this.state == 'loading' : this.state;
+      return typeof this.state === 'string' ? this.state === 'loading' : this.state;
     }
   }
 };

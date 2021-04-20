@@ -7,6 +7,7 @@ return [
     'post' => 'Post',
     'create' => 'Create',
     'submit' => 'Submit',
+    'confirm' => 'Confirm',
     'add' => 'Add',
     'cancel' => 'Cancel',
     'delete_confirm' => 'Sure?',
@@ -36,6 +37,10 @@ return [
     'enable' => 'Enable',
     'disable' => 'Disable',
     'import_review' => 'Import and review',
+    'login' => 'Log in',
+
+    'flash_done' => 'Done.',
+    'flash_change_saved' => 'Change saved.',
 
     'error_title' => '👇 Oops. An error occured.',
     'error_not_same_company' => 'This item does not belong to this company.',
@@ -138,6 +143,7 @@ return [
     'header_home' => 'Summary',
     'header_find' => 'Find',
     'header_company' => 'Company',
+    'header_profile' => 'Profile',
     'header_switch_company' => 'Switch company',
     'header_go_to_employee_profile' => 'Your profile',
     'header_logout' => 'Logout',

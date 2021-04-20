@@ -41,7 +41,7 @@
 
     <template #footer>
       <inertia-link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
-        Forgot your password?
+        {{ $t('passwords.forgot_password_link') }}
       </inertia-link>
       <p class="f6">
         {{ $t('auth.login_no_account') }}

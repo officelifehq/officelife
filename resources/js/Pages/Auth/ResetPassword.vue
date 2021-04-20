@@ -4,7 +4,7 @@
       <authentication-card-logo />
 
       <p class="fw5 pt5">
-        Change your password here.
+        {{ $t('passwords.reset_password_message') }}
       </p>
     </template>
 
@@ -37,7 +37,7 @@
 
       <div class="flex-ns justify-between">
         <loading-button :class="'add mb2'" :state="form.processing">
-          Reset Password
+          {{ $t('passwords.reset_password_action') }}
         </loading-button>
       </div>
     </form>

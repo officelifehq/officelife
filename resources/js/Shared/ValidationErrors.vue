@@ -1,7 +1,7 @@
 <template>
   <div v-if="hasErrors">
     <div class="font-medium text-red-600">
-      Whoops! Something went wrong.
+      {{ $t('app.error_title') }}
     </div>
 
     <ul class="mt-3 list-disc list-inside text-sm text-red-600">

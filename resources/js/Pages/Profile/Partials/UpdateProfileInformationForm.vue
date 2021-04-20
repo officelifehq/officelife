@@ -1,11 +1,11 @@
 <template>
   <form-section @submitted="updateProfileInformation">
     <template #title>
-      Profile Information
+      {{ $t('profile.update_profile_title') }}
     </template>
 
     <template #description>
-      Update your account's profile information and email address.
+      {{ $t('profile.update_profile_description') }}
     </template>
 
     <template #form>
@@ -22,7 +22,7 @@
 
     <template #actions>
       <loading-button class="add mb3" :state="form.processing">
-        Save
+        {{ $t('app.save') }}
       </loading-button>
     </template>
   </form-section>
@@ -70,7 +70,7 @@ export default {
         errorBag: 'updateProfileInformation',
         preserveScroll: true,
         onSuccess: () => {
-          this.flash('Change saved.', 'success');
+          this.flash(this.$t('app.change_saved'), 'success');
         }
       });
     },

@@ -1,16 +1,16 @@
 <template>
   <action-section>
     <template #title>
-      Browser Sessions
+      {{ $t('profile.browser_sessions_title') }}
     </template>
 
     <template #description>
-      Manage and log out your active sessions on other browsers and devices.
+      {{ $t('profile.browser_sessions_description') }}
     </template>
 
     <template #content>
       <div class="mw6 f6 silver">
-        If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.
+        {{ $t('profile.browser_sessions_message') }}
       </div>
 
       <!-- Other Browser Sessions -->
@@ -40,10 +40,11 @@
                 {{ session.ip_address }},
 
                 <span v-if="session.is_current_device" class="dark-green fw6">
-                  This device
+                  {{ $t('profile.browser_sessions_this_device') }}
                 </span>
                 <span v-else>
-                  Last active {{ session.last_active }}
+                  {{ $t('profile.browser_sessions_last_active') }}
+                  {{ session.last_active }}
                 </span>
               </div>
             </div>
@@ -52,8 +53,8 @@
       </div>
 
       <div class="flex items-center mt3">
-        <loading-button class="add mb2" type="button" :state="enabling" @click="confirmLogout">
-          Log Out Other Browser Sessions
+        <loading-button class="add mb2" type="button" :state="confirmingLogout" @click="confirmLogout">
+          {{ $t('profile.browser_sessions_logout') }}
         </loading-button>
       </div>
 
@@ -61,18 +62,18 @@
       <!-- Log Out Other Devices Confirmation Modal -->
       <dialog-modal :show="confirmingLogout" @close="closeModal">
         <template #title>
-          Log Out Other Browser Sessions
+          {{ $t('profile.browser_sessions_logout') }}
         </template>
 
         <template #content>
-          Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.
+          {{ $t('profile.browser_sessions_confirm_password_title') }}
 
           <text-input :ref="'password'"
                       v-model="form.password"
                       :name="'password'"
                       :errors="form.errors.password"
                       type="password"
-                      placeholder="Password"
+                      :placeholder="$t('profile.browser_sessions_confirm_password')"
                       :required="true"
                       :default-class="'br2 f5 w-75 ba b--black-40 pa2 outline-0'"
                       :extra-class-upper-div="'mt2'"
@@ -83,11 +84,11 @@
 
         <template #footer>
           <loading-button type="button" @click="closeModal">
-            Cancel
+            {{ $t('app.cancel') }}
           </loading-button>
 
           <loading-button class="add mb2" :state="form.processing" @click="logoutOtherBrowserSessions">
-            Log Out Other Browser Sessions
+            {{ $t('profile.browser_sessions_logout_action') }}
           </loading-button>
         </template>
       </dialog-modal>
@@ -137,7 +138,7 @@ export default {
         preserveScroll: true,
         onSuccess: () => this.closeModal(),
         onSuccess: () => {
-          this.flash('Done.', 'success');
+          this.flash(this.$t('app.flash_done'), 'success');
           this.closeModal();
         },
         onError: () => this.$refs.password.focus(),

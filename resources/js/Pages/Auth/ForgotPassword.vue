@@ -5,8 +5,7 @@
     </template>
 
     <div class="fw5 pt5">
-      Forgot your password? No problem.
-      Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
+      {{ $t('passwords.forgot_password_message') }}
     </div>
 
     <div v-if="status" class="mt3 ba br3 pa3">
@@ -27,7 +26,7 @@
 
       <div class="flex items-center justify-end mt-4">
         <loading-button :class="'add mb2'" :state="form.processing" :disabled="form.processing">
-          Email Password Reset Link
+          {{ $t('passwords.forgot_password_action') }}
         </loading-button>
       </div>
     </form>

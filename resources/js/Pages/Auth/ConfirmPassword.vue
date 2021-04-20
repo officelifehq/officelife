@@ -5,7 +5,7 @@
     </template>
 
     <div class="fw5 pt5">
-      This is a secure area of the application. Please confirm your password before continuing.
+      {{ $t('passwords.confirm_password_message') }}
     </div>
 
     <validation-errors class="mb-4" />
@@ -21,7 +21,7 @@
 
       <div class="flex items-center justify-end mt-4">
         <loading-button class="ml-4" :class="'add mb4'" :state="form.processing">
-          Confirm
+          ${{ $t('app.confirm') }}
         </loading-button>
       </div>
     </form>

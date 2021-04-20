@@ -6,11 +6,10 @@
 
     <div class="fw5 pt5">
       <template v-if="! recovery">
-        Please confirm access to your account by entering the authentication code provided by your authenticator application.
+        {{ $t('passwords.2fa_message_code') }}
       </template>
-
       <template v-else>
-        Please confirm access to your account by entering one of your emergency recovery codes.
+        {{ $t('passwords.2fa_message_recovery') }}
       </template>
     </div>
 
@@ -21,7 +20,7 @@
         <text-input v-model="form.code"
                     :name="'code'"
                     :errors="$page.props.errors.code"
-                    :placeholder="'Code'"
+                    :placeholder="$t('passwords.2fa_code_placeholder')"
                     :required="true"
                     inputmode="numeric"
                     autofocus
@@ -33,7 +32,7 @@
         <text-input v-model="form.recovery_code"
                     :name="'recovery_code'"
                     :errors="$page.props.errors.recovery_code"
-                    :placeholder="'Recovery Code'"
+                    :placeholder="$t('passwords.2fa_recovery_code_placeholder')"
                     :required="true"
                     inputmode="numeric"
                     autocomplete="one-time-code"
@@ -42,17 +41,16 @@
 
       <div class="flex-ns justify-between">
         <loading-button @click.prevent="toggleRecovery">
-          <template v-if="! recovery">
-            Use a recovery code
+          <template v-if="recovery">
+            {{ $t('passwords.2fa_code_action' ) }}
           </template>
-
           <template v-else>
-            Use an authentication code
+            {{ $t('passwords.2fa_recovery_code_action' ) }}
           </template>
         </loading-button>
 
         <loading-button :class="'add mb2'" :state="form.processing">
-          Log in
+          {{ $t('app.login') }}
         </loading-button>
       </div>
     </form>

@@ -1,11 +1,11 @@
 <template>
   <form-section @submitted="updatePassword">
     <template #title>
-      Update Password
+      {{ $t('profile.update_password_title') }}
     </template>
 
     <template #description>
-      Ensure your account is using a long, random password to stay secure.
+      {{ $t('profile.update_password_description') }}
     </template>
 
     <template #form>
@@ -13,7 +13,7 @@
                   :name="'current_password'"
                   :errors="form.errors.current_password"
                   type="password"
-                  :label="'Current password'"
+                  :label="$t('profile.update_password_current_password')"
                   :required="true"
                   autocomplete="current-password"
       />
@@ -22,7 +22,7 @@
                   :name="'password'"
                   :errors="form.errors.password"
                   type="password"
-                  :label="'New password'"
+                  :label="$t('profile.update_password_new_password')"
                   :required="true"
                   autocomplete="new-password"
       />
@@ -39,7 +39,7 @@
 
     <template #actions>
       <loading-button class="add mb3" :state="form.processing">
-        Save
+        {{ $t('app.save') }}
       </loading-button>
     </template>
   </form-section>
@@ -74,7 +74,7 @@ export default {
         errorBag: 'updatePassword',
         preserveScroll: true,
         onSuccess: () => {
-          this.flash('Change saved.', 'success');
+          this.flash(this.$t('app.flash_change_saved'), 'success');
           this.form.reset();
         },
         onError: () => {
