@@ -10,6 +10,7 @@
     "license": "BSD-3-Clause",
     "require": {
         "php": "^7.4 || ^8.0",
+        "ext-intl": "*",
         "doctrine/dbal": "^3.0",
         "facade/ignition": "^2.0",
         "fideloper/proxy": "^4.0",
