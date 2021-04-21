@@ -108,7 +108,7 @@ jobs:
       - name: Get version or revision
         id: version
         run: |
-          version=$(shell git describe --abbrev=0 --tags --exact-match $GITHUB_SHA 2>/dev/null)
+          version=$(git describe --abbrev=0 --tags --exact-match $GITHUB_SHA 2>/dev/null)
           test -z "$version" && version=$(echo $GITHUB_SHA | cut -c-8)
           echo "::set-output name=val::$version"
 
