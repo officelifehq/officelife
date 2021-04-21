@@ -212,6 +212,13 @@ jobs:
       - name: Download assets
         uses: actions/download-artifact@v2
         with:
+          name: assets
+          path: public
+
+      - name: Download source maps
+        uses: actions/download-artifact@v2
+        with:
+          name: sourcemaps
           path: public
 
       - name: Create Sentry release
