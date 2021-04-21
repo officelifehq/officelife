@@ -74,7 +74,7 @@ class ProcessCompanyMorale implements ShouldQueue
             $sum = $sum + $morale->emotion;
         }
 
-        if ($employeesWithMorale > 0) {
+        if ($employeesWithMorale->count() > 0) {
             $average = $sum / $employeesWithMorale->count();
         }
 
