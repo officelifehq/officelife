@@ -47,9 +47,8 @@
         <div class="w-100">
           <div class="bg-white box pa3 w-100 relative">
             <!-- presented by -->
-            <div class="absolute small-avatar box">
+            <div v-if="agendaItem.presenter" class="absolute small-avatar box">
               <small-name-and-avatar
-                v-if="agendaItem.presenter"
                 :name="agendaItem.presenter.name"
                 :avatar="agendaItem.presenter.avatar"
                 :class="'gray'"
@@ -61,34 +60,58 @@
 
             <ul class="list pl0 mb0">
               <!-- summary -->
-              <li v-if="agendaItemEditedId != agendaItem.id" class="di mr2 fw4 f4 pointer" @click="showEditSummary(agendaItem)">{{ agendaItem.summary }}</li>
+              <li v-if="agendaItemEditedId != agendaItem.id" class="di mr2 fw4 f4 pointer" @click="showEditMode(agendaItem)">{{ agendaItem.summary }}</li>
 
-              <!-- edit summary -->
-              <li v-if="editSummaryMode && agendaItemEditedId == agendaItem.id">
-                <form @submit.prevent="editSummary(agendaItem)">
-                  <text-input :id="'summary'"
-                              :ref="'summary' + agendaItem.id"
-                              v-model="form.summary"
-                              :name="'summary'"
-                              :errors="$page.props.errors.summary"
-                              :required="true"
-                              @esc-key-pressed="hideEditAgendaItem()"
-                  />
+              <!-- edit agenda item -->
+              <li v-if="editAgendaItemMode && agendaItemEditedId == agendaItem.id">
+                <form @submit.prevent="storeAgendaItem()">
+                  <!-- agenda item title + checkbox -->
+                  <div class="">
+                    <text-input :id="'summary'"
+                                :ref="'summary' + agendaItem.id"
+                                v-model="form.summary"
+                                :name="'summary'"
+                                :errors="$page.props.errors.summary"
+                                :required="true"
+                                @esc-key-pressed="hideEditMode()"
+                    />
+                  </div>
+
+                  <ul class="ma0 mb3 list pa0">
+                    <li v-if="!agendaItem.description" class="di mr2" @click="showEditDescriptionMode(agendaItem)"><a class="bb b--dotted bt-0 bl-0 br-0 pointer di">Add more details</a></li>
+                    <li v-if="!agendaItem.presenter" class="di" @click="showEditPresenterMode(agendaItem)"><a class="bb b--dotted bt-0 bl-0 br-0 pointer di">Add a presenter</a></li>
+                  </ul>
+
+                  <!-- description -->
+                  <div v-if="editDescriptionMode && agendaItemEditedId == agendaItem.id" class="lh-copy">
+                    <text-area :ref="'description' + agendaItem.id"
+                               v-model="form.description"
+                               :label="$t('account.company_news_new_content')"
+                               :required="false"
+                               :rows="10"
+                               @esc-key-pressed="hideEditMode()"
+                    />
+                  </div>
+
+                  <!-- add presenter -->
+                  <div v-if="addPresenterMode" class="cf mb2">
+                    <select-box v-model="form.presented_by_id"
+                                :options="potentialPresenters"
+                                :errors="$page.props.errors.presented_by_id"
+                                :label="'Who will present?'"
+                                :placeholder="$t('app.choose_value')"
+                                :value="form.presented_by_id"
+                    />
+                  </div>
+
+                  <!-- Actions -->
+                  <div class="flex justify-between">
+                    <div>
+                      <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.update')" />
+                      <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="hideEditMode()">{{ $t('app.cancel') }}</a>
+                    </div>
+                  </div>
                 </form>
-              </li>
-
-              <!-- add description -->
-              <li v-if="!agendaItem.description" class="di"><a class="bb b--dotted mr2 bt-0 bl-0 br-0 pointer f7">Add more details</a></li>
-
-              <!-- add description -->
-              <li v-if="addDescriptionMode" class="lh-copy">
-                <text-area :ref="'description'"
-                           v-model="form.description"
-                           :label="$t('account.company_news_new_content')"
-                           :required="false"
-                           :rows="10"
-                           @esc-key-pressed="hideAddDescription()"
-                />
               </li>
             </ul>
 
@@ -218,7 +241,9 @@ export default {
       addAgendaItemMode: false,
       addDescriptionMode: false,
       addPresenterMode: false,
-      editSummaryMode: false,
+      editDescriptionMode: false,
+      editPresenterMode: false,
+      editAgendaItemMode: false,
       agendaItemEditedId: 0,
       form: {
         summary: null,
@@ -234,6 +259,7 @@ export default {
   },
 
   methods: {
+    // when adding a new agenda item
     showAddAgendaItem() {
       this.addAgendaItemMode = true;
 
@@ -247,24 +273,6 @@ export default {
       this.clearForm();
       this.hideAddDescription();
       this.hideAddPresenter();
-    },
-
-    showEditSummary(agendaItem) {
-      this.form.summary = agendaItem.summary;
-      this.form.description = agendaItem.description;
-      this.form.presented_by_id = agendaItem.presented_by_id;
-      this.editSummaryMode = true;
-      this.agendaItemEditedId = agendaItem.id;
-
-      this.$nextTick(() => {
-        this.$refs[`summary${agendaItem.id}`].focus();
-      });
-    },
-
-    hideEditAgendaItem() {
-      this.clearForm();
-      this.editSummaryMode = false;
-      this.agendaItemEditedId = 0;
     },
 
     showAddDescription() {
@@ -298,6 +306,49 @@ export default {
       this.form.presented_by_id = null;
     },
 
+    // when editing an existing agenda item
+    showEditMode(agendaItem) {
+      this.agendaItemEditedId = agendaItem.id;
+      this.form.summary = agendaItem.summary;
+      this.form.description = agendaItem.description;
+      this.form.presented_by_id = agendaItem.presented_by_id;
+      this.editAgendaItemMode = true;
+      this.editDescriptionMode = false;
+      this.editPresenterMode = false;
+
+      if (agendaItem.description) {
+        this.editDescriptionMode = true;
+      }
+
+      if (agendaItem.presenter) {
+        this.editPresenterMode = true;
+      }
+
+      this.$nextTick(() => {
+        this.$refs[`summary${agendaItem.id}`].focus();
+      });
+    },
+
+    hideEditMode() {
+      this.clearForm();
+      this.editAgendaItemMode = false;
+      this.agendaItemEditedId = 0;
+      this.editDescriptionMode = false;
+      this.editPresenterMode = false;
+    },
+
+    showEditDescriptionMode(agendaItem) {
+      this.editDescriptionMode = true;
+
+      this.$nextTick(() => {
+        this.$refs[`description${agendaItem.id}`].focus();
+      });
+    },
+
+    showEditPresenterMode() {
+      this.editPresenterMode = true;
+    },
+
     clearForm() {
       this.form.summary = null;
       this.form.description = null;
@@ -324,7 +375,7 @@ export default {
       axios.post(`/${this.$page.props.auth.company.id}/company/groups/${this.groupId}/meetings/${this.meeting.meeting.id}/updateSummary/${agendaItem.id}`, this.form)
         .then(response => {
           this.clearForm();
-          this.editSummaryMode = false;
+          this.editAgendaItemMode = false;
           this.agendaItemEditedId = 0;
 
           this.localAgenda[this.localAgenda.findIndex(x => x.id === agendaItem.id)] = response.data.data;
