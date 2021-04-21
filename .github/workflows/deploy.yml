@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build assets
     outputs:
-      version: ${{ steps.version.outputs.val }}
+      version: ${{ steps.version.outputs.version }}
 
     strategy:
       fail-fast: false
@@ -107,16 +107,13 @@ jobs:
 
       - name: Get version or revision
         id: version
-        run: |
-          version=$(git describe --abbrev=0 --tags --exact-match $GITHUB_SHA 2>/dev/null || echo '')
-          test -z "$version" && version=$(echo $GITHUB_SHA | cut -c-8)
-          echo "::set-output name=val::$version"
+        run: echo "::set-output name=version::$(git describe --abbrev=0 --tags --exact-match $GITHUB_SHA 2>/dev/null || echo $GITHUB_SHA | cut -c-8)"
 
       - name: Prepare environment
         run: |
           { \
             echo "MIX_PROD_SOURCE_MAPS=true"; \
-            echo "MIX_SENTRY_RELEASE=${{ steps.version.outputs.val }}"; \
+            echo "MIX_SENTRY_RELEASE=${{ steps.version.outputs.version }}"; \
           } | tee .env
 
       - name: Build assets
@@ -212,10 +209,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Download source maps
+      - name: Download assets
         uses: actions/download-artifact@v2
         with:
-          name: sourcemaps
           path: public
 
       - name: Create Sentry release
