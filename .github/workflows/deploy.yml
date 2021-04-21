@@ -26,6 +26,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Build assets
+    outputs:
+      version: ${{ steps.version.outputs.val }}
 
     strategy:
       fail-fast: false
@@ -103,11 +105,18 @@ jobs:
             exit -1
           fi
 
+      - name: Get version or revision
+        id: version
+        run: |
+          version=$(git describe --abbrev=0 --tags --exact-match $GITHUB_SHA 2>/dev/null || echo '')
+          test -z "$version" && version=$(echo $GITHUB_SHA | cut -c-8)
+          echo "::set-output name=val::$version"
+
       - name: Prepare environment
         run: |
           { \
             echo "MIX_PROD_SOURCE_MAPS=true"; \
-            echo "MIX_SENTRY_RELEASE=$GITHUB_SHA"; \
+            echo "MIX_SENTRY_RELEASE=${{ steps.version.outputs.val }}"; \
           } | tee .env
 
       - name: Build assets
@@ -168,7 +177,7 @@ jobs:
 
       - name: Create release files
         run: |
-          echo $GITHUB_SHA | cut -c-8 > config/release
+          echo ${{ needs.build.outputs.version }} > config/release
           echo $GITHUB_SHA > config/commit
 
       - name: Commit everything
@@ -217,4 +226,6 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: ${{ secrets.SENTRY_ENVIRONMENT }}
-          sourcemaps: public/css/app.css.map public/js/app.js.map
+          sourcemaps: public/js/app.js public/js/app.js.map
+          version: ${{ needs.build.outputs.version }}
+          url_prefix: ~/js
