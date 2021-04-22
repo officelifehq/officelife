@@ -89,6 +89,11 @@ class CloseProjectTest extends TestCase
             'actually_finished_at' => '2019-01-01 00:00:00',
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project) {
             return $job->auditLog['action'] === 'project_closed' &&
                 $job->auditLog['author_id'] === $michael->id &&

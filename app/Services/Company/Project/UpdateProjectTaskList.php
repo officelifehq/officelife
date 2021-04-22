@@ -7,6 +7,7 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectTaskList;
+use App\Models\Company\ProjectMemberActivity;
 
 class UpdateProjectTaskList extends BaseService
 {
@@ -44,6 +45,7 @@ class UpdateProjectTaskList extends BaseService
         $this->data = $data;
         $this->validate();
         $this->update();
+        $this->logActivity();
         $this->log();
 
         return $this->projectTaskList;
@@ -70,6 +72,14 @@ class UpdateProjectTaskList extends BaseService
         $this->projectTaskList->title = $this->data['title'];
         $this->projectTaskList->description = $this->valueOrNull($this->data, 'description');
         $this->projectTaskList->save();
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void

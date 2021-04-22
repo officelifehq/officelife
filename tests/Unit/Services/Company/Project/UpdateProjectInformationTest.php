@@ -98,6 +98,11 @@ class UpdateProjectInformationTest extends TestCase
             'summary' => 'awesome project',
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         $this->assertInstanceOf(
             Project::class,
             $project

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
+use App\Models\Company\ProjectMemberActivity;
 
 class UpdateProjectDescription extends BaseService
 {
@@ -39,6 +40,7 @@ class UpdateProjectDescription extends BaseService
         $this->data = $data;
         $this->validate();
         $this->update();
+        $this->logActivity();
         $this->log();
 
         return $this->project;
@@ -61,6 +63,14 @@ class UpdateProjectDescription extends BaseService
     {
         $this->project->description = $this->valueOrNull($this->data, 'description');
         $this->project->save();
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void

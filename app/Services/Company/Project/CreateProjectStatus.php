@@ -7,6 +7,7 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectStatus;
+use App\Models\Company\ProjectMemberActivity;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CreateProjectStatus extends BaseService
@@ -45,6 +46,7 @@ class CreateProjectStatus extends BaseService
         $this->data = $data;
         $this->validate();
         $this->createStatus();
+        $this->logActivity();
         $this->log();
 
         return $this->projectStatus;
@@ -75,6 +77,14 @@ class CreateProjectStatus extends BaseService
             'status' => $this->data['status'],
             'title' => $this->data['title'],
             'description' => $this->data['description'],
+        ]);
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
         ]);
     }
 
