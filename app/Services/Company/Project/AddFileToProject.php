@@ -7,6 +7,7 @@ use App\Models\Company\File;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
+use App\Models\Company\ProjectMemberActivity;
 
 class AddFileToProject extends BaseService
 {
@@ -40,6 +41,7 @@ class AddFileToProject extends BaseService
         $this->data = $data;
         $this->validate();
         $this->assign();
+        $this->logActivity();
         $this->log();
 
         return $this->file;
@@ -66,6 +68,14 @@ class AddFileToProject extends BaseService
         /* @phpstan-ignore-next-line */
         $this->project->files()->syncWithoutDetaching([
             $this->data['file_id'],
+        ]);
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
         ]);
     }
 

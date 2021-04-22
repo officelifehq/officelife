@@ -8,6 +8,7 @@ use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\ProjectDecision;
+use App\Models\Company\ProjectMemberActivity;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CreateProjectDecision extends BaseService
@@ -47,6 +48,7 @@ class CreateProjectDecision extends BaseService
         $this->validate();
         $this->createDecision();
         $this->attachEmployees();
+        $this->logActivity();
         $this->log();
 
         return $this->projectDecision;
@@ -95,6 +97,14 @@ class CreateProjectDecision extends BaseService
                 $employee->id,
             ]);
         }
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void

@@ -52,8 +52,8 @@ use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Services\Company\Employee\Timesheet\RejectTimesheet;
 use App\Services\Company\Employee\Timesheet\SubmitTimesheet;
-use App\Services\Company\Project\AssignProjecTaskToEmployee;
 use App\Services\Company\Employee\Timesheet\ApproveTimesheet;
+use App\Services\Company\Project\AssignProjectTaskToEmployee;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
@@ -1805,7 +1805,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Migrate domain names when the new site launches',
             'description' => null,
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->meredith->id,
             'project_id' => $this->projectInfinity->id,
@@ -1828,7 +1828,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Make sure the SEO is implemented',
             'description' => null,
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
             'project_id' => $this->projectInfinity->id,
@@ -1851,7 +1851,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Migrate the ACLs',
             'description' => null,
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->meredith->id,
             'project_id' => $this->projectInfinity->id,
@@ -1874,7 +1874,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Take appointment with the photographer',
             'description' => 'We need to make sure all photos look great if possible',
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->michael->id,
             'project_id' => $this->projectInfinity->id,

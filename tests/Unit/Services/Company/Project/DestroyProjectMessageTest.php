@@ -111,6 +111,11 @@ class DestroyProjectMessageTest extends TestCase
             'id' => $message->id,
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project, $message) {
             return $job->auditLog['action'] === 'project_message_destroyed' &&
                 $job->auditLog['author_id'] === $michael->id &&

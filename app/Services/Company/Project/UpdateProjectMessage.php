@@ -7,6 +7,7 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectMessage;
+use App\Models\Company\ProjectMemberActivity;
 
 class UpdateProjectMessage extends BaseService
 {
@@ -44,6 +45,7 @@ class UpdateProjectMessage extends BaseService
         $this->data = $data;
         $this->validate();
         $this->update();
+        $this->logActivity();
         $this->log();
 
         return $this->projectMessage;
@@ -70,6 +72,14 @@ class UpdateProjectMessage extends BaseService
         $this->projectMessage->title = $this->data['title'];
         $this->projectMessage->content = $this->data['content'];
         $this->projectMessage->save();
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void

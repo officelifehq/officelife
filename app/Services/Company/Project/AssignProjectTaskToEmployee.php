@@ -8,9 +8,10 @@ use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\ProjectTask;
+use App\Models\Company\ProjectMemberActivity;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class AssignProjecTaskToEmployee extends BaseService
+class AssignProjectTaskToEmployee extends BaseService
 {
     protected array $data;
 
@@ -47,6 +48,7 @@ class AssignProjecTaskToEmployee extends BaseService
         $this->data = $data;
         $this->validate();
         $this->assign();
+        $this->logActivity();
         $this->log();
 
         return $this->projectTask;
@@ -79,6 +81,14 @@ class AssignProjecTaskToEmployee extends BaseService
     {
         $this->projectTask->assignee_id = $this->assignee->id;
         $this->projectTask->save();
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void

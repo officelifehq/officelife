@@ -7,6 +7,7 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectDecision;
+use App\Models\Company\ProjectMemberActivity;
 
 class DestroyProjectDecision extends BaseService
 {
@@ -41,6 +42,7 @@ class DestroyProjectDecision extends BaseService
         $this->data = $data;
         $this->validate();
         $this->destroyDecision();
+        $this->logActivity();
         $this->log();
     }
 
@@ -63,6 +65,14 @@ class DestroyProjectDecision extends BaseService
     private function destroyDecision(): void
     {
         $this->projectDecision->delete();
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void

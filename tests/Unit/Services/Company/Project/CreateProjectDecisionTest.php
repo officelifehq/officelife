@@ -113,6 +113,11 @@ class CreateProjectDecisionTest extends TestCase
             'employee_id' => $dwight->id,
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         $this->assertInstanceOf(
             ProjectDecision::class,
             $projectDecision
