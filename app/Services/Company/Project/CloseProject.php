@@ -59,6 +59,7 @@ class CloseProject extends BaseService
     private function stopProject(): void
     {
         $this->project->status = Project::CLOSED;
+        $this->project->actually_finished_at = Carbon::now();
         $this->project->save();
     }
 

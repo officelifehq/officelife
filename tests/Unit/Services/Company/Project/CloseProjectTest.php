@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Project;
@@ -72,6 +73,7 @@ class CloseProjectTest extends TestCase
     private function executeService(Employee $michael, Project $project = null): void
     {
         Queue::fake();
+        Carbon::setTestNow(Carbon::create(2019, 1, 1));
 
         $request = [
             'company_id' => $michael->company_id,
@@ -84,6 +86,7 @@ class CloseProjectTest extends TestCase
         $this->assertDatabaseHas('projects', [
             'id' => $project->id,
             'status' => Project::CLOSED,
+            'actually_finished_at' => '2019-01-01 00:00:00',
         ]);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project) {
