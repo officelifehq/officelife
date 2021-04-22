@@ -117,6 +117,7 @@ return [
     'task_blank_desc' => 'Tasks let you track progress and assign work so everyone is accountable to move things forward.',
     'task_edit_cta' => 'Edit task',
     'task_edit_assignee' => 'Who is responsible',
+    'task_edit_time' => 'How much time have you worked on this today?',
     'task_add_cta' => 'Add new task',
     'task_add_title' => 'Name of the task',
     'task_create_title' => 'Name of the list',
