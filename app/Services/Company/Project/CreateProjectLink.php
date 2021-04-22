@@ -8,6 +8,7 @@ use App\Services\BaseService;
 use App\Models\Company\Project;
 use Illuminate\Validation\Rule;
 use App\Models\Company\ProjectLink;
+use App\Models\Company\ProjectMemberActivity;
 
 class CreateProjectLink extends BaseService
 {
@@ -52,6 +53,7 @@ class CreateProjectLink extends BaseService
         $this->data = $data;
         $this->validate();
         $this->createLink();
+        $this->logActivity();
         $this->log();
 
         return $this->projectLink;
@@ -77,6 +79,14 @@ class CreateProjectLink extends BaseService
             'label' => $this->valueOrNull($this->data, 'label'),
             'type' => $this->data['type'],
             'url' => $this->data['url'],
+        ]);
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
         ]);
     }
 

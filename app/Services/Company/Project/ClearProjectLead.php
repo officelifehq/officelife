@@ -8,6 +8,7 @@ use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\ProjectMemberActivity;
 
 class ClearProjectLead extends BaseService
 {
@@ -42,6 +43,7 @@ class ClearProjectLead extends BaseService
         $this->data = $data;
         $this->validate();
         $this->updateLead();
+        $this->logActivity();
         $this->log();
 
         return $this->project;
@@ -66,6 +68,14 @@ class ClearProjectLead extends BaseService
     {
         $this->project->project_lead_id = null;
         $this->project->save();
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void
