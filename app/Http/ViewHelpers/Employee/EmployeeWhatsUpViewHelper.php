@@ -4,6 +4,7 @@ namespace App\Http\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use App\Models\Company\Company;
+use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\OneOnOneEntry;
 
@@ -50,8 +51,24 @@ class EmployeeWhatsUpViewHelper
 
         // projects worked on
         $projects = $employee->projects()
-            ->whereBetween('ships.created_at', [$startDate, $endDate])
+            ->where('projects.status', '!=', Project::CREATED)
+            ->whereBetween('projects.started_at', [$startDate, $endDate])
+            ->orWhereBetween('projects.actually_finished_at', [$startDate, $endDate])
             ->get();
+
+        $projectsCollection = collect();
+        foreach ($projects as $project) {
+            $projectsCollection->push([
+                'id' => $project->id,
+                'title' => $project->title,
+                'description' => $recentShip->description,
+                'url' => route('ships.show', [
+                    'company' => $company,
+                    'team' => $recentShip->team_id,
+                    'ship' => $recentShip->id,
+                ]),
+            ]);
+        }
 
         return [
             'one_on_ones_as_direct_report_count' => $oneOnOnesAsDirectReportCount,
