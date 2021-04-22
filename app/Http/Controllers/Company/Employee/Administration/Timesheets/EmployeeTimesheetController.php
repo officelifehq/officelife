@@ -153,8 +153,8 @@ class EmployeeTimesheetController extends Controller
             ->whereMonth('started_at', (string) $month)
             ->addSelect([
                 'duration' => TimeTrackingEntry::select(DB::raw('SUM(duration) as duration'))
-                ->whereColumn('timesheet_id', 'timesheets.id')
-                ->groupBy('timesheet_id'),
+                    ->whereColumn('timesheet_id', 'timesheets.id')
+                    ->groupBy('timesheet_id'),
             ])
             ->get();
 

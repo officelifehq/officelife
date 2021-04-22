@@ -6,7 +6,9 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
+use App\Models\Company\Project;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\ProjectMemberActivity;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Employee\EmployeeWhatsUpViewHelper;
 
@@ -57,6 +59,28 @@ class EmployeeWhatsUpViewHelperTest extends TestCase
         $ship->employees()->attach([$dwight->id]);
         $shipB->employees()->attach([$dwight->id]);
 
+        // projects
+        $projectA = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $projectB = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $projectA->employees()->attach([$dwight->id]);
+        $projectB->employees()->attach([$dwight->id]);
+
+        // project activity
+        ProjectMemberActivity::factory()->create([
+            'project_id' => $projectA->id,
+            'employee_id' => $dwight->id,
+            'created_at' => Carbon::now(),
+        ]);
+        ProjectMemberActivity::factory()->create([
+            'project_id' => $projectB->id,
+            'employee_id' => $dwight->id,
+            'created_at' => Carbon::now()->subMonths(4),
+        ]);
+
         $array = EmployeeWhatsUpViewHelper::index($dwight, Carbon::now(), Carbon::now()->addMonth(), $michael->company);
 
         $this->assertEquals(
@@ -74,6 +98,21 @@ class EmployeeWhatsUpViewHelperTest extends TestCase
                 ],
             ],
             $array['recent_ships']->toArray()
+        );
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $projectA->id,
+                    'name' => $projectA->name,
+                    'code' => $projectA->code,
+                    'summary' => $projectA->summary,
+                    'status' => $projectA->status,
+                    'status_i18n' => trans('project.summary_status_'.$projectA->status),
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectA->id,
+                ],
+            ],
+            $array['projects']->toArray()
         );
     }
 }
