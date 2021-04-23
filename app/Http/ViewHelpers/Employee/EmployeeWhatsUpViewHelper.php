@@ -2,33 +2,35 @@
 
 namespace App\Http\ViewHelpers\Employee;
 
-use App\Models\Company\Company;
-use App\Models\Company\Employee;
-use App\Models\Company\OneOnOneEntry;
-use App\Models\Company\Project;
-use App\Models\Company\ProjectMemberActivity;
-use App\Models\Company\Timesheet;
 use Carbon\Carbon;
+use App\Helpers\DateHelper;
+use App\Models\Company\Company;
+use App\Models\Company\Project;
+use App\Models\Company\Worklog;
+use App\Models\Company\Employee;
+use App\Models\Company\Timesheet;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use App\Models\Company\WorkFromHome;
+use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\EmployeeStatus;
+use App\Models\Company\TimeTrackingEntry;
+use App\Models\Company\ProjectMemberActivity;
 
 class EmployeeWhatsUpViewHelper
 {
-    /**
-     * Get the data required to display the What's up page about the given
-     * employee.
-     *
-     * @param Employee $employee
-     * @param Carbon $startDate
-     * @param Carbon $endDate
-     * @param Company $company
-     * @return array
-     */
-    public static function index(Employee $employee, Carbon $startDate, Carbon $endDate, Company $company): array
+    public static function oneOnOnes(Employee $employee, Carbon $startDate, Carbon $endDate, Company $company): int
     {
         // number of one on ones, as direct report
         $oneOnOnesAsDirectReportCount = OneOnOneEntry::where('employee_id', $employee->id)
             ->whereBetween('happened_at', [$startDate, $endDate])
             ->count();
 
+        return $oneOnOnesAsDirectReportCount;
+    }
+
+    public static function accomplishments(Employee $employee, Carbon $startDate, Carbon $endDate, Company $company): Collection
+    {
         // accomplishments (aka recent ships)
         $recentShips = $employee->ships()
             ->whereBetween('ships.created_at', [$startDate, $endDate])
@@ -48,6 +50,11 @@ class EmployeeWhatsUpViewHelper
             ]);
         }
 
+        return $recentShipCollection;
+    }
+
+    public static function projects(Employee $employee, Carbon $startDate, Carbon $endDate, Company $company): Collection
+    {
         // projects worked on during the time frame
         $projectIds = ProjectMemberActivity::where('employee_id', $employee->id)
             ->whereBetween('created_at', [$startDate, $endDate])
@@ -73,24 +80,81 @@ class EmployeeWhatsUpViewHelper
             ]);
         }
 
+        return $projectsCollection;
+    }
+
+    public static function timesheets(Employee $employee, Carbon $startDate, Carbon $endDate): array
+    {
         // get all timesheets information
-        $timeTrackingEntries = Timesheet::query()
+        $timesheetEntries = Timesheet::query()
             ->where('employee_id', $employee->id)
             ->whereBetween('started_at', [$startDate, $endDate])
             ->addSelect([
-                'hours_worked_per_week' => TimeTrackingEntry::select(DB::raw('SUM(duration) as duration'))
+                'minutes_worked_per_week' => TimeTrackingEntry::select(DB::raw('SUM(duration) as duration'))
                     ->whereColumn('timesheet_id', 'timesheets.id')
+                    ->whereColumn('employee_id', $employee->id)
                     ->groupBy('timesheet_id'),
             ])
+            ->get();
 
-
-        // all the teams the employee is part of
-        $teamsId = $employee->teams->pluck('team.id')->toArray();
+        $timesheetCollection = collect();
+        foreach ($timesheetEntries as $entry) {
+            $timesheetCollection->push([
+                'id' => $entry->id,
+                'started_at' => $entry->started_at->format('Y-m-d'),
+                'ended_at' => $entry->ended_at->format('Y-m-d'),
+                'minutes_worked' => $entry->minutes_worked_per_week,
+            ]);
+        }
 
         return [
-            'one_on_ones_as_direct_report_count' => $oneOnOnesAsDirectReportCount,
-            'recent_ships' => $recentShipCollection,
-            'projects' => $projectsCollection,
+            'average_hours_worked' => round($timesheetCollection->avg('minutes_worked') / 60),
+            'data' => $timesheetCollection,
+        ];
+    }
+
+    public static function external(Employee $employee, Carbon $startDate, Carbon $endDate)
+    {
+        if ($employee->status->type == EmployeeStatus::INTERNAL) {
+            return;
+        }
+
+        $contractRenewInTimeframe = false;
+        if ($employee->contract_renewed_at->between($startDate, $endDate)) {
+            $contractRenewInTimeframe = true;
+        }
+
+        return [
+            'contract_renews_in_timeframe' => $contractRenewInTimeframe,
+            'hired_date' => DateHelper::formatDate($employee->contract_renewed_at),
+        ];
+    }
+
+    public static function workFromHome(Employee $employee, Carbon $startDate, Carbon $endDate)
+    {
+        $workFromHomeCount = WorkFromHome::where('employee_id', $employee->id)
+            ->whereBetween('date', [$startDate, $endDate])
+            ->count();
+
+        $numberOfDaysBetweenDates = $startDate->diffInDays($endDate);
+
+        return [
+            'number_times_work_from_home' => $workFromHomeCount,
+            'percent_work_from_home' => round($workFromHomeCount * 100 / $numberOfDaysBetweenDates),
+        ];
+    }
+
+    public static function worklogs(Employee $employee, Carbon $startDate, Carbon $endDate)
+    {
+        $worklogCount = Worklog::where('employee_id', $employee->id)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->count();
+
+        $numberOfDaysBetweenDates = $startDate->diffInDays($endDate);
+
+        return [
+            'number_worklogs' => $worklogCount,
+            'percent_completion' => round($worklogCount * 100 / $numberOfDaysBetweenDates),
         ];
     }
 }

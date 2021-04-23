@@ -90,4 +90,20 @@ class EmployeeFactory extends Factory
             ];
         });
     }
+
+    /**
+     * Indicate that the employee is an external employee.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function asExternal()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'employee_status_id' => EmployeeStatus::factory()->create([
+                    'type' => EmployeeStatus::EXTERNAL,
+                ]),
+            ];
+        });
+    }
 }
