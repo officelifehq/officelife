@@ -26,8 +26,8 @@ echo -n ${release:-$version} | tee $ROOT/config/.release
 
 # BUILD
 composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader --no-dev --working-dir=$ROOT
-yarn install --ignore-engines --frozen-lockfile --cwd $ROOT
-yarn run production --cwd $ROOT
+yarn --cwd $ROOT run inst
+yarn --cwd $ROOT run production
 
 # PACKAGE
 package=officelife-$version
