@@ -41,7 +41,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN_RELEASE: ${{ secrets.GH_TOKEN_RELEASE }}
         with:
-          semantic_version: 17.3.7
+          semantic_version: 17.4.2
           extra_plugins: |
             @semantic-release/changelog
             semantic-release-github-pullrequest
