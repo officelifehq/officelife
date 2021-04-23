@@ -20,7 +20,6 @@ jobs:
   # Semantic release
   ####################
   semantic:
-    needs: tests
     runs-on: ubuntu-latest
     name: Semantic release
     if: github.event_name != 'pull_request'
