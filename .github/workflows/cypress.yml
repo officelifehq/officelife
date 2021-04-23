@@ -76,7 +76,7 @@ jobs:
       - name: Prepare environment
         run: |
           cp tests/.env.ci-cypress .env
-          touch config/version config/release
+          touch config/.version config/.release
       - name: Create SQLite database
         run: |
           mkdir -p database

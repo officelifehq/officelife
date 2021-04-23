@@ -114,7 +114,7 @@ jobs:
 
       - name: Create package
         id: package
-        run: scripts/package.sh 'v${{ needs.semantic.outputs.new_release_version }}'
+        run: scripts/package.sh 'v${{ needs.semantic.outputs.new_release_version }}' $GITHUB_SHA
 
       - name: Import key
         run: echo -e "$GPG_KEY" | gpg --batch --yes --import -
