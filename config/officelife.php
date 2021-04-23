@@ -20,7 +20,7 @@ return [
     | This value returns the current version of the application.
     |
     */
-    'app_version' => is_file(__DIR__.'/version') ? file_get_contents(__DIR__.'/version') : (is_dir(__DIR__.'/../.git') ? trim(exec('git describe --abbrev=0 --tags')) : ''),
+    'app_version' => is_file(__DIR__.'/.version') ? file_get_contents(__DIR__.'/.version') : (is_dir(__DIR__.'/../.git') ? trim(exec('git --git-dir ' . base_path('.git') . ' describe --abbrev=0 --tags')) : ''),
 
     /*
     |--------------------------------------------------------------------------
