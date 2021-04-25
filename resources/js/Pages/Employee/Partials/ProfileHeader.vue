@@ -4,6 +4,11 @@
   position: relative;
   width: 17px;
   top: 3px;
+  margin-right: 4px;
+}
+
+.whatsup {
+
 }
 </style>
 
@@ -20,7 +25,7 @@
       </span>
     </div>
 
-    <div class="bg-white box pa3 mb5">
+    <div class="bg-white box pa3 mb5 relative">
       <h2 class="normal mb3 mt0 fw5">
         {{ employee.name }} <inertia-link v-if="permissions.can_edit_profile" :href="employee.url.edit" class="fw4 di f7 ml2">{{ $t('app.edit') }}</inertia-link>
       </h2>
@@ -58,6 +63,11 @@
           />
         </li>
       </ul>
+
+      <!-- what's up button -->
+      <inertia-link :href="employee.url.whatsup" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2 absolute-ns right-1-ns top-1-ns whatsup">
+        👋  What's up
+      </inertia-link>
     </div>
   </div>
 </template>

@@ -123,6 +123,10 @@ class EmployeeShowViewHelper
                     'company' => $company,
                     'employee' => $employee,
                 ]),
+                'whatsup' => route('employee.show.whatsup', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
             ],
         ];
     }
@@ -290,6 +294,15 @@ class EmployeeShowViewHelper
             $canEditContractInfoTab = $employee->status->type == EmployeeStatus::EXTERNAL;
         }
 
+        // can view the what's up page
+        $canViewWhatsUp = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canViewWhatsUp = true;
+        }
+        if ($loggedEmployeeIsManager) {
+            $canViewWhatsUp = true;
+        }
+
         return [
             'can_see_full_birthdate' => $canSeeFullBirthdate,
             'can_manage_hierarchy' => $canManageHierarchy,
@@ -315,6 +328,7 @@ class EmployeeShowViewHelper
             'can_update_avatar' => $canUpdateAvatar,
             'can_edit_hired_at_information' => $canEditHiredAt,
             'can_edit_contract_information' => $canEditContractInfoTab,
+            'can_view_whats_up' => $canViewWhatsUp,
         ];
     }
 

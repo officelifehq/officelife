@@ -4,6 +4,7 @@ namespace App\Http\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
 use App\Models\Company\Worklog;
@@ -19,6 +20,38 @@ use App\Models\Company\ProjectMemberActivity;
 
 class EmployeeWhatsUpViewHelper
 {
+    public static function information(Employee $employee): array
+    {
+        $rate = $employee->consultantRates()->where('active', true)->first();
+
+        return [
+            'id' => $employee->id,
+            'name' => $employee->name,
+            'avatar' => ImageHelper::getAvatar($employee, 300),
+            'hired_at' => (! $employee->hired_at) ? null : [
+                'full' => DateHelper::formatDate($employee->hired_at),
+            ],
+            'contract_renewed_at' => (! $employee->contract_renewed_at) ? null : DateHelper::formatDate($employee->contract_renewed_at),
+            'contract_rate' => (! $rate) ? null : [
+                'rate' => $rate->rate,
+                'currency' => $employee->company->currency,
+            ],
+            'position' => (! $employee->position) ? null : [
+                'id' => $employee->position->id,
+                'title' => $employee->position->title,
+            ],
+            'pronoun' => (! $employee->pronoun) ? null : [
+                'id' => $employee->pronoun->id,
+                'label' => $employee->pronoun->label,
+            ],
+            'status' => (! $employee->status) ? null : [
+                'id' => $employee->status->id,
+                'name' => $employee->status->name,
+                'type' => $employee->status->type,
+            ],
+        ];
+    }
+
     public static function oneOnOnes(Employee $employee, Carbon $startDate, Carbon $endDate, Company $company): int
     {
         // number of one on ones, as direct report
