@@ -1,10 +1,10 @@
 <style lang="scss" scoped>
-.ecoffee-item:first-child:hover {
+.position-item:first-child:hover {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
 
-.ecoffee-item:last-child {
+.position-item:last-child {
   border-bottom: 0;
 
   &:hover {
@@ -12,24 +12,13 @@
     border-bottom-right-radius: 10px;
   }
 }
-
-.avatar {
-  top: 1px;
-  left: 0;
-  width: 35px;
-}
-
-.employee-name,
-.position {
-  padding-left: 42px;
-}
 </style>
 
 <template>
   <div class="mb4 relative">
     <span class="db fw5 mb2">
       <span class="mr1">
-        🎓
+        🧑‍🎓
       </span> Position history in the company
 
       <help :url="$page.props.help_links.ecoffee" />
@@ -37,8 +26,14 @@
 
     <div class="br3 bg-white box z-1">
       <ul v-if="positions" data-cy="e-coffee-list" class="list pl0 ma0">
-        <li v-for="entry in positions" :key="entry.id" class="">
-          {{ entry.position }} ({{ entry.started_at }} --> <span v-if="entry.ended_at">{{ entry.ended_at }}</span>)
+        <li v-for="entry in positions" :key="entry.id" class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between position-item">
+          <span>{{ entry.position }}</span>
+
+          <span class="gray">
+            {{ entry.started_at }}
+            <span v-if="entry.ended_at"> - {{ entry.ended_at }}</span>
+            <span v-else> - Present</span>
+          </span>
         </li>
       </ul>
     </div>

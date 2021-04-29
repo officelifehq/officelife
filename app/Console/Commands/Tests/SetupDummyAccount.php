@@ -26,6 +26,7 @@ use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
 use App\Services\Company\Project\StartProject;
 use App\Services\Company\Team\Ship\CreateShip;
+use App\Models\Company\EmployeePositionHistory;
 use App\Services\Company\Project\CreateProject;
 use Symfony\Component\Console\Helper\ProgressBar;
 use App\Services\Company\Adminland\Team\CreateTeam;
@@ -208,6 +209,7 @@ class SetupDummyAccount extends Command
         $this->createTimeTrackingEntries();
         $this->setContractRenewalDates();
         $this->setECoffeeProcess();
+        $this->addPreviousPositionsHistory();
         $this->addSecondaryBlankAccount();
         $this->stop();
     }
@@ -2039,6 +2041,34 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                 }
             });
         });
+    }
+
+    private function addPreviousPositionsHistory(): void
+    {
+        foreach ($this->employees as $employee) {
+            $position = Position::inRandomOrder()->first();
+
+            $started = Carbon::now()->subMonths(rand(24, 60));
+            $ended = $started->copy()->addMonths(rand(12, 24));
+
+            EmployeePositionHistory::create([
+                'employee_id' => $employee->id,
+                'position_id' => $position->id,
+                'started_at' => $started,
+                'ended_at' => $ended,
+            ]);
+
+            $position = Position::inRandomOrder()->first();
+            $started = $ended->copy();
+            $ended = $started->copy()->addMonths(rand(6, 12));
+
+            EmployeePositionHistory::create([
+                'employee_id' => $employee->id,
+                'position_id' => $position->id,
+                'started_at' => $started,
+                'ended_at' => $ended,
+            ]);
+        }
     }
 
     private function addSecondaryBlankAccount(): void

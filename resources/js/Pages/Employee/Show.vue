@@ -56,6 +56,7 @@
           />
 
           <employee-past-positions
+            v-if="positions.length != 0"
             :positions="positions"
           />
 
