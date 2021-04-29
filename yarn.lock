@@ -3164,7 +3164,7 @@ cssnano-util-same-parent@^4.0.0:
   resolved "https://registry.yarnpkg.com/cssnano-util-same-parent/-/cssnano-util-same-parent-4.0.1.tgz#574082fb2859d2db433855835d9a8456ea18bbf3"
   integrity sha512-WcKx5OY+KoSIAxBW6UBBRay1U6vkYheCdjyVNDm85zt5K9mHoGOfsOsqIszfAqrQQFIIKgjh2+FDgIj/zsl21Q==
 
-cssnano@^4.1.10:
+cssnano@^4.1.11:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/cssnano/-/cssnano-4.1.11.tgz#c7b5f5b81da269cb1fd982cb960c1200910c9a99"
   integrity sha512-6gZm2htn7xIPJOHY824ERgj8cNPgPxyCSnkXc4v7YvNW+TdVfzgngHcEhy/8D11kUWRUMbke+tC+AUcUsnMz2g==
@@ -5801,9 +5801,9 @@ laravel-mix-purgecss@^6.0.0:
     postcss-purgecss-laravel "^2.0.0"
 
 laravel-mix@^6.0.6:
-  version "6.0.16"
-  resolved "https://registry.yarnpkg.com/laravel-mix/-/laravel-mix-6.0.16.tgz#f0990eb31cb7321cd40125d4dc6f108e9687a196"
-  integrity sha512-d+u9zG2AsoONT+Z/Vbn73RDkgDJtR0dAH6UoZCNb8ewm+dG2JURYI9oOe8C/w4zKekb1GSIj832LvR2hVrqHGw==
+  version "6.0.18"
+  resolved "https://registry.yarnpkg.com/laravel-mix/-/laravel-mix-6.0.18.tgz#ce1ef5053e59a6ad611f787da181e337394e53aa"
+  integrity sha512-OIyJFvpdyPRS6UWAbECwK1hRvba7VkH2wJIMWY8bButecpd+6Zde4/uKFDs/Up31jzOh8qPxObkamcsGxGq3jg==
   dependencies:
     "@babel/core" "^7.12.3"
     "@babel/plugin-proposal-object-rest-spread" "^7.12.1"
@@ -5829,7 +5829,7 @@ laravel-mix@^6.0.6:
     commander "^7.1.0"
     concat "^1.0.3"
     css-loader "^5.0.0"
-    cssnano "^4.1.10"
+    cssnano "^4.1.11"
     dotenv "^8.2.0"
     dotenv-expand "^5.1.0"
     file-loader "^6.1.1"
@@ -5845,6 +5845,7 @@ laravel-mix@^6.0.6:
     postcss-load-config "^3.0.0"
     postcss-loader "^5.2.0"
     semver "^7.3.4"
+    strip-ansi "^6.0.0"
     style-loader "^2.0.0"
     terser "^5.3.7"
     terser-webpack-plugin "^5.0.0"
