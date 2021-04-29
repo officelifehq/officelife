@@ -19,9 +19,7 @@
     <span class="db fw5 mb2">
       <span class="mr1">
         🧑‍🎓
-      </span> Position history in the company
-
-      <help :url="$page.props.help_links.ecoffee" />
+      </span> {{ $t('employee.past_position_history_title') }}
     </span>
 
     <div class="br3 bg-white box z-1">
@@ -41,13 +39,7 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
-
 export default {
-  components: {
-    Help,
-  },
-
   props: {
     positions: {
       type: Object,
