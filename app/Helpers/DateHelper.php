@@ -53,7 +53,7 @@ class DateHelper
     }
 
     /**
-     * Return the month and the year in a format like "Jul 2020".
+     * Return the short month and the year in a format like "Jul 2020".
      *
      * @param Carbon $date
      * @return string
