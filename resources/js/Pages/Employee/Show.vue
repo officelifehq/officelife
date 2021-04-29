@@ -55,6 +55,11 @@
             :direct-reports="directReports"
           />
 
+          <employee-past-positions
+            v-if="positions.length != 0"
+            :positions="positions"
+          />
+
           <skills
             :employee="employee"
             :permissions="permissions"
@@ -84,6 +89,7 @@ import Hierarchy from '@/Pages/Employee/Partials/Hierarchy';
 import Question from '@/Pages/Employee/Partials/Question';
 import Skills from '@/Pages/Employee/Partials/Skills';
 import ECoffee from '@/Pages/Employee/Partials/ECoffee';
+import EmployeePastPositions from '@/Pages/Employee/Partials/EmployeePastPositions';
 
 export default {
   components: {
@@ -95,6 +101,7 @@ export default {
     Question,
     Skills,
     ECoffee,
+    EmployeePastPositions,
   },
 
   props: {
@@ -136,6 +143,10 @@ export default {
     },
     uploadcarePublicKey: {
       type: String,
+      default: null,
+    },
+    positions: {
+      type: Object,
       default: null,
     },
   },

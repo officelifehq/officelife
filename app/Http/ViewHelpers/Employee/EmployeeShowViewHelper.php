@@ -933,4 +933,30 @@ class EmployeeShowViewHelper
 
         return $percent;
     }
+
+    /**
+     * Get the list of all positions the employee ever had in the company.
+     *
+     * @param Employee $employee
+     * @param Company $company
+     * @return Collection
+     */
+    public static function employeeCurrentAndPastPositions(Employee $employee, Company $company): Collection
+    {
+        $positions = $employee->positionHistoryEntries()
+            ->orderBy('started_at', 'desc')
+            ->get();
+
+        $positionCollection = collect();
+        foreach ($positions as $entry) {
+            $positionCollection->push([
+                'id' => $entry->id,
+                'position' => $entry->position->title,
+                'started_at' => DateHelper::formatMonthAndYear($entry->started_at),
+                'ended_at' => $entry->ended_at ? DateHelper::formatMonthAndYear($entry->ended_at) : null,
+            ]);
+        }
+
+        return $positionCollection;
+    }
 }

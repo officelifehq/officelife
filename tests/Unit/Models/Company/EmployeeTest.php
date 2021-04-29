@@ -38,6 +38,7 @@ use App\Models\Company\GuessEmployeeGame;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
 use App\Models\Company\EmployeePlannedHoliday;
+use App\Models\Company\EmployeePositionHistory;
 use App\Models\Company\EmployeeDailyCalendarEntry;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -501,6 +502,17 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->picture()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_employee_position_history_entries(): void
+    {
+        $dwight = Employee::factory()->create();
+        EmployeePositionHistory::factory()->count(2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->positionHistoryEntries()->exists());
     }
 
     /** @test */

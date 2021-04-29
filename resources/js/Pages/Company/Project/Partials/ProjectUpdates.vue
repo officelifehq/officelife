@@ -13,7 +13,7 @@
         <!-- if no status yet -->
         <p v-else>{{ $t('project.summary_project_latest_update_no_status') }}</p>
 
-        <inertia-link v-if="permissions.can_edit_latest_update" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/status'" class="btn f5" data-cy="add-recent-ship-entry">{{ $t('project.summary_project_latest_update_cta') }}</inertia-link>
+        <inertia-link v-if="permissions.can_edit_latest_update" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/status'" class="btn f5">{{ $t('project.summary_project_latest_update_cta') }}</inertia-link>
       </div>
 
       <!-- description + author -->
