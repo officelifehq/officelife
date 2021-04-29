@@ -7,8 +7,6 @@
 
 </div>
 
-# OfficeLife
-
 <div align="center">
 
   ![Logo](docs/img/logo.png)

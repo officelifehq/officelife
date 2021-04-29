@@ -67,6 +67,9 @@ class EmployeePresentationController extends Controller
         // all eCoffee session of this employee
         $ecoffees = EmployeeShowViewHelper::eCoffees($employee, $company);
 
+        // all current and past positions
+        $currentPastPositions = EmployeeShowViewHelper::employeeCurrentAndPastPositions($employee, $company);
+
         // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
         $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions, $loggedEmployee);
 
@@ -82,6 +85,7 @@ class EmployeePresentationController extends Controller
             'teams' => $employeeTeams,
             'skills' => $skills,
             'ecoffees' => $ecoffees,
+            'positions' => $currentPastPositions,
         ]);
     }
 

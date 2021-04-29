@@ -53,6 +53,17 @@ class DateHelper
     }
 
     /**
+     * Return the short month and the year in a format like "Jul 2020".
+     *
+     * @param Carbon $date
+     * @return string
+     */
+    public static function formatMonthAndYear(Carbon $date): string
+    {
+        return $date->isoFormat(trans('format.short_month_day'));
+    }
+
+    /**
      * Return the day and the month in a format like "Jul 29".
      *
      * @param Carbon $date

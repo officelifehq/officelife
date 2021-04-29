@@ -530,6 +530,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the employee position history associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function positionHistoryEntries()
+    {
+        return $this->hasMany(EmployeePositionHistory::class);
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query
