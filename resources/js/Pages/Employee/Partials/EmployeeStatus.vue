@@ -91,7 +91,7 @@
       </div>
 
       <!-- Shown if there is no statuses setup in the account yet -->
-      <div v-if="statuses">
+      <div v-if="!statuses">
         <p class="pa2 tc lh-copy" data-cy="modal-blank-state-copy">
           {{ $t('employee.status_modal_blank_title') }} <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employeestatuses'" data-cy="modal-blank-state-cta">
             {{ $t('employee.status_modal_blank_cta') }}
@@ -122,7 +122,7 @@
     </ul>
 
     <!-- Action when there is no status defined -->
-    <span v-else class="f6">
+    <span v-if="!localEmployee.status" class="f6">
       {{ $t('employee.status_modal_blank') }}
 
       <a v-show="permissions.can_manage_status" data-cy="edit-status-button" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="displayModal()">{{ $t('app.edit') }}</a>
