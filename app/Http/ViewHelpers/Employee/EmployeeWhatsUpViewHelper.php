@@ -22,19 +22,21 @@ class EmployeeWhatsUpViewHelper
 {
     public static function information(Employee $employee): array
     {
-        $rate = $employee->consultantRates()->where('active', true)->first();
+        $activeRate = $employee->consultantRates()->where('active', true)->first();
+        $previousRate = $employee->consultantRates()->where('active', false)->orderBy('id', 'desc')->first();
 
         return [
             'id' => $employee->id,
             'name' => $employee->name,
-            'avatar' => ImageHelper::getAvatar($employee, 300),
+            'avatar' => ImageHelper::getAvatar($employee, 100),
             'hired_at' => (! $employee->hired_at) ? null : [
                 'full' => DateHelper::formatDate($employee->hired_at),
             ],
             'contract_renewed_at' => (! $employee->contract_renewed_at) ? null : DateHelper::formatDate($employee->contract_renewed_at),
-            'contract_rate' => (! $rate) ? null : [
-                'rate' => $rate->rate,
+            'contract_rate' => (! $activeRate) ? null : [
+                'rate' => $activeRate->rate,
                 'currency' => $employee->company->currency,
+                'previous_rate' => $previousRate ? $previousRate->rate : null,
             ],
             'position' => (! $employee->position) ? null : [
                 'id' => $employee->position->id,
@@ -47,9 +49,34 @@ class EmployeeWhatsUpViewHelper
             'status' => (! $employee->status) ? null : [
                 'id' => $employee->status->id,
                 'name' => $employee->status->name,
-                'type' => $employee->status->type,
+                'external' => $employee->status->type == EmployeeStatus::EXTERNAL,
             ],
         ];
+    }
+
+    public static function yearsInCompany(Employee $employee, Company $company, int $selectedYear): ?Collection
+    {
+        if (is_null($employee->hired_at)) {
+            return null;
+        }
+
+        $yearHired = $employee->hired_at->year;
+        $numberOfYears = Carbon::now()->year - $yearHired;
+        $yearsCollection = collect();
+        for ($i = 0; $i <= $numberOfYears; $i++) {
+            $yearsCollection->push([
+                'year' => $yearHired,
+                'selected' => $yearHired === $selectedYear,
+                'url' => route('employee.show.whatsup.year', [
+                    'company' => $company,
+                    'employee' => $employee,
+                    'year' => $yearHired,
+                ]),
+            ]);
+            $yearHired = $yearHired + 1;
+        }
+
+        return $yearsCollection;
     }
 
     public static function oneOnOnes(Employee $employee, Carbon $startDate, Carbon $endDate, Company $company): int
@@ -91,8 +118,9 @@ class EmployeeWhatsUpViewHelper
         // projects worked on during the time frame
         $projectIds = ProjectMemberActivity::where('employee_id', $employee->id)
             ->whereBetween('created_at', [$startDate, $endDate])
+            ->orderBy('id', 'desc')
             ->pluck('project_id')
-            ->unique('project_id')
+            ->unique()
             ->toArray();
 
         $projects = Project::whereIn('id', $projectIds)->get();
@@ -125,7 +153,6 @@ class EmployeeWhatsUpViewHelper
             ->addSelect([
                 'minutes_worked_per_week' => TimeTrackingEntry::select(DB::raw('SUM(duration) as duration'))
                     ->whereColumn('timesheet_id', 'timesheets.id')
-                    ->whereColumn('employee_id', $employee->id)
                     ->groupBy('timesheet_id'),
             ])
             ->get();
@@ -169,7 +196,11 @@ class EmployeeWhatsUpViewHelper
             ->whereBetween('date', [$startDate, $endDate])
             ->count();
 
-        $numberOfDaysBetweenDates = $startDate->diffInDays($endDate);
+        if (Carbon::now()->isAfter($endDate)) {
+            $numberOfDaysBetweenDates = $startDate->diffInDays($endDate);
+        } else {
+            $numberOfDaysBetweenDates = $startDate->diffInDays(Carbon::now());
+        }
 
         return [
             'number_times_work_from_home' => $workFromHomeCount,
@@ -183,7 +214,11 @@ class EmployeeWhatsUpViewHelper
             ->whereBetween('created_at', [$startDate, $endDate])
             ->count();
 
-        $numberOfDaysBetweenDates = $startDate->diffInDays($endDate);
+        if (Carbon::now()->isAfter($endDate)) {
+            $numberOfDaysBetweenDates = $startDate->diffInDays($endDate);
+        } else {
+            $numberOfDaysBetweenDates = $startDate->diffInDays(Carbon::now());
+        }
 
         return [
             'number_worklogs' => $worklogCount,

@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use App\Models\Company\Project;
@@ -20,6 +21,57 @@ use App\Http\ViewHelpers\Employee\EmployeeWhatsUpViewHelper;
 class EmployeeWhatsUpViewHelperTest extends TestCase
 {
     use DatabaseTransactions;
+
+    /** @test */
+    public function it_gets_the_information_about_the_employee(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $this->assertEquals(
+            [
+                'id' => $michael->id,
+                'name' => $michael->name,
+                'avatar' => ImageHelper::getAvatar($michael, 300),
+                'hired_at' => null,
+                'contract_renewed_at' => null,
+                'contract_rate' => null,
+                'position' => null,
+                'pronoun' => null,
+                'status' => null,
+            ],
+            EmployeeWhatsUpViewHelper::information($michael)
+        );
+    }
+
+    /** @test */
+    public function it_gets_an_array_of_all_the_years_since_hiring(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $michael = Employee::factory()->create([
+            'hired_at' => Carbon::now()->subYears(2),
+        ]);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'year' => 2016,
+                    'selected' => false,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/whatsup/2016',
+                ],
+                1 => [
+                    'year' => 2017,
+                    'selected' => false,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/whatsup/2017',
+                ],
+                2 => [
+                    'year' => 2018,
+                    'selected' => true,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/whatsup/2018',
+                ],
+            ],
+            EmployeeWhatsUpViewHelper::yearsInCompany($michael, $michael->company, 2018)->toArray()
+        );
+    }
 
     /** @test */
     public function it_gets_the_information_about_the_one_on_ones(): void
@@ -258,7 +310,7 @@ class EmployeeWhatsUpViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 'number_times_work_from_home' => 2,
-                'percent_work_from_home' => 2,
+                'percent_work_from_home' => 3,
             ],
             EmployeeWhatsUpViewHelper::workFromHome($michael, $startDate, $endDate)
         );
@@ -282,7 +334,7 @@ class EmployeeWhatsUpViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 'number_worklogs' => 4,
-                'percent_completion' => 3,
+                'percent_completion' => 7,
             ],
             EmployeeWhatsUpViewHelper::worklogs($michael, $startDate, $endDate)
         );

@@ -52,7 +52,7 @@
       <div v-show="projects.length > 0">
         <div v-for="project in projects" :key="project.id" class="pa3 bb bb-gray bb-gray-hover w-100 flex justify-between items-center projects-list">
           <!-- project information -->
-          <div class="">
+          <div>
             <span class="dib mb2">
               {{ project.name }}
               <span v-if="project.code" class="ml2 ttu f7 project-code code br3 pa1 relative fw4">

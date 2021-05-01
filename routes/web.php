@@ -172,6 +172,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
             Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
                 Route::get('{employee}/whatsup', 'Company\\Employee\\Whatsup\\EmployeeWhatsupController@index')->name('employee.show.whatsup');
+                Route::get('{employee}/whatsup/{year}', 'Company\\Employee\\Whatsup\\EmployeeWhatsupController@index')->name('employee.show.whatsup.year');
             });
 
             // administration tab
