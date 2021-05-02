@@ -22,21 +22,12 @@ class EmployeeWhatsUpViewHelper
 {
     public static function information(Employee $employee): array
     {
-        $activeRate = $employee->consultantRates()->where('active', true)->first();
-        $previousRate = $employee->consultantRates()->where('active', false)->orderBy('id', 'desc')->first();
-
         return [
             'id' => $employee->id,
             'name' => $employee->name,
             'avatar' => ImageHelper::getAvatar($employee, 100),
             'hired_at' => (! $employee->hired_at) ? null : [
                 'full' => DateHelper::formatDate($employee->hired_at),
-            ],
-            'contract_renewed_at' => (! $employee->contract_renewed_at) ? null : DateHelper::formatDate($employee->contract_renewed_at),
-            'contract_rate' => (! $activeRate) ? null : [
-                'rate' => $activeRate->rate,
-                'currency' => $employee->company->currency,
-                'previous_rate' => $previousRate ? $previousRate->rate : null,
             ],
             'position' => (! $employee->position) ? null : [
                 'id' => $employee->position->id,
@@ -179,6 +170,9 @@ class EmployeeWhatsUpViewHelper
             return;
         }
 
+        $activeRate = $employee->consultantRates()->where('active', true)->first();
+        $previousRate = $employee->consultantRates()->where('active', false)->orderBy('id', 'desc')->first();
+
         $contractRenewInTimeframe = false;
         if ($employee->contract_renewed_at->between($startDate, $endDate)) {
             $contractRenewInTimeframe = true;
@@ -186,7 +180,12 @@ class EmployeeWhatsUpViewHelper
 
         return [
             'contract_renews_in_timeframe' => $contractRenewInTimeframe,
-            'hired_date' => DateHelper::formatDate($employee->contract_renewed_at),
+            'contract_renewed_at' => (! $employee->contract_renewed_at) ? null : DateHelper::formatDate($employee->contract_renewed_at),
+            'contract_rate' => (! $activeRate) ? null : [
+                'rate' => $activeRate->rate,
+                'currency' => $employee->company->currency,
+                'previous_rate' => $previousRate ? $previousRate->rate : null,
+            ],
         ];
     }
 

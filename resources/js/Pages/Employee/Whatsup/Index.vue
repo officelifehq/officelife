@@ -37,8 +37,8 @@
             <avatar :avatar="employee.avatar" :size="100" :class="'avatar mr3'" />
 
             <div>
-              <h2 class="mt1">
-                {{ employee.name }} <span v-if="employee.pronoun">
+              <h2 class="mt2 fw4">
+                {{ employee.name }} <span v-if="employee.pronoun" class="f5">
                   ({{ employee.pronoun.label }})
                 </span>
               </h2>
@@ -46,18 +46,20 @@
               <div class="flex">
                 <!-- Current position -->
                 <div class="mr4">
-                  <p class="mb1 f6 gray">Current position</p>
+                  <p class="mb1 f6 gray mt0">Current position</p>
                   <p v-if="employee.position" class="mt0">{{ employee.position.title }}</p>
                 </div>
 
                 <!-- Hiring date -->
                 <div>
-                  <p class="mb1 f6 gray">Hired on</p>
+                  <p class="mb1 f6 gray mt0">Hired on</p>
                   <p v-if="employee.hired_at" class="mt0">{{ employee.hired_at.full }}</p>
                 </div>
               </div>
             </div>
           </div>
+
+          <!-- contract information -->
 
           <ul v-if="employee.status">
             <li>Contract: {{ employee.status.name }}</li>

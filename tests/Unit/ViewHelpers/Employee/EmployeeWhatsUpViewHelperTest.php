@@ -13,6 +13,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\ConsultantRate;
 use App\Models\Company\TimeTrackingEntry;
 use App\Models\Company\ProjectMemberActivity;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -33,8 +34,6 @@ class EmployeeWhatsUpViewHelperTest extends TestCase
                 'name' => $michael->name,
                 'avatar' => ImageHelper::getAvatar($michael, 300),
                 'hired_at' => null,
-                'contract_renewed_at' => null,
-                'contract_rate' => null,
                 'position' => null,
                 'pronoun' => null,
                 'status' => null,
@@ -282,11 +281,26 @@ class EmployeeWhatsUpViewHelperTest extends TestCase
         $michael = Employee::factory()->asExternal()->create([
             'contract_renewed_at' => Carbon::now(),
         ]);
+        ConsultantRate::factory()->create([
+            'employee_id' => $michael->id,
+            'rate' => 50,
+            'active' => false,
+        ]);
+        ConsultantRate::factory()->create([
+            'employee_id' => $michael->id,
+            'rate' => 100,
+            'active' => true,
+        ]);
 
         $this->assertEquals(
             [
                 'contract_renews_in_timeframe' => true,
-                'hired_date' => 'Jan 01, 2018',
+                'contract_renewed_at' => 'Jan 01, 2018',
+                'contract_rate' => [
+                    'rate' => 100,
+                    'currency' => $michael->company->currency,
+                    'previous_rate' => 50,
+                ],
             ],
             EmployeeWhatsUpViewHelper::external($michael, $startDate, $endDate)
         );
