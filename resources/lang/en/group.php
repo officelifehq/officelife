@@ -29,6 +29,7 @@ return [
     'meeting_show_delete' => 'Delete the meeting',
     'meeting_show_delete_success' => 'The meeting has been deleted.',
     'meeting_show_title' => 'Agenda of the meeting',
+    'meeting_show_add_title' => 'What should we talk about?',
     'meeting_show_add_agenda_item_details' => 'Add more details',
     'meeting_show_add_agenda_item_presenter' => 'Add a presenter',
     'meeting_show_add_agenda_item_presenter_title' => 'Who will present?',
@@ -36,6 +37,9 @@ return [
     'meeting_show_add_agenda_item_cta' => 'Add new agenda item',
     'meeting_show_edit_details' => 'Edit details',
     'meeting_show_add_decision' => '+ Add decision or follow-up',
+    'meeting_show_decision_title' => 'Decision',
     'meeting_show_add_decision_label' => 'Describe the decision',
     'meeting_show_edit_decision_cta' => 'Edit decisions',
+    'meeting_show_edit_decision_exit' => 'Exit edit mode',
+    'meeting_show_blank' => 'Add items on the agenda, assign a presenter for each item and start the meeting!',
 ];

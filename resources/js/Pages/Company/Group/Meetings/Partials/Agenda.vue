@@ -109,7 +109,7 @@
                     <select-box v-model="form.presented_by_id"
                                 :options="potentialPresenters"
                                 :errors="$page.props.errors.presented_by_id"
-                                :label="'Who will present?'"
+                                :label="$t('group.meeting_show_add_agenda_item_presenter_title')"
                                 :placeholder="$t('app.choose_value')"
                                 :value="form.presented_by_id"
                     />
@@ -143,7 +143,10 @@
             <div v-if="agendaItem.decisions">
               <ul v-if="agendaItem.decisions.length > 0" class="pa0 list mb3">
                 <li v-for="decision in agendaItem.decisions" :key="decision.id" class="mb3">
-                  <span class="db mb2 f7 fw6 gray"><span class="mr1">👉</span> Decision</span>
+                  <!-- title -->
+                  <span class="db mb2 f7 fw6 gray"><span class="mr1">👉</span> {{ $t('group.meeting_show_decision_title') }}</span>
+
+                  <!-- description -->
                   <span class="parsed-content mr3" v-html="decision.description"></span>
 
                   <!-- remove decision -->
@@ -183,13 +186,13 @@
               </li>
 
               <!-- Edit decisions -->
-              <li v-if="decisionForAgendaItemId != agendaItem.id && agendaItem.decisions.length != 0" class="di">
-                <a class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click="showEditDecisionMode(agendaItem)">{{ $t('group.meeting_show_edit_decision_cta') }}</a>
+              <li v-if="decisionForAgendaItemId != agendaItem.id && agendaItem.decisions" class="di">
+                <a v-if="agendaItem.decisions.length > 0" class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click="showEditDecisionMode(agendaItem)">{{ $t('group.meeting_show_edit_decision_cta') }}</a>
               </li>
 
               <!-- Exit edit decision mode -->
               <li v-if="editDecisionMode && decisionForAgendaItemId == agendaItem.id" class="di">
-                <a class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click="hideEditDecisionMode">Exit edit mode</a>
+                <a class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click="hideEditDecisionMode">{{ $t('group.meeting_show_edit_decision_exit') }}</a>
               </li>
             </ul>
           </div>
@@ -197,10 +200,23 @@
       </li>
 
       <!-- link to add a new agenda item -->
-      <li v-if="! addAgendaItemMode" class="mt3 flex relative new-item relative">
+      <li v-if="! addAgendaItemMode && localAgenda.length != 0" class="mt3 flex relative new-item relative">
         <div class="mr3"></div>
         <a class="btn" @click.prevent="showAddAgendaItem()">{{ $t('group.meeting_show_add_agenda_item_cta') }}</a>
       </li>
+
+      <!-- blank state -->
+      <div v-if="localAgenda.length == 0" class="bg-white box pa3 tc mb2">
+        <h3 class="fw4 f5">
+          {{ $t('group.meeting_show_blank') }}
+        </h3>
+        <img loading="lazy" src="/img/streamline-icon-cyclist-1-4@140x140.png" width="140" height="140" alt="people hanging out"
+             class="di-ns dn top-1 left-1"
+        />
+        <div class="db mt3 mb3">
+          <a class="btn " @click.prevent="showAddAgendaItem()">{{ $t('group.meeting_show_add_agenda_item_cta') }}</a>
+        </div>
+      </div>
 
       <!-- Modal - Add agenda item -->
       <li v-if="addAgendaItemMode" class="bg-white box pa3 bg-gray relative">
@@ -212,7 +228,7 @@
                         v-model="form.summary"
                         :name="'summary'"
                         :errors="$page.props.errors.summary"
-                        :label="'What should we talk about?'"
+                        :label="$t('group.meeting_show_add_title')"
                         :required="true"
                         @esc-key-pressed="hideAddAgendaItem()"
             />
