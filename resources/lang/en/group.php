@@ -7,6 +7,9 @@ return [
     'create_members' => 'Who should be part of this group?',
     'create_members_help' => 'Type the first letters of the employee',
 
+    'summary_edit' => 'Edit information',
+    'summary_delete' => 'Delete the group',
+
     'members_add_cta' => 'Add a new member',
     'members_add_placeholder' => 'Enter the first letters of a name',
     'members_index_blank' => ' Groups are more fun with employees. Add an employee now.',

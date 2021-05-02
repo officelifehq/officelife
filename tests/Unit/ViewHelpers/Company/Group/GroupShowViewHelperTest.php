@@ -44,5 +44,15 @@ class GroupShowViewHelperTest extends TestCase
             5,
             count($array['members']->toArray())
         );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/company/groups/'.$group->id.'/edit',
+            $array['url_edit']
+        );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/company/groups/'.$group->id.'/delete',
+            $array['url_delete']
+        );
     }
 }

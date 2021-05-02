@@ -156,6 +156,11 @@
             <div class="bg-white box mb4">
               <p>sdfsd</p>
             </div>
+
+            <ul class="list pl0">
+              <li class="mb2 pl2"><inertia-link :href="localGroup.url_edit" class="f6 gray">{{ $t('group.summary_edit') }}</inertia-link></li>
+              <li class="pl2"><inertia-link :href="localGroup.url_delete" class="f6 gray c-delete">{{ $t('group.summary_delete') }}</inertia-link></li>
+            </ul>
           </div>
         </div>
       </div>

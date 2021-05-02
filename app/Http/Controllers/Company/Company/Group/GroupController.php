@@ -170,4 +170,25 @@ class GroupController extends Controller
             ],
         ], 201);
     }
+
+    /**
+     * Display the Edit group page.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $groupId
+     * @return Response
+     */
+    public function edit(Request $request, int $companyId, int $groupId): Response
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $group = Group::where('company_id', $company->id)
+            ->findOrFail($groupId);
+
+        return Inertia::render('Company/Group/Edit', [
+            'group' => GroupShowViewHelper::information($group, $company),
+            'tab' => 'info',
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
 }

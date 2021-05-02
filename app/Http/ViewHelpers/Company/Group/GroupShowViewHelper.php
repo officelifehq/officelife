@@ -43,6 +43,14 @@ class GroupShowViewHelper
             'id' => $group->id,
             'name' => $group->name,
             'members' => $membersCollection,
+            'url_edit' => route('groups.edit', [
+                'company' => $company,
+                'group' => $group,
+            ]),
+            'url_delete' => route('groups.destroy', [
+                'company' => $company,
+                'group' => $group,
+            ]),
         ];
     }
 }
