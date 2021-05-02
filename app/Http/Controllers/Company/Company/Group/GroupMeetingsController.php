@@ -334,6 +334,15 @@ class GroupMeetingsController extends Controller
                 'summary' => $agendaItem->summary,
                 'description' => $agendaItem->description,
                 'position' => $agendaItem->position,
+                'presenter' => $agendaItem->presenter ? [
+                    'id' => $agendaItem->presenter->id,
+                    'name' => $agendaItem->presenter->name,
+                    'avatar' => ImageHelper::getAvatar($agendaItem->presenter, 23),
+                    'url' => route('employees.show', [
+                        'company' => $loggedCompany,
+                        'employee' => $agendaItem->presenter,
+                    ]),
+                ] : null,
             ],
         ]);
     }
@@ -348,7 +357,7 @@ class GroupMeetingsController extends Controller
      * @param int $agendaItemId
      * @return JsonResponse
      */
-    public function updateSummary(Request $request, int $companyId, int $groupId, int $meetingId, int $agendaItemId): JsonResponse
+    public function updateAgendaItem(Request $request, int $companyId, int $groupId, int $meetingId, int $agendaItemId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -370,6 +379,15 @@ class GroupMeetingsController extends Controller
                 'summary' => $agendaItem->summary,
                 'description' => $agendaItem->description,
                 'position' => $agendaItem->position,
+                'presenter' => $agendaItem->presenter ? [
+                    'id' => $agendaItem->presenter->id,
+                    'name' => $agendaItem->presenter->name,
+                    'avatar' => ImageHelper::getAvatar($agendaItem->presenter, 23),
+                    'url' => route('employees.show', [
+                        'company' => $loggedCompany,
+                        'employee' => $agendaItem->presenter,
+                    ]),
+                ] : null,
             ],
         ]);
     }

@@ -17,16 +17,20 @@
 }
 
 .small-avatar {
-  top: -16px;
+  top: -12px;
   background-color: #fff;
   padding: 4px;
-  right: 17px;
+  right: 14px;
+}
+
+.new-item div {
+  width: 24px;
 }
 </style>
 
 <template>
   <div>
-    <div class="db fw5 mb2 flex justify-between items-center">
+    <div class="db fw5 mb3 flex justify-between items-center">
       <span>
         <span class="mr1">
           🎒
@@ -47,7 +51,7 @@
         <div class="w-100">
           <div class="bg-white box pa3 w-100 relative">
             <!-- presented by -->
-            <div v-if="agendaItem.presenter" class="absolute small-avatar box">
+            <div v-if="agendaItem.presenter && agendaItemEditedId != agendaItem.id" class="absolute small-avatar box">
               <small-name-and-avatar
                 :name="agendaItem.presenter.name"
                 :avatar="agendaItem.presenter.avatar"
@@ -64,7 +68,7 @@
 
               <!-- edit agenda item -->
               <li v-if="editAgendaItemMode && agendaItemEditedId == agendaItem.id">
-                <form @submit.prevent="storeAgendaItem()">
+                <form @submit.prevent="editSummary(agendaItem)">
                   <!-- agenda item title + checkbox -->
                   <div class="">
                     <text-input :id="'summary'"
@@ -93,8 +97,8 @@
                     />
                   </div>
 
-                  <!-- add presenter -->
-                  <div v-if="addPresenterMode" class="cf mb2">
+                  <!-- edit presenter -->
+                  <div v-if="editPresenterMode && agendaItemEditedId == agendaItem.id" class="cf mb2">
                     <select-box v-model="form.presented_by_id"
                                 :options="potentialPresenters"
                                 :errors="$page.props.errors.presented_by_id"
@@ -116,9 +120,9 @@
             </ul>
 
             <!-- description -->
-            <div v-if="agendaItem.description">
-              <div class="db parsed-content mb3" v-html="agendaItem.description"></div>
-              <span class="di"><a class="bb b--dotted mr2 bt-0 bl-0 br-0 pointer f7">Edit details</a></span>
+            <div v-if="agendaItem.description && agendaItemEditedId != agendaItem.id" class="mt2">
+              <div class="db parsed-content mb2" v-html="agendaItem.description"></div>
+              <span class="di"><a class="bb b--dotted mr2 bt-0 bl-0 br-0 pointer f7" @click="showEditMode(agendaItem)">Edit details</a></span>
             </div>
           </div>
 
@@ -135,7 +139,7 @@
               </li>
             </ul>
             <span class="db f6">
-              <a class="bb b--dotted bt-0 bl-0 br-0 pointer di">Add decision or follow-up</a>
+              <a class="bb b--dotted bt-0 bl-0 br-0 pointer di">+ Add decision or follow-up</a>
             </span>
           </div>
         </div>
@@ -143,11 +147,12 @@
 
       <!-- link to add a new agenda item -->
       <li v-if="! addAgendaItemMode" class="mt3 flex relative new-item relative">
+        <div class="mr3"></div>
         <a class="btn" @click.prevent="showAddAgendaItem()">Add new agenda item</a>
       </li>
 
       <!-- Modal - Add agenda item -->
-      <li v-if="addAgendaItemMode" class="bg-white box pa3 bg-gray new-item relative">
+      <li v-if="addAgendaItemMode" class="bg-white box pa3 bg-gray relative">
         <form @submit.prevent="storeAgendaItem()">
           <!-- agenda item title + checkbox -->
           <div class="">
@@ -290,15 +295,7 @@ export default {
 
     showAddPresenter() {
       this.addPresenterMode = true;
-
-      axios.get(`/${this.$page.props.auth.company.id}/company/groups/${this.groupId}/meetings/${this.meeting.meeting.id}/presenters`)
-        .then(response => {
-          this.potentialPresenters = response.data.data;
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = error.response.data;
-        });
+      this.loadPotentialPresenters();
     },
 
     hideAddPresenter() {
@@ -322,6 +319,7 @@ export default {
 
       if (agendaItem.presenter) {
         this.editPresenterMode = true;
+        this.loadPotentialPresenters();
       }
 
       this.$nextTick(() => {
@@ -347,12 +345,24 @@ export default {
 
     showEditPresenterMode() {
       this.editPresenterMode = true;
+      this.loadPotentialPresenters();
     },
 
     clearForm() {
       this.form.summary = null;
       this.form.description = null;
       this.form.presented_by_id = null;
+    },
+
+    loadPotentialPresenters() {
+      axios.get(`/${this.$page.props.auth.company.id}/company/groups/${this.groupId}/meetings/${this.meeting.meeting.id}/presenters`)
+        .then(response => {
+          this.potentialPresenters = response.data.data;
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
     },
 
     storeAgendaItem() {
@@ -372,11 +382,11 @@ export default {
     },
 
     editSummary(agendaItem) {
-      axios.post(`/${this.$page.props.auth.company.id}/company/groups/${this.groupId}/meetings/${this.meeting.meeting.id}/updateSummary/${agendaItem.id}`, this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/company/groups/${this.groupId}/meetings/${this.meeting.meeting.id}/updateAgendaItem/${agendaItem.id}`, this.form)
         .then(response => {
-          this.clearForm();
           this.editAgendaItemMode = false;
           this.agendaItemEditedId = 0;
+          this.clearForm();
 
           this.localAgenda[this.localAgenda.findIndex(x => x.id === agendaItem.id)] = response.data.data;
         })
