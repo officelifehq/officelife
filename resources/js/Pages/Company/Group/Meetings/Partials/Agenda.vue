@@ -21,6 +21,10 @@
   background-color: #fff;
   padding: 4px;
   right: 14px;
+
+  a {
+    border-bottom: 0;
+  }
 }
 
 .new-item div {
@@ -61,6 +65,7 @@
                 :size="'18px'"
                 :top="'0px'"
                 :margin-between-name-avatar="'25px'"
+                :url="agendaItem.presenter.url"
               />
             </div>
 
@@ -139,7 +144,10 @@
               <ul v-if="agendaItem.decisions.length > 0" class="pa0 list mb3">
                 <li v-for="decision in agendaItem.decisions" :key="decision.id" class="mb3">
                   <span class="db mb2 f7 fw6 gray"><span class="mr1">👉</span> Decision</span>
-                  <span class="parsed-content" v-html="decision.description"></span>
+                  <span class="parsed-content mr3" v-html="decision.description"></span>
+
+                  <!-- remove decision -->
+                  <span v-if="editDecisionMode && decisionForAgendaItemId == agendaItem.id" class="f6 gray bb b--dotted bt-0 bl-0 br-0 pointer di c-delete" @click="destroyDecision(agendaItem, decision)">{{ $t('app.remove') }}</span>
                 </li>
               </ul>
             </div>
@@ -167,13 +175,21 @@
               </form>
             </div>
 
-            <!-- CTA to add a decision -->
-            <ul class="db f6 ma0 pl0 list">
+            <!-- CTA for decisions -->
+            <ul class="db f7 ma0 pl0 list">
+              <!-- Add decision -->
               <li v-if="decisionForAgendaItemId != agendaItem.id" class="di mr3">
                 <a class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click="showAddDecision(agendaItem)">{{ $t('group.meeting_show_add_decision') }}</a>
               </li>
-              <li v-if="decisionForAgendaItemId != agendaItem.id" class="di">
-                <a class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click="showAddDecision(agendaItem)">Edit decisions</a>
+
+              <!-- Edit decisions -->
+              <li v-if="decisionForAgendaItemId != agendaItem.id && agendaItem.decisions.length != 0" class="di">
+                <a class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click="showEditDecisionMode(agendaItem)">{{ $t('group.meeting_show_edit_decision_cta') }}</a>
+              </li>
+
+              <!-- Exit edit decision mode -->
+              <li v-if="editDecisionMode && decisionForAgendaItemId == agendaItem.id" class="di">
+                <a class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click="hideEditDecisionMode">Exit edit mode</a>
               </li>
             </ul>
           </div>
@@ -397,6 +413,16 @@ export default {
       this.loadPotentialPresenters();
     },
 
+    showEditDecisionMode(agendaItem) {
+      this.editDecisionMode = true;
+      this.decisionForAgendaItemId = agendaItem.id;
+    },
+
+    hideEditDecisionMode() {
+      this.editDecisionMode = false;
+      this.decisionForAgendaItemId = 0;
+    },
+
     clearForm() {
       this.form.summary = null;
       this.form.description = null;
@@ -478,6 +504,7 @@ export default {
         .then(response => {
           this.loadingState = null;
           this.hideAddDecision();
+          this.form.description = null;
 
           this.localAgenda[this.localAgenda.findIndex(x => x.id === agendaItem.id)].decisions.push(response.data.data);
         })
@@ -485,7 +512,24 @@ export default {
           this.loadingState = null;
           this.form.errors = error.response.data;
         });
-    }
+    },
+
+    destroyDecision(agendaItem, decision) {
+      axios.delete(`/${this.$page.props.auth.company.id}/company/groups/${this.groupId}/meetings/${this.meeting.meeting.id}/agendaItem/${agendaItem.id}/decisions/${decision.id}`)
+        .then(response => {
+          var agendaItemId = this.localAgenda.findIndex(x => x.id === agendaItem.id);
+          var decisionId = this.localAgenda[agendaItemId].decisions.findIndex(x => x.id === decision.id);
+          this.localAgenda[agendaItemId].decisions.splice(decisionId, 1);
+
+          if (this.localAgenda[agendaItemId].decisions.length == 0) {
+            this.hideEditDecisionMode();
+          }
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
   }
 };
 

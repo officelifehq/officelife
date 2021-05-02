@@ -37,4 +37,5 @@ return [
     'meeting_show_edit_details' => 'Edit details',
     'meeting_show_add_decision' => '+ Add decision or follow-up',
     'meeting_show_add_decision_label' => 'Describe the decision',
+    'meeting_show_edit_decision_cta' => 'Edit decisions',
 ];

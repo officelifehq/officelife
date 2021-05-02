@@ -21,6 +21,7 @@ use App\Services\Company\Group\AddGuestToMeeting;
 use App\Services\Company\Group\DestroyAgendaItem;
 use App\Services\Company\Group\UpdateMeetingDate;
 use App\Services\Company\Group\CreateMeetingDecision;
+use App\Services\Company\Group\DestroyMeetingDecision;
 use App\Services\Company\Group\RemoveGuestFromMeeting;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Group\GroupShowViewHelper;
@@ -482,6 +483,36 @@ class GroupMeetingsController extends Controller
                 'id' => $meetingDecision->id,
                 'description' => $meetingDecision->description,
             ],
+        ]);
+    }
+
+    /**
+     * Destroy a decision.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $groupId
+     * @param int $meetingId
+     * @param int $agendaItemId
+     * @param int $decisionId
+     * @return JsonResponse
+     */
+    public function destroyDecision(Request $request, int $companyId, int $groupId, int $meetingId, int $agendaItemId, int $decisionId): JsonResponse
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        (new DestroyMeetingDecision)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'group_id' => $groupId,
+            'meeting_id' => $meetingId,
+            'agenda_item_id' => $agendaItemId,
+            'meeting_decision_id' => $decisionId,
+        ]);
+
+        return response()->json([
+            'data' => true,
         ]);
     }
 }
