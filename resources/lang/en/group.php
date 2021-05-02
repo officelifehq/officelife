@@ -35,4 +35,6 @@ return [
     'meeting_show_add_agenda_item_description' => 'Add more context below',
     'meeting_show_add_agenda_item_cta' => 'Add new agenda item',
     'meeting_show_edit_details' => 'Edit details',
+    'meeting_show_add_decision' => '+ Add decision or follow-up',
+    'meeting_show_add_decision_label' => 'Describe the decision',
 ];

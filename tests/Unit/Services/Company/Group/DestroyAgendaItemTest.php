@@ -115,11 +115,13 @@ class DestroyAgendaItemTest extends TestCase
             'id' => $agendaItem->id,
         ]);
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $group) {
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $group, $meeting) {
             return $job->auditLog['action'] === 'agenda_item_destroyed' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
+                    'group_id' => $group->id,
                     'group_name' => $group->name,
+                    'meeting_id' => $meeting->id,
                 ]);
         });
     }

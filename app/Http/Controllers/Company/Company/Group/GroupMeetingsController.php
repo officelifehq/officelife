@@ -20,6 +20,7 @@ use App\Services\Company\Group\UpdateAgendaItem;
 use App\Services\Company\Group\AddGuestToMeeting;
 use App\Services\Company\Group\DestroyAgendaItem;
 use App\Services\Company\Group\UpdateMeetingDate;
+use App\Services\Company\Group\CreateMeetingDecision;
 use App\Services\Company\Group\RemoveGuestFromMeeting;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Group\GroupShowViewHelper;
@@ -449,6 +450,38 @@ class GroupMeetingsController extends Controller
 
         return response()->json([
             'data' => $presenters,
+        ]);
+    }
+
+    /**
+     * Create a decision.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $groupId
+     * @param int $meetingId
+     * @param int $agendaItemId
+     * @return JsonResponse
+     */
+    public function createDecision(Request $request, int $companyId, int $groupId, int $meetingId, int $agendaItemId): JsonResponse
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $meetingDecision = (new CreateMeetingDecision)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'group_id' => $groupId,
+            'meeting_id' => $meetingId,
+            'agenda_item_id' => $agendaItemId,
+            'description' => $request->input('description'),
+        ]);
+
+        return response()->json([
+            'data' => [
+                'id' => $meetingDecision->id,
+                'description' => $meetingDecision->description,
+            ],
         ]);
     }
 }

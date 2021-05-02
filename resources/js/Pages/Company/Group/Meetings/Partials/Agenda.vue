@@ -47,7 +47,9 @@
           {{ agendaItem.position }}
         </div>
 
-        <!-- agenda item -->
+        <!---------------------- -->
+        <!-- AGENDA ITEM -->
+        <!---------------------- -->
         <div class="w-100">
           <div class="bg-white box pa3 w-100 relative">
             <!-- presented by -->
@@ -129,21 +131,51 @@
             </div>
           </div>
 
-          <!-- decisions -->
+          <!---------------------- -->
+          <!-- DECISIONS -->
+          <!---------------------- -->
           <div class="decisions pa3 br3">
-            <ul class="pa0 list mb3">
-              <li class="mb3">
-                <span class="db mb2 f7 fw6">👉 Decision #2</span>
-                <span>We will focus on making the most money for sure</span>
+            <div v-if="agendaItem.decisions">
+              <ul v-if="agendaItem.decisions.length > 0" class="pa0 list mb3">
+                <li v-for="decision in agendaItem.decisions" :key="decision.id" class="mb3">
+                  <span class="db mb2 f7 fw6 gray"><span class="mr1">👉</span> Decision</span>
+                  <span class="parsed-content" v-html="decision.description"></span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- add decision -->
+            <div v-if="addDecisionMode && decisionForAgendaItemId == agendaItem.id" class="bg-white box pa3 bg-gray relative">
+              <form @submit.prevent="storeDecision(agendaItem)">
+                <div class="lh-copy">
+                  <text-area :ref="'description'"
+                             v-model="form.description"
+                             :label="$t('group.meeting_show_add_decision_label')"
+                             :required="false"
+                             :rows="3"
+                             @esc-key-pressed="hideAddDescription()"
+                  />
+                </div>
+
+                <!-- Actions -->
+                <div class="flex justify-between">
+                  <div>
+                    <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" />
+                    <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="hideAddDecision()">{{ $t('app.cancel') }}</a>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- CTA to add a decision -->
+            <ul class="db f6 ma0 pl0 list">
+              <li v-if="decisionForAgendaItemId != agendaItem.id" class="di mr3">
+                <a class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click="showAddDecision(agendaItem)">{{ $t('group.meeting_show_add_decision') }}</a>
               </li>
-              <li>
-                <span class="db mb2 f7 fw6">👉 Decision #2</span>
-                <span>We will focus on making the most money for sure</span>
+              <li v-if="decisionForAgendaItemId != agendaItem.id" class="di">
+                <a class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click="showAddDecision(agendaItem)">Edit decisions</a>
               </li>
             </ul>
-            <span class="db f6">
-              <a class="bb b--dotted bt-0 bl-0 br-0 pointer di">+ Add decision or follow-up</a>
-            </span>
           </div>
         </div>
       </li>
@@ -249,10 +281,14 @@ export default {
       addAgendaItemMode: false,
       addDescriptionMode: false,
       addPresenterMode: false,
+      addDecisionMode: false,
       editDescriptionMode: false,
       editPresenterMode: false,
       editAgendaItemMode: false,
+      editDecisionMode: false,
       agendaItemEditedId: 0,
+      decisionForAgendaItemId: 0,
+      decisionEditedId: 0,
       form: {
         summary: null,
         description: null,
@@ -304,6 +340,16 @@ export default {
     hideAddPresenter() {
       this.addPresenterMode = false;
       this.form.presented_by_id = null;
+    },
+
+    showAddDecision(agendaItem) {
+      this.addDecisionMode = true;
+      this.decisionForAgendaItemId = agendaItem.id;
+    },
+
+    hideAddDecision() {
+      this.addDecisionMode = false;
+      this.decisionForAgendaItemId = 0;
     },
 
     // when editing an existing agenda item
@@ -418,6 +464,22 @@ export default {
               this.localAgenda[counter].position = this.localAgenda[counter].position - 1;
             }
           }
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    storeDecision(agendaItem) {
+      this.loadingState = 'loading';
+
+      axios.post(`/${this.$page.props.auth.company.id}/company/groups/${this.groupId}/meetings/${this.meeting.meeting.id}/agendaItem/${agendaItem.id}/addDecision`, this.form)
+        .then(response => {
+          this.loadingState = null;
+          this.hideAddDecision();
+
+          this.localAgenda[this.localAgenda.findIndex(x => x.id === agendaItem.id)].decisions.push(response.data.data);
         })
         .catch(error => {
           this.loadingState = null;

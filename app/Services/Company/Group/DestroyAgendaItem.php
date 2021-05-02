@@ -93,7 +93,9 @@ class DestroyAgendaItem extends BaseService
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
+                'group_id' => $this->group->id,
                 'group_name' => $this->group->name,
+                'meeting_id' => $this->meeting->id,
             ]),
         ])->onQueue('low');
     }
