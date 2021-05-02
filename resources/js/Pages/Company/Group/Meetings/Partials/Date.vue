@@ -7,7 +7,7 @@
     <div class="pt3 pr3 pl3">
       <p class="silver f6 ma0 mb1">Date the meeting occurs</p>
 
-      <p v-if="!editMode">{{ localMeeting.happened_at }} <a class="ml2 bb b--dotted bt-0 bl-0 br-0 pointer f6" @click.prevent="showEditMode()">Edit</a></p>
+      <p v-if="!editMode">{{ localMeeting.happened_at }} <a class="ml2 bb b--dotted bt-0 bl-0 br-0 pointer f6" @click.prevent="showEditMode()">{{ $t('app.edit') }}</a></p>
     </div>
 
     <!-- edit date -->
@@ -67,7 +67,7 @@
           <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="editMode = false">
             {{ $t('app.cancel') }}
           </a>
-          <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
+          <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
         </div>
       </div>
     </form>

@@ -42,6 +42,7 @@ class DestroyAgendaItem extends BaseService
         $this->data = $data;
         $this->validate();
         $this->destroy();
+        $this->reorderPosition();
         $this->log();
     }
 
@@ -67,6 +68,20 @@ class DestroyAgendaItem extends BaseService
     private function destroy(): void
     {
         $this->agendaItem->delete();
+    }
+
+    private function reorderPosition(): void
+    {
+        $formerPosition = $this->agendaItem->position;
+
+        $agendaItems = AgendaItem::where('meeting_id', $this->meeting->id)
+            ->where('position', '>', $formerPosition)
+            ->get();
+
+        foreach ($agendaItems as $item) {
+            $item->position = $item->position - 1;
+            $item->save();
+        }
     }
 
     private function log(): void

@@ -18,6 +18,7 @@ use App\Services\Company\Group\DestroyMeeting;
 use App\Services\Company\Group\CreateAgendaItem;
 use App\Services\Company\Group\UpdateAgendaItem;
 use App\Services\Company\Group\AddGuestToMeeting;
+use App\Services\Company\Group\DestroyAgendaItem;
 use App\Services\Company\Group\UpdateMeetingDate;
 use App\Services\Company\Group\RemoveGuestFromMeeting;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -389,6 +390,33 @@ class GroupMeetingsController extends Controller
                     ]),
                 ] : null,
             ],
+        ]);
+    }
+
+    /**
+     * Destroy the agenda item.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $groupId
+     * @param int $meetingId
+     * @param int $agendaItemId
+     */
+    public function destroyAgendaItem(Request $request, int $companyId, int $groupId, int $meetingId, int $agendaItemId): JsonResponse
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        (new DestroyAgendaItem)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'group_id' => $groupId,
+            'meeting_id' => $meetingId,
+            'agenda_item_id' => $agendaItemId,
+        ]);
+
+        return response()->json([
+            'data' => true,
         ]);
     }
 

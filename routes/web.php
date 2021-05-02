@@ -351,6 +351,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::post('{group}/meetings/{meeting}/setDate', 'Company\\Company\\Group\\GroupMeetingsController@setDate');
                 Route::post('{group}/meetings/{meeting}/addAgendaItem', 'Company\\Company\\Group\\GroupMeetingsController@createAgendaItem');
                 Route::post('{group}/meetings/{meeting}/updateAgendaItem/{agendaItem}', 'Company\\Company\\Group\\GroupMeetingsController@updateAgendaItem');
+                Route::delete('{group}/meetings/{meeting}/agendaItem/{agendaItem}', 'Company\\Company\\Group\\GroupMeetingsController@destroyAgendaItem');
                 Route::get('{group}/meetings/{meeting}/presenters', 'Company\\Company\\Group\\GroupMeetingsController@getPresenters');
             });
 

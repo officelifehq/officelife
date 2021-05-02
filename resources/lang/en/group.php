@@ -28,4 +28,11 @@ return [
     'meeting_show_date_updated' => 'The date has been updated.',
     'meeting_show_delete' => 'Delete the meeting',
     'meeting_show_delete_success' => 'The meeting has been deleted.',
+    'meeting_show_title' => 'Agenda of the meeting',
+    'meeting_show_add_agenda_item_details' => 'Add more details',
+    'meeting_show_add_agenda_item_presenter' => 'Add a presenter',
+    'meeting_show_add_agenda_item_presenter_title' => 'Who will present?',
+    'meeting_show_add_agenda_item_description' => 'Add more context below',
+    'meeting_show_add_agenda_item_cta' => 'Add new agenda item',
+    'meeting_show_edit_details' => 'Edit details',
 ];

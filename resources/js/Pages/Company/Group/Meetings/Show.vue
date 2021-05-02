@@ -53,7 +53,7 @@
           <!-- RIGHT COLUMN -->
           <div class="fl w-30-l w-100 pl4-l">
             <!-- date -->
-            <date :group-id="group.id" :meeting="meeting" />
+            <date-widget :group-id="group.id" :meeting="meeting" />
 
             <!-- participants -->
             <participants :group-id="group.id" :meeting="meeting" />
@@ -82,7 +82,7 @@
 import Layout from '@/Shared/Layout';
 import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu';
 import Participants from '@/Pages/Company/Group/Meetings/Partials/Participants';
-import Date from '@/Pages/Company/Group/Meetings/Partials/Date';
+import DateWidget from '@/Pages/Company/Group/Meetings/Partials/Date';
 import Agenda from '@/Pages/Company/Group/Meetings/Partials/Agenda';
 
 export default {
@@ -90,7 +90,7 @@ export default {
     Layout,
     GroupMenu,
     Participants,
-    Date,
+    DateWidget,
     Agenda,
   },
 

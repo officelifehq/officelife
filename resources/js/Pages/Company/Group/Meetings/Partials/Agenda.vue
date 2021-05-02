@@ -34,7 +34,7 @@
       <span>
         <span class="mr1">
           🎒
-        </span> Agenda of the meeting
+        </span> {{ $t('group.meeting_show_title') }}
 
         <help :url="$page.props.help_links.project_tasks" :top="'3px'" />
       </span>
@@ -68,7 +68,7 @@
 
               <!-- edit agenda item -->
               <li v-if="editAgendaItemMode && agendaItemEditedId == agendaItem.id">
-                <form @submit.prevent="editSummary(agendaItem)">
+                <form @submit.prevent="editAgendaItem(agendaItem)">
                   <!-- agenda item title + checkbox -->
                   <div class="">
                     <text-input :id="'summary'"
@@ -82,15 +82,15 @@
                   </div>
 
                   <ul class="ma0 mb3 list pa0">
-                    <li v-if="!agendaItem.description" class="di mr2" @click="showEditDescriptionMode(agendaItem)"><a class="bb b--dotted bt-0 bl-0 br-0 pointer di">Add more details</a></li>
-                    <li v-if="!agendaItem.presenter" class="di" @click="showEditPresenterMode(agendaItem)"><a class="bb b--dotted bt-0 bl-0 br-0 pointer di">Add a presenter</a></li>
+                    <li v-if="!agendaItem.description" class="di mr2" @click="showEditDescriptionMode(agendaItem)"><a class="bb b--dotted bt-0 bl-0 br-0 pointer di">{{ $t('group.meeting_show_add_agenda_item_details') }}</a></li>
+                    <li v-if="!agendaItem.presenter" class="di" @click="showEditPresenterMode(agendaItem)"><a class="bb b--dotted bt-0 bl-0 br-0 pointer di">{{ $t('group.meeting_show_add_agenda_item_presenter') }}</a></li>
                   </ul>
 
                   <!-- description -->
                   <div v-if="editDescriptionMode && agendaItemEditedId == agendaItem.id" class="lh-copy">
                     <text-area :ref="'description' + agendaItem.id"
                                v-model="form.description"
-                               :label="$t('account.company_news_new_content')"
+                               :label="$t('group.meeting_show_add_agenda_item_description')"
                                :required="false"
                                :rows="10"
                                @esc-key-pressed="hideEditMode()"
@@ -114,6 +114,8 @@
                       <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.update')" />
                       <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="hideEditMode()">{{ $t('app.cancel') }}</a>
                     </div>
+
+                    <a :class="'btn destroy w-auto-ns w-100 mb2 pv2 ph3 mr2'" @click.prevent="destroyAgendaItem(agendaItem)">{{ $t('app.delete') }}</a>
                   </div>
                 </form>
               </li>
@@ -122,7 +124,8 @@
             <!-- description -->
             <div v-if="agendaItem.description && agendaItemEditedId != agendaItem.id" class="mt2">
               <div class="db parsed-content mb2" v-html="agendaItem.description"></div>
-              <span class="di"><a class="bb b--dotted mr2 bt-0 bl-0 br-0 pointer f7" @click="showEditMode(agendaItem)">Edit details</a></span>
+
+              <span class="di"><a class="bb b--dotted mr2 bt-0 bl-0 br-0 pointer f7" @click="showEditMode(agendaItem)">{{ $t('group.meeting_show_edit_details') }}</a></span>
             </div>
           </div>
 
@@ -148,7 +151,7 @@
       <!-- link to add a new agenda item -->
       <li v-if="! addAgendaItemMode" class="mt3 flex relative new-item relative">
         <div class="mr3"></div>
-        <a class="btn" @click.prevent="showAddAgendaItem()">Add new agenda item</a>
+        <a class="btn" @click.prevent="showAddAgendaItem()">{{ $t('group.meeting_show_add_agenda_item_cta') }}</a>
       </li>
 
       <!-- Modal - Add agenda item -->
@@ -168,15 +171,15 @@
           </div>
 
           <ul class="ma0 mb3 list pa0">
-            <li v-if="!addDescriptionMode" class="di mr2" @click="showAddDescription()"><a class="bb b--dotted bt-0 bl-0 br-0 pointer di">Add more details</a></li>
-            <li v-if="!addPresenterMode" class="di" @click="showAddPresenter()"><a class="bb b--dotted bt-0 bl-0 br-0 pointer di">Add a presenter</a></li>
+            <li v-if="!addDescriptionMode" class="di mr2" @click="showAddDescription()"><a class="bb b--dotted bt-0 bl-0 br-0 pointer di">{{ $t('group.meeting_show_add_agenda_item_details') }}</a></li>
+            <li v-if="!addPresenterMode" class="di" @click="showAddPresenter()"><a class="bb b--dotted bt-0 bl-0 br-0 pointer di">{{ $t('group.meeting_show_add_agenda_item_presenter') }}</a></li>
           </ul>
 
           <!-- description -->
           <div v-if="addDescriptionMode" class="lh-copy">
             <text-area :ref="'description'"
                        v-model="form.description"
-                       :label="$t('account.company_news_new_content')"
+                       :label="$t('group.meeting_show_add_agenda_item_description')"
                        :required="false"
                        :rows="10"
                        @esc-key-pressed="hideAddDescription()"
@@ -188,7 +191,7 @@
             <select-box v-model="form.presented_by_id"
                         :options="potentialPresenters"
                         :errors="$page.props.errors.presented_by_id"
-                        :label="'Who will present?'"
+                        :label="$t('group.meeting_show_add_agenda_item_presenter_title')"
                         :placeholder="$t('app.choose_value')"
                         :value="form.presented_by_id"
             />
@@ -381,7 +384,7 @@ export default {
         });
     },
 
-    editSummary(agendaItem) {
+    editAgendaItem(agendaItem) {
       axios.post(`/${this.$page.props.auth.company.id}/company/groups/${this.groupId}/meetings/${this.meeting.meeting.id}/updateAgendaItem/${agendaItem.id}`, this.form)
         .then(response => {
           this.editAgendaItemMode = false;
@@ -389,6 +392,22 @@ export default {
           this.clearForm();
 
           this.localAgenda[this.localAgenda.findIndex(x => x.id === agendaItem.id)] = response.data.data;
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    destroyAgendaItem(agendaItem) {
+      axios.delete(`/${this.$page.props.auth.company.id}/company/groups/${this.groupId}/meetings/${this.meeting.meeting.id}/agendaItem/${agendaItem.id}`)
+        .then(response => {
+          this.editAgendaItemMode = false;
+          this.agendaItemEditedId = 0;
+          this.clearForm();
+
+          var removedAgendaItemId = this.localAgenda.findIndex(x => x.id === agendaItem.id);
+          this.localAgenda.splice(removedAgendaItemId, 1);
         })
         .catch(error => {
           this.loadingState = null;
