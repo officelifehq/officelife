@@ -408,6 +408,16 @@ export default {
 
           var removedAgendaItemId = this.localAgenda.findIndex(x => x.id === agendaItem.id);
           this.localAgenda.splice(removedAgendaItemId, 1);
+
+          // now, reset all the positions
+          // there has to be a better way to do this :-D
+          var numberOfEntries = this.localAgenda.length;
+          var counter = 0;
+          for (counter = 0; counter < numberOfEntries; counter++) {
+            if (this.localAgenda[counter].position > agendaItem.position) {
+              this.localAgenda[counter].position = this.localAgenda[counter].position - 1;
+            }
+          }
         })
         .catch(error => {
           this.loadingState = null;
