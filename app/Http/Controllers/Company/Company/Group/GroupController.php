@@ -17,7 +17,6 @@ use App\Services\Company\Group\DestroyGroup;
 use App\Http\ViewHelpers\Company\CompanyViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Group\GroupShowViewHelper;
-use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
 use App\Http\ViewHelpers\Company\Group\GroupCreateViewHelper;
 
 class GroupController extends Controller
@@ -34,10 +33,10 @@ class GroupController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $statistics = CompanyViewHelper::information($company);
 
-        return Inertia::render('Company/Project/Index', [
+        return Inertia::render('Company/Group/Index', [
             'statistics' => $statistics,
-            'tab' => 'projects',
-            'projects' => ProjectViewHelper::index($company),
+            'tab' => 'groups',
+            'groups' => GroupViewHelper::index($company),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
