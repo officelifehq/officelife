@@ -18,6 +18,7 @@ class CreateGroupsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->string('name');
+            $table->text('mission')->nullable();
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });

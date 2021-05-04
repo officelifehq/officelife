@@ -89,8 +89,8 @@ export default {
 
       axios.delete(`/${this.$page.props.auth.company.id}/company/groups/${this.group.id}`)
         .then(response => {
-          localStorage.success = this.$t('project.delete_success');
-          this.$inertia.visit(`${this.$page.props.auth.company.id}/company/projects`);
+          localStorage.success = this.$t('group.delete_success');
+          this.$inertia.visit(`/${this.$page.props.auth.company.id}/company/groups`);
         })
         .catch(error => {
           this.loadingState = null;

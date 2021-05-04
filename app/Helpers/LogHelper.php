@@ -1237,6 +1237,14 @@ class LogHelper
                 ]);
                 break;
 
+            case 'group_updated':
+                $sentence = trans('account.log_group_updated', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                    'group_mission' => $log->object->{'group_mission'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;

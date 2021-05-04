@@ -7,8 +7,14 @@ return [
     'create_members' => 'Who should be part of this group?',
     'create_members_help' => 'Type the first letters of the employee',
 
-    'summary_edit' => 'Edit information',
+    'summary_description' => 'Mission of this group',
+    'summary_meetings' => 'Recent meetings',
+    'summary_edit' => 'Edit name and mission',
     'summary_delete' => 'Delete the group',
+    'summary_stat' => 'Some juicy stats',
+    'summary_stat_meeting' => 'Meetings in total',
+    'summary_stat_days' => 'Days between meetings on average',
+    'summary_mission_blank' => 'Add a mission to inform people what this group is for.',
 
     'members_add_cta' => 'Add a new member',
     'members_add_placeholder' => 'Enter the first letters of a name',
@@ -45,4 +51,13 @@ return [
     'meeting_show_edit_decision_cta' => 'Edit decisions',
     'meeting_show_edit_decision_exit' => 'Exit edit mode',
     'meeting_show_blank' => 'Add items on the agenda, assign a presenter for each item and start the meeting!',
+
+    'edit_title' => 'Edit the group',
+    'edit_success' => 'The group has been updated.',
+    'create_input_mission' => 'What is the mission of the group?',
+    'create_input_summary_help' => 'Give insights of why we need this group.',
+
+    'delete_success' => 'The group has been deleted.',
+    'delete_title' => 'Delete the group',
+    'delete_description' => 'Deleting a group deletes all the data associated with it. Members who are part of this group won’t be deleted from the system.',
 ];

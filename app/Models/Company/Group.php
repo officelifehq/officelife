@@ -20,6 +20,7 @@ class Group extends Model
     protected $fillable = [
         'company_id',
         'name',
+        'mission',
     ];
 
     /**

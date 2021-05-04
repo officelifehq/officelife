@@ -137,6 +137,8 @@ return [
     'breadcrumb_group_list' => 'Group list',
     'breadcrumb_group_create' => 'Create a group',
     'breadcrumb_group_detail' => 'Detail of a group',
+    'breadcrumb_group_delete' => 'Delete the group',
+    'breadcrumb_group_edit' => 'Edit the group',
 
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',

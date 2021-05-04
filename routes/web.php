@@ -332,7 +332,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 // group detail
                 Route::get('{group}', 'Company\\Company\\Group\\GroupController@show')->name('groups.show');
                 Route::get('{group}/edit', 'Company\\Company\\Group\\GroupController@edit')->name('groups.edit');
-                Route::get('{group}/delete', 'Company\\Company\\Group\\GroupController@destroy')->name('groups.destroy');
+                Route::post('{group}/update', 'Company\\Company\\Group\\GroupController@update');
+                Route::get('{group}/delete', 'Company\\Company\\Group\\GroupController@delete')->name('groups.delete');
+                Route::delete('{group}', 'Company\\Company\\Group\\GroupController@destroy');
 
                 // members
                 Route::get('{group}/members', 'Company\\Company\\Group\\GroupMembersController@index')->name('groups.members.index');

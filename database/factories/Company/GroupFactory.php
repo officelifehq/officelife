@@ -27,6 +27,7 @@ class GroupFactory extends Factory
         return [
             'company_id' => $company->id,
             'name' => 'Group name',
+            'mission' => 'Employees happiness',
         ];
     }
 }

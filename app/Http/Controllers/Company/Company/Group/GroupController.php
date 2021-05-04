@@ -12,6 +12,8 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Group\CreateGroup;
+use App\Services\Company\Group\UpdateGroup;
+use App\Services\Company\Group\DestroyGroup;
 use App\Http\ViewHelpers\Company\CompanyViewHelper;
 use App\Http\ViewHelpers\Company\Group\GroupShowViewHelper;
 use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
@@ -45,16 +47,22 @@ class GroupController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $groupId
-     * @return Response
      */
-    public function show(Request $request, int $companyId, int $groupId): Response
+    public function show(Request $request, int $companyId, int $groupId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $group = Group::where('company_id', $company->id)
-            ->findOrFail($groupId);
+
+        try {
+            $group = Group::where('company_id', $company->id)
+                ->findOrFail($groupId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
 
         return Inertia::render('Company/Group/Show', [
             'group' => GroupShowViewHelper::information($group, $company),
+            'meetings' => GroupShowViewHelper::meetings($group, $company),
+            'stats' => GroupShowViewHelper::stats($group),
             'tab' => 'info',
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
@@ -132,43 +140,48 @@ class GroupController extends Controller
     }
 
     /**
-     * Destroy the group.
+     * Show the delete group page.
      *
      * @param Request $request
      * @param int $companyId
+     * @param int $groupId
+     * @return Response
+     */
+    public function delete(Request $request, int $companyId, int $groupId): Response
+    {
+        $company = InstanceHelper::getLoggedCompany();
+
+        $group = Group::where('company_id', $company->id)
+            ->findOrFail($groupId);
+
+        return Inertia::render('Company/Group/Delete', [
+            'group' => GroupShowViewHelper::information($group, $company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Actually destroy the group.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $groupId
      * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId): JsonResponse
+    public function destroy(Request $request, int $companyId, int $groupId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $employees = null;
-        if ($request->input('employees')) {
-            $employees = [];
-            foreach ($request->input('employees') as $employee) {
-                array_push($employees, $employee['id']);
-            }
-        }
-
-        $data = [
+        (new DestroyGroup)->execute([
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
-            'name' => $request->input('name'),
-            'employees' => $employees,
-        ];
-
-        $group = (new CreateGroup)->execute($data);
+            'group_id' => $groupId,
+        ]);
 
         return response()->json([
-            'data' => [
-                'id' => $group->id,
-                'url' => route('groups.show', [
-                    'company' => $loggedCompany,
-                    'group' => $group,
-                ]),
-            ],
-        ], 201);
+            'data' => true,
+        ]);
     }
 
     /**
@@ -177,18 +190,51 @@ class GroupController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $groupId
-     * @return Response
      */
-    public function edit(Request $request, int $companyId, int $groupId): Response
+    public function edit(Request $request, int $companyId, int $groupId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $group = Group::where('company_id', $company->id)
-            ->findOrFail($groupId);
+
+        try {
+            $group = Group::where('company_id', $company->id)
+                ->findOrFail($groupId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
 
         return Inertia::render('Company/Group/Edit', [
             'group' => GroupShowViewHelper::information($group, $company),
-            'tab' => 'info',
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Update the group information.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $groupId
+     */
+    public function update(Request $request, int $companyId, int $groupId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        (new UpdateGroup)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'group_id' => $groupId,
+            'name' => $request->input('name'),
+            'mission' => $request->input('mission'),
+        ]);
+
+        return response()->json([
+            'data' => [
+                'url' => route('groups.show', [
+                    'company' => $loggedCompany,
+                    'group' => $groupId,
+                ]),
+            ],
         ]);
     }
 }

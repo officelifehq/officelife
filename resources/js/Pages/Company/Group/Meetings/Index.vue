@@ -135,7 +135,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -178,7 +178,7 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/company/groups/${this.group.id}/members/store`, this.form)
         .then(response => {
-          flash(this.$t('project.members_index_add_success'), 'success');
+          this.flash(this.$t('project.members_index_add_success'), 'success');
           this.loadingState = null;
           this.form.employee = null;
           this.showModal = false;
@@ -195,7 +195,7 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/company/groups/${this.group.id}/members/remove`, this.form)
         .then(response => {
-          flash(this.$t('project.members_index_remove_success'), 'success');
+          this.flash(this.$t('project.members_index_remove_success'), 'success');
 
           var id = this.localMembers.findIndex(x => x.id == employee.id);
           this.localMembers.splice(id, 1);

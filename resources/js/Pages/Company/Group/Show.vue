@@ -39,122 +39,62 @@
 
       <!-- BODY -->
       <div class="mw7 center br3 mb5 relative z-1">
-        <group-menu :group="group" :tab="info" />
+        <group-menu :group="group" :tab="tab" />
 
         <div class="cf center">
           <!-- LEFT COLUMN -->
           <div class="fl w-70-l w-100">
+            <!-- mission -->
+            <div class="mb2 fw5 relative">
+              <span class="mr1">
+                🏔
+              </span> {{ $t('group.summary_description') }}
+            </div>
+            <div v-if="group.mission" class="bg-white box pa3" v-html="group.mission"></div>
+            <div v-if="!group.mission" class="bg-white box pa3">
+              {{ $t('group.summary_mission_blank') }}
+            </div>
+
             <!-- list of meetings -->
-            <div class="br3 bg-white box z-1">
-              <ul data-cy="e-coffee-list" class="list pl0 ma0">
-                <li class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between meeting-item">
+            <div v-if="meetings.length > 0" class="mb2 fw5 relative mt4">
+              <span class="mr1">
+                🌮
+              </span> {{ $t('group.summary_meetings') }}
+            </div>
+            <div v-if="meetings.length > 0" class="br3 bg-white box z-1">
+              <ul class="list pl0 ma0">
+                <li v-for="meeting in meetings" :key="meeting.id" class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between meeting-item">
                   <div class="mb1 relative">
-                    <span class="employee-name db">
-                      Meeting du 20 janvier
-                    </span>
+                    <inertia-link :href="meeting.url" class="employee-name db">
+                      {{ meeting.happened_at }}
+                    </inertia-link>
                   </div>
-                  <span class="ma0 mb0 f7 grey">
+
+                  <span v-if="meeting.preview_members" class="ma0 mb0 f7 grey">
                     <div class="flex items-center relative tr">
-                      <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                           width="32" height="32"
+                      <avatar v-for="member in meeting.preview_members" :key="member.id" :avatar="member.avatar" :url="member.url" :size="25"
+                              :class="'br-100 small-avatar'"
                       />
-                      <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                           width="32" height="32"
-                      />
-                      <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                           width="32" height="32"
-                      />
-                      <div class="pl2 f7 more-members relative gray">
-                        {{ $t('project.menu_other_member', { count: 3 }) }}
+                      <div v-if="meeting.remaining_members_count > 0" class="pl2 f7 more-members relative gray">
+                        + {{ meeting.remaining_members_count }}
                       </div>
                     </div>
                   </span>
                 </li>
-                <li class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between meeting-item">
-                  <div class="mb1 relative">
-                    <span class="employee-name db">
-                      Meeting du 20 janvier
-                    </span>
-                  </div>
-                  <span class="ma0 mb0 f7 grey">
-                    <div class="flex items-center relative tr">
-                      <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                           width="32" height="32"
-                      />
-                      <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                           width="32" height="32"
-                      />
-                      <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                           width="32" height="32"
-                      />
-                    </div>
-                  </span>
-                </li>
-                <li class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between meeting-item">
-                  <div class="mb1 relative">
-                    <span class="employee-name db">
-                      Meeting du 20 janvier
-                    </span>
-                  </div>
-                  <span class="ma0 mb0 f7 grey">
-                    <div class="flex items-center relative tr">
-                      <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                           width="32" height="32"
-                      />
-                      <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                           width="32" height="32"
-                      />
-                      <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                           width="32" height="32"
-                      />
-                    </div>
-                  </span>
-                </li>
-                <li class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between meeting-item">
-                  <div class="mb1 relative">
-                    <span class="employee-name db">
-                      Meeting du 20 janvier
-                    </span>
-                  </div>
-                  <span class="ma0 mb0 f7 grey">
-                    <div class="flex items-center relative tr">
-                      <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                           width="32" height="32"
-                      />
-                      <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                           width="32" height="32"
-                      />
-                      <img src="https://ui-avatars.com/api/?name=Glenn%20Scott" alt="avatar" class="br-100 small-avatar"
-                           width="32" height="32"
-                      />
-                    </div>
-                  </span>
-                </li>
-                <li class="ph3 pv2 tc f6">
-                  <inertia-link href="ecoffees.view_all_url" data-cy="view-all-ecoffees">{{ $t('employee.e_coffee_view_all') }}</inertia-link>
-                </li>
               </ul>
-            </div>
-
-            <!-- blank -->
-            <div class="br3 bg-white box z-1 tc pa3">
-              <h3 class="fw4 f5 lh-copy">
-                Meeting notes are great to prepare meetings, and record what was said.
-              </h3>
-              <img loading="lazy" src="/img/streamline-icon-meeting-table-3@140x140.png" width="140" height="140" alt="people hanging out"
-                   class="di-ns dn top-1 left-1"
-              />
             </div>
           </div>
 
           <!-- RIGHT COLUMN -->
           <div class="fl w-30-l w-100 pl4-l">
-            <inertia-link class="w-100 btn dib-l db mb3" data-cy="add-position-button" @click.prevent="displayAddModal">
-              Add a meeting note
-            </inertia-link>
-
-            <div class="bg-white box mb4">
-              <p>sdfsd</p>
+            <div class="mb2 fw5 relative">
+              <span class="mr1">
+                💹
+              </span> {{ $t('group.summary_stat') }}
+            </div>
+            <div class="bg-white box mb4 pa3">
+              <p class="flex justify-between lh-copy f6 fw5 mb0 mt0 ml0 mr0">{{ $t('group.summary_stat_meeting') }} <span class="fw4 gray">{{ stats.number_of_meetings }}</span> </p>
+              <p v-if="stats.frequency" class="flex justify-between lh-copy f6 fw5 mb0 mt2">{{ $t('group.summary_stat_days') }} <span class="fw4 gray">{{ stats.frequency }}</span></p>
             </div>
 
             <ul class="list pl0">
@@ -170,11 +110,13 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Avatar from '@/Shared/Avatar';
 import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu';
 
 export default {
   components: {
     Layout,
+    Avatar,
     GroupMenu,
   },
 
@@ -184,6 +126,14 @@ export default {
       default: null,
     },
     group: {
+      type: Object,
+      default: null,
+    },
+    meetings: {
+      type: Object,
+      default: null,
+    },
+    stats: {
       type: Object,
       default: null,
     },
@@ -199,7 +149,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
