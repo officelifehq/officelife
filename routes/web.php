@@ -325,7 +325,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
             Route::prefix('groups')->group(function () {
                 Route::get('', 'Company\\Company\\Group\\GroupController@index');
-                Route::get('create', 'Company\\Company\\Group\\GroupController@create');
+                Route::get('create', 'Company\\Company\\Group\\GroupController@create')->name('groups.new');
                 Route::post('', 'Company\\Company\\Group\\GroupController@store');
                 Route::post('search', 'Company\\Company\\Group\\GroupController@search');
 

@@ -145,7 +145,7 @@ class GroupShowViewHelper
 
         return [
             'number_of_meetings' => $numberOfMeetings,
-            'frequency' => $frequency,
+            'frequency' => round($frequency),
         ];
     }
 }

@@ -2121,6 +2121,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                         'presented_by_id' => $this->employees->shuffle()->first()->id,
                     ]);
 
+                    $decisionItems = $decisionItems->random()->take(rand(1, $decisionItems->count()));
                     foreach ($decisionItems as $item) {
                         (new CreateMeetingDecision)->execute([
                             'company_id' => $this->company->id,
@@ -2133,7 +2134,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                     }
                 }
             }
-          }
+        }
     }
 
     private function addPreviousPositionsHistory(): void

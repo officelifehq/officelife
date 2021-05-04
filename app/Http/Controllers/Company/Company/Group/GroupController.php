@@ -15,6 +15,7 @@ use App\Services\Company\Group\CreateGroup;
 use App\Services\Company\Group\UpdateGroup;
 use App\Services\Company\Group\DestroyGroup;
 use App\Http\ViewHelpers\Company\CompanyViewHelper;
+use App\Http\ViewHelpers\Company\Group\GroupViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Group\GroupShowViewHelper;
 use App\Http\ViewHelpers\Company\Group\GroupCreateViewHelper;

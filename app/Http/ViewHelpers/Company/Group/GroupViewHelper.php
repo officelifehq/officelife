@@ -10,51 +10,60 @@ use App\Models\Company\Company;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-class GroupShowViewHelper
+class GroupViewHelper
 {
     /**
-     * Get all the information about a group.
+     * Get all the information about the groups in the company.
      *
      * @param Group $group
      * @param Company $company
      * @return array
      */
-    public static function information(Group $group, Company $company): array
+    public static function index(Company $company): array
     {
-        $groupMembers = $group->employees()
-            ->notLocked()
-            ->orderBy('last_name', 'asc')
-            ->get();
+        $groups = $company->groups()
+            ->with('employees')
+            ->orderBy('id', 'desc')->get();
 
-        $membersCollection = collect([]);
-        foreach ($groupMembers as $employee) {
-            $membersCollection->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'avatar' => ImageHelper::getAvatar($employee, 32),
-                'position' => (! $employee->position) ? null : [
-                    'id' => $employee->position->id,
-                    'title' => $employee->position->title,
-                ],
-                'url' => route('employees.show', [
+        $groupsCollection = collect([]);
+        foreach ($groups as $group) {
+            $members = $group->employees()
+                ->inRandomOrder()
+                ->take(3)
+                ->get();
+
+            $totalMembersCount = $group->employees()->count();
+            $totalMembersCount = $totalMembersCount - $members->count();
+
+            $membersCollection = collect([]);
+            foreach ($members as $member) {
+                $membersCollection->push([
+                    'id' => $member->id,
+                    'avatar' => ImageHelper::getAvatar($member, 25),
+                    'url' => route('employees.show', [
+                        'company' => $group->company_id,
+                        'employee' => $member,
+                    ]),
+                ]);
+            }
+
+            $groupsCollection->push([
+                'id' => $group->id,
+                'name' => $group->name,
+                'mission' => $group->mission,
+                'preview_members' => $membersCollection,
+                'remaining_members_count' => $totalMembersCount,
+                'url' => route('groups.show', [
                     'company' => $company,
-                    'employee' => $employee,
+                    'group' => $group,
                 ]),
             ]);
         }
 
         return [
-            'id' => $group->id,
-            'name' => $group->name,
-            'mission' => $group->mission,
-            'members' => $membersCollection,
-            'url_edit' => route('groups.edit', [
+            'data' => $groupsCollection,
+            'url_create' => route('groups.new', [
                 'company' => $company,
-                'group' => $group,
-            ]),
-            'url_delete' => route('groups.delete', [
-                'company' => $company,
-                'group' => $group,
             ]),
         ];
     }
