@@ -154,6 +154,7 @@ export default {
         this.updateModelValue();
       }
     },
+
     updateMinutes(e) {
       if (e.isTrusted) {
         let value = parseInt(e.target.value);
@@ -162,6 +163,7 @@ export default {
         this.updateModelValue();
       }
     },
+
     updateModelValue() {
       let value = 0;
       if (this.localHours !== undefined) {

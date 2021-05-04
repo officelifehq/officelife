@@ -12,9 +12,9 @@ use App\Models\Company\ProjectTaskList;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Project\AssignProjecTaskToTaskList;
+use App\Services\Company\Project\AssignProjectTaskToTaskList;
 
-class AssignProjecTaskToTaskListTest extends TestCase
+class AssignProjectTaskToTaskListTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -74,7 +74,7 @@ class AssignProjecTaskToTaskListTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new AssignProjecTaskToTaskList)->execute($request);
+        (new AssignProjectTaskToTaskList)->execute($request);
     }
 
     /** @test */
@@ -137,7 +137,7 @@ class AssignProjecTaskToTaskListTest extends TestCase
             'project_task_list_id' => $projectTaskList->id,
         ];
 
-        $task = (new AssignProjecTaskToTaskList)->execute($request);
+        $task = (new AssignProjectTaskToTaskList)->execute($request);
 
         $this->assertInstanceOf(
             ProjectTask::class,

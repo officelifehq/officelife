@@ -105,6 +105,11 @@ class CreateProjectStatusTest extends TestCase
             'description' => 'https',
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         $this->assertInstanceOf(
             ProjectStatus::class,
             $projectStatus

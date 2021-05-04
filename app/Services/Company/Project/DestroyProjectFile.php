@@ -7,6 +7,7 @@ use App\Models\Company\File;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
+use App\Models\Company\ProjectMemberActivity;
 
 class DestroyProjectFile extends BaseService
 {
@@ -39,6 +40,7 @@ class DestroyProjectFile extends BaseService
         $this->data = $data;
         $this->validate();
         $this->destroyFile();
+        $this->logActivity();
         $this->log();
     }
 
@@ -62,6 +64,14 @@ class DestroyProjectFile extends BaseService
         /* @phpstan-ignore-next-line */
         $this->project->files()->detach($this->data['file_id']);
         $this->file->delete();
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void

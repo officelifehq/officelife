@@ -62,6 +62,7 @@ class ProcessCompanyMorale implements ShouldQueue
 
         // calculate the average of all the morale
         $sum = 0;
+        $average = 0;
         foreach ($employeesWithMorale as $employee) {
             $morale = Morale::where('employee_id', $employee->id)
                 ->whereBetween('created_at', [
@@ -73,7 +74,9 @@ class ProcessCompanyMorale implements ShouldQueue
             $sum = $sum + $morale->emotion;
         }
 
-        $average = $sum / $employeesWithMorale->count();
+        if ($employeesWithMorale->count() > 0) {
+            $average = $sum / $employeesWithMorale->count();
+        }
 
         MoraleCompanyHistory::create([
             'company_id' => $this->parameters['company_id'],

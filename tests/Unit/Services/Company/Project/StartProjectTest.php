@@ -88,6 +88,11 @@ class StartProjectTest extends TestCase
             'status' => Project::STARTED,
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         $this->assertNotNull($project->started_at);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project) {

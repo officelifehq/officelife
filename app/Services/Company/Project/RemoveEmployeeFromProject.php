@@ -8,6 +8,7 @@ use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\ProjectMemberActivity;
 
 class RemoveEmployeeFromProject extends BaseService
 {
@@ -42,6 +43,7 @@ class RemoveEmployeeFromProject extends BaseService
         $this->data = $data;
         $this->validate();
         $this->detachEmployee();
+        $this->logActivity();
         $this->log();
     }
 
@@ -64,6 +66,14 @@ class RemoveEmployeeFromProject extends BaseService
     private function detachEmployee(): void
     {
         $this->project->employees()->detach($this->data['employee_id']);
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void

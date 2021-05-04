@@ -11,6 +11,9 @@ class CreateFileProjectTable extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('file_project', function (Blueprint $table) {
             $table->unsignedBigInteger('file_id');
             $table->unsignedBigInteger('project_id');
