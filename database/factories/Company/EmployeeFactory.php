@@ -46,6 +46,7 @@ class EmployeeFactory extends Factory
                 'company_id' => $company->id,
             ]),
             'amount_of_allowed_holidays' => 30,
+            'can_manage_expenses' => false,
         ];
     }
 

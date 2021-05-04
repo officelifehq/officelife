@@ -87,6 +87,11 @@ class UpdateProjectDescriptionTest extends TestCase
             'description' => 'Project description',
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project) {
             return $job->auditLog['action'] === 'project_description_updated' &&
                 $job->auditLog['author_id'] === $michael->id &&

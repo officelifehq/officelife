@@ -284,10 +284,10 @@ input[type=checkbox] {
               <form @submit.prevent="logTime">
                 <div class="mb3">
                   <span class="lh-copy mb2 dib">
-                    How much time have you worked on this today?
+                    {{ $t('project.task_edit_time') }}
                   </span>
                   <text-duration
-                    @update="updateDuration($event)"
+                    @update:model-value="updateDuration($event)"
                   />
                 </div>
 

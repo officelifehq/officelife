@@ -9,7 +9,7 @@ use App\Models\Company\Project;
 use App\Models\Company\ProjectTask;
 use App\Models\Company\ProjectTaskList;
 
-class AssignProjecTaskToTaskList extends BaseService
+class AssignProjectTaskToTaskList extends BaseService
 {
     protected array $data;
 

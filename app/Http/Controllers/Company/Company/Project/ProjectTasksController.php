@@ -21,7 +21,7 @@ use App\Services\Company\Project\UpdateProjectTask;
 use App\Services\Company\Project\DestroyProjectTask;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
-use App\Services\Company\Project\AssignProjecTaskToEmployee;
+use App\Services\Company\Project\AssignProjectTaskToEmployee;
 use App\Http\ViewHelpers\Company\Project\ProjectTasksViewHelper;
 use App\Services\Company\Employee\Timesheet\CreateTimeTrackingEntry;
 
@@ -121,7 +121,7 @@ class ProjectTasksController extends Controller
         $task = (new CreateProjectTask)->execute($data);
 
         if ($request->input('assignee_id')) {
-            $task = (new AssignProjecTaskToEmployee)->execute([
+            $task = (new AssignProjectTaskToEmployee)->execute([
                 'company_id' => $company->id,
                 'author_id' => $loggedEmployee->id,
                 'project_id' => $projectId,
@@ -181,7 +181,7 @@ class ProjectTasksController extends Controller
         $task = (new UpdateProjectTask)->execute($data);
 
         if ($request->input('assignee_id')) {
-            $task = (new AssignProjecTaskToEmployee)->execute([
+            $task = (new AssignProjectTaskToEmployee)->execute([
                 'company_id' => $company->id,
                 'author_id' => $loggedEmployee->id,
                 'project_id' => $projectId,

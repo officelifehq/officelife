@@ -26,9 +26,12 @@ export default {
   setContext(vm, locale) {
     if (this._activated && typeof vm.$page !== 'undefined') {
       if (vm.$page.props.auth) {
-        Sentry.setUser({ id: vm.$page.props.auth.user.id });
-        Sentry.setTag('company.id', vm.$page.props.auth.company.id);
-        Sentry.setTag('employee.id', vm.$page.props.auth.employee.id);
+        if (vm.$page.props.auth.user)
+          Sentry.setUser({ id: vm.$page.props.auth.user.id });
+        if (vm.$page.props.auth.company)
+          Sentry.setTag('company.id', vm.$page.props.auth.company.id);
+        if (vm.$page.props.auth.employee)
+          Sentry.setTag('employee.id', vm.$page.props.auth.employee.id);
       }
       Sentry.setTag('locale', locale);
       Sentry.setTag('page.component', vm.$page.component);

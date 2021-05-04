@@ -15,6 +15,8 @@ class EmailMessagingTest extends TestCase
     /** @test */
     public function it_sends_a_confirmation_email()
     {
+        config(['mail.verify' => true]);
+
         Notification::fake();
 
         // be sure to have at least 2 users

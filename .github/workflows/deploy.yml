@@ -26,6 +26,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Build assets
+    outputs:
+      version: ${{ steps.version.outputs.version }}
 
     strategy:
       fail-fast: false
@@ -87,7 +89,7 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Install yarn dependencies
-        run: yarn inst
+        run: yarn run inst
       - name: Lint files
         run: yarn run lint:all
 
@@ -103,11 +105,15 @@ jobs:
             exit -1
           fi
 
+      - name: Get version or revision
+        id: version
+        run: echo "::set-output name=version::$(git describe --abbrev=0 --tags --exact-match $GITHUB_SHA 2>/dev/null || git log --pretty="%h" -n1 $GITHUB_SHA)"
+
       - name: Prepare environment
         run: |
           { \
             echo "MIX_PROD_SOURCE_MAPS=true"; \
-            echo "MIX_SENTRY_RELEASE=$GITHUB_SHA"; \
+            echo "MIX_SENTRY_RELEASE=${{ steps.version.outputs.version }}"; \
           } | tee .env
 
       - name: Build assets
@@ -168,8 +174,8 @@ jobs:
 
       - name: Create release files
         run: |
-          echo $GITHUB_SHA | cut -c-8 > config/release
-          echo $GITHUB_SHA > config/commit
+          echo ${{ needs.build.outputs.version }} > config/.release
+          echo $GITHUB_SHA > config/.commit
 
       - name: Commit everything
         run: |
@@ -203,6 +209,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Download assets
+        uses: actions/download-artifact@v2
+        with:
+          name: assets
+          path: public
+
       - name: Download source maps
         uses: actions/download-artifact@v2
         with:
@@ -217,4 +229,6 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: ${{ secrets.SENTRY_ENVIRONMENT }}
-          sourcemaps: public/css/app.css.map public/js/app.js.map
+          sourcemaps: public/js/app.js public/js/app.js.map
+          version: ${{ needs.build.outputs.version }}
+          url_prefix: ~/js

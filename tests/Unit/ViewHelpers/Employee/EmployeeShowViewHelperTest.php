@@ -25,6 +25,7 @@ use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ProjectMessage;
 use App\Models\Company\TimeTrackingEntry;
+use App\Models\Company\EmployeePositionHistory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
@@ -791,6 +792,43 @@ class EmployeeShowViewHelperTest extends TestCase
         $this->assertEquals(
             63,
             EmployeeShowViewHelper::hiredAfterEmployee($michael, $michael->company)
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_information_about_past_positions(): void
+    {
+        $michael = Employee::factory()->create();
+        $position = Position::factory()->create();
+        $positionHistoryA = EmployeePositionHistory::factory()->create([
+            'started_at' => '2010-01-01 00:00:00',
+            'ended_at' => null,
+            'employee_id' => $michael->id,
+            'position_id' => $position->id,
+        ]);
+        $positionHistoryB = EmployeePositionHistory::factory()->create([
+            'started_at' => '2007-01-01 00:00:00',
+            'ended_at' => '2009-01 00:00:00',
+            'employee_id' => $michael->id,
+            'position_id' => $position->id,
+        ]);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $positionHistoryA->id,
+                    'position' => $position->title,
+                    'started_at' => 'Jan 2010',
+                    'ended_at' => null,
+                ],
+                1 => [
+                    'id' => $positionHistoryB->id,
+                    'position' => $position->title,
+                    'started_at' => 'Jan 2007',
+                    'ended_at' => 'Jan 2009',
+                ],
+            ],
+            EmployeeShowViewHelper::employeeCurrentAndPastPositions($michael, $michael->company)->toArray()
         );
     }
 }

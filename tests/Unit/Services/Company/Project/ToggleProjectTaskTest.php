@@ -116,6 +116,11 @@ class ToggleProjectTaskTest extends TestCase
             'completed' => true,
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project, $task) {
             return $job->auditLog['action'] === 'project_task_toggled' &&
                 $job->auditLog['author_id'] === $michael->id &&

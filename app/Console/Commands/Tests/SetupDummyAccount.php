@@ -28,6 +28,7 @@ use App\Models\Company\RateYourManagerSurvey;
 use App\Services\Company\Group\CreateMeeting;
 use App\Services\Company\Project\StartProject;
 use App\Services\Company\Team\Ship\CreateShip;
+use App\Models\Company\EmployeePositionHistory;
 use App\Services\Company\Project\CreateProject;
 use App\Services\Company\Group\CreateAgendaItem;
 use App\Services\Company\Group\UpdateMeetingDate;
@@ -57,8 +58,8 @@ use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Services\Company\Employee\Timesheet\RejectTimesheet;
 use App\Services\Company\Employee\Timesheet\SubmitTimesheet;
-use App\Services\Company\Project\AssignProjecTaskToEmployee;
 use App\Services\Company\Employee\Timesheet\ApproveTimesheet;
+use App\Services\Company\Project\AssignProjectTaskToEmployee;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
@@ -214,6 +215,7 @@ class SetupDummyAccount extends Command
         $this->setContractRenewalDates();
         $this->setECoffeeProcess();
         $this->addGroups();
+        $this->addPreviousPositionsHistory();
         $this->addSecondaryBlankAccount();
         $this->stop();
     }
@@ -1811,7 +1813,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Migrate domain names when the new site launches',
             'description' => null,
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->meredith->id,
             'project_id' => $this->projectInfinity->id,
@@ -1834,7 +1836,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Make sure the SEO is implemented',
             'description' => null,
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
             'project_id' => $this->projectInfinity->id,
@@ -1857,7 +1859,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Migrate the ACLs',
             'description' => null,
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->meredith->id,
             'project_id' => $this->projectInfinity->id,
@@ -1880,7 +1882,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Take appointment with the photographer',
             'description' => 'We need to make sure all photos look great if possible',
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->michael->id,
             'project_id' => $this->projectInfinity->id,
@@ -2131,6 +2133,34 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                     }
                 }
             }
+          }
+    }
+
+    private function addPreviousPositionsHistory(): void
+    {
+        foreach ($this->employees as $employee) {
+            $position = Position::inRandomOrder()->first();
+
+            $started = Carbon::now()->subMonths(rand(24, 60));
+            $ended = $started->copy()->addMonths(rand(12, 24));
+
+            EmployeePositionHistory::create([
+                'employee_id' => $employee->id,
+                'position_id' => $position->id,
+                'started_at' => $started,
+                'ended_at' => $ended,
+            ]);
+
+            $position = Position::inRandomOrder()->first();
+            $started = $ended->copy();
+            $ended = $started->copy()->addMonths(rand(6, 12));
+
+            EmployeePositionHistory::create([
+                'employee_id' => $employee->id,
+                'position_id' => $position->id,
+                'started_at' => $started,
+                'ended_at' => $ended,
+            ]);
         }
     }
 
