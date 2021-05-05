@@ -15,6 +15,7 @@ use Illuminate\Console\Command;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
+use Illuminate\Support\Facades\DB;
 use App\Models\Company\ECoffeeMatch;
 use App\Services\User\CreateAccount;
 use App\Models\Company\ProjectStatus;
@@ -217,6 +218,7 @@ class SetupDummyAccount extends Command
         $this->addGroups();
         $this->addPreviousPositionsHistory();
         $this->addSecondaryBlankAccount();
+        $this->validateUserAccounts();
         $this->stop();
     }
 
@@ -2121,7 +2123,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                         'presented_by_id' => $this->employees->shuffle()->first()->id,
                     ]);
 
-                    $decisionItems = $decisionItems->random()->take(rand(1, $decisionItems->count()));
+                    $decisionItems = $decisionItems->shuffle()->take(rand(1, 3));
                     foreach ($decisionItems as $item) {
                         (new CreateMeetingDecision)->execute([
                             'company_id' => $this->company->id,
@@ -2180,6 +2182,12 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'author_id' => $user->id,
             'name' => 'ACME inc',
         ]);
+    }
+
+    private function validateUserAccounts(): void
+    {
+        DB::table('users')
+            ->update(['email_verified_at' => Carbon::now()]);
     }
 
     private function artisan(string $message, string $command, array $arguments = []): void

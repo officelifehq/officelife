@@ -5,6 +5,7 @@ namespace App\Http\ViewHelpers\Company\Group;
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
+use App\Helpers\StringHelper;
 use App\Models\Company\Group;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
@@ -46,7 +47,7 @@ class GroupShowViewHelper
         return [
             'id' => $group->id,
             'name' => $group->name,
-            'mission' => $group->mission,
+            'mission' => StringHelper::parse($group->mission),
             'members' => $membersCollection,
             'url_edit' => route('groups.edit', [
                 'company' => $company,
@@ -146,6 +147,22 @@ class GroupShowViewHelper
         return [
             'number_of_meetings' => $numberOfMeetings,
             'frequency' => round($frequency),
+        ];
+    }
+
+    /**
+     * Get the information about the group, required for editing it.
+     *
+     * @param Group $group
+     * @param Company $company
+     * @return array
+     */
+    public static function edit(Group $group): array
+    {
+        return [
+            'id' => $group->id,
+            'name' => $group->name,
+            'mission' => $group->mission,
         ];
     }
 }

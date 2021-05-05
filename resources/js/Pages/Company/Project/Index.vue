@@ -64,9 +64,9 @@
               <p class="ttu f7 gray mb1 mt0 mr5">number of teams</p>
               <p class="mt0">{{ statistics.number_of_teams }}</p>
             </div>
-            <div class="">
-              <p class="ttu f7 gray mb1 mt0 mr5">founded</p>
-              <p class="mt0">1987</p>
+            <div v-if="statistics.founded_at" class="">
+              <p class="ttu f7 gray mb1 mt0 mr5">{{ $t('company.stat_founded_at') }}</p>
+              <p class="mt0">{{ statistics.founded_at }}</p>
             </div>
           </div>
         </div>

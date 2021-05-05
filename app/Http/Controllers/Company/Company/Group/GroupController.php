@@ -204,7 +204,7 @@ class GroupController extends Controller
         }
 
         return Inertia::render('Company/Group/Edit', [
-            'group' => GroupShowViewHelper::information($group, $company),
+            'group' => GroupShowViewHelper::edit($group),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

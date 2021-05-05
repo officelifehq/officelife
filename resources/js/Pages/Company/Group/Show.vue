@@ -50,7 +50,7 @@
                 🏔
               </span> {{ $t('group.summary_description') }}
             </div>
-            <div v-if="group.mission" class="bg-white box pa3" v-html="group.mission"></div>
+            <div v-if="group.mission" class="bg-white box pa3 parsed-content" v-html="group.mission"></div>
             <div v-if="!group.mission" class="bg-white box pa3">
               {{ $t('group.summary_mission_blank') }}
             </div>

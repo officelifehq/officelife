@@ -7,6 +7,12 @@ return [
     'create_members' => 'Who should be part of this group?',
     'create_members_help' => 'Type the first letters of the employee',
 
+    'index_title' => 'All the groups in the company',
+    'index_cta' => 'Create a group',
+    'index_menu_summary' => 'Summary',
+    'index_menu_meetings' => 'Meetings',
+    'index_menu_members' => 'Members',
+
     'summary_description' => 'Mission of this group',
     'summary_meetings' => 'Recent meetings',
     'summary_edit' => 'Edit name and mission',

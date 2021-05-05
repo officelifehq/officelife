@@ -29,9 +29,9 @@
               <p class="ttu f7 gray mb1 mt0 mr5">number of teams</p>
               <p class="mt0">{{ statistics.number_of_teams }}</p>
             </div>
-            <div class="">
-              <p class="ttu f7 gray mb1 mt0 mr5">founded</p>
-              <p class="mt0">1987</p>
+            <div v-if="statistics.founded_at" class="">
+              <p class="ttu f7 gray mb1 mt0 mr5">{{ $t('company.stat_founded_at') }}</p>
+              <p class="mt0">{{ statistics.founded_at }}</p>
             </div>
           </div>
         </div>
@@ -48,10 +48,10 @@
           <div class="mt4 mt5-l center section-btn relative mb5">
             <p>
               <span class="pr2">
-                {{ $t('project.index_title') }}
+                {{ $t('group.index_title') }}
               </span>
-              <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/create'" class="btn absolute db-l dn">
-                {{ $t('project.index_cta') }}
+              <inertia-link :href="groups.url_create" class="btn absolute db-l dn">
+                {{ $t('group.index_cta') }}
               </inertia-link>
             </p>
           </div>
@@ -63,7 +63,7 @@
                 <h2 class="fw4 f4 mt0 mb2 lh-copy relative">
                   <inertia-link :href="group.url">{{ group.name }}</inertia-link>
                 </h2>
-                <p class="mv0 lh-copy f6">{{ group.mission }}</p>
+                <p class="mv0 lh-copy f6 parsed-content">{{ group.mission }}</p>
               </div>
 
               <!-- members -->
