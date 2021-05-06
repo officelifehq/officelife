@@ -10,6 +10,7 @@ parameters:
         - tests
     excludePaths:
         - app/Http/ViewHelpers/Employee/EmployeeShowViewHelper.php
+        - app/Http/ViewHelpers/Employee/EmployeeWorkViewHelper.php
         - app/Http/ViewHelpers/Company/HR/CompanyHRViewHelper.php
         - app/Http/ViewHelpers/Company/Group/GroupMembersViewHelper.php
         - app/Services/Company/Group/CreateMeeting.php

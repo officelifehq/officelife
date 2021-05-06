@@ -241,4 +241,6 @@ return [
     'stat_hiring' => '{percent}% employees have been hired after {name}',
 
     'past_position_history_title' => 'Position history in the company',
+
+    'groups_title' => 'Groups {name} is part of',
 ];
