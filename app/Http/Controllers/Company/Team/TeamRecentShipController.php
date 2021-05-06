@@ -56,7 +56,7 @@ class TeamRecentShipController extends Controller
     }
 
     /**
-     * Search an employee to add as a team lead.
+     * Search an employee to add to the recent ship entry.
      *
      * @param Request $request
      * @param int $companyId

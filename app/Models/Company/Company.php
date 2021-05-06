@@ -251,6 +251,16 @@ class Company extends Model
     }
 
     /**
+     * Get all groups in the company.
+     *
+     * @return HasMany
+     */
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
+
+    /**
      * Get the logo associated with the company.
      *
      * @return HasOne

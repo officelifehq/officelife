@@ -35,6 +35,7 @@ return [
     'hide' => 'Hide',
     'enable' => 'Enable',
     'disable' => 'Disable',
+    'saved' => 'Saved',
     'import_review' => 'Import and review',
 
     'error_title' => '👇 Oops. An error occured.',
@@ -134,6 +135,11 @@ return [
     'breadcrumb_account_manage_past_archives' => 'Past imports',
     'breadcrumb_account_manage_past_archives_detail' => 'Detail of a past import',
     'breadcrumb_account_manage_cancel_account' => 'Cancel the account',
+    'breadcrumb_group_list' => 'Group list',
+    'breadcrumb_group_create' => 'Create a group',
+    'breadcrumb_group_detail' => 'Detail of a group',
+    'breadcrumb_group_delete' => 'Delete the group',
+    'breadcrumb_group_edit' => 'Edit the group',
 
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',
