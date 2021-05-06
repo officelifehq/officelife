@@ -9,6 +9,7 @@ return [
 
     'index_title' => 'All the groups in the company',
     'index_cta' => 'Create a group',
+    'index_blank_title' => 'Start a group, record meeting notes, and enjoy!',
     'index_menu_summary' => 'Summary',
     'index_menu_meetings' => 'Meetings',
     'index_menu_members' => 'Members',

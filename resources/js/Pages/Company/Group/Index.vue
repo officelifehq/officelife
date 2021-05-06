@@ -87,8 +87,8 @@
                width="140"
           />
           <p class="mb3">
-            <span class="db mb4">{{ $t('project.index_blank_title') }}</span>
-            <inertia-link :href="groups.url_create" class="btn dib">{{ $t('project.index_cta') }}</inertia-link>
+            <span class="db mb4">{{ $t('group.index_blank_title') }}</span>
+            <inertia-link :href="groups.url_create" class="btn dib">{{ $t('group.index_cta') }}</inertia-link>
           </p>
         </div>
       </div>
