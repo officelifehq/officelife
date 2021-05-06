@@ -44,7 +44,7 @@ class GroupShowViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            $group->mission,
+            '<p>Employees happiness</p>',
             $array['mission']
         );
 

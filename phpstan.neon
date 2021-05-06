@@ -14,6 +14,8 @@ parameters:
         - app/Http/ViewHelpers/Company/Group/GroupMembersViewHelper.php
         - app/Services/Company/Group/CreateMeeting.php
         - app/Http/ViewHelpers/Company/Group/GroupMeetingsViewHelper.php
+        - app/Http/ViewHelpers/Company/Group/GroupShowViewHelper.php
+        - app/Http/ViewHelpers/Company/Group/GroupViewHelper.php
     inferPrivatePropertyTypeFromConstructor: true
     checkMissingIterableValueType: false
     reportUnmatchedIgnoredErrors: false

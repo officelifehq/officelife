@@ -62,7 +62,7 @@ class GroupController extends Controller
 
         return Inertia::render('Company/Group/Show', [
             'group' => GroupShowViewHelper::information($group, $company),
-            'meetings' => GroupShowViewHelper::meetings($group, $company),
+            'meetings' => GroupShowViewHelper::meetings($group),
             'stats' => GroupShowViewHelper::stats($group),
             'tab' => 'info',
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
