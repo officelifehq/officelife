@@ -23,7 +23,6 @@ use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
-use App\Models\Company\ProjectMessage;
 use App\Models\Company\TimeTrackingEntry;
 use App\Models\Company\EmployeePositionHistory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -648,70 +647,6 @@ class EmployeeShowViewHelperTest extends TestCase
                 'title' => $position->title,
             ],
             $collection->toArray()[0]
-        );
-    }
-
-    /** @test */
-    public function it_gets_a_collection_of_all_projects_for_this_employee(): void
-    {
-        $michael = $this->createAdministrator();
-        $projectA = Project::factory()->create([
-            'company_id' => $michael->company_id,
-            'status' => Project::CLOSED,
-        ]);
-        $projectB = Project::factory()->create([
-            'company_id' => $michael->company_id,
-        ]);
-        $projectA->employees()->syncWithoutDetaching(
-            [
-                $michael->id => [
-                    'role' => trans('project.project_title_lead'),
-                ],
-            ]
-        );
-        $projectB->employees()->syncWithoutDetaching([$michael->id]);
-
-        ProjectMessage::factory()->create([
-            'project_id' => $projectA->id,
-            'author_id' => $michael->id,
-        ]);
-        ProjectMessage::factory()->create([
-            'project_id' => $projectA->id,
-            'author_id' => null,
-        ]);
-
-        ProjectTask::factory()->count(2)->completed()->create([
-            'project_id' => $projectA->id,
-            'author_id' => $michael->id,
-            'assignee_id' => $michael->id,
-        ]);
-
-        $collection = EmployeeShowViewHelper::projects($michael, $michael->company);
-
-        $this->assertEquals(
-            [
-                0 => [
-                    'id' => $projectB->id,
-                    'name' => $projectB->name,
-                    'code' => $projectB->code,
-                    'status' => $projectB->status,
-                    'role' => null,
-                    'messages_count' => 0,
-                    'tasks_count' => 0,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectB->id,
-                ],
-                1 => [
-                    'id' => $projectA->id,
-                    'name' => $projectA->name,
-                    'code' => $projectA->code,
-                    'status' => Project::CLOSED,
-                    'role' => trans('project.project_title_lead'),
-                    'messages_count' => 1,
-                    'tasks_count' => 2,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectA->id,
-                ],
-            ],
-            $collection->toArray()
         );
     }
 

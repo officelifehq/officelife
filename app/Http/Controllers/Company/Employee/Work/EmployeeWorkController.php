@@ -55,7 +55,10 @@ class EmployeeWorkController extends Controller
         $ships = EmployeeShowViewHelper::recentShips($employee);
 
         // all projects of this employee
-        $projects = EmployeeShowViewHelper::projects($employee, $loggedCompany);
+        $projects = EmployeeWorkViewHelper::projects($employee, $loggedCompany);
+
+        // all groups of this employee
+        $groups = EmployeeWorkViewHelper::groups($employee, $loggedCompany);
 
         // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
         $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions, $loggedEmployee);
@@ -70,6 +73,7 @@ class EmployeeWorkController extends Controller
             'workFromHomes' => $workFromHomeStats,
             'ships' => $ships,
             'projects' => $projects,
+            'groups' => $groups,
         ]);
     }
 
