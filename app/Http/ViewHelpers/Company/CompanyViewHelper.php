@@ -32,7 +32,7 @@ class CompanyViewHelper
         return [
             'number_of_teams' => $teams,
             'number_of_employees' => $employees,
-            'logo' => $company->logo ? ImageHelper::getImage($company->logo, 200, 200) : null,
+            'logo' => $company->logo ? ImageHelper::getImage($company->logo, 75, 75) : null,
             'founded_at' => $company->founded_at ? $company->founded_at->year : null,
         ];
     }
