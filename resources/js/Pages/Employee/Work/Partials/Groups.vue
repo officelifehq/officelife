@@ -48,11 +48,6 @@
           </span>
         </li>
       </ul>
-
-      <!-- blank state -->
-      <div v-show="groups.length == 0" class="pa3" data-cy="recent-ships-list-blank-state">
-        <p class="mb0 mt0 lh-copy f6">{{ $t('employee.groups_blank') }}</p>
-      </div>
     </div>
   </div>
 </template>
