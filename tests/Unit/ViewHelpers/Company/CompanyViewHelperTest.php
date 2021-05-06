@@ -48,7 +48,7 @@ class CompanyViewHelperTest extends TestCase
             [
                 'number_of_teams' => 2,
                 'number_of_employees' => 3,
-                'logo' => ImageHelper::getImage($file, 200, 200),
+                'logo' => ImageHelper::getImage($file, 75, 75),
                 'founded_at' => 2020,
             ],
             $response

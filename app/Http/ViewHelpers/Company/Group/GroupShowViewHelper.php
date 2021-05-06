@@ -47,7 +47,7 @@ class GroupShowViewHelper
         return [
             'id' => $group->id,
             'name' => $group->name,
-            'mission' => StringHelper::parse($group->mission),
+            'mission' => $group->mission ? StringHelper::parse($group->mission) : null,
             'members' => $membersCollection,
             'url_edit' => route('groups.edit', [
                 'company' => $company,
