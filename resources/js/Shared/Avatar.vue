@@ -38,6 +38,20 @@ export default {
     }
   },
 
+  data() {
+    return {
+      localClasses: '',
+    };
+  },
+
+  mounted() {
+    this.localClasses = this.classes;
+
+    if (this.url) {
+      this.localClasses = this.localClasses + ' pointer';
+    }
+  },
+
   methods: {
     navigateTo() {
       if (this.url) {

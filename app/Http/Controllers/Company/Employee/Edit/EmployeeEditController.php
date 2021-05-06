@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Company\Employee\Edit;
 
-use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
@@ -93,13 +92,10 @@ class EmployeeEditController extends Controller
 
         (new SetPersonalDetails)->execute($data);
 
-        $date = Carbon::createFromDate($request->input('year'), $request->input('month'), $request->input('day'));
-
         $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
-            'date' => $date->format('Y-m-d'),
             'year' => intval($request->input('year')),
             'month' => intval($request->input('month')),
             'day' => intval($request->input('day')),
@@ -112,7 +108,6 @@ class EmployeeEditController extends Controller
                 'company_id' => $companyId,
                 'author_id' => $loggedEmployee->id,
                 'employee_id' => $employeeId,
-                'date' => $date->format('Y-m-d'),
                 'year' => intval($request->input('hired_year')),
                 'month' => intval($request->input('hired_month')),
                 'day' => intval($request->input('hired_day')),

@@ -323,6 +323,43 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::delete('{project}/files/{file}', 'Company\\Company\\Project\\ProjectFilesController@destroy');
             });
 
+            Route::prefix('groups')->group(function () {
+                Route::get('', 'Company\\Company\\Group\\GroupController@index');
+                Route::get('create', 'Company\\Company\\Group\\GroupController@create')->name('groups.new');
+                Route::post('', 'Company\\Company\\Group\\GroupController@store');
+                Route::post('search', 'Company\\Company\\Group\\GroupController@search');
+
+                // group detail
+                Route::get('{group}', 'Company\\Company\\Group\\GroupController@show')->name('groups.show');
+                Route::get('{group}/edit', 'Company\\Company\\Group\\GroupController@edit')->name('groups.edit');
+                Route::post('{group}/update', 'Company\\Company\\Group\\GroupController@update');
+                Route::get('{group}/delete', 'Company\\Company\\Group\\GroupController@delete')->name('groups.delete');
+                Route::delete('{group}', 'Company\\Company\\Group\\GroupController@destroy');
+
+                // members
+                Route::get('{group}/members', 'Company\\Company\\Group\\GroupMembersController@index')->name('groups.members.index');
+                Route::post('{group}/members/search', 'Company\\Company\\Group\\GroupMembersController@search');
+                Route::post('{group}/members/store', 'Company\\Company\\Group\\GroupMembersController@store');
+                Route::post('{group}/members/remove', 'Company\\Company\\Group\\GroupMembersController@remove');
+
+                // meetings
+                Route::get('{group}/meetings', 'Company\\Company\\Group\\GroupMeetingsController@index')->name('groups.meetings.index');
+                Route::get('{group}/meetings/create', 'Company\\Company\\Group\\GroupMeetingsController@create')->name('groups.meetings.new');
+                Route::get('{group}/meetings/{meeting}', 'Company\\Company\\Group\\GroupMeetingsController@show')->name('groups.meetings.show');
+                Route::delete('{group}/meetings/{meeting}', 'Company\\Company\\Group\\GroupMeetingsController@destroy');
+                Route::post('{group}/meetings/{meeting}/toggle', 'Company\\Company\\Group\\GroupMeetingsController@toggleParticipant');
+                Route::post('{group}/meetings/{meeting}/search', 'Company\\Company\\Group\\GroupMeetingsController@search');
+                Route::post('{group}/meetings/{meeting}/add', 'Company\\Company\\Group\\GroupMeetingsController@addParticipant');
+                Route::post('{group}/meetings/{meeting}/remove', 'Company\\Company\\Group\\GroupMeetingsController@removeParticipant');
+                Route::post('{group}/meetings/{meeting}/setDate', 'Company\\Company\\Group\\GroupMeetingsController@setDate');
+                Route::post('{group}/meetings/{meeting}/addAgendaItem', 'Company\\Company\\Group\\GroupMeetingsController@createAgendaItem');
+                Route::post('{group}/meetings/{meeting}/updateAgendaItem/{agendaItem}', 'Company\\Company\\Group\\GroupMeetingsController@updateAgendaItem');
+                Route::delete('{group}/meetings/{meeting}/agendaItem/{agendaItem}', 'Company\\Company\\Group\\GroupMeetingsController@destroyAgendaItem');
+                Route::post('{group}/meetings/{meeting}/agendaItem/{agendaItem}/addDecision', 'Company\\Company\\Group\\GroupMeetingsController@createDecision');
+                Route::delete('{group}/meetings/{meeting}/agendaItem/{agendaItem}/decisions/{meetingDecision}', 'Company\\Company\\Group\\GroupMeetingsController@destroyDecision');
+                Route::get('{group}/meetings/{meeting}/presenters', 'Company\\Company\\Group\\GroupMeetingsController@getPresenters');
+            });
+
             Route::prefix('hr')->group(function () {
                 Route::get('', 'Company\\Company\\HR\\CompanyHRController@index');
             });
