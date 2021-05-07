@@ -25,7 +25,7 @@ class CreateCompanyUsageHistoryTable extends Migration
         Schema::create('company_invoices', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
-            $table->integer('number_of_max_employees_in_month');
+            $table->integer('number_of_max_employees_in_period');
             $table->boolean('sent_to_payment_processor')->default('false');
             $table->boolean('sent_to_customer')->default('false');
             $table->string('email_address_invoice_sent_to')->nullable();

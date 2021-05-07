@@ -2,9 +2,9 @@
 
 namespace App\Jobs\Invoicing;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use App\Models\Company\Company;
-use App\Models\Company\Employee;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Company\CompanyUsageHistory;
@@ -36,18 +36,8 @@ class CreateMonthlyInvoice implements ShouldQueue
      */
     public function handle(): void
     {
-        $companies = Company::addSelect([
-            'max_employees' => Employee::selectRaw('count(*)')
-                ->whereColumn('company_id', 'companies.id')
-                ->whereColumn('locked', 0),
-        ])
-            ->get();
-
-        foreach ($companies as $company) {
-            CompanyUsageHistory::create([
-                'company_id' => $company->id,
-                'number_of_active_employees' => $company->max_employees,
-            ]);
-        }
+        $maxNumberOfEmployees = CompanyUsageHistory::where('company_id', $this->company->id)
+            ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+            ->max('number_of_active_employees');
     }
 }
