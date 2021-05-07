@@ -261,6 +261,16 @@ class Company extends Model
     }
 
     /**
+     * Get all company usage history records in the company.
+     *
+     * @return HasMany
+     */
+    public function usageHistory()
+    {
+        return $this->hasMany(CompanyUsageHistory::class);
+    }
+
+    /**
      * Get the logo associated with the company.
      *
      * @return HasOne
