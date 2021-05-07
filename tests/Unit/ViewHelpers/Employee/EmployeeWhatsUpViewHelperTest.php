@@ -10,12 +10,15 @@ use App\Models\Company\Team;
 use App\Models\Company\Project;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use App\Models\Company\Position;
 use App\Models\Company\Timesheet;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\ConsultantRate;
+use App\Models\Company\EmployeeStatus;
 use App\Models\Company\TimeTrackingEntry;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\EmployeePositionHistory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Employee\EmployeeWhatsUpViewHelper;
 
@@ -32,11 +35,21 @@ class EmployeeWhatsUpViewHelperTest extends TestCase
             [
                 'id' => $michael->id,
                 'name' => $michael->name,
-                'avatar' => ImageHelper::getAvatar($michael, 300),
+                'avatar' => ImageHelper::getAvatar($michael, 100),
                 'hired_at' => null,
-                'position' => null,
-                'pronoun' => null,
-                'status' => null,
+                'position' => [
+                    'id' => $michael->position->id,
+                    'title' => $michael->position->title,
+                ],
+                'pronoun' => [
+                    'id' => $michael->pronoun->id,
+                    'label' => $michael->pronoun->label,
+                ],
+                'status' => [
+                    'id' => $michael->status->id,
+                    'name' => $michael->status->name,
+                    'external' => $michael->status->type == EmployeeStatus::EXTERNAL,
+                ],
             ],
             EmployeeWhatsUpViewHelper::information($michael)
         );
@@ -351,6 +364,48 @@ class EmployeeWhatsUpViewHelperTest extends TestCase
                 'percent_completion' => 7,
             ],
             EmployeeWhatsUpViewHelper::worklogs($michael, $startDate, $endDate)
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_information_about_past_positions(): void
+    {
+        Carbon::setTestNow(Carbon::create(2010, 10, 1));
+
+        $startDate = Carbon::now()->startOfYear();
+        $endDate = Carbon::now()->endOfYear();
+
+        $michael = Employee::factory()->create();
+        $position = Position::factory()->create();
+        $positionHistoryA = EmployeePositionHistory::factory()->create([
+            'started_at' => '2010-03-01 00:00:00',
+            'ended_at' => null,
+            'employee_id' => $michael->id,
+            'position_id' => $position->id,
+        ]);
+        $positionHistoryB = EmployeePositionHistory::factory()->create([
+            'started_at' => '2007-01-01 00:00:00',
+            'ended_at' => '2010-02-01 00:00:00',
+            'employee_id' => $michael->id,
+            'position_id' => $position->id,
+        ]);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $positionHistoryA->id,
+                    'position' => $position->title,
+                    'started_at' => 'Mar 2010',
+                    'ended_at' => null,
+                ],
+                1 => [
+                    'id' => $positionHistoryB->id,
+                    'position' => $position->title,
+                    'started_at' => 'Jan 2007',
+                    'ended_at' => 'Feb 2010',
+                ],
+            ],
+            EmployeeWhatsUpViewHelper::positions($michael, $startDate, $endDate)->toArray()
         );
     }
 }

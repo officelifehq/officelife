@@ -17,6 +17,7 @@ use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\TimeTrackingEntry;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\EmployeePositionHistory;
 
 class EmployeeWhatsUpViewHelper
 {
@@ -174,8 +175,10 @@ class EmployeeWhatsUpViewHelper
         $previousRate = $employee->consultantRates()->where('active', false)->orderBy('id', 'desc')->first();
 
         $contractRenewInTimeframe = false;
-        if ($employee->contract_renewed_at->between($startDate, $endDate)) {
-            $contractRenewInTimeframe = true;
+        if ($employee->contract_renewed_at) {
+            if ($employee->contract_renewed_at->between($startDate, $endDate)) {
+                $contractRenewInTimeframe = true;
+            }
         }
 
         return [
@@ -223,5 +226,29 @@ class EmployeeWhatsUpViewHelper
             'number_worklogs' => $worklogCount,
             'percent_completion' => round($worklogCount * 100 / $numberOfDaysBetweenDates),
         ];
+    }
+
+    public static function positions(Employee $employee, Carbon $startDate, Carbon $endDate)
+    {
+        $positions = EmployeePositionHistory::where('employee_id', $employee->id)
+            ->where(function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('started_at', [$startDate, $endDate])
+                    ->orWhereBetween('ended_at', [$startDate, $endDate]);
+            })
+            ->orderBy('started_at', 'desc')
+            ->with('position')
+            ->get();
+
+        $positionCollection = collect();
+        foreach ($positions as $entry) {
+            $positionCollection->push([
+                'id' => $entry->id,
+                'position' => $entry->position->title,
+                'started_at' => DateHelper::formatMonthAndYear($entry->started_at),
+                'ended_at' => $entry->ended_at ? DateHelper::formatMonthAndYear($entry->ended_at) : null,
+            ]);
+        }
+
+        return $positionCollection;
     }
 }

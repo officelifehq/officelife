@@ -29,63 +29,91 @@
         </ul>
       </div>
 
-      <!-- BODY -->
-      <div class="mw7 center br3 mb5 bg-white box relative z-1">
-        <div class="pa3">
-          <!-- header -->
-          <div class="flex">
-            <avatar :avatar="employee.avatar" :size="100" :class="'avatar mr3'" />
+      <!-- header -->
+      <div class="mw7 center br3 mb5 bg-white box relative z-1 pa3">
+        <div class="flex">
+          <avatar :avatar="employee.avatar" :size="100" :class="'avatar mr3'" />
 
-            <div>
-              <h2 class="mt2 fw4">
-                {{ employee.name }} <span v-if="employee.pronoun" class="f5">
-                  ({{ employee.pronoun.label }})
-                </span>
-              </h2>
+          <div>
+            <h2 class="mt2 fw4">
+              {{ employee.name }} <span v-if="employee.pronoun" class="f5">
+                ({{ employee.pronoun.label }})
+              </span>
+            </h2>
 
-              <div class="flex">
-                <!-- Current position -->
-                <div class="mr4">
-                  <p class="mb1 f6 gray mt0">Current position</p>
-                  <p v-if="employee.position" class="mt0">{{ employee.position.title }}</p>
-                </div>
+            <div class="flex">
+              <!-- Current position -->
+              <div class="mr5">
+                <p class="mb1 f6 gray mt0">Current position</p>
+                <p v-if="employee.position" class="mt0">{{ employee.position.title }}</p>
+              </div>
 
-                <!-- Hiring date -->
-                <div>
-                  <p class="mb1 f6 gray mt0">Hired on</p>
-                  <p v-if="employee.hired_at" class="mt0">{{ employee.hired_at.full }}</p>
-                </div>
+              <!-- Hiring date -->
+              <div>
+                <p class="mb1 f6 gray mt0">Hired on</p>
+                <p v-if="employee.hired_at" class="mt0">{{ employee.hired_at.full }}</p>
+              </div>
+            </div>
+
+            <div v-if="employee.status && external" class="flex">
+              <!-- Status -->
+              <div class="mr5">
+                <p class="mb1 f6 gray mt0">Status</p>
+                <p class="mt0">{{ employee.status.name }}</p>
+              </div>
+
+              <!-- Contract renewal -->
+              <div v-if="external.contract_renewed_at" class="mr5">
+                <p class="mb1 f6 gray mt0">Renewal date</p>
+                <p class="mt0">{{ external.contract_renewed_at }}</p>
+              </div>
+
+              <!-- Rate -->
+              <div v-if="external.contract_rate" class="mr5">
+                <p class="mb1 f6 gray mt0">Rate</p>
+                <p class="mt0">{{ external.contract_rate.currency }} {{ external.contract_rate.rate }}</p>
+              </div>
+
+              <!-- Previous rate -->
+              <div v-if="external.contract_rate.previous_rate">
+                <p class="mb1 f6 gray mt0">Previous rate</p>
+                <p class="mt0">{{ external.contract_rate.currency }} {{ external.contract_rate.previous_rate }}</p>
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
-          <!-- contract information -->
+      <!-- year selector -->
+      <p class="mb2 gray mt4 tc">Everything that happened to Michael in</p>
+      <div class="cf mw7 center br3 mt3 mb5 tc">
+        <div class="cf dib btn-group">
+          <inertia-link v-for="year in years" :key="year" :href="year.url" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(currentYear == year.year)}">
+            {{ year.year }}
+          </inertia-link>
+        </div>
+      </div>
 
-          <ul v-if="employee.status">
-            <li>Contract: {{ employee.status.name }}</li>
-            <li v-if="external.contract_renews_in_timeframe">Contract will renew in this time period</li>
-            <li v-if="employee.contract_renewed_at">Contract renewed on {{ employee.contract_renewed_at }}</li>
-            <li v-if="employee.contract_rate">Rate {{ employee.contract_rate.currency }} {{ employee.contract_rate.rate }}</li>
-            <li v-if="employee.contract_rate">
-              <span v-if="employee.contract_rate.previous_rate">
-                Previous rate {{ employee.contract_rate.currency }} {{ employee.contract_rate.previous_rate }}
+      <div>
+        <div>
+          <h3>WORK</h3>
+
+          <!-- positions -->
+          <p v-if="positions.length > 1">Employee has changed position this year.</p>
+          <ul>
+            <li v-for="position in positions" :key="position.id" class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between position-item">
+              <span>{{ position.position }}</span>
+
+              <span class="gray">
+                {{ position.started_at }}
+                <span v-if="position.ended_at"> - {{ position.ended_at }}</span>
+                <span v-else> - {{ $t('employee.past_position_history_present') }}</span>
               </span>
             </li>
           </ul>
 
-          <p class="mb2 gray">Everything that happened to Michael in</p>
-
-          <ul class="list pl0 ma0 f6">
-            <li v-for="year in years" :key="year" class="di mr3">
-              <inertia-link v-if="!year.selected" :href="year.url">{{ year.year }}</inertia-link>
-              <span v-if="year.selected">{{ year.year }}</span>
-            </li>
-          </ul>
-
-          <h3>WORK</h3>
-
           <!-- projects -->
-          <p>Worked on {{ projects.length }} timesheets projects</p>
+          <p>Worked on {{ projects.length }} projects</p>
           <ul>
             <li v-for="project in projects" :key="project.id" class="pa3 bb bb-gray bb-gray-hover w-100">
               <div class="flex">
@@ -165,8 +193,16 @@ export default {
       type: Object,
       default: null,
     },
+    positions: {
+      type: Object,
+      default: null,
+    },
     years: {
       type: Object,
+      default: null,
+    },
+    currentYear: {
+      type: String,
       default: null,
     },
   }

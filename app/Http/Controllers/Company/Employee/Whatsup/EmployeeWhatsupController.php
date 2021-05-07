@@ -38,6 +38,8 @@ class EmployeeWhatsupController extends Controller
         $startDate = Carbon::now()->startOfYear();
         if ($year) {
             $startDate = $startDate->setYear($year);
+        } else {
+            $year = Carbon::now()->year;
         }
 
         $endDate = $startDate->copy()->endOfYear();
@@ -49,6 +51,7 @@ class EmployeeWhatsupController extends Controller
         $external = EmployeeWhatsUpViewHelper::external($employee, $startDate, $endDate);
         $workFromHome = EmployeeWhatsUpViewHelper::workFromHome($employee, $startDate, $endDate);
         $worklogs = EmployeeWhatsUpViewHelper::worklogs($employee, $startDate, $endDate);
+        $positions = EmployeeWhatsUpViewHelper::positions($employee, $startDate, $endDate);
         $years = EmployeeWhatsUpViewHelper::yearsInCompany($employee, $loggedCompany, $startDate->year);
 
         return Inertia::render('Employee/Whatsup/Index', [
@@ -60,6 +63,8 @@ class EmployeeWhatsupController extends Controller
             'workFromHome' => $workFromHome,
             'worklogs' => $worklogs,
             'years' => $years,
+            'positions' => $positions,
+            'currentYear' => $year,
             'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }

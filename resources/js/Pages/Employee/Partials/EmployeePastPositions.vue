@@ -30,7 +30,7 @@
           <span class="gray">
             {{ entry.started_at }}
             <span v-if="entry.ended_at"> - {{ entry.ended_at }}</span>
-            <span v-else> - Present</span>
+            <span v-else> - {{ $t('employee.past_position_history_present') }}</span>
           </span>
         </li>
       </ul>
