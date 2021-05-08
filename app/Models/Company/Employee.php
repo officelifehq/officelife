@@ -530,6 +530,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the software objects the employee.
+     *
+     * @return belongsToMany
+     */
+    public function softwares()
+    {
+        return $this->belongsToMany(Software::class)->withTimestamps()->withPivot('notes');
+    }
+
+    /**
      * Get the agenda item objects presented by the employee.
      *
      * @return HasMany

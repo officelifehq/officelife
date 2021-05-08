@@ -18,6 +18,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
+use App\Models\Company\Software;
 use App\Models\Company\ImportJob;
 use App\Models\Company\Timesheet;
 use App\Models\Company\CompanyNews;
@@ -250,6 +251,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->groups()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_softwares(): void
+    {
+        $company = Company::factory()->create();
+        Software::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->softwares()->exists());
     }
 
     /** @test */
