@@ -448,6 +448,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('account/hardware/search', 'Company\\Adminland\\AdminHardwareController@search');
             Route::resource('account/hardware', 'Company\\Adminland\\AdminHardwareController');
 
+            // software
+            Route::get('account/software', 'Company\\Adminland\\AdminSoftwareController@index')->name('software.index');
+            Route::get('account/software/{software}', 'Company\\Adminland\\AdminSoftwareController@show')->name('software.show');
+
             // expenses
             Route::resource('account/expenses', 'Company\\Adminland\\AdminExpenseController', ['as' => 'account'])->except(['show']);
             Route::post('account/expenses/search', 'Company\\Adminland\\AdminExpenseController@search');
