@@ -1257,6 +1257,31 @@ class LogHelper
                 ]);
                 break;
 
+            case 'software_destroyed':
+                $sentence = trans('account.log_software_destroyed', [
+                    'software_id' => $log->object->{'software_id'},
+                    'software_name' => $log->object->{'software_name'},
+                ]);
+                break;
+
+            case 'software_seat_given_to_employee':
+                $sentence = trans('account.log_software_seat_given_to_employee', [
+                    'software_id' => $log->object->{'software_id'},
+                    'software_name' => $log->object->{'software_name'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                ]);
+                break;
+
+            case 'software_seat_taken_from_employee':
+                $sentence = trans('account.log_software_seat_taken_from_employee', [
+                    'software_id' => $log->object->{'software_id'},
+                    'software_name' => $log->object->{'software_name'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
