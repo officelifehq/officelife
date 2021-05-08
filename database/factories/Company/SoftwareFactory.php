@@ -27,7 +27,7 @@ class SoftwareFactory extends Factory
             'name' => $this->faker->name(),
             'website' => $this->faker->url,
             'product_key' => $this->faker->ipv6,
-            'seats' => $this->faker->numberBetween(1, 10),
+            'seats' => $this->faker->numberBetween(4, 10),
             'licensed_to_name' => $this->faker->name(),
             'licensed_to_email_address' => $this->faker->email,
             'order_number' => $this->faker->randomNumber(),

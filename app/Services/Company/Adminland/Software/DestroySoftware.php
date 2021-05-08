@@ -9,7 +9,7 @@ use App\Models\Company\Software;
 
 class DestroySoftware extends BaseService
 {
-    protected array $array;
+    protected array $data;
     protected Software $software;
 
     /**

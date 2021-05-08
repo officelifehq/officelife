@@ -5,11 +5,14 @@ namespace App\Services\Company\Adminland\Software;
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use App\Models\Company\Employee;
 use App\Models\Company\Software;
+use App\Exceptions\NotEnoughSoftwareSeat;
 
-class CreateSoftware extends BaseService
+class GiveSeatToEmployee extends BaseService
 {
     protected array $data;
+    protected Employee $employee;
     protected Software $software;
 
     /**
@@ -22,21 +25,15 @@ class CreateSoftware extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'name' => 'required|string|max:255',
-            'website' => 'nullable|string|max:255',
+            'software_id' => 'required|integer|exists:softwares,id',
+            'employee_id' => 'required|integer|exists:employees,id',
             'product_key' => 'required|string|max:255',
-            'seats' => 'required|integer',
-            'licensed_to_name' => 'nullable|string|max:255',
-            'licensed_to_email_address' => 'nullable|email|max:255',
-            'order_number' => 'nullable|string|max:255',
-            'purchase_cost' => 'nullable|integer',
-            'currency' => 'nullable|string|max:255',
-            'purchase_date' => 'nullable|date_format:Y-m-d',
+            'notes' => 'nullable|string|max:65535',
         ];
     }
 
     /**
-     * Create a software.
+     * Give a copy of a software to an employee.
      *
      * @param array $data
      * @return Software
@@ -45,7 +42,8 @@ class CreateSoftware extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->create();
+        $this->makeSureSoftwareCanBeCheckedOut();
+        $this->checkOut();
         $this->log();
 
         return $this->software;
@@ -59,22 +57,27 @@ class CreateSoftware extends BaseService
             ->inCompany($this->data['company_id'])
             ->asAtLeastHR()
             ->canExecuteService();
+
+        $this->employee = $this->validateEmployeeBelongsToCompany($this->data);
+
+        $this->software = Software::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['software_id']);
     }
 
-    private function create(): void
+    private function makeSureSoftwareCanBeCheckedOut(): void
     {
-        $this->software = Software::create([
-            'company_id' => $this->data['company_id'],
-            'name' => $this->data['name'],
-            'website' => $this->valueOrNull($this->data, 'website'),
-            'product_key' => $this->valueOrNull($this->data, 'product_key'),
-            'seats' => $this->data['seats'],
-            'licensed_to_name' => $this->valueOrNull($this->data, 'licensed_to_name'),
-            'licensed_to_email_address' => $this->valueOrNull($this->data, 'licensed_to_email_address'),
-            'order_number' => $this->valueOrNull($this->data, 'order_number'),
-            'purchase_cost' => $this->valueOrNull($this->data, 'purchase_cost'),
-            'currency' => $this->valueOrNull($this->data, 'currency'),
-            'purchase_date' => $this->valueOrNull($this->data, 'purchase_date'),
+        if ($this->software->employees()->count() > $this->software->seats) {
+            throw new NotEnoughSoftwareSeat();
+        }
+    }
+
+    private function checkOut(): void
+    {
+        $this->software->employees()->syncWithoutDetaching([
+            $this->data['employee_id'] => [
+                'product_key' => $this->valueOrNull($this->data, 'product_key'),
+                'notes' => $this->valueOrNull($this->data, 'notes'),
+            ],
         ]);
     }
 
@@ -82,13 +85,15 @@ class CreateSoftware extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'software_created',
+            'action' => 'software_seat_given_to_employee',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'software_id' => $this->software->id,
                 'software_name' => $this->software->name,
+                'employee_id' => $this->employee->id,
+                'employee_name' => $this->employee->name,
             ]),
         ])->onQueue('low');
     }

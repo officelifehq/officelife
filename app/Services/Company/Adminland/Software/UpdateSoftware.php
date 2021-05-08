@@ -9,7 +9,7 @@ use App\Models\Company\Software;
 
 class UpdateSoftware extends BaseService
 {
-    protected array $array;
+    protected array $data;
     protected Software $software;
 
     /**
