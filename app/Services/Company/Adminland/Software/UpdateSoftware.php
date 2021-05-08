@@ -7,7 +7,7 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Software;
 
-class CreateSoftware extends BaseService
+class UpdateSoftware extends BaseService
 {
     protected array $array;
     protected Software $software;
@@ -22,6 +22,7 @@ class CreateSoftware extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
+            'software_id' => 'required|integer|exists:softwares,id',
             'name' => 'required|string|max:255',
             'website' => 'nullable|string|max:255',
             'product_key' => 'required|string|max:255',
@@ -36,7 +37,7 @@ class CreateSoftware extends BaseService
     }
 
     /**
-     * Create a software.
+     * Update a software.
      *
      * @param array $data
      * @return Software
@@ -45,7 +46,7 @@ class CreateSoftware extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->create();
+        $this->update();
         $this->log();
 
         return $this->software;
@@ -59,30 +60,31 @@ class CreateSoftware extends BaseService
             ->inCompany($this->data['company_id'])
             ->asAtLeastHR()
             ->canExecuteService();
+
+        $this->software = Software::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['software_id']);
     }
 
-    private function create(): void
+    private function update(): void
     {
-        $this->software = Software::create([
-            'company_id' => $this->data['company_id'],
-            'name' => $this->data['name'],
-            'website' => $this->valueOrNull($this->data, 'website'),
-            'product_key' => $this->valueOrNull($this->data, 'product_key'),
-            'seats' => $this->data['seats'],
-            'licensed_to_name' => $this->valueOrNull($this->data, 'licensed_to_name'),
-            'licensed_to_email_address' => $this->valueOrNull($this->data, 'licensed_to_email_address'),
-            'order_number' => $this->valueOrNull($this->data, 'order_number'),
-            'purchase_cost' => $this->valueOrNull($this->data, 'purchase_cost'),
-            'currency' => $this->valueOrNull($this->data, 'currency'),
-            'purchase_date' => $this->valueOrNull($this->data, 'purchase_date'),
-        ]);
+        $this->software->name = $this->data['name'];
+        $this->software->website = $this->valueOrNull($this->data, 'website');
+        $this->software->product_key = $this->valueOrNull($this->data, 'product_key');
+        $this->software->seats = $this->data['seats'];
+        $this->software->licensed_to_name = $this->valueOrNull($this->data, 'licensed_to_name');
+        $this->software->licensed_to_email_address = $this->valueOrNull($this->data, 'licensed_to_email_address');
+        $this->software->order_number = $this->valueOrNull($this->data, 'order_number');
+        $this->software->purchase_cost = $this->valueOrNull($this->data, 'purchase_cost');
+        $this->software->currency = $this->valueOrNull($this->data, 'currency');
+        $this->software->purchase_date = $this->valueOrNull($this->data, 'purchase_date');
+        $this->software->save();
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'software_created',
+            'action' => 'software_updated',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),

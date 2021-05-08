@@ -1243,6 +1243,20 @@ class LogHelper
                 ]);
                 break;
 
+            case 'software_created':
+                $sentence = trans('account.log_software_created', [
+                    'software_id' => $log->object->{'software_id'},
+                    'software_name' => $log->object->{'software_name'},
+                ]);
+                break;
+
+            case 'software_updated':
+                $sentence = trans('account.log_software_updated', [
+                    'software_id' => $log->object->{'software_id'},
+                    'software_name' => $log->object->{'software_name'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
