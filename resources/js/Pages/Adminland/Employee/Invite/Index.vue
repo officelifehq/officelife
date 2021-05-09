@@ -1,0 +1,111 @@
+<style lang="scss" scoped>
+</style>
+
+<template>
+  <layout :notifications="notifications">
+    <div class="ph2 ph0-ns">
+      <!-- BREADCRUMB -->
+      <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
+        <ul class="list ph0 tc-l tl">
+          <li class="di">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+          </li>
+          <li class="di">
+            ...
+          </li>
+          <li class="di">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employees'">{{ $t('app.breadcrumb_employee_list') }}</inertia-link>
+          </li>
+          <li class="di">
+            {{ $t('app.breadcrumb_account_employee_invite') }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- BODY -->
+      <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
+        <div class="mt5">
+          <h2 class="pa3 tc normal mb0">
+            {{ $t('account.employees_invite_title', { name: employee.name}) }}
+
+            <help :url="$page.props.help_links.account_employee_invite" :top="'1px'" />
+          </h2>
+
+          <form @submit.prevent="submit">
+            <errors :errors="form.errors" />
+
+            <div class="cf pa3 bb-gray bb">
+              <p>{{ $t('account.employees_invite_description', { firstname: employee.firstname }) }}</p>
+              <p>{{ $t('account.employees_invite_description_2', { firstname: employee.firstname, email: employee.email}) }}</p>
+            </div>
+
+            <!-- Actions -->
+            <div class="cf pa3 bb-gray bb">
+              <div class="flex-ns justify-between">
+                <div>
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employees'" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
+                    {{ $t('app.cancel') }}
+                  </inertia-link>
+                </div>
+                <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('account.employees_invite_cta', {firstname: employee.firstname})" />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </layout>
+</template>
+
+<script>
+import Layout from '@/Shared/Layout';
+import Errors from '@/Shared/Errors';
+import LoadingButton from '@/Shared/LoadingButton';
+import Help from '@/Shared/Help';
+
+export default {
+  components: {
+    Layout,
+    Errors,
+    LoadingButton,
+    Help,
+  },
+
+  props: {
+    notifications: {
+      type: Array,
+      default: null,
+    },
+    employee: {
+      type: Object,
+      default: null,
+    },
+  },
+
+  data() {
+    return {
+      form: {
+        errors: [],
+      },
+      loadingState: '',
+    };
+  },
+
+  methods: {
+    submit() {
+      this.loadingState = 'loading';
+
+      axios.post(`${this.$page.props.auth.company.id}/account/employees/${this.employee.id}/invite`, this.form)
+        .then(response => {
+          localStorage.success = this.$t('account.employees_invite_success');
+          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/account/employees');
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+  }
+};
+
+</script>

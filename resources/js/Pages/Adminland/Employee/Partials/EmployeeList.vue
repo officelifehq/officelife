@@ -33,26 +33,29 @@
             <span v-if="currentEmployee.lock_status" data-cy="lock-status">🔐</span>
 
             <!-- permission level -->
-            <span v-if="currentEmployee.permission_level < 300" class="badge f7 relative">
+            <span v-if="currentEmployee.permission_level < 300" class="ml2 badge f7 relative">
               {{ $t('app.permission_' + currentEmployee.permission_level) }}
             </span>
-          </span>
 
-          <!-- invited by email -->
-          <span v-if="currentEmployee.invited" class="db f6 ">{{ 'Invited by email' }}</span>
+            <!-- invited by email -->
+            <span v-if="currentEmployee.invited" class="ml3 f6 relative">{{ $t('account.employees_invite_pending') }}</span>
+          </span>
 
           <!-- actions -->
           <ul class="f6 list pl0">
-            <li class="di pr2">
-              <inertia-link :href="currentEmployee.url_view" data-cy="employee-view">{{ $t('app.view') }}</inertia-link>
+            <li class="di pr3">
+              <inertia-link :href="currentEmployee.url_view" data-cy="employee-view">{{ $t('account.employees_view_profile') }}</inertia-link>
             </li>
-            <li v-if="currentEmployee.id != $page.props.auth.employee.id && !currentEmployee.invited" class="di pr2">
+            <li v-if="currentEmployee.id != $page.props.auth.employee.id && !currentEmployee.has_user_account" class="di pr3">
+              <inertia-link :href="currentEmployee.url_invite" data-cy="employee-email">{{ $t('account.employees_invite_user') }}</inertia-link>
+            </li>
+            <li v-if="currentEmployee.id != $page.props.auth.employee.id" class="di pr3">
               <inertia-link :href="currentEmployee.url_permission">{{ $t('account.employees_change_permission') }}</inertia-link>
             </li>
-            <li v-if="currentEmployee.id != $page.props.auth.employee.id && !currentEmployee.lock_status && !currentEmployee.invited" class="di pr2">
+            <li v-if="currentEmployee.id != $page.props.auth.employee.id && !currentEmployee.locked && !currentEmployee.invited" class="di pr3">
               <inertia-link :href="currentEmployee.url_lock" :data-cy="'lock-account-' + currentEmployee.id">{{ $t('account.employees_lock_account') }}</inertia-link>
             </li>
-            <li v-if="currentEmployee.id != $page.props.auth.employee.id && currentEmployee.lock_status" class="di pr2">
+            <li v-if="currentEmployee.id != $page.props.auth.employee.id && currentEmployee.locked" class="di pr3">
               <inertia-link :href="currentEmployee.url_unlock" :data-cy="'unlock-account-' + currentEmployee.id">{{ $t('account.employees_unlock_account') }}</inertia-link>
             </li>
             <li v-if="currentEmployee.id != $page.props.auth.employee.id" class="di">
