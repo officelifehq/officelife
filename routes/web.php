@@ -416,6 +416,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('account/employees/{employee}/unlock', 'Company\\Adminland\\AdminEmployeeController@unlockAccount');
             Route::get('account/employees/{employee}/permissions', 'Company\\Adminland\\AdminEmployeePermissionController@show')->name('account.employees.permission');
             Route::post('account/employees/{employee}/permissions', 'Company\\Adminland\\AdminEmployeePermissionController@store');
+            Route::get('account/employees/{employee}/invite', 'Company\\Adminland\\AdminEmployeeController@invite')->name('account.employees.invite');
+            Route::post('account/employees/{employee}/invite', 'Company\\Adminland\\AdminEmployeeController@sendInvite');
 
             // team management
             Route::resource('account/teams', 'Company\\Adminland\\AdminTeamController', ['as' => 'account_teams']);
