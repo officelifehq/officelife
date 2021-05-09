@@ -4,14 +4,12 @@ namespace Tests\Unit\ViewHelpers\Adminland;
 
 use Tests\TestCase;
 use App\Models\Company\Software;
-use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Adminland\AdminSoftwareViewHelper;
 
 class AdminSoftwareViewHelperTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use DatabaseTransactions;
 
     /** @test */
     public function it_gets_the_information_about_software_used_in_the_company(): void
