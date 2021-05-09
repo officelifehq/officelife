@@ -35,18 +35,15 @@ class UserInvitationControllerTest extends TestCase
         $response->assertStatus(204);
 
         $employee->refresh();
+
         $this->assertNotEmpty($employee->invitation_used_at);
+
         $this->assertDatabaseHas('users', [
             'id' => $employee->user_id,
             'email' => 'jim.halpert@dundermifflin.com',
         ]);
 
         $user = User::find($employee->user_id);
-
-        Notification::assertSentTo(
-            [$user],
-            VerifyEmail::class
-        );
     }
 
     /** @test */
