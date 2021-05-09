@@ -81,8 +81,6 @@ class UserInvitationController extends Controller
                 // email doesn't exist yet, create the account
                 $user = (new CreateAccount)->execute($requestInputs);
 
-                $user->sendEmailVerificationNotification();
-
                 /** @var \Illuminate\Contracts\Auth\StatefulGuard */
                 $guard = Auth::guard();
                 $guard->login($user);
