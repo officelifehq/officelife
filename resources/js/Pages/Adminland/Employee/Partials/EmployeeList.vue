@@ -12,6 +12,17 @@
   border-radius: 10rem;
   top: -3px;
 }
+
+.invitation-pending {
+  background-color: #fdefb6;
+  padding: 5px 7px;
+
+  svg {
+    width: 17px;
+    top: 4px;
+    color: #acacac;
+  }
+}
 </style>
 
 <template>
@@ -38,7 +49,12 @@
             </span>
 
             <!-- invited by email -->
-            <span v-if="currentEmployee.invited" class="ml3 f6 relative">{{ $t('account.employees_invite_pending') }}</span>
+            <span v-if="currentEmployee.invited" class="ml3 f6 relative invitation-pending br3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="relative" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              {{ $t('account.employees_invite_pending') }}
+            </span>
           </span>
 
           <!-- actions -->
