@@ -64,27 +64,14 @@ class AdminEmployeeViewHelperTest extends TestCase
                     'avatar' => ImageHelper::getAvatar($michael),
                     'invitation_link' => $michael->invitation_link,
                     'invited' => (! $michael->invitation_used_at && $michael->invitation_link) === true,
-                    'lock_status' => $michael->locked,
-                    'url_view' => route('employees.show', [
-                        'company' => $michael->company,
-                        'employee' => $michael,
-                    ]),
-                    'url_delete' => route('account.delete', [
-                        'company' => $michael->company,
-                        'employee' => $michael,
-                    ]),
-                    'url_lock' => route('account.lock', [
-                        'company' => $michael->company,
-                        'employee' => $michael,
-                    ]),
-                    'url_unlock' => route('account.unlock', [
-                        'company' => $michael->company,
-                        'employee' => $michael,
-                    ]),
-                    'url_permission' => route('account.employees.permission', [
-                        'company' => $michael->company,
-                        'employee' => $michael,
-                    ]),
+                    'has_user_account' => ($michael->invitation_used_at && $michael->invitation_link) === true,
+                    'locked' => false,
+                    'url_view' => env('APP_URL') . '/' . $michael->company_id . '/employees/'.$michael->id,
+                    'url_delete' => env('APP_URL') . '/' . $michael->company_id . '/account/employees/'.$michael->id.'/delete',
+                    'url_lock' => env('APP_URL') . '/' . $michael->company_id . '/account/employees/'.$michael->id.'/lock',
+                    'url_invite' => env('APP_URL') . '/' . $michael->company_id . '/account/employees/'.$michael->id.'/invite',
+                    'url_unlock' => env('APP_URL') . '/' . $michael->company_id . '/account/employees/'.$michael->id.'/unlock',
+                    'url_permission' => env('APP_URL') . '/' . $michael->company_id . '/account/employees/'.$michael->id.'/permissions',
                 ],
             ],
             $collection->toArray()
