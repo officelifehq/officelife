@@ -452,6 +452,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
             // software
             Route::get('account/software', 'Company\\Adminland\\AdminSoftwareController@index')->name('software.index');
+            Route::get('account/software/create', 'Company\\Adminland\\AdminSoftwareController@create')->name('software.create');
             Route::get('account/software/{software}', 'Company\\Adminland\\AdminSoftwareController@show')->name('software.show');
 
             // expenses

@@ -29,9 +29,10 @@ class CreateSoftware extends BaseService
             'licensed_to_name' => 'nullable|string|max:255',
             'licensed_to_email_address' => 'nullable|email|max:255',
             'order_number' => 'nullable|string|max:255',
-            'purchase_cost' => 'nullable|integer',
+            'purchase_amount' => 'nullable|integer',
             'currency' => 'nullable|string|max:255',
-            'purchase_date' => 'nullable|date_format:Y-m-d',
+            'purchased_at' => 'nullable|date_format:Y-m-d',
+            'expired_at' => 'nullable|date_format:Y-m-d',
         ];
     }
 
@@ -74,7 +75,8 @@ class CreateSoftware extends BaseService
             'order_number' => $this->valueOrNull($this->data, 'order_number'),
             'purchase_cost' => $this->valueOrNull($this->data, 'purchase_cost'),
             'currency' => $this->valueOrNull($this->data, 'currency'),
-            'purchase_date' => $this->valueOrNull($this->data, 'purchase_date'),
+            'purchased_at' => $this->valueOrNull($this->data, 'purchased_at'),
+            'expired_at' => $this->valueOrNull($this->data, 'purchased_at'),
         ]);
     }
 

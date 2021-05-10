@@ -26,15 +26,20 @@ class Software extends Model
     protected $fillable = [
         'company_id',
         'name',
-        'website',
         'product_key',
         'seats',
+        'website',
         'licensed_to_name',
         'licensed_to_email_address',
         'order_number',
-        'purchase_cost',
+        'purchase_amount',
         'currency',
-        'purchase_date',
+        'converted_purchase_amount',
+        'converted_to_currency',
+        'converted_at',
+        'exchange_rate',
+        'purchased_at',
+        'expired_at',
     ];
 
     /**
@@ -43,7 +48,9 @@ class Software extends Model
      * @var array
      */
     protected $dates = [
-        'purchase_date',
+        'purchased_at',
+        'expired_at',
+        'converted_at',
     ];
 
     /**

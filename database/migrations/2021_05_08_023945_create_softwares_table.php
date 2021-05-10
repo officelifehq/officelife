@@ -24,9 +24,14 @@ class CreateSoftwaresTable extends Migration
             $table->string('licensed_to_name')->nullable();
             $table->string('licensed_to_email_address')->nullable();
             $table->string('order_number')->nullable();
-            $table->integer('purchase_cost')->nullable();
+            $table->integer('purchase_amount')->nullable();
             $table->string('currency')->nullable();
-            $table->datetime('purchase_date')->nullable();
+            $table->integer('converted_purchase_amount')->nullable();
+            $table->string('converted_to_currency')->nullable();
+            $table->datetime('converted_at')->nullable();
+            $table->double('exchange_rate')->nullable();
+            $table->datetime('purchased_at')->nullable();
+            $table->datetime('expired_at')->nullable();
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });

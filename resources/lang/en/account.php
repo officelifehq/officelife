@@ -636,4 +636,18 @@ return [
     'cancel_account_company_subscription' => 'If you are a subscriber, your subscription will be immediately cancelled.',
     'cancel_account_data_lost_forever' => 'This process is irreversible. You will lose all the data associated with this company, forever.',
     'cancel_cta' => 'Cancel the account',
+
+    'software_new_title' => 'Add a new software to {name}',
+    'software_new_basic_information' => 'Essential information',
+    'software_new_name' => 'Name of the software',
+    'software_new_product_key' => 'Product key',
+    'software_new_seats' => 'Seats',
+    'software_new_purchase_information' => 'Purchase information',
+    'software_new_licensed_to' => 'Licensed to',
+    'software_new_licensed_to_email' => 'License email',
+    'software_new_order_number' => 'Order number',
+    'software_new_purchase_cost' => 'Purchase cost',
+    'software_new_purchase_date' => 'Purchase date',
+    'software_new_expiration_date' => 'Expiration date',
+
 ];

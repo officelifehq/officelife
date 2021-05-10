@@ -33,7 +33,8 @@ class SoftwareFactory extends Factory
             'order_number' => $this->faker->randomNumber(),
             'purchase_cost' => $this->faker->randomNumber(),
             'currency' => $this->faker->currencyCode,
-            'purchase_date' => $this->faker->dateTimeThisCentury(),
+            'purchase_at' => $this->faker->dateTimeThisCentury(),
+            'expired_at' => $this->faker->dateTimeThisCentury(),
         ];
     }
 }

@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
 use App\Services\Company\Adminland\Hardware\LendHardware;
 use App\Http\ViewHelpers\Adminland\AdminHardwareViewHelper;
 use App\Http\ViewHelpers\Adminland\AdminSoftwareViewHelper;
@@ -35,7 +36,7 @@ class AdminSoftwareController extends Controller
         $softwares = $loggedCompany->softwares()->with('employees')->orderBy('id', 'desc')->paginate(10);
         $softwareInformation = AdminSoftwareViewHelper::index($softwares, $loggedCompany);
 
-        return Inertia::render('Adminland/Hardware/Index', [
+        return Inertia::render('Adminland/Software/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'softwares' => $softwareInformation,
             'paginator' => PaginatorHelper::getData($softwares),
@@ -43,7 +44,7 @@ class AdminSoftwareController extends Controller
     }
 
     /**
-     * Show the Create hardware view.
+     * Show the Create software view.
      *
      * @return Response
      */
@@ -52,8 +53,9 @@ class AdminSoftwareController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employees = AdminHardwareViewHelper::employeesList($company);
 
-        return Inertia::render('Adminland/Hardware/Create', [
+        return Inertia::render('Adminland/Software/Create', [
             'employees' => $employees,
+            'currencies' => DashboardMeViewHelper::currencies(),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

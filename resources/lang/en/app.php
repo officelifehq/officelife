@@ -38,6 +38,10 @@ return [
     'saved' => 'Saved',
     'import_review' => 'Import and review',
 
+    'year' => 'Year',
+    'month' => 'Month',
+    'day' => 'Day',
+
     'error_title' => '👇 Oops. An error occured.',
     'error_not_same_company' => 'This item does not belong to this company.',
     'error_wrong_employee_id' => 'We can’t find the requested employee.',
