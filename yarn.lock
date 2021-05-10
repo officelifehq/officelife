@@ -5770,9 +5770,9 @@ laravel-mix-purgecss@^6.0.0:
     postcss-purgecss-laravel "^2.0.0"
 
 laravel-mix@^6.0.6:
-  version "6.0.18"
-  resolved "https://registry.yarnpkg.com/laravel-mix/-/laravel-mix-6.0.18.tgz#ce1ef5053e59a6ad611f787da181e337394e53aa"
-  integrity sha512-OIyJFvpdyPRS6UWAbECwK1hRvba7VkH2wJIMWY8bButecpd+6Zde4/uKFDs/Up31jzOh8qPxObkamcsGxGq3jg==
+  version "6.0.19"
+  resolved "https://registry.yarnpkg.com/laravel-mix/-/laravel-mix-6.0.19.tgz#4de8fa5c1cdd886db380a1f634bf9b3c3aff15af"
+  integrity sha512-SH//4h/bi2ff5hyBfwQ0DE0VfTkskGLU+a/l7HdmTz1F+cJdvakajziyBVRwa9U3+DyvZo9eo9Jgq1jdZWW3XQ==
   dependencies:
     "@babel/core" "^7.12.3"
     "@babel/plugin-proposal-object-rest-spread" "^7.12.1"
@@ -5821,7 +5821,7 @@ laravel-mix@^6.0.6:
     vue-style-loader "^4.1.3"
     webpack "^5.25.1"
     webpack-cli "^4.1.0"
-    webpack-dev-server "^4.0.0-beta.0"
+    webpack-dev-server "4.0.0-beta.2"
     webpack-merge "^5.2.0"
     webpack-notifier "^1.8.0"
     webpackbar "^5.0.0-3"
@@ -9900,7 +9900,7 @@ webpack-dev-middleware@^4.1.0:
     range-parser "^1.2.1"
     schema-utils "^3.0.0"
 
-webpack-dev-server@^4.0.0-beta.0:
+webpack-dev-server@4.0.0-beta.2:
   version "4.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-4.0.0-beta.2.tgz#0364a5756544da9c077da829016817703db4d5ed"
   integrity sha512-kbUAjQg1FLtCoIZ0NdcTZWRBVT1EDajBSvGAiAqQPJxBjsr0N3FQ57kJ/4SrIZPyAajn8kcHctwFsTKPwme1tQ==
