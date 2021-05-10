@@ -1784,16 +1784,16 @@
         },
         {
             "name": "inertiajs/inertia-laravel",
-            "version": "v0.4.1",
+            "version": "v0.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/inertiajs/inertia-laravel.git",
-                "reference": "96c60a7f01ac1032e3dd974b465b8ded41b299dc"
+                "reference": "7ea4e730d82b90b658ca3e863968d2ffd6cc4d06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/96c60a7f01ac1032e3dd974b465b8ded41b299dc",
-                "reference": "96c60a7f01ac1032e3dd974b465b8ded41b299dc",
+                "url": "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/7ea4e730d82b90b658ca3e863968d2ffd6cc4d06",
+                "reference": "7ea4e730d82b90b658ca3e863968d2ffd6cc4d06",
                 "shasum": ""
             },
             "require": {
@@ -1840,7 +1840,7 @@
             ],
             "support": {
                 "issues": "https://github.com/inertiajs/inertia-laravel/issues",
-                "source": "https://github.com/inertiajs/inertia-laravel/tree/v0.4.1"
+                "source": "https://github.com/inertiajs/inertia-laravel/tree/v0.4.2"
             },
             "funding": [
                 {
@@ -1848,7 +1848,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-04-02T17:50:29+00:00"
+            "time": "2021-05-10T09:56:05+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
