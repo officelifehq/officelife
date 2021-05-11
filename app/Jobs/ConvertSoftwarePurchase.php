@@ -2,33 +2,34 @@
 
 namespace App\Jobs;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use App\Models\Company\Expense;
+use App\Models\Company\Software;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Services\Company\Adminland\Expense\ConvertAmountFromOneCurrencyToCompanyCurrency;
 
-class ConvertExpense implements ShouldQueue
+class ConvertSoftwarePurchase implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * The place instance.
+     * The Software instance.
      *
-     * @var Expense
+     * @var Software
      */
-    public Expense $expense;
+    public Software $software;
 
     /**
      * Create a new job instance.
      *
-     * @param Expense $expense
+     * @param Software $software
      */
-    public function __construct(Expense $expense)
+    public function __construct(Software $software)
     {
-        $this->expense = $expense;
+        $this->software = $software;
     }
 
     /**
@@ -37,19 +38,19 @@ class ConvertExpense implements ShouldQueue
     public function handle(): void
     {
         $array = (new ConvertAmountFromOneCurrencyToCompanyCurrency)->execute(
-            amount: $this->expense->amount,
-            amountCurrency: $this->expense->currency,
-            companyCurrency: $this->expense->company->currency,
-            amountDate: $this->expense->expensed_at
+            amount: $this->software->purchase_amount,
+            amountCurrency: $this->software->currency,
+            companyCurrency: $this->software->company->currency,
+            amountDate: $this->software->purchased_at ? $this->software->purchased_at : Carbon::now(),
         );
 
         if (is_null($array)) {
             return;
         }
 
-        Expense::where('id', $this->expense->id)->update([
+        Software::where('id', $this->software->id)->update([
             'exchange_rate' => $array['exchange_rate'],
-            'converted_amount' => $array['converted_amount'],
+            'converted_purchase_amount' => $array['converted_amount'],
             'converted_to_currency' => $array['converted_to_currency'],
             'converted_at' => $array['converted_at'],
         ]);

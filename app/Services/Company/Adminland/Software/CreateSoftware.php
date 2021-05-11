@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Software;
+use App\Jobs\ConvertSoftwarePurchase;
 
 class CreateSoftware extends BaseService
 {
@@ -47,6 +48,7 @@ class CreateSoftware extends BaseService
         $this->data = $data;
         $this->validate();
         $this->create();
+        $this->convertCurrency();
         $this->log();
 
         return $this->software;
@@ -64,6 +66,11 @@ class CreateSoftware extends BaseService
 
     private function create(): void
     {
+        $currency = $this->valueOrNull($this->data, 'currency');
+        if (is_null($currency)) {
+            $currency = $this->author->company->currency;
+        }
+
         $this->software = Software::create([
             'company_id' => $this->data['company_id'],
             'name' => $this->data['name'],
@@ -73,11 +80,20 @@ class CreateSoftware extends BaseService
             'licensed_to_name' => $this->valueOrNull($this->data, 'licensed_to_name'),
             'licensed_to_email_address' => $this->valueOrNull($this->data, 'licensed_to_email_address'),
             'order_number' => $this->valueOrNull($this->data, 'order_number'),
-            'purchase_cost' => $this->valueOrNull($this->data, 'purchase_cost'),
-            'currency' => $this->valueOrNull($this->data, 'currency'),
+            'purchase_amount' => $this->valueOrNull($this->data, 'purchase_amount'),
+            'currency' => $currency,
             'purchased_at' => $this->valueOrNull($this->data, 'purchased_at'),
-            'expired_at' => $this->valueOrNull($this->data, 'purchased_at'),
+            'expired_at' => $this->valueOrNull($this->data, 'expired_at'),
         ]);
+    }
+
+    private function convertCurrency(): void
+    {
+        if (is_null($this->valueOrNull($this->data, 'purchase_amount'))) {
+            return;
+        }
+
+        ConvertSoftwarePurchase::dispatch($this->software);
     }
 
     private function log(): void

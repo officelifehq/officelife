@@ -649,5 +649,5 @@ return [
     'software_new_purchase_cost' => 'Purchase cost',
     'software_new_purchase_date' => 'Purchase date',
     'software_new_expiration_date' => 'Expiration date',
-
+    'software_new_website' => 'Website',
 ];

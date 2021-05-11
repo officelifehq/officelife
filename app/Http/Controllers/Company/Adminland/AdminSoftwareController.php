@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
+use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Helpers\ImageHelper;
@@ -17,9 +18,9 @@ use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
 use App\Services\Company\Adminland\Hardware\LendHardware;
 use App\Http\ViewHelpers\Adminland\AdminHardwareViewHelper;
 use App\Http\ViewHelpers\Adminland\AdminSoftwareViewHelper;
-use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Hardware\RegainHardware;
 use App\Services\Company\Adminland\Hardware\UpdateHardware;
+use App\Services\Company\Adminland\Software\CreateSoftware;
 use App\Services\Company\Adminland\Hardware\DestroyHardware;
 
 class AdminSoftwareController extends Controller
@@ -61,7 +62,7 @@ class AdminSoftwareController extends Controller
     }
 
     /**
-     * Create the hardware.
+     * Create the software.
      *
      * @param Request $request
      * @param int $companyId
@@ -72,26 +73,46 @@ class AdminSoftwareController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
+        $purchasedAt = null;
+        if ($request->input('purchased_date_year')) {
+            $purchasedAt = Carbon::create(
+                intval($request->input('purchased_date_year')),
+                intval($request->input('purchased_date_month')),
+                intval($request->input('purchased_date_day'))
+            );
+        }
+
+        $expiredAt = null;
+        if ($request->input('expiration_date_year')) {
+            $expiredAt = Carbon::create(
+                intval($request->input('expiration_date_year')),
+                intval($request->input('expiration_date_month')),
+                intval($request->input('expiration_date_day'))
+            );
+        }
+
         $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'name' => $request->input('name'),
-            'serial_number' => $request->input('serial'),
+            'seats' => $request->input('seats'),
+            'product_key' => $request->input('product_key'),
+            'website' => $request->input('website'),
+            'licensed_to_name' => $request->input('licensed_to_name'),
+            'licensed_to_email_address' => $request->input('licensed_to_email_address'),
+            'order_number' => $request->input('order_number'),
+            'purchase_amount' => $request->input('purchase_amount'),
+            'currency' => $request->input('currency'),
+            'purchased_at' => $purchasedAt ? $purchasedAt->format('Y-m-d') : null,
+            'expired_at' => $expiredAt ? $expiredAt->format('Y-m-d') : null,
         ];
 
-        $hardware = (new CreateHardware)->execute($data);
-
-        if ($request->input('lend_hardware')) {
-            (new LendHardware)->execute([
-                'company_id' => $company->id,
-                'author_id' => $loggedEmployee->id,
-                'employee_id' => $request->input('employee_id'),
-                'hardware_id' => $hardware->id,
-            ]);
-        }
+        (new CreateSoftware)->execute($data);
 
         return response()->json([
-            'data' => $company->id,
+            'data' => route('software.index', [
+                'company' => $company,
+            ]),
         ], 201);
     }
 

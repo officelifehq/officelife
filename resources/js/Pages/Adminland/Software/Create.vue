@@ -20,7 +20,7 @@ input[type=radio] {
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employees'">{{ $t('app.breadcrumb_account_manage_employees') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/softwares'">{{ $t('app.breadcrumb_account_manage_softwares') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_add_software') }}
@@ -84,6 +84,17 @@ input[type=radio] {
                 <strong>{{ $t('account.software_new_purchase_information') }}</strong>
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
+                <!-- Website -->
+                <text-input :id="'website'"
+                            v-model="form.website"
+                            :name="'website'"
+                            :errors="$page.props.errors.website"
+                            :type="'email'"
+                            autocomplete="off"
+                            :label="$t('account.software_new_website')"
+                            :required="false"
+                />
+
                 <!-- Licensed to -->
                 <text-input :id="'licensed_to'"
                             v-model="form.licensed_to"
@@ -114,25 +125,13 @@ input[type=radio] {
                 />
 
                 <!-- Purchase cost + currency -->
-                <text-input :id="'purchase_cost'"
-                            v-model="form.purchase_cost"
-                            :name="'purchase_cost'"
-                            :step="'0.01'"
-                            :min="0"
-                            :max="1000000"
-                            :type="'number'"
-                            :errors="$page.props.errors.purchase_cost"
-                            :label="$t('account.software_new_purchase_cost')"
-                            :required="false"
-                />
                 <div class="dt-ns dt--fixed di">
                   <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- amount -->
-                    <text-input :id="'amount'"
-                                v-model="form.amount"
-                                :name="'amount'"
-                                :datacy="'expense-amount'"
-                                :errors="$page.props.errors.amount"
+                    <text-input :id="'purchase_amount'"
+                                v-model="form.purchase_amount"
+                                :name="'purchase_amount'"
+                                :errors="$page.props.errors.purchase_amount"
                                 :label="$t('dashboard.expense_create_amount')"
                                 :required="false"
                                 :type="'number'"
@@ -166,7 +165,7 @@ input[type=radio] {
             <!-- Purchase date -->
             <div class="cf pa3 bb bb-gray pb4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                <strong>{{ $t('account.software_new_purchase_date') }}</strong>
+                <strong>{{ $t('account.software_new_purchased_date') }}</strong>
                 <p class="f7 silver lh-copy pr3-ns">
                   {{ $t('employee.edit_information_timezone_help') }}
                 </p>
@@ -175,10 +174,10 @@ input[type=radio] {
                 <div class="dt-ns dt--fixed di">
                   <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- year -->
-                    <text-input :id="'year'"
-                                v-model="form.year"
-                                :name="'year'"
-                                :errors="$page.props.errors.year"
+                    <text-input :id="'purchased_date_year'"
+                                v-model="form.purchased_date_year"
+                                :name="'purchased_date_year'"
+                                :errors="$page.props.errors.purchased_date_year"
                                 :label="$t('app.year')"
                                 :required="false"
                                 :type="'number'"
@@ -188,10 +187,10 @@ input[type=radio] {
                   </div>
                   <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- month -->
-                    <text-input :id="'month'"
-                                v-model="form.month"
-                                :name="'month'"
-                                :errors="$page.props.errors.month"
+                    <text-input :id="'purchased_date_month'"
+                                v-model="form.purchased_date_month"
+                                :name="'purchased_date_month'"
+                                :errors="$page.props.errors.purchased_date_month"
                                 :label="$t('app.month')"
                                 :required="false"
                                 :type="'number'"
@@ -201,10 +200,10 @@ input[type=radio] {
                   </div>
                   <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- day -->
-                    <text-input :id="'day'"
-                                v-model="form.day"
-                                :name="'day'"
-                                :errors="$page.props.errors.day"
+                    <text-input :id="'purchased_date_day'"
+                                v-model="form.purchased_date_day"
+                                :name="'purchased_date_day'"
+                                :errors="$page.props.errors.purchased_date_day"
                                 :label="$t('app.day')"
                                 :required="false"
                                 :type="'number'"
@@ -220,15 +219,18 @@ input[type=radio] {
             <div class="cf pa3 bb bb-gray pb4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
                 <strong>{{ $t('account.software_new_expiration_date') }}</strong>
+                <p class="f7 silver lh-copy pr3-ns">
+                  Does this software have an expiration date?
+                </p>
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
                 <div class="dt-ns dt--fixed di">
                   <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- year -->
-                    <text-input :id="'year'"
-                                v-model="form.year"
-                                :name="'year'"
-                                :errors="$page.props.errors.year"
+                    <text-input :id="'expiration_date_year'"
+                                v-model="form.expiration_date_year"
+                                :name="'expiration_date_year'"
+                                :errors="$page.props.errors.expiration_date_year"
                                 :label="$t('app.year')"
                                 :required="false"
                                 :type="'number'"
@@ -238,10 +240,10 @@ input[type=radio] {
                   </div>
                   <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- month -->
-                    <text-input :id="'month'"
-                                v-model="form.month"
-                                :name="'month'"
-                                :errors="$page.props.errors.month"
+                    <text-input :id="'expiration_date_month'"
+                                v-model="form.expiration_date_month"
+                                :name="'expiration_date_month'"
+                                :errors="$page.props.errors.expiration_date_month"
                                 :label="$t('app.month')"
                                 :required="false"
                                 :type="'number'"
@@ -251,10 +253,10 @@ input[type=radio] {
                   </div>
                   <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- day -->
-                    <text-input :id="'day'"
-                                v-model="form.day"
-                                :name="'day'"
-                                :errors="$page.props.errors.day"
+                    <text-input :id="'expiration_date_day'"
+                                v-model="form.expiration_date_day"
+                                :name="'expiration_date_day'"
+                                :errors="$page.props.errors.expiration_date_day"
                                 :label="$t('app.day')"
                                 :required="false"
                                 :type="'number'"
@@ -315,13 +317,19 @@ export default {
     return {
       form: {
         name: null,
-        last_name: null,
-        email: null,
-        permission_level: 300,
-        send_invitation: false,
-        year: null,
-        month: null,
-        day: null,
+        product_key: null,
+        sets: null,
+        licensed_to: null,
+        licensed_to_email: null,
+        purchase_amount: null,
+        currency: null,
+        website: null,
+        purchased_date_year: null,
+        purchased_date_month: null,
+        purchased_date_day: null,
+        expiration_date_year: null,
+        expiration_date_month: null,
+        expiration_date_day: null,
         errors: [],
       },
       loadingState: '',
@@ -332,10 +340,10 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/account/employees', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/account/softwares', this.form)
         .then(response => {
           localStorage.success = this.$t('account.software_new_success');
-          this.$inertia.visit('/' + response.data.company_id + '/account/employees');
+          this.$inertia.visit(response.data.data);
         })
         .catch(error => {
           this.loadingState = null;
