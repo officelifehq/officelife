@@ -4,6 +4,7 @@ namespace App\Services\Company\Employee\Expense;
 
 use Carbon\Carbon;
 use App\Helpers\MoneyHelper;
+use App\Jobs\ConvertExpense;
 use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
@@ -13,7 +14,6 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use App\Models\Company\ExpenseCategory;
-use App\Jobs\ConvertAmountFromOneCurrencyToCompanyCurrency;
 
 class CreateExpense extends BaseService
 {
@@ -124,7 +124,7 @@ class CreateExpense extends BaseService
             ])->onQueue('low');
         }
 
-        ConvertAmountFromOneCurrencyToCompanyCurrency::dispatch($this->expense)
+        ConvertExpense::dispatch($this->expense)
             ->onQueue('low');
     }
 

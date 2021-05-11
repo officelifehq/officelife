@@ -84,7 +84,8 @@ class AdminEmployeeViewHelper
                 'avatar' => ImageHelper::getAvatar($employee, 64),
                 'invitation_link' => $employee->invitation_link,
                 'invited' => (! $employee->invitation_used_at && $employee->invitation_link) === true,
-                'lock_status' => $employee->locked,
+                'has_user_account' => ($employee->invitation_used_at && $employee->invitation_link) === true,
+                'locked' => $employee->locked,
                 'url_view' => route('employees.show', [
                     'company' => $company,
                     'employee' => $employee,
@@ -94,6 +95,10 @@ class AdminEmployeeViewHelper
                     'employee' => $employee,
                 ]),
                 'url_lock' => route('account.lock', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'url_invite' => route('account.employees.invite', [
                     'company' => $company,
                     'employee' => $employee,
                 ]),

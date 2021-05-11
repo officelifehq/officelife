@@ -34,7 +34,7 @@ class Expense extends Model
         'expense_category_id',
         'status',
         'title',
-        'amount',
+        'amount', // expressed in cents, ie $100,00 = 10000
         'currency',
         'converted_amount',
         'converted_to_currency',

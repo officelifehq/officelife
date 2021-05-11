@@ -2,16 +2,14 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Expense;
 
-use Exception;
+use Carbon\Carbon;
 use Tests\TestCase;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use App\Models\Company\Company;
-use App\Models\Company\Expense;
-use App\Models\Company\Employee;
 use GuzzleHttp\Handler\MockHandler;
 use Illuminate\Support\Facades\Cache;
+use App\Exceptions\WrongCurrencyLayerApiKeyException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Expense\ConvertAmountFromOneCurrencyToCompanyCurrency;
 
@@ -22,6 +20,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
     /** @test */
     public function it_converts_an_amount_from_eur_to_cad_and_store_rate_in_cache(): void
     {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
         config(['officelife.currency_layer_api_key' => 'test']);
         config(['officelife.currency_layer_url' => 'test']);
 
@@ -30,40 +29,31 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $company = Company::factory()->create([
-            'currency' => 'USD',
-        ]);
-        $employee = Employee::factory()->create([
-            'company_id' => $company->id,
-        ]);
-        $expense = Expense::factory()->create([
-            'employee_id' => $employee->id,
-            'currency' => 'EUR',
-            'amount' => '10000',
-            'expensed_at' => '2020-07-20',
-        ]);
-
         $this->assertFalse(
             Cache::has('exchange-rate-usd-eur-2020-07-20')
         );
 
-        $expense = (new ConvertAmountFromOneCurrencyToCompanyCurrency)->execute($expense, $client);
+        $array = (new ConvertAmountFromOneCurrencyToCompanyCurrency)->execute(
+            amount: 10000,
+            amountCurrency: 'EUR',
+            companyCurrency: 'USD',
+            amountDate: Carbon::createFromFormat('Y-m-d', '2020-07-20'),
+            client: $client
+        );
 
         $this->assertTrue(
             Cache::has('exchange-rate-usd-eur-2020-07-20')
         );
 
-        $this->assertInstanceOf(
-            Expense::class,
-            $expense
+        $this->assertEquals(
+            [
+                'exchange_rate' => 0.847968,
+                'converted_amount' => 11792.897845201705,
+                'converted_to_currency' => 'USD',
+                'converted_at' => '2018-01-01 00:00:00',
+            ],
+            $array
         );
-
-        $this->assertDatabaseHas('expenses', [
-            'id' => $expense->id,
-            'exchange_rate' => 0.847968,
-            'converted_amount' => 11792.897845202,
-            'converted_to_currency' => 'USD',
-        ]);
     }
 
     /** @test */
@@ -74,56 +64,36 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $company = Company::factory()->create([
-            'currency' => 'USD',
-        ]);
-        $employee = Employee::factory()->create([
-            'company_id' => $company->id,
-        ]);
-        $expense = Expense::factory()->create([
-            'employee_id' => $employee->id,
-            'currency' => 'USD',
-            'amount' => '10000',
-            'expensed_at' => '2020-07-20',
-        ]);
-
-        $expense = (new ConvertAmountFromOneCurrencyToCompanyCurrency)->execute($expense, $client);
-
-        $this->assertNull(
-            $expense
+        $array = (new ConvertAmountFromOneCurrencyToCompanyCurrency)->execute(
+            amount: 10000,
+            amountCurrency: 'USD',
+            companyCurrency: 'USD',
+            amountDate: Carbon::createFromFormat('Y-m-d', '2020-07-20'),
+            client: $client
         );
 
-        $this->assertDatabaseHas('expenses', [
-            'exchange_rate' => null,
-            'converted_amount' => null,
-            'converted_to_currency' => null,
-        ]);
+        $this->assertNull(
+            $array
+        );
     }
 
     /** @test */
-    public function it_raises_an_exception_if_it_cant_access_currency_layer(): void
+    public function it_raises_an_exception_if_env_variables_are_not_set(): void
     {
-        config(['officelife.currency_layer_api_key' => 'test']);
+        config(['officelife.currency_layer_api_key' => null]);
 
         $body = file_get_contents(base_path('tests/Fixtures/Services/Adminland/Expense/ConvertAmountFromOneCurrencyToCompanyCurrencyResponse.json'));
         $mock = new MockHandler([new Response(200, [], $body)]);
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $company = Company::factory()->create([
-            'currency' => 'CAD',
-        ]);
-        $employee = Employee::factory()->create([
-            'company_id' => $company->id,
-        ]);
-        $expense = Expense::factory()->create([
-            'employee_id' => $employee->id,
-            'currency' => 'EUR',
-            'amount' => '10000',
-            'expensed_at' => '2020-07-20',
-        ]);
-
-        $this->expectException(Exception::class);
-        $expense = (new ConvertAmountFromOneCurrencyToCompanyCurrency)->execute($expense, $client);
+        $this->expectException(WrongCurrencyLayerApiKeyException::class);
+        (new ConvertAmountFromOneCurrencyToCompanyCurrency)->execute(
+            amount: 10000,
+            amountCurrency: 'USD',
+            companyCurrency: 'EUR',
+            amountDate: Carbon::createFromFormat('Y-m-d', '2020-07-20'),
+            client: $client
+        );
     }
 }
