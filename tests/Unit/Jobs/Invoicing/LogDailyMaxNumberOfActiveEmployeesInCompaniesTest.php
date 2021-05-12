@@ -43,9 +43,19 @@ class LogDailyMaxNumberOfActiveEmployeesInCompaniesTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('company_usage_history_details', [
-            'company_id' => $companyA->id,
             'employee_name' => $michael->name,
             'employee_email' => $michael->email,
+        ]);
+    }
+
+    /** @test */
+    public function it_does_nothing_if_env_is_not_set(): void
+    {
+        config(['officelife.enable_paid_plan' => false]);
+        LogDailyMaxNumberOfActiveEmployeesInCompanies::dispatch();
+
+        $this->assertDatabaseMissing('company_usage_history', [
+            'number_of_active_employees' => 3,
         ]);
     }
 }

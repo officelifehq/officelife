@@ -29,6 +29,10 @@ class LogDailyMaxNumberOfActiveEmployeesInCompanies implements ShouldQueue
      */
     public function handle(): void
     {
+        if (! config('officelife.enable_paid_plan')) {
+            return;
+        }
+
         Company::addSelect([
             'max_employees' => Employee::selectRaw('count(*)')
                 ->whereColumn('company_id', 'companies.id')
@@ -36,17 +40,17 @@ class LogDailyMaxNumberOfActiveEmployeesInCompanies implements ShouldQueue
         ])
         ->chunk(100, function ($companies) {
             foreach ($companies as $company) {
-                CompanyUsageHistory::create([
+                $usage = CompanyUsageHistory::create([
                     'company_id' => $company->id,
                     'number_of_active_employees' => $company->max_employees,
                 ]);
 
                 Employee::where('company_id', $company->id)
                     ->where('locked', 0)
-                    ->chunk(100, function ($employees) use ($company) {
+                    ->chunk(100, function ($employees) use ($usage) {
                         foreach ($employees as $employee) {
                             CompanyUsageHistoryDetails::create([
-                                'company_id' => $company->id,
+                                'company_usage_history_id' => $usage->id,
                                 'employee_name' => $employee->name,
                                 'employee_email' => $employee->email,
                             ]);

@@ -2,18 +2,19 @@
 
 namespace Database\Factories\Company;
 
+use App\Models\Company\Company;
+use App\Models\Company\CompanyInvoice;
 use App\Models\Company\CompanyUsageHistory;
-use App\Models\Company\CompanyUsageHistoryDetails;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CompanyUsageHistoryDetailsFactory extends Factory
+class CompanyInvoiceFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = CompanyUsageHistoryDetails::class;
+    protected $model = CompanyInvoice::class;
 
     /**
      * Define the model's default state.
@@ -23,9 +24,11 @@ class CompanyUsageHistoryDetailsFactory extends Factory
     public function definition()
     {
         return [
+            'company_id' => Company::factory(),
             'company_usage_history_id' => CompanyUsageHistory::factory(),
-            'employee_name' => $this->faker->name,
-            'employee_email' => $this->faker->email,
+            'sent_to_payment_processor' => false,
+            'receipt_sent_to_customer' => false,
+            'email_address_invoice_sent_to' => $this->faker->email,
         ];
     }
 }

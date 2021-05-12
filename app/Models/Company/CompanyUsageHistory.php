@@ -20,6 +20,7 @@ class CompanyUsageHistory extends Model
     protected $fillable = [
         'company_id',
         'number_of_active_employees',
+        'created_at',
     ];
 
     /**
@@ -30,5 +31,16 @@ class CompanyUsageHistory extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * Get the company usage history details records associated with the company
+     * usage history.
+     *
+     * @return HasMany
+     */
+    public function details()
+    {
+        return $this->hasMany(CompanyUsageHistoryDetails::class, 'company_usage_history_id', 'id');
     }
 }

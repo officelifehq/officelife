@@ -13,7 +13,7 @@ class CompanyUsageHistoryDetailsTest extends TestCase
     /** @test */
     public function it_belongs_to_a_company(): void
     {
-        $usage = CompanyUsageHistoryDetails::factory()->create([]);
-        $this->assertTrue($usage->company()->exists());
+        $details = CompanyUsageHistoryDetails::factory()->create([]);
+        $this->assertTrue($details->companyUsageHistory()->exists());
     }
 }

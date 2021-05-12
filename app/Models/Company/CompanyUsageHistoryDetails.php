@@ -18,18 +18,19 @@ class CompanyUsageHistoryDetails extends Model
      * @var array
      */
     protected $fillable = [
-        'company_id',
+        'company_usage_history_id',
         'employee_name',
         'employee_email',
     ];
 
     /**
-     * Get the Company record associated with the company usage history detail.
+     * Get the Company usage history record associated with the company
+     * usage history detail.
      *
      * @return BelongsTo
      */
-    public function company()
+    public function companyUsageHistory()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(CompanyUsageHistory::class);
     }
 }

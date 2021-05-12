@@ -5,13 +5,14 @@ namespace App\Jobs\Invoicing;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use App\Models\Company\Company;
+use App\Models\Company\CompanyInvoice;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Company\CompanyUsageHistory;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class CreateMonthlyInvoice implements ShouldQueue
+class CreateMonthlyInvoiceForCompany implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -36,8 +37,18 @@ class CreateMonthlyInvoice implements ShouldQueue
      */
     public function handle(): void
     {
-        $maxNumberOfEmployees = CompanyUsageHistory::where('company_id', $this->company->id)
+        $usage = CompanyUsageHistory::where('company_id', $this->company->id)
             ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-            ->max('number_of_active_employees');
+            ->orderBy('number_of_active_employees', 'desc')
+            ->first();
+
+        if (! $usage) {
+            return;
+        }
+
+        CompanyInvoice::create([
+            'company_id' => $this->company->id,
+            'company_usage_history_id' => $usage->id,
+        ]);
     }
 }
