@@ -18,7 +18,11 @@ class LogDailyMaxNumberOfActiveEmployeesInCompaniesTest extends TestCase
         $companyA = Company::factory()->create();
         $companyB = Company::factory()->create();
 
-        Employee::factory()->count(3)->create([
+        $michael = Employee::factory()->create([
+            'company_id' => $companyA->id,
+            'locked' => false,
+        ]);
+        Employee::factory()->count(2)->create([
             'company_id' => $companyA->id,
             'locked' => false,
         ]);
@@ -36,6 +40,12 @@ class LogDailyMaxNumberOfActiveEmployeesInCompaniesTest extends TestCase
         $this->assertDatabaseHas('company_usage_history', [
             'company_id' => $companyB->id,
             'number_of_active_employees' => 0,
+        ]);
+
+        $this->assertDatabaseHas('company_usage_history_details', [
+            'company_id' => $companyA->id,
+            'employee_name' => $michael->name,
+            'employee_email' => $michael->email,
         ]);
     }
 }

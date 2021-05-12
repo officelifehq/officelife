@@ -22,6 +22,15 @@ class CreateCompanyUsageHistoryTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
 
+        Schema::create('company_usage_history_details', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('company_id');
+            $table->string('employee_name');
+            $table->string('employee_email');
+            $table->timestamps();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+        });
+
         Schema::create('company_invoices', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');

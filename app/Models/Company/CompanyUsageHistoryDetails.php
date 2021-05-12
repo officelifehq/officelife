@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class CompanyUsageHistory extends Model
+class CompanyUsageHistoryDetails extends Model
 {
     use HasFactory;
 
-    protected $table = 'company_usage_history';
+    protected $table = 'company_usage_history_details';
 
     /**
      * The attributes that are mass assignable.
@@ -19,11 +19,12 @@ class CompanyUsageHistory extends Model
      */
     protected $fillable = [
         'company_id',
-        'number_of_active_employees',
+        'employee_name',
+        'employee_email',
     ];
 
     /**
-     * Get the Company record associated with the company usage history object.
+     * Get the Company record associated with the company usage history detail.
      *
      * @return BelongsTo
      */
