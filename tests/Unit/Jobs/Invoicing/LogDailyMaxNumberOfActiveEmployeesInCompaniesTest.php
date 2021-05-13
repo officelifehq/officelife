@@ -15,6 +15,7 @@ class LogDailyMaxNumberOfActiveEmployeesInCompaniesTest extends TestCase
     /** @test */
     public function it_logs_the_number_of_employees_who_are_not_locked_in_all_the_companies_in_the_instance(): void
     {
+        config(['officelife.enable_paid_plan' => true]);
         $companyA = Company::factory()->create();
         $companyB = Company::factory()->create();
 
