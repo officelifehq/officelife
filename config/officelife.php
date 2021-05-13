@@ -14,6 +14,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Email address of the system administrators of the instance
+    |--------------------------------------------------------------------------
+    |
+    | This defines the name of the site.
+    |
+    */
+    'email_instance_administrator' => env('EMAIL_INSTANCE_ADMINISTRATOR', 'support@officelife.io'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Version of the application
     |--------------------------------------------------------------------------
     |
