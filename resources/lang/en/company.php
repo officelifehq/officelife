@@ -8,6 +8,7 @@ return [
 
     'stat_founded_at' => 'founded',
 
+    'title' => 'Manage your company with OfficeLife',
     'new_name' => 'What is the name of your company?',
     'subtitle' => 'There is only one step to get started.',
     'next_step_cta' => 'Ok, let’s go',
