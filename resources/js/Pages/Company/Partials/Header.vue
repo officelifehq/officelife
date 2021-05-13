@@ -7,7 +7,7 @@
 </style>
 
 <template>
-  <div class="ph2 ph5-ns mb5 bb bb-gray">
+  <div class="ph2 ph5-ns mb5 bb bb-gray pv3">
     <div class="flex-ns justify-between items-center">
       <div class="flex items-center">
         <!-- logo  -->

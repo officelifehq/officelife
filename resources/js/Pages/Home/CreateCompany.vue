@@ -13,7 +13,7 @@ img {
         <div class="tc">
           <img src="/img/streamline-icon-construction-house-5@130x130.png" loading="lazy" class="db center mb1" alt="company" />
           <h2 class="fw5 f4 lh-copy mt0 mb1">
-            Manage your company with OfficeLife
+            {{ $t('company.title') }}
           </h2>
           <p class="mt0 mb4 gray">{{ $t('company.subtitle') }}</p>
         </div>
