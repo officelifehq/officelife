@@ -49,7 +49,7 @@ class CompanyInvoice extends Model
      * Get the Company usage history record associated with the company invoice
      * object.
      *
-     * @return belongsTo
+     * @return BelongsTo
      */
     public function companyUsageHistory()
     {

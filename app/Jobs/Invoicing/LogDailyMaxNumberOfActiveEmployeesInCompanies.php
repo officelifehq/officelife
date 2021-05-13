@@ -36,7 +36,7 @@ class LogDailyMaxNumberOfActiveEmployeesInCompanies implements ShouldQueue
         Company::addSelect([
             'max_employees' => Employee::selectRaw('count(*)')
                 ->whereColumn('company_id', 'companies.id')
-                ->whereColumn('locked', 0),
+                ->whereColumn('locked', false),
         ])
         ->chunk(100, function ($companies) {
             foreach ($companies as $company) {
@@ -46,7 +46,7 @@ class LogDailyMaxNumberOfActiveEmployeesInCompanies implements ShouldQueue
                 ]);
 
                 Employee::where('company_id', $company->id)
-                    ->where('locked', 0)
+                    ->where('locked', false)
                     ->chunk(100, function ($employees) use ($usage) {
                         foreach ($employees as $employee) {
                             CompanyUsageHistoryDetails::create([
