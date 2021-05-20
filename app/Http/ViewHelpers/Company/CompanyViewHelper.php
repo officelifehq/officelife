@@ -12,6 +12,7 @@ use App\Helpers\StringHelper;
 use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Models\Company\Question;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Services\Company\GuessEmployeeGame\CreateGuessEmployeeGame;
@@ -54,6 +55,7 @@ class CompanyViewHelper
         $latestQuestions = DB::table('questions')
             ->join('answers', 'questions.id', '=', 'answers.question_id')
             ->where('company_id', '=', $company->id)
+            ->where('questions.active', false)
             ->groupBy('questions.id', 'questions.title')
             ->orderByDesc('questions.id')
             ->limit(3)
@@ -69,6 +71,7 @@ class CompanyViewHelper
                 'id' => $question->id,
                 'title' => $question->title,
                 'number_of_answers' => $question->count,
+                'active' => false,
                 'url' => route('company.questions.show', [
                     'company' => $company,
                     'question' => $question->id,
@@ -76,12 +79,32 @@ class CompanyViewHelper
             ];
         });
 
+        // get the active question, if it exists
+        $activeQuestion = Question::where('company_id', $company->id)
+            ->active()
+            ->withCount('answers')
+            ->first();
+
+        if ($activeQuestion) {
+            $activeQuestion = [
+                'id' => $activeQuestion->id,
+                'title' => $activeQuestion->title,
+                'number_of_answers' => (int) $activeQuestion->answers_count,
+                'active' => true,
+                'url' => route('company.questions.show', [
+                    'company' => $company,
+                    'question' => $activeQuestion->id,
+                ]),
+            ];
+        }
+
         return [
             'total_number_of_questions' => $questionsCount,
             'all_questions_url' => route('company.questions.index', [
                 'company' => $company->id,
             ]),
             'questions' => $questionCollection,
+            'active_question' => $activeQuestion ? $activeQuestion : null,
         ];
     }
 

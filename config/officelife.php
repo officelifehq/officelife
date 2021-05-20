@@ -205,5 +205,7 @@ return [
         'project_tasks' => 'operate/project-management.html#project-tasks',
         'project_files' => 'operate/project-management.html#project-files',
         'ecoffee' => 'grow/e-coffee.html#overview',
+        'questions' => 'communicate/get-to-know-your-colleagues.html',
+        'time_tracking' => 'operate/time-tracking.html',
     ],
 ];

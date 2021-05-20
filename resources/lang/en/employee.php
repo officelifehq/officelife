@@ -243,4 +243,7 @@ return [
     'past_position_history_title' => 'Position history in the company',
 
     'groups_title' => 'Groups {name} is part of',
+
+    'worklog_year_selector' => 'Choose a year',
+    'worklog_filter_month' => 'Choose a month',
 ];

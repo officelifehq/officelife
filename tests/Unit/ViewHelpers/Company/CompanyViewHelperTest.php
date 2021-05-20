@@ -62,6 +62,12 @@ class CompanyViewHelperTest extends TestCase
         $question = Question::factory()->create([
             'company_id' => $michael->company_id,
             'title' => 'Do you like Dwight',
+            'active' => false,
+        ]);
+        $questionB = Question::factory()->create([
+            'company_id' => $michael->company_id,
+            'title' => 'Do you like Michael',
+            'active' => true,
         ]);
 
         // now we'll call the helper again with a question that we've added answers to
@@ -71,16 +77,28 @@ class CompanyViewHelperTest extends TestCase
 
         $response = CompanyViewHelper::latestQuestions($michael->company);
 
-        $this->assertArraySubset(
+        $this->assertEquals(
             [
                 0 => [
                     'id' => $question->id,
                     'title' => 'Do you like Dwight',
                     'number_of_answers' => 2,
+                    'active' => false,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/questions/'.$question->id,
                 ],
             ],
-            $response['questions']
+            $response['questions']->toArray()
+        );
+
+        $this->assertEquals(
+            [
+                'id' => $questionB->id,
+                'title' => 'Do you like Michael',
+                'number_of_answers' => 0,
+                'active' => true,
+                'url' => env('APP_URL') . '/' . $michael->company_id . '/company/questions/' . $questionB->id,
+            ],
+            $response['active_question']
         );
 
         $this->assertEquals(
@@ -89,7 +107,7 @@ class CompanyViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            1,
+            2,
             $response['total_number_of_questions']
         );
     }
