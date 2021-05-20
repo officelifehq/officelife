@@ -17,7 +17,7 @@
 
 <template>
   <div :class="question ? 'mb5' : ''">
-    <template v-if="question">
+    <template v-if="localQuestion">
       <div class="cf mw7 center mb2 fw5">
         <span class="mr1">
           🎓

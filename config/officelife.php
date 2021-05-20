@@ -176,6 +176,7 @@ return [
         'manager_expenses' => 'manage/employee-management.html#expenses',
         'accoutant_expenses' => 'manage/employee-management.html#expenses',
         'accountants' => 'manage/employee-management.html#expenses',
+        'worklogs' => 'communicate/worklogs.html#work-logs',
         'employee_hiring_date' => 'manage/employee-management.html#hiring-date',
         'employee_work_anniversaries' => 'manage/employee-management.html#work-anniversaries',
         'employee_statuses' => 'manage/employee-management.html#employee-statuses',
