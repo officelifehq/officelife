@@ -74,7 +74,7 @@ jobs:
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
       - name: Cache composer files
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2.1.5
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
@@ -90,7 +90,7 @@ jobs:
       - name: Prepare environment
         run: |
           cp tests/.env.ci-${{ matrix.connection }} .env
-          touch config/version config/release
+          touch config/.version config/.release
           mkdir -p public/js public/css
           {\
             echo "{"; \
@@ -118,8 +118,6 @@ jobs:
         run: php artisan migrate --no-interaction -vvv
       - name: Run seeds
         run: php artisan db:seed --no-interaction -vvv
-      - name: Cache route
-        run: php artisan route:cache
 
     # Test
       - name: Run tests suite with coverage
@@ -186,7 +184,7 @@ jobs:
 
       - name: SonarCloud Scan
         if: env.SONAR_TOKEN != ''
-        uses: SonarSource/sonarcloud-github-action@v1.5
+        uses: SonarSource/sonarcloud-github-action@v1.6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

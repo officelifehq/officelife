@@ -33,7 +33,7 @@
         ⏳
       </span> {{ $t('employee.timesheets_title') }}
 
-      <help :url="$page.props.help_links.one_on_ones" :top="'2px'" />
+      <help :url="$page.props.help_links.time_tracking" :top="'2px'" />
     </span>
 
     <div class="mb4 bg-white box cf">

@@ -7,6 +7,7 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\ProjectMemberActivity;
 use App\Exceptions\ProjectCodeAlreadyExistException;
 
 class CreateProject extends BaseService
@@ -44,6 +45,7 @@ class CreateProject extends BaseService
         $this->data = $data;
         $this->validate();
         $this->createProject();
+        $this->logActivity();
         $this->log();
 
         return $this->project;
@@ -95,6 +97,14 @@ class CreateProject extends BaseService
                 ],
             ]);
         }
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void

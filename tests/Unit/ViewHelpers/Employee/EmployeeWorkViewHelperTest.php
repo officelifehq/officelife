@@ -4,8 +4,13 @@ namespace Tests\Unit\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
+use App\Models\Company\Group;
 use App\Models\Company\Morale;
+use App\Models\Company\Project;
 use App\Models\Company\Worklog;
+use App\Models\Company\ProjectTask;
+use App\Models\Company\ProjectMessage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Employee\EmployeeWorkViewHelper;
 
@@ -108,6 +113,120 @@ class EmployeeWorkViewHelperTest extends TestCase
                 ],
             ],
             $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_all_projects_for_this_employee(): void
+    {
+        $michael = $this->createAdministrator();
+        $projectA = Project::factory()->create([
+            'company_id' => $michael->company_id,
+            'status' => Project::CLOSED,
+        ]);
+        $projectB = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $projectA->employees()->syncWithoutDetaching(
+            [
+                $michael->id => [
+                    'role' => trans('project.project_title_lead'),
+                ],
+            ]
+        );
+        $projectB->employees()->syncWithoutDetaching([$michael->id]);
+
+        ProjectMessage::factory()->create([
+            'project_id' => $projectA->id,
+            'author_id' => $michael->id,
+        ]);
+        ProjectMessage::factory()->create([
+            'project_id' => $projectA->id,
+            'author_id' => null,
+        ]);
+
+        ProjectTask::factory()->count(2)->completed()->create([
+            'project_id' => $projectA->id,
+            'author_id' => $michael->id,
+            'assignee_id' => $michael->id,
+        ]);
+
+        $collection = EmployeeWorkViewHelper::projects($michael, $michael->company);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $projectB->id,
+                    'name' => $projectB->name,
+                    'code' => $projectB->code,
+                    'status' => $projectB->status,
+                    'role' => null,
+                    'messages_count' => 0,
+                    'tasks_count' => 0,
+                    'url' => env('APP_URL') . '/' . $michael->company_id . '/company/projects/' . $projectB->id,
+                ],
+                1 => [
+                    'id' => $projectA->id,
+                    'name' => $projectA->name,
+                    'code' => $projectA->code,
+                    'status' => Project::CLOSED,
+                    'role' => trans('project.project_title_lead'),
+                    'messages_count' => 1,
+                    'tasks_count' => 2,
+                    'url' => env('APP_URL') . '/' . $michael->company_id . '/company/projects/' . $projectA->id,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_list_of_groups(): void
+    {
+        Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
+
+        $michael = $this->createAdministrator();
+        $group = Group::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $group->employees()->attach([$michael->id]);
+
+        $collection = EmployeeWorkViewHelper::groups($michael, $michael->company);
+
+        $this->assertEquals(
+            $group->id,
+            $collection->toArray()[0]['id']
+        );
+
+        $this->assertEquals(
+            $group->name,
+            $collection->toArray()[0]['name']
+        );
+
+        $this->assertEquals(
+            '<p>Employees happiness</p>',
+            $collection->toArray()[0]['mission']
+        );
+
+        $this->assertEquals(
+            env('APP_URL') . '/' . $michael->company_id . '/company/groups/' . $group->id,
+            $collection->toArray()[0]['url']
+        );
+
+        $this->assertEquals(
+            0,
+            $collection->toArray()[0]['remaining_members_count']
+        );
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $michael->id,
+                    'avatar' => ImageHelper::getAvatar($michael, 25),
+                    'url' => env('APP_URL') . '/' . $michael->company_id . '/employees/' . $michael->id,
+                ],
+            ],
+            $collection->toArray()[0]['preview_members']->toArray()
         );
     }
 }

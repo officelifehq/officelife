@@ -3,10 +3,12 @@
 return [
     'menu_employees' => 'Employees & teams',
     'menu_projects' => 'Projects',
+    'menu_groups' => 'Groups',
     'menu_hr' => 'Human Resources',
 
     'stat_founded_at' => 'founded',
 
+    'title' => 'Manage your company with OfficeLife',
     'new_name' => 'What is the name of your company?',
     'subtitle' => 'There is only one step to get started.',
     'next_step_cta' => 'Ok, let’s go',

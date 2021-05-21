@@ -510,6 +510,36 @@ class Employee extends Model
     }
 
     /**
+     * Get the group records associated with the employee.
+     *
+     * @return BelongsToMany
+     */
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class)->withTimestamps();
+    }
+
+    /**
+     * Get the meeting objects the employee has participated.
+     *
+     * @return belongsToMany
+     */
+    public function meetings()
+    {
+        return $this->belongsToMany(Meeting::class)->withTimestamps()->withPivot('was_a_guest', 'attended');
+    }
+
+    /**
+     * Get the agenda item objects presented by the employee.
+     *
+     * @return HasMany
+     */
+    public function agendaItems()
+    {
+        return $this->hasMany(AgendaItem::class, 'presented_by_id');
+    }
+
+    /**
      * Get the file records associated with the employee as the uploader.
      *
      * @return HasMany
@@ -527,6 +557,16 @@ class Employee extends Model
     public function picture()
     {
         return $this->hasOne(File::class, 'id', 'avatar_file_id');
+    }
+
+    /**
+     * Get the employee position history associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function positionHistoryEntries()
+    {
+        return $this->hasMany(EmployeePositionHistory::class);
     }
 
     /**

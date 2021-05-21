@@ -33,7 +33,7 @@
 
       <!-- avatars -->
       <div v-if="project.members.length > 0">
-        <p class="mt0 mb2 f7 gray">Project members</p>
+        <p class="mt0 mb2 f7 gray">{{ $t('project.menu_members_icons') }}</p>
         <div class="flex items-center relative tr">
           <avatar v-for="member in project.members" :key="member.id" :avatar="member.avatar" :size="32" :class="'br-100 small-avatar'" />
           <div v-if="project.other_members_counter > 0" class="pl2 f7 more-members relative gray">

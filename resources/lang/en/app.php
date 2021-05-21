@@ -35,6 +35,7 @@ return [
     'hide' => 'Hide',
     'enable' => 'Enable',
     'disable' => 'Disable',
+    'saved' => 'Saved',
     'import_review' => 'Import and review',
 
     'error_title' => '👇 Oops. An error occured.',
@@ -87,6 +88,7 @@ return [
     'breadcrumb_account_employee_delete' => 'Delete an employee',
     'breadcrumb_account_employee_lock' => 'Lock an employee',
     'breadcrumb_account_employee_unlock' => 'Unlock an employee',
+    'breadcrumb_account_employee_invite' => 'Invite an employee',
     'breadcrumb_account_add_hardware' => 'Add item',
     'breadcrumb_account_show_hardware' => 'Show item',
     'breadcrumb_account_manage_e_coffee' => 'eCoffee management',
@@ -133,6 +135,11 @@ return [
     'breadcrumb_account_manage_past_archives' => 'Past imports',
     'breadcrumb_account_manage_past_archives_detail' => 'Detail of a past import',
     'breadcrumb_account_manage_cancel_account' => 'Cancel the account',
+    'breadcrumb_group_list' => 'Group list',
+    'breadcrumb_group_create' => 'Create a group',
+    'breadcrumb_group_detail' => 'Detail of a group',
+    'breadcrumb_group_delete' => 'Delete the group',
+    'breadcrumb_group_edit' => 'Edit the group',
 
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',

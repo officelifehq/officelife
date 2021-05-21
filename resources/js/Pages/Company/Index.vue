@@ -1,46 +1,10 @@
 <style lang="scss" scoped>
-.company-logo {
-  top: -40px;
-  width: 225px;
-}
-
-.company-name {
-  margin-bottom: 17px;
-}
 </style>
 
 <template>
   <layout :notifications="notifications">
-    <!-- company cover -->
-    <div class="cover mb3" :style="'height: 25vh; background: url(https://images.unsplash.com/photo-1531973576160-7125cd663d86?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80) no-repeat center center'"></div>
-
-    <!-- company name + data -->
-    <div class="ph2 ph5-ns mb2">
-      <div class="flex relative">
-        <div v-if="statistics.logo" class="company-logo relative ba bb-gray pa2 br3 bg-white mr3-ns">
-          <img :src="statistics.logo" alt="logo" />
-        </div>
-        <div class="mt3">
-          <h2 class="mt0 fw4 f3 mb4 company-name">
-            {{ $page.props.auth.company.name }} <a href="https://dundermifflin.com" class="ml3 f6 fw4 no-underline gray bb-0">https://dundermifflin.com</a>
-          </h2>
-          <div class="flex">
-            <div class="">
-              <p class="ttu f7 gray mb1 mt0 mr5">number of employees</p>
-              <p class="mt0">{{ statistics.number_of_employees }}</p>
-            </div>
-            <div class="">
-              <p class="ttu f7 gray mb1 mt0 mr5">number of teams</p>
-              <p class="mt0">{{ statistics.number_of_teams }}</p>
-            </div>
-            <div v-if="statistics.founded_at" class="">
-              <p class="ttu f7 gray mb1 mt0 mr5">{{ $t('company.stat_founded_at') }}</p>
-              <p class="mt0">{{ statistics.founded_at }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- header -->
+    <header-component :statistics="statistics" />
 
     <div class="ph2 ph5-ns">
       <!-- central content -->
@@ -80,6 +44,7 @@
 <script>
 import Layout from '@/Shared/Layout';
 import Tab from '@/Pages/Company/Partials/Tab';
+import HeaderComponent from '@/Pages/Company/Partials/Header';
 import Questions from '@/Pages/Company/Partials/Questions';
 import GuessEmployeeGame from '@/Pages/Company/Partials/GuessEmployeeGame';
 import Birthdays from '@/Pages/Company/Partials/Birthdays';
@@ -95,6 +60,7 @@ export default {
   components: {
     Layout,
     Tab,
+    HeaderComponent,
     Questions,
     GuessEmployeeGame,
     Birthdays,

@@ -7,6 +7,7 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectMessage;
+use App\Models\Company\ProjectMemberActivity;
 
 class CreateProjectMessage extends BaseService
 {
@@ -44,6 +45,7 @@ class CreateProjectMessage extends BaseService
         $this->validate();
         $this->createMessage();
         $this->markAsReadForThisUser();
+        $this->logActivity();
         $this->log();
 
         return $this->projectMessage;
@@ -79,6 +81,14 @@ class CreateProjectMessage extends BaseService
             'author_id' => $this->data['author_id'],
             'project_id' => $this->data['project_id'],
             'project_message_id' => $this->projectMessage->id,
+        ]);
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
         ]);
     }
 

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
+use App\Models\Company\ProjectMemberActivity;
 use App\Exceptions\ProjectCodeAlreadyExistException;
 
 class UpdateProjectInformation extends BaseService
@@ -42,6 +43,7 @@ class UpdateProjectInformation extends BaseService
         $this->data = $data;
         $this->validate();
         $this->update();
+        $this->logActivity();
         $this->log();
 
         return $this->project;
@@ -78,6 +80,14 @@ class UpdateProjectInformation extends BaseService
         $this->project->code = $this->data['code'];
         $this->project->summary = $this->data['summary'];
         $this->project->save();
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void

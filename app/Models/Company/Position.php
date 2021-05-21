@@ -51,4 +51,14 @@ class Position extends Model
     {
         return $this->hasMany(Employee::class);
     }
+
+    /**
+     * Get the employee position history records associated with the position.
+     *
+     * @return HasMany
+     */
+    public function positionHistoryEntries()
+    {
+        return $this->hasMany(EmployeePositionHistory::class);
+    }
 }

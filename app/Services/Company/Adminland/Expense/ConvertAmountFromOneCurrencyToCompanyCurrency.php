@@ -7,7 +7,6 @@ use ErrorException;
 use Money\Currency;
 use Illuminate\Support\Str;
 use App\Services\BaseService;
-use App\Models\Company\Expense;
 use Illuminate\Support\Facades\Cache;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
@@ -15,102 +14,45 @@ use App\Exceptions\WrongCurrencyLayerApiKeyException;
 
 class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
 {
-    private Expense $expense;
-
-    private float $rate;
-
+    private int $amount;
+    private string $amountCurrency;
     private string $companyCurrency;
-
-    private string $expenseCurrency;
-
+    private float $convertedAmount;
+    private Carbon $amountDate;
+    private float $rate;
+    private string $query;
     private ?GuzzleClient $client;
 
-    private string $query;
-
     /**
-     * Converts an expense's amount from one currency to another, at the rate
-     * that was active on the date the expense was made.
+     * Converts an amount from one currency to another, at the rate
+     * that was active on the given date.
      * When converting, we will keep track of the exchange rate on that day.
-     * The exchange rate for this day is saved in cache for 1h.
+     * The exchange rate for this day is cached for 1 hour.
      * This allows us to reduce the number of queries if multiple conversions
-     * have to be made.
+     * have to be made in a short period of time.
      */
-    public function execute(Expense $expense, GuzzleClient $client = null): ?Expense
+    public function execute(int $amount, string $amountCurrency, string $companyCurrency, Carbon $amountDate, GuzzleClient $client = null): ?array
     {
-        $this->expense = $expense;
         $this->client = $client;
+        $this->amount = $amount;
+        $this->amountCurrency = $amountCurrency;
+        $this->companyCurrency = $companyCurrency;
+        $this->amountDate = $amountDate;
 
-        $this->setVariables();
-
-        if (! $this->checkIfExpenseCurrencyAndCompanyCurrencyAreDifferent()) {
+        if ($this->companyCurrency == $this->amountCurrency) {
             return null;
         }
 
+        $this->buildQuery();
         $this->getConversionRate();
-
         $this->convert();
 
-        return $this->expense->refresh();
-    }
-
-    private function checkIfExpenseCurrencyAndCompanyCurrencyAreDifferent(): bool
-    {
-        if ($this->companyCurrency == $this->expenseCurrency) {
-            return false;
-        }
-
-        return true;
-    }
-
-    private function setVariables(): void
-    {
-        $this->companyCurrency = $this->expense->employee->company->currency;
-        $this->expenseCurrency = $this->expense->currency;
-
-        $this->buildQuery();
-    }
-
-    private function getConversionRate(): void
-    {
-        if (Cache::has($this->cachedKey())) {
-            $this->rate = Cache::get($this->cachedKey());
-
-            return;
-        }
-
-        // this is merely for the unit test.
-        if (is_null($this->client)) {
-            $this->client = new GuzzleClient();
-        }
-
-        try {
-            $response = $this->client->request('GET', $this->query);
-        } catch (ClientException $e) {
-            throw new \Exception('Can’t access Currency Layer');
-        }
-
-        $response = json_decode($response->getBody());
-
-        try {
-            $currencies = $this->companyCurrency.$this->expenseCurrency;
-            $this->rate = $response->quotes->{$currencies};
-        } catch (ErrorException $e) {
-            throw new \Exception('Can’t get the proper exchange rate');
-        }
-
-        Cache::put($this->cachedKey(), $this->rate, now()->addMinutes(60));
-    }
-
-    private function convert(): void
-    {
-        $convertedAmount = $this->expense->amount / $this->rate;
-
-        Expense::where('id', $this->expense->id)->update([
+        return [
             'exchange_rate' => $this->rate,
-            'converted_amount' => $convertedAmount,
+            'converted_amount' => $this->convertedAmount,
             'converted_to_currency' => $this->companyCurrency,
             'converted_at' => Carbon::now(),
-        ]);
+        ];
     }
 
     private function buildQuery(): void
@@ -128,11 +70,47 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
         $query = http_build_query([
             'access_key' => config('officelife.currency_layer_api_key'),
             'source' => $this->companyCurrency,
-            'currencies' => $this->expenseCurrency,
-            'date' => $this->expense->expensed_at->format('Y-m-d'),
+            'currencies' => $this->amountCurrency,
+            'date' => $this->amountDate->format('Y-m-d'),
         ]);
 
-        $this->query = Str::finish($uri, '?').$query;
+        $this->query = Str::finish($uri, '?') . $query;
+    }
+
+    private function getConversionRate(): void
+    {
+        if (Cache::has($this->cachedKey())) {
+            $this->rate = Cache::get($this->cachedKey());
+
+            return;
+        }
+
+        // this is merely for the unit test to work
+        if (is_null($this->client)) {
+            $this->client = new GuzzleClient();
+        }
+
+        try {
+            $response = $this->client->request('GET', $this->query);
+        } catch (ClientException $e) {
+            throw new \Exception('Can’t access Currency Layer api');
+        }
+
+        $response = json_decode($response->getBody());
+
+        try {
+            $currencies = $this->companyCurrency.$this->amountCurrency;
+            $this->rate = $response->quotes->{$currencies};
+        } catch (ErrorException $e) {
+            throw new \Exception('Can’t get the proper exchange rate');
+        }
+
+        Cache::put($this->cachedKey(), $this->rate, now()->addMinutes(60));
+    }
+
+    private function convert(): void
+    {
+        $this->convertedAmount = $this->amount / $this->rate;
     }
 
     /**
@@ -144,6 +122,6 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
      */
     private function cachedKey(): string
     {
-        return Str::lower('exchange-rate-'.$this->companyCurrency.'-'.$this->expenseCurrency.'-'.$this->expense->expensed_at->format('Y-m-d'));
+        return Str::lower('exchange-rate-'.$this->companyCurrency.'-'.$this->amountCurrency.'-'.$this->amountDate->format('Y-m-d'));
     }
 }
