@@ -62,6 +62,8 @@
   <div class="mb5">
     <div class="cf mw7 center mb2 fw5">
       🔨 {{ $t('dashboard.team_worklog_title') }}
+
+      <help :url="$page.props.help_links.worklogs" />
     </div>
 
     <div v-show="teams.length != 0" class="cf mw7 center br3 mb3 bg-white box">
@@ -113,10 +115,12 @@
 
 <script>
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
-    SmallNameAndAvatar
+    SmallNameAndAvatar,
+    Help,
   },
 
   props: {
