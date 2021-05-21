@@ -20,12 +20,12 @@
       </div>
       <div class="">
         <!-- Form Errors -->
-        <errors :errors="errors" :class="'mb3'" />
+        <errors :errors="form.errors" :class="'mb3'" />
 
         <form @submit.prevent="submit">
           <text-input v-model="form.email"
                       :name="'email'"
-                      :errors="$page.props.errors.email"
+                      :errors="form.errors.email"
                       :label="$t('auth.login_email')"
                       :required="true"
                       :type="'email'"
@@ -33,7 +33,7 @@
           />
           <text-input v-model="form.password"
                       :name="'password'"
-                      :errors="$page.props.errors.password"
+                      :errors="form.errors.password"
                       type="password"
                       :label="$t('auth.login_password')"
                       :required="true"
@@ -56,6 +56,7 @@
 import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
+import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
   components: {
@@ -73,14 +74,19 @@ export default {
 
   data() {
     return {
-      form: {
+      form: useForm({
         email: null,
         password: null,
-      },
-      errors: [],
-      loadingState: '',
+        remember: false
+      }),
       errorTemplate: Error,
     };
+  },
+
+  computed: {
+    loadingState() {
+      return this.form.processing ? 'loading' : '';
+    }
   },
 
   mounted() {
@@ -89,16 +95,13 @@ export default {
 
   methods: {
     submit() {
-      this.loadingState = 'loading';
-
-      axios.post(this.route('login.attempt'), _.assign({}, this.form, { remember: true}))
-        .then(response => {
-          this.loadingState = null;
-          this.$inertia.visit(response.data.redirect);
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.errors = error.response.data;
+      this.form
+        .transform(data => ({
+          ... data,
+          remember: this.form.remember ? 'on' : ''
+        }))
+        .post(this.route('login'), {
+          onFinish: () => this.form.reset('password'),
         });
     },
   }
