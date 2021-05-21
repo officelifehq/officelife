@@ -7,7 +7,7 @@
 </style>
 
 <template>
-  <div class="ph2 ph5-ns mb5 bb bb-gray">
+  <div class="ph2 ph5-ns mb5 bb bb-gray pv3">
     <div class="flex-ns justify-between items-center">
       <div class="flex items-center">
         <!-- logo  -->
@@ -17,7 +17,7 @@
 
         <!-- company name  -->
         <h2 class="ma0 fw4 f3">
-          {{ $page.props.auth.company.name }} <a href="https://dundermifflin.com" class="ml3-ns di-ns db mb0-ns mb2 f6 fw4 no-underline gray bb-0">https://dundermifflin.com</a>
+          {{ $page.props.auth.company.name }}
         </h2>
       </div>
 

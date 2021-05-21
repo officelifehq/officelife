@@ -80,7 +80,8 @@ nav {
         </div>
         <div class="flex-grow pa2 flex items-center">
           <notifications-component :notifications="notifications" />
-          <user-menu />
+
+          <user-menu :show-help-on-page="showHelpOnPage" />
         </div>
       </nav>
     </div>
@@ -194,20 +195,6 @@ nav {
     <div :class="[ modalFind ? 'bg-modal-find' : '' ]" @click.prevent="modalFind = false"></div>
 
     <slot></slot>
-
-    <!-- toggle help -->
-    <div v-if="showHelpOnPage">
-      <div v-if="$page.props.auth.user.show_help" class="tc mv3">
-        <span class="pointer" data-cy="layout-hide-help" @click="toggleHelp()">
-          {{ $t('app.hide_help') }}
-        </span>
-      </div>
-      <div v-else class="tc mv3">
-        <span class="pointer" data-cy="layout-show-help" @click="toggleHelp()">
-          {{ $t('app.show_help') }}
-        </span>
-      </div>
-    </div>
 
     <toaster />
   </div>
@@ -345,17 +332,6 @@ export default {
       this.employees = data.employees;
       this.teams = data.teams;
     },
-
-    toggleHelp() {
-      axios.post('/help')
-        .then(response => {
-          this.$page.props.auth.user.show_help = response.data.data;
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = error.response.data;
-        });
-    }
   },
 };
 </script>
