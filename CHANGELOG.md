@@ -1,3 +1,22 @@
+# [0.1.0-alpha.9](https://github.com/officelifehq/officelife/compare/v0.1.0-alpha.8...v0.1.0-alpha.9) (2021-05-22)
+
+
+### Features
+
+* add help icons on various pages ([#893](https://github.com/officelifehq/officelife/issues/893)) ([ffd18e4](https://github.com/officelifehq/officelife/commit/ffd18e45b1d2fdf43a1b4054a21301a7aac7bad4))
+* better header on company page ([#853](https://github.com/officelifehq/officelife/issues/853)) ([6f81fda](https://github.com/officelifehq/officelife/commit/6f81fda9028700c5b815520706cc2ec4c284392e))
+* better indicator of employee being invited ([#859](https://github.com/officelifehq/officelife/issues/859)) ([21c3ad9](https://github.com/officelifehq/officelife/commit/21c3ad9d656e5a918d5e4b4194dc350a18db992e))
+* disable email verification after employee joins company  ([#858](https://github.com/officelifehq/officelife/issues/858)) ([7dd5b00](https://github.com/officelifehq/officelife/commit/7dd5b00e57802157b2e837778b2239f569ae24e1))
+* display groups on employee profile page ([#854](https://github.com/officelifehq/officelife/issues/854)) ([8488016](https://github.com/officelifehq/officelife/commit/848801627b1045bd0ad8f54cc81a22721ae6811e))
+* handle errors in production ([#801](https://github.com/officelifehq/officelife/issues/801)) ([c060b00](https://github.com/officelifehq/officelife/commit/c060b008b122662eee8df1b0b1a6289be52fc0e8))
+* invite employee by email on demand ([#857](https://github.com/officelifehq/officelife/issues/857)) ([c46bce9](https://github.com/officelifehq/officelife/commit/c46bce9f6eb96aca4574ca7247b49008509f3191))
+* make the avatar of the employee clickable on dashboard ([#836](https://github.com/officelifehq/officelife/issues/836)) ([7b92f2e](https://github.com/officelifehq/officelife/commit/7b92f2e7a659f4526dd9c1374ab449686dfe7837))
+* move help toggle in user menu instead of footer ([#873](https://github.com/officelifehq/officelife/issues/873)) ([89c83c5](https://github.com/officelifehq/officelife/commit/89c83c5ab824ef770cf3df05dd1eb8a65a25178d))
+* notion of groups ([#595](https://github.com/officelifehq/officelife/issues/595)) ([cd66bfa](https://github.com/officelifehq/officelife/commit/cd66bfad3a29fb66d5f3a7e9374141e7ad79bc93))
+* record employee position history in the company ([#822](https://github.com/officelifehq/officelife/issues/822)) ([3857bf7](https://github.com/officelifehq/officelife/commit/3857bf7a850397788d5ba85aef08271fd4e6a6ec))
+* remove the url of the company on company page ([#888](https://github.com/officelifehq/officelife/issues/888)) ([299f430](https://github.com/officelifehq/officelife/commit/299f430d66c16bf2258b532ed28a4322b2933a00))
+* send an email to account administrator when an account is cancelled ([#874](https://github.com/officelifehq/officelife/issues/874)) ([eccf281](https://github.com/officelifehq/officelife/commit/eccf28166c354f8fa162f4c9b0caa3acc9462f83))
+
 # [0.1.0-alpha.8](https://github.com/officelifehq/officelife/compare/v0.1.0-alpha.7...v0.1.0-alpha.8) (2021-04-23)
 
 
