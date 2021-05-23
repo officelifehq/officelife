@@ -55,7 +55,9 @@
             <div class="mb3">
               <small-name-and-avatar
                 v-if="expense.employee.id"
-                :member="expense.employee"
+                :avatar="expense.employee.avatar"
+                :url="expense.employee.url"
+                :name="expense.employee.name"
                 :class="'gray'"
                 :size="'18px'"
                 :top="'0px'"

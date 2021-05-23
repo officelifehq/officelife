@@ -77,7 +77,10 @@
 
             <div v-for="answer in answers" :key="answer.id" class="bb-gray relative answer-entry" :data-cy="'answer-content-' + answer.id">
               <!-- avatar -->
-              <small-name-and-avatar :member="answer.employee" />
+              <small-name-and-avatar :avatar="answer.employee.avatar"
+                                     :url="answer.employee.url"
+                                     :name="answer.employee.name"
+              />
 
               <!-- actions (only for the employee) -->
               <span v-if="employee.id == answer.employee.id && idToUpdate != answer.id && !editMode" class="absolute top-0 right-0">

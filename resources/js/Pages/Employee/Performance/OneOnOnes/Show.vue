@@ -84,7 +84,9 @@
             <li data-cy="manager-name" class="di tl">
               <small-name-and-avatar
                 v-if="entry.manager.id"
-                :member="entry.manager"
+                :avatar="entry.manager.avatar"
+                :url="entry.manager.url"
+                :name="entry.manager.name"
                 :size="'22px'"
                 :top="'0px'"
                 :margin-between-name-avatar="'29px'"

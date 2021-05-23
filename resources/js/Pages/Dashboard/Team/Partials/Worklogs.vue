@@ -101,7 +101,10 @@
 
         <!-- list of worklogs -->
         <div v-for="worklogEntry in updatedWorklogEntries" :key="worklogEntry.id" class="worklog-entry bb-gray">
-          <small-name-and-avatar :member="worklogEntry" />
+          <small-name-and-avatar :avatar="worklogEntry.avatar"
+                                 :url="worklogEntry.url"
+                                 :name="worklogEntry.name"
+          />
           <div class="lh-copy content mt2 br3" v-html="worklogEntry.content">
           </div>
         </div>

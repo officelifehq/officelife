@@ -123,7 +123,9 @@
               <span class="di-ns db mb0-ns mb2 gray">{{ $t('dashboard.manager_expense_detail_employee_section') }}</span>
               <span>
                 <small-name-and-avatar
-                  :member="expense.employee"
+                  :avatar="expense.employee.avatar"
+                  :url="expense.employee.url"
+                  :name="expense.employee.name"
                   :font-size="'f5'"
                   :size="'18px'"
                   :top="'0px'"

@@ -186,7 +186,9 @@
                   <ul class="list pl0">
                     <li v-for="decider in decision.deciders" :key="decider.id" class="di mr2">
                       <small-name-and-avatar
-                        :member="decider"
+                        :avatar="decider.avatar"
+                        :url="decider.url"
+                        :name="decider.name"
                         :class="'f4 fw4'"
                         :top="'0px'"
                         :margin-between-name-avatar="'29px'"

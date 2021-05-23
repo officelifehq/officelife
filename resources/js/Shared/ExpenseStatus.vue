@@ -195,7 +195,9 @@
           <span>
             <small-name-and-avatar
               v-if="expense.accountant.id"
-              :member="expense.accountant"
+              :avatar="expense.accountant.avatar"
+              :url="expense.accountant.url"
+              :name="expense.accountant.name"
               :class="'gray'"
               :font-size="'f5'"
               :size="'18px'"

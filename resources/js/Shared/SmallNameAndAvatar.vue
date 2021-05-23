@@ -9,22 +9,22 @@ a {
 </style>
 
 <template>
-  <div v-if="member" class="relative di">
-    <inertia-link v-if="member.url" :href="member.url"
+  <div v-if="avatar || url" class="relative di">
+    <inertia-link v-if="url" :href="url"
                   :class="fontSize" :style="avatarMarginLeft" v-bind="$attrs"
     >
-      <img v-if="member.avatar" loading="lazy"
-           :src="member.avatar.normal" :srcset="srcset"
+      <img v-if="avatar" loading="lazy"
+           :src="avatar.normal" :srcset="srcset"
            :alt="altValue"
            :style="style" class="absolute br-100"
-      />{{ member.name }}
+      />{{ name }}
     </inertia-link>
     <span v-else :class="fontSize" :style="avatarMarginLeft" v-bind="$attrs">
-      <img v-if="member.avatar" loading="lazy"
-           :src="member.avatar.normal" :srcset="srcset"
+      <img v-if="avatar" loading="lazy"
+           :src="avatar.normal" :srcset="srcset"
            :alt="altValue"
            :style="style" class="absolute br-100"
-      />{{ member.name }}
+      />{{ name }}
     </span>
   </div>
 </template>
@@ -34,8 +34,16 @@ export default {
   inheritAttrs: false,
 
   props: {
-    member: {
+    avatar: {
       type: Object,
+      default: null,
+    },
+    url: {
+      type: String,
+      default: null,
+    },
+    name: {
+      type: String,
       default: null,
     },
     top: {
@@ -68,10 +76,10 @@ export default {
       return 'margin-left:' + this.marginBetweenNameAvatar;
     },
     srcset() {
-      return this.member.avatar.normal + ' 1x,' + this.member.avatar.retina + ' 2x';
+      return this.avatar.normal + ' 1x,' + this.avatar.retina + ' 2x';
     },
     altValue() {
-      return this.member.name ? this.member.name : this.alt;
+      return this.name ? this.name : this.alt;
     }
   }
 };

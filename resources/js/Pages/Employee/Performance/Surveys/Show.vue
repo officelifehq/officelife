@@ -92,7 +92,9 @@
             <span v-if="answer.reveal_identity_to_manager" class="db mb2 gray">
               <small-name-and-avatar
                 v-if="answer.employee.id"
-                :member="answer.employee"
+                :avatar="answer.employee.avatar"
+                :url="answer.employee.url"
+                :name="answer.employee.name"
                 :class="'gray'"
                 :size="'18px'"
                 :top="'0px'"

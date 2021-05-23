@@ -164,7 +164,9 @@
               <span>
                 <small-name-and-avatar
                   v-if="expense.manager.id"
-                  :member="expense.manager"
+                  :avatar="expense.manager.avatar"
+                  :url="expense.manager.url"
+                  :name="expense.manager.name"
                   :class="'gray'"
                   :font-size="'f5'"
                   :size="'18px'"

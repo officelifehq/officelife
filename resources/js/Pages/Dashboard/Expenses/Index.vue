@@ -205,7 +205,9 @@
                 <div class="dtc-ns db mb3 mb0-ns">
                   <small-name-and-avatar
                     v-if="expense.employee.id"
-                    :member="expense.employee"
+                    :avatar="expense.employee.avatar"
+                    :url="expense.employee.url"
+                    :name="expense.employee.name"
                     :class="'gray'"
                     :size="'18px'"
                     :top="'1px'"
