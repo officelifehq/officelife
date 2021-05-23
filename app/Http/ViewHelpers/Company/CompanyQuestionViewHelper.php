@@ -3,7 +3,7 @@
 namespace App\Http\ViewHelpers\Company;
 
 use App\Helpers\DateHelper;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Answer;
 use App\Helpers\QuestionHelper;
 use App\Models\Company\Company;
@@ -35,7 +35,7 @@ class CompanyQuestionViewHelper
         foreach ($questions as $question) {
             $numberOfAnswers = $question->answers->count();
 
-            if ($numberOfAnswers == 0) {
+            if ($numberOfAnswers == 0 && ! $question->active) {
                 continue;
             }
 
@@ -78,7 +78,7 @@ class CompanyQuestionViewHelper
                 'body' => $answer->body,
                 'employee' => [
                     'name' => $answer->employee->name,
-                    'avatar' => AvatarHelper::getImage($answer->employee),
+                    'avatar' => ImageHelper::getAvatar($answer->employee, 22),
                 ],
             ]);
         }

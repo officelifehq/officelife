@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -25,7 +26,9 @@ class Company extends Model
         'name',
         'currency',
         'has_dummy_data',
+        'logo_file_id',
         'e_coffee_enabled',
+        'founded_at',
     ];
 
     /**
@@ -46,6 +49,15 @@ class Company extends Model
     protected $casts = [
         'has_dummy_data' => 'boolean',
         'e_coffee_enabled' => 'boolean',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'founded_at',
     ];
 
     /**
@@ -236,6 +248,26 @@ class Company extends Model
     public function importJobs()
     {
         return $this->hasMany(ImportJob::class);
+    }
+
+    /**
+     * Get all groups in the company.
+     *
+     * @return HasMany
+     */
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
+
+    /**
+     * Get the logo associated with the company.
+     *
+     * @return HasOne
+     */
+    public function logo()
+    {
+        return $this->hasOne(File::class, 'id', 'logo_file_id');
     }
 
     /**

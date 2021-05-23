@@ -3,11 +3,12 @@
 namespace App\Http\ViewHelpers\Company\Project;
 
 use App\Helpers\DateHelper;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use Illuminate\Support\Collection;
 
 class ProjectViewHelper
 {
@@ -47,9 +48,10 @@ class ProjectViewHelper
      *
      * @param Project $project
      * @param Company $company
+     * @param Employee $employee
      * @return array
      */
-    public static function summary(Project $project, Company $company): array
+    public static function summary(Project $project, Company $company, Employee $employee): array
     {
         $lead = $project->lead;
         $latestStatus = $project->statuses()->with('author')->latest()->first();
@@ -65,7 +67,10 @@ class ProjectViewHelper
             ]);
         }
 
-        $author = $latestStatus->author;
+        $author = null;
+        if (! is_null($latestStatus)) {
+            $author = $latestStatus->author;
+        }
 
         return [
             'id' => $project->id,
@@ -79,11 +84,11 @@ class ProjectViewHelper
                 'title' => $latestStatus->title,
                 'status' => $latestStatus->status,
                 'description' => StringHelper::parse($latestStatus->description),
-                'written_at' => DateHelper::formatDate($latestStatus->created_at),
+                'written_at' => DateHelper::formatDate($latestStatus->created_at, $employee->timezone),
                 'author' => $author ? [
                     'id' => $author->id,
                     'name' => $author->name,
-                    'avatar' => AvatarHelper::getImage($author),
+                    'avatar' => ImageHelper::getAvatar($author, 32),
                     'position' => (! $author->position) ? null : [
                         'id' => $author->position->id,
                         'title' => $author->position->title,
@@ -105,7 +110,7 @@ class ProjectViewHelper
             'project_lead' => $lead ? [
                 'id' => $lead->id,
                 'name' => $lead->name,
-                'avatar' => AvatarHelper::getImage($lead),
+                'avatar' => ImageHelper::getAvatar($lead, 35),
                 'position' => (! $lead->position) ? null : [
                     'id' => $lead->position->id,
                     'title' => $lead->position->title,
@@ -186,7 +191,7 @@ class ProjectViewHelper
         foreach ($randomMembers as $member) {
             $membersCollection->push([
                 'id' => $member->id,
-                'avatar' => AvatarHelper::getImage($member),
+                'avatar' => ImageHelper::getAvatar($member, 32),
                 'name' => $member->name,
                 'url' => route('employees.show', [
                     'company' => $company,
@@ -203,5 +208,38 @@ class ProjectViewHelper
             'members' => $membersCollection,
             'other_members_counter' => $project->employees->count() - 4,
         ];
+    }
+
+    /**
+     * Search all employees matching a given criteria.
+     *
+     * @param Company $company
+     * @param string $criteria
+     * @return Collection
+     */
+    public static function searchProjectLead(Company $company, string $criteria): Collection
+    {
+        $employees = $company->employees()
+            ->select('id', 'first_name', 'last_name', 'avatar_file_id')
+            ->notLocked()
+            ->where(function ($query) use ($criteria) {
+                $query->where('first_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('email', 'LIKE', '%'.$criteria.'%');
+            })
+            ->orderBy('last_name', 'asc')
+            ->take(10)
+            ->get();
+
+        $employeesCollection = collect([]);
+        foreach ($employees as $employee) {
+            $employeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => ImageHelper::getAvatar($employee, 23),
+            ]);
+        }
+
+        return $employeesCollection;
     }
 }

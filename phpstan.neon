@@ -10,9 +10,16 @@ parameters:
         - tests
     excludePaths:
         - app/Http/ViewHelpers/Employee/EmployeeShowViewHelper.php
+        - app/Http/ViewHelpers/Employee/EmployeeWorkViewHelper.php
         - app/Http/ViewHelpers/Company/HR/CompanyHRViewHelper.php
+        - app/Http/ViewHelpers/Company/Group/GroupMembersViewHelper.php
+        - app/Services/Company/Group/CreateMeeting.php
+        - app/Http/ViewHelpers/Company/Group/GroupMeetingsViewHelper.php
+        - app/Http/ViewHelpers/Company/Group/GroupShowViewHelper.php
+        - app/Http/ViewHelpers/Company/Group/GroupViewHelper.php
     inferPrivatePropertyTypeFromConstructor: true
     checkMissingIterableValueType: false
+    reportUnmatchedIgnoredErrors: false
     level: 5
     ignoreErrors:
         - '#Argument of an invalid type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator supplied for foreach, only iterables are supported#'

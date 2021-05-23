@@ -8,7 +8,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -42,7 +42,7 @@
                   {{ $t('employee.edit_information_menu') }}
                 </inertia-link>
               </li>
-              <li v-if="canSeeContractInfoTab" class="di mr2">
+              <li v-if="permissions.can_edit_contract_information" class="di mr2">
                 <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/contract/edit'" data-cy="menu-contract-link" class="no-underline bb-0 ph3 pv2 ">
                   {{ $t('employee.edit_information_menu_contract') }}
                 </inertia-link>
@@ -65,7 +65,9 @@
             <!-- Basic information -->
             <div class="cf pa3 pb4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                <strong>{{ $t('employee.edit_information_name') }}</strong>
+                <strong class="lh-copy">
+                  {{ $t('employee.edit_information_name') }}
+                </strong>
                 <p class="f7 silver lh-copy pr3-ns">
                   {{ $t('employee.edit_information_name_help') }}
                 </p>
@@ -177,8 +179,30 @@
               </div>
             </div>
 
+            <!-- timezone -->
+            <div class="cf pa3 pb4">
+              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
+                <strong>{{ $t('employee.edit_information_timezone') }}</strong>
+                <p class="f7 silver lh-copy pr3-ns">
+                  {{ $t('employee.edit_information_timezone_help') }}
+                </p>
+              </div>
+
+              <div class="fl-ns w-two-thirds-ns w-100">
+                <select-box :id="'timezone'"
+                            v-model="form.timezone"
+                            :options="timezones"
+                            :name="'timezone'"
+                            :errors="$page.props.errors.timezone"
+                            :label="$t('employee.edit_information_timezone_label')"
+                            :placeholder="$t('app.choose_value')"
+                            :required="true"
+                />
+              </div>
+            </div>
+
             <!-- hired at date -->
-            <div v-if="canEditHiredAt" class="cf pa3 pb4" data-cy="hired-at-information">
+            <div v-if="permissions.can_edit_hired_at_information" class="cf pa3 pb4" data-cy="hired-at-information">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
                 <strong>{{ $t('employee.edit_information_hired_at') }}</strong>
                 <p class="f7 silver lh-copy pr3-ns">
@@ -280,7 +304,7 @@
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-edit-employee-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-edit-employee-button'" />
               </div>
             </div>
           </form>
@@ -295,10 +319,12 @@ import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
+import SelectBox from '@/Shared/Select';
 
 export default {
   components: {
     Layout,
+    SelectBox,
     TextInput,
     Errors,
     LoadingButton,
@@ -313,13 +339,13 @@ export default {
       type: Object,
       default: null,
     },
-    canEditHiredAt: {
-      type: Boolean,
-      default: false,
+    timezones: {
+      type: Array,
+      default: null,
     },
-    canSeeContractInfoTab: {
-      type: Boolean,
-      default: false,
+    permissions: {
+      type: Object,
+      default: null,
     },
   },
 
@@ -330,6 +356,7 @@ export default {
         last_name: null,
         email: null,
         phone: null,
+        timezone: null,
         year: null,
         month: null,
         day: null,
@@ -352,6 +379,7 @@ export default {
     this.form.phone = this.employee.phone;
     this.form.twitter = this.employee.twitter_handle;
     this.form.slack = this.employee.slack_handle;
+    this.form.timezone = this.employee.timezone;
 
     if (this.employee.birthdate != null) {
       this.form.year = this.employee.birthdate.year;

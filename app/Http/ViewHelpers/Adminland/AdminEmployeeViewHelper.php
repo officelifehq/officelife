@@ -2,7 +2,7 @@
 
 namespace App\Http\ViewHelpers\Adminland;
 
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 class AdminEmployeeViewHelper
 {
     /**
-     * Array containing statistics about the employees.
+     * Get all the statistics about the employees.
      *
      * @param EloquentCollection $employees
      * @param Company $company
@@ -49,9 +49,6 @@ class AdminEmployeeViewHelper
             'url_no_hiring_date' => route('account.employees.no_hiring_date', [
                 'company' => $company,
             ]),
-            'url_permission' => route('account.employees.permission', [
-                'company' => $company,
-            ]),
             'url_new' => route('account.employees.new', [
                 'company' => $company,
             ]),
@@ -67,7 +64,7 @@ class AdminEmployeeViewHelper
     }
 
     /**
-     * Collection containing information about all the employees in the company.
+     * Get information about all the employees in the company.
      */
     public static function all(EloquentCollection $employees, Company $company): Collection
     {
@@ -84,10 +81,11 @@ class AdminEmployeeViewHelper
                 'id' => $employee->id,
                 'name' => $employee->name,
                 'permission_level' => $employee->permission_level,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => ImageHelper::getAvatar($employee, 64),
                 'invitation_link' => $employee->invitation_link,
                 'invited' => (! $employee->invitation_used_at && $employee->invitation_link) === true,
-                'lock_status' => $employee->locked,
+                'has_user_account' => ($employee->invitation_used_at && $employee->invitation_link) === true,
+                'locked' => $employee->locked,
                 'url_view' => route('employees.show', [
                     'company' => $company,
                     'employee' => $employee,
@@ -100,7 +98,15 @@ class AdminEmployeeViewHelper
                     'company' => $company,
                     'employee' => $employee,
                 ]),
+                'url_invite' => route('account.employees.invite', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
                 'url_unlock' => route('account.unlock', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'url_permission' => route('account.employees.permission', [
                     'company' => $company,
                     'employee' => $employee,
                 ]),

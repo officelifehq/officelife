@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Company\Company\Project;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
-use App\Helpers\AvatarHelper;
 use App\Helpers\StringHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
@@ -42,7 +42,7 @@ class ProjectController extends Controller
     public function index(Request $request, int $companyId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
-        $statistics = CompanyViewHelper::statistics($company);
+        $statistics = CompanyViewHelper::information($company);
 
         return Inertia::render('Company/Project/Index', [
             'statistics' => $statistics,
@@ -64,11 +64,12 @@ class ProjectController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
-        $project = Project::findOrFail($projectId);
+        $project = Project::where('company_id', $company->id)
+            ->findOrFail($projectId);
 
         return Inertia::render('Company/Project/Show', [
             'project' => ProjectViewHelper::info($project),
-            'projectDetails' => ProjectViewHelper::summary($project, $company),
+            'projectDetails' => ProjectViewHelper::summary($project, $company, $employee),
             'permissions' => ProjectViewHelper::permissions($project, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
@@ -331,7 +332,7 @@ class ProjectController extends Controller
             'data' => [
                 'id' => $lead->id,
                 'name' => $lead->name,
-                'avatar' => AvatarHelper::getImage($lead),
+                'avatar' => ImageHelper::getAvatar($lead, 35),
                 'position' => (! $lead->position) ? null : [
                     'id' => $lead->position->id,
                     'title' => $lead->position->title,
@@ -398,22 +399,8 @@ class ProjectController extends Controller
      */
     public function search(Request $request, int $companyId): JsonResponse
     {
-        $potentialEmployees = Employee::search(
-            $request->input('searchTerm'),
-            $companyId,
-            10,
-            'created_at desc',
-            'and locked = false',
-        );
-
-        $employees = collect([]);
-        foreach ($potentialEmployees as $employee) {
-            $employees->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
-            ]);
-        }
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $employees = ProjectViewHelper::searchProjectLead($loggedCompany, $request->input('searchTerm'));
 
         return response()->json([
             'data' => $employees,
@@ -548,8 +535,8 @@ class ProjectController extends Controller
             }
         }
 
-        return Inertia::render('Company/Project/CreateStatus', [
-            'project' => ProjectViewHelper::summary($project, $company),
+        return Inertia::render('Company/Project/Status/Create', [
+            'project' => ProjectViewHelper::summary($project, $company, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

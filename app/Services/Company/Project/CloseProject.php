@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
+use App\Models\Company\ProjectMemberActivity;
 
 class CloseProject extends BaseService
 {
@@ -38,6 +39,7 @@ class CloseProject extends BaseService
         $this->data = $data;
         $this->validate();
         $this->stopProject();
+        $this->logActivity();
         $this->log();
 
         return $this->project;
@@ -59,7 +61,16 @@ class CloseProject extends BaseService
     private function stopProject(): void
     {
         $this->project->status = Project::CLOSED;
+        $this->project->actually_finished_at = Carbon::now();
         $this->project->save();
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void

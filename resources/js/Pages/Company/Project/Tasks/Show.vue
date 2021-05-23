@@ -58,7 +58,7 @@ input[type=checkbox] {
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">
@@ -162,13 +162,13 @@ input[type=checkbox] {
               <div class="cf bb bb-gray">
                 <!-- assigned to -->
                 <div class="fl w-50 br bb-gray pa3 bg-gray stat-left-corner">
-                  <select-box v-model="form.assignee_id"
+                  <select-box :ref="'assignee'"
+                              v-model="form.assignee_id"
                               :options="members"
                               :errors="$page.props.errors.assignee_id"
                               :label="$t('project.task_edit_assignee')"
                               :placeholder="$t('app.choose_value')"
                               :required="false"
-                              :value="form.assignee_id"
                               :datacy="'country_selector'"
                   />
                 </div>
@@ -189,7 +189,7 @@ input[type=checkbox] {
                       {{ $t('app.cancel') }}
                     </inertia-link>
                   </div>
-                  <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
+                  <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
                 </div>
               </div>
             </form>
@@ -233,7 +233,7 @@ input[type=checkbox] {
           <!-- information about the author -->
           <div v-if="localTask.author" class="flex mb4">
             <div class="mr2">
-              <img :src="localTask.author.avatar" alt="avatar" height="35" width="35" class="br-100" />
+              <avatar :avatar="localTask.author.avatar" :size="35" :class="'br-100'" />
             </div>
 
             <div>
@@ -284,10 +284,10 @@ input[type=checkbox] {
               <form @submit.prevent="logTime">
                 <div class="mb3">
                   <span class="lh-copy mb2 dib">
-                    How much time have you worked on this today?
+                    {{ $t('project.task_edit_time') }}
                   </span>
                   <text-duration
-                    @update="updateDuration($event)"
+                    @update:model-value="updateDuration($event)"
                   />
                 </div>
 
@@ -295,13 +295,13 @@ input[type=checkbox] {
                   <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" data-cy="cancel-add-description" @click="logTimeMode = false">
                     {{ $t('app.cancel') }}
                   </a>
-                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
+                  <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
                 </div>
               </form>
             </div>
 
             <!-- delete -->
-            <li v-if="!deleteMode" class="mb2" @click="deleteMode = true"><span class="bb b--dotted bt-0 bl-0 br-0 pointer di f7">{{ $t('app.delete') }}</span></li>
+            <li v-if="!deleteMode" class="mb2" @click="deleteMode = true"><span class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 c-delete">{{ $t('app.delete') }}</span></li>
             <li v-if="deleteMode" class="mb2">
               {{ $t('app.sure') }}
               <a class="c-delete mr1 pointer" @click.prevent="destroy">
@@ -327,10 +327,12 @@ import TextArea from '@/Shared/TextArea';
 import SelectBox from '@/Shared/Select';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextDuration from '@/Shared/TextDuration';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Avatar,
     ProjectMenu,
     'ball-clip-rotate': BallClipRotate.component,
     TextInput,
@@ -395,7 +397,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -410,7 +412,7 @@ export default {
       this.hideTimeTrackingEntries = false;
 
       this.$nextTick(() => {
-        this.$refs['newName'].$refs['input'].focus();
+        this.$refs.newName.focus();
       });
     },
 
@@ -422,7 +424,7 @@ export default {
     toggle() {
       axios.put(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${this.localTask.id}/toggle`)
         .then(response => {
-          flash(this.$t('project.task_show_status'), 'success');
+          this.flash(this.$t('project.task_show_status'), 'success');
           this.localTask.completed = !this.localTask.completed;
         })
         .catch(error => {
@@ -450,8 +452,7 @@ export default {
       var newAssigneeName = null;
 
       if (this.form.assignee_id) {
-        newAssigneeName = this.form.assignee_id.label;
-        this.form.assignee_id = this.form.assignee_id.value;
+        newAssigneeName = this.$refs.assignee.labelValue;
       }
 
       if (this.form.task_list_id == 0) {

@@ -7,13 +7,13 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph5-ns mt4">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw7 br3 center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.props.auth.company.id + '/employees'">{{ $t('app.breadcrumb_employee_list') }}</inertia-link>
@@ -46,14 +46,21 @@
             :menu="menu"
           />
 
+          <worklogs
+            :permissions="permissions"
+            :employee="employee"
+            :worklog="worklog"
+            :weeks="weeks"
+          />
+
           <projects
             :employee="employee"
             :projects="projects"
           />
 
-          <worklogs
-            :permissions="permissions"
-            :worklogs="worklogs"
+          <groups
+            :employee="employee"
+            :groups="groups"
           />
 
           <recent-ships
@@ -80,6 +87,7 @@ import Worklogs from '@/Pages/Employee/Work/Partials/Worklogs';
 import WorkFromHome from '@/Pages/Employee/Work/Partials/WorkFromHome';
 import RecentShips from '@/Pages/Employee/Work/Partials/RecentShips';
 import Projects from '@/Pages/Employee/Work/Partials/Projects';
+import Groups from '@/Pages/Employee/Work/Partials/Groups';
 
 export default {
   components: {
@@ -91,6 +99,7 @@ export default {
     WorkFromHome,
     RecentShips,
     Projects,
+    Groups,
   },
 
   props: {
@@ -110,7 +119,7 @@ export default {
       type: Array,
       default: null,
     },
-    worklogs: {
+    worklog: {
       type: Object,
       default: null,
     },
@@ -126,13 +135,14 @@ export default {
       type: Array,
       default: null,
     },
-  },
-
-  mounted() {
-    if (localStorage.success) {
-      flash(localStorage.success, 'success');
-      localStorage.removeItem('success');
-    }
+    groups: {
+      type: Array,
+      default: null,
+    },
+    weeks: {
+      type: Array,
+      default: null,
+    },
   },
 };
 

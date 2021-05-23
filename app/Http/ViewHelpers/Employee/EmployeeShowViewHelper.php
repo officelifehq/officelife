@@ -5,22 +5,18 @@ namespace App\Http\ViewHelpers\Employee;
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\TimeHelper;
+use App\Helpers\ImageHelper;
 use App\Helpers\MoneyHelper;
 use App\Models\User\Pronoun;
-use App\Helpers\AvatarHelper;
 use App\Helpers\StringHelper;
-use App\Helpers\WorklogHelper;
 use App\Models\Company\Company;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\WorkFromHomeHelper;
-use App\Models\Company\ProjectTask;
 use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\EmployeeStatus;
-use App\Models\Company\ProjectMessage;
 
 class EmployeeShowViewHelper
 {
@@ -31,9 +27,10 @@ class EmployeeShowViewHelper
      *
      * @param Employee $employee
      * @param array $permissions
+     * @param Employee $loggedEmployee
      * @return array
      */
-    public static function informationAboutEmployee(Employee $employee, array $permissions): array
+    public static function informationAboutEmployee(Employee $employee, array $permissions, Employee $loggedEmployee): array
     {
         $address = $employee->getCurrentAddress();
         $company = $employee->company;
@@ -45,7 +42,7 @@ class EmployeeShowViewHelper
             'name' => $employee->name,
             'first_name' => $employee->first_name,
             'last_name' => $employee->last_name,
-            'avatar' => AvatarHelper::getImage($employee),
+            'avatar' => ImageHelper::getAvatar($employee, 300),
             'email' => $employee->email,
             'phone' => $employee->phone_number,
             'twitter_handle' => $employee->twitter_handle,
@@ -54,20 +51,21 @@ class EmployeeShowViewHelper
             'holidays' => $employee->getHolidaysInformation(),
             'birthdate' => (! $employee->birthdate) ? null :
                 ($permissions['can_see_full_birthdate'] ? [
-                    'date' => DateHelper::formatDate($employee->birthdate),
+                    'date' => DateHelper::formatDate($employee->birthdate, $loggedEmployee->timezone),
                     'age' => Carbon::now()->year - $employee->birthdate->year,
                 ] : [
                     'date' => DateHelper::formatMonthAndDay($employee->birthdate),
                 ]),
             'hired_at' => (! $employee->hired_at) ? null : [
-                'full' => DateHelper::formatDate($employee->hired_at),
+                'full' => DateHelper::formatDate($employee->hired_at, $loggedEmployee->timezone),
                 'year' => $employee->hired_at->year,
                 'month' => $employee->hired_at->month,
                 'day' => $employee->hired_at->day,
+                'percent' => self::hiredAfterEmployee($employee, $loggedEmployee->company),
             ],
             'contract_renewed_at' => (! $employee->contract_renewed_at) ? null :
                 ($permissions['can_see_contract_renewal_date'] ? [
-                    'date' => DateHelper::formatDate($employee->contract_renewed_at),
+                    'date' => DateHelper::formatDate($employee->contract_renewed_at, $loggedEmployee->timezone),
                 ] : null),
             'contract_rate' => (! $rate) ? null :
                 ($permissions['can_see_contract_renewal_date'] ? [
@@ -274,6 +272,21 @@ class EmployeeShowViewHelper
             $canSeeTimesheets = true;
         }
 
+        // can update avatar
+        $canUpdateAvatar = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canUpdateAvatar = true;
+        }
+
+        // can edit hired at information
+        $canEditHiredAt = $loggedEmployee->permission_level <= 200;
+
+        // can edit contact information
+        $canEditContractInfoTab = $loggedEmployee->permission_level <= 200;
+        if ($employee->status) {
+            $canEditContractInfoTab = $employee->status->type == EmployeeStatus::EXTERNAL;
+        }
+
         return [
             'can_see_full_birthdate' => $canSeeFullBirthdate,
             'can_manage_hierarchy' => $canManageHierarchy,
@@ -296,6 +309,9 @@ class EmployeeShowViewHelper
             'can_see_one_on_one_with_manager' => $canSeeOneOnOneWithManager,
             'can_see_contract_renewal_date' => $canSeeContractRenewalDate,
             'can_see_timesheets' => $canSeeTimesheets,
+            'can_update_avatar' => $canUpdateAvatar,
+            'can_edit_hired_at_information' => $canEditHiredAt,
+            'can_edit_contract_information' => $canEditContractInfoTab,
         ];
     }
 
@@ -319,7 +335,7 @@ class EmployeeShowViewHelper
             $managersOfEmployee->push([
                 'id' => $manager->id,
                 'name' => $manager->name,
-                'avatar' => AvatarHelper::getImage($manager),
+                'avatar' => ImageHelper::getAvatar($manager, 35),
                 'position' => (! $manager->position) ? null : [
                     'id' => $manager->position->id,
                     'title' => $manager->position->title,
@@ -354,7 +370,7 @@ class EmployeeShowViewHelper
             $directReportsOfEmployee->push([
                 'id' => $directReport->id,
                 'name' => $directReport->name,
-                'avatar' => AvatarHelper::getImage($directReport),
+                'avatar' => ImageHelper::getAvatar($directReport, 35),
                 'position' => (! $directReport->position) ? null : [
                     'id' => $directReport->position->id,
                     'title' => $directReport->position->title,
@@ -370,48 +386,6 @@ class EmployeeShowViewHelper
     }
 
     /**
-     * Array containing a collection of all worklogs with the morale and a
-     * link to the detailled page of the worklogs.
-     *
-     * @param Employee $employee
-     * @return array
-     */
-    public static function worklogs(Employee $employee): array
-    {
-        $worklogs = $employee->worklogs()->latest()->take(7)->get();
-        $morales = $employee->morales()->latest()->take(7)->get();
-        $worklogsCollection = collect([]);
-        $currentDate = Carbon::now();
-
-        // worklogs from Monday to Friday of the current week
-        for ($i = 0; $i < 5; $i++) {
-            $day = $currentDate->copy()->startOfWeek()->addDays($i);
-
-            $worklog = $worklogs->first(function ($worklog) use ($day) {
-                return $worklog->created_at->format('Y-m-d') == $day->format('Y-m-d');
-            });
-
-            $morale = $morales->first(function ($morale) use ($day) {
-                return $morale->created_at->format('Y-m-d') == $day->format('Y-m-d');
-            });
-
-            $worklogsCollection->push(
-                WorklogHelper::getDailyInformationForEmployee($day, $worklog, $morale)
-            );
-        }
-
-        $array = [
-            'worklogs_collection' => $worklogsCollection,
-            'url' => route('employee.work.worklogs', [
-                'company' => $employee->company,
-                'employee' => $employee,
-            ]),
-        ];
-
-        return $array;
-    }
-
-    /**
      * Array containing information about the number of times the employee has
      * been working from home this year.
      *
@@ -422,11 +396,11 @@ class EmployeeShowViewHelper
     {
         $now = Carbon::now();
         $currentYear = $now->year;
-        $workFromHomes = $employee->workFromHomes()->whereYear('date', (string) $currentYear)->get();
+        $workFromHomes = $employee->workFromHomes()->whereYear('date', (string) $currentYear)->count();
 
         return [
             'work_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, $now),
-            'number_times_this_year' => $workFromHomes->count(),
+            'number_times_this_year' => $workFromHomes,
             'url' => route('employee.work.workfromhome', [
                 'company' => $employee->company,
                 'employee' => $employee,
@@ -543,7 +517,7 @@ class EmployeeShowViewHelper
                 $employeeCollection->push([
                     'id' => $employeeImpacted->id,
                     'name' => $employeeImpacted->name,
-                    'avatar' => AvatarHelper::getImage($employeeImpacted),
+                    'avatar' => ImageHelper::getAvatar($employeeImpacted, 17),
                     'url' => route('employees.show', [
                         'company' => $employee->company,
                         'employee' => $employeeImpacted,
@@ -594,16 +568,17 @@ class EmployeeShowViewHelper
     }
 
     /**
-     * Array containing information about the expenses associated with the
+     * Get the information about the expenses associated with the
      * employee.
      * On the employee profile page, we only see expenses logged in the last
      * 30 days.
      *
      * @param Employee $employee
      * @param array $permissions
+     * @param Employee $loggedEmployee
      * @return array|null
      */
-    public static function expenses(Employee $employee, array $permissions): ?array
+    public static function expenses(Employee $employee, array $permissions, Employee $loggedEmployee): ?array
     {
         if (! $permissions['can_see_expenses']) {
             return null;
@@ -623,7 +598,7 @@ class EmployeeShowViewHelper
                 'title' => $expense->title,
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
@@ -652,9 +627,10 @@ class EmployeeShowViewHelper
      *
      * @param Employee $employee
      * @param array $permissions
+     * @param Employee $loggedEmployee
      * @return array|null
      */
-    public static function oneOnOnes(Employee $employee, array $permissions): ?array
+    public static function oneOnOnes(Employee $employee, array $permissions, Employee $loggedEmployee): ?array
     {
         if (! $permissions['can_see_one_on_one_with_manager']) {
             return null;
@@ -670,11 +646,11 @@ class EmployeeShowViewHelper
         foreach ($oneOnOnes as $oneOnOne) {
             $collection->push([
                 'id' => $oneOnOne->id,
-                'happened_at' => DateHelper::formatDate($oneOnOne->happened_at),
+                'happened_at' => DateHelper::formatDate($oneOnOne->happened_at, $loggedEmployee->timezone),
                 'manager' => [
                     'id' => $oneOnOne->manager->id,
                     'name' => $oneOnOne->manager->name,
-                    'avatar' => AvatarHelper::getImage($oneOnOne->manager),
+                    'avatar' => ImageHelper::getAvatar($oneOnOne->manager, 18),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $oneOnOne->manager,
@@ -816,55 +792,6 @@ class EmployeeShowViewHelper
     }
 
     /**
-     * List all the projects of the employee.
-     *
-     * @param Employee $employee
-     * @param Company $company
-     * @return Collection|null
-     */
-    public static function projects(Employee $employee, Company $company): ?Collection
-    {
-        /** Going through a raw query coupled with eloquent to drastically reduce the number of hydrated models */
-        $projects = Project::join('employee_project', 'employee_project.project_id', '=', 'projects.id')
-            ->select('employee_project.role', 'employee_project.created_at', 'employee_project.project_id', 'projects.id as project_id', 'projects.name', 'projects.code', 'projects.status')
-            ->addSelect([
-                'messages_count' => ProjectMessage::select(DB::raw('count(id)'))
-                    ->whereColumn('author_id', 'employee_id')
-                    ->whereColumn('project_id', 'projects.id'),
-            ])
-            ->addSelect([
-                'tasks_count' => ProjectTask::select(DB::raw('count(id)'))
-                    ->whereColumn('assignee_id', 'employee_id')
-                    ->whereColumn('project_id', 'projects.id'),
-            ])
-            ->where('employee_project.employee_id', $employee->id)
-            ->orderBy('projects.id', 'desc')
-            ->withCasts([
-                'created_at' => 'datetime',
-            ])
-            ->get();
-
-        $projectsCollection = collect([]);
-        foreach ($projects as $project) {
-            $projectsCollection->push([
-                'id' => $project->project_id,
-                'name' => $project->name,
-                'code' => $project->code,
-                'status' => $project->status,
-                'role' => $project->role,
-                'messages_count' => $project->messages_count,
-                'tasks_count' => $project->tasks_count,
-                'url' => route('projects.show', [
-                    'company' => $company,
-                    'project' => $project->project_id,
-                ]),
-            ]);
-        }
-
-        return $projectsCollection;
-    }
-
-    /**
      * List all the eCoffees the employee participated to.
      *
      * @param Employee $employee
@@ -898,7 +825,7 @@ class EmployeeShowViewHelper
                     'id' => $withEmployee->id,
                     'name' => $withEmployee->name,
                     'first_name' => $withEmployee->first_name,
-                    'avatar' => AvatarHelper::getImage($withEmployee),
+                    'avatar' => ImageHelper::getAvatar($withEmployee, 35),
                     'position' => $withEmployee->position ? $withEmployee->position->title : null,
                     'url' => route('employees.show', [
                         'company' => $company,
@@ -915,5 +842,55 @@ class EmployeeShowViewHelper
             ]),
             'eCoffees' => $eCoffeeCollection,
         ];
+    }
+
+    /**
+     * Get the percent of employees who have been hired after the given employee.
+     *
+     * @param Employee $employee
+     * @param Company $company
+     * @return ?int
+     */
+    public static function hiredAfterEmployee(Employee $employee, Company $company): ?int
+    {
+        $totalNumberOfEmployees = $company->employees()->count();
+        $employeesHiredAfterMe = $company->employees()
+            ->whereDate('hired_at', '>', $employee->hired_at)
+            ->where('employees.id', '!=', $employee->id)
+            ->count();
+
+        if ($employeesHiredAfterMe == 0) {
+            return 0;
+        }
+
+        $percent = round($employeesHiredAfterMe * 100 / $totalNumberOfEmployees);
+
+        return $percent;
+    }
+
+    /**
+     * Get the list of all positions the employee ever had in the company.
+     *
+     * @param Employee $employee
+     * @param Company $company
+     * @return Collection
+     */
+    public static function employeeCurrentAndPastPositions(Employee $employee, Company $company): Collection
+    {
+        $positions = $employee->positionHistoryEntries()
+            ->orderBy('started_at', 'desc')
+            ->get();
+
+        $positionCollection = collect();
+        foreach ($positions as $entry) {
+            $positionCollection->push([
+                'id' => $entry->id,
+                'position' => $entry->position->title,
+                'started_at' => DateHelper::formatMonthAndYear($entry->started_at),
+                'ended_at' => $entry->ended_at ? DateHelper::formatMonthAndYear($entry->ended_at) : null,
+            ]);
+        }
+
+        return $positionCollection;
     }
 }

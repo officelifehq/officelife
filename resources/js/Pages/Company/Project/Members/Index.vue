@@ -40,7 +40,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">
@@ -97,14 +97,13 @@
                   <div class="measure">
                     <!-- employee -->
                     <select-box :id="'employee'"
-                                v-model="form.employee"
+                                v-model="form.employee_id"
                                 :options="potentialMembers"
                                 :name="'employee'"
-                                :errors="$page.props.errors.employee"
+                                :errors="$page.props.errors.employee_id"
                                 :label="$t('project.members_index_add_select_title')"
                                 :placeholder="$t('project.members_index_add_select_placeholder')"
                                 :required="true"
-                                :value="form.employee"
                                 :datacy="'members_selector'"
                     />
                     <p class="lh-copy">{{ $t('project.members_index_add_role') }}</p>
@@ -158,7 +157,7 @@
 
                 <!-- Actions -->
                 <div class="pa3 cf flex-ns">
-                  <loading-button :classes="'btn add mr2 w-auto-ns w-100 pv2 ph3 db dib-ns mb3 mb0-ns'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-member'" />
+                  <loading-button :class="'btn add mr2 w-auto-ns w-100 pv2 ph3 db dib-ns mb3 mb0-ns'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-member'" />
                   <a class="btn dib-ns db tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2" data-cy="cancel-button" @click.prevent="showModal = false">
                     {{ $t('app.cancel') }}
                   </a>
@@ -172,7 +171,7 @@
                 <li v-for="member in localMembers" :key="member.id" :data-cy="'member-' + member.id" class="pa3 bb bb-gray flex items-center">
                   <!-- avatar -->
                   <div class="mr3">
-                    <img :src="member.avatar" alt="avatar" height="64" width="64" class="br-100" />
+                    <avatar :avatar="member.avatar" :size="64" :class="'br-100'" />
                   </div>
 
                   <!-- name + information -->
@@ -211,7 +210,7 @@
                       <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + member.id" @click.prevent="remove(member.id)">
                         {{ $t('app.yes') }}
                       </a>
-                      <a class="pointer" :data-cy="'list-delete-cancel-button-' + member.id" @click.prevent="idToDelete = 0">
+                      <a class="pointer" :data-cy="'list-delete-cancel-button-' + member.id" @click.prevent="removeMode = false; idToDelete = 0">
                         {{ $t('app.no') }}
                       </a>
                     </div>
@@ -242,10 +241,12 @@ import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import TextInput from '@/Shared/TextInput';
 import SelectBox from '@/Shared/Select';
 import LoadingButton from '@/Shared/LoadingButton';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Avatar,
     ProjectMenu,
     TextInput,
     SelectBox,
@@ -282,7 +283,7 @@ export default {
       potentialMembers: null,
       loadingState: '',
       form: {
-        employee: null,
+        employee_id: null,
         role: null,
         errors: [],
       },
@@ -296,7 +297,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
@@ -312,12 +313,12 @@ export default {
       this.form.role = null;
 
       this.$nextTick(() => {
-        this.$refs['newRole'].$refs['input'].focus();
+        this.$refs.newRole.focus();
       });
     },
 
     displayAddModal() {
-      axios.get(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/members/search`)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/members/search`)
         .then(response => {
           this.potentialMembers = response.data.data.potential_members;
           this.showModal = true;
@@ -335,14 +336,15 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/members/store`, this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/members`, this.form)
         .then(response => {
-          flash(this.$t('project.members_index_add_success'), 'success');
+          this.flash(this.$t('project.members_index_add_success'), 'success');
           this.loadingState = null;
           this.form.role = null;
-          this.form.employee = null;
+          this.form.employee_id = null;
           this.showModal = false;
           this.localMembers.unshift(response.data.data);
+          this.updateRoles();
         })
         .catch(error => {
           this.loadingState = null;
@@ -350,22 +352,26 @@ export default {
         });
     },
 
-    remove(employee) {
-      this.form.employee = employee;
-
-      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/members/remove`, this.form)
+    remove(employee_id) {
+      axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/members/${employee_id}`)
         .then(response => {
-          flash(this.$t('project.members_index_remove_success'), 'success');
+          this.flash(this.$t('project.members_index_remove_success'), 'success');
 
-          var id = this.localMembers.findIndex(x => x.id == employee);
+          var id = this.localMembers.findIndex(x => x.id == employee_id);
           this.localMembers.splice(id, 1);
-
-          this.form.employee = null;
+          this.updateRoles();
         })
         .catch(error => {
           this.loadingState = null;
           this.form.errors = error.response.data;
         });
+    },
+
+    updateRoles() {
+      let roles = _.map(this.localMembers, member => {
+        return { id: member.id, role: member.role };
+      });
+      this.localRoles = _.sortBy(_.uniqBy(roles, 'role'), 'role');
     },
   }
 };

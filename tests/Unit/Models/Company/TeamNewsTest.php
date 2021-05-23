@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models\Company;
 
 use Tests\ApiTestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\TeamNews;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -49,7 +50,7 @@ class TeamNewsTest extends ApiTestCase
                 'author' => [
                     'id' => $michael->id,
                     'name' => 'michael scott',
-                    'avatar' => 'https://api.adorable.io/avatars/285/abott@adorable.png',
+                    'avatar' => ImageHelper::getAvatar($michael),
                 ],
                 'localized_created_at' => 'Jan 12, 2020 00:00',
                 'created_at' => '2020-01-12 00:00:00',

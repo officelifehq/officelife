@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
-use App\Helpers\AvatarHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Hardware;
 use Illuminate\Http\JsonResponse;
@@ -102,6 +102,7 @@ class AdminHardwareController extends Controller
     public function show(Request $request, int $companyId, int $hardwareId)
     {
         $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
 
         try {
             $hardware = Hardware::where('company_id', $company->id)
@@ -118,11 +119,11 @@ class AdminHardwareController extends Controller
             'employee' => $hardware->employee ? [
                 'id' => $hardware->employee->id,
                 'name' => $hardware->employee->name,
-                'avatar' => AvatarHelper::getImage($hardware->employee),
+                'avatar' => ImageHelper::getAvatar($hardware->employee, 22),
             ] : null,
         ];
 
-        $history = AdminHardwareViewHelper::history($hardware);
+        $history = AdminHardwareViewHelper::history($hardware, $employee);
 
         return Inertia::render('Adminland/Hardware/Show', [
             'hardware' => $information,

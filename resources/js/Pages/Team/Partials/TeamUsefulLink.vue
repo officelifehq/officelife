@@ -96,7 +96,7 @@
                   {{ $t('app.cancel') }}
                 </a>
               </div>
-              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'useful-link-submit-button'" />
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'useful-link-submit-button'" />
             </div>
           </div>
         </form>
@@ -199,7 +199,7 @@ export default {
     removeLink(link) {
       axios.delete('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/links/' + link.id)
         .then(response => {
-          flash(this.$t('team.team_lead_removed'), 'success');
+          this.flash(this.$t('team.team_lead_removed'), 'success');
 
           this.updatedLinks.splice(this.updatedLinks.findIndex(i => i.id === response.data.data), 1);
           this.editMode = false;

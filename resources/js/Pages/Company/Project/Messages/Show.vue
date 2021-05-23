@@ -29,7 +29,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">
@@ -76,7 +76,7 @@
 
           <div v-if="message.author" class="flex mb4">
             <div class="mr3">
-              <img :src="message.author.avatar" alt="avatar" height="64" width="64" class="br-100" />
+              <avatar :avatar="message.author.avatar" :size="64" :class="'br-100'" />
             </div>
 
             <div>
@@ -122,7 +122,7 @@
             <li class="mb2"><inertia-link :href="message.url_edit" data-cy="project-edit" class="f6 gray">{{ $t('project.message_show_edit') }}</inertia-link></li>
 
             <!-- delete -->
-            <li v-if="!removalConfirmation"><a href="#" data-cy="project-delete" class="f6 gray" @click.prevent="removalConfirmation = true">{{ $t('project.message_show_destroy') }}</a></li>
+            <li v-if="!removalConfirmation"><a href="#" data-cy="project-delete" class="f6 gray bb b--dotted bt-0 bl-0 br-0 pointer di c-delete" @click.prevent="removalConfirmation = true">{{ $t('project.message_show_destroy') }}</a></li>
             <li v-if="removalConfirmation" class="pv2 f6">
               {{ $t('app.sure') }}
               <a data-cy="confirm-project-deletion" class="c-delete mr1 pointer" @click.prevent="destroy()">
@@ -142,11 +142,13 @@
 <script>
 import Layout from '@/Shared/Layout';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
     ProjectMenu,
+    Avatar,
   },
 
   props: {
@@ -180,7 +182,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },

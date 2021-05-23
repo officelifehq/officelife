@@ -7,6 +7,7 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectLink;
+use App\Models\Company\ProjectMemberActivity;
 
 class DestroyProjectLink extends BaseService
 {
@@ -41,6 +42,7 @@ class DestroyProjectLink extends BaseService
         $this->data = $data;
         $this->validate();
         $this->deleteLink();
+        $this->logActivity();
         $this->log();
     }
 
@@ -63,6 +65,14 @@ class DestroyProjectLink extends BaseService
     private function deleteLink(): void
     {
         $this->projectLink->delete();
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void

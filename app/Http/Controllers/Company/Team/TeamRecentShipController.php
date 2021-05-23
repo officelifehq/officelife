@@ -7,7 +7,6 @@ use Inertia\Response;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
-use App\Helpers\AvatarHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
@@ -57,7 +56,7 @@ class TeamRecentShipController extends Controller
     }
 
     /**
-     * Search an employee to add as a team lead.
+     * Search an employee to add to the recent ship entry.
      *
      * @param Request $request
      * @param int $companyId
@@ -65,22 +64,8 @@ class TeamRecentShipController extends Controller
      */
     public function search(Request $request, int $companyId): JsonResponse
     {
-        $potentialEmployees = Employee::search(
-            $request->input('searchTerm'),
-            $companyId,
-            10,
-            'created_at desc',
-            'and locked = false',
-        );
-
-        $employees = collect([]);
-        foreach ($potentialEmployees as $employee) {
-            $employees->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
-            ]);
-        }
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $employees = TeamRecentShipViewHelper::search($loggedCompany, $request->input('searchTerm'));
 
         return response()->json([
             'data' => $employees,

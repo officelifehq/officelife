@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .find-box {
   border: 1px solid rgba(27,31,35,.15);
   box-shadow: 0 3px 12px rgba(27,31,35,.15);
@@ -29,7 +31,8 @@ nav {
   a {
     color: #4d4d4f;
 
-    &:hover {
+    &:hover,
+    &:active {
       border-bottom-width: 0;
     }
 
@@ -77,7 +80,8 @@ nav {
         </div>
         <div class="flex-grow pa2 flex items-center">
           <notifications-component :notifications="notifications" />
-          <user-menu />
+
+          <user-menu :show-help-on-page="showHelpOnPage" />
         </div>
       </nav>
     </div>
@@ -91,7 +95,7 @@ nav {
                    :placeholder="$t('app.header_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required @keydown.esc="modalFind = false" @keyup="search"
             />
             <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3 absolute top-0 right-0'" :state="loadingState" :text="$t('app.search')" :cypress-selector="'header-find-submit'" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3 absolute top-0 right-0'" :state="loadingState" :text="$t('app.search')" :cypress-selector="'header-find-submit'" />
           </div>
         </form>
 
@@ -192,20 +196,6 @@ nav {
 
     <slot></slot>
 
-    <!-- toggle help -->
-    <div v-if="showHelpOnPage">
-      <div v-if="$page.props.auth.user.show_help" class="tc mv3">
-        <span class="pointer" data-cy="layout-hide-help" @click="toggleHelp()">
-          {{ $t('app.hide_help') }}
-        </span>
-      </div>
-      <div v-else class="tc mv3">
-        <span class="pointer" data-cy="layout-show-help" @click="toggleHelp()">
-          {{ $t('app.show_help') }}
-        </span>
-      </div>
-    </div>
-
     <toaster />
   </div>
 </template>
@@ -216,7 +206,6 @@ import UserMenu from '@/Shared/UserMenu';
 import LoadingButton from '@/Shared/LoadingButton';
 import NotificationsComponent from '@/Shared/Notifications';
 import Toaster from '@/Shared/Toaster';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
@@ -343,17 +332,6 @@ export default {
       this.employees = data.employees;
       this.teams = data.teams;
     },
-
-    toggleHelp() {
-      axios.post('/help')
-        .then(response => {
-          this.$page.props.auth.user.show_help = response.data.data;
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = error.response.data;
-        });
-    }
   },
 };
 </script>

@@ -100,7 +100,7 @@
             <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addMode = false">
               {{ $t('app.cancel') }}
             </a>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'link-submit-button'" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'link-submit-button'" />
           </div>
         </div>
       </form>
@@ -166,7 +166,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/links`, this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/links`, this.form)
         .then(response => {
           this.localLinks.push(response.data.data);
 
@@ -183,7 +183,7 @@ export default {
     },
 
     removeLink(link) {
-      axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/links/${link.id}`)
+      axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/links/${link.id}`)
         .then(response => {
           this.localLinks.splice(this.localLinks.findIndex(i => i.id == link.id), 1);
           this.editMode = false;

@@ -8,7 +8,19 @@
   <base href="{{ url('/') }}/" />
   <link rel="stylesheet" href="{{ asset(mix('css/app.css')) }}">
   <script src="{{ asset(mix('js/app.js')) }}" defer></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favicon.png') }}" />
   <title>@yield('title', config('app.name'))</title>
+
+  @if (config('app.sentry.enabled'))
+  <script>
+    const SentryConfig = {!! \json_encode([
+      'dsn' => config('sentry.dsn'),
+      'environment' => config('sentry.environment'),
+      'sendDefaultPii' => config('sentry.send_default_pii'),
+      'tracesSampleRate' => config('sentry.traces_sample_rate'),
+    ]); !!}
+  </script>
+  @endif
 
   @routes
 </head>

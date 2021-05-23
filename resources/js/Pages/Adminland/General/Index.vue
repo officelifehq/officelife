@@ -2,7 +2,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -26,8 +26,18 @@
             {{ $t('account.general_title') }}
           </h2>
 
+          <!-- stats -->
+          <stat
+            :information="information"
+          />
+
           <!-- company name -->
           <name
+            :information="information"
+          />
+
+          <!-- company founded -->
+          <founded-date
             :information="information"
           />
 
@@ -35,6 +45,11 @@
           <currency
             :information="information"
             :currencies="currencies"
+          />
+
+          <!-- Logo -->
+          <logo
+            :information="information"
           />
         </div>
       </div>
@@ -46,12 +61,18 @@
 import Layout from '@/Shared/Layout';
 import Name from '@/Pages/Adminland/General/Partials/Name';
 import Currency from '@/Pages/Adminland/General/Partials/Currency';
+import Stat from '@/Pages/Adminland/General/Partials/Stat';
+import Logo from '@/Pages/Adminland/General/Partials/Logo';
+import FoundedDate from '@/Pages/Adminland/General/Partials/FoundedDate';
 
 export default {
   components: {
     Layout,
     Name,
     Currency,
+    Stat,
+    Logo,
+    FoundedDate,
   },
 
   props: {
@@ -71,7 +92,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
 
       localStorage.removeItem('success');
     }

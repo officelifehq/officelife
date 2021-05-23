@@ -17,7 +17,9 @@
   <div>
     <h3 class="db fw5 mb3 flex justify-between items-center">
       <span>
-        🚀 {{ $t('team.recent_ship_title') }}
+        <span class="mr1">
+          🚀
+        </span> {{ $t('team.recent_ship_title') }}
 
         <help :url="$page.props.help_links.team_recent_ship" :top="'2px'" />
       </span>
@@ -32,7 +34,7 @@
           <inertia-link :href="ship.url" class="ma0 pa0" :data-cy="'recent-ship-list-' + ship.id">{{ ship.title }}</inertia-link>
           <ul class="list ma0">
             <li v-for="employee in ship.employees" :key="employee.id" class="mr1 di">
-              <inertia-link :href="employee.url" class="ship-avatar"><img loading="lazy" :src="employee.avatar" class="br-100 relative mr1 dib-ns dn" alt="avatar" :data-cy="'ship-list-' + ship.id + '-avatar-' + employee.id" /></inertia-link>
+              <avatar :avatar="employee.avatar" :url="employee.url" :size="17" :class="'br-100 relative mr1 dib-ns dn'" />
             </li>
           </ul>
         </div>
@@ -52,10 +54,12 @@
 
 <script>
 import Help from '@/Shared/Help';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
-    Help
+    Help,
+    Avatar,
   },
 
   props: {

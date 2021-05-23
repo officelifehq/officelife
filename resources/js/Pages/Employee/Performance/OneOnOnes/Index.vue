@@ -13,7 +13,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -73,7 +73,7 @@
                     :name="entry.manager.name"
                     :avatar="entry.manager.avatar"
                     :url="entry.manager.url"
-                    :classes="'f4 fw4'"
+                    :class="'f4 fw4'"
                     :top="'0px'"
                     :margin-between-name-avatar="'29px'"
                   />

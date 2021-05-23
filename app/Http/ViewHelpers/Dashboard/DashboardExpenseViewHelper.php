@@ -3,22 +3,24 @@
 namespace App\Http\ViewHelpers\Dashboard;
 
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Helpers\MoneyHelper;
-use App\Helpers\AvatarHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Expense;
+use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 
 class DashboardExpenseViewHelper
 {
     /**
-     * Array containing all the expenses that are waiting for accounting
-     * approval in the company.
+     * Get all the expenses that are waiting for accounting approval in the
+     * company.
      *
      * @param Company $company
+     * @param Employee $loggedEmployee
      * @return Collection|null
      */
-    public static function waitingForAccountingApproval(Company $company): ?Collection
+    public static function waitingForAccountingApproval(Company $company, Employee $loggedEmployee): ?Collection
     {
         $expenses = $company->expenses()
             ->with('category')
@@ -37,19 +39,19 @@ class DashboardExpenseViewHelper
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
                 'category' => ($expense->category) ? $expense->category->name : null,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
                 'manager' => $manager ? [
                     'id' => $manager->id,
                     'name' => $manager->name,
-                    'avatar' => AvatarHelper::getImage($manager),
+                    'avatar' => ImageHelper::getAvatar($manager, 18),
                 ] : ($expense->manager_approver_name == '' ? null : $expense->manager_approver_name),
                 'employee' => $expense->employee ? [
                     'id' => $expense->employee->id,
                     'name' => $expense->employee->name,
-                    'avatar' => AvatarHelper::getImage($expense->employee),
+                    'avatar' => ImageHelper::getAvatar($expense->employee, 18),
                 ] : [
                     'employee_name' => $expense->employee_name,
                 ],
@@ -64,13 +66,14 @@ class DashboardExpenseViewHelper
     }
 
     /**
-     * Array containing all the expenses that are waiting for manager
+     * Get all the expenses that are waiting for manager
      * approval in the company.
      *
      * @param Company $company
+     * @param Employee $loggedEmployee
      * @return Collection|null
      */
-    public static function waitingForManagerApproval(Company $company): ?Collection
+    public static function waitingForManagerApproval(Company $company, Employee $loggedEmployee): ?Collection
     {
         $expenses = $company->expenses()
             ->with('category')
@@ -89,7 +92,7 @@ class DashboardExpenseViewHelper
                     $managerCollection->push([
                         'id' => $manager->manager->id,
                         'name' => $manager->manager->name,
-                        'avatar' => AvatarHelper::getImage($manager->manager),
+                        'avatar' => ImageHelper::getAvatar($manager->manager, 18),
                     ]);
                 }
             }
@@ -100,7 +103,7 @@ class DashboardExpenseViewHelper
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
                 'category' => ($expense->category) ? $expense->category->name : null,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
@@ -108,7 +111,7 @@ class DashboardExpenseViewHelper
                 'employee' => ($expense->employee) ? [
                     'id' => $expense->employee->id,
                     'name' => $expense->employee->name,
-                    'avatar' => AvatarHelper::getImage($expense->employee),
+                    'avatar' => ImageHelper::getAvatar($expense->employee, 18),
                 ] : [
                     'employee_name' => $expense->employee_name,
                 ],
@@ -123,13 +126,14 @@ class DashboardExpenseViewHelper
     }
 
     /**
-     * Array containing all the expenses that have been either accepted or
+     * Get all the expenses that have been either accepted or
      * rejected.
      *
      * @param Company $company
+     * @param Employee $loggedEmployee
      * @return Collection|null
      */
-    public static function acceptedAndRejected(Company $company): ?Collection
+    public static function acceptedAndRejected(Company $company, Employee $loggedEmployee): ?Collection
     {
         $expenses = $company->expenses()
             ->with('category')
@@ -149,14 +153,14 @@ class DashboardExpenseViewHelper
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
                 'category' => ($expense->category) ? $expense->category->name : null,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
                 'employee' => ($expense->employee) ? [
                     'id' => $expense->employee->id,
                     'name' => $expense->employee->name,
-                    'avatar' => AvatarHelper::getImage($expense->employee),
+                    'avatar' => ImageHelper::getAvatar($expense->employee),
                 ] : [
                     'employee_name' => $expense->employee_name,
                 ],
@@ -171,65 +175,66 @@ class DashboardExpenseViewHelper
     }
 
     /**
-     * Array containing information about the given expense.
+     * Get all the information about the given expense.
      *
      * @param Expense $expense
+     * @param Employee $loggedEmployee
      * @return array
      */
-    public static function expense(Expense $expense): array
+    public static function expense(Expense $expense, Employee $loggedEmployee): array
     {
         $manager = $expense->managerApprover;
         $accountant = $expense->accountingApprover;
-        $employee = $expense->employee;
+        $expenseEmployee = $expense->employee;
 
         $expense = [
             'id' => $expense->id,
             'title' => $expense->title,
-            'created_at' => DateHelper::formatDate($expense->created_at),
+            'created_at' => DateHelper::formatDate($expense->created_at, $loggedEmployee->timezone),
             'amount' => MoneyHelper::format($expense->amount, $expense->currency),
             'status' => $expense->status,
             'category' => ($expense->category) ? $expense->category->name : null,
-            'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+            'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
             'converted_amount' => $expense->converted_amount ?
                 MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                 null,
             'converted_at' => $expense->converted_at ?
-                DateHelper::formatShortDateWithTime($expense->converted_at) :
+                DateHelper::formatShortDateWithTime($expense->converted_at, $loggedEmployee->timezone) :
                 null,
             'exchange_rate' => $expense->exchange_rate,
             'exchange_rate_explanation' => '1 '.$expense->converted_to_currency.' = '.$expense->exchange_rate.' '.$expense->currency,
             'manager' => $manager ? [
                 'id' => $manager->id,
                 'name' => $manager->name,
-                'avatar' => AvatarHelper::getImage($manager),
+                'avatar' => ImageHelper::getAvatar($manager),
                 'position' => $manager->position ? $manager->position->title : null,
                 'status' => $manager->status ? $manager->status->name : null,
             ] : [
                 'name' => $expense->manager_approver_name,
             ],
             'manager_approver_approved_at' => $expense->manager_approver_approved_at ?
-                DateHelper::formatDate($expense->manager_approver_approved_at) :
+                DateHelper::formatDate($expense->manager_approver_approved_at, $loggedEmployee->timezone) :
                 null,
             'manager_rejection_explanation' => $expense->manager_rejection_explanation,
             'accountant' => $accountant ? [
                 'id' => $accountant->id,
                 'name' => $accountant->name,
-                'avatar' => AvatarHelper::getImage($accountant),
+                'avatar' => ImageHelper::getAvatar($accountant),
                 'position' => $accountant->position ? $accountant->position->title : null,
                 'status' => $accountant->status ? $accountant->status->name : null,
             ] : [
                 'name' => $expense->accounting_approver_name,
             ],
             'accounting_approver_approved_at' => ($expense->accounting_approver_approved_at) ?
-                DateHelper::formatDate($expense->accounting_approver_approved_at) :
+                DateHelper::formatDate($expense->accounting_approver_approved_at, $loggedEmployee->timezone) :
                 null,
             'accounting_rejection_explanation' => $expense->accounting_rejection_explanation,
-            'employee' => $employee ? [
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
-                'position' => $employee->position ? $employee->position->title : null,
-                'status' => $employee->status ? $employee->status->name : null,
+            'employee' => $expenseEmployee ? [
+                'id' => $expenseEmployee->id,
+                'name' => $expenseEmployee->name,
+                'avatar' => ImageHelper::getAvatar($expenseEmployee),
+                'position' => $expenseEmployee->position ? $expenseEmployee->position->title : null,
+                'status' => $expenseEmployee->status ? $expenseEmployee->status->name : null,
             ] : [
                 'employee_name' => $expense->employee_name,
             ],

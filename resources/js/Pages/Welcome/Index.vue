@@ -6,7 +6,7 @@
 </style>
 
 <template>
-  <layout title="Home" :show-help-on-page="false" :notifications="notifications" data-cy="company-welcome" :data-cy-item="$page.props.auth.company.id">
+  <layout :show-help-on-page="false" :notifications="notifications" data-cy="company-welcome" :data-cy-item="$page.props.auth.company.id">
     <div class="ph2 ph0-ns">
       <!-- toggle button -->
       <p class="mt3 tc f6"><span class="mr1">🙈</span><a data-cy="hide-message" href="#" class="mb2" @click.prevent="hide()">{{ $t('welcome.hide_message_forever') }}</a></p>
@@ -17,8 +17,6 @@
         <p class="lh-copy">{{ $t('welcome.admin_line_1') }}</p>
         <p class="lh-copy mb4">{{ $t('welcome.admin_line_2') }}</p>
         <p class="mb4 tc"><a href="" class="btn"><span class="mr1">🙉</span> {{ $t('welcome.admin_guide_cta') }}</a></p>
-        <p class="lh-copy">{{ $t('welcome.admin_line_3') }}</p>
-        <p class="lh-copy">{{ $t('welcome.admin_line_4') }}</p>
       </div>
     </div>
   </layout>

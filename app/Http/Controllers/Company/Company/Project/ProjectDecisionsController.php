@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
-use App\Helpers\AvatarHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
@@ -32,6 +32,7 @@ class ProjectDecisionsController extends Controller
     public function index(Request $request, int $companyId, int $projectId)
     {
         $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
 
         try {
             $project = Project::where('company_id', $company->id)
@@ -45,7 +46,7 @@ class ProjectDecisionsController extends Controller
         return Inertia::render('Company/Project/Decisions/Index', [
             'tab' => 'decisions',
             'project' => ProjectViewHelper::info($project),
-            'decisions' => ProjectDecisionsViewHelper::decisions($project),
+            'decisions' => ProjectDecisionsViewHelper::decisions($project, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -79,7 +80,7 @@ class ProjectDecisionsController extends Controller
     }
 
     /**
-     * Search an employee to add as a team lead.
+     * Search an employee that made a decision.
      *
      * @param Request $request
      * @param int $companyId
@@ -87,22 +88,8 @@ class ProjectDecisionsController extends Controller
      */
     public function search(Request $request, int $companyId): JsonResponse
     {
-        $potentialEmployees = Employee::search(
-            $request->input('searchTerm'),
-            $companyId,
-            10,
-            'created_at desc',
-            'and locked = false',
-        );
-
-        $employees = collect([]);
-        foreach ($potentialEmployees as $employee) {
-            $employees->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
-            ]);
-        }
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $employees = ProjectDecisionsViewHelper::searchDeciders($loggedCompany, $request->input('searchTerm'));
 
         return response()->json([
             'data' => $employees,
@@ -148,7 +135,7 @@ class ProjectDecisionsController extends Controller
             $decidersCollection->push([
                 'id' => $decider->id,
                 'name' => $decider->name,
-                'avatar' => AvatarHelper::getImage($decider),
+                'avatar' => ImageHelper::getAvatar($decider, ),
                 'url' => route('employees.show', [
                     'company' => $loggedCompany,
                     'employee' => $decider,
@@ -160,7 +147,7 @@ class ProjectDecisionsController extends Controller
             'data' => [
                 'id' => $projectDecision->id,
                 'title' => $projectDecision->title,
-                'decided_at' => DateHelper::formatDate($projectDecision->decided_at),
+                'decided_at' => DateHelper::formatDate($projectDecision->decided_at, $loggedEmployee->timezone),
                 'deciders' => $decidersCollection,
             ],
         ], 201);

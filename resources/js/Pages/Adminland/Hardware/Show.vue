@@ -16,7 +16,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -145,7 +145,7 @@ export default {
     destroy(id) {
       axios.delete('/' + this.$page.props.auth.company.id + '/account/hardware/' + id)
         .then(response => {
-          flash(this.$t('account.position_success_destroy'), 'success');
+          this.flash(this.$t('account.position_success_destroy'), 'success');
           this.$inertia.visit('/' + this.$page.props.auth.company.id + '/account/hardware');
         })
         .catch(error => {

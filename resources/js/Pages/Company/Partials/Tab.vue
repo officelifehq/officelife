@@ -7,6 +7,9 @@
       <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(tab == 'projects')}">
         {{ $t('company.menu_projects') }}
       </inertia-link>
+      <inertia-link :href="'/' + $page.props.auth.company.id + '/company/groups'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(tab == 'groups')}">
+        {{ $t('company.menu_groups') }}
+      </inertia-link>
       <inertia-link :href="'/' + $page.props.auth.company.id + '/company/hr'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(tab == 'hr')}">
         {{ $t('company.menu_hr') }}
       </inertia-link>

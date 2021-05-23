@@ -3,7 +3,7 @@
 namespace App\Models\Company;
 
 use Carbon\Carbon;
-use App\Traits\Searchable;
+use App\Helpers\ImageHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Team extends Model
 {
     use LogsActivity,
-        Searchable,
         HasFactory;
 
     /**
@@ -29,26 +28,6 @@ class Team extends Model
         'name',
         'description',
         'team_leader_id',
-    ];
-
-    /**
-     * The attributes that are searchable with the trait.
-     *
-     * @var array
-     */
-    protected $searchableColumns = [
-        'name',
-    ];
-
-    /**
-     * The list of columns we want the Searchable trait to select.
-     *
-     * @var array
-     */
-    protected $returnFromSearch = [
-        'id',
-        'name',
-        'company_id',
     ];
 
     /**
@@ -156,7 +135,7 @@ class Team extends Model
                 ['worklogs.created_at', 'LIKE', $date->format('Y-m-d').'%'],
                 ['employee_team.team_id', '=', $this->id],
             ])
-            ->select('worklogs.content', 'employees.id', 'employees.first_name', 'employees.email', 'employees.last_name', 'employees.avatar')
+            ->select('worklogs.content', 'employees.id', 'employees.first_name', 'employees.email', 'employees.last_name', 'employees.avatar_file_id')
             ->get();
 
         foreach ($worklogs as $worklog) {
@@ -165,7 +144,9 @@ class Team extends Model
             $employee->email = $worklog->email;
             $employee->first_name = $worklog->first_name;
             $employee->last_name = $worklog->last_name;
+            $employee->avatar_file_id = $worklog->avatar_file_id;
             $worklog->name = $employee->name;
+            $worklog->avatar = ImageHelper::getAvatar($employee, 22);
         }
 
         return $worklogs;

@@ -4,10 +4,9 @@ namespace App\Models\Company;
 
 use Carbon\Carbon;
 use App\Models\User\User;
-use App\Traits\Searchable;
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Models\User\Pronoun;
-use App\Helpers\AvatarHelper;
 use App\Helpers\StringHelper;
 use App\Helpers\HolidayHelper;
 use Illuminate\Support\Collection;
@@ -15,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -25,7 +25,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Employee extends Model
 {
     use LogsActivity,
-        Searchable,
         HasFactory;
 
     protected $table = 'employees';
@@ -41,6 +40,7 @@ class Employee extends Model
         'email',
         'first_name',
         'last_name',
+        'timezone',
         'birthdate',
         'hired_at',
         'description',
@@ -55,41 +55,11 @@ class Employee extends Model
         'uuid',
         'phone_number',
         'locked',
-        'avatar',
-        'avatar_original_filename',
-        'avatar_extension',
-        'avatar_size',
-        'avatar_height',
-        'avatar_width',
+        'avatar_file_id',
         'holiday_balance',
         'default_dashboard_view',
         'can_manage_expenses',
         'display_welcome_message',
-    ];
-
-    /**
-     * The attributes that are searchable with the trait.
-     *
-     * @var array
-     */
-    protected $searchableColumns = [
-        'first_name',
-        'last_name',
-        'email',
-    ];
-
-    /**
-     * The list of columns we want the Searchable trait to select.
-     *
-     * @var array
-     */
-    protected $returnFromSearch = [
-        'id',
-        'first_name',
-        'last_name',
-        'email',
-        'avatar',
-        'company_id',
     ];
 
     /**
@@ -540,6 +510,36 @@ class Employee extends Model
     }
 
     /**
+     * Get the group records associated with the employee.
+     *
+     * @return BelongsToMany
+     */
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class)->withTimestamps();
+    }
+
+    /**
+     * Get the meeting objects the employee has participated.
+     *
+     * @return belongsToMany
+     */
+    public function meetings()
+    {
+        return $this->belongsToMany(Meeting::class)->withTimestamps()->withPivot('was_a_guest', 'attended');
+    }
+
+    /**
+     * Get the agenda item objects presented by the employee.
+     *
+     * @return HasMany
+     */
+    public function agendaItems()
+    {
+        return $this->hasMany(AgendaItem::class, 'presented_by_id');
+    }
+
+    /**
      * Get the file records associated with the employee as the uploader.
      *
      * @return HasMany
@@ -547,6 +547,26 @@ class Employee extends Model
     public function filesUploaded()
     {
         return $this->hasMany(File::class, 'uploader_employee_id', 'id');
+    }
+
+    /**
+     * Get the avatar associated with the employee.
+     *
+     * @return HasOne
+     */
+    public function picture()
+    {
+        return $this->hasOne(File::class, 'id', 'avatar_file_id');
+    }
+
+    /**
+     * Get the employee position history associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function positionHistoryEntries()
+    {
+        return $this->hasMany(EmployeePositionHistory::class);
     }
 
     /**
@@ -577,7 +597,7 @@ class Employee extends Model
             'name' => $this->name,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'avatar' => AvatarHelper::getImage($this),
+            'avatar' => ImageHelper::getAvatar($this),
             'email' => $this->email,
             'locked' => $this->locked,
             'birthdate' => (! $this->birthdate) ? null : [

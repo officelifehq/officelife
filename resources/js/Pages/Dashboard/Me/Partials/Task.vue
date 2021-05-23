@@ -21,9 +21,9 @@
             :datacy="'task-complete-cta'"
             :label="task.title"
             :extra-class-upper-div="'mb0 relative'"
-            :classes="'mb0'"
+            :class="'mb0'"
             :required="true"
-            @change="updateStatus($event)"
+            @update:model-value="updateStatus($event)"
           />
         </li>
       </ul>

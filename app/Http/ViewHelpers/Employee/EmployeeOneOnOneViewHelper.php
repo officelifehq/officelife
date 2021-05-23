@@ -4,7 +4,7 @@ namespace App\Http\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\OneOnOneEntry;
 use Illuminate\Database\Eloquent\Collection;
@@ -47,9 +47,10 @@ class EmployeeOneOnOneViewHelper
      *
      * @param Collection $oneOnOnes
      * @param Employee $employee
+     * @param Employee $loggedEmployee
      * @return SupportCollection
      */
-    public static function list(Collection $oneOnOnes, Employee $employee): SupportCollection
+    public static function list(Collection $oneOnOnes, Employee $employee, Employee $loggedEmployee): SupportCollection
     {
         $company = $employee->company;
 
@@ -57,14 +58,14 @@ class EmployeeOneOnOneViewHelper
         foreach ($oneOnOnes as $oneOnOne) {
             $collection->push([
                 'id' => $oneOnOne->id,
-                'happened_at' => DateHelper::formatDate($oneOnOne->happened_at),
+                'happened_at' => DateHelper::formatDate($oneOnOne->happened_at, $loggedEmployee->timezone),
                 'number_of_talking_points' => $oneOnOne->talkingPoints->count(),
                 'number_of_action_items' => $oneOnOne->actionItems->count(),
                 'number_of_notes' => $oneOnOne->notes->count(),
                 'manager' => [
                     'id' => $oneOnOne->manager->id,
                     'name' => $oneOnOne->manager->name,
-                    'avatar' => AvatarHelper::getImage($oneOnOne->manager),
+                    'avatar' => ImageHelper::getAvatar($oneOnOne->manager, 22),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $oneOnOne->manager,
@@ -84,10 +85,11 @@ class EmployeeOneOnOneViewHelper
     /**
      * Get the details of a one on one.
      *
-     * @var OneOnOneEntry
+     * @param OneOnOneEntry $entry
+     * @param Employee $employee
      * @return array
      */
-    public static function details(OneOnOneEntry $entry): array
+    public static function details(OneOnOneEntry $entry, Employee $employee): array
     {
         // get previous and next entries, if they exist
         $previousEntry = OneOnOneEntry::where('id', '<', $entry->id)
@@ -135,12 +137,12 @@ class EmployeeOneOnOneViewHelper
 
         $array = [
             'id' => $entry->id,
-            'happened_at' => DateHelper::formatDate($entry->happened_at),
+            'happened_at' => DateHelper::formatDate($entry->happened_at, $employee->timezone),
             'happened' => $entry->happened,
             'employee' => [
                 'id' => $entry->employee->id,
                 'name' => $entry->employee->name,
-                'avatar' => AvatarHelper::getImage($entry->employee),
+                'avatar' => ImageHelper::getAvatar($entry->employee, 22),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $entry->employee,
@@ -149,7 +151,7 @@ class EmployeeOneOnOneViewHelper
             'manager' => [
                 'id' => $entry->manager->id,
                 'name' => $entry->manager->name,
-                'avatar' => AvatarHelper::getImage($entry->manager),
+                'avatar' => ImageHelper::getAvatar($entry->manager, 22),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $entry->manager,
@@ -159,7 +161,7 @@ class EmployeeOneOnOneViewHelper
             'action_items' => $actionItems,
             'notes' => $notes,
             'previous_entry' => $previousEntry ? [
-                'happened_at' => DateHelper::formatDate($previousEntry->happened_at),
+                'happened_at' => DateHelper::formatDate($previousEntry->happened_at, $employee->timezone),
                 'url' => route('employees.show.performance.oneonones.show', [
                     'company' => $company,
                     'employee' => $entry->employee,
@@ -167,7 +169,7 @@ class EmployeeOneOnOneViewHelper
                 ]),
             ] : null,
             'next_entry' => $nextEntry ? [
-                'happened_at' => DateHelper::formatDate($nextEntry->happened_at),
+                'happened_at' => DateHelper::formatDate($nextEntry->happened_at, $employee->timezone),
                 'url' => route('employees.show.performance.oneonones.show', [
                     'company' => $company,
                     'employee' => $entry->employee,

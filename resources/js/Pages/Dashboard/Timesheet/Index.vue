@@ -46,184 +46,173 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <dashboard-menu :employee="employee" />
 
-      <div class="cf mw8 center br3 mb3 bg-white box pa3 relative">
-        <!-- information of timesheets that were rejected, if any -->
-        <div v-if="rejectedTimesheets" class="mb4 ba bb-gray pa3 br3">
-          <p class="mt0 mb2"><span class="mr1">⚠️</span> {{ $t('dashboard.timesheet_rejected_timesheets') }}</p>
-          <ul class="list ma0 pl0">
-            <li v-for="timesheetItem in rejectedTimesheets" :key="timesheetItem.id" class="dib rejected-timesheet-item mb2 f6 mr2">
-              <inertia-link :href="timesheetItem.url">{{ timesheetItem.started_at }}</inertia-link>
-            </li>
-          </ul>
-        </div>
+      <div class="cf mw8 center">
+        <span class="db fw5 mb2">
+          <span class="mr1">
+            📅
+          </span> {{ $t('dashboard.timesheet_title') }}
 
-        <!-- timesheets selector -->
-        <div class="mt0 mb5 lh-copy f6 tc relative">
-          <ul class="list pl0 ma0">
-            <li class="di mr3"><inertia-link :href="previousTimesheet.url" class="dib">&lt; {{ $t('dashboard.timesheet_previous_week') }}</inertia-link></li>
-            <li class="di mr3 fw5">{{ timesheet.start_date }} - {{ timesheet.end_date }}</li>
-            <li class="di"><inertia-link :href="nextTimesheet.url" class="dib">{{ $t('dashboard.timesheet_next_week') }} &gt;</inertia-link></li>
-          </ul>
+          <help :url="$page.props.help_links.time_tracking" />
+        </span>
 
-          <inertia-link v-if="currentTimesheet.id != timesheet.id" :href="currentTimesheet.url" class="absolute top-0 left-0">{{ $t('dashboard.timesheet_back_to_current') }}</inertia-link>
-        </div>
-
-        <!-- information to display when timesheet is either open or ready for approval-->
-        <div v-if="!displayNewEntry && timesheetStatus != 'approved'" class="mb3 relative">
-          <span class="absolute f7 grey">
-            {{ $t('dashboard.timesheet_auto_save') }}
-          </span>
-
-          <!-- actions if timesheet is open or rejected -->
-          <div v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'" class="tr">
-            <a data-cy="timesheet-add-new-row" class="btn f5 mr2" @click.prevent="showProjectList()">
-              {{ $t('dashboard.timesheet_add_new') }}
-            </a>
-            <a v-if="timesheet.entries.length > 0" data-cy="timesheet-submit-timesheet" class="btn add f5" @click.prevent="submit()">
-              {{ $t('dashboard.timesheet_submit') }}
-            </a>
+        <div class="br3 mb3 bg-white box pa3 relative">
+          <!-- information of timesheets that were rejected, if any -->
+          <div v-if="rejectedTimesheets.length > 0" class="mb4 ba bb-gray pa3 br3">
+            <p class="mt0 mb2"><span class="mr1">⚠️</span> {{ $t('dashboard.timesheet_rejected_timesheets') }}</p>
+            <ul class="list ma0 pl0">
+              <li v-for="timesheetItem in rejectedTimesheets" :key="timesheetItem.id" class="dib rejected-timesheet-item mb2 f6 mr2">
+                <inertia-link :href="timesheetItem.url">{{ timesheetItem.started_at }}</inertia-link>
+              </li>
+            </ul>
           </div>
 
-          <!-- Waiting for approval status -->
-          <div v-if="timesheetStatus == 'ready_to_submit'" data-cy="timesheet-status-awaiting" class="tr">
-            ⏳ {{ $t('dashboard.timesheet_status_ready') }}
-          </div>
-        </div>
+          <!-- timesheets selector -->
+          <div class="mt0 mb5 lh-copy f6 tc relative">
+            <ul class="list pl0 ma0">
+              <li class="di mr3"><inertia-link :href="previousTimesheet.url" class="dib">&lt; {{ $t('dashboard.timesheet_previous_week') }}</inertia-link></li>
+              <li class="di mr3 fw5">{{ timesheet.start_date }} - {{ timesheet.end_date }}</li>
+              <li class="di"><inertia-link :href="nextTimesheet.url" class="dib">{{ $t('dashboard.timesheet_next_week') }} &gt;</inertia-link></li>
+            </ul>
 
-        <!-- information to display when timesheet was approved or rejected -->
-        <div v-if="timesheetStatus == 'approved' || timesheetStatus == 'rejected'" :class="'relative pa3 mb3 br3 flex items-center justify-around ' + timesheetStatus">
-          <img v-if="timesheetStatus == 'rejected'" src="/img/streamline-icon-stamp@140x140.png" alt="rejected" height="80" width="80"
-               class="absolute stamp bg-white br-100 ba b--gray"
-          />
-          <img v-else src="/img/streamline-icon-approve-document@140x140.png" alt="approved" height="80" width="80"
-               class="absolute stamp bg-white br-100 ba b--gray"
-          />
-
-          <!-- approver name -->
-          <div>
-            <p v-if="timesheetStatus == 'approved'" class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_approved_by') }}</p>
-            <p v-else class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_rejected_by') }}</p>
-
-            <inertia-link v-if="hasID" :href="approverInformation.url" class="ma0">{{ approverInformation.name }}</inertia-link>
-            <p v-else class="ma0">{{ approverInformation.name }}</p>
+            <inertia-link v-if="currentTimesheet.id != timesheet.id" :href="currentTimesheet.url" class="absolute top-0 left-0">{{ $t('dashboard.timesheet_back_to_current') }}</inertia-link>
           </div>
 
-          <!-- approved date -->
-          <div>
-            <p v-if="timesheetStatus == 'approved'" class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_approved_on') }}</p>
-            <p v-else class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_rejected_on') }}</p>
-            <p class="ma0">{{ approverInformation.approved_at }}</p>
-          </div>
-        </div>
+          <!-- information to display when timesheet is either open or ready for approval-->
+          <div v-if="!displayNewEntry && timesheetStatus != 'approved'" class="mb3 relative">
+            <span class="absolute f7 grey">
+              {{ $t('dashboard.timesheet_auto_save') }}
+            </span>
 
-        <!-- add a new row -->
-        <form v-if="displayNewEntry" class="mb3 pa3 ba br2 bb-gray bg-gray" @submit.prevent="addBlankTimesheetRow()">
-          <!-- message to display if there are no projects in the account -->
-          <div v-if="projects.length == 0" class="tc">
-            {{ $t('dashboard.timesheet_no_projects') }}
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/create'">{{ $t('dashboard.timesheet_create_project') }}</inertia-link>
+            <!-- actions if timesheet is open or rejected -->
+            <div v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'" class="tr">
+              <a data-cy="timesheet-add-new-row" class="btn f5 mr2" @click.prevent="showProjectList()">
+                {{ $t('dashboard.timesheet_add_new') }}
+              </a>
+              <a v-if="timesheet.entries.length > 0" data-cy="timesheet-submit-timesheet" class="btn add f5" @click.prevent="submit()">
+                {{ $t('dashboard.timesheet_submit') }}
+              </a>
+            </div>
+
+            <!-- Waiting for approval status -->
+            <div v-if="timesheetStatus == 'ready_to_submit'" data-cy="timesheet-status-awaiting" class="tr">
+              ⏳ {{ $t('dashboard.timesheet_status_ready') }}
+            </div>
           </div>
 
-          <span v-else class="bb b--dotted bt-0 bl-0 br-0 pointer">
-            <select-box v-model="form.project"
-                        :options="projects"
-                        :name="'project_id'"
-                        :errors="$page.props.errors.project_id"
-                        :placeholder="$t('dashboard.timesheet_create_choose_project')"
-                        :label="$t('dashboard.timesheet_create_choose_project')"
-                        :data-cy="'project-selector'"
-                        :required="true"
-                        @input="showTasks($event)"
+          <!-- information to display when timesheet was approved or rejected -->
+          <div v-if="timesheetStatus == 'approved' || timesheetStatus == 'rejected'" :class="'relative pa3 mb3 br3 flex items-center justify-around ' + timesheetStatus">
+            <img v-if="timesheetStatus == 'rejected'" src="/img/streamline-icon-stamp@140x140.png" alt="rejected" height="80" width="80"
+                 class="absolute stamp bg-white br-100 ba b--gray"
+            />
+            <img v-else src="/img/streamline-icon-approve-document@140x140.png" alt="approved" height="80" width="80"
+                 class="absolute stamp bg-white br-100 ba b--gray"
             />
 
-            <select-box
-              v-if="displayTasks"
-              v-model="form.task"
-              :options="tasks"
-              :name="'task_id'"
-              :errors="$page.props.errors.task_id"
-              :placeholder="$t('dashboard.timesheet_create_choose_task')"
-              :label="$t('dashboard.timesheet_create_choose_task')"
-              :required="true"
-              :data-cy="'task-selector'"
-              @input="showTasks($event)"
-            />
-          </span>
+            <!-- approver name -->
+            <div>
+              <p v-if="timesheetStatus == 'approved'" class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_approved_by') }}</p>
+              <p v-else class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_rejected_by') }}</p>
 
-          <!-- Actions -->
-          <div v-if="projects.length != 0">
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 mr2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-timesheet-new-row'" />
-            <a data-cy="cancel-button" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="displayNewEntry = false">
-              {{ $t('app.cancel') }}
-            </a>
+              <inertia-link v-if="hasID" :href="approverInformation.url" class="ma0">{{ approverInformation.name }}</inertia-link>
+              <p v-else class="ma0">{{ approverInformation.name }}</p>
+            </div>
+
+            <!-- approved date -->
+            <div>
+              <p v-if="timesheetStatus == 'approved'" class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_approved_on') }}</p>
+              <p v-else class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_rejected_on') }}</p>
+              <p class="ma0">{{ approverInformation.approved_at }}</p>
+            </div>
           </div>
-        </form>
 
-        <div v-if="timesheetRows.length == 0" class="tc mv4">
-          <img loading="lazy" src="/img/streamline-icon-building-site@140x140.png" height="140" width="140" alt="building"
-               class="top-1 left-1"
-          />
-          <p>{{ $t('dashboard.timesheet_blank') }}</p>
-        </div>
+          <!-- add a new row -->
+          <form v-if="displayNewEntry" class="mb3 pa3 ba br2 bb-gray bg-gray" @submit.prevent="addBlankTimesheetRow()">
+            <!-- message to display if there are no projects in the account -->
+            <div v-if="projects.length == 0" class="tc">
+              {{ $t('dashboard.timesheet_no_projects') }}
+              <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/create'">{{ $t('dashboard.timesheet_create_project') }}</inertia-link>
+            </div>
 
-        <div v-else class="dt bt br bb-gray w-100">
-          <!-- header -->
-          <timesheet-header :days="daysHeader" />
+            <span v-else class="bb b--dotted bt-0 bl-0 br-0 pointer">
+              <select-box :ref="'projects'"
+                          v-model="form.project"
+                          :options="projects"
+                          :name="'project_id'"
+                          :errors="$page.props.errors.project_id"
+                          :placeholder="$t('dashboard.timesheet_create_choose_project')"
+                          :label="$t('dashboard.timesheet_create_choose_project')"
+                          :data-cy="'project-selector'"
+                          :required="true"
+                          @update:model-value="showTasks"
+              />
 
-          <!-- entries -->
-          <timesheet-row v-for="row in timesheetRows" :key="row.task_id"
-                         :row-coming-from-backend="row"
-                         :timesheet="timesheet"
-                         :timesheet-status="timesheetStatus"
-                         @day-updated="refreshDayInformation"
-                         @update-weekly-total="updateWeeklyTotal"
-                         @row-deleted="removeRow"
-          />
+              <select-box v-if="displayTasks"
+                          :ref="'tasks'"
+                          v-model="form.task"
+                          :options="tasks"
+                          :name="'task_id'"
+                          :errors="$page.props.errors.task_id"
+                          :placeholder="$t('dashboard.timesheet_create_choose_task')"
+                          :label="$t('dashboard.timesheet_create_choose_task')"
+                          :required="true"
+                          :data-cy="'task-selector'"
+                          @update:model-value="showTasks"
+              />
+            </span>
 
-          <!-- total -->
-          <div class="dt-row">
-            <div class="f6 ph2 dtc bt bl bb bb-gray project v-mid">
-              <div class="flex justify-between items-center">
-                <span class="db pb1 fw5">
-                  {{ $t('dashboard.timesheet_total') }}
-                </span>
-                <span class="f7 fw5">
-                  {{ weeklyTotalHumanReadable }}
-                </span>
+            <!-- Actions -->
+            <div v-if="projects.length != 0">
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 mr2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-timesheet-new-row'" />
+              <a data-cy="cancel-button" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="displayNewEntry = false">
+                {{ $t('app.cancel') }}
+              </a>
+            </div>
+          </form>
+
+          <div v-if="timesheetRows.length == 0" class="tc mv4">
+            <img loading="lazy" src="/img/streamline-icon-building-site@140x140.png" height="140" width="140" alt="building"
+                 class="top-1 left-1"
+            />
+            <p>{{ $t('dashboard.timesheet_blank') }}</p>
+          </div>
+
+          <div v-else class="dt bt br bb-gray w-100">
+            <!-- header -->
+            <timesheet-header :days="daysHeader" />
+
+            <!-- entries -->
+            <timesheet-row v-for="row in timesheetRows" :key="row.task_id"
+                           :row-coming-from-backend="row"
+                           :timesheet="timesheet"
+                           :timesheet-status="timesheetStatus"
+                           @day-updated="refreshDayInformation"
+                           @update-weekly-total="updateWeeklyTotal"
+                           @row-deleted="removeRow"
+            />
+
+            <!-- total -->
+            <div class="dt-row">
+              <div class="f6 ph2 dtc bt bl bb bb-gray project v-mid">
+                <div class="flex justify-between items-center">
+                  <span class="db pb1 fw5">
+                    {{ $t('dashboard.timesheet_total') }}
+                  </span>
+                  <span class="f7 fw5">
+                    {{ weeklyTotalHumanReadable }}
+                  </span>
+                </div>
               </div>
-            </div>
 
-            <!-- daily total: monday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[0]) }}
-            </div>
-            <!-- daily total: tuesday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[1]) }}
-            </div>
-            <!-- daily total: wednesday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[2]) }}
-            </div>
-            <!-- daily total: thursday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[3]) }}
-            </div>
-            <!-- daily total: friday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              {{ formatTime(dailyStats[4]) }}
-            </div>
-            <!-- daily total: saturday -->
-            <div class="tc pv2 dtc bt bl bb bb-gray off-days f7 gray">
-              {{ formatTime(dailyStats[5]) }}
-            </div>
-            <!-- daily total: sunday -->
-            <div class="tc pv2 bt bl bb bb-gray off-days f7 gray">
-              {{ formatTime(dailyStats[6]) }}
+              <!-- daily total -->
+              <div v-for="n in 7" :key="n" class="tc pv2 dtc bt bl bb bb-gray f7 gray"
+                   :class="[ n === 6 || n === 7 ? 'off-days' : '' ]"
+              >
+                {{ formatTime(dailyStats[n-1]) }}
+              </div>
             </div>
           </div>
         </div>
@@ -239,6 +228,7 @@ import TimesheetRow from '@/Pages/Dashboard/Timesheet/Partials/TimesheetRow';
 import TimesheetHeader from '@/Pages/Dashboard/Timesheet/Partials/TimesheetHeader';
 import SelectBox from '@/Shared/Select';
 import LoadingButton from '@/Shared/LoadingButton';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
@@ -248,6 +238,7 @@ export default {
     TimesheetHeader,
     SelectBox,
     LoadingButton,
+    Help,
   },
 
   props: {
@@ -320,7 +311,7 @@ export default {
     this.refreshWeeklyTotal();
 
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
 
       localStorage.removeItem('success');
     }
@@ -336,9 +327,7 @@ export default {
     // the data has changed in the child
     refreshDayInformation({id, day, value}) {
       var id = this.timesheetRows.findIndex(x => x.task_id === id);
-      var row = this.timesheetRows[id];
-      row.days[day].total_of_minutes = value;
-      this.$set(this.timesheetRows, id, row);
+      this.timesheetRows[id].days[day].total_of_minutes = value;
     },
 
     showProjectList() {
@@ -365,7 +354,7 @@ export default {
     },
 
     getTasksList() {
-      axios.get(`/${this.$page.props.auth.company.id}/dashboard/timesheet/${this.timesheet.id}/projects/${this.form.project.value}/tasks`)
+      axios.get(`/${this.$page.props.auth.company.id}/dashboard/timesheet/${this.timesheet.id}/projects/${this.form.project}/tasks`)
         .then(response => {
           this.tasks = response.data.data;
         })
@@ -388,11 +377,11 @@ export default {
 
     addBlankTimesheetRow() {
       this.timesheetRows.push({
-        project_id: this.form.project.value,
-        project_name: this.form.project.label,
-        project_code: this.form.project.code,
-        task_id: this.form.task.value,
-        task_title: this.form.task.label,
+        project_id: this.form.project,
+        project_name: this.$refs.projects.proxyValue.label,
+        project_code: this.$refs.projects.proxyValue.code,
+        task_id: this.form.task,
+        task_title: this.$refs.tasks.proxyValue.label,
         total_this_week: 0,
         days: [
           {
@@ -431,9 +420,7 @@ export default {
 
     updateWeeklyTotal({id, value}) {
       var id = this.timesheetRows.findIndex(x => x.task_id === id);
-      var row = this.timesheetRows[id];
-      row.total_this_week = value;
-      this.$set(this.timesheetRows, id, row);
+      this.timesheetRows[id].total_this_week = value;
 
       this.refreshWeeklyTotal();
       this.refreshDailyTotal();
@@ -472,7 +459,6 @@ export default {
     },
 
     removeRow({id}) {
-      console.log(id);
       var id = this.timesheetRows.findIndex(x => x.task_id === id);
       this.timesheetRows.splice(id, 1);
     }

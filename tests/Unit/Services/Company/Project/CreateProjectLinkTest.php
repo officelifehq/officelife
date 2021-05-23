@@ -93,6 +93,11 @@ class CreateProjectLinkTest extends TestCase
             'url' => 'https',
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         $this->assertInstanceOf(
             ProjectLink::class,
             $projectLink

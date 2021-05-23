@@ -8,6 +8,7 @@ use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\ProjectMemberActivity;
 
 class UpdateProjectLead extends BaseService
 {
@@ -43,6 +44,7 @@ class UpdateProjectLead extends BaseService
         $this->data = $data;
         $this->validate();
         $this->updateLead();
+        $this->logActivity();
         $this->log();
 
         return $this->employee;
@@ -65,6 +67,9 @@ class UpdateProjectLead extends BaseService
 
     private function updateLead(): void
     {
+        $this->project->project_lead_id = $this->data['employee_id'];
+        $this->project->save();
+
         // check if the new lead is part of the project - if not, add him
         if ($this->employee->isInProject($this->project->id)) {
             return;
@@ -75,9 +80,14 @@ class UpdateProjectLead extends BaseService
                 ],
             ]);
         }
+    }
 
-        $this->project->project_lead_id = $this->data['employee_id'];
-        $this->project->save();
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void

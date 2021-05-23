@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
 .logo {
-  width: 152px;
-  top: -70px;
+  width: 102px;
+  top: -78px;
 }
 </style>
 
@@ -52,7 +52,7 @@
 
           <!-- Actions -->
           <div class="flex-ns justify-between">
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.register_cta')" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.register_cta')" />
           </div>
         </form>
       </div>

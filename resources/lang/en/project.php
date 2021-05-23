@@ -16,6 +16,7 @@ return [
     'menu_members' => 'Members',
     'menu_finance' => 'Finance',
     'menu_files' => 'Files',
+    'menu_members_icons' => 'Project members',
 
     'summary_cta_start_project' => 'Start project',
     'summary_cta_pause_project' => 'Pause',
@@ -117,6 +118,7 @@ return [
     'task_blank_desc' => 'Tasks let you track progress and assign work so everyone is accountable to move things forward.',
     'task_edit_cta' => 'Edit task',
     'task_edit_assignee' => 'Who is responsible',
+    'task_edit_time' => 'How much time have you worked on this today?',
     'task_add_cta' => 'Add new task',
     'task_add_title' => 'Name of the task',
     'task_create_title' => 'Name of the list',
@@ -137,4 +139,9 @@ return [
     'task_show_added_by' => 'Added by',
     'task_show_created_on' => 'Created on',
     'task_show_action_log' => 'Log time',
+
+    'file_title' => 'All the files in the project',
+    'file_blank_state' => 'Upload a file here to keep information forever!',
+    'file_upload_success' => 'The file has been uploaded.',
+    'file_deletion_success' => 'The file has been deleted.',
 ];

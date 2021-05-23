@@ -47,7 +47,7 @@ class QuestionTest extends TestCase
                     'id' => $dunder->id,
                 ],
                 'title' => 'dunder',
-                'active' => true,
+                'active' => false,
                 'url' => env('APP_URL').'/'.$dunder->id.'/company/questions/'.$question->id,
                 'number_of_answers' => 0,
                 'created_at' => '2020-01-12 00:00:00',

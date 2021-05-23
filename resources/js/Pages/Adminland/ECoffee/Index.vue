@@ -22,7 +22,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -69,8 +69,8 @@
               <form @submit.prevent="toggleProcess">
                 <errors :errors="form.errors" />
 
-                <loading-button v-if="!localECoffee.enabled" :classes="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.enable')" :cypress-selector="'enable-ecoffee-process'" />
-                <loading-button v-if="localECoffee.enabled" :classes="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.disable')" :cypress-selector="'disable-ecoffee-process'" />
+                <loading-button v-if="!localECoffee.enabled" :class="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.enable')" :cypress-selector="'enable-ecoffee-process'" />
+                <loading-button v-if="localECoffee.enabled" :class="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.disable')" :cypress-selector="'disable-ecoffee-process'" />
               </form>
             </div>
           </div>

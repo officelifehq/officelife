@@ -4,7 +4,7 @@ namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Expense;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -33,7 +33,7 @@ class DashboardExpenseViewHelperTest extends TestCase
             'status' => Expense::CREATED,
         ]);
 
-        $collection = DashboardExpenseViewHelper::waitingForAccountingApproval($michael->company);
+        $collection = DashboardExpenseViewHelper::waitingForAccountingApproval($michael->company, $michael);
 
         $this->assertEquals(1, $collection->count());
 
@@ -51,7 +51,7 @@ class DashboardExpenseViewHelperTest extends TestCase
                     'employee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => AvatarHelper::getImage($michael),
+                        'avatar' => ImageHelper::getAvatar($michael, 18),
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/expenses/'.$expense->id,
                 ],
@@ -90,7 +90,7 @@ class DashboardExpenseViewHelperTest extends TestCase
             'status' => Expense::CREATED,
         ]);
 
-        $collection = DashboardExpenseViewHelper::waitingForManagerApproval($michael->company);
+        $collection = DashboardExpenseViewHelper::waitingForManagerApproval($michael->company, $michael);
 
         $this->assertEquals(2, $collection->count());
 
@@ -108,7 +108,7 @@ class DashboardExpenseViewHelperTest extends TestCase
                     'employee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => AvatarHelper::getImage($michael),
+                        'avatar' => ImageHelper::getAvatar($michael, 18),
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/expenses/'.$expenseWithoutManager->id,
                 ],
@@ -124,7 +124,7 @@ class DashboardExpenseViewHelperTest extends TestCase
                     'employee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => AvatarHelper::getImage($michael),
+                        'avatar' => ImageHelper::getAvatar($michael, 18),
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/expenses/'.$expenseWithManager->id,
                 ],
@@ -151,7 +151,7 @@ class DashboardExpenseViewHelperTest extends TestCase
             'converted_to_currency' => 'EUR',
         ]);
 
-        $expense = DashboardExpenseViewHelper::expense($expense);
+        $expense = DashboardExpenseViewHelper::expense($expense, $michael);
 
         $this->assertArrayHasKey('id', $expense);
         $this->assertArrayHasKey('title', $expense);

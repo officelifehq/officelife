@@ -6,9 +6,14 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <dashboard-menu :employee="employee" />
+
+      <projects
+        v-if="projects.length > 0"
+        :projects="projects"
+      />
 
       <e-coffee
         v-if="eCoffee"
@@ -34,28 +39,20 @@
       />
 
       <work-from-home
-        :employee="employee"
-        class="mb5"
+        :work-from-home="workFromHome"
       />
 
       <worklogs
-        :worklog-count="worklogCount"
-        :employee="employee"
-        class="mb5"
+        :worklogs="worklogs"
       />
 
       <morale
-        :morale-count="moraleCount"
-        :employee="employee"
+        :morale="morale"
       />
 
       <question
         :employee="employee"
-      />
-
-      <task
-        :employee="employee"
-        :tasks="tasks"
+        :question="question"
       />
 
       <expense
@@ -65,27 +62,6 @@
         :currencies="currencies"
         :default-currency="defaultCurrency"
       />
-
-      <div class="cf mt4 mw7 center br3 mb3 bg-white box">
-        <div class="pa3">
-          <h2>Me</h2>
-          <ul>
-            <li>View holidays</li>
-            <li>Book time off</li>
-            <li>Log morale</li>
-            <li>Reply to what you've done this week</li>
-            <li>Log an expense</li>
-            <li>View one on ones</li>
-            <li>View all my tasks</li>
-            <li>quizz hebdo pour apprendre à connaitre</li>
-            <li>donner des statistics sur le nombre de femmes/hommes avec un poste à responsabilité</li>
-            <li>donner le ratio homme/femme par poste dans l'onglet Positions</li>
-            <li>rechercher par "position"</li>
-            <li>gestion du materiel informatique</li>
-            <li>Onboarding questionaire</li>
-          </ul>
-        </div>
-      </div>
     </div>
   </layout>
 </template>
@@ -95,7 +71,6 @@ import Worklogs from '@/Pages/Dashboard/Me/Partials/Worklogs';
 import Morale from '@/Pages/Dashboard/Me/Partials/Morale';
 import WorkFromHome from '@/Pages/Dashboard/Me/Partials/WorkFromHome';
 import Question from '@/Pages/Dashboard/Me/Partials/Question';
-import Task from '@/Pages/Dashboard/Me/Partials/Task';
 import Expense from '@/Pages/Dashboard/Me/Partials/Expense';
 import RateYourManager from '@/Pages/Dashboard/Me/Partials/RateYourManager';
 import OneOnOneWithManager from '@/Pages/Dashboard/Me/Partials/OneOnOneWithManager';
@@ -103,6 +78,7 @@ import ContractRenewalDate from '@/Pages/Dashboard/Me/Partials/ContractRenewalDa
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 import ECoffee from '@/Pages/Dashboard/Me/Partials/ECoffee';
+import Projects from '@/Pages/Dashboard/Me/Partials/Projects';
 
 export default {
   components: {
@@ -110,7 +86,6 @@ export default {
     Worklogs,
     Morale,
     Question,
-    Task,
     Expense,
     WorkFromHome,
     RateYourManager,
@@ -118,20 +93,13 @@ export default {
     ContractRenewalDate,
     DashboardMenu,
     ECoffee,
+    Projects,
   },
 
   props: {
     employee: {
       type: Object,
       default: null,
-    },
-    worklogCount: {
-      type: Number,
-      default: 0,
-    },
-    moraleCount: {
-      type: Number,
-      default: 0,
     },
     notifications: {
       type: Array,
@@ -143,6 +111,10 @@ export default {
     },
     tasks: {
       type: Array,
+      default: null,
+    },
+    morale: {
+      type: Object,
       default: null,
     },
     categories: {
@@ -174,6 +146,22 @@ export default {
       default: null,
     },
     eCoffee: {
+      type: Object,
+      default: null,
+    },
+    projects: {
+      type: Array,
+      default: null,
+    },
+    worklogs: {
+      type: Object,
+      default: null,
+    },
+    workFromHome: {
+      type: Object,
+      default: null,
+    },
+    question: {
       type: Object,
       default: null,
     },

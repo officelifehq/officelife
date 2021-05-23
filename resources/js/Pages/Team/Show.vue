@@ -20,13 +20,13 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mb3 mw7 br3 center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.props.auth.company.id + '/teams'">{{ $t('app.breadcrumb_team_list') }}</inertia-link>
@@ -91,7 +91,9 @@
 
           <!-- News -->
           <h3 class="db fw5 mb3 flex justify-between items-center">
-            <span>🗞 {{ $tc('team.count_team_news', newsCount, { count: newsCount }) }}</span>
+            <span><span class="mr1">
+              🗞
+            </span> {{ $tc('team.count_team_news', newsCount, { count: newsCount }) }}</span>
             <inertia-link v-if="userBelongsToTheTeam || $page.props.auth.employee.permission_level <= 200" :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/news/create'" class="btn f5" data-cy="add-team-news">{{ $t('team.news_write') }}</inertia-link>
           </h3>
 
@@ -121,6 +123,15 @@
               {{ $t('team.news_blank') }}
             </div>
           </div>
+
+          <!-- birthdays -->
+          <birthdays :birthdays="birthdays" />
+
+          <!-- morale -->
+          <morale :morale="morale" />
+
+          <!-- hiring date anniversaries -->
+          <new-hires-next-week :hires="newHiresNextWeek" />
         </div>
       </div>
     </div>
@@ -132,18 +143,24 @@ import Layout from '@/Shared/Layout';
 import vClickOutside from 'v-click-outside';
 import Members from '@/Pages/Team/Partials/Members';
 import TeamDescription from '@/Pages/Team/Partials/TeamDescription';
+import NewHiresNextWeek from '@/Pages/Team/Partials/NewHiresNextWeek';
 import TeamLead from '@/Pages/Team/Partials/TeamLead';
 import TeamUsefulLink from '@/Pages/Team/Partials/TeamUsefulLink';
 import RecentShips from '@/Pages/Team/Partials/RecentShips';
+import Birthdays from '@/Pages/Team/Partials/Birthdays';
+import Morale from '@/Pages/Team/Partials/Morale';
 
 export default {
   components: {
     Layout,
     Members,
     TeamDescription,
+    NewHiresNextWeek,
     TeamLead,
     TeamUsefulLink,
     RecentShips,
+    Birthdays,
+    Morale,
   },
 
   directives: {
@@ -175,6 +192,10 @@ export default {
       type: Array,
       default: null,
     },
+    birthdays: {
+      type: Array,
+      default: null,
+    },
     newsCount: {
       type: Number,
       default: null,
@@ -191,6 +212,14 @@ export default {
       type: Array,
       default: null,
     },
+    morale: {
+      type: Array,
+      default: null,
+    },
+    newHiresNextWeek: {
+      type: Array,
+      default: null,
+    },
   },
 
   data() {
@@ -204,7 +233,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },

@@ -4,7 +4,7 @@ namespace Tests\Unit\ViewHelpers\Company\Project;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Project;
 use App\Models\Company\Timesheet;
 use App\Models\Company\ProjectTask;
@@ -53,7 +53,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'assignee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => AvatarHelper::getImage($michael),
+                        'avatar' => ImageHelper::getAvatar($michael, 15),
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                 ],
@@ -130,7 +130,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'assignee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => AvatarHelper::getImage($michael),
+                        'avatar' => ImageHelper::getAvatar($michael, 15),
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                 ],
@@ -198,7 +198,7 @@ class ProjectTasksViewHelperTest extends TestCase
             'assignee_id' => $michael->id,
         ]);
 
-        $array = ProjectTasksViewHelper::getTaskFullDetails($projectTaskA, $michael->company);
+        $array = ProjectTasksViewHelper::getTaskFullDetails($projectTaskA, $michael->company, $michael);
 
         $this->assertEquals(
             [
@@ -213,7 +213,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'author' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => AvatarHelper::getImage($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 35),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     'role' => null,
                     'added_at' => null,
@@ -222,7 +222,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'assignee' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => AvatarHelper::getImage($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 35),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
             ],
@@ -286,7 +286,7 @@ class ProjectTasksViewHelperTest extends TestCase
             'duration' => 100,
         ]);
 
-        $array = ProjectTasksViewHelper::taskDetails($projectTask, $michael->company);
+        $array = ProjectTasksViewHelper::taskDetails($projectTask, $michael->company, $michael);
 
         $this->assertEquals(
             [
@@ -301,7 +301,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'author' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => AvatarHelper::getImage($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 35),
                     'role' => null,
                     'added_at' => null,
                     'position' => $michael->position->title,
@@ -310,7 +310,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'assignee' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => AvatarHelper::getImage($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 35),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
             ],
@@ -354,7 +354,7 @@ class ProjectTasksViewHelperTest extends TestCase
             'duration' => 100,
         ]);
 
-        $collection = ProjectTasksViewHelper::timeTrackingEntries($projectTask, $michael->company);
+        $collection = ProjectTasksViewHelper::timeTrackingEntries($projectTask, $michael->company, $michael);
 
         $this->assertEquals(
             [

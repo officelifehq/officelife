@@ -38,7 +38,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -71,7 +71,7 @@
           </span>
           <span v-if="editMode" class="f5">
             <form @submit.prevent="update">
-              <errors :errors="form.errors" :classes="'tl mb2'" />
+              <errors :errors="form.errors" :class="'tl mb2'" />
 
               <text-input :ref="'editModal'"
                           v-model="form.name"
@@ -85,7 +85,7 @@
                 <a class="btn dib-l db mb2 mb0-ns" data-cy="rename-cancel-button" @click.prevent="editMode = false">
                   {{ $t('app.cancel') }}
                 </a>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="rename-cta-button" :state="loadingState" :text="$t('app.update')" />
+                <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="rename-cta-button" :state="loadingState" :text="$t('app.update')" />
               </div>
             </form>
           </span>
@@ -115,7 +115,7 @@
         <!-- list of employees with this skill -->
         <ul class="list pl0 mb0" data-cy="list-of-employees">
           <li v-for="employee in employees" :key="employee.id" :data-cy="'employee-' + employee.id" class="relative ba bb-gray bb-gray-hover pa3 br3 flex items-center employee">
-            <img loading="lazy" :src="employee.avatar" class="br-100 avatar" alt="avatar" />
+            <avatar :avatar="employee.avatar" :size="64" :class="'avatar br-100'" />
 
             <div class="ml3 mw-100">
               <inertia-link :href="employee.url">{{ employee.name }}</inertia-link>
@@ -154,10 +154,12 @@ import Help from '@/Shared/Help';
 import TextInput from '@/Shared/TextInput';
 import LoadingButton from '@/Shared/LoadingButton';
 import Errors from '@/Shared/Errors';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Avatar,
     Help,
     TextInput,
     Errors,
@@ -208,7 +210,7 @@ export default {
       this.editMode = true;
 
       this.$nextTick(() => {
-        this.$refs['editModal'].$refs['input'].focus();
+        this.$refs.editModal.focus();
       });
     },
 
@@ -217,7 +219,7 @@ export default {
 
       axios.put('/' + this.$page.props.auth.company.id + '/company/skills/' + this.skill.id, this.form)
         .then(response => {
-          flash(this.$t('company.skill_update_success'), 'success');
+          this.flash(this.$t('company.skill_update_success'), 'success');
           this.updatedName = this.form.name;
           this.editMode = false;
         })

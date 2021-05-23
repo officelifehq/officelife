@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .avatar {
   left: 1px;
   top: 5px;
@@ -23,7 +25,9 @@
 <template>
   <div>
     <h3 class="db fw5 mb3 flex justify-between items-center">
-      <span>🤼‍♀️ {{ $tc('team.count_team_members', listOfEmployees.length, { count: listOfEmployees.length }) }}</span>
+      <span><span class="mr1">
+        🤼‍♀️
+      </span> {{ $tc('team.count_team_members', listOfEmployees.length, { count: listOfEmployees.length }) }}</span>
 
       <!-- actions -->
       <a v-if="!editMode && $page.props.auth.employee.permission_level <= 200" href="" class="btn f5" data-cy="manage-team-on" @click.prevent="editMode = true">{{ $t('team.members_enable_manage_mode') }}</a>
@@ -43,7 +47,7 @@
                       :placeholder="$t('team.members_add_input_help')"
                       :required="false"
                       @keyup="search"
-                      @input="search"
+                      @update:model-value="search"
           />
           <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
         </form>
@@ -65,10 +69,10 @@
       </div>
 
       <!-- list of employees -->
-      <div v-show="listOfEmployees.length > 0" class="pa3 flex flex-wrap employee-list">
+      <div v-if="listOfEmployees.length > 0" class="pa3 flex flex-wrap employee-list">
         <div v-for="employee in listOfEmployees" :key="employee.id" class="mb4 mr3" data-cy="members-list">
           <span class="pl3 db relative team-member">
-            <img loading="lazy" :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />
+            <avatar :avatar="employee.avatar" :size="35" :class="'br-100 absolute avatar'" />
 
             <!-- normal mode -->
             <inertia-link v-show="!editMode" :href="employee.url" class="mb2">
@@ -97,7 +101,7 @@
       </div>
 
       <!-- blank state -->
-      <div v-show="listOfEmployees.length == 0" class="pa3 tc" data-cy="members-list-blank-state">
+      <div v-if="listOfEmployees.length == 0" class="pa3 tc" data-cy="members-list-blank-state">
         <p class="mv0">{{ $t('team.members_blank') }}</p>
       </div>
     </div>
@@ -106,12 +110,13 @@
 
 <script>
 import TextInput from '@/Shared/TextInput';
-import 'vue-loaders/dist/vue-loaders.css';
+import Avatar from '@/Shared/Avatar';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
   components: {
     TextInput,
+    Avatar,
     'ball-pulse-loader': BallPulseLoader.component,
   },
 
@@ -149,7 +154,7 @@ export default {
 
     // when a team lead is set, we must react to the event emitted by the
     // TeamLead.vue component and add the team lead to the list of employees
-    this.$root.$on('lead-set', employee => {
+    this.$on('lead-set', employee => {
       var id = this.listOfEmployees.findIndex(member => member.id === employee.id);
 
       if (id === -1) {
@@ -192,7 +197,7 @@ export default {
           this.potentialMembers = [];
           this.form.searchTerm = '';
 
-          flash(this.$t('account.employee_statuses_success_destroy'), 'success');
+          this.flash(this.$t('account.employee_statuses_success_destroy'), 'success');
         })
         .catch(error => {
           this.form.errors = error.response.data;
@@ -207,7 +212,7 @@ export default {
           var id = this.listOfEmployees.findIndex(member => member.id === employee.id);
           this.listOfEmployees.splice(id, 1);
 
-          flash(this.$t('account.employee_statuses_success_destroy'), 'success');
+          this.flash(this.$t('account.employee_statuses_success_destroy'), 'success');
         })
         .catch(error => {
           this.form.errors = error.response.data;

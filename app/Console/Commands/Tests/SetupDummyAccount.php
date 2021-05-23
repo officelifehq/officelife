@@ -5,6 +5,8 @@ namespace App\Console\Commands\Tests;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Faker\Factory as Faker;
+use App\Jobs\LogTeamsMorale;
+use App\Models\Company\File;
 use App\Models\Company\Team;
 use App\Models\User\Pronoun;
 use App\Models\Company\Company;
@@ -13,24 +15,31 @@ use Illuminate\Console\Command;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
+use Illuminate\Support\Facades\DB;
 use App\Models\Company\ECoffeeMatch;
 use App\Services\User\CreateAccount;
 use App\Models\Company\ProjectStatus;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Services\Company\Team\SetTeamLead;
+use App\Services\Company\Group\CreateGroup;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
+use App\Services\Company\Group\CreateMeeting;
 use App\Services\Company\Project\StartProject;
 use App\Services\Company\Team\Ship\CreateShip;
+use App\Models\Company\EmployeePositionHistory;
 use App\Services\Company\Project\CreateProject;
+use App\Services\Company\Group\CreateAgendaItem;
+use App\Services\Company\Group\UpdateMeetingDate;
 use Symfony\Component\Console\Helper\ProgressBar;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Employee\Morale\LogMorale;
 use App\Services\Company\Project\CreateProjectLink;
 use App\Services\Company\Project\CreateProjectTask;
 use App\Services\Company\Employee\Worklog\LogWorklog;
+use App\Services\Company\Group\CreateMeetingDecision;
 use App\Services\Company\Project\CreateProjectStatus;
 use App\Services\Company\Employee\Answer\CreateAnswer;
 use App\Services\Company\Project\AddEmployeeToProject;
@@ -50,8 +59,8 @@ use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Services\Company\Employee\Timesheet\RejectTimesheet;
 use App\Services\Company\Employee\Timesheet\SubmitTimesheet;
-use App\Services\Company\Project\AssignProjecTaskToEmployee;
 use App\Services\Company\Employee\Timesheet\ApproveTimesheet;
+use App\Services\Company\Project\AssignProjectTaskToEmployee;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
@@ -190,6 +199,7 @@ class SetupDummyAccount extends Command
         $this->createTeams();
         $this->addTeamDescriptions();
         $this->createEmployees();
+        $this->addAvatars();
         $this->createFutureEmployees();
         $this->addSkills();
         $this->addWorkFromHomeEntries();
@@ -205,7 +215,10 @@ class SetupDummyAccount extends Command
         $this->createTimeTrackingEntries();
         $this->setContractRenewalDates();
         $this->setECoffeeProcess();
+        $this->addGroups();
+        $this->addPreviousPositionsHistory();
         $this->addSecondaryBlankAccount();
+        $this->validateUserAccounts();
         $this->stop();
     }
 
@@ -735,6 +748,38 @@ class SetupDummyAccount extends Command
         $this->addSpecificDataToEmployee($this->philip, $description, $this->pronounHeHim, $this->teamWarehouse, $this->employeeStatusFullTime, $this->positionWarehouseStaff, null, $this->val);
     }
 
+    private function addAvatars(): void
+    {
+        $this->info('☐ Add avatars of employees');
+
+        $this->michael->avatar_file_id = $this->createAvatar('9952eaee-269b-4e3c-b41d-0f613d4128c3')->id;
+        $this->michael->save();
+        $this->toby->avatar_file_id = $this->createAvatar('97502e6a-0898-44e0-afd2-9476d76894ce')->id;
+        $this->toby->save();
+        $this->jim->avatar_file_id = $this->createAvatar('fb76ac9c-ece5-49df-a519-3fc18a71602f')->id;
+        $this->jim->save();
+        $this->erin->avatar_file_id = $this->createAvatar('d829a8c1-cc01-4b03-ac6d-a997f48d0e6f')->id;
+        $this->erin->save();
+        $this->kelly->avatar_file_id = $this->createAvatar('14a6d0a0-1f95-47ea-965c-39405e72d913')->id;
+        $this->kelly->save();
+        $this->jan->avatar_file_id = $this->createAvatar('7e10ffe0-c6f8-481b-b96b-be7a579813b3')->id;
+        $this->jan->save();
+        $this->kevin->avatar_file_id = $this->createAvatar('9916c3d3-f099-426f-9d1c-d8e4e7c87edd')->id;
+        $this->kevin->save();
+        $this->angela->avatar_file_id = $this->createAvatar('1d1e5b14-1382-45fa-8e08-b4daa01b0908')->id;
+        $this->angela->save();
+        $this->oscar->avatar_file_id = $this->createAvatar('2ad68247-a0a5-4bda-9db0-839d3e40c2c7')->id;
+        $this->oscar->save();
+        $this->meredith->avatar_file_id = $this->createAvatar('8dbdff2c-be0d-4a02-ae0a-a39656820dd9')->id;
+        $this->meredith->save();
+        $this->dwight->avatar_file_id = $this->createAvatar('c1eab52a-1b79-4536-a2aa-e821605f92d2')->id;
+        $this->dwight->save();
+        $this->phyllis->avatar_file_id = $this->createAvatar('a95cbf7b-9f28-438a-a1fc-8c8d93be4939')->id;
+        $this->phyllis->save();
+        $this->dakota->avatar_file_id = $this->createAvatar('6113654a-be8a-4829-90f4-0c7aa2a5469c')->id;
+        $this->dakota->save();
+    }
+
     private function createFutureEmployees(): void
     {
         $this->info('☐ Add employees that will be hired in two days');
@@ -753,6 +798,8 @@ class SetupDummyAccount extends Command
         Employee::where('id', $this->debra->id)->update([
             'hired_at' => Carbon::now()->addDay(),
         ]);
+
+        $this->employees = Employee::all();
     }
 
     private function addSpecificDataToEmployee(Employee $employee, ?string $description, Pronoun $pronoun, Team $team, EmployeeStatus $status, Position $position, string $birthdate = null, Employee $manager = null, Team $leaderOfTeam = null): void
@@ -993,7 +1040,6 @@ class SetupDummyAccount extends Command
     {
         $this->info('☐ Add work from home information (this might take some time)');
 
-        $this->employees = Employee::all();
         foreach ($this->employees as $employee) {
             $twoYearsAgo = Carbon::now()->subYears(2);
             while (! $twoYearsAgo->isTomorrow()) {
@@ -1230,6 +1276,9 @@ class SetupDummyAccount extends Command
                     'date' => $twoYearsAgo->format('Y-m-d'),
                 ]);
             }
+
+            // dispatch team morale
+            LogTeamsMorale::dispatch($twoYearsAgo);
 
             $twoYearsAgo->addDay();
         }
@@ -1766,7 +1815,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Migrate domain names when the new site launches',
             'description' => null,
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->meredith->id,
             'project_id' => $this->projectInfinity->id,
@@ -1789,7 +1838,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Make sure the SEO is implemented',
             'description' => null,
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
             'project_id' => $this->projectInfinity->id,
@@ -1812,7 +1861,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Migrate the ACLs',
             'description' => null,
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->meredith->id,
             'project_id' => $this->projectInfinity->id,
@@ -1835,7 +1884,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Take appointment with the photographer',
             'description' => 'We need to make sure all photos look great if possible',
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->michael->id,
             'project_id' => $this->projectInfinity->id,
@@ -1981,6 +2030,8 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
 
     private function setECoffeeProcess(): void
     {
+        $this->info('☐ Set e Coffee Process');
+
         $this->company->e_coffee_enabled = true;
         $this->company->save();
 
@@ -2002,6 +2053,120 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         });
     }
 
+    private function addGroups(): void
+    {
+        $this->info('☐ Add groups');
+
+        $groupNames = collect([
+            'Party planning committee',
+            'Basketball lovers',
+            'Monetisation executive meeting',
+            'Front end developers guild',
+        ]);
+
+        $meetingAgendaItems = collect([
+            'What should we do about the negociations with Home Depot?',
+            'Discussion about strategic learnings',
+            'Sales update: previous quarter’s results',
+            'Team structure presentation',
+            'Impact on shareholders',
+            'iPhone 42 launch',
+        ]);
+
+        $decisionItems = collect([
+            'Schedule meeting with supplier',
+            'Angela to take responsability and pubicly apologize to Dwight',
+            'Prepare forecasts for Q4',
+            'Prepare UX for the future feature',
+        ]);
+
+        foreach ($groupNames as $name) {
+            $randomEmployees = $this->employees->shuffle()->take(rand(4, 9))->pluck('id')->toArray();
+
+            // create group with random employees
+            $group = (new CreateGroup)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->michael->id,
+                'name' => $name,
+                'employees' => $randomEmployees,
+            ]);
+
+            $group->mission = 'This group was created to discuss all decisions we have to take together.';
+            $group->save();
+
+            // create meetings
+            $date = Carbon::now()->subMonths(10);
+            for ($i = 0; $i < rand(4, 9); $i++) {
+                $meeting = (new CreateMeeting)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'group_id' => $group->id,
+                ]);
+
+                (new UpdateMeetingDate)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'group_id' => $group->id,
+                    'meeting_id' => $meeting->id,
+                    'date' => $date->addDays(rand(10, 57))->format('Y-m-d'),
+                ]);
+
+                // add agenda items
+                foreach ($meetingAgendaItems as $item) {
+                    $agendaItem = (new CreateAgendaItem)->execute([
+                        'company_id' => $this->company->id,
+                        'author_id' => $this->michael->id,
+                        'group_id' => $group->id,
+                        'meeting_id' => $meeting->id,
+                        'summary' => $item,
+                        'description' => null,
+                        'presented_by_id' => $this->employees->shuffle()->first()->id,
+                    ]);
+
+                    $decisionItems = $decisionItems->shuffle()->take(rand(1, 3));
+                    foreach ($decisionItems as $item) {
+                        (new CreateMeetingDecision)->execute([
+                            'company_id' => $this->company->id,
+                            'author_id' => $this->michael->id,
+                            'group_id' => $group->id,
+                            'meeting_id' => $meeting->id,
+                            'agenda_item_id' => $agendaItem->id,
+                            'description' => $item,
+                        ]);
+                    }
+                }
+            }
+        }
+    }
+
+    private function addPreviousPositionsHistory(): void
+    {
+        foreach ($this->employees as $employee) {
+            $position = Position::inRandomOrder()->first();
+
+            $started = Carbon::now()->subMonths(rand(24, 60));
+            $ended = $started->copy()->addMonths(rand(12, 24));
+
+            EmployeePositionHistory::create([
+                'employee_id' => $employee->id,
+                'position_id' => $position->id,
+                'started_at' => $started,
+                'ended_at' => $ended,
+            ]);
+
+            $position = Position::inRandomOrder()->first();
+            $started = $ended->copy();
+            $ended = $started->copy()->addMonths(rand(6, 12));
+
+            EmployeePositionHistory::create([
+                'employee_id' => $employee->id,
+                'position_id' => $position->id,
+                'started_at' => $started,
+                'ended_at' => $ended,
+            ]);
+        }
+    }
+
     private function addSecondaryBlankAccount(): void
     {
         $this->info('☐ Create a blank account');
@@ -2019,9 +2184,31 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         ]);
     }
 
+    private function validateUserAccounts(): void
+    {
+        DB::table('users')
+            ->update(['email_verified_at' => Carbon::now()]);
+    }
+
     private function artisan(string $message, string $command, array $arguments = []): void
     {
         $this->info($message);
         $this->callSilent($command, $arguments);
+    }
+
+    private function createAvatar(string $uuid): File
+    {
+        return File::create([
+            'company_id' => $this->company->id,
+            'uploader_employee_id' => $this->michael->id,
+            'uploader_name' => $this->michael->name,
+            'uuid' => $uuid,
+            'name' => 'name',
+            'original_url' => 'https://ucarecdn.com/'.$uuid.'/',
+            'cdn_url' => 'https://ucarecdn.com/'.$uuid.'/',
+            'mime_type' => 'image/webp',
+            'size' => 11100,
+            'type' => 'avatar',
+        ]);
     }
 }

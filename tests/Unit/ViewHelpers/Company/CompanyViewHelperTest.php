@@ -4,12 +4,15 @@ namespace Tests\Unit\ViewHelpers\Company;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
+use App\Models\Company\File;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
-use App\Helpers\AvatarHelper;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
+use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Models\Company\Position;
 use App\Models\Company\Question;
 use App\Models\Company\CompanyNews;
 use GrahamCampbell\TestBenchCore\HelperTrait;
@@ -23,7 +26,7 @@ class CompanyViewHelperTest extends TestCase
         HelperTrait;
 
     /** @test */
-    public function it_gets_statistics_about_the_company(): void
+    public function it_gets_information_about_the_company(): void
     {
         $michael = $this->createAdministrator();
         Team::factory()->count(2)->create([
@@ -34,12 +37,19 @@ class CompanyViewHelperTest extends TestCase
             'company_id' => $michael->company_id,
         ]);
 
-        $response = CompanyViewHelper::statistics($michael->company);
+        $file = File::factory()->create();
+        $michael->company->logo_file_id = $file->id;
+        $michael->company->founded_at = '2020:01:01 00:00:00';
+        $michael->company->save();
+
+        $response = CompanyViewHelper::information($michael->company);
 
         $this->assertEquals(
             [
                 'number_of_teams' => 2,
                 'number_of_employees' => 3,
+                'logo' => ImageHelper::getImage($file, 75, 75),
+                'founded_at' => 2020,
             ],
             $response
         );
@@ -52,6 +62,12 @@ class CompanyViewHelperTest extends TestCase
         $question = Question::factory()->create([
             'company_id' => $michael->company_id,
             'title' => 'Do you like Dwight',
+            'active' => false,
+        ]);
+        $questionB = Question::factory()->create([
+            'company_id' => $michael->company_id,
+            'title' => 'Do you like Michael',
+            'active' => true,
         ]);
 
         // now we'll call the helper again with a question that we've added answers to
@@ -61,16 +77,28 @@ class CompanyViewHelperTest extends TestCase
 
         $response = CompanyViewHelper::latestQuestions($michael->company);
 
-        $this->assertArraySubset(
+        $this->assertEquals(
             [
                 0 => [
                     'id' => $question->id,
                     'title' => 'Do you like Dwight',
                     'number_of_answers' => 2,
+                    'active' => false,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/questions/'.$question->id,
                 ],
             ],
-            $response['questions']
+            $response['questions']->toArray()
+        );
+
+        $this->assertEquals(
+            [
+                'id' => $questionB->id,
+                'title' => 'Do you like Michael',
+                'number_of_answers' => 0,
+                'active' => true,
+                'url' => env('APP_URL') . '/' . $michael->company_id . '/company/questions/' . $questionB->id,
+            ],
+            $response['active_question']
         );
 
         $this->assertEquals(
@@ -79,7 +107,7 @@ class CompanyViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            1,
+            2,
             $response['total_number_of_questions']
         );
     }
@@ -130,7 +158,7 @@ class CompanyViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => AvatarHelper::getImage($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'birthdate' => 'January 8th',
                     'sort_key' => '2018-01-08',
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
@@ -138,7 +166,7 @@ class CompanyViewHelperTest extends TestCase
                 1 => [
                     'id' => $angela->id,
                     'name' => 'Angela Bernard',
-                    'avatar' => AvatarHelper::getImage($angela),
+                    'avatar' => ImageHelper::getAvatar($angela, 35),
                     'birthdate' => 'January 14th',
                     'sort_key' => '2018-01-14',
                     'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$angela->id,
@@ -158,7 +186,7 @@ class CompanyViewHelperTest extends TestCase
             'company_id' => $sales->company_id,
         ]);
         $dwight = Employee::factory()->create([
-            'hired_at' => '2018-01-03',
+            'hired_at' => '2018-01-05',
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
             'company_id' => $sales->company_id,
@@ -187,18 +215,16 @@ class CompanyViewHelperTest extends TestCase
                 0 => [
                     'id' => $angela->id,
                     'name' => 'Angela Bernard',
-                    'avatar' => AvatarHelper::getImage($angela),
+                    'avatar' => ImageHelper::getAvatar($angela, 35),
                     'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$angela->id,
-                    'hired_at' => 'Monday (Jan 1st)',
-                    'position' => 'Assistant to the regional manager',
+                    'hired_at' => 'Started on Monday (Jan 1st) as Assistant to the regional manager',
                 ],
                 1 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => AvatarHelper::getImage($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$dwight->id,
-                    'hired_at' => 'Wednesday (Jan 3rd)',
-                    'position' => 'Assistant to the regional manager',
+                    'hired_at' => 'Starts on Friday (Jan 5th) as Assistant to the regional manager',
                 ],
             ],
             $collection->toArray()
@@ -305,16 +331,23 @@ class CompanyViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/company/news',
+            $array['view_all_url']
+        );
+
+        $this->assertEquals(
             [
                 0 => [
-                    'title' => $newsA->title,
+                    'id' => $newsB->id,
+                    'title' => $newsB->title,
                     'extract' => '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ...</p>',
-                    'author_name' => $newsA->author_name,
+                    'author_name' => $newsB->author_name,
                 ],
                 1 => [
-                    'title' => $newsB->title,
+                    'id' => $newsA->id,
+                    'title' => $newsA->title,
                     'extract' => '<p>this is a test</p>',
-                    'author_name' => $newsB->author_name,
+                    'author_name' => $newsA->author_name,
                 ],
             ],
             $array['news']->toArray()
@@ -327,7 +360,7 @@ class CompanyViewHelperTest extends TestCase
         $michael = Employee::factory()->create([
             'pronoun_id' => 1,
         ]);
-        Employee::factory(3)->create([
+        Employee::factory()->count(3)->create([
             'company_id' => $michael->company_id,
             'pronoun_id' => 1,
         ]);
@@ -346,13 +379,124 @@ class CompanyViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            AvatarHelper::getImage($game->employeeToFind),
+            ImageHelper::getAvatar($game->employeeToFind, 80),
             $array['avatar_to_find']
         );
 
         $this->assertEquals(
             3,
             count($array['choices'])
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_information_about_employees(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        // one employee hired in the current year
+        $michael = Employee::factory()->create([
+            'hired_at' => Carbon::now(),
+        ]);
+
+        // one employee hired last year
+        $position = Position::factory()->create();
+        Employee::factory()->create([
+            'hired_at' => Carbon::now()->subYear(),
+            'position_id' => $position->id,
+        ]);
+
+        $array = CompanyViewHelper::employees($michael->company);
+
+        $this->assertEquals(
+            1,
+            $array['employees_hired_in_the_current_year']
+        );
+
+        $this->assertEquals(
+            0,
+            $array['number_of_employees_left']
+        );
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $michael->id,
+                    'name' => $michael->name,
+                    'avatar' => ImageHelper::getAvatar($michael, 32),
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                ],
+            ],
+            $array['ten_random_employees']->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_information_about_teams(): void
+    {
+        $michael = $this->createAdministrator();
+        $team = Team::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        $team->employees()->attach($michael->id);
+
+        $array = CompanyViewHelper::teams($michael->company);
+
+        $this->assertEquals(
+            $team->id,
+            $array['random_teams']->toArray()[0]['id']
+        );
+        $this->assertEquals(
+            $team->name,
+            $array['random_teams']->toArray()[0]['name']
+        );
+        $this->assertEquals(
+            0,
+            $array['random_teams']->toArray()[0]['total_remaining_employees']
+        );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/teams',
+            $array['view_all_url']
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_list_of_upcoming_hiring_date_anniversaries(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $company = Company::factory()->create([]);
+
+        $dwight = Employee::factory()->create([
+            'company_id' => $company->id,
+            'hired_at' => '1990-01-02 00:00:00',
+        ]);
+        $michael = Employee::factory()->create([
+            'company_id' => $company->id,
+            'hired_at' => '1990-05-01 00:00:00',
+        ]);
+        $jim = Employee::factory()->create([
+            'company_id' => $company->id,
+            'hired_at' => '2017-04-02 00:00:00',
+            'locked' => true,
+        ]);
+
+        $collection = CompanyViewHelper::upcomingHiredDateAnniversaries($company);
+
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $dwight->id,
+                    'name' => $dwight->name,
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
+                    'anniversary_date' => 'Tuesday (Jan 2nd)',
+                    'anniversary_age' => '28',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
+                ],
+            ],
+            $collection->toArray()
         );
     }
 }

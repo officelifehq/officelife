@@ -85,10 +85,7 @@ return [
     'worklog_blank' => 'There are no work logs yet 🤨',
     'worklog_title' => 'Work logs',
     'worklog_no_worklog' => 'No work log this day',
-    'worklog_view_all' => 'View worklog history',
-    'worklog_year_selector' => 'Choose a year:',
-    'worklog_filter_month' => 'Filter by month',
-    'worklog_blank_state_for_month' => 'There are no worklogs for this date 😭',
+    'worklog_blank' => 'There are no worklogs for this date',
 
     'status_title' => 'Status',
     'status_modal_title' => 'Employee status',
@@ -99,6 +96,7 @@ return [
     'status_modal_assign_success' => 'The status has been assigned',
     'status_modal_unassign_success' => 'The status has been removed',
     'status_modal_reset' => 'Remove current status',
+    'status_modal_blank_cta' => 'Set a status',
 
     'contacts_title' => 'Contact information',
 
@@ -127,6 +125,9 @@ return [
     'edit_information_state' => 'State/province',
     'edit_information_postal_code' => 'Postal code',
     'edit_information_country' => 'Country',
+    'edit_information_timezone_label' => 'Timezone',
+    'edit_information_timezone' => 'Timezone',
+    'edit_information_timezone_help' => 'This setting will let OfficeLife display dates that use this timezone.',
     'edit_information_success' => 'Information has been updated',
     'edit_information_name' => 'Name, email address and phone number',
     'edit_information_name_help' => 'These information will be used throughout OfficeLife.',
@@ -167,13 +168,13 @@ return [
     'hardware_title' => 'Hardware',
     'hardware_no_info' => 'No items have been lent yet.',
 
-    'recent_ship_title' => 'Recent ships',
-    'recent_ship_list_blank' =>'This person is not associated with a recent ship yet.',
+    'recent_ship_title' => 'Accomplishments',
+    'recent_ship_list_blank' => 'This person has not done any accomplishments yet.',
 
     'skills_title' => 'Skills',
     'skills_no_skill_yet' => 'No skills have been defined yet.',
     'skills_search_term' => 'Look for an existing skill or create a new one',
-    'skills_already_have_skill' => 'You already have {em} in your list of skills.',
+    'skills_already_have_skill' => 'You already have {name} in your list of skills.',
     'skills_create' => 'Create a new skill called {name}',
     'skills_list' => 'Current skills',
 
@@ -236,4 +237,13 @@ return [
     'e_coffee_week' => 'Discussed during the week',
     'e_coffee_view_all' => 'View eCoffee history',
     'e_coffee_show_title' => 'All the eCoffee sessions',
+
+    'stat_hiring' => '{percent}% employees have been hired after {name}',
+
+    'past_position_history_title' => 'Position history in the company',
+
+    'groups_title' => 'Groups {name} is part of',
+
+    'worklog_year_selector' => 'Choose a year',
+    'worklog_filter_month' => 'Choose a month',
 ];

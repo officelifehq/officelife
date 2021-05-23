@@ -8,6 +8,7 @@ use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectTask;
 use App\Models\Company\ProjectTaskList;
+use App\Models\Company\ProjectMemberActivity;
 
 class CreateProjectTask extends BaseService
 {
@@ -47,6 +48,7 @@ class CreateProjectTask extends BaseService
         $this->data = $data;
         $this->validate();
         $this->createTask();
+        $this->logActivity();
         $this->log();
 
         return $this->projectTask;
@@ -79,6 +81,14 @@ class CreateProjectTask extends BaseService
             'assignee_id' => $this->valueOrNull($this->data, 'assignee_id'),
             'title' => $this->data['title'],
             'description' => $this->data['description'],
+        ]);
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
         ]);
     }
 

@@ -4,3 +4,9 @@
 	Twitter: @djaiss
 	GitHub: @djaiss
 	From: Montréal, QC, Canada
+
+    Developer: Alexis Saettler
+	Contact: alexis [at] officelife.io
+	Twitter: @asbin
+	GitHub: @asbiin
+	From: Paris, France

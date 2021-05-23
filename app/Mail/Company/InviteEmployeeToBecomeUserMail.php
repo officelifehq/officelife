@@ -31,6 +31,7 @@ class InviteEmployeeToBecomeUserMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.company.invitation');
+        return $this->subject(trans('mail.invite_employee_to_become_user'))
+            ->markdown('emails.company.invitation');
     }
 }

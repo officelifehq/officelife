@@ -4,8 +4,8 @@ namespace Tests\Unit\ViewHelpers\Adminland;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\File;
-use App\Helpers\AvatarHelper;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Adminland\AdminGeneralViewHelper;
@@ -30,7 +30,14 @@ class AdminGeneralViewHelperTest extends TestCase
             'size' => 123,
         ]);
 
-        $response = AdminGeneralViewHelper::information($michael->company);
+        $michael->company->logo_file_id = File::factory()->create([
+            'company_id' => $michael->company_id,
+            'size' => 123,
+        ])->id;
+        $michael->company->founded_at = '2020:01:01 00:00:00';
+        $michael->company->save();
+
+        $response = AdminGeneralViewHelper::information($michael->company, $michael);
 
         $this->assertEquals(
             $michael->company_id,
@@ -53,8 +60,18 @@ class AdminGeneralViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            0.369,
+            0.492,
             $response['total_size']
+        );
+
+        $this->assertEquals(
+            ImageHelper::getImage($michael->company->logo, 300, 300),
+            $response['logo']
+        );
+
+        $this->assertEquals(
+            2020,
+            $response['founded_at']
         );
 
         $response['administrators']->sortBy('id');
@@ -63,7 +80,7 @@ class AdminGeneralViewHelperTest extends TestCase
             [
                 'id' => $michael->id,
                 'name' => $michael->name,
-                'avatar' => AvatarHelper::getImage($michael),
+                'avatar' => ImageHelper::getAvatar($michael, 22),
                 'url_view' => route('employees.show', [
                     'company' => $michael->company,
                     'employee' => $michael,

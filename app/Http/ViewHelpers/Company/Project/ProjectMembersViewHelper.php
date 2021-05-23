@@ -3,7 +3,7 @@
 namespace App\Http\ViewHelpers\Company\Project;
 
 use App\Helpers\DateHelper;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Project;
 
 class ProjectMembersViewHelper
@@ -29,9 +29,9 @@ class ProjectMembersViewHelper
             $membersCollection->push([
                 'id' => $member->id,
                 'name' => $member->name,
-                'avatar' => AvatarHelper::getImage($member),
+                'avatar' => ImageHelper::getAvatar($member, 64),
                 'role' => $member->pivot->role,
-                'added_at' => DateHelper::formatDate($member->pivot->created_at),
+                'added_at' => DateHelper::formatDate($member->pivot->created_at, $member->timezone),
                 'position' => (! $member->position) ? null : [
                     'id' => $member->position->id,
                     'title' => $member->position->title,

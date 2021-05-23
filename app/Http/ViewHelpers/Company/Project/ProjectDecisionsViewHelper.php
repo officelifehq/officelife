@@ -3,8 +3,10 @@
 namespace App\Http\ViewHelpers\Company\Project;
 
 use App\Helpers\DateHelper;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
+use App\Models\Company\Company;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 
 class ProjectDecisionsViewHelper
@@ -13,13 +15,15 @@ class ProjectDecisionsViewHelper
      * Array containing the information about the decisions made in the project.
      *
      * @param Project $project
+     * @param Employee $employee
      * @return Collection
      */
-    public static function decisions(Project $project): Collection
+    public static function decisions(Project $project, Employee $employee): Collection
     {
         $company = $project->company;
         $decisions = $project->decisions()
             ->with('deciders')
+            ->with('deciders.picture')
             ->latest()
             ->get();
 
@@ -31,7 +35,7 @@ class ProjectDecisionsViewHelper
                 $decidersCollection->push([
                     'id' => $decider->id,
                     'name' => $decider->name,
-                    'avatar' => AvatarHelper::getImage($decider),
+                    'avatar' => ImageHelper::getAvatar($decider, 22),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $decider,
@@ -42,11 +46,44 @@ class ProjectDecisionsViewHelper
             $decisionsCollection->push([
                 'id' => $decision->id,
                 'title' => $decision->title,
-                'decided_at' => DateHelper::formatDate($decision->decided_at),
+                'decided_at' => DateHelper::formatDate($decision->decided_at, $employee->timezone),
                 'deciders' => $decidersCollection,
             ]);
         }
 
         return $decisionsCollection;
+    }
+
+    /**
+     * Search all employees matching a given criteria.
+     *
+     * @param Company $company
+     * @param string $criteria
+     * @return Collection
+     */
+    public static function searchDeciders(Company $company, string $criteria): Collection
+    {
+        $employees = $company->employees()
+            ->select('id', 'first_name', 'last_name', 'avatar_file_id')
+            ->notLocked()
+            ->where(function ($query) use ($criteria) {
+                $query->where('first_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('email', 'LIKE', '%'.$criteria.'%');
+            })
+            ->orderBy('last_name', 'asc')
+            ->take(10)
+            ->get();
+
+        $employeesCollection = collect([]);
+        foreach ($employees as $employee) {
+            $employeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => ImageHelper::getAvatar($employee, 23),
+            ]);
+        }
+
+        return $employeesCollection;
     }
 }

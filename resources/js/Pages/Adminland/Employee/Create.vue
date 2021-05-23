@@ -8,7 +8,7 @@ input[type=radio] {
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -88,6 +88,59 @@ input[type=radio] {
               </div>
             </div>
 
+            <!-- Hiring date -->
+            <div class="cf pa3 bb bb-gray pb4">
+              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
+                <strong>{{ $t('account.employee_new_hiring_date') }}</strong>
+              </div>
+              <div class="fl-ns w-two-thirds-ns w-100">
+                <div class="dt-ns dt--fixed di">
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
+                    <!-- year -->
+                    <text-input :id="'year'"
+                                v-model="form.year"
+                                :name="'year'"
+                                :errors="$page.props.errors.year"
+                                :label="$t('employee.edit_information_year')"
+                                :required="true"
+                                :type="'number'"
+                                :min="1900"
+                                :max="2050"
+                                :help="$t('employee.edit_information_year_help')"
+                    />
+                  </div>
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
+                    <!-- month -->
+                    <text-input :id="'month'"
+                                v-model="form.month"
+                                :name="'month'"
+                                :errors="$page.props.errors.month"
+                                :label="$t('employee.edit_information_month')"
+                                :required="true"
+                                :type="'number'"
+                                :min="1"
+                                :max="12"
+                                :help="$t('employee.edit_information_month_help')"
+                    />
+                  </div>
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
+                    <!-- day -->
+                    <text-input :id="'day'"
+                                v-model="form.day"
+                                :name="'day'"
+                                :errors="$page.props.errors.day"
+                                :label="$t('employee.edit_information_day')"
+                                :required="true"
+                                :type="'number'"
+                                :min="1"
+                                :max="31"
+                                :help="$t('employee.edit_information_day_help')"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Permission level -->
             <div class="cf pa3 bb-gray bb pt4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
@@ -140,7 +193,7 @@ input[type=radio] {
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-employee-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-employee-button'" />
               </div>
             </div>
           </form>
@@ -179,10 +232,12 @@ export default {
         email: null,
         permission_level: 300,
         send_invitation: false,
+        year: null,
+        month: null,
+        day: null,
         errors: [],
       },
       loadingState: '',
-      errorTemplate: Error,
     };
   },
 
@@ -192,7 +247,7 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/account/employees', this.form)
         .then(response => {
-          localStorage.success = 'The employee has been added';
+          localStorage.success = this.$t('account.employee_new_success');
           this.$inertia.visit('/' + response.data.company_id + '/account/employees');
         })
         .catch(error => {

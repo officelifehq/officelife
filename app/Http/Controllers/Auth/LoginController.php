@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -37,16 +38,15 @@ class LoginController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  mixed  $user
-     * @return mixed
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function authenticated(Request $request, $user)
     {
         $path = $request->session()->pull('url.intended', route('home'));
 
-        return new JsonResponse([
-            'success' => true,
-            'redirect' => $path,
-        ]);
+        return $request->wantsJson()
+            ? Response::json(['success' => true,'redirect' => $path])
+            : Redirect::intended($path);
     }
 
     /**
@@ -58,10 +58,8 @@ class LoginController extends Controller
      */
     protected function sendFailedLoginResponse(Request $request)
     {
-        return new JsonResponse([
-            'data' => [
-                trans('auth.login_invalid_credentials'),
-            ],
-        ], 401);
+        return $request->wantsJson()
+            ? Response::json(['data' => [trans('auth.login_invalid_credentials')]], 401)
+            : Redirect::back()->with('message', trans('auth.login_invalid_credentials'));
     }
 }

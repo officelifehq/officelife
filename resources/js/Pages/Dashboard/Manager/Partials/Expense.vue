@@ -57,7 +57,7 @@
                 v-if="expense.employee.id"
                 :name="expense.employee.name"
                 :avatar="expense.employee.avatar"
-                :classes="'gray'"
+                :class="'gray'"
                 :size="'18px'"
                 :top="'0px'"
                 :margin-between-name-avatar="'25px'"

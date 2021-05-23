@@ -27,7 +27,7 @@
         {{ $t('app.optional') }}
       </span>
     </label>
-    <input :id="id"
+    <input :id="realId"
            :ref="customRef"
            v-bind="$attrs"
            type="file"
@@ -37,7 +37,7 @@
            :autofocus="autofocus"
            :value="value"
            :data-cy="datacy"
-           @change="$emit('change', $event.target.value)"
+           @change="$emit('update:modelValue', $event.target.value)"
     />
     <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
@@ -52,14 +52,17 @@
 export default {
   inheritAttrs: false,
 
+  model: {
+    prop: 'modelValue',
+    event: 'update:modelValue'
+  },
+
   props: {
     id: {
       type: String,
-      default() {
-        return `text-file-input-${this._uid}`;
-      },
+      default: 'text-file-input-',
     },
-    value: {
+    modelValue: {
       type: String,
       default: '',
     },
@@ -101,6 +104,10 @@ export default {
     }
   },
 
+  emits: [
+    'update:modelValue'
+  ],
+
   data() {
     return {
       localErrors: [],
@@ -108,6 +115,10 @@ export default {
   },
 
   computed: {
+    realId() {
+      return this.id + this._.uid;
+    },
+
     hasError() {
       return this.errors.length > 0 && this.required;
     }

@@ -39,7 +39,7 @@
     <!-- search employees -->
     <div v-if="modal == true" class="bb bb-gray pt3">
       <form class="relative" @submit.prevent="search">
-        <text-input :ref="'employee-input'"
+        <text-input :ref="'employeeInput'"
                     v-model="form.searchTerm"
                     :datacy="'potential-employees'"
                     :errors="$page.props.errors.name"
@@ -47,7 +47,7 @@
                     :placeholder="$t('team.recent_ship_new_credit_help')"
                     :required="true"
                     @keyup="search"
-                    @input="search"
+                    @update:model-value="search"
                     @esc-key-pressed="modal = false"
         />
         <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
@@ -73,7 +73,7 @@
     <div v-show="localEmployees.length > 0" class="ba bb-gray mt2 br2 employees-list">
       <div v-for="employee in localEmployees" :key="employee.id" class="pa2 db bb-gray bb bb-gray-hover" data-cy="employees-list">
         <span class="pl3 db relative team-member">
-          <img loading="lazy" :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />
+          <avatar :avatar="employee.avatar" :size="23" :class="'br-100 absolute avatar'" />
 
           <inertia-link :href="employee.url">{{ employee.name }}</inertia-link>
 
@@ -96,11 +96,13 @@
 
 <script>
 import Help from '@/Shared/Help';
+import Avatar from '@/Shared/Avatar';
 import TextInput from '@/Shared/TextInput';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
   components: {
+    Avatar,
     Help,
     TextInput,
     'ball-pulse-loader': BallPulseLoader.component
@@ -146,7 +148,7 @@ export default {
       this.resetForm();
 
       this.$nextTick(() => {
-        this.$refs['employee-input'].$refs['input'].focus();
+        this.$refs.employeeInput.focus();
       });
     },
 
@@ -155,7 +157,7 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/account/expenses', this.form)
         .then(response => {
-          flash(this.$t('account.employee_statuses_success_new'), 'success');
+          this.flash(this.$t('account.employee_statuses_success_new'), 'success');
 
           this.loadingState = null;
           this.form.name = null;
@@ -173,7 +175,7 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/account/expenses/employee', this.form)
         .then(response => {
-          flash(this.$t('account.expense_employees_assign_success'), 'success');
+          this.flash(this.$t('account.expense_employees_assign_success'), 'success');
 
           this.resetForm();
           this.localEmployees.unshift(response.data.data);
@@ -188,7 +190,7 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/account/expenses/removeEmployee', this.form)
         .then(response => {
-          flash(this.$t('account.expense_employees_unassign_success'), 'success');
+          this.flash(this.$t('account.expense_employees_unassign_success'), 'success');
 
           this.resetForm();
           var changedId = this.localEmployees.findIndex(x => x.id === employee.id);

@@ -4,14 +4,16 @@ namespace App\Http\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Helpers\MoneyHelper;
-use App\Helpers\AvatarHelper;
 use App\Helpers\QuestionHelper;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
+use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use App\Helpers\WorkFromHomeHelper;
 use Money\Currencies\ISOCurrencies;
 use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\OneOnOneEntry;
@@ -48,7 +50,7 @@ class DashboardMeViewHelper
                 'employee' => [
                     'id' => $answer->employee->id,
                     'name' => $answer->employee->name,
-                    'avatar' => AvatarHelper::getImage($answer->employee),
+                    'avatar' => ImageHelper::getAvatar($answer->employee, 22),
                 ],
             ]);
         }
@@ -114,7 +116,7 @@ class DashboardMeViewHelper
     }
 
     /**
-     * Get all the currencies used in the instance.
+     * Get all the currencies used in this OfficeLife instance.
      *
      * @return Collection|null
      */
@@ -157,7 +159,7 @@ class DashboardMeViewHelper
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
                 'category' => ($expense->category) ? $expense->category->name : null,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $employee->timezone),
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
@@ -236,7 +238,7 @@ class DashboardMeViewHelper
             $managersCollection->push([
                 'id' => $manager->id,
                 'name' => $manager->name,
-                'avatar' => AvatarHelper::getImage($manager),
+                'avatar' => ImageHelper::getAvatar($manager, 35),
                 'position' => (! $manager->position) ? null : $manager->position->title,
                 'url' => route('employees.show', [
                     'company' => $company,
@@ -285,14 +287,14 @@ class DashboardMeViewHelper
 
         if ($employee->contract_renewed_at->isBefore($now)) {
             return [
-                'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
+                'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at, $employee->timezone),
                 'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
                 'late' => true,
             ];
         }
 
         return [
-            'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
+            'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at, $employee->timezone),
             'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
             'late' => false,
         ];
@@ -349,13 +351,13 @@ class DashboardMeViewHelper
             'e_coffee_id' => $latestECoffee->id,
             'happened' => $match->happened,
             'employee' => [
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => ImageHelper::getAvatar($employee),
             ],
             'other_employee' => [
                 'id' => $otherEmployee->id,
                 'name' => $otherEmployee->name,
                 'first_name' => $otherEmployee->first_name,
-                'avatar' => AvatarHelper::getImage($otherEmployee),
+                'avatar' => ImageHelper::getAvatar($otherEmployee, 55),
                 'position' => $otherEmployee->position ? $otherEmployee->position->title : null,
                 'url' => route('employees.show', [
                     'company' => $company,
@@ -363,6 +365,113 @@ class DashboardMeViewHelper
                 ]),
                 'teams' => $teamsCollection->count() == 0 ? null : $teamsCollection,
             ],
+        ];
+    }
+
+    /**
+     * Get the projects the employee participates in.
+     *
+     * @param Employee $employee
+     * @param Company $company
+     * @return Collection|null
+     */
+    public static function projects(Employee $employee, Company $company): ?Collection
+    {
+        $openProjects = $employee->projects()
+            ->where('status', Project::STARTED)
+            ->orWhere('status', Project::PAUSED)
+            ->with('employees')
+            ->get();
+
+        $projectsCollection = collect([]);
+        foreach ($openProjects as $project) {
+            $members = $project->employees()
+                ->inRandomOrder()
+                ->take(3)
+                ->get();
+
+            $totalMembersCount = $project->employees()->count();
+            $totalMembersCount = $totalMembersCount - $members->count();
+
+            $membersCollection = collect([]);
+            foreach ($members as $member) {
+                $membersCollection->push([
+                    'id' => $member->id,
+                    'avatar' => ImageHelper::getAvatar($member, 32),
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $member,
+                    ]),
+                ]);
+            }
+
+            $projectsCollection->push([
+                'id' => $project->id,
+                'name' => $project->name,
+                'code' => $project->code,
+                'url' => route('projects.show', [
+                    'company' => $company,
+                    'project' => $project,
+                ]),
+                'preview_members' => $membersCollection,
+                'remaining_members_count' => $totalMembersCount,
+            ]);
+        }
+
+        return $projectsCollection;
+    }
+
+    /**
+     * Get the company currency.
+     *
+     * @param Company $company
+     * @return array|null
+     */
+    public static function companyCurrency(Company $company): ?array
+    {
+        return [
+            'id' => $company->currency,
+            'code' => $company->currency,
+        ];
+    }
+
+    /**
+     * Get the information about worklogs.
+     *
+     * @param Employee $employee
+     * @return array|null
+     */
+    public static function worklogs(Employee $employee): ?array
+    {
+        return [
+            'has_already_logged_a_worklog_today' => $employee->hasAlreadyLoggedWorklogToday(),
+            'has_worklog_history' => $employee->worklogs()->count() > 0 ? true : false,
+        ];
+    }
+
+    /**
+     * Get the information about the morale.
+     *
+     * @param Employee $employee
+     * @return array|null
+     */
+    public static function morale(Employee $employee): ?array
+    {
+        return [
+            'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
+        ];
+    }
+
+    /**
+     * Get the information about working from home.
+     *
+     * @param Employee $employee
+     * @return array|null
+     */
+    public static function workFromHome(Employee $employee): ?array
+    {
+        return [
+            'has_worked_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
         ];
     }
 }

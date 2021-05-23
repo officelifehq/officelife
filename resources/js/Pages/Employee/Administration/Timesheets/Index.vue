@@ -55,7 +55,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -79,6 +79,8 @@
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <h2 class="pa3 mt2 center tc normal mb0">
           {{ $t('employee.timesheets_details_title') }}
+
+          <help :url="$page.props.help_links.time_tracking" :top="'0px'" />
         </h2>
 
         <p class="tc mt0 mb4 f6 gray">{{ $t('employee.timesheets_details_description') }}</p>
@@ -99,7 +101,7 @@
               <!-- list of months -->
               <p class="f6 mt0 silver">{{ $t('employee.worklog_filter_month') }}</p>
               <ul class="pl0 list months f6">
-                <li class="mb2"><inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/timesheets/overview/' + year">All</inertia-link></li>
+                <li class="mb2"><inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/administration/timesheets/overview/' + year">All</inertia-link></li>
                 <li v-for="month in months" :key="month.month" class="mb2" :data-cy="'worklog-month-selector-' + month.month">
                   <!-- we are viewing a specific month, so we need to highlight the proper month in the UI -->
                   <template v-if="currentMonth">
@@ -163,10 +165,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
     Layout,
+    Help,
   },
 
   props: {

@@ -9,7 +9,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -80,7 +80,6 @@
               :name="currentEmployee.name"
               :avatar="currentEmployee.avatar"
               :url="currentEmployee.url"
-              :classes="''"
               :size="'22px'"
               :top="'0px'"
               :margin-between-name-avatar="'28px'"
@@ -97,7 +96,7 @@
                 v-if="answer.employee.id"
                 :name="answer.employee.name"
                 :avatar="answer.employee.avatar"
-                :classes="'gray'"
+                :class="'gray'"
                 :size="'18px'"
                 :top="'0px'"
                 :margin-between-name-avatar="'28px'"

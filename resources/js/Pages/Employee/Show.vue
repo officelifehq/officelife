@@ -7,13 +7,13 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph5-ns mt4">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw7 br3 center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.props.auth.company.id + '/employees'">{{ $t('app.breadcrumb_employee_list') }}</inertia-link>
@@ -31,6 +31,7 @@
           <profile-sidebar
             :employee="employee"
             :permissions="permissions"
+            :uploadcare-public-key="uploadcarePublicKey"
           />
         </div>
 
@@ -52,6 +53,11 @@
             :permissions="permissions"
             :managers-of-employee="managersOfEmployee"
             :direct-reports="directReports"
+          />
+
+          <employee-past-positions
+            v-if="positions.length != 0"
+            :positions="positions"
           />
 
           <skills
@@ -83,6 +89,7 @@ import Hierarchy from '@/Pages/Employee/Partials/Hierarchy';
 import Question from '@/Pages/Employee/Partials/Question';
 import Skills from '@/Pages/Employee/Partials/Skills';
 import ECoffee from '@/Pages/Employee/Partials/ECoffee';
+import EmployeePastPositions from '@/Pages/Employee/Partials/EmployeePastPositions';
 
 export default {
   components: {
@@ -94,6 +101,7 @@ export default {
     Question,
     Skills,
     ECoffee,
+    EmployeePastPositions,
   },
 
   props: {
@@ -133,11 +141,19 @@ export default {
       type: Object,
       default: null,
     },
+    uploadcarePublicKey: {
+      type: String,
+      default: null,
+    },
+    positions: {
+      type: Object,
+      default: null,
+    },
   },
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },

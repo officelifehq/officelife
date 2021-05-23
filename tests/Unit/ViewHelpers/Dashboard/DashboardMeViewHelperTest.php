@@ -4,14 +4,19 @@ namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Task;
-use App\Helpers\AvatarHelper;
 use App\Models\Company\Answer;
+use App\Models\Company\Morale;
+use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
+use App\Models\Company\Project;
+use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
 use App\Models\Company\ECoffeeMatch;
+use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
@@ -263,7 +268,7 @@ class DashboardMeViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => AvatarHelper::getImage($dwight),
+                    'avatar' => ImageHelper::getAvatar($dwight, 35),
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'entry' => [
@@ -274,7 +279,7 @@ class DashboardMeViewHelperTest extends TestCase
                 1 => [
                     'id' => $michael->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => AvatarHelper::getImage($michael),
+                    'avatar' => ImageHelper::getAvatar($michael, 35),
                     'position' => $michael->position->title,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     'entry' => [
@@ -382,13 +387,13 @@ class DashboardMeViewHelperTest extends TestCase
                 'e_coffee_id' => $eCoffee->id,
                 'happened' => $match->happened,
                 'employee' => [
-                    'avatar' => AvatarHelper::getImage($michael),
+                    'avatar' => ImageHelper::getAvatar($michael),
                 ],
                 'other_employee' => [
                     'id' => $match->employeeMatchedWith->id,
                     'name' => $match->employeeMatchedWith->name,
                     'first_name' => $match->employeeMatchedWith->first_name,
-                    'avatar' => AvatarHelper::getImage($match->employeeMatchedWith),
+                    'avatar' => ImageHelper::getAvatar($match->employeeMatchedWith, 55),
                     'position' => $match->employeeMatchedWith->position ? $match->employeeMatchedWith->position->title : null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$match->employeeMatchedWith->id,
                     'teams' => null,
@@ -424,5 +429,137 @@ class DashboardMeViewHelperTest extends TestCase
         ]);
 
         $this->assertNull(DashboardMeViewHelper::eCoffee($michael, $company));
+    }
+
+    /** @test */
+    public function it_returns_a_list_of_projects(): void
+    {
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $jim = $this->createAnotherEmployee($michael);
+        $jan = $this->createAnotherEmployee($michael);
+
+        // projects
+        $projectStarted = Project::factory()->create([
+            'company_id' => $michael->company_id,
+            'status' => Project::STARTED,
+        ]);
+        $projectClosed = Project::factory()->create([
+            'company_id' => $michael->company_id,
+            'status' => Project::CLOSED,
+        ]);
+
+        $projectStarted->employees()->syncWithoutDetaching([$michael->id, $dwight->id, $jim->id, $jan->id]);
+        $projectClosed->employees()->syncWithoutDetaching([$michael->id]);
+
+        $collection = DashboardMeViewHelper::projects($michael, $michael->company);
+
+        $this->assertEquals(
+            1,
+            $collection->count()
+        );
+
+        $this->assertEquals(
+            3,
+            $collection->toArray()[0]['preview_members']->count()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_company_currency(): void
+    {
+        $company = Company::factory()->create([
+            'currency' => 'USD',
+        ]);
+
+        $this->assertEquals(
+            [
+                'id' => 'USD',
+                'code' => 'USD',
+            ],
+            DashboardMeViewHelper::companyCurrency($company)
+        );
+    }
+
+    /** @test */
+    public function it_gets_information_about_worklogs(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $this->assertEquals(
+            [
+                'has_already_logged_a_worklog_today' => false,
+                'has_worklog_history' => false,
+            ],
+            DashboardMeViewHelper::worklogs($michael)
+        );
+
+        Worklog::factory()->create([
+            'employee_id' => $michael->id,
+            'created_at' => Carbon::now()->subDays(2),
+        ]);
+        Worklog::factory()->create([
+            'employee_id' => $michael->id,
+            'created_at' => Carbon::now(),
+        ]);
+
+        $this->assertEquals(
+            [
+                'has_already_logged_a_worklog_today' => true,
+                'has_worklog_history' => true,
+            ],
+            DashboardMeViewHelper::worklogs($michael)
+        );
+    }
+
+    /** @test */
+    public function it_gets_information_about_morale(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $this->assertEquals(
+            [
+                'has_logged_morale_today' => false,
+            ],
+            DashboardMeViewHelper::morale($michael)
+        );
+
+        Morale::factory()->create([
+            'employee_id' => $michael->id,
+            'created_at' => Carbon::now(),
+        ]);
+
+        $this->assertEquals(
+            [
+                'has_logged_morale_today' => true,
+            ],
+            DashboardMeViewHelper::morale($michael)
+        );
+    }
+
+    /** @test */
+    public function it_gets_information_about_working_from_home(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $this->assertEquals(
+            [
+                'has_worked_from_home_today' => false,
+            ],
+            DashboardMeViewHelper::workFromHome($michael)
+        );
+
+        WorkFromHome::factory()->create([
+            'employee_id' => $michael->id,
+            'date' => Carbon::now()->format('Y-m-d 00:00:00'),
+            'work_from_home' => true,
+        ]);
+
+        $this->assertEquals(
+            [
+                'has_worked_from_home_today' => true,
+            ],
+            DashboardMeViewHelper::workFromHome($michael)
+        );
     }
 }

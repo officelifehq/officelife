@@ -27,7 +27,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">
@@ -76,7 +76,7 @@
                 <small-name-and-avatar
                   :name="message.author.name"
                   :avatar="message.author.avatar"
-                  :classes="'f4 fw4'"
+                  :class="'f4 fw4'"
                   :top="'0px'"
                   :margin-between-name-avatar="'29px'"
                 />
@@ -150,7 +150,7 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      flash(localStorage.success, 'success');
+      this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },

@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+@import 'vue-loaders/dist/vue-loaders.css';
+
 .avatar {
   left: 1px;
   top: 5px;
@@ -27,21 +29,21 @@
 <template>
   <div>
     <!-- case of team lead set -->
-    <template v-if="updatedTeam.team_leader">
+    <template v-if="localTeam.team_leader">
       <div class="lh-copy ma0 pa3 bb bb-gray">
         <p class="silver f6 ma0 mb1">{{ $t('team.team_lead_label') }}</p>
         <span class="pl3 db team-lead relative">
-          <img loading="lazy" :src="updatedTeam.team_leader.avatar" class="br-100 absolute avatar" alt="avatar" />
-          <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + updatedTeam.team_leader.id" class="mb2" data-cy="current-team-lead">
-            {{ updatedTeam.team_leader.name }}
+          <avatar :avatar="localTeam.team_leader.avatar" :size="35" :class="'br-100 absolute avatar'" />
+          <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + localTeam.team_leader.id" class="mb2" data-cy="current-team-lead">
+            {{ localTeam.team_leader.name }}
           </inertia-link>
 
-          <span v-if="!updatedTeam.team_leader.position" class="db f7 mt1" data-cy="team-lead-undefined">
+          <span v-if="!localTeam.team_leader.position" class="db f7 mt1" data-cy="team-lead-undefined">
             {{ $t('app.no_position_defined') }}
           </span>
 
-          <span v-if="updatedTeam.team_leader.position" class="db f7 mt1">
-            {{ updatedTeam.team_leader.position.title }}
+          <span v-if="localTeam.team_leader.position" class="db f7 mt1">
+            {{ localTeam.team_leader.position.title }}
           </span>
 
           <img v-if="$page.props.auth.employee.permission_level <= 200" loading="lazy" src="/img/common/triple-dots.svg" class="absolute right-0 pointer team-lead-action" data-cy="display-remove-team-lead-modal"
@@ -54,7 +56,7 @@
             <div v-show="$page.props.auth.employee.permission_level <= 200" v-click-outside="hideRemovalMode" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn">
               <ul class="list ma0 pa0">
                 <li v-show="!removalConfirmation" class="pv2 relative">
-                  <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+                  <icon-delete :class="'icon-delete relative'" :width="15" :height="15" />
                   <a class="pointer ml1 c-delete" data-cy="remove-team-lead-button" @click.prevent="removalConfirmation = true">
                     {{ $t('team.team_lead_remove_confirmation') }}
                   </a>
@@ -76,7 +78,7 @@
     </template>
 
     <!-- team lead blank state -->
-    <div v-show="!updatedTeam.team_leader && !editMode" class="lh-copy ma0 pa3 bb bb-gray">
+    <div v-show="!localTeam.team_leader && !editMode" class="lh-copy ma0 pa3 bb bb-gray">
       <a v-if="atLeastHR" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="add-team-lead-blank-state" @click.prevent="displaySearch()">{{ $t('team.team_lead_cta') }}</a>
 
       <span v-if="!atLeastHR" class="f6">
@@ -127,14 +129,15 @@
 
 <script>
 import Errors from '@/Shared/Errors';
+import Avatar from '@/Shared/Avatar';
 import IconDelete from '@/Shared/IconDelete';
-import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import vClickOutside from 'v-click-outside';
 
 export default {
   components: {
     Errors,
+    Avatar,
     IconDelete,
     'ball-pulse-loader': BallPulseLoader.component,
   },
@@ -167,7 +170,7 @@ export default {
         searchTerm: null,
         errors: [],
       },
-      updatedTeam: null,
+      localTeam: null,
     };
   },
 
@@ -178,7 +181,7 @@ export default {
   },
 
   created: function() {
-    this.updatedTeam = this.team;
+    this.localTeam = this.team;
   },
 
   methods: {
@@ -221,12 +224,12 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/lead', this.form)
         .then(response => {
-          flash(this.$t('team.team_lead_added'), 'success');
+          this.flash(this.$t('team.team_lead_added'), 'success');
 
-          this.updatedTeam.team_leader = response.data.data;
+          this.localTeam.team_leader = response.data.data;
           this.editMode = false;
 
-          this.$root.$emit('lead-set', response.data.data);
+          this.$emitt('lead-set', response.data.data);
         })
         .catch(error => {
           this.form.errors = error.response.data;
@@ -234,11 +237,11 @@ export default {
     },
 
     removeTeamLead() {
-      axios.delete('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/lead/' + this.updatedTeam.team_leader.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/lead/' + this.localTeam.team_leader.id)
         .then(response => {
-          flash(this.$t('team.team_lead_removed'), 'success');
+          this.flash(this.$t('team.team_lead_removed'), 'success');
 
-          this.updatedTeam.team_leader = null;
+          this.localTeam.team_leader = null;
           this.removeMode = false;
         })
         .catch(error => {

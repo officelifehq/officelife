@@ -43,6 +43,7 @@ class AdminFlowController extends Controller
 
         try {
             $flow = Flow::where('company_id', $company->id)
+                ->with('steps')
                 ->findOrFail($flowId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');

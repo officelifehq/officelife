@@ -17,9 +17,12 @@ return [
 
     'short_date_year_time' => 'M d, Y H:i',
     'short_date' => 'M d',
+    'short_month_day' => 'MMM Y',
     'long_month_day' => 'MMMM Do',
     'day_month_parenthesis' => 'dddd (MMM Do)',
     'date' => 'M d, Y',
     'full_month' => 'F',
     'full_date' => 'dddd, MMM Do Y',
+    'day' => 'dddd',
+    'day_short_month' => 'M jS',
 ];

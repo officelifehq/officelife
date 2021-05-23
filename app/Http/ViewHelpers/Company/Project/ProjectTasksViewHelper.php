@@ -5,9 +5,10 @@ namespace App\Http\ViewHelpers\Company\Project;
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\TimeHelper;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectTask;
@@ -63,7 +64,7 @@ class ProjectTasksViewHelper
                 'assignee' => $assignee ? [
                     'id' => $assignee->id,
                     'name' => $assignee->name,
-                    'avatar' => AvatarHelper::getImage($assignee),
+                    'avatar' => ImageHelper::getAvatar($assignee, 15),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $assignee,
@@ -109,7 +110,7 @@ class ProjectTasksViewHelper
                     'assignee' => $assignee ? [
                         'id' => $assignee->id,
                         'name' => $assignee->name,
-                        'avatar' => AvatarHelper::getImage($assignee),
+                        'avatar' => ImageHelper::getAvatar($assignee, 15),
                         'url' => route('employees.show', [
                             'company' => $company,
                             'employee' => $assignee,
@@ -170,9 +171,10 @@ class ProjectTasksViewHelper
      *
      * @param ProjectTask $task
      * @param Company $company
+     * @param Employee $employee
      * @return array
      */
-    public static function getTaskFullDetails(ProjectTask $task, Company $company): array
+    public static function getTaskFullDetails(ProjectTask $task, Company $company, Employee $employee): array
     {
         $author = $task->author;
         $assignee = $task->assignee;
@@ -192,8 +194,8 @@ class ProjectTasksViewHelper
             'title' => $task->title,
             'description' => $task->description,
             'completed' => $task->completed,
-            'completed_at' => $task->completed_at ? DateHelper::formatDate($task->completed_at) : null,
-            'created_at' => DateHelper::formatDate($task->created_at),
+            'completed_at' => $task->completed_at ? DateHelper::formatDate($task->completed_at, $employee->timezone) : null,
+            'created_at' => DateHelper::formatDate($task->created_at, $employee->timezone),
             'url' => route('projects.tasks.show', [
                 'company' => $company,
                 'project' => $task->project_id,
@@ -203,9 +205,9 @@ class ProjectTasksViewHelper
             'author' => $author ? [
                 'id' => $author->id,
                 'name' => $author->name,
-                'avatar' => AvatarHelper::getImage($author),
+                'avatar' => ImageHelper::getAvatar($author, 35),
                 'role' => $role ? $role->role : null,
-                'added_at' => $role ? DateHelper::formatDate(Carbon::createFromFormat('Y-m-d H:i:s', $role->created_at)) : null,
+                'added_at' => $role ? DateHelper::formatDate(Carbon::createFromFormat('Y-m-d H:i:s', $role->created_at), $employee->timezone) : null,
                 'position' => (! $author->position) ? null : $author->position->title,
                 'url' => route('employees.show', [
                     'company' => $company,
@@ -215,7 +217,7 @@ class ProjectTasksViewHelper
             'assignee' => $assignee ? [
                 'id' => $assignee->id,
                 'name' => $assignee->name,
-                'avatar' => AvatarHelper::getImage($assignee),
+                'avatar' => ImageHelper::getAvatar($assignee, 35),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $assignee,
@@ -229,15 +231,16 @@ class ProjectTasksViewHelper
      *
      * @param ProjectTask $projectTask
      * @param Company $company
+     * @param Employee $employee
      * @return array|null
      */
-    public static function taskDetails(ProjectTask $projectTask, Company $company): ?array
+    public static function taskDetails(ProjectTask $projectTask, Company $company, Employee $employee): ?array
     {
         $duration = DB::table('time_tracking_entries')
             ->where('project_task_id', $projectTask->id)
             ->sum('duration');
 
-        $task = self::getTaskFullDetails($projectTask, $company);
+        $task = self::getTaskFullDetails($projectTask, $company, $employee);
 
         return [
             'task' => $task,
@@ -253,16 +256,17 @@ class ProjectTasksViewHelper
      *
      * @param ProjectTask $projectTask
      * @param Company $company
+     * @param Employee $employee
      * @return Collection|null
      */
-    public static function timeTrackingEntries(ProjectTask $projectTask, Company $company): ?Collection
+    public static function timeTrackingEntries(ProjectTask $projectTask, Company $company, Employee $employee): ?Collection
     {
         // we need to query this using a raw query instead of hydrating all
         // models with eloquent, as we might have a lot of time tracking entries
         // on long tasks, and this would not be efficient at all
         $timeTrackingEntries = DB::table('time_tracking_entries')
             ->join('employees', 'time_tracking_entries.employee_id', '=', 'employees.id')
-            ->select('time_tracking_entries.id', 'time_tracking_entries.duration', 'time_tracking_entries.happened_at', 'employees.id as employee_id', 'employees.avatar', 'employees.first_name', 'employees.last_name')
+            ->select('time_tracking_entries.id', 'time_tracking_entries.duration', 'time_tracking_entries.happened_at', 'employees.id as employee_id', 'employees.first_name', 'employees.last_name')
             ->where('project_task_id', $projectTask->id)
             ->orderBy('time_tracking_entries.happened_at', 'desc')
             ->get();
@@ -274,7 +278,7 @@ class ProjectTasksViewHelper
             $timeTrackingCollection->push([
                 'id' => (int) $timeTrackingEntry->id,
                 'duration' => TimeHelper::durationInHumanFormat((int) $timeTrackingEntry->duration),
-                'created_at' => DateHelper::formatDate($carbonDate),
+                'created_at' => DateHelper::formatDate($carbonDate, $employee->timezone),
                 'employee' => [
                     'id' => $timeTrackingEntry->employee_id,
                     'name' => $timeTrackingEntry->first_name.' '.$timeTrackingEntry->last_name,

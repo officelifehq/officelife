@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Helpers\TimeHelper;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
-use App\Helpers\AvatarHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
 use Illuminate\Http\JsonResponse;
@@ -21,7 +21,7 @@ use App\Services\Company\Project\UpdateProjectTask;
 use App\Services\Company\Project\DestroyProjectTask;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
-use App\Services\Company\Project\AssignProjecTaskToEmployee;
+use App\Services\Company\Project\AssignProjectTaskToEmployee;
 use App\Http\ViewHelpers\Company\Project\ProjectTasksViewHelper;
 use App\Services\Company\Employee\Timesheet\CreateTimeTrackingEntry;
 
@@ -69,6 +69,7 @@ class ProjectTasksController extends Controller
     public function show(Request $request, int $companyId, int $projectId, int $taskId)
     {
         $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
 
         try {
             $project = Project::where('company_id', $company->id)
@@ -89,7 +90,7 @@ class ProjectTasksController extends Controller
         return Inertia::render('Company/Project/Tasks/Show', [
             'tab' => 'tasks',
             'project' => ProjectViewHelper::info($projectTask->project),
-            'task' => ProjectTasksViewHelper::taskDetails($projectTask, $company),
+            'task' => ProjectTasksViewHelper::taskDetails($projectTask, $company, $employee),
             'members' => ProjectTasksViewHelper::members($project),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
@@ -120,7 +121,7 @@ class ProjectTasksController extends Controller
         $task = (new CreateProjectTask)->execute($data);
 
         if ($request->input('assignee_id')) {
-            $task = (new AssignProjecTaskToEmployee)->execute([
+            $task = (new AssignProjectTaskToEmployee)->execute([
                 'company_id' => $company->id,
                 'author_id' => $loggedEmployee->id,
                 'project_id' => $projectId,
@@ -144,7 +145,7 @@ class ProjectTasksController extends Controller
                 'assignee' => $task->assignee ? [
                     'id' => $task->assignee->id,
                     'name' => $task->assignee->name,
-                    'avatar' => AvatarHelper::getImage($task->assignee),
+                    'avatar' => ImageHelper::getAvatar($task->assignee),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $task->assignee,
@@ -180,7 +181,7 @@ class ProjectTasksController extends Controller
         $task = (new UpdateProjectTask)->execute($data);
 
         if ($request->input('assignee_id')) {
-            $task = (new AssignProjecTaskToEmployee)->execute([
+            $task = (new AssignProjectTaskToEmployee)->execute([
                 'company_id' => $company->id,
                 'author_id' => $loggedEmployee->id,
                 'project_id' => $projectId,
@@ -208,7 +209,7 @@ class ProjectTasksController extends Controller
                 'assignee' => $task->assignee ? [
                     'id' => $task->assignee->id,
                     'name' => $task->assignee->name,
-                    'avatar' => AvatarHelper::getImage($task->assignee),
+                    'avatar' => ImageHelper::getAvatar($task->assignee),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $task->assignee,
@@ -286,6 +287,7 @@ class ProjectTasksController extends Controller
     public function timeTrackingEntries(Request $request, int $companyId, int $projectId, int $taskId): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
 
         try {
             $project = Project::where('company_id', $company->id)
@@ -302,7 +304,7 @@ class ProjectTasksController extends Controller
         }
 
         return response()->json([
-            'data' => ProjectTasksViewHelper::timeTrackingEntries($projectTask, $company),
+            'data' => ProjectTasksViewHelper::timeTrackingEntries($projectTask, $company, $employee),
         ], 200);
     }
 

@@ -108,6 +108,11 @@ class RemoveEmployeeFromProjectTest extends TestCase
             'employee_id' => $dwight->id,
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project, $dwight) {
             return $job->auditLog['action'] === 'employee_removed_from_project' &&
                 $job->auditLog['author_id'] === $michael->id &&

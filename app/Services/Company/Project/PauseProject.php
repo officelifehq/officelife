@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
+use App\Models\Company\ProjectMemberActivity;
 
 class PauseProject extends BaseService
 {
@@ -38,6 +39,7 @@ class PauseProject extends BaseService
         $this->data = $data;
         $this->validate();
         $this->pauseProject();
+        $this->logActivity();
         $this->log();
 
         return $this->project;
@@ -60,6 +62,14 @@ class PauseProject extends BaseService
     {
         $this->project->status = Project::PAUSED;
         $this->project->save();
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void

@@ -1,5 +1,5 @@
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -34,14 +34,14 @@
             </div>
 
             <!-- Actions -->
-            <div class="cf pa3 bb-gray bb">
+            <div class="cf pa3">
               <div class="flex-ns justify-between">
                 <div>
                   <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2" data-cy="cancel-button">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn destroy w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.delete')" :cypress-selector="'submit-delete-project-button'" />
+                <loading-button :class="'btn destroy w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.delete')" :cypress-selector="'submit-delete-project-button'" />
               </div>
             </div>
           </form>
@@ -90,7 +90,7 @@ export default {
       axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}`)
         .then(response => {
           localStorage.success = this.$t('project.delete_success');
-          this.$inertia.visit(`${this.$page.props.auth.company.id}/company/projects`);
+          this.$inertia.visit(`/${this.$page.props.auth.company.id}/company/projects`);
         })
         .catch(error => {
           this.loadingState = null;
