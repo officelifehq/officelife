@@ -7,16 +7,16 @@
 
 
 <template>
-  <div v-if="member && member.avatar" v-bind="$attrs" class="di">
+  <div v-if="avatar" v-bind="$attrs" class="di">
     <inertia-link v-if="url" :href="url" class="link">
       <img :loading="loading" :width="size" :height="size"
-           :src="member.avatar.normal" :srcset="srcset"
+           :src="avatar.normal" :srcset="srcset"
            :alt="altValue"
            v-bind="$attrs"
       />
     </inertia-link>
     <img v-else :loading="loading" :width="size" :height="size"
-         :src="member.avatar.normal" :srcset="srcset"
+         :src="avatar.normal" :srcset="srcset"
          :alt="altValue"
          v-bind="$attrs"
     />
@@ -28,8 +28,16 @@ export default {
   inheritAttrs: false,
 
   props: {
-    member: {
+    avatar: {
       type: Object,
+      default: null,
+    },
+    url: {
+      type: String,
+      default: null,
+    },
+    name: {
+      type: String,
       default: null,
     },
     size: {
@@ -47,14 +55,11 @@ export default {
   },
 
   computed: {
-    url() {
-      return typeof this.member.url === 'string' ? this.member.url : '';
-    },
     srcset() {
-      return this.member.avatar.normal + ' 1x,' + this.member.avatar.retina + ' 2x';
+      return this.avatar.normal + ' 1x,' + this.avatar.retina + ' 2x';
     },
     altValue() {
-      return this.member.name ? this.member.name : this.alt;
+      return this.name ? this.name : this.alt;
     }
   }
 };

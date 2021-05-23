@@ -42,7 +42,8 @@
 
         <!-- project members -->
         <div class="flex items-center relative tr">
-          <avatar v-for="member in project.preview_members" :key="member.id" :member="member" :size="32"
+          <avatar v-for="member in project.preview_members" :key="member.id" :avatar="member.avatar" :url="member.url" :name="member.name"
+                  :size="32"
                   :class="'br-100 small-avatar'"
           />
           <div v-if="project.remaining_members_count > 0" class="pl2 f7 more-members relative gray">

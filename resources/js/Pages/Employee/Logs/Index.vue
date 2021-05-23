@@ -44,7 +44,7 @@
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <div class="relative pt5">
           <!-- AVATAR -->
-          <avatar :member="employee" :size="80" :class="'avatar absolute br-100 db center'" />
+          <avatar :avatar="employee.avatar" :url="employee.url" :name="employee.name" :size="80" :class="'avatar absolute br-100 db center'" />
 
           <h2 class="pa3 tc normal mb4">
             {{ $t('employee.audit_log_title') }}
@@ -53,7 +53,7 @@
           <ul class="list pl0 mt0 mb0 center" data-cy="logs-list">
             <li v-for="log in logs" :key="log.id" class="flex items-center lh-copy pa3 bb b--black-10 log-item">
               <!-- avatar -->
-              <avatar :member="log.author" :size="34" :class="'author-avatar br-100'" />
+              <avatar :avatar="log.author.avatar" :url="log.author.url" :name="log.author.name" :size="34" :class="'author-avatar br-100'" />
 
               <div>
                 <div class="db f7 mb2">

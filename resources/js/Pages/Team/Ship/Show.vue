@@ -80,7 +80,7 @@
             <ul class="list ma0 pa0">
               <li v-for="employee in ship.employees" :key="employee.id" class="mb3">
                 <span class="pl3 db relative team-member">
-                  <avatar :member="employee" :class="'ship-avatar br-100 absolute'" :size="44" />
+                  <avatar :avatar="employee.avatar" :url="employee.url" :name="employee.name" :class="'ship-avatar br-100 absolute'" :size="44" />
 
                   <div class="name relative">
                     <inertia-link :href="employee.url" class="mb2" :data-cy="'ship-list-employee-' + employee.id">{{ employee.name }}</inertia-link>

@@ -78,7 +78,7 @@
               <!-- identity -->
               <div class="mb3">
                 <span class="pl3 db relative team-member">
-                  <avatar :member="directReport" :size="64" :class="'br-100 absolute avatar'" />
+                  <avatar :avatar="directReport.avatar" :url="directReport.url" :name="directReport.name" :size="64" :class="'br-100 absolute avatar'" />
                   <inertia-link :href="directReport.url" class="mb2">{{ directReport.name }}</inertia-link>
                   <span class="title db f7 mt1">
                     {{ directReport.position }}

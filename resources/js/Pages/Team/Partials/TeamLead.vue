@@ -33,7 +33,7 @@
       <div class="lh-copy ma0 pa3 bb bb-gray">
         <p class="silver f6 ma0 mb1">{{ $t('team.team_lead_label') }}</p>
         <span class="pl3 db team-lead relative">
-          <avatar :member="localTeam.team_leader" :size="35" :class="'br-100 absolute avatar'" />
+          <avatar :avatar="localTeam.team_leader.avatar" :url="localTeam.team_leader.url" :name="localTeam.team_leader.name" :size="35" :class="'br-100 absolute avatar'" />
           <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + localTeam.team_leader.id" class="mb2" data-cy="current-team-lead">
             {{ localTeam.team_leader.name }}
           </inertia-link>

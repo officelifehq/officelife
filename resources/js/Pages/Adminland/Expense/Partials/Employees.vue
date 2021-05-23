@@ -73,7 +73,7 @@
     <div v-show="localEmployees.length > 0" class="ba bb-gray mt2 br2 employees-list">
       <div v-for="employee in localEmployees" :key="employee.id" class="pa2 db bb-gray bb bb-gray-hover" data-cy="employees-list">
         <span class="pl3 db relative team-member">
-          <avatar :member="employee" :size="23" :class="'br-100 absolute avatar'" />
+          <avatar :avatar="employee.avatar" :url="employee.url" :name="employee.name" :size="23" :class="'br-100 absolute avatar'" />
 
           <inertia-link :href="employee.url">{{ employee.name }}</inertia-link>
 

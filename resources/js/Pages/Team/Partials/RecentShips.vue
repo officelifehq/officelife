@@ -34,7 +34,7 @@
           <inertia-link :href="ship.url" class="ma0 pa0" :data-cy="'recent-ship-list-' + ship.id">{{ ship.title }}</inertia-link>
           <ul class="list ma0">
             <li v-for="employee in ship.employees" :key="employee.id" class="mr1 di">
-              <avatar :member="employee" :size="17" :class="'br-100 relative mr1 dib-ns dn'" />
+              <avatar :avatar="employee.avatar" :url="employee.url" :name="employee.name" :size="17" :class="'br-100 relative mr1 dib-ns dn'" />
             </li>
           </ul>
         </div>

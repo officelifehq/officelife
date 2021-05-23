@@ -33,7 +33,7 @@
         v-for="currentEmployee in employees" :key="currentEmployee.id"
         class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10 employee-item"
       >
-        <avatar :member="currentEmployee" :size="64" :class="'w2 h2 w3-ns h3-ns br-100'" />
+        <avatar :avatar="currentEmployee.avatar" :url="currentEmployee.url" :name="currentEmployee.name" :size="64" :class="'w2 h2 w3-ns h3-ns br-100'" />
 
         <div class="pl3 flex-auto">
           <!-- name -->

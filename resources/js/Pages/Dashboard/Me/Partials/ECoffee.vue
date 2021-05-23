@@ -46,7 +46,7 @@
       <!-- avatars -->
       <div class="absolute-ns avatars tc">
         <img class="avatar br-100" loading="lazy" src="/img/streamline-icon-coffee-idea-sparking@140x140.png" alt="avatar" />
-        <avatar :member="localeCoffee.other_employee" :size="55" :class="'avatar br-100'" />
+        <avatar :avatar="localeCoffee.other_employee.avatar" :url="localeCoffee.other_employee.url" :name="localeCoffee.other_employee.name" :size="55" :class="'avatar br-100'" />
       </div>
     </div>
 
@@ -58,7 +58,7 @@
       <!-- avatars -->
       <div class="absolute-ns avatars tc">
         <img class="avatar br-100" loading="lazy" src="/img/streamline-icon-coffee-idea-sparking@140x140.png" alt="avatar" />
-        <avatar :member="localeCoffee.other_employee" :size="55" :class="'avatar br-100'" />
+        <avatar :avatar="localeCoffee.other_employee.avatar" :url="localeCoffee.other_employee.url" :name="localeCoffee.other_employee.name" :size="55" :class="'avatar br-100'" />
       </div>
     </div>
   </div>

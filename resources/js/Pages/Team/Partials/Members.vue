@@ -72,7 +72,7 @@
       <div v-if="listOfEmployees.length > 0" class="pa3 flex flex-wrap employee-list">
         <div v-for="employee in listOfEmployees" :key="employee.id" class="mb4 mr3" data-cy="members-list">
           <span class="pl3 db relative team-member">
-            <avatar :member="employee" :size="35" :class="'br-100 absolute avatar'" />
+            <avatar :avatar="employee.avatar" :url="employee.url" :name="employee.name" :size="35" :class="'br-100 absolute avatar'" />
 
             <!-- normal mode -->
             <inertia-link v-show="!editMode" :href="employee.url" class="mb2">

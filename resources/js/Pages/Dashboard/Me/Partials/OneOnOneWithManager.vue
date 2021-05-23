@@ -48,7 +48,7 @@
           <!-- identity -->
           <div>
             <span class="pl3 db relative team-member">
-              <avatar :member="manager" :size="35" :class="'br-100 absolute avatar'" />
+              <avatar :avatar="manager.avatar" :url="manager.url" :name="manager.name" :size="35" :class="'br-100 absolute avatar'" />
               <inertia-link :href="manager.url" class="mb2">{{ manager.name }}</inertia-link>
               <span class="title db f7 mt1">
                 {{ manager.position }}
