@@ -145,7 +145,6 @@ export default {
     logoutOtherBrowserSessions() {
       this.form.delete(route('other-browser-sessions.destroy'), {
         preserveScroll: true,
-        onSuccess: () => this.closeModal(),
         onSuccess: () => {
           this.flash(this.$t('app.flash_done'), 'success');
           this.closeModal();
