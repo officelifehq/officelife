@@ -76,7 +76,7 @@
             />
 
             <!-- Code -->
-            <p v-if="!showCode" class="bt bb-gray pt3 pointer" data-cy="add-code" @click.prevent="showCode = true"><span class="ba br-100 plus-button">+</span> Add project code</p>
+            <p v-if="!showCode" class="bt bb-gray pt3 pointer" data-cy="add-code" @click.prevent="showCode = true"><span class="ba br-100 plus-button">+</span> {{ $t('project.create_input_add_project_code') }}</p>
             <text-input v-if="showCode" :id="'code'"
                         v-model="form.code"
                         :name="'code'"
@@ -87,7 +87,7 @@
             />
 
             <!-- Summary -->
-            <p v-if="!showSummary" class="bt bb-gray pt3 pointer" data-cy="add-summary" @click.prevent="showSummary = true"><span class="ba br-100 plus-button">+</span> Add summary</p>
+            <p v-if="!showSummary" class="bt bb-gray pt3 pointer" data-cy="add-summary" @click.prevent="showSummary = true"><span class="ba br-100 plus-button">+</span> {{ $t('project.create_input_add_summary') }}</p>
             <text-area v-if="showSummary"
                        v-model="form.summary"
                        :label="$t('project.create_input_summary')"
@@ -98,7 +98,7 @@
                        @esc-key-pressed="showSummary = false"
             />
 
-            <p v-if="!showAssignProjectLead && !form.projectLead" class="bt bb-gray pt3 pointer" data-cy="project-assign-project-lead" @click.prevent="showAssignProjectLead = true"><span class="ba br-100 plus-button">+</span> Add a project lead</p>
+            <p v-if="!showAssignProjectLead && !form.projectLead" class="bt bb-gray pt3 pointer" data-cy="project-assign-project-lead" @click.prevent="showAssignProjectLead = true"><span class="ba br-100 plus-button">+</span> {{ $t('project.create_input_add_project_lead') }}</p>
 
             <div v-if="showAssignProjectLead == true" class="bb bb-gray bt pt3">
               <form class="relative" @submit.prevent="search">

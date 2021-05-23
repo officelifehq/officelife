@@ -31,7 +31,6 @@ class CreateSoftwaresTable extends Migration
             $table->datetime('converted_at')->nullable();
             $table->double('exchange_rate')->nullable();
             $table->datetime('purchased_at')->nullable();
-            $table->datetime('expired_at')->nullable();
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });

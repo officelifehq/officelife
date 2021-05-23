@@ -23,7 +23,7 @@ class AdminSoftwareViewHelperTest extends TestCase
         $office365->employees()->syncWithoutDetaching([$michael->id]);
 
         $softwares = $michael->company->softwares()->with('employees')->orderBy('id', 'desc')->get();
-        $collection = AdminSoftwareViewHelper::index($softwares, $michael->company);
+        $array = AdminSoftwareViewHelper::index($softwares, $michael->company);
 
         $this->assertEquals(
             [
@@ -32,10 +32,15 @@ class AdminSoftwareViewHelperTest extends TestCase
                     'name' => 'Office 365',
                     'seats' => 9,
                     'remaining_seats' => 8,
-                    'url' => env('APP_URL') . '/' . $michael->company_id . '/account/software/'.$office365->id,
+                    'url' => env('APP_URL') . '/' . $michael->company_id . '/account/softwares/'.$office365->id,
                 ],
             ],
-            $collection->toArray()
+            $array['softwares']->toArray()
+        );
+
+        $this->assertEquals(
+            env('APP_URL') . '/' . $michael->company_id . '/account/softwares/create',
+            $array['url_new']
         );
     }
 }

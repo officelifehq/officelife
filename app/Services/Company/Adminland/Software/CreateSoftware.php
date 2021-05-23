@@ -33,7 +33,6 @@ class CreateSoftware extends BaseService
             'purchase_amount' => 'nullable|integer',
             'currency' => 'nullable|string|max:255',
             'purchased_at' => 'nullable|date_format:Y-m-d',
-            'expired_at' => 'nullable|date_format:Y-m-d',
         ];
     }
 
@@ -83,7 +82,6 @@ class CreateSoftware extends BaseService
             'purchase_amount' => $this->valueOrNull($this->data, 'purchase_amount'),
             'currency' => $currency,
             'purchased_at' => $this->valueOrNull($this->data, 'purchased_at'),
-            'expired_at' => $this->valueOrNull($this->data, 'expired_at'),
         ]);
     }
 

@@ -89,7 +89,7 @@
               </inertia-link>
             </li>
             <li class="pa2 pl0 relative">
-              <span class="mr1">💾</span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/software'" data-cy="software-admin-link">
+              <span class="mr1">💾</span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/softwares'" data-cy="software-admin-link">
                 {{ $t('account.home_manage_software') }}
               </inertia-link>
             </li>

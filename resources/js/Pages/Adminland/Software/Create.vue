@@ -5,6 +5,12 @@ input[type=checkbox] {
 input[type=radio] {
   top: -2px;
 }
+.plus-button {
+  padding: 2px 7px 4px;
+  margin-right: 4px;
+  border-color: #60995c;
+  color: #60995c;
+}
 </style>
 
 <template>
@@ -53,15 +59,15 @@ input[type=radio] {
                             :errors="$page.props.errors.name"
                             :label="$t('account.software_new_name')"
                             :required="true"
+                            :autofocus="true"
                 />
 
                 <!-- Product key -->
-                <text-input :id="'product_key'"
-                            v-model="form.product_key"
-                            :name="'product_key'"
-                            :errors="$page.props.errors.product_key"
-                            :label="$t('account.software_new_product_key')"
-                            :required="true"
+                <text-area v-model="form.product_key"
+                           :label="$t('account.software_new_product_key')"
+                           :datacy="'news-content-textarea'"
+                           :required="true"
+                           :rows="10"
                 />
 
                 <!-- Seats -->
@@ -79,7 +85,17 @@ input[type=radio] {
             </div>
 
             <!-- Purchase information -->
-            <div class="cf pa3 bb bb-gray pb4">
+            <!-- toggle display purchase information -->
+            <div v-if="!showPurchaseInformation" class="cf pa3 bb bb-gray">
+              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
+                &nbsp;
+              </div>
+              <div class="fl-ns w-two-thirds-ns w-100">
+                <p class="pointer" @click.prevent="showPurchaseInformation = true"><span class="ba br-100 plus-button">+</span> Add purchase information</p>
+              </div>
+            </div>
+            <!-- section to add purchase information -->
+            <div v-else class="cf pa3 bb bb-gray pb4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
                 <strong>{{ $t('account.software_new_purchase_information') }}</strong>
               </div>
@@ -161,9 +177,17 @@ input[type=radio] {
               </div>
             </div>
 
-
             <!-- Purchase date -->
-            <div class="cf pa3 bb bb-gray pb4">
+            <!-- toggle display purchase date -->
+            <div v-if="!showPurchaseDateInformation" class="cf pa3 bb bb-gray">
+              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
+                &nbsp;
+              </div>
+              <div class="fl-ns w-two-thirds-ns w-100">
+                <p class="pointer" @click.prevent="showPurchaseDateInformation = true"><span class="ba br-100 plus-button">+</span> Add purchase information date</p>
+              </div>
+            </div>
+            <div v-else class="cf pa3 bb bb-gray pb4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
                 <strong>{{ $t('account.software_new_purchased_date') }}</strong>
                 <p class="f7 silver lh-copy pr3-ns">
@@ -215,68 +239,15 @@ input[type=radio] {
               </div>
             </div>
 
-            <!-- Expiration date -->
-            <div class="cf pa3 bb bb-gray pb4">
-              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                <strong>{{ $t('account.software_new_expiration_date') }}</strong>
-                <p class="f7 silver lh-copy pr3-ns">
-                  Does this software have an expiration date?
-                </p>
-              </div>
-              <div class="fl-ns w-two-thirds-ns w-100">
-                <div class="dt-ns dt--fixed di">
-                  <div class="dtc-ns pr2-ns pb0-ns w-100">
-                    <!-- year -->
-                    <text-input :id="'expiration_date_year'"
-                                v-model="form.expiration_date_year"
-                                :name="'expiration_date_year'"
-                                :errors="$page.props.errors.expiration_date_year"
-                                :label="$t('app.year')"
-                                :required="false"
-                                :type="'number'"
-                                :min="1900"
-                                :max="2050"
-                    />
-                  </div>
-                  <div class="dtc-ns pr2-ns pb0-ns w-100">
-                    <!-- month -->
-                    <text-input :id="'expiration_date_month'"
-                                v-model="form.expiration_date_month"
-                                :name="'expiration_date_month'"
-                                :errors="$page.props.errors.expiration_date_month"
-                                :label="$t('app.month')"
-                                :required="false"
-                                :type="'number'"
-                                :min="1"
-                                :max="12"
-                    />
-                  </div>
-                  <div class="dtc-ns pr2-ns pb0-ns w-100">
-                    <!-- day -->
-                    <text-input :id="'expiration_date_day'"
-                                v-model="form.expiration_date_day"
-                                :name="'expiration_date_day'"
-                                :errors="$page.props.errors.expiration_date_day"
-                                :label="$t('app.day')"
-                                :required="false"
-                                :type="'number'"
-                                :min="1"
-                                :max="31"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <!-- Actions -->
             <div class="pa3">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.props.auth.company.id + '/account/hardware'" class="btn dib tc w-auto-ns w-100 mb2">
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/account/softwares'" class="btn dib tc w-auto-ns w-100">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :class="'btn add w-auto-ns w-100 mb2'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-hardware-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-hardware-button'" />
               </div>
             </div>
           </form>
@@ -292,6 +263,7 @@ import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
 import SelectBox from '@/Shared/Select';
+import TextArea from '@/Shared/TextArea';
 
 export default {
   components: {
@@ -300,6 +272,7 @@ export default {
     Errors,
     LoadingButton,
     SelectBox,
+    TextArea,
   },
 
   props: {
@@ -333,6 +306,8 @@ export default {
         errors: [],
       },
       loadingState: '',
+      showPurchaseInformation: false,
+      showPurchaseDateInformation: false,
     };
   },
 

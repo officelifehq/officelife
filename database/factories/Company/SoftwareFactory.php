@@ -31,10 +31,9 @@ class SoftwareFactory extends Factory
             'licensed_to_name' => $this->faker->name(),
             'licensed_to_email_address' => $this->faker->email,
             'order_number' => $this->faker->randomNumber(),
-            'purchase_cost' => $this->faker->randomNumber(),
+            'purchase_amount' => $this->faker->randomNumber(),
             'currency' => $this->faker->currencyCode,
-            'purchase_at' => $this->faker->dateTimeThisCentury(),
-            'expired_at' => $this->faker->dateTimeThisCentury(),
+            'purchased_at' => $this->faker->dateTimeThisCentury(),
         ];
     }
 }

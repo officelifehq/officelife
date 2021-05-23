@@ -3,7 +3,6 @@
 namespace App\Http\ViewHelpers\Adminland;
 
 use App\Models\Company\Company;
-use Illuminate\Support\Collection;
 
 class AdminSoftwareViewHelper
 {
@@ -12,9 +11,9 @@ class AdminSoftwareViewHelper
      *
      * @param mixed $softwares
      * @param Company $company
-     * @return Collection
+     * @return array
      */
-    public static function index($softwares, Company $company): Collection
+    public static function index($softwares, Company $company): array
     {
         $softwareCollection = collect([]);
         foreach ($softwares as $software) {
@@ -32,6 +31,11 @@ class AdminSoftwareViewHelper
             ]);
         }
 
-        return $softwareCollection;
+        return [
+            'softwares' => $softwareCollection,
+            'url_new' => route('software.create', [
+                'company' => $company,
+            ]),
+        ];
     }
 }

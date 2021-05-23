@@ -39,7 +39,6 @@ class Software extends Model
         'converted_at',
         'exchange_rate',
         'purchased_at',
-        'expired_at',
     ];
 
     /**
@@ -49,7 +48,6 @@ class Software extends Model
      */
     protected $dates = [
         'purchased_at',
-        'expired_at',
         'converted_at',
     ];
 
