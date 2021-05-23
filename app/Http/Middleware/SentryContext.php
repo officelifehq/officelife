@@ -21,7 +21,7 @@ class SentryContext
      */
     public function handle($request, Closure $next)
     {
-        if (app()->bound('sentry') && config('app.sentry.enable')) {
+        if (app()->bound('sentry') && config('app.sentry.enabled')) {
             \Sentry\configureScope(function (Scope $scope): void {
                 // Add user context
                 $user = Auth::user();
@@ -30,8 +30,8 @@ class SentryContext
                         'id' => $user->id,
                     ]);
                 }
-                $scope->setTag('page.route.name', Route::currentRouteName());
-                $scope->setTag('page.route.action', Route::currentRouteAction());
+                $scope->setTag('page.route.name', Route::currentRouteName() ?? '');
+                $scope->setTag('page.route.action', Route::currentRouteAction() ?? '');
             });
         }
 

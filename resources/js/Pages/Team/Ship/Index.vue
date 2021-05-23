@@ -1,10 +1,4 @@
 <style lang="scss" scoped>
-.ship-avatar {
-  top: 2px;
-  text-decoration: none;
-  border-bottom: none;
-}
-
 .graffiti {
   background-image: url('/img/confetti.png');
   background-repeat: repeat-x;
@@ -47,7 +41,7 @@
             <!-- list of employees -->
             <ul class="list ma0">
               <li v-for="employee in recentShip.employees" :key="employee.id" class="mr1 di">
-                <avatar :member="employee" :class="'ship-avatar br-100 relative mr1 dib-ns dn'" :size="21" :data-cy="'ship-list-' + recentShip.id + '-avatar-' + employee.id" />
+                <avatar :member="employee" :class="'br-100 relative mr1 dib-ns dn'" :size="23" />
               </li>
             </ul>
           </div>
@@ -64,7 +58,7 @@ import Avatar from '@/Shared/Avatar';
 export default {
   components: {
     Layout,
-    Avatar
+    Avatar,
   },
 
   props: {

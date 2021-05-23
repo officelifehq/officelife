@@ -58,7 +58,7 @@
 
             <ul class="list pl0">
               <li class="mb2 pl2"><inertia-link :href="localProject.url_edit" data-cy="project-edit" class="f6 gray">{{ $t('project.summary_edit') }}</inertia-link></li>
-              <li class="pl2"><inertia-link :href="localProject.url_delete" data-cy="project-delete" class="f6 gray">{{ $t('project.summary_delete') }}</inertia-link></li>
+              <li class="pl2"><inertia-link :href="localProject.url_delete" data-cy="project-delete" class="f6 gray c-delete">{{ $t('project.summary_delete') }}</inertia-link></li>
             </ul>
           </div>
         </div>

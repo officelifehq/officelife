@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services\Company\Employee\Position;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
@@ -9,6 +10,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
+use App\Models\Company\EmployeePositionHistory;
 use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -24,6 +26,15 @@ class AssignPositionToEmployeeTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
         $this->executeService($michael, $dwight);
+    }
+
+    /** @test */
+    public function it_assigns_a_position_as_administrator_and_updates_the_position_history(): void
+    {
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+
+        $this->executeService($michael, $dwight, true);
     }
 
     /** @test */
@@ -84,9 +95,10 @@ class AssignPositionToEmployeeTest extends TestCase
         (new AssignPositionToEmployee)->execute($request);
     }
 
-    private function executeService(Employee $michael, Employee $dwight): void
+    private function executeService(Employee $michael, Employee $dwight, bool $hasPreviousEmployeeHistoryEntry = false): void
     {
         Queue::fake();
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
         $position = Position::factory()->create([
             'company_id' => $dwight->company_id,
@@ -99,6 +111,14 @@ class AssignPositionToEmployeeTest extends TestCase
             'position_id' => $position->id,
         ];
 
+        if ($hasPreviousEmployeeHistoryEntry) {
+            EmployeePositionHistory::factory()->create([
+                'employee_id' => $dwight->id,
+                'position_id' => $position->id,
+                'started_at' => '1900-01-01 00:00:00',
+            ]);
+        }
+
         $dwight = (new AssignPositionToEmployee)->execute($request);
 
         $this->assertDatabaseHas('employees', [
@@ -106,6 +126,21 @@ class AssignPositionToEmployeeTest extends TestCase
             'id' => $dwight->id,
             'position_id' => $position->id,
         ]);
+
+        $this->assertDatabaseHas('employee_position_history', [
+            'employee_id' => $dwight->id,
+            'position_id' => $position->id,
+            'started_at' => Carbon::now(),
+        ]);
+
+        if ($hasPreviousEmployeeHistoryEntry) {
+            $this->assertDatabaseHas('employee_position_history', [
+                'employee_id' => $dwight->id,
+                'position_id' => $position->id,
+                'started_at' => '1900-01-01 00:00:00',
+                'ended_at' => Carbon::now(),
+            ]);
+        }
 
         $this->assertInstanceOf(
             Employee::class,

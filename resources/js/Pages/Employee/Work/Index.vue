@@ -46,14 +46,21 @@
             :menu="menu"
           />
 
+          <worklogs
+            :permissions="permissions"
+            :employee="employee"
+            :worklog="worklog"
+            :weeks="weeks"
+          />
+
           <projects
             :employee="employee"
             :projects="projects"
           />
 
-          <worklogs
-            :permissions="permissions"
-            :worklogs="worklogs"
+          <groups
+            :employee="employee"
+            :groups="groups"
           />
 
           <recent-ships
@@ -80,6 +87,7 @@ import Worklogs from '@/Pages/Employee/Work/Partials/Worklogs';
 import WorkFromHome from '@/Pages/Employee/Work/Partials/WorkFromHome';
 import RecentShips from '@/Pages/Employee/Work/Partials/RecentShips';
 import Projects from '@/Pages/Employee/Work/Partials/Projects';
+import Groups from '@/Pages/Employee/Work/Partials/Groups';
 
 export default {
   components: {
@@ -91,6 +99,7 @@ export default {
     WorkFromHome,
     RecentShips,
     Projects,
+    Groups,
   },
 
   props: {
@@ -110,7 +119,7 @@ export default {
       type: Array,
       default: null,
     },
-    worklogs: {
+    worklog: {
       type: Object,
       default: null,
     },
@@ -126,13 +135,14 @@ export default {
       type: Array,
       default: null,
     },
-  },
-
-  mounted() {
-    if (localStorage.success) {
-      this.flash(localStorage.success, 'success');
-      localStorage.removeItem('success');
-    }
+    groups: {
+      type: Array,
+      default: null,
+    },
+    weeks: {
+      type: Array,
+      default: null,
+    },
   },
 };
 

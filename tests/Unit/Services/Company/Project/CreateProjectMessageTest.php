@@ -95,6 +95,11 @@ class CreateProjectMessageTest extends TestCase
             'employee_id' => $michael->id,
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         $this->assertInstanceOf(
             ProjectMessage::class,
             $projectMessage

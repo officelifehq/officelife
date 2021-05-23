@@ -28,7 +28,6 @@ return [
     'worklog_already_logged' => 'You have already logged your work today.',
     'worklog_added' => '🤟 You rock!',
     'worklog_cta' => 'Log your work',
-    'worklog_read_previous_entries' => 'Read your previous entries',
     'worklog_entry_description' => 'Your manager and your team members (if you are assigned to a team) will be able to read this status. Also, you won’t be able to edit this status once it’s submitted.',
     'worklog_success_message' => 'The entry has been saved.',
 
@@ -45,6 +44,9 @@ return [
     'team_not_allowed' => 'You are not allowed to view this team.',
     'team_dont_exist' => 'This team does not exist.',
     'team_viewing' => 'Viewing',
+
+    'team_upcoming_hires' => 'Starts on :date',
+    'team_upcoming_hires_with_position' => 'Starts on :date as :position',
 
     'team_work_from_home_title' => 'Who is working from home today',
     'team_work_from_home_blank' => 'No one is working from home today.',
@@ -65,8 +67,8 @@ return [
     'question_answer_destroyed' => 'The answer has been deleted.',
     'question_answer_link' => 'View all answers of this question',
 
-    'team_recent_ships' => 'The 3 latest recent ships in this team',
-    'team_recent_ship_list_blank' => 'The team hasn’t ship anything recently.',
+    'team_recent_ships' => 'The 3 latest accomplishments in this team',
+    'team_recent_ship_list_blank' => 'The team hasn’t shipped anything recently.',
 
     'task_title' => 'Tasks',
 
@@ -207,6 +209,7 @@ return [
     'contract_renewal_date' => 'Your contract ends on {date}, which is in {count} days.',
     'contract_renewal_date_late' => 'Your contract ended on {date}, so you should take care of that.',
 
+    'timesheet_title' => 'Your timesheets',
     'timesheet_rejected_timesheets' => 'The timesheets below have been rejected. Please review them.',
     'timesheet_approved_by' => 'Approved by',
     'timesheet_rejected_by' => 'Rejected by',

@@ -284,10 +284,10 @@ input[type=checkbox] {
               <form @submit.prevent="logTime">
                 <div class="mb3">
                   <span class="lh-copy mb2 dib">
-                    How much time have you worked on this today?
+                    {{ $t('project.task_edit_time') }}
                   </span>
                   <text-duration
-                    @update="updateDuration($event)"
+                    @update:model-value="updateDuration($event)"
                   />
                 </div>
 
@@ -301,7 +301,7 @@ input[type=checkbox] {
             </div>
 
             <!-- delete -->
-            <li v-if="!deleteMode" class="mb2" @click="deleteMode = true"><span class="bb b--dotted bt-0 bl-0 br-0 pointer di f7">{{ $t('app.delete') }}</span></li>
+            <li v-if="!deleteMode" class="mb2" @click="deleteMode = true"><span class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 c-delete">{{ $t('app.delete') }}</span></li>
             <li v-if="deleteMode" class="mb2">
               {{ $t('app.sure') }}
               <a class="c-delete mr1 pointer" @click.prevent="destroy">

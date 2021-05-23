@@ -62,8 +62,8 @@ return [
     'useful_link_form_email' => 'Email address',
     'useful_link_form_slack' => 'Slack channel',
 
-    'recent_ship_title' => 'Recent ships',
-    'recent_ship_list_blank' => 'This team hasn’t written any recent ship entries for now.',
+    'recent_ship_title' => 'Accomplishments',
+    'recent_ship_list_blank' => 'This team hasn’t made any accomplishments for now.',
     'recent_ship_list_cta' => 'What have you shipped?',
     'recent_ship_create' => 'What has {name} shipped lately?',
     'recent_ship_new_title' => 'Name of the feature',
@@ -71,9 +71,14 @@ return [
     'recent_ship_new_credit' => 'Who has worked on this?',
     'recent_ship_new_credit_help' => 'Find someone in the company',
     'recent_ship_create_success' => 'The entry has been created.',
-    'recent_ship_view_all' => 'View all features',
-    'recent_ships_index' => 'All the recent ships made by {name}',
+    'recent_ship_view_all' => 'View all accomplishments',
+    'recent_ships_index' => 'All the accomplishments made by {name}',
     'recent_ship_show_date' => 'Written on {date} in {team}',
     'recent_ship_show_members' => 'Made possible by',
     'recent_ship_deletion_success' => 'The entry has been deleted.',
+
+    'morale_title' => 'Morale of the team members',
+    'morale_on_average' => 'On average',
+
+    'hires_next_week_title' => 'New hires in the next 7 days',
 ];

@@ -11,12 +11,14 @@ use App\Models\Company\Ship;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\User\Pronoun;
+use App\Models\Company\Group;
 use App\Models\Company\Place;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
 use App\Models\Company\Morale;
 use App\Models\Company\Company;
 use App\Models\Company\Expense;
+use App\Models\Company\Meeting;
 use App\Models\Company\Project;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
@@ -24,6 +26,7 @@ use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\TeamNews;
 use App\Models\Company\Timesheet;
+use App\Models\Company\AgendaItem;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeLog;
 use App\Models\Company\ProjectTask;
@@ -38,6 +41,7 @@ use App\Models\Company\GuessEmployeeGame;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
 use App\Models\Company\EmployeePlannedHoliday;
+use App\Models\Company\EmployeePositionHistory;
 use App\Models\Company\EmployeeDailyCalendarEntry;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -482,6 +486,41 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_has_many_groups(): void
+    {
+        $dwight = Employee::factory()->create([]);
+        $group = Group::factory()->create([
+            'company_id' => $dwight->company_id,
+        ]);
+
+        $dwight->groups()->sync([$group->id]);
+
+        $this->assertTrue($dwight->groups()->exists());
+    }
+
+    /** @test */
+    public function it_belongs_to_many_meetings(): void
+    {
+        $dwight = Employee::factory()->create([]);
+        $meeting = Meeting::factory()->create();
+
+        $dwight->meetings()->sync([$meeting->id]);
+
+        $this->assertTrue($dwight->meetings()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_agenda_items(): void
+    {
+        $dwight = Employee::factory()->create([]);
+        AgendaItem::factory()->count(2)->create([
+            'presented_by_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->agendaItems()->exists());
+    }
+
+    /** @test */
     public function it_has_many_files(): void
     {
         $dwight = Employee::factory()->create();
@@ -501,6 +540,17 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->picture()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_employee_position_history_entries(): void
+    {
+        $dwight = Employee::factory()->create();
+        EmployeePositionHistory::factory()->count(2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->positionHistoryEntries()->exists());
     }
 
     /** @test */

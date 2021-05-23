@@ -106,6 +106,11 @@ class CreateProjectTest extends TestCase
             'name' => 'Livraison API v3',
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         if ($lead) {
             $this->assertDatabaseHas('employee_project', [
                 'employee_id' => $lead->id,

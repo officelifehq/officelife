@@ -25,7 +25,9 @@
 <template>
   <div>
     <h3 class="db fw5 mb3 flex justify-between items-center">
-      <span>🤼‍♀️ {{ $tc('team.count_team_members', listOfEmployees.length, { count: listOfEmployees.length }) }}</span>
+      <span><span class="mr1">
+        🤼‍♀️
+      </span> {{ $tc('team.count_team_members', listOfEmployees.length, { count: listOfEmployees.length }) }}</span>
 
       <!-- actions -->
       <a v-if="!editMode && $page.props.auth.employee.permission_level <= 200" href="" class="btn f5" data-cy="manage-team-on" @click.prevent="editMode = true">{{ $t('team.members_enable_manage_mode') }}</a>

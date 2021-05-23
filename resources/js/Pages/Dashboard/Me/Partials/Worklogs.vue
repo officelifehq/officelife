@@ -4,6 +4,8 @@
       <span class="mr1">
         🔨
       </span> {{ $t('dashboard.worklog_title') }}
+
+      <help :url="$page.props.help_links.worklogs" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box pa3">
@@ -13,9 +15,6 @@
           <span class="dib-ns db mb0-ns mb2 lh-copy">
             {{ $t('dashboard.worklog_placeholder') }}
           </span>
-          <inertia-link v-if="localWorklogs.has_worklog_history" :href="localWorklogs.url_all" class="f6 ml2-ns pointer">
-            {{ $t('dashboard.worklog_read_previous_entries') }}
-          </inertia-link>
         </p>
 
         <!-- button to log the worklog -->
@@ -30,9 +29,6 @@
           <span class="dib-ns db mb0-ns mb2">
             {{ $t('dashboard.worklog_already_logged') }}
           </span>
-          <inertia-link :href="localWorklogs.url_all" class="ml2-ns pointer">
-            {{ $t('dashboard.worklog_read_previous_entries') }}
-          </inertia-link>
         </p>
       </div>
 
@@ -71,12 +67,14 @@
 import LoadingButton from '@/Shared/LoadingButton';
 import TextArea from '@/Shared/TextArea';
 import Errors from '@/Shared/Errors';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
     LoadingButton,
     Errors,
     TextArea,
+    Help,
   },
 
   props: {

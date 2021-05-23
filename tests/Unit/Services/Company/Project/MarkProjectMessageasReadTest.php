@@ -110,5 +110,10 @@ class MarkProjectMessageasReadTest extends TestCase
             'project_message_id' => $message->id,
             'employee_id' => $michael->id,
         ]);
+
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
     }
 }

@@ -17,7 +17,9 @@
   <div>
     <h3 class="db fw5 mb3 flex justify-between items-center">
       <span>
-        🚀 {{ $t('team.recent_ship_title') }}
+        <span class="mr1">
+          🚀
+        </span> {{ $t('team.recent_ship_title') }}
 
         <help :url="$page.props.help_links.team_recent_ship" :top="'2px'" />
       </span>

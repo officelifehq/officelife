@@ -38,6 +38,8 @@
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
             {{ $t('account.questions_title', { company: $page.props.auth.company.name}) }}
+
+            <help :url="$page.props.help_links.questions" :top="'1px'" />
           </h2>
 
           <!-- add a question -->
@@ -126,7 +128,7 @@
 
                   <!-- number of answers -->
                   <li :data-cy="'question-number-of-answers-' + question.id" class="di pr2 pb2 pb0-ns">
-                    <inertia-link :href="question.url">{{ $tc('account.question_number_of_answers', question_number_of_answers, { count: question.number_of_answers}) }}</inertia-link>
+                    <inertia-link :href="question.url">{{ $tc('account.question_number_of_answers', question.number_of_answers, { count: question.number_of_answers}) }}</inertia-link>
                   </li>
 
                   <!-- rename -->
@@ -212,6 +214,7 @@ import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
@@ -219,6 +222,7 @@ export default {
     TextInput,
     Errors,
     LoadingButton,
+    Help,
   },
 
   props: {

@@ -90,7 +90,6 @@
               :label="$t('dashboard.rate_your_manager_thanks_add_comment_reveal_identity')"
               :extra-class-upper-div="'mb0 relative'"
               :required="false"
-              @change="toggleReveal()"
             />
 
             <!-- actions -->
@@ -164,7 +163,7 @@ export default {
       this.loadingState = 'loading';
       this.form.rating = rating;
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/manager/rate/' + answer.id, this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/rate/' + answer.id, this.form)
         .then(response => {
           this.loadingState = null;
           this.alreadyAnswered = true;
@@ -180,7 +179,7 @@ export default {
     submitComment(answer) {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/manager/rate/' + answer.id + '/comment', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/rate/' + answer.id + '/comment', this.form)
         .then(response => {
           this.loadingState = null;
           this.alreadyAnswered = true;
@@ -202,10 +201,6 @@ export default {
         this.$refs[`editor-${answer.id}`].focus();
       });
     },
-
-    toggleReveal() {
-      this.form.reveal = !this.form.reveal;
-    }
   }
 };
 </script>

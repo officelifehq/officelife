@@ -2,6 +2,10 @@
 span {
   margin-left: 29px;
 }
+
+a {
+  border-bottom: 0;
+}
 </style>
 
 <template>

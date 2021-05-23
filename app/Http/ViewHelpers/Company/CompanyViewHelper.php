@@ -3,15 +3,16 @@
 namespace App\Http\ViewHelpers\Company;
 
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use OutOfRangeException;
 use App\Helpers\DateHelper;
 use Illuminate\Support\Str;
 use App\Helpers\ImageHelper;
-use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
 use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Models\Company\Question;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Services\Company\GuessEmployeeGame\CreateGuessEmployeeGame;
@@ -32,7 +33,8 @@ class CompanyViewHelper
         return [
             'number_of_teams' => $teams,
             'number_of_employees' => $employees,
-            'logo' => $company->logo ? ImageHelper::getImage($company->logo, 200, 200) : null,
+            'logo' => $company->logo ? ImageHelper::getImage($company->logo, 75, 75) : null,
+            'founded_at' => $company->founded_at ? $company->founded_at->year : null,
         ];
     }
 
@@ -53,7 +55,8 @@ class CompanyViewHelper
         $latestQuestions = DB::table('questions')
             ->join('answers', 'questions.id', '=', 'answers.question_id')
             ->where('company_id', '=', $company->id)
-            ->groupBy('questions.id')
+            ->where('questions.active', false)
+            ->groupBy('questions.id', 'questions.title')
             ->orderByDesc('questions.id')
             ->limit(3)
             ->select('questions.id', 'questions.title')
@@ -68,6 +71,7 @@ class CompanyViewHelper
                 'id' => $question->id,
                 'title' => $question->title,
                 'number_of_answers' => $question->count,
+                'active' => false,
                 'url' => route('company.questions.show', [
                     'company' => $company,
                     'question' => $question->id,
@@ -75,12 +79,32 @@ class CompanyViewHelper
             ];
         });
 
+        // get the active question, if it exists
+        $activeQuestion = Question::where('company_id', $company->id)
+            ->active()
+            ->withCount('answers')
+            ->first();
+
+        if ($activeQuestion) {
+            $activeQuestion = [
+                'id' => $activeQuestion->id,
+                'title' => $activeQuestion->title,
+                'number_of_answers' => (int) $activeQuestion->answers_count,
+                'active' => true,
+                'url' => route('company.questions.show', [
+                    'company' => $company,
+                    'question' => $activeQuestion->id,
+                ]),
+            ];
+        }
+
         return [
             'total_number_of_questions' => $questionsCount,
             'all_questions_url' => route('company.questions.index', [
                 'company' => $company->id,
             ]),
             'questions' => $questionCollection,
+            'active_question' => $activeQuestion ? $activeQuestion : null,
         ];
     }
 
@@ -151,6 +175,24 @@ class CompanyViewHelper
             $date = $employee->hired_at;
             $position = $employee->position;
 
+            if ($position) {
+                $dateString = $date->isPast() ?
+                    trans('company.new_hires_date_with_position_past', [
+                        'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                        'position' => $position->title,
+                    ]) : trans('company.new_hires_date_with_position_future', [
+                        'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                        'position' => $position->title,
+                    ]);
+            } else {
+                $dateString = $date->isPast() ?
+                    trans('company.new_hires_date_past', [
+                        'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                    ]) : trans('company.new_hires_date_future', [
+                        'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                    ]);
+            }
+
             $newHiresCollection->push([
                 'id' => $employee->id,
                 'url' => route('employees.show', [
@@ -159,8 +201,7 @@ class CompanyViewHelper
                 ]),
                 'name' => $employee->name,
                 'avatar' => ImageHelper::getAvatar($employee, 35),
-                'hired_at' => DateHelper::formatDayAndMonthInParenthesis($date),
-                'position' => (! $position) ? null : $position->title,
+                'hired_at' => $dateString,
             ]);
         }
 
@@ -376,38 +417,6 @@ class CompanyViewHelper
         ];
     }
 
-    /**
-     * Information about employee's genders in the company.
-     *
-     * @param Company $company
-     * @return array
-     */
-    public static function demography(Company $company): array
-    {
-        $stat = DB::table('employees')
-            ->where('locked', false)
-            ->where('company_id', $company->id)
-            ->join('pronouns', 'employees.pronoun_id', '=', 'pronouns.id')
-            ->selectRaw("count(case when pronouns.label = '".Pronoun::HE."' then 1 end) as he")
-            ->selectRaw("count(case when pronouns.label = '".Pronoun::SHE."' then 1 end) as she")
-            ->selectRaw("count(case when pronouns.label = '".Pronoun::THEY."' then 1 end) as they")
-            ->selectRaw("count(case when pronouns.label = '".Pronoun::PER."' then 1 end) as per")
-            ->selectRaw("count(case when pronouns.label = '".Pronoun::VE."' then 1 end) as ve")
-            ->selectRaw("count(case when pronouns.label = '".Pronoun::XE."' then 1 end) as xe")
-            ->selectRaw("count(case when pronouns.label = '".Pronoun::ZE."' then 1 end) as ze")
-            ->first();
-
-        return [
-            'he' => $stat->he,
-            'she' => $stat->she,
-            'they' => $stat->they,
-            'per' => $stat->per,
-            've' => $stat->ve,
-            'xe' => $stat->xe,
-            'ze' => $stat->ze,
-        ];
-    }
-
     public static function teams(Company $company): array
     {
         $randomTeams = $company
@@ -459,5 +468,40 @@ class CompanyViewHelper
                 'company' => $company,
             ]),
         ];
+    }
+
+    public static function upcomingHiredDateAnniversaries(Company $company)
+    {
+        $employees = $company->employees()
+            ->notLocked()
+            ->whereNotNull('hired_at')
+            ->whereYear('hired_at', '!=', Carbon::now()->year)
+            ->get();
+
+        $now = Carbon::now();
+        $currentDay = $now->format('Y-m-d');
+        $dayIn7DaysFromNow = $now->copy()->addDays(7)->format('Y-m-d');
+        $next7Days = CarbonPeriod::create($currentDay, $dayIn7DaysFromNow);
+
+        $employees = $employees->filter(function ($employee) use ($next7Days, $now) {
+            return $next7Days->contains($employee->hired_at->setYear($now->year)->format('Y-m-d'));
+        });
+
+        $employeesCollection = collect([]);
+        foreach ($employees as $employee) {
+            $employeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => ImageHelper::getAvatar($employee, 35),
+                'anniversary_date' => DateHelper::formatDayAndMonthInParenthesis($employee->hired_at->setYear($now->year)),
+                'anniversary_age' => $now->year - $employee->hired_at->year,
+                'url' => route('employees.show', [
+                    'company' => $employee->company,
+                    'employee' => $employee,
+                ]),
+            ]);
+        }
+
+        return $employeesCollection;
     }
 }

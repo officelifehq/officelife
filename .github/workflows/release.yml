@@ -20,7 +20,6 @@ jobs:
   # Semantic release
   ####################
   semantic:
-    needs: tests
     runs-on: ubuntu-latest
     name: Semantic release
     if: github.event_name != 'pull_request'
@@ -42,7 +41,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN_RELEASE: ${{ secrets.GH_TOKEN_RELEASE }}
         with:
-          semantic_version: 17.3.7
+          semantic_version: 17.4.2
           extra_plugins: |
             @semantic-release/changelog
             semantic-release-github-pullrequest
@@ -59,7 +58,7 @@ jobs:
           path: CHANGELOG.md
 
   package:
-    needs: semantic-release
+    needs: semantic
     runs-on: ubuntu-latest
     name: Package release
     if: needs.semantic.outputs.new_release_published == 'true'
@@ -86,7 +85,7 @@ jobs:
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
       - name: Cache composer files
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2.1.5
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ env.php-version }}-${{ hashFiles('**/composer.lock') }}
@@ -104,7 +103,7 @@ jobs:
         id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Cache yarn files
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2.1.5
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
@@ -114,7 +113,7 @@ jobs:
 
       - name: Create package
         id: package
-        run: scripts/package.sh 'v${{ needs.semantic.outputs.new_release_version }}'
+        run: scripts/package.sh 'v${{ needs.semantic.outputs.new_release_version }}' $GITHUB_SHA
 
       - name: Import key
         run: echo -e "$GPG_KEY" | gpg --batch --yes --import -
@@ -124,7 +123,7 @@ jobs:
       - name: Sign package
         run: |
           sha512sum '${{ steps.package.outputs.package }}' > '${{ steps.package.outputs.package }}.sha512'
-          for f in '${{ steps.package.outputs.package }}{,.sha512}'; do
+          for f in ${{ steps.package.outputs.package }}{,.sha512}; do
             echo "Signing '$f'..."
             echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode=loopback --local-user $GPG_FINGERPRINT --sign --armor --detach-sig --output "$f.asc" "$f"
             echo -e "\nSigned with key fingerprint $GPG_FINGERPRINT" >> "$f.asc"
@@ -135,7 +134,7 @@ jobs:
 
       - name: Publish package
         run: |
-          for f in '${{ steps.package.outputs.package }}{,.asc,.sha512,.sha512.asc}'; do
+          for f in ${{ steps.package.outputs.package }}{,.asc,.sha512,.sha512.asc}; do
             echo "Uploading release file '$f'..."
             gh release upload 'v${{ needs.semantic.outputs.new_release_version }}' "$f" --clobber
           done

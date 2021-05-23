@@ -5,6 +5,7 @@ namespace App\Console\Commands\Tests;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Faker\Factory as Faker;
+use App\Jobs\LogTeamsMorale;
 use App\Models\Company\File;
 use App\Models\Company\Team;
 use App\Models\User\Pronoun;
@@ -14,24 +15,31 @@ use Illuminate\Console\Command;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
+use Illuminate\Support\Facades\DB;
 use App\Models\Company\ECoffeeMatch;
 use App\Services\User\CreateAccount;
 use App\Models\Company\ProjectStatus;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Services\Company\Team\SetTeamLead;
+use App\Services\Company\Group\CreateGroup;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
+use App\Services\Company\Group\CreateMeeting;
 use App\Services\Company\Project\StartProject;
 use App\Services\Company\Team\Ship\CreateShip;
+use App\Models\Company\EmployeePositionHistory;
 use App\Services\Company\Project\CreateProject;
+use App\Services\Company\Group\CreateAgendaItem;
+use App\Services\Company\Group\UpdateMeetingDate;
 use Symfony\Component\Console\Helper\ProgressBar;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Employee\Morale\LogMorale;
 use App\Services\Company\Project\CreateProjectLink;
 use App\Services\Company\Project\CreateProjectTask;
 use App\Services\Company\Employee\Worklog\LogWorklog;
+use App\Services\Company\Group\CreateMeetingDecision;
 use App\Services\Company\Project\CreateProjectStatus;
 use App\Services\Company\Employee\Answer\CreateAnswer;
 use App\Services\Company\Project\AddEmployeeToProject;
@@ -51,8 +59,8 @@ use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Services\Company\Employee\Timesheet\RejectTimesheet;
 use App\Services\Company\Employee\Timesheet\SubmitTimesheet;
-use App\Services\Company\Project\AssignProjecTaskToEmployee;
 use App\Services\Company\Employee\Timesheet\ApproveTimesheet;
+use App\Services\Company\Project\AssignProjectTaskToEmployee;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
@@ -207,7 +215,10 @@ class SetupDummyAccount extends Command
         $this->createTimeTrackingEntries();
         $this->setContractRenewalDates();
         $this->setECoffeeProcess();
+        $this->addGroups();
+        $this->addPreviousPositionsHistory();
         $this->addSecondaryBlankAccount();
+        $this->validateUserAccounts();
         $this->stop();
     }
 
@@ -787,6 +798,8 @@ class SetupDummyAccount extends Command
         Employee::where('id', $this->debra->id)->update([
             'hired_at' => Carbon::now()->addDay(),
         ]);
+
+        $this->employees = Employee::all();
     }
 
     private function addSpecificDataToEmployee(Employee $employee, ?string $description, Pronoun $pronoun, Team $team, EmployeeStatus $status, Position $position, string $birthdate = null, Employee $manager = null, Team $leaderOfTeam = null): void
@@ -1027,7 +1040,6 @@ class SetupDummyAccount extends Command
     {
         $this->info('☐ Add work from home information (this might take some time)');
 
-        $this->employees = Employee::all();
         foreach ($this->employees as $employee) {
             $twoYearsAgo = Carbon::now()->subYears(2);
             while (! $twoYearsAgo->isTomorrow()) {
@@ -1264,6 +1276,9 @@ class SetupDummyAccount extends Command
                     'date' => $twoYearsAgo->format('Y-m-d'),
                 ]);
             }
+
+            // dispatch team morale
+            LogTeamsMorale::dispatch($twoYearsAgo);
 
             $twoYearsAgo->addDay();
         }
@@ -1800,7 +1815,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Migrate domain names when the new site launches',
             'description' => null,
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->meredith->id,
             'project_id' => $this->projectInfinity->id,
@@ -1823,7 +1838,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Make sure the SEO is implemented',
             'description' => null,
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
             'project_id' => $this->projectInfinity->id,
@@ -1846,7 +1861,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Migrate the ACLs',
             'description' => null,
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->meredith->id,
             'project_id' => $this->projectInfinity->id,
@@ -1869,7 +1884,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'title' => 'Take appointment with the photographer',
             'description' => 'We need to make sure all photos look great if possible',
         ]);
-        (new AssignProjecTaskToEmployee)->execute([
+        (new AssignProjectTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->michael->id,
             'project_id' => $this->projectInfinity->id,
@@ -2015,6 +2030,8 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
 
     private function setECoffeeProcess(): void
     {
+        $this->info('☐ Set e Coffee Process');
+
         $this->company->e_coffee_enabled = true;
         $this->company->save();
 
@@ -2036,6 +2053,120 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         });
     }
 
+    private function addGroups(): void
+    {
+        $this->info('☐ Add groups');
+
+        $groupNames = collect([
+            'Party planning committee',
+            'Basketball lovers',
+            'Monetisation executive meeting',
+            'Front end developers guild',
+        ]);
+
+        $meetingAgendaItems = collect([
+            'What should we do about the negociations with Home Depot?',
+            'Discussion about strategic learnings',
+            'Sales update: previous quarter’s results',
+            'Team structure presentation',
+            'Impact on shareholders',
+            'iPhone 42 launch',
+        ]);
+
+        $decisionItems = collect([
+            'Schedule meeting with supplier',
+            'Angela to take responsability and pubicly apologize to Dwight',
+            'Prepare forecasts for Q4',
+            'Prepare UX for the future feature',
+        ]);
+
+        foreach ($groupNames as $name) {
+            $randomEmployees = $this->employees->shuffle()->take(rand(4, 9))->pluck('id')->toArray();
+
+            // create group with random employees
+            $group = (new CreateGroup)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->michael->id,
+                'name' => $name,
+                'employees' => $randomEmployees,
+            ]);
+
+            $group->mission = 'This group was created to discuss all decisions we have to take together.';
+            $group->save();
+
+            // create meetings
+            $date = Carbon::now()->subMonths(10);
+            for ($i = 0; $i < rand(4, 9); $i++) {
+                $meeting = (new CreateMeeting)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'group_id' => $group->id,
+                ]);
+
+                (new UpdateMeetingDate)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'group_id' => $group->id,
+                    'meeting_id' => $meeting->id,
+                    'date' => $date->addDays(rand(10, 57))->format('Y-m-d'),
+                ]);
+
+                // add agenda items
+                foreach ($meetingAgendaItems as $item) {
+                    $agendaItem = (new CreateAgendaItem)->execute([
+                        'company_id' => $this->company->id,
+                        'author_id' => $this->michael->id,
+                        'group_id' => $group->id,
+                        'meeting_id' => $meeting->id,
+                        'summary' => $item,
+                        'description' => null,
+                        'presented_by_id' => $this->employees->shuffle()->first()->id,
+                    ]);
+
+                    $decisionItems = $decisionItems->shuffle()->take(rand(1, 3));
+                    foreach ($decisionItems as $item) {
+                        (new CreateMeetingDecision)->execute([
+                            'company_id' => $this->company->id,
+                            'author_id' => $this->michael->id,
+                            'group_id' => $group->id,
+                            'meeting_id' => $meeting->id,
+                            'agenda_item_id' => $agendaItem->id,
+                            'description' => $item,
+                        ]);
+                    }
+                }
+            }
+        }
+    }
+
+    private function addPreviousPositionsHistory(): void
+    {
+        foreach ($this->employees as $employee) {
+            $position = Position::inRandomOrder()->first();
+
+            $started = Carbon::now()->subMonths(rand(24, 60));
+            $ended = $started->copy()->addMonths(rand(12, 24));
+
+            EmployeePositionHistory::create([
+                'employee_id' => $employee->id,
+                'position_id' => $position->id,
+                'started_at' => $started,
+                'ended_at' => $ended,
+            ]);
+
+            $position = Position::inRandomOrder()->first();
+            $started = $ended->copy();
+            $ended = $started->copy()->addMonths(rand(6, 12));
+
+            EmployeePositionHistory::create([
+                'employee_id' => $employee->id,
+                'position_id' => $position->id,
+                'started_at' => $started,
+                'ended_at' => $ended,
+            ]);
+        }
+    }
+
     private function addSecondaryBlankAccount(): void
     {
         $this->info('☐ Create a blank account');
@@ -2051,6 +2182,12 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'author_id' => $user->id,
             'name' => 'ACME inc',
         ]);
+    }
+
+    private function validateUserAccounts(): void
+    {
+        DB::table('users')
+            ->update(['email_verified_at' => Carbon::now()]);
     }
 
     private function artisan(string $message, string $command, array $arguments = []): void

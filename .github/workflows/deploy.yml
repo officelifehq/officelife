@@ -26,6 +26,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Build assets
+    outputs:
+      version: ${{ steps.version.outputs.version }}
 
     strategy:
       fail-fast: false
@@ -57,7 +59,7 @@ jobs:
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
       - name: Cache composer files
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2.1.5
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ env.php-version }}-${{ hashFiles('**/composer.lock') }}
@@ -78,7 +80,7 @@ jobs:
         id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Cache yarn files
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2.1.5
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
@@ -87,11 +89,9 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Install yarn dependencies
-        run: yarn inst
+        run: yarn run inst
       - name: Lint files
         run: yarn run lint:all
-      - name: Build assets
-        run: yarn run production
 
       - name: Check if there is any file update needed
         id: check
@@ -105,6 +105,20 @@ jobs:
             exit -1
           fi
 
+      - name: Get version or revision
+        id: version
+        run: echo "::set-output name=version::$(git describe --abbrev=0 --tags --exact-match $GITHUB_SHA 2>/dev/null || git log --pretty="%h" -n1 $GITHUB_SHA)"
+
+      - name: Prepare environment
+        run: |
+          { \
+            echo "MIX_PROD_SOURCE_MAPS=true"; \
+            echo "MIX_SENTRY_RELEASE=${{ steps.version.outputs.version }}"; \
+          } | tee .env
+
+      - name: Build assets
+        run: yarn run production
+
       - name: Store assets
         uses: actions/upload-artifact@v2
         with:
@@ -113,7 +127,14 @@ jobs:
             public/mix-manifest.json
             public/js
             public/css
-            public/fonts
+            !public/**/*.map
+
+      - name: Store source maps
+        uses: actions/upload-artifact@v2
+        with:
+          name: sourcemaps
+          path: |
+            public/**/*.map
 
 
   ######################
@@ -133,7 +154,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: webfactory/ssh-agent@v0.5.1
+      - uses: webfactory/ssh-agent@v0.5.2
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
@@ -153,8 +174,8 @@ jobs:
 
       - name: Create release files
         run: |
-          echo $GITHUB_SHA | cut -c-8 > config/release
-          echo $GITHUB_SHA > config/commit
+          echo ${{ needs.build.outputs.version }} > config/.release
+          echo $GITHUB_SHA > config/.commit
 
       - name: Commit everything
         run: |
@@ -179,7 +200,7 @@ jobs:
   sentry:
     runs-on: ubuntu-latest
     name: Sentry release
-    needs: deploy
+    needs: build
     if: github.event_name != 'pull_request'
 
     environment: fortrabbit-sentry
@@ -187,6 +208,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Download assets
+        uses: actions/download-artifact@v2
+        with:
+          name: assets
+          path: public
+
+      - name: Download source maps
+        uses: actions/download-artifact@v2
+        with:
+          name: sourcemaps
+          path: public
 
       - name: Create Sentry release
         uses: getsentry/action-release@v1
@@ -196,3 +229,6 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: ${{ secrets.SENTRY_ENVIRONMENT }}
+          sourcemaps: public/js/app.js public/js/app.js.map
+          version: ${{ needs.build.outputs.version }}
+          url_prefix: ~/js

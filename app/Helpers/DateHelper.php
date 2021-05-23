@@ -53,6 +53,17 @@ class DateHelper
     }
 
     /**
+     * Return the short month and the year in a format like "Jul 2020".
+     *
+     * @param Carbon $date
+     * @return string
+     */
+    public static function formatMonthAndYear(Carbon $date): string
+    {
+        return $date->isoFormat(trans('format.short_month_day'));
+    }
+
+    /**
      * Return the day and the month in a format like "Jul 29".
      *
      * @param Carbon $date
@@ -67,10 +78,15 @@ class DateHelper
      * Return the day and the month in a format like "Monday (July 29th)".
      *
      * @param Carbon $date
+     * @param string $timezone
      * @return string
      */
-    public static function formatDayAndMonthInParenthesis(Carbon $date): string
+    public static function formatDayAndMonthInParenthesis(Carbon $date, string $timezone = null): string
     {
+        if ($timezone) {
+            $date->setTimezone($timezone);
+        }
+
         return $date->isoFormat(trans('format.day_month_parenthesis'));
     }
 
@@ -94,6 +110,28 @@ class DateHelper
     public static function translateMonth(Carbon $date): string
     {
         return $date->format(trans('format.full_month'));
+    }
+
+    /**
+     * Return the day as a string like "Wednesday".
+     *
+     * @param Carbon $date
+     * @return string
+     */
+    public static function day(Carbon $date): string
+    {
+        return $date->isoFormat(trans('format.day'));
+    }
+
+    /**
+     * Return the day as a string like "Jul. 29th".
+     *
+     * @param Carbon $date
+     * @return string
+     */
+    public static function dayWithShortMonth(Carbon $date): string
+    {
+        return $date->format(trans('format.day_short_month'));
     }
 
     /**

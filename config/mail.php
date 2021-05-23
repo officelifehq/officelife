@@ -116,6 +116,6 @@ return [
     |
     */
 
-    'verify' => (bool) env('MAIL_VERIFY', true),
+    'verify' => env('MAIL_VERIFY', true),
 
 ];

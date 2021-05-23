@@ -28,6 +28,7 @@ class Company extends Model
         'has_dummy_data',
         'logo_file_id',
         'e_coffee_enabled',
+        'founded_at',
     ];
 
     /**
@@ -48,6 +49,15 @@ class Company extends Model
     protected $casts = [
         'has_dummy_data' => 'boolean',
         'e_coffee_enabled' => 'boolean',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'founded_at',
     ];
 
     /**
@@ -238,6 +248,16 @@ class Company extends Model
     public function importJobs()
     {
         return $this->hasMany(ImportJob::class);
+    }
+
+    /**
+     * Get all groups in the company.
+     *
+     * @return HasMany
+     */
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
     }
 
     /**

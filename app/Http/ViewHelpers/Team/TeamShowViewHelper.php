@@ -9,7 +9,9 @@ use App\Models\Company\Team;
 use App\Helpers\StringHelper;
 use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
+use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use App\Models\Company\MoraleTeamHistory;
 
 class TeamShowViewHelper
 {
@@ -166,16 +168,6 @@ class TeamShowViewHelper
             ->where('employees.locked', false)
             ->get();
 
-        // // remove employees without birthdates
-        // $employees = $employees->filter(function ($employee) {
-        //     return ! is_null($employee->birthdate);
-        // });
-
-        // // remove employees that are locked
-        // $employees = $employees->filter(function ($employee) {
-        //     return ! $employee->locked;
-        // });
-
         // build the collection of data
         $birthdaysCollection = collect([]);
         $now = Carbon::now();
@@ -205,5 +197,138 @@ class TeamShowViewHelper
         $birthdaysCollection = $birthdaysCollection->sortBy('sort_key')->values()->all();
 
         return $birthdaysCollection;
+    }
+
+    /**
+     * Get the current morale of the team, according to:
+     * - yesterday
+     * - last week
+     * - last month.
+     *
+     * @param Team $team
+     * @param Employee $loggedEmployee
+     * @return array
+     */
+    public static function morale(Team $team, Employee $loggedEmployee): array
+    {
+        // yesterday
+        $yesterday = Carbon::now($loggedEmployee->timezone)->yesterday();
+        $moraleOfYesterday = MoraleTeamHistory::where('team_id', $team->id)
+            ->whereDate('created_at', $yesterday)
+            ->first();
+
+        // last week
+        $mondayOfLastWeek = Carbon::now($loggedEmployee->timezone)->startOfWeek()->subDays(7);
+        $moraleOfLastWeek = MoraleTeamHistory::where('team_id', $team->id)
+            ->whereBetween('created_at', [
+                $mondayOfLastWeek->toDateString().' 00:00:00',
+                $mondayOfLastWeek->copy()->addDays(7)->toDateString().' 23:59:59',
+            ])
+            ->avg('average');
+
+        // last month
+        $mondayOfLastMonth = Carbon::now($loggedEmployee->timezone)->subMonth()->startOfMonth();
+        $moraleOfLastMonth = MoraleTeamHistory::where('team_id', $team->id)
+            ->whereBetween('created_at', [
+                $mondayOfLastMonth->toDateString().' 00:00:00',
+                $mondayOfLastMonth->copy()->endOfMonth()->toDateString().' 23:59:59',
+            ])
+            ->avg('average');
+
+        return [
+            'yesterday' => [
+                'average' => $moraleOfYesterday ? round($moraleOfYesterday->average, 3) : null,
+                'percent' => $moraleOfYesterday ? round($moraleOfYesterday->average * 100 / 3, 0) : null,
+                'emotion' => $moraleOfYesterday ? self::emotion(round($moraleOfYesterday->average * 100 / 3, 0)) : null,
+            ],
+            'last_week' => [
+                'average' => $moraleOfLastWeek ? round($moraleOfLastWeek, 3) : null,
+                'percent' => $moraleOfLastWeek ? round($moraleOfLastWeek * 100 / 3, 0) : null,
+                'emotion' => $moraleOfLastWeek ? self::emotion(round($moraleOfLastWeek * 100 / 3, 0)) : null,
+            ],
+            'last_month' => [
+                'average' => $moraleOfLastMonth ? round($moraleOfLastMonth, 3) : null,
+                'percent' => $moraleOfLastMonth ? round($moraleOfLastMonth * 100 / 3, 0) : null,
+                'emotion' => $moraleOfLastMonth ? self::emotion(round($moraleOfLastMonth * 100 / 3, 0)) : null,
+            ],
+        ];
+    }
+
+    /**
+     * Calculates the emotion based on the morale represented in percent.
+     */
+    private static function emotion(float $percent): string
+    {
+        $emotion = '';
+
+        switch (true) {
+            case $percent <= 30:
+                $emotion = 'sad';
+                break;
+
+            case $percent > 30 && $percent <= 70:
+                $emotion = 'average';
+                break;
+
+            case $percent >= 70:
+                $emotion = 'happy';
+                break;
+
+            default:
+                $emotion = 'none';
+                break;
+        }
+
+        return $emotion;
+    }
+
+    /**
+     * Get all hires who will start next week.
+     *
+     * @param Team $team
+     * @param Company $company
+     * @return Collection
+     */
+    public static function newHiresNextWeek(Team $team, Company $company): Collection
+    {
+        $now = Carbon::now();
+        $employees = $team->employees()
+            ->where('locked', false)
+            ->whereNotNull('hired_at')
+            ->whereDate('hired_at', '>=', $now->copy()->addWeek()->startOfWeek(Carbon::MONDAY))
+            ->whereDate('hired_at', '<=', $now->copy()->addWeek()->endOfWeek(Carbon::SUNDAY))
+            ->with('position')
+            ->orderBy('hired_at', 'asc')
+            ->get();
+
+        $newHiresCollection = collect([]);
+        foreach ($employees as $employee) {
+            $date = $employee->hired_at;
+            $position = $employee->position;
+
+            if ($position) {
+                $dateString = trans('dashboard.team_upcoming_hires_with_position', [
+                    'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                    'position' => $position->title,
+                ]);
+            } else {
+                $dateString = trans('dashboard.team_upcoming_hires', [
+                    'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                ]);
+            }
+
+            $newHiresCollection->push([
+                'id' => $employee->id,
+                'url' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $employee->id,
+                ]),
+                'name' => $employee->name,
+                'avatar' => ImageHelper::getAvatar($employee, 35),
+                'hired_at' => $dateString,
+            ]);
+        }
+
+        return $newHiresCollection;
     }
 }

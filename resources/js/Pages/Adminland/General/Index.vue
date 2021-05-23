@@ -36,6 +36,11 @@
             :information="information"
           />
 
+          <!-- company founded -->
+          <founded-date
+            :information="information"
+          />
+
           <!-- Currency -->
           <currency
             :information="information"
@@ -58,6 +63,7 @@ import Name from '@/Pages/Adminland/General/Partials/Name';
 import Currency from '@/Pages/Adminland/General/Partials/Currency';
 import Stat from '@/Pages/Adminland/General/Partials/Stat';
 import Logo from '@/Pages/Adminland/General/Partials/Logo';
+import FoundedDate from '@/Pages/Adminland/General/Partials/FoundedDate';
 
 export default {
   components: {
@@ -66,6 +72,7 @@ export default {
     Currency,
     Stat,
     Logo,
+    FoundedDate,
   },
 
   props: {

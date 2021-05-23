@@ -14,13 +14,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Email address of the system administrators of the instance
+    |--------------------------------------------------------------------------
+    |
+    | This defines the name of the site.
+    |
+    */
+    'email_instance_administrator' => env('EMAIL_INSTANCE_ADMINISTRATOR', 'support@officelife.io'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Version of the application
     |--------------------------------------------------------------------------
     |
     | This value returns the current version of the application.
     |
     */
-    'app_version' => is_file(__DIR__.'/version') ? file_get_contents(__DIR__.'/version') : (is_dir(__DIR__.'/../.git') ? trim(exec('git describe --abbrev=0 --tags')) : ''),
+    'app_version' => is_file(__DIR__.'/.version') ? file_get_contents(__DIR__.'/.version') : (is_dir(__DIR__.'/../.git') ? trim(exec('git --git-dir ' . base_path('.git') . ' describe --abbrev=0 --tags')) : ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -166,30 +176,36 @@ return [
         'manager_expenses' => 'manage/employee-management.html#expenses',
         'accoutant_expenses' => 'manage/employee-management.html#expenses',
         'accountants' => 'manage/employee-management.html#expenses',
-        'manager_rate_manager' => 'manage/overview.html',
+        'worklogs' => 'communicate/worklogs.html#work-logs',
+        'employee_hiring_date' => 'manage/employee-management.html#hiring-date',
+        'employee_work_anniversaries' => 'manage/employee-management.html#work-anniversaries',
+        'employee_statuses' => 'manage/employee-management.html#employee-statuses',
         'skills' => 'manage/employee-management.html#skills',
-        'account_hardware_create' => 'introduction.html',
         'account_employee_delete' => 'manage/employee-management.html#deleting-an-employee',
         'account_employee_lock' => 'manage/employee-management.html#locking-an-employee',
         'account_employee_permission' => 'manage/employee-management.html#changing-employee-role-permission',
+        'contract_renewal_dashboard' => 'manage/employee-management.html#what-happens-when-the-contract-renewal-date-is-due',
+        'managing_external_employees' => 'manage/employee-management.html#managing-external-employees',
+        'import_employees' => 'manage/employee-management.html#importing-employees',
+        'employee_morale' => 'manage/employee-management.html#employee-morale',
+        'team_morale' => 'manage/team-management.html#team-morale',
+        'manager_rate_manager' => 'grow/rate-your-manager.html',
+        'account_hardware_create' => 'introduction.html',
         'team_recent_ship' => 'introduction.html',
         'team_recent_ship_create' => 'introduction.html',
         'account_general_company_name' => 'introduction.html',
         'account_general_currency' => 'manage/company-management.html#currency',
         'account_general_logo' => 'manage/company-management.html#logo',
+        'account_general_founded_date' => 'manage/company-management.html#defining-the-company-s-founded-date',
         'account_cancellation' => 'manage/company-management.html#account-cancellation',
-        'employee_hiring_date' => 'manage/employee-management.html#hiring-date',
-        'employee_work_anniversaries' => 'manage/employee-management.html#work-anniversaries',
-        'employee_statuses' => 'manage/employee-management.html#employee-statuses',
-        'contract_renewal_dashboard' => 'manage/employee-management.html#what-happens-when-the-contract-renewal-date-is-due',
-        'managing_external_employees' => 'manage/employee-management.html#managing-external-employees',
-        'one_on_ones' => 'introduction.html',
+        'one_on_ones' => 'grow/one-on-ones.html#overview',
         'project' => 'operate/project-management.html#overview',
         'project_decisions' => 'operate/project-management.html#project-decisions',
         'project_messages' => 'operate/project-management.html#project-messages',
         'project_tasks' => 'operate/project-management.html#project-tasks',
         'project_files' => 'operate/project-management.html#project-files',
         'ecoffee' => 'grow/e-coffee.html#overview',
-        'import_employees' => 'manage/employee-management.html#importing-employees',
+        'questions' => 'communicate/get-to-know-your-colleagues.html',
+        'time_tracking' => 'operate/time-tracking.html',
     ],
 ];

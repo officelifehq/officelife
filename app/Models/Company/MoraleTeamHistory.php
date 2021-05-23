@@ -21,6 +21,7 @@ class MoraleTeamHistory extends Model
         'team_id',
         'average',
         'number_of_team_members',
+        'created_at',
     ];
 
     /**

@@ -1,9 +1,19 @@
-<style scoped>
+<style lang="scss" scoped>
 .menu {
   border: 1px solid rgba(27,31,35,.15);
   box-shadow: 0 3px 12px rgba(27,31,35,.15);
   background-color: #fff;
   width: 190px;
+
+  li:first-child:hover {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+  }
+
+  li:last-child:hover {
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+  }
 }
 
 .menu:after,
@@ -31,7 +41,8 @@
 
 .icon {
   width: 20px;
-  top: 5px;
+  top: 4px;
+  margin-right: 6px;
 }
 
 .no-underline {
@@ -57,6 +68,7 @@ svg {
     >
       <div class="menu f5 br3">
         <ul class="list ma0 pl0">
+          <!-- Go to employee profile -->
           <li v-if="$page.props.auth.company" class="pa2 relative bb bb-gray bb-gray-hover">
             <span class="dib icon relative">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -67,6 +79,8 @@ svg {
               {{ $t('app.header_go_to_employee_profile') }}
             </inertia-link>
           </li>
+
+          <!-- Switch companies -->
           <li v-if="$page.props.auth.company" class="pa2 relative bb bb-gray bb-gray-hover">
             <span class="dib icon relative">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -77,6 +91,23 @@ svg {
               {{ $t('app.header_switch_company') }}
             </inertia-link>
           </li>
+
+          <!-- Toggle help -->
+          <li class="pa2 relative bb bb-gray bb-gray-hover">
+            <span class="dib icon relative">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <a v-if="$page.props.auth.user.show_help" href="#" class="pointer no-underline" @click.prevent="toggleHelp()">
+              {{ $t('app.hide_help') }}
+            </a>
+            <a v-else href="#" class="pointer no-underline" @click.prevent="toggleHelp()">
+              {{ $t('app.show_help') }}
+            </a>
+          </li>
+
+          <!-- Logout -->
           <li class="pa2 relative bb-gray-hover">
             <span class="dib icon relative">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -99,6 +130,13 @@ import BasePopover from '@/Shared/BasePopover';
 export default {
   components: {
     BasePopover,
+  },
+
+  props: {
+    showHelpOnPage: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   data() {
@@ -136,6 +174,17 @@ export default {
           this.$inertia.visit('/logout');
         });
     },
+
+    toggleHelp() {
+      axios.post('/help')
+        .then(response => {
+          this.$page.props.auth.user.show_help = response.data.data;
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    }
   }
 };
 </script>

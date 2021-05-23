@@ -16,7 +16,7 @@
     <ul v-if="!editMode" class="list ph3">
       <li class="mb3 flex items-start">
         <span class="dib title">{{ $t('account.general_currency_information_table') }}</span>
-        <span class="fw6" data-cy="currency-used">{{ updatedCurrency }}</span>
+        <span class="fw6" data-cy="currency-used">{{ localCurrency }}</span>
       </li>
     </ul>
 
@@ -84,7 +84,7 @@ export default {
 
   data() {
     return {
-      updatedCurrency: '',
+      localCurrency: '',
       editMode: false,
       form: {
         id: 0,
@@ -96,19 +96,19 @@ export default {
   },
 
   created: function() {
-    this.updatedCurrency = this.information.currency;
+    this.localCurrency = this.information.currency;
   },
 
   methods: {
     displayEditMode() {
       this.editMode = true;
-      this.form.currency = this.updatedCurrency;
+      this.form.currency = this.localCurrency;
     },
 
     submit() {
-      axios.post('/' + this.$page.props.auth.company.id + '/account/general/currency', this.form)
+      axios.post(`${this.$page.props.auth.company.id}/account/general/currency`, this.form)
         .then(response => {
-          this.updatedCurrency = this.form.currency;
+          this.localCurrency = this.form.currency;
           this.editMode = false;
           this.flash(this.$t('account.general_currency_rename_success'), 'success');
         })

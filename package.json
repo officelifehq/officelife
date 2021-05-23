@@ -12,8 +12,8 @@
         "heroku-postbuild": "yarn run production",
         "e2e": "cypress run",
         "e2e-gui": "cypress open",
-        "inst": "yarn install --ignore-engines --frozen-lockfile",
-        "lint": "eslint --ext .js,.vue resources/js/",
+        "inst": "yarn install --frozen-lockfile",
+        "lint": "eslint --ext .js,.vue *.js .*.js resources/js/",
         "lint:cypress": "eslint --ext .js tests/Features/",
         "lint:all": "yarn lint & yarn lint:cypress",
         "lint:fix": "yarn lint --fix & yarn lint:cypress --fix",
@@ -58,6 +58,9 @@
         "@inertiajs/inertia-vue3": "^0.3.5",
         "@inertiajs/progress": "^0.2.4",
         "@popperjs/core": "^2.5",
+        "@sentry/browser": "^6.2.5",
+        "@sentry/integrations": "^6.2.5",
+        "@sentry/tracing": "^6.2.5",
         "@vue/compiler-sfc": "^3.0.5",
         "axios": "^0.20",
         "lodash": "^4.17.20",
@@ -68,7 +71,6 @@
         "v-click-outside": "^3.1.2",
         "v-tooltip": "^2.0.2",
         "vue": "^3.0.5",
-        "vue-calendar-heatmap": "^0.8.4",
         "vue-i18n": "^9.0.0",
         "vue-loader": "^16.1.2",
         "vue-loaders": "^4.1.1",
@@ -82,7 +84,7 @@
         "*.php": [
             "php ./vendor/bin/php-cs-fixer fix --config .php_cs"
         ],
-        "resources/js/**/*.{vue,js}": [
+        ".js|.*.js|resources/js/**/*.{vue,js}": [
             "yarn lint --fix"
         ],
         "tests/Features/**/*.js": [

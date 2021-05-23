@@ -36,7 +36,7 @@
 
     <!-- hired date -->
     <div v-if="employee.hired_at" data-cy="employee-contract-renewal-date">
-      <p class="mt0 mb2">{{ $t('employee.hired_at_information', { date: employee.hired_at.full }) }}</p>
+      <p class="mt0 mb2">{{ $t('employee.hired_at_information', { date: employee.hired_at.full }) }} <span class="f7 gray">({{ $t('employee.stat_hiring', { 'percent': employee.hired_at.percent, 'name': employee.first_name}) }})</span></p>
     </div>
     <div v-else>
       <p class="mt0 mb2">{{ $t('employee.hired_at_information_blank') }}</p>
