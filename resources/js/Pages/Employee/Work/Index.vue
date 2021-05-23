@@ -46,16 +46,21 @@
             :menu="menu"
           />
 
-          <projects
-            :employee="employee"
-            :projects="projects"
-          />
-
           <worklogs
             :permissions="permissions"
             :employee="employee"
             :worklog="worklog"
             :weeks="weeks"
+          />
+
+          <projects
+            :employee="employee"
+            :projects="projects"
+          />
+
+          <groups
+            :employee="employee"
+            :groups="groups"
           />
 
           <recent-ships
@@ -82,6 +87,7 @@ import Worklogs from '@/Pages/Employee/Work/Partials/Worklogs';
 import WorkFromHome from '@/Pages/Employee/Work/Partials/WorkFromHome';
 import RecentShips from '@/Pages/Employee/Work/Partials/RecentShips';
 import Projects from '@/Pages/Employee/Work/Partials/Projects';
+import Groups from '@/Pages/Employee/Work/Partials/Groups';
 
 export default {
   components: {
@@ -93,6 +99,7 @@ export default {
     WorkFromHome,
     RecentShips,
     Projects,
+    Groups,
   },
 
   props: {
@@ -125,6 +132,10 @@ export default {
       default: null,
     },
     projects: {
+      type: Array,
+      default: null,
+    },
+    groups: {
       type: Array,
       default: null,
     },

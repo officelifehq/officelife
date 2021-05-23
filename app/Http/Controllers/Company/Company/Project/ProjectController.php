@@ -64,7 +64,8 @@ class ProjectController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
-        $project = Project::findOrFail($projectId);
+        $project = Project::where('company_id', $company->id)
+            ->findOrFail($projectId);
 
         return Inertia::render('Company/Project/Show', [
             'project' => ProjectViewHelper::info($project),

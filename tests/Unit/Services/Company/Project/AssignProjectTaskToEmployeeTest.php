@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Project\AssignProjecTaskToEmployee;
+use App\Services\Company\Project\AssignProjectTaskToEmployee;
 
-class AssignProjecTaskToEmployeeTest extends TestCase
+class AssignProjectTaskToEmployeeTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -70,7 +70,7 @@ class AssignProjecTaskToEmployeeTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new AssignProjecTaskToEmployee)->execute($request);
+        (new AssignProjectTaskToEmployee)->execute($request);
     }
 
     /** @test */
@@ -131,7 +131,7 @@ class AssignProjecTaskToEmployeeTest extends TestCase
             'assignee_id' => $assignee->id,
         ];
 
-        $task = (new AssignProjecTaskToEmployee)->execute($request);
+        $task = (new AssignProjectTaskToEmployee)->execute($request);
 
         $this->assertInstanceOf(
             ProjectTask::class,
@@ -141,6 +141,11 @@ class AssignProjecTaskToEmployeeTest extends TestCase
         $this->assertDatabaseHas('project_tasks', [
             'id' => $task->id,
             'assignee_id' => $assignee->id,
+        ]);
+
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
         ]);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project, $task, $assignee) {

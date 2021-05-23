@@ -19,6 +19,7 @@ use App\Services\Company\Adminland\Employee\UnlockEmployee;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Services\Company\Adminland\Employee\DestroyEmployee;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
+use App\Services\Company\Adminland\Employee\InviteEmployeeToBecomeUser;
 
 class AdminEmployeeController extends Controller
 {
@@ -352,6 +353,71 @@ class AdminEmployeeController extends Controller
         ];
 
         (new DestroyEmployee)->execute($data);
+
+        return response()->json([
+            'company_id' => $companyId,
+        ]);
+    }
+
+    /**
+     * Show the Invite employee view.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @return mixed
+     */
+    public function invite(Request $request, int $companyId, int $employeeId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        if ($loggedCompany->id != $companyId) {
+            return redirect('/home');
+        }
+
+        if ($employeeId == $loggedEmployee->id) {
+            return redirect('/home');
+        }
+
+        try {
+            $employee = Employee::where('company_id', $loggedCompany->id)
+                ->findOrFail($employeeId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('/home');
+        }
+
+        return Inertia::render('Adminland/Employee/Invite/Index', [
+            'employee' => [
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'firstname' => $employee->first_name,
+                'email' => $employee->email,
+            ],
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
+        ]);
+    }
+
+    /**
+     * Send an invite to an employee to become user.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @return JsonResponse
+     */
+    public function sendInvite(Request $request, int $companyId, int $employeeId): JsonResponse
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $data = [
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'employee_id' => $employeeId,
+        ];
+
+        (new InviteEmployeeToBecomeUser)->execute($data);
 
         return response()->json([
             'company_id' => $companyId,

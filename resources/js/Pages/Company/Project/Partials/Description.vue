@@ -49,7 +49,7 @@
                 </a>
               </div>
               <div class="">
-                <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" data-cy="cancel-add-description" @click="showEdit = false">
+                <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3 mr2" data-cy="cancel-add-description" @click="showEdit = false">
                   {{ $t('app.cancel') }}
                 </a>
                 <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'submit-add-description'" />

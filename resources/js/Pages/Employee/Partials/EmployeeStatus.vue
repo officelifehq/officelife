@@ -53,7 +53,7 @@
     <!-- Modal -->
     <div v-if="modal" v-click-outside="toggleModal" class="popupmenu absolute br2 bg-white z-max tl bounceIn faster">
       <!-- Shown when there is at least one status in the account -->
-      <div v-show="statuses.length != 0">
+      <div v-if="statuses">
         <p class="pa2 ma0 bb bb-gray">
           {{ $t('employee.status_modal_title') }}
         </p>
@@ -83,7 +83,7 @@
             </div>
           </li>
           <li>
-            <a v-if="updatedEmployee.status" class="pointer pv2 ph3 db no-underline c-delete bb-0" data-cy="status-reset-button" @click="reset(updatedEmployee.status)">
+            <a v-if="localEmployee.status" class="pointer pv2 ph3 db no-underline c-delete bb-0" data-cy="status-reset-button" @click="reset(localEmployee.status)">
               {{ $t('employee.status_modal_reset') }}
             </a>
           </li>
@@ -91,7 +91,7 @@
       </div>
 
       <!-- Shown if there is no statuses setup in the account yet -->
-      <div v-show="statuses.length == 0">
+      <div v-if="!statuses">
         <p class="pa2 tc lh-copy" data-cy="modal-blank-state-copy">
           {{ $t('employee.status_modal_blank_title') }} <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employeestatuses'" data-cy="modal-blank-state-cta">
             {{ $t('employee.status_modal_blank_cta') }}
@@ -101,28 +101,28 @@
     </div>
 
     <!-- Case when there is a status -->
-    <ul v-if="updatedEmployee.status" class="ma0 pa0 di existing-statuses list">
+    <ul v-if="localEmployee.status" class="ma0 pa0 di existing-statuses list">
       <li class="mb2" data-cy="status-name-right-permission">
-        {{ updatedEmployee.status.name }}
+        {{ localEmployee.status.name }}
 
         <a v-show="permissions.can_manage_status" data-cy="edit-status-button" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="displayModal()">{{ $t('app.edit') }}</a>
       </li>
 
       <!-- contract renewed at date -->
-      <li v-if="updatedEmployee.contract_renewed_at && permissions.can_manage_status" class="lh-copy mb1" data-cy="employee-contract-renewal-date">
-        {{ $t('employee.contract_renewal_date', { date: updatedEmployee.contract_renewed_at.date }) }}
+      <li v-if="localEmployee.contract_renewed_at && permissions.can_manage_status" class="lh-copy mb1" data-cy="employee-contract-renewal-date">
+        {{ $t('employee.contract_renewal_date', { date: localEmployee.contract_renewed_at.date }) }}
 
         <inertia-link :href="employee.url.edit_contract" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2">{{ $t('app.edit') }}</inertia-link>
       </li>
 
       <!-- contract rate -->
-      <li v-if="updatedEmployee.contract_rate && permissions.can_manage_status" class="lh-copy mb1" data-cy="employee-contract-rate">
-        {{ $t('employee.contract_renewal_rate', { rate: updatedEmployee.contract_rate.rate, currency: updatedEmployee.contract_rate.currency }) }}
+      <li v-if="localEmployee.contract_rate && permissions.can_manage_status" class="lh-copy mb1" data-cy="employee-contract-rate">
+        {{ $t('employee.contract_renewal_rate', { rate: localEmployee.contract_rate.rate, currency: localEmployee.contract_rate.currency }) }}
       </li>
     </ul>
 
     <!-- Action when there is no status defined -->
-    <span v-else class="f6">
+    <span v-if="!localEmployee.status" class="f6">
       {{ $t('employee.status_modal_blank') }}
 
       <a v-show="permissions.can_manage_status" data-cy="edit-status-button" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="displayModal()">{{ $t('app.edit') }}</a>
@@ -154,7 +154,7 @@ export default {
       statuses: null,
       modal: false,
       search: '',
-      updatedEmployee: Object,
+      localEmployee: Object,
     };
   },
 
@@ -162,6 +162,10 @@ export default {
     filteredList() {
       // filter the list when searching
       // also, sort the list by name
+      if (!this.statuses) {
+        return;
+      }
+
       var list = this.statuses.filter(status => {
         return status.name.toLowerCase().includes(this.search.toLowerCase());
       });
@@ -171,7 +175,7 @@ export default {
   },
 
   created() {
-    this.updatedEmployee = this.employee;
+    this.localEmployee = this.employee;
   },
 
   methods: {
@@ -201,7 +205,7 @@ export default {
         .then(response => {
           this.flash(this.$t('employee.status_modal_assign_success'), 'success');
 
-          this.updatedEmployee = response.data.data;
+          this.localEmployee = response.data.data;
         })
         .catch(error => {
           this.form.errors = error.response.data;
@@ -213,7 +217,7 @@ export default {
         .then(response => {
           this.flash(this.$t('employee.status_modal_unassign_success'), 'success');
 
-          this.updatedEmployee = response.data.data;
+          this.localEmployee = response.data.data;
         })
         .catch(error => {
           this.form.errors = error.response.data;
@@ -221,10 +225,10 @@ export default {
     },
 
     isAssigned : function(id) {
-      if (!this.updatedEmployee.status) {
+      if (!this.localEmployee.status) {
         return false;
       }
-      if (this.updatedEmployee.status.id == id) {
+      if (this.localEmployee.status.id == id) {
         return true;
       }
       return false;

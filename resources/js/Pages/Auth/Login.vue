@@ -91,6 +91,12 @@ export default {
     };
   },
 
+  computed: {
+    loadingState() {
+      return this.form.processing ? 'loading' : '';
+    }
+  },
+
   mounted() {
     document.title = 'Login';
   },

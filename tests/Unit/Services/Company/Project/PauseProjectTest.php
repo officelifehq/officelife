@@ -86,6 +86,11 @@ class PauseProjectTest extends TestCase
             'status' => Project::PAUSED,
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project) {
             return $job->auditLog['action'] === 'project_paused' &&
                 $job->auditLog['author_id'] === $michael->id &&

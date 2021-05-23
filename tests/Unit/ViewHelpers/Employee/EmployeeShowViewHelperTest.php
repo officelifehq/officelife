@@ -23,8 +23,8 @@ use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
-use App\Models\Company\ProjectMessage;
 use App\Models\Company\TimeTrackingEntry;
+use App\Models\Company\EmployeePositionHistory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
@@ -651,70 +651,6 @@ class EmployeeShowViewHelperTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_a_collection_of_all_projects_for_this_employee(): void
-    {
-        $michael = $this->createAdministrator();
-        $projectA = Project::factory()->create([
-            'company_id' => $michael->company_id,
-            'status' => Project::CLOSED,
-        ]);
-        $projectB = Project::factory()->create([
-            'company_id' => $michael->company_id,
-        ]);
-        $projectA->employees()->syncWithoutDetaching(
-            [
-                $michael->id => [
-                    'role' => trans('project.project_title_lead'),
-                ],
-            ]
-        );
-        $projectB->employees()->syncWithoutDetaching([$michael->id]);
-
-        ProjectMessage::factory()->create([
-            'project_id' => $projectA->id,
-            'author_id' => $michael->id,
-        ]);
-        ProjectMessage::factory()->create([
-            'project_id' => $projectA->id,
-            'author_id' => null,
-        ]);
-
-        ProjectTask::factory()->count(2)->completed()->create([
-            'project_id' => $projectA->id,
-            'author_id' => $michael->id,
-            'assignee_id' => $michael->id,
-        ]);
-
-        $collection = EmployeeShowViewHelper::projects($michael, $michael->company);
-
-        $this->assertEquals(
-            [
-                0 => [
-                    'id' => $projectB->id,
-                    'name' => $projectB->name,
-                    'code' => $projectB->code,
-                    'status' => $projectB->status,
-                    'role' => null,
-                    'messages_count' => 0,
-                    'tasks_count' => 0,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectB->id,
-                ],
-                1 => [
-                    'id' => $projectA->id,
-                    'name' => $projectA->name,
-                    'code' => $projectA->code,
-                    'status' => Project::CLOSED,
-                    'role' => trans('project.project_title_lead'),
-                    'messages_count' => 1,
-                    'tasks_count' => 2,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectA->id,
-                ],
-            ],
-            $collection->toArray()
-        );
-    }
-
-    /** @test */
     public function it_gets_a_collection_of_three_current_and_past_e_coffee_sessions(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
@@ -791,6 +727,43 @@ class EmployeeShowViewHelperTest extends TestCase
         $this->assertEquals(
             63,
             EmployeeShowViewHelper::hiredAfterEmployee($michael, $michael->company)
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_information_about_past_positions(): void
+    {
+        $michael = Employee::factory()->create();
+        $position = Position::factory()->create();
+        $positionHistoryA = EmployeePositionHistory::factory()->create([
+            'started_at' => '2010-01-01 00:00:00',
+            'ended_at' => null,
+            'employee_id' => $michael->id,
+            'position_id' => $position->id,
+        ]);
+        $positionHistoryB = EmployeePositionHistory::factory()->create([
+            'started_at' => '2007-01-01 00:00:00',
+            'ended_at' => '2009-01 00:00:00',
+            'employee_id' => $michael->id,
+            'position_id' => $position->id,
+        ]);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $positionHistoryA->id,
+                    'position' => $position->title,
+                    'started_at' => 'Jan 2010',
+                    'ended_at' => null,
+                ],
+                1 => [
+                    'id' => $positionHistoryB->id,
+                    'position' => $position->title,
+                    'started_at' => 'Jan 2007',
+                    'ended_at' => 'Jan 2009',
+                ],
+            ],
+            EmployeeShowViewHelper::employeeCurrentAndPastPositions($michael, $michael->company)->toArray()
         );
     }
 }

@@ -96,6 +96,7 @@ return [
     'status_modal_assign_success' => 'The status has been assigned',
     'status_modal_unassign_success' => 'The status has been removed',
     'status_modal_reset' => 'Remove current status',
+    'status_modal_blank_cta' => 'Set a status',
 
     'contacts_title' => 'Contact information',
 
@@ -238,4 +239,11 @@ return [
     'e_coffee_show_title' => 'All the eCoffee sessions',
 
     'stat_hiring' => '{percent}% employees have been hired after {name}',
+
+    'past_position_history_title' => 'Position history in the company',
+
+    'groups_title' => 'Groups {name} is part of',
+
+    'worklog_year_selector' => 'Choose a year',
+    'worklog_filter_month' => 'Choose a month',
 ];

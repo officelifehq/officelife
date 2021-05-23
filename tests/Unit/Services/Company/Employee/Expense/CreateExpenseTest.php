@@ -4,6 +4,7 @@ namespace Tests\Unit\Services\Company\Employee\Expense;
 
 use Tests\TestCase;
 use App\Helpers\MoneyHelper;
+use App\Jobs\ConvertExpense;
 use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
@@ -17,7 +18,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Expense\CreateExpense;
 use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Jobs\ConvertAmountFromOneCurrencyToCompanyCurrency;
 
 class CreateExpenseTest extends TestCase
 {
@@ -241,6 +241,6 @@ class CreateExpenseTest extends TestCase
                 ]);
         });
 
-        Queue::assertPushed(ConvertAmountFromOneCurrencyToCompanyCurrency::class);
+        Queue::assertPushed(ConvertExpense::class);
     }
 }

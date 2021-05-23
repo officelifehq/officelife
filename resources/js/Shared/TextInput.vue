@@ -42,6 +42,7 @@
            :data-cy="datacy"
            v-bind="$attrs"
            @keydown.esc="sendEscKey"
+           @keydown.enter="sendEnterKey"
     />
     <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
       {{ errors }}
@@ -186,6 +187,10 @@ export default {
 
     sendEscKey() {
       this.$emit('esc-key-pressed');
+    },
+
+    sendEnterKey() {
+      this.$emit('enter-key-pressed');
     }
   },
 };

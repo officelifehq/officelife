@@ -95,6 +95,11 @@ class ClearProjectLeadTest extends TestCase
             'project_lead_id' => null,
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         $this->assertInstanceOf(
             Project::class,
             $project

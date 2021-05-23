@@ -12,16 +12,22 @@ if [ "$version" == "" ]; then
   exit 1
 fi
 
+commit=$2
+if [ -z "$commit" ]; then
+  commit=$(git --git-dir $ROOT/.git log --pretty="%H" -n1 HEAD)
+  release=$(git --git-dir $ROOT/.git log --pretty="%h" -n1 HEAD)
+fi
+
 set -v
 
-echo "$version" | tee $ROOT/config/version
-git log --pretty="%h" -n1 HEAD | tee $ROOT/config/release
-git log --pretty="%H" -n1 HEAD | tee $ROOT/config/commit
+echo -n "$version" | tee $ROOT/config/.version
+echo -n $commit | tee $ROOT/config/.commit
+echo -n ${release:-$version} | tee $ROOT/config/.release
 
 # BUILD
-composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader --no-dev
-yarn install --ignore-engines --frozen-lockfile
-yarn run production
+composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader --no-dev --working-dir=$ROOT
+yarn --cwd $ROOT run inst
+yarn --cwd $ROOT run production
 
 # PACKAGE
 package=officelife-$version

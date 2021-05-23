@@ -60,7 +60,7 @@
         "touch database/database.sqlite && chgrp www-data database database/database.sqlite && chmod g+w database database/database.sqlite;",
         "chgrp -R www-data storage && chmod -R g+w storage;",
         "composer install;",
-        "yarn install;",
+        "yarn run inst;",
         "yarn run production;",
         "php artisan key:generate --no-interaction;",
         "php artisan setup -vvv;",

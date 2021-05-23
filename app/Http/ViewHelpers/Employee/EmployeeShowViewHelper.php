@@ -10,16 +10,13 @@ use App\Helpers\MoneyHelper;
 use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
 use App\Models\Company\Company;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\WorkFromHomeHelper;
-use App\Models\Company\ProjectTask;
 use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\EmployeeStatus;
-use App\Models\Company\ProjectMessage;
 
 class EmployeeShowViewHelper
 {
@@ -795,55 +792,6 @@ class EmployeeShowViewHelper
     }
 
     /**
-     * List all the projects of the employee.
-     *
-     * @param Employee $employee
-     * @param Company $company
-     * @return Collection|null
-     */
-    public static function projects(Employee $employee, Company $company): ?Collection
-    {
-        /** Going through a raw query coupled with eloquent to drastically reduce the number of hydrated models */
-        $projects = Project::join('employee_project', 'employee_project.project_id', '=', 'projects.id')
-            ->select('employee_project.role', 'employee_project.created_at', 'employee_project.project_id', 'projects.id as project_id', 'projects.name', 'projects.code', 'projects.status')
-            ->addSelect([
-                'messages_count' => ProjectMessage::select(DB::raw('count(id)'))
-                    ->whereColumn('author_id', 'employee_id')
-                    ->whereColumn('project_id', 'projects.id'),
-            ])
-            ->addSelect([
-                'tasks_count' => ProjectTask::select(DB::raw('count(id)'))
-                    ->whereColumn('assignee_id', 'employee_id')
-                    ->whereColumn('project_id', 'projects.id'),
-            ])
-            ->where('employee_project.employee_id', $employee->id)
-            ->orderBy('projects.id', 'desc')
-            ->withCasts([
-                'created_at' => 'datetime',
-            ])
-            ->get();
-
-        $projectsCollection = collect([]);
-        foreach ($projects as $project) {
-            $projectsCollection->push([
-                'id' => $project->project_id,
-                'name' => $project->name,
-                'code' => $project->code,
-                'status' => $project->status,
-                'role' => $project->role,
-                'messages_count' => $project->messages_count,
-                'tasks_count' => $project->tasks_count,
-                'url' => route('projects.show', [
-                    'company' => $company,
-                    'project' => $project->project_id,
-                ]),
-            ]);
-        }
-
-        return $projectsCollection;
-    }
-
-    /**
      * List all the eCoffees the employee participated to.
      *
      * @param Employee $employee
@@ -918,5 +866,31 @@ class EmployeeShowViewHelper
         $percent = round($employeesHiredAfterMe * 100 / $totalNumberOfEmployees);
 
         return $percent;
+    }
+
+    /**
+     * Get the list of all positions the employee ever had in the company.
+     *
+     * @param Employee $employee
+     * @param Company $company
+     * @return Collection
+     */
+    public static function employeeCurrentAndPastPositions(Employee $employee, Company $company): Collection
+    {
+        $positions = $employee->positionHistoryEntries()
+            ->orderBy('started_at', 'desc')
+            ->get();
+
+        $positionCollection = collect();
+        foreach ($positions as $entry) {
+            $positionCollection->push([
+                'id' => $entry->id,
+                'position' => $entry->position->title,
+                'started_at' => DateHelper::formatMonthAndYear($entry->started_at),
+                'ended_at' => $entry->ended_at ? DateHelper::formatMonthAndYear($entry->ended_at) : null,
+            ]);
+        }
+
+        return $positionCollection;
     }
 }

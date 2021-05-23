@@ -7,6 +7,7 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectTask;
+use App\Models\Company\ProjectMemberActivity;
 
 class DestroyProjectTask extends BaseService
 {
@@ -41,6 +42,7 @@ class DestroyProjectTask extends BaseService
         $this->data = $data;
         $this->validate();
         $this->destroyTask();
+        $this->logActivity();
         $this->log();
     }
 
@@ -63,6 +65,14 @@ class DestroyProjectTask extends BaseService
     private function destroyTask(): void
     {
         $this->projectTask->delete();
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void

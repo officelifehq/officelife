@@ -111,6 +111,11 @@ class AddFileToProjectTest extends TestCase
             'file_id' => $file->id,
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         $this->assertInstanceOf(
             File::class,
             $file

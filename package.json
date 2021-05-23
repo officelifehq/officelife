@@ -12,7 +12,7 @@
         "heroku-postbuild": "yarn run production",
         "e2e": "cypress run",
         "e2e-gui": "cypress open",
-        "inst": "yarn install --ignore-engines --frozen-lockfile",
+        "inst": "yarn install --frozen-lockfile",
         "lint": "eslint --ext .js,.vue *.js .*.js resources/js/",
         "lint:cypress": "eslint --ext .js tests/Features/",
         "lint:all": "yarn lint & yarn lint:cypress",

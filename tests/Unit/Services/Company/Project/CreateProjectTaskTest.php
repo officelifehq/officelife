@@ -119,6 +119,11 @@ class CreateProjectTaskTest extends TestCase
             'description' => $task->description,
         ]);
 
+        $this->assertDatabaseHas('project_member_activities', [
+            'project_id' => $project->id,
+            'employee_id' => $michael->id,
+        ]);
+
         $this->assertInstanceOf(
             ProjectTask::class,
             $task
