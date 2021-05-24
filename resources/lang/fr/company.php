@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'menu_employees' => 'Employees & teams',
+    'menu_employees' => 'Employés et équipes',
     'menu_projects' => 'Projects',
     'menu_groups' => 'Groups',
     'menu_hr' => 'Human Resources',
