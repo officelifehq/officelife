@@ -37,7 +37,7 @@ export default {
   props: {
     employee: {
       type: Object,
-      default: null,
+      default: () => {},
     },
     permissions: {
       type: Object,

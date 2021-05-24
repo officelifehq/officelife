@@ -32,8 +32,9 @@
             </span>
             <small-name-and-avatar
               v-if="oneOnOne.manager.id"
-              :name="oneOnOne.manager.name"
               :avatar="oneOnOne.manager.avatar"
+              :url="oneOnOne.manager.url"
+              :name="oneOnOne.manager.name"
               :class="'gray'"
               :size="'18px'"
               :top="'2px'"

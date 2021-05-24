@@ -1,26 +1,42 @@
 <style lang="scss" scoped>
-span {
-  margin-left: 29px;
+.link {
+  border-bottom: 0;
+  text-decoration: none;
 }
 </style>
 
+
 <template>
-  <img v-if="avatar" :loading="loading" class="pointer" :src="avatar.normal"
-       :width="size"
-       :height="size"
-       :srcset="avatar.normal + ' 1x,' + avatar.retina + ' 2x'" :alt="alt"
-       @click="navigateTo()"
-  />
+  <div v-if="avatar" v-bind="$attrs" class="di">
+    <inertia-link v-if="url" :href="url" class="link">
+      <img :loading="loading" :width="size" :height="size"
+           :src="avatar.normal" :srcset="srcset"
+           :alt="altValue"
+           v-bind="$attrs"
+      />
+    </inertia-link>
+    <img v-else :loading="loading" :width="size" :height="size"
+         :src="avatar.normal" :srcset="srcset"
+         :alt="altValue"
+         v-bind="$attrs"
+    />
+  </div>
 </template>
 
 <script>
 export default {
+  inheritAttrs: false,
+
   props: {
     avatar: {
       type: Object,
       default: null,
     },
     url: {
+      type: String,
+      default: null,
+    },
+    name: {
       type: String,
       default: null,
     },
@@ -38,26 +54,13 @@ export default {
     }
   },
 
-  data() {
-    return {
-      localClasses: '',
-    };
-  },
-
-  mounted() {
-    this.localClasses = this.classes;
-
-    if (this.url) {
-      this.localClasses = this.localClasses + ' pointer';
-    }
-  },
-
-  methods: {
-    navigateTo() {
-      if (this.url) {
-        this.$inertia.visit(this.url);
-      }
+  computed: {
+    srcset() {
+      return this.avatar.normal + ' 1x,' + this.avatar.retina + ' 2x';
     },
-  },
+    altValue() {
+      return this.name ? this.name : this.alt;
+    }
+  }
 };
 </script>

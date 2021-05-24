@@ -9,13 +9,22 @@ a {
 </style>
 
 <template>
-  <div class="relative di">
-    <img loading="lazy" :src="avatar.normal" :srcset="avatar.normal + ' 1x,' + avatar.retina + ' 2x'" class="absolute br-100" alt="avatar"
-         :style="style"
-    />
-    <inertia-link v-if="url" :href="url" :class="fontSize" :style="avatarMarginLeft" v-bind="$attrs">{{ name }}</inertia-link>
+  <div v-if="avatar || url" class="relative di">
+    <inertia-link v-if="url" :href="url"
+                  :class="fontSize" :style="avatarMarginLeft" v-bind="$attrs"
+    >
+      <img v-if="avatar" loading="lazy"
+           :src="avatar.normal" :srcset="srcset"
+           :alt="altValue"
+           :style="style" class="absolute br-100"
+      />{{ name }}
+    </inertia-link>
     <span v-else :class="fontSize" :style="avatarMarginLeft" v-bind="$attrs">
-      {{ name }}
+      <img v-if="avatar" loading="lazy"
+           :src="avatar.normal" :srcset="srcset"
+           :alt="altValue"
+           :style="style" class="absolute br-100"
+      />{{ name }}
     </span>
   </div>
 </template>
@@ -25,21 +34,21 @@ export default {
   inheritAttrs: false,
 
   props: {
-    name: {
+    avatar: {
+      type: Object,
+      default: null,
+    },
+    url: {
       type: String,
       default: null,
     },
-    avatar: {
-      type: Object,
+    name: {
+      type: String,
       default: null,
     },
     top: {
       type: String,
       default: '-2px',
-    },
-    url: {
-      type: String,
-      default: null,
     },
     size: {
       type: String,
@@ -52,16 +61,25 @@ export default {
     marginBetweenNameAvatar: {
       type: String,
       default: '29px',
-    }
+    },
+    alt: {
+      type: String,
+      default: 'avatar',
+    },
   },
 
   computed: {
     style: function () {
       return 'top:' + this.top + '; height:' + this.size + '; width:' + this.size + ';';
     },
-
     avatarMarginLeft: function () {
       return 'margin-left:' + this.marginBetweenNameAvatar;
+    },
+    srcset() {
+      return this.avatar.normal + ' 1x,' + this.avatar.retina + ' 2x';
+    },
+    altValue() {
+      return this.name ? this.name : this.alt;
     }
   }
 };

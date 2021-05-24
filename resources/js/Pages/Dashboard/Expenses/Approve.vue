@@ -128,8 +128,7 @@
               <span>
                 <small-name-and-avatar
                   v-if="expense.employee.id"
-                  :name="expense.employee.name"
-                  :avatar="expense.employee.avatar"
+                  :member="expense.employee"
                   :font-size="'f5'"
                   :size="'18px'"
                   :top="'0px'"
@@ -165,8 +164,9 @@
               <span>
                 <small-name-and-avatar
                   v-if="expense.manager.id"
-                  :name="expense.manager.name"
                   :avatar="expense.manager.avatar"
+                  :url="expense.manager.url"
+                  :name="expense.manager.name"
                   :class="'gray'"
                   :font-size="'f5'"
                   :size="'18px'"

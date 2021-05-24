@@ -233,7 +233,7 @@ input[type=checkbox] {
           <!-- information about the author -->
           <div v-if="localTask.author" class="flex mb4">
             <div class="mr2">
-              <avatar :avatar="localTask.author.avatar" :size="35" :class="'br-100'" />
+              <avatar :avatar="localTask.author.avatar" :url="localTask.author.url" :name="localTask.author.name" :size="35" :class="'br-100'" />
             </div>
 
             <div>

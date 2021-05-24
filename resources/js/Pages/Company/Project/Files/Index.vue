@@ -85,8 +85,9 @@
                 <span>
                   <small-name-and-avatar
                     v-if="file.uploader.name"
-                    :name="file.uploader.name"
                     :avatar="file.uploader.avatar"
+                    :url="file.uploader.url"
+                    :name="file.uploader.name"
                     :class="'gray'"
                     :size="'18px'"
                     :top="'0px'"

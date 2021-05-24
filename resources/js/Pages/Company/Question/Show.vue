@@ -53,9 +53,9 @@
 
           <div v-for="answer in answers" :key="answer.id" class="bb-gray relative answer-entry" :data-cy="'answer-content-' + answer.id">
             <!-- avatar -->
-            <small-name-and-avatar
-              :name="answer.employee.name"
-              :avatar="answer.employee.avatar"
+            <small-name-and-avatar :avatar="answer.employee.avatar"
+                                   :url="answer.employee.url"
+                                   :name="answer.employee.name"
             />
 
             <!-- content of the answer -->
