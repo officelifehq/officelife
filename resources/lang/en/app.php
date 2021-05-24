@@ -55,6 +55,9 @@ return [
     'demo_mode_desc' => 'This is a demo account. Some features are deactivated. Data resets every 5 minutes.',
     'demo_mode_deactivated' => 'This feature is deactivated in demo mode.',
     'demo_mode_read_more' => 'Read more',
+    'demo_mode_login' => 'This is a demo account. Please use the following credentials:',
+    'demo_mode_email' => 'Email',
+    'demo_mode_password' => 'Password',
 
     'previous' => 'Previous',
     'next' => 'Next',

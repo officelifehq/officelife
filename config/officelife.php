@@ -26,6 +26,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Enable signups
+    |--------------------------------------------------------------------------
+    |
+    | This setup enables new users to signup to this instance. If set to false,
+    | new users won't be able to signup.
+    |
+    */
+    'enable_signups' => env('ENABLE_SIGNUPS', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Email address of the system administrators of the instance
     |--------------------------------------------------------------------------
     |
