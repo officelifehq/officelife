@@ -3,6 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Adminland;
 
 use Tests\TestCase;
+use App\Helpers\DateHelper;
 use App\Models\Company\Software;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Adminland\AdminSoftwareViewHelper;
@@ -41,6 +42,40 @@ class AdminSoftwareViewHelperTest extends TestCase
         $this->assertEquals(
             env('APP_URL') . '/' . $michael->company_id . '/account/softwares/create',
             $array['url_new']
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_information_about_a_specific_software(): void
+    {
+        $michael = $this->createAdministrator();
+        $office365 = Software::factory()->create([
+            'company_id' => $michael->company_id,
+            'name' => 'Office 365',
+            'seats' => 9,
+        ]);
+
+        $array = AdminSoftwareViewHelper::show($office365);
+
+        $this->assertEquals(
+            [
+                'id' => $office365->id,
+                'name' => 'Office 365',
+                'website' => $office365->website,
+                'product_key' => $office365->product_key,
+                'seats' => $office365->seats,
+                'licensed_to_name' => $office365->licensed_to_name,
+                'licensed_to_email_address' => $office365->licensed_to_email_address,
+                'order_number' => $office365->order_number,
+                'purchase_amount' => $office365->purchase_amount,
+                'currency' => $office365->currency,
+                'converted_purchase_amount' => $office365->converted_purchase_amount,
+                'converted_to_currency' => $office365->converted_to_currency,
+                'purchased_at' => $office365->purchased_at ? DateHelper::formatDate($office365->purchased_at) : null,
+                'converted_at' => $office365->converted_at ? DateHelper::formatDate($office365->converted_at) : null,
+                'exchange_rate' => $office365->exchange_rate,
+            ],
+            $array
         );
     }
 }

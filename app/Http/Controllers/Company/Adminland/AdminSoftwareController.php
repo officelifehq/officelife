@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Company\Adminland;
 use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\PaginatorHelper;
 use App\Models\Company\Hardware;
+use App\Models\Company\Software;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -117,42 +117,33 @@ class AdminSoftwareController extends Controller
     }
 
     /**
-     * Show the hardware.
+     * Show the software.
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $hardwareId
+     * @param int $softwareId
      * @return mixed
      */
-    public function show(Request $request, int $companyId, int $hardwareId)
+    public function show(Request $request, int $companyId, int $softwareId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
 
         try {
-            $hardware = Hardware::where('company_id', $company->id)
-                ->with('employee')
-                ->findOrFail($hardwareId);
+            $software = Software::where('company_id', $company->id)
+                ->with('employees')
+                ->findOrFail($softwareId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
 
-        $information = [
-            'id' => $hardware->id,
-            'name' => $hardware->name,
-            'serial_number' => $hardware->serial_number,
-            'employee' => $hardware->employee ? [
-                'id' => $hardware->employee->id,
-                'name' => $hardware->employee->name,
-                'avatar' => ImageHelper::getAvatar($hardware->employee, 22),
-            ] : null,
-        ];
+        $employees = $software->employees()->paginate(10);
+        $employeeCollection = AdminSoftwareViewHelper::seats($employees, $company);
+        $software = AdminSoftwareViewHelper::show($software);
 
-        $history = AdminHardwareViewHelper::history($hardware, $employee);
-
-        return Inertia::render('Adminland/Hardware/Show', [
-            'hardware' => $information,
-            'history' => $history,
+        return Inertia::render('Adminland/Software/Show', [
+            'software' => $software,
+            'employees' => $employeeCollection,
+            'paginator' => PaginatorHelper::getData($employees),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -162,17 +153,17 @@ class AdminSoftwareController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $hardwareId
+     * @param int $softwareId
      * @return mixed
      */
-    public function edit(Request $request, int $companyId, int $hardwareId)
+    public function edit(Request $request, int $companyId, int $softwareId)
     {
         $company = InstanceHelper::getLoggedCompany();
 
         try {
-            $hardware = Hardware::where('company_id', $company->id)
+            $software = Hardware::where('company_id', $company->id)
                 ->with('employee')
-                ->findOrFail($hardwareId);
+                ->findOrFail($softwareId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
@@ -182,12 +173,12 @@ class AdminSoftwareController extends Controller
         return Inertia::render('Adminland/Hardware/Edit', [
             'employees' => $employees,
             'hardware' => [
-                'id' => $hardware->id,
-                'name' => $hardware->name,
-                'serial_number' => $hardware->serial_number,
-                'employee' => $hardware->employee ? [
-                    'label' => $hardware->employee->name,
-                    'value' => $hardware->employee->id,
+                'id' => $software->id,
+                'name' => $software->name,
+                'serial_number' => $software->serial_number,
+                'employee' => $software->employee ? [
+                    'label' => $software->employee->name,
+                    'value' => $software->employee->id,
                 ] : null,
             ],
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -199,21 +190,21 @@ class AdminSoftwareController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $hardwareId
+     * @param int $softwareId
      * @return JsonResponse
      */
-    public function update(Request $request, int $companyId, int $hardwareId): JsonResponse
+    public function update(Request $request, int $companyId, int $softwareId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $hardware = Hardware::findOrFail($hardwareId);
+        $software = Hardware::findOrFail($softwareId);
 
-        if ($hardware->name != $request->input('name') || $hardware->serial_number != $request->input('serial')) {
+        if ($software->name != $request->input('name') || $software->serial_number != $request->input('serial')) {
             $data = [
                 'company_id' => $loggedCompany->id,
                 'author_id' => $loggedEmployee->id,
-                'hardware_id' => $hardwareId,
+                'hardware_id' => $softwareId,
                 'name' => $request->input('name'),
                 'serial_number' => $request->input('serial'),
             ];
@@ -222,23 +213,23 @@ class AdminSoftwareController extends Controller
         }
 
         // if the checkbox is checked and the hardware wasn't assigned to an employee
-        if ($request->input('lend_hardware') && ! $hardware->employee) {
+        if ($request->input('lend_hardware') && ! $software->employee) {
             (new LendHardware)->execute([
                 'company_id' => $loggedCompany->id,
                 'author_id' => $loggedEmployee->id,
                 'employee_id' => $request->input('employee_id'),
-                'hardware_id' => $hardware->id,
+                'hardware_id' => $software->id,
             ]);
         }
 
         // if the hardware was assigned to an employee
-        if ($hardware->employee) {
+        if ($software->employee) {
             if ($request->input('lend_hardware')) {
                 (new LendHardware)->execute([
                     'company_id' => $loggedCompany->id,
                     'author_id' => $loggedEmployee->id,
                     'employee_id' => $request->input('employee_id'),
-                    'hardware_id' => $hardware->id,
+                    'hardware_id' => $software->id,
                 ]);
             }
 
@@ -246,13 +237,13 @@ class AdminSoftwareController extends Controller
                 (new RegainHardware)->execute([
                     'company_id' => $loggedCompany->id,
                     'author_id' => $loggedEmployee->id,
-                    'hardware_id' => $hardware->id,
+                    'hardware_id' => $software->id,
                 ]);
             }
         }
 
         return response()->json([
-            'data' => $hardware->id,
+            'data' => $software->id,
         ], 200);
     }
 
@@ -261,10 +252,10 @@ class AdminSoftwareController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $hardwareId
+     * @param int $softwareId
      * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId, int $hardwareId): JsonResponse
+    public function destroy(Request $request, int $companyId, int $softwareId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -272,7 +263,7 @@ class AdminSoftwareController extends Controller
         $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
-            'hardware_id' => $hardwareId,
+            'hardware_id' => $softwareId,
         ];
 
         (new DestroyHardware)->execute($data);
@@ -292,12 +283,12 @@ class AdminSoftwareController extends Controller
     public function available(Request $request, int $companyId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
-        $hardware = $company->hardware()->with('employee')->orderBy('created_at', 'desc')->get();
-        $hardwareInformation = AdminHardwareViewHelper::availableHardware($hardware);
+        $software = $company->hardware()->with('employee')->orderBy('created_at', 'desc')->get();
+        $softwareInformation = AdminHardwareViewHelper::availableHardware($software);
 
         return Inertia::render('Adminland/Hardware/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'hardware' => $hardwareInformation,
+            'hardware' => $softwareInformation,
             'state' => 'available',
         ]);
     }
@@ -312,12 +303,12 @@ class AdminSoftwareController extends Controller
     public function lent(Request $request, int $companyId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
-        $hardware = $company->hardware()->with('employee')->orderBy('created_at', 'desc')->get();
-        $hardwareInformation = AdminHardwareViewHelper::lentHardware($hardware);
+        $software = $company->hardware()->with('employee')->orderBy('created_at', 'desc')->get();
+        $softwareInformation = AdminHardwareViewHelper::lentHardware($software);
 
         return Inertia::render('Adminland/Hardware/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'hardware' => $hardwareInformation,
+            'hardware' => $softwareInformation,
             'state' => 'lent',
         ]);
     }
@@ -339,14 +330,14 @@ class AdminSoftwareController extends Controller
             ->with('employee')
             ->get();
 
-        $hardwareCollection = AdminHardwareViewHelper::hardware($potentialHardware);
+        $softwareCollection = AdminHardwareViewHelper::hardware($potentialHardware);
 
-        if (count($hardwareCollection) == 0) {
+        if (count($softwareCollection) == 0) {
             throw new ModelNotFoundException();
         }
 
         return response()->json([
-            'data' => $hardwareCollection,
+            'data' => $softwareCollection,
         ], 201);
     }
 }

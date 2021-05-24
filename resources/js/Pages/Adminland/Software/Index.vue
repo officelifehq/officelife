@@ -40,7 +40,7 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.employee_statuses_title', { company: $page.props.auth.company.name}) }}
+            Softwares used in the company
 
             <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
           </h2>
