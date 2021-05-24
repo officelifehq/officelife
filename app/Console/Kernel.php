@@ -38,6 +38,8 @@ class Kernel extends ConsoleKernel
         $schedule->job(new StopRateYourManagerProcess())->hourly();
 
         $schedule->command('timeoff:calculate '.Carbon::today()->format('Y-m-d'))->daily();
+
+        $schedule->command('cloudflare:reload')->daily();
     }
 
     /**

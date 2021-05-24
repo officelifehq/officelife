@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ace5f725555a75ccabc016eacbe8f14f",
+    "content-hash": "822946621884cd3c6a54e21ae030129f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2752,6 +2752,83 @@
                 "source": "https://github.com/moneyphp/money/tree/master"
             },
             "time": "2020-03-18T17:49:59+00:00"
+        },
+        {
+            "name": "monicahq/laravel-cloudflare",
+            "version": "1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/monicahq/laravel-cloudflare.git",
+                "reference": "3ccdec99a9431de638653af4f693efef12dbe5f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/monicahq/laravel-cloudflare/zipball/3ccdec99a9431de638653af4f693efef12dbe5f0",
+                "reference": "3ccdec99a9431de638653af4f693efef12dbe5f0",
+                "shasum": ""
+            },
+            "require": {
+                "fideloper/proxy": "^4.4",
+                "guzzlehttp/guzzle": "^6.3 || ^7.0",
+                "illuminate/console": "^5.5 || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/http": "^5.5 || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/support": "^5.5 || ^6.0 || ^7.0 || ^8.0",
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "laravel/framework": "^5.5 || ^6.0 || ^7.0 || ^8.0",
+                "mockery/mockery": "^1.4",
+                "nunomaduro/larastan": "^0",
+                "ocramius/package-versions": "^1.5 || ^2.1",
+                "orchestra/testbench": "^3.5 || ^5.0 || ^6.0 || ^4.0",
+                "phpstan/phpstan-deprecation-rules": "^0",
+                "phpstan/phpstan-phpunit": "^0",
+                "phpstan/phpstan-strict-rules": "^0",
+                "phpunit/phpunit": "^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "thecodingmachine/phpstan-safe-rule": "^1.0",
+                "vimeo/psalm": "^3.9 || ^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Monicahq\\Cloudflare\\TrustedProxyServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Monicahq\\Cloudflare\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexis Saettler",
+                    "email": "alexis@saettler.org"
+                }
+            ],
+            "description": "Add Cloudflare ip addresses to trusted proxies for Laravel.",
+            "keywords": [
+                "cloudflare",
+                "laravel",
+                "php",
+                "proxies"
+            ],
+            "support": {
+                "issues": "https://github.com/monicahq/laravel-cloudflare/issues",
+                "source": "https://github.com/monicahq/laravel-cloudflare"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/asbiin",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-02-13T19:22:19+00:00"
         },
         {
             "name": "monolog/monolog",
