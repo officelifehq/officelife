@@ -14,6 +14,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Demo mode
+    |--------------------------------------------------------------------------
+    |
+    | The demo mode puts OfficeLife in a mode that is used to showcase what's
+    | OfficeLife can do to people who don't know what it can do.
+    | This mode is used on demo.officelife.io.
+    |
+    */
+    'demo_mode' => env('DEMO_MODE', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Email address of the system administrators of the instance
     |--------------------------------------------------------------------------
     |

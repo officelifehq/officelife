@@ -67,7 +67,15 @@
             <p class="lh-copy">{{ $t('account.cancel_account_data_lost_forever') }}</p>
           </div>
 
-          <form class="cf pa3" @submit.prevent="destroy">
+          <!-- disable actions if instance is in demo mode -->
+          <div v-if="$page.props.demo_mode" class="cf pa3 tc">
+            <span class="mr1">
+              ⚠️
+            </span> {{ $t('app.demo_mode_deactivated') }}
+          </div>
+
+          <!-- actions -->
+          <form v-if="!$page.props.demo_mode" class="cf pa3" @submit.prevent="destroy">
             <div class="flex-ns justify-between">
               <div>
                 <inertia-link :href="'/' + $page.props.auth.company.id + '/account'" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">

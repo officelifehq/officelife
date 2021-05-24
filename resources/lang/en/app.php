@@ -52,6 +52,10 @@ return [
     'error_exception' => 'Exception:',
     'error_email_already_taken' => 'This email is already taken.',
 
+    'demo_mode_desc' => 'This is a demo account. Some features are deactivated. Data resets every 5 minutes.',
+    'demo_mode_deactivated' => 'This feature is deactivated in demo mode.',
+    'demo_mode_read_more' => 'Read more',
+
     'previous' => 'Previous',
     'next' => 'Next',
 
