@@ -38,8 +38,15 @@
               <p class="lh-copy">{{ $t('account.employee_delete_description', { name: employee.name}) }}</p>
             </div>
 
+            <!-- disable actions if instance is in demo mode -->
+            <div v-if="$page.props.demo_mode" class="cf pa3 tc">
+              <span class="mr1">
+                ⚠️
+              </span> {{ $t('app.demo_mode_deactivated') }}
+            </div>
+
             <!-- Actions -->
-            <div class="cf pa3 bb-gray bb">
+            <div v-if="!$page.props.demo_mode" class="cf pa3 bb-gray bb">
               <div class="flex-ns justify-between">
                 <div>
                   <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employees'" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2" data-cy="cancel-button">
