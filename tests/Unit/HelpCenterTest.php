@@ -20,7 +20,7 @@ class HelpCenterTest extends TestCase
         $this->assertIsArray($links);
 
         $promises = [];
-        foreach ($links as $key => $link) {
+        foreach ($links as $link) {
             $url = config('officelife.help_center_url').$link;
 
             $promises[$url] = $client->getAsync($url, [
