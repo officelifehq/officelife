@@ -259,16 +259,16 @@
         },
         {
             "name": "composer/package-versions-deprecated",
-            "version": "1.11.99.1",
+            "version": "1.11.99.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/package-versions-deprecated.git",
-                "reference": "7413f0b55a051e89485c5cb9f765fe24bb02a7b6"
+                "reference": "c6522afe5540d5fc46675043d3ed5a45a740b27c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/package-versions-deprecated/zipball/7413f0b55a051e89485c5cb9f765fe24bb02a7b6",
-                "reference": "7413f0b55a051e89485c5cb9f765fe24bb02a7b6",
+                "url": "https://api.github.com/repos/composer/package-versions-deprecated/zipball/c6522afe5540d5fc46675043d3ed5a45a740b27c",
+                "reference": "c6522afe5540d5fc46675043d3ed5a45a740b27c",
                 "shasum": ""
             },
             "require": {
@@ -312,7 +312,7 @@
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
             "support": {
                 "issues": "https://github.com/composer/package-versions-deprecated/issues",
-                "source": "https://github.com/composer/package-versions-deprecated/tree/1.11.99.1"
+                "source": "https://github.com/composer/package-versions-deprecated/tree/1.11.99.2"
             },
             "funding": [
                 {
@@ -328,7 +328,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-11T10:22:58+00:00"
+            "time": "2021-05-24T07:46:03+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -8353,16 +8353,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "dev-master",
+            "version": "2.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "bfea0f7d1e991f237ccf448b0a0d24ede02d923a"
+                "reference": "92b2ccbef65292ba9f2004271ef47c7231e2eed5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/bfea0f7d1e991f237ccf448b0a0d24ede02d923a",
-                "reference": "bfea0f7d1e991f237ccf448b0a0d24ede02d923a",
+                "url": "https://api.github.com/repos/composer/composer/zipball/92b2ccbef65292ba9f2004271ef47c7231e2eed5",
+                "reference": "92b2ccbef65292ba9f2004271ef47c7231e2eed5",
                 "shasum": ""
             },
             "require": {
@@ -8377,28 +8377,27 @@
                 "react/promise": "^1.2 || ^2.7",
                 "seld/jsonlint": "^1.4",
                 "seld/phar-utils": "^1.0",
-                "symfony/console": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0",
-                "symfony/filesystem": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0",
-                "symfony/finder": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0",
-                "symfony/process": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0"
+                "symfony/console": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0",
+                "symfony/filesystem": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0",
+                "symfony/finder": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0",
+                "symfony/process": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0"
             },
             "require-dev": {
                 "phpspec/prophecy": "^1.10",
-                "symfony/phpunit-bridge": "^4.2 || ^5.0"
+                "symfony/phpunit-bridge": "^4.2 || ^5.0 || ^6.0"
             },
             "suggest": {
                 "ext-openssl": "Enabling the openssl extension allows you to access https URLs for repositories and packages",
                 "ext-zip": "Enabling the zip extension allows you to unzip archives",
                 "ext-zlib": "Allow gzip compression of HTTP requests"
             },
-            "default-branch": true,
             "bin": [
                 "bin/composer"
             ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
@@ -8432,7 +8431,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/master"
+                "source": "https://github.com/composer/composer/tree/2.0.14"
             },
             "funding": [
                 {
@@ -8448,7 +8447,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-02T14:50:42+00:00"
+            "time": "2021-05-21T15:03:37+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -10136,16 +10135,16 @@
         },
         {
             "name": "nunomaduro/larastan",
-            "version": "v0.7.5",
+            "version": "v0.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/larastan.git",
-                "reference": "ba865c6683552608bc2360a459925abeda45a4cc"
+                "reference": "1dff40b931885001c696c9eb4af90e7d1599bb08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/larastan/zipball/ba865c6683552608bc2360a459925abeda45a4cc",
-                "reference": "ba865c6683552608bc2360a459925abeda45a4cc",
+                "url": "https://api.github.com/repos/nunomaduro/larastan/zipball/1dff40b931885001c696c9eb4af90e7d1599bb08",
+                "reference": "1dff40b931885001c696c9eb4af90e7d1599bb08",
                 "shasum": ""
             },
             "require": {
@@ -10209,7 +10208,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nunomaduro/larastan/issues",
-                "source": "https://github.com/nunomaduro/larastan/tree/v0.7.5"
+                "source": "https://github.com/nunomaduro/larastan/tree/v0.7.6"
             },
             "funding": [
                 {
@@ -10229,7 +10228,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-04-29T14:43:35+00:00"
+            "time": "2021-05-18T09:40:03+00:00"
         },
         {
             "name": "nunomaduro/phpinsights",
@@ -11232,16 +11231,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.87",
+            "version": "0.12.88",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "d464e00776afb711f419faffa96826dc02e4d145"
+                "reference": "464d1a81af49409c41074aa6640ed0c4cbd9bb68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d464e00776afb711f419faffa96826dc02e4d145",
-                "reference": "d464e00776afb711f419faffa96826dc02e4d145",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/464d1a81af49409c41074aa6640ed0c4cbd9bb68",
+                "reference": "464d1a81af49409c41074aa6640ed0c4cbd9bb68",
                 "shasum": ""
             },
             "require": {
@@ -11272,7 +11271,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.87"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.88"
             },
             "funding": [
                 {
@@ -11288,7 +11287,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-12T15:17:52+00:00"
+            "time": "2021-05-17T12:24:49+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
