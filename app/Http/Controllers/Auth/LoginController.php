@@ -30,6 +30,7 @@ class LoginController extends Controller
     {
         return Inertia::render('Auth/Login', [
             'registerUrl' => route('signup'),
+            'enableSignup' => config('officelife.enable_signups'),
         ]);
     }
 

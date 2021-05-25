@@ -24,6 +24,7 @@
         "laravel/ui": "^3.0",
         "mariuzzo/laravel-js-localization": "^1.7",
         "moneyphp/money": "^3.3",
+        "monicahq/laravel-cloudflare": "^1.8",
         "parsedown/laravel": "^1.2",
         "sentry/sentry-laravel": "^2.3",
         "spatie/laravel-activitylog": "^3.1",

@@ -131,10 +131,14 @@ class AdminEmployeeController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     * @return JsonResponse
+     * @return mixed
      */
-    public function store(Request $request, int $companyId): JsonResponse
+    public function store(Request $request, int $companyId): mixed
     {
+        if (config('officelife.demo_mode')) {
+            return redirect()->route('home');
+        }
+
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
@@ -306,6 +310,10 @@ class AdminEmployeeController extends Controller
      */
     public function delete(Request $request, int $companyId, int $employeeId)
     {
+        if (config('officelife.demo_mode')) {
+            return redirect()->route('home');
+        }
+
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

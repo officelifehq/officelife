@@ -27,8 +27,13 @@ class RegisterController extends Controller
             return redirect('/home');
         }
 
+        if (! config('officelife.enable_signups')) {
+            return redirect()->route('login');
+        }
+
         return Inertia::render('Auth/Register', [
             'signInUrl' => route('login'),
+            'betaTermsOfUse' => 'https://docs.officelife.io/documentation/officelife-beta.html',
         ]);
     }
 

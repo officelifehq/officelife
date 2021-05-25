@@ -14,6 +14,29 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Demo mode
+    |--------------------------------------------------------------------------
+    |
+    | The demo mode puts OfficeLife in a mode that is used to showcase what's
+    | OfficeLife can do to people who don't know what it can do.
+    | This mode is used on demo.officelife.io.
+    |
+    */
+    'demo_mode' => env('DEMO_MODE', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enable signups
+    |--------------------------------------------------------------------------
+    |
+    | This setup enables new users to signup to this instance. If set to false,
+    | new users won't be able to signup.
+    |
+    */
+    'enable_signups' => env('ENABLE_SIGNUPS', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Email address of the system administrators of the instance
     |--------------------------------------------------------------------------
     |

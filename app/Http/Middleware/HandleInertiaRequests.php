@@ -60,6 +60,7 @@ class HandleInertiaRequests extends Middleware
                     ],
                 ] : null,
             ],
+            'demo_mode' => fn () => config('officelife.demo_mode'),
             'help_links' => fn () => config('officelife.help_links'),
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
