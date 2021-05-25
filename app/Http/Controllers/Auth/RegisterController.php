@@ -28,7 +28,7 @@ class RegisterController extends Controller
         }
 
         if (! config('officelife.enable_signups')) {
-            return redirect('/login');
+            return redirect()->route('login');
         }
 
         return Inertia::render('Auth/Register', [
