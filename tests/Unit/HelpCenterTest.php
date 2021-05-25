@@ -3,6 +3,8 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
+use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Promise\Utils as GuzzleUtils;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class HelpCenterTest extends TestCase
@@ -13,19 +15,22 @@ class HelpCenterTest extends TestCase
     public function it_checks_that_links_that_point_to_the_help_center_are_valid(): void
     {
         $links = config('officelife.help_links');
+        $client = new GuzzleClient();
 
         $this->assertIsArray($links);
 
-        foreach ($links as $key => $link) {
+        $promises = [];
+        foreach ($links as $link) {
             $url = config('officelife.help_center_url').$link;
-            $ch = curl_init($url);
 
-            curl_setopt($ch, CURLOPT_NOBODY, true);
-            curl_exec($ch);
-            $retcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-
-            $this->assertEquals(200, $retcode);
+            $promises[$url] = $client->getAsync($url, [
+                'http_errors' => false,
+                'verify' => false,
+            ]);
+        }
+        $responses = GuzzleUtils::unwrap($promises);
+        foreach ($responses as $url => $response) {
+            $this->assertEquals(200, $response->getStatusCode(), "error requesting help link $url");
         }
     }
 }
