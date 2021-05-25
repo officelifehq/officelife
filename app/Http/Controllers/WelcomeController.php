@@ -29,6 +29,7 @@ class WelcomeController extends Controller
             'employees' => [
                 'id' => $employee->id,
             ],
+            'url' => 'https://docs.officelife.io/documentation/setup-guide.html',
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }
