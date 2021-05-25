@@ -45,7 +45,7 @@
             :id="'home'"
             v-model="form.terms"
             :datacy="'accept-terms'"
-            :label="$t('auth.register_terms')"
+            :label="$t('auth.register_terms', {url : betaTermsOfUse })"
             :extra-class-upper-div="'mb3 relative'"
             :required="true"
           />
@@ -79,6 +79,10 @@ export default {
 
   props: {
     signInUrl: {
+      type: String,
+      default: null,
+    },
+    betaTermsOfUse: {
       type: String,
       default: null,
     },
