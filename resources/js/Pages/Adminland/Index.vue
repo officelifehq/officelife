@@ -32,8 +32,8 @@
 
           <!-- HR -->
           <p v-html="$t('account.home_role_administrator')"></p>
-          <div class="flex justify-between options pl0 mb5">
-            <div class="ph3">
+          <div class="flex options pl0 mb5">
+            <div class="ph3 mr4">
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   🤖
@@ -117,8 +117,8 @@
           <!-- ACCOUNT OWNER -->
           <div v-show="$page.props.auth.employee.permission_level < 200">
             <p v-html="$t('account.home_role_owner')"></p>
-            <div class="options flex justify-between pl0 mb0">
-              <div class="ph3">
+            <div class="options flex pl0 mb0">
+              <div class="ph3 mr4">
                 <div class="pa2 pl0 relative">
                   <span class="mr1">
                     ⚙️
