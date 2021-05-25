@@ -3,6 +3,11 @@
   width: 102px;
   top: -78px;
 }
+
+.demo-mode {
+  box-shadow: 0 0 0 1px #e3e8ee;
+  background-color: #f6fafc;
+}
 </style>
 
 <template>
@@ -18,6 +23,13 @@
         </h2>
         <p class="tc mb4">🥳 {{ $t('auth.login_title') }}</p>
       </div>
+
+      <div v-if="$page.props.demo_mode" class="demo-mode pa3 mb3">
+        <p>{{ $t('app.demo_mode_login') }}</p>
+        <p class="pl3 mt0 mb2">{{ $t('app.demo_mode_email') }}: <span class="fw6">admin@admin.com</span></p>
+        <p class="pl3 ma0">{{ $t('app.demo_mode_password') }}: <span class="fw6">admin</span></p>
+      </div>
+
       <div class="">
         <!-- Form Errors -->
         <errors :errors="form.errors" :class="'mb3'" />
@@ -46,7 +58,9 @@
         </form>
       </div>
     </div>
-    <div class="tc">
+
+    <!-- link to signup -->
+    <div v-if="enableSignup" class="tc">
       <p class="f6">{{ $t('auth.login_no_account') }} <inertia-link :href="registerUrl">{{ $t('auth.login_register') }}</inertia-link></p>
     </div>
   </div>
@@ -70,6 +84,10 @@ export default {
       type: String,
       default: null,
     },
+    enableSignup: {
+      type: Boolean,
+      default: false,
+    }
   },
 
   data() {
