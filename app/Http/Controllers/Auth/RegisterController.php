@@ -33,6 +33,7 @@ class RegisterController extends Controller
 
         return Inertia::render('Auth/Register', [
             'signInUrl' => route('login'),
+            'betaTermsOfUse' => 'https://docs.officelife.io/documentation/officelife-beta.html',
         ]);
     }
 
