@@ -19,7 +19,7 @@ class CreateSoftwaresTable extends Migration
             $table->unsignedBigInteger('company_id');
             $table->string('name');
             $table->string('website')->nullable();
-            $table->string('product_key')->nullable();
+            $table->text('product_key')->nullable();
             $table->integer('seats');
             $table->string('licensed_to_name')->nullable();
             $table->string('licensed_to_email_address')->nullable();

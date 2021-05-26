@@ -1,18 +1,21 @@
 <style lang="scss" scoped>
-.history-item {
-  padding:  1px 6px;
-}
-
-.title {
-  margin-bottom: -15px;
-
-  p {
-    background-color: #fff;
-    padding-right: 4px;
-    top: -27px;
+.product-key {
+  .code {
+    font-family: Menlo,Consolas,monospace;
   }
 }
 
+.add-section {
+  background-color: #EBF4FF;
+}
+
+.option {
+  background-color: #06B6D4;
+  width: 24px;
+  color: #fff;
+  height: 24px;
+  padding: 3px 10px 5px 8px;
+}
 </style>
 
 <template>
@@ -28,7 +31,7 @@
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/softwares'">{{ $t('app.breadcrumb_account_manage_software') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/softwares'">{{ $t('app.breadcrumb_account_manage_softwares') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_show_software') }}
@@ -43,21 +46,130 @@
             {{ software.name }}
           </h2>
 
-          <ul>
-            <li>{{ software.website }}</li>
-            <li>{{ software.product_key }}</li>
-            <li>{{ software.seats }}</li>
-            <li>{{ software.licensed_to_name }}</li>
-            <li>{{ software.licensed_to_email_address }}</li>
-            <li>{{ software.order_number }}</li>
-            <li>{{ software.purchase_amount }}</li>
-            <li>{{ software.currency }}</li>
-            <li>{{ software.converted_purchase_amount }}</li>
-            <li>{{ software.converted_to_currency }}</li>
-            <li>{{ software.purchased_at }}</li>
-            <li>{{ software.converted_at }}</li>
-            <li>{{ software.exchange_rate }}</li>
-          </ul>
+          <div class="product-key mb4">
+            <p class="mb1 f6 fw5"><span class="mr1">🗝</span> Product key</p>
+            <div class="code br3 ba bb-gray pa3">
+              {{ software.product_key }}
+            </div>
+          </div>
+
+          <div class="mb4">
+            <p class="mb1 f6 fw5"><span class="mr1">👨‍🎓</span> Purchase information</p>
+            <div>
+              Licensed to: {{ software.licensed_to_name }} <span v-if="software.licensed_to_email_address">
+                ({{ software.licensed_to_email_address }})
+              </span>
+            </div>
+          </div>
+
+          <div v-if="software.purchase_amount" class="mb4">
+            <p class="mb1 f6 fw5"><span class="mr1">💰</span> Price</p>
+            <div class="">
+              {{ software.currency }} {{ software.purchase_amount }} <span v-if="software.exchange_rate">
+                ({{ software.converted_to_currency }} {{ software.converted_purchase_amount }} - Exchange rate: {{ software.exchange_rate }})
+              </span>
+            </div>
+          </div>
+
+          <div v-if="software.purchased_at" class="mb4">
+            <p class="mb1 f6 fw5"><span class="mr1">📆</span> Purchase date</p>
+            <div>{{ software.purchased_at }}</div>
+          </div>
+
+          <div v-if="software.website" class="mb4">
+            <p class="mb1 f6 fw5"><span class="mr1">🔗</span> Website</p>
+            <div>{{ software.website }}</div>
+          </div>
+
+          <div v-if="software.order_number" class="mb4">
+            <p class="mb1 f6 fw5"><span class="mr1">🐝</span> Order number</p>
+            <div>{{ software.order_number }}</div>
+          </div>
+
+          <!-- seats -->
+          <div class="mb4">
+            <div class="mt3 flex justify-between mb1 fw5">
+              <div class="f6">
+                <span class="mr1">
+                  🪑
+                </span> Seats
+              </div>
+
+              <a v-if="!assignSeatMode" href="#" class="btn" @click.prevent="setAssignMode()">
+                Use a seat
+              </a>
+            </div>
+
+            <div class="mb2">
+              Current usage: 0/43 seats used
+            </div>
+
+            <!-- modal to use a seat -->
+            <div v-if="assignSeatMode" class="add-section pa3 br3">
+              <p v-if="!searchMode" class="fw5 mt0">You have two options to assign a software to an employee:</p>
+              <div v-if="!searchMode" class="flex justify-between">
+                <div class="w-50 mr4 flex items-start">
+                  <p class="ma0 option br-100 mr2">a</p>
+                  <div>
+                    <div class="lh-copy mb3">
+                      Give a seat to every active employee in the company who doesn't yet have this software (42 total)
+                    </div>
+                    <a class="dib btn" href="#">Do this</a>
+                  </div>
+                </div>
+                <div class="w-50 flex items-start">
+                  <p class="ma0 option br-100 mr2">b</p>
+                  <div>
+                    <div class="mb3">
+                      Give a seat to a specific employee
+                    </div>
+                    <a class="dib btn" href="#" @click.prevent="showSearch()">Do this</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- option b: give a seat to a specific employee -->
+              <div v-if="searchMode">
+                <form class="relative" @submit.prevent="search">
+                  <text-input :id="'name'"
+                              :ref="'search'"
+                              v-model="form.searchTerm"
+                              :name="'name'"
+                              :errors="$page.props.errors.name"
+                              :label="$t('group.meeting_show_participants_add_guest_input')"
+                              :required="true"
+                              @keyup="search"
+                              @input="search"
+                              @esc-key-pressed="addMode = false"
+                  />
+                  <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
+                </form>
+
+                <!-- search results -->
+                <div class="pl0 list ma0">
+                  <ul v-if="potentialEmployees.length > 0" class="list ma0 pl0">
+                    <li v-for="employee in potentialEmployees" :key="employee.id" class="bb relative pv2 ph1 bb-gray bb-gray-hover">
+                      {{ employee.name }}
+
+                      <a class="absolute right-1 pointer" @click.prevent="attach(employee)">
+                        {{ $t('app.choose') }}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div v-for="employee in localEmployees" :key="employee.id">
+              <small-name-and-avatar
+                :name="employee.name"
+                :avatar="employee.avatar"
+                :class="'f4 fw4'"
+                :top="'0px'"
+                :margin-between-name-avatar="'29px'"
+              />
+            </div>
+          </div>
 
           <p v-if="software.serial_number" class="relative mb3" data-cy="item-serial-number">
             <svg class="relative mr1" style="top: 3px;" width="15" height="15" viewBox="0 0 15 15"
@@ -75,10 +187,17 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import TextInput from '@/Shared/TextInput';
+import 'vue-loaders/dist/vue-loaders.css';
+import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
   components: {
     Layout,
+    SmallNameAndAvatar,
+    TextInput,
+    'ball-pulse-loader': BallPulseLoader.component,
   },
 
   props: {
@@ -103,19 +222,77 @@ export default {
   data() {
     return {
       form: {
-        name: null,
-        serial: null,
-        employee_id: null,
-        lend_hardware: false,
+        searchTerm: null,
+        employeeId: 0,
         errors: [],
       },
-      idToDelete: 0,
+      potentialEmployees: [],
+      processingSearch: false,
       loadingState: '',
       errorTemplate: Error,
+      localEmployees: null,
+      assignSeatMode: false,
+      searchMode: false,
     };
   },
 
+  mounted() {
+    this.localEmployees = this.employees;
+  },
+
   methods: {
+    setAssignMode() {
+      this.assignSeatMode = true;
+      this.hideSearch();
+    },
+
+    showSearch() {
+      this.searchMode = true;
+
+      this.$nextTick(() => {
+        this.$refs['search'].focus();
+      });
+    },
+
+    hideSearch() {
+      this.form.searchTerm = '';
+      this.potentialEmployees = [];
+      this.searchMode = false;
+    },
+
+    search: _.debounce(
+      function() {
+
+        if (this.form.searchTerm != '') {
+          this.processingSearch = true;
+
+          axios.post(`/${this.$page.props.auth.company.id}/account/softwares/${this.software.id}/search`, this.form)
+            .then(response => {
+              this.potentialEmployees = response.data.data;
+              this.processingSearch = false;
+            })
+            .catch(error => {
+              this.form.errors = error.response.data;
+              this.processingSearch = false;
+            });
+        }
+      },
+      500),
+
+    attach(employee) {
+      this.loadingState = 'loading';
+      this.form.employeeId = employee.id;
+
+      axios.post(`/${this.$page.props.auth.company.id}/account/softwares/${this.software.id}/attach`, this.form)
+        .then(response => {
+          this.localEmployees.unshift(response.data.data);
+          this.hideSearch();
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
   }
 };
 

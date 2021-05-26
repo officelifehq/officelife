@@ -51,12 +51,15 @@ class AdminSoftwareViewHelper
      */
     public static function show(Software $software): array
     {
+        $numberOfSeatsUsed = $software->employees()->count();
+
         return [
             'id' => $software->id,
             'name' => $software->name,
             'website' => $software->website,
             'product_key' => $software->product_key,
             'seats' => $software->seats,
+            'used_seats' => $numberOfSeatsUsed,
             'licensed_to_name' => $software->licensed_to_name,
             'licensed_to_email_address' => $software->licensed_to_email_address,
             'order_number' => $software->order_number,
@@ -70,6 +73,13 @@ class AdminSoftwareViewHelper
         ];
     }
 
+    /**
+     * Get the employees who are assigned with this software.
+     *
+     * @param mixed $employees
+     * @param Company $company
+     * @return Collection
+     */
     public static function seats($employees, Company $company): Collection
     {
         $employeesCollection = collect();
@@ -77,12 +87,52 @@ class AdminSoftwareViewHelper
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => ImageHelper::getAvatar($employee, 65),
+                'avatar' => ImageHelper::getAvatar($employee, 21),
                 'product_key' => $employee->pivot->product_key,
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $employee,
                 ]),
+            ]);
+        }
+
+        return $employeesCollection;
+    }
+
+    /**
+     * Get the list of potential employees who can be assigned the software.
+     *
+     * @param Software $software
+     * @param Company $company
+     * @param string $criteria
+     * @return Collection
+     */
+    public static function getPotentialEmployees(Software $software, Company $company, string $criteria): Collection
+    {
+        // get list of employees who have the software
+        $employees = $software->employees()
+            ->select('id')
+            ->pluck('id')
+            ->toArray();
+
+        $potentialEmployees = $company->employees()
+            ->select('id', 'first_name', 'last_name', 'avatar_file_id')
+            ->notLocked()
+            ->whereNotIn('id', $employees)
+            ->where(function ($query) use ($criteria) {
+                $query->where('first_name', 'LIKE', '%' . $criteria . '%')
+                    ->orWhere('last_name', 'LIKE', '%' . $criteria . '%')
+                    ->orWhere('email', 'LIKE', '%' . $criteria . '%');
+            })
+            ->orderBy('last_name', 'asc')
+            ->take(10)
+            ->get();
+
+        $employeesCollection = collect([]);
+        foreach ($potentialEmployees as $employee) {
+            $employeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
             ]);
         }
 

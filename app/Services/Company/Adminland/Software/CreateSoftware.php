@@ -25,7 +25,7 @@ class CreateSoftware extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'name' => 'required|string|max:255',
             'website' => 'nullable|string|max:255',
-            'product_key' => 'required|string|max:255',
+            'product_key' => 'required|string|max:65000',
             'seats' => 'required|integer',
             'licensed_to_name' => 'nullable|string|max:255',
             'licensed_to_email_address' => 'nullable|email|max:255',

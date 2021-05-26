@@ -27,7 +27,7 @@ class GiveSeatToEmployee extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'software_id' => 'required|integer|exists:softwares,id',
             'employee_id' => 'required|integer|exists:employees,id',
-            'product_key' => 'required|string|max:255',
+            'product_key' => 'nullable|string|max:255',
             'notes' => 'nullable|string|max:65535',
         ];
     }

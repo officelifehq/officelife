@@ -31,7 +31,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_account_manage_employee_statuses') }}
+            {{ $t('app.breadcrumb_account_manage_softwares') }}
           </li>
         </ul>
       </div>
@@ -40,23 +40,23 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            Softwares used in the company
+            {{ $t('account.software_index_title') }}
 
             <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
           </h2>
 
           <p class="relative adminland-headline">
             <span class="dib mb3 di-l" :class="localSoftwares.length == 0 ? 'white' : ''">
-              {{ $tc('account.employee_statuses_number_positions', localSoftwares.length, { company: $page.props.auth.company.name, count: localSoftwares.length}) }}
+              {{ $tc('account.software_index_count', localSoftwares.length, { company: $page.props.auth.company.name, count: localSoftwares.length}) }}
             </span>
             <inertia-link :href="softwares.url_new" class="btn absolute-l relative dib-l db right-0">
-              Add a software
+              {{ $t('account.software_index_cta') }}
             </inertia-link>
           </p>
 
           <!-- LIST OF EXISTING SOFTWARES -->
           <ul v-if="localSoftwares.length != 0" class="list pl0 mv0 center ba br2 bb-gray">
-            <li v-for="software in localSoftwares" :key="software.id" class="pv3 ph2 bb bb-gray bb-gray-hover flex justify-between items-center software-item">
+            <li v-for="software in localSoftwares" :key="software.id" class="pv3 ph3 bb bb-gray bb-gray-hover flex justify-between items-center software-item">
               <inertia-link :href="software.url" class="di f4">
                 {{ software.name }}
               </inertia-link>

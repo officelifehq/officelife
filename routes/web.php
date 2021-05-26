@@ -455,6 +455,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::get('account/softwares/create', 'Company\\Adminland\\AdminSoftwareController@create')->name('software.create');
             Route::post('account/softwares', 'Company\\Adminland\\AdminSoftwareController@store');
             Route::get('account/softwares/{software}', 'Company\\Adminland\\AdminSoftwareController@show')->name('software.show');
+            Route::post('account/softwares/{software}/search', 'Company\\Adminland\\AdminSoftwareController@potentialEmployees');
+            Route::post('account/softwares/{software}/attach', 'Company\\Adminland\\AdminSoftwareController@attach');
 
             // expenses
             Route::resource('account/expenses', 'Company\\Adminland\\AdminExpenseController', ['as' => 'account'])->except(['show']);

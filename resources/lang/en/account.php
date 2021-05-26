@@ -649,4 +649,7 @@ return [
     'software_new_purchase_date' => 'Purchase date',
     'software_new_expiration_date' => 'Expiration date',
     'software_new_website' => 'Website',
+    'software_index_title' => 'Softwares used in the company',
+    'software_index_cta' => 'Add a software',
+    'software_index_count' => '{company} manages {count} softwares.',
 ];
