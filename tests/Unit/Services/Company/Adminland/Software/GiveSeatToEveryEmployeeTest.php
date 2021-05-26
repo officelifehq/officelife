@@ -99,7 +99,7 @@ class GiveSeatToEveryEmployeeTest extends TestCase
             'employee_id' => $dwight->id,
         ]);
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $software, $dwight) {
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $software) {
             return $job->auditLog['action'] === 'software_seat_given_to_all_remaining_employees' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
