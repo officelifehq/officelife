@@ -208,4 +208,19 @@ class AdminSoftwareController extends Controller
             ],
         ]);
     }
+
+    public function numberOfEmployeesWhoDontHaveSoftware(Request $request, int $companyId, int $softwareId): JsonResponse
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        $software = Software::where('company_id', $loggedCompany->id)
+            ->findOrFail($softwareId);
+
+        $employeesCount = $software->employees()->count();
+        $numberOfEmployeesWithoutSoftware = $loggedCompany->employees()->notLocked()->count() - $employeesCount;
+
+        return response()->json([
+            'data' => $numberOfEmployeesWithoutSoftware,
+        ]);
+    }
 }

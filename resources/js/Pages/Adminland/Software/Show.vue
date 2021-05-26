@@ -125,7 +125,7 @@
                   <p class="ma0 option br-100 mr2">a</p>
                   <div>
                     <div class="lh-copy mb3">
-                      Give a seat to every active employee in the company who doesn't yet have this software (42 total)
+                      Give a seat to every active employee in the company who doesn't yet have this software ({{ employeesWithoutSofware }} total)
                     </div>
                     <a class="dib btn" href="#">Do this</a>
                   </div>
@@ -253,6 +253,7 @@ export default {
       errorTemplate: Error,
       localEmployees: null,
       localUsedSeats: 0,
+      employeesWithoutSofware: 0,
       assignSeatMode: false,
       searchMode: false,
     };
@@ -265,6 +266,7 @@ export default {
 
   methods: {
     setAssignMode() {
+      this.getNumberOfEmployeesWithoutSoftware();
       this.assignSeatMode = true;
       this.hideSearch();
     },
@@ -319,6 +321,16 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    getNumberOfEmployeesWithoutSoftware() {
+      axios.get(`/${this.$page.props.auth.company.id}/account/softwares/${this.software.id}/numberOfEmployeesWhoDontHaveSoftware`)
+        .then(response => {
+          this.employeesWithoutSofware = response.data.data;
+        })
+        .catch(error => {
           this.form.errors = error.response.data;
         });
     },
