@@ -153,7 +153,7 @@
                               :required="true"
                               @keyup="search"
                               @input="search"
-                              @esc-key-pressed="addMode = false"
+                              @esc-key-pressed="hideSearch()"
                   />
                   <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
                 </form>

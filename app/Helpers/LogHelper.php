@@ -1282,6 +1282,13 @@ class LogHelper
                 ]);
                 break;
 
+            case 'software_seat_given_to_employees':
+                $sentence = trans('account.log_software_seat_given_to_employees', [
+                    'software_id' => $log->object->{'software_id'},
+                    'software_name' => $log->object->{'software_name'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;

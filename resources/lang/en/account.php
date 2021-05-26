@@ -331,6 +331,7 @@ return [
     'log_software_destroyed' => 'Deleted the software called :software_name.',
     'log_software_seat_given_to_employee' => 'Gave a license of the software called :software_name to :employee_name.',
     'log_software_seat_taken_from_employee' => 'Took the license of the software called :software_name back from :employee_name.',
+    'log_software_seat_given_to_employees' => 'Gave a license of the software called :software_name to all employees in the company.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
