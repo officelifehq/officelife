@@ -8,7 +8,7 @@ return [
     'register_email' => 'Your email address',
     'register_email_help' => 'We\'ll never spam. You\'ll receive one email to confirm your email address once you sign up, and won\'t be added to any nasty email marketing campaigns, nor will you receive emails from a sales team.',
     'register_password' => 'Enter a hard-to-guess password',
-    'register_terms' => 'I agree to fair <a href="{url}">terms of use</a> and a really private <a href="{privacyURL}>privacy policy</a>',
+    'register_terms' => 'I agree to the beta <a href="{url}">terms of use</a>.',
     'register_cta' => 'Create your account →',
     'register_already_an_account' => 'Already have an account?',
     'register_sign_in' => 'Sign in instead',
