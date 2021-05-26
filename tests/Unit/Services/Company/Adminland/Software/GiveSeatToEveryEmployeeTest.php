@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Software\GiveSeatToEmployee;
+use App\Services\Company\Adminland\Software\GiveSeatToEveryEmployee;
 
 class GiveSeatToEveryEmployeeTest extends TestCase
 {
@@ -24,6 +24,7 @@ class GiveSeatToEveryEmployeeTest extends TestCase
         $software = Software::factory()->create([
             'company_id' => $michael->company_id,
         ]);
+        $software->employees()->syncWithoutDetaching([$dwight->id]);
         $this->executeService($michael, $software, $dwight);
     }
 
@@ -35,6 +36,7 @@ class GiveSeatToEveryEmployeeTest extends TestCase
         $software = Software::factory()->create([
             'company_id' => $michael->company_id,
         ]);
+        $software->employees()->syncWithoutDetaching([$dwight->id]);
         $this->executeService($michael, $software, $dwight);
     }
 
@@ -48,6 +50,7 @@ class GiveSeatToEveryEmployeeTest extends TestCase
         $software = Software::factory()->create([
             'company_id' => $michael->company_id,
         ]);
+        $software->employees()->syncWithoutDetaching([$dwight->id]);
         $this->executeService($michael, $software, $dwight);
     }
 
@@ -73,7 +76,7 @@ class GiveSeatToEveryEmployeeTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new GiveSeatToEmployee)->execute($request);
+        (new GiveSeatToEveryEmployee)->execute($request);
     }
 
     private function executeService(Employee $michael, Software $software, Employee $dwight): void
@@ -89,23 +92,19 @@ class GiveSeatToEveryEmployeeTest extends TestCase
             'notes' => 'private note',
         ];
 
-        (new GiveSeatToEmployee)->execute($request);
+        (new GiveSeatToEveryEmployee)->execute($request);
 
         $this->assertDatabaseHas('employee_software', [
             'software_id' => $software->id,
             'employee_id' => $dwight->id,
-            'product_key' => '123',
-            'notes' => 'private note',
         ]);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $software, $dwight) {
-            return $job->auditLog['action'] === 'software_seat_given_to_employee' &&
+            return $job->auditLog['action'] === 'software_seat_given_to_all_remaining_employees' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'software_id' => $software->id,
                     'software_name' => $software->name,
-                    'employee_id' => $dwight->id,
-                    'employee_name' => $dwight->name,
                 ]);
         });
     }
