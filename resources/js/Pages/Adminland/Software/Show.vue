@@ -16,6 +16,20 @@
   height: 24px;
   padding: 3px 10px 5px 8px;
 }
+
+.seats-item:first-child:hover {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.seats-item:last-child {
+  border-bottom: 0;
+
+  &:hover {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+}
 </style>
 
 <template>
@@ -41,19 +55,19 @@
 
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
-        <div class="pa3 mt5">
-          <h2 class="normal mb3" data-cy="item-name">
+        <div class="mt5">
+          <h2 class="pa3 normal ma0 bb bb-gray" data-cy="item-name">
             {{ software.name }}
           </h2>
 
-          <div class="product-key mb4">
-            <p class="mb1 f6 fw5"><span class="mr1">🗝</span> Product key</p>
+          <div class="product-key pa3 bb bb-gray">
+            <p class="mb1 mt0 f6 fw5"><span class="mr1">🗝</span> Product key</p>
             <div class="code br3 ba bb-gray pa3">
               {{ software.product_key }}
             </div>
           </div>
 
-          <div class="mb4">
+          <div class="pa3 bb bb-gray">
             <p class="mb1 f6 fw5"><span class="mr1">👨‍🎓</span> Purchase information</p>
             <div>
               Licensed to: {{ software.licensed_to_name }} <span v-if="software.licensed_to_email_address">
@@ -62,7 +76,7 @@
             </div>
           </div>
 
-          <div v-if="software.purchase_amount" class="mb4">
+          <div v-if="software.purchase_amount" class="pa3 bb bb-gray">
             <p class="mb1 f6 fw5"><span class="mr1">💰</span> Price</p>
             <div class="">
               {{ software.currency }} {{ software.purchase_amount }} <span v-if="software.exchange_rate">
@@ -87,8 +101,8 @@
           </div>
 
           <!-- seats -->
-          <div class="mb4">
-            <div class="mt3 flex justify-between mb1 fw5">
+          <div class="pa3">
+            <div class="flex justify-between mb1 fw5">
               <div class="f6">
                 <span class="mr1">
                   🪑
@@ -98,14 +112,13 @@
               <a v-if="!assignSeatMode" href="#" class="btn" @click.prevent="setAssignMode()">
                 Use a seat
               </a>
-            </div>
-
-            <div class="mb2">
-              Current usage: 0/43 seats used
+              <a v-if="assignSeatMode" href="#" class="btn" @click.prevent="hideAssignMode()">
+                Cancel
+              </a>
             </div>
 
             <!-- modal to use a seat -->
-            <div v-if="assignSeatMode" class="add-section pa3 br3">
+            <div v-if="assignSeatMode" class="add-section pa3 br3 mb3">
               <p v-if="!searchMode" class="fw5 mt0">You have two options to assign a software to an employee:</p>
               <div v-if="!searchMode" class="flex justify-between">
                 <div class="w-50 mr4 flex items-start">
@@ -160,15 +173,23 @@
               </div>
             </div>
 
-            <div v-for="employee in localEmployees" :key="employee.id">
-              <small-name-and-avatar
-                :name="employee.name"
-                :avatar="employee.avatar"
-                :class="'f4 fw4'"
-                :top="'0px'"
-                :margin-between-name-avatar="'29px'"
-              />
+            <div class="mb2">
+              <span class="gray">
+                Current usage:
+              </span> {{ localUsedSeats }}/{{ software.seats }} seats used
             </div>
+
+            <ul class="mb3 list pl0 mv0 center ba br2 bb-gray">
+              <li v-for="employee in localEmployees" :key="employee.id" class="pv3 ph2 bb bb-gray bb-gray-hover seats-item">
+                <small-name-and-avatar
+                  :name="employee.name"
+                  :avatar="employee.avatar"
+                  :class="'f4 fw4'"
+                  :top="'0px'"
+                  :margin-between-name-avatar="'29px'"
+                />
+              </li>
+            </ul>
           </div>
 
           <p v-if="software.serial_number" class="relative mb3" data-cy="item-serial-number">
@@ -231,6 +252,7 @@ export default {
       loadingState: '',
       errorTemplate: Error,
       localEmployees: null,
+      localUsedSeats: 0,
       assignSeatMode: false,
       searchMode: false,
     };
@@ -238,6 +260,7 @@ export default {
 
   mounted() {
     this.localEmployees = this.employees;
+    this.localUsedSeats = this.software.used_seats;
   },
 
   methods: {
@@ -252,6 +275,11 @@ export default {
       this.$nextTick(() => {
         this.$refs['search'].focus();
       });
+    },
+
+    hideAssignMode() {
+      this.assignSeatMode = false;
+      this.hideSearch();
     },
 
     hideSearch() {
@@ -286,7 +314,8 @@ export default {
       axios.post(`/${this.$page.props.auth.company.id}/account/softwares/${this.software.id}/attach`, this.form)
         .then(response => {
           this.localEmployees.unshift(response.data.data);
-          this.hideSearch();
+          this.localUsedSeats = this.localUsedSeats + 1;
+          this.hideAssignMode();
         })
         .catch(error => {
           this.loadingState = null;
