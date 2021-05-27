@@ -1,5 +1,4 @@
 <?php
-
 return [
     'home_title' => 'Administration of your OfficeLife account',
     'home_role_administrator' => 'As an <span class="fw5 brush-blue">human resource representative</span>, you can…',
@@ -18,7 +17,6 @@ return [
     'home_general_settings' => 'General settings',
     'home_manage_ecoffee' => 'Manage eCoffee process',
     'home_cancel_account' => 'Cancel this account',
-
     'employees_title' => 'Manage the employees in {company}',
     'employees_all_title' => 'All the employees in {company}',
     'employees_permission_title' => 'All the employees sorted by permission in {company}',
@@ -38,7 +36,7 @@ return [
     'employees_lock_account' => 'Lock account',
     'employees_unlock_account' => 'Unlock account',
     'employees_change_permission' => 'Change permission',
-    'employees_number_employees' => '{company} has one employee. | {company} has {count} employees.',
+    'employees_number_employees' => '{company} has one employee.|{company} has {count} employees.',
     'employees_import' => 'Import a bunch of employees at once (in a CSV file)',
     'employees_view_past_imports' => 'View past imports',
     'employees_invite_title' => 'Invite {name} to become a user of OfficeLife',
@@ -47,23 +45,18 @@ return [
     'employees_invite_cta' => 'Send {firstname}’s invitation email',
     'employees_invite_success' => 'The invitation has been sent.',
     'employees_invite_pending' => 'Invitation pending',
-
     'employee_delete_title' => 'Delete all information about {name}',
     'employee_delete_description' => 'You are about to remove {name} from OfficeLife. This will effectively delete all information we know about this person. We will revoke all possible access to OfficeLife immediately.',
     'employee_delete_success' => 'The employee has been deleted with success.',
-
     'employee_lock_title' => 'Lock {name}’s account',
     'employee_lock_description' => 'Are you sure you want to lock {name}’s account? Locking an account has a lot of implications. You can unlock the account anytime.',
     'employee_lock_success' => 'The employee has been locked with success.',
-
     'employee_unlock_title' => 'Unlock {name}’s account',
     'employee_unlock_description' => 'Are you sure you want to unlock {name}’s account? Unlocking an account is immediate.',
     'employee_unlock_success' => 'The employee has been unlocked with success.',
-
     'employee_permission_safest' => 'safest choice',
     'employee_permission_title' => 'Change permissions of {name}',
     'employee_permission_success' => 'The employee has been updated.',
-
     'employee_new_basic_information' => 'Employee information',
     'employee_new_title' => 'Add an employee to {name}',
     'employee_new_firstname' => 'First name',
@@ -80,9 +73,8 @@ return [
     'employee_new_send_email' => 'Send an email to this person with a link to setup the account.',
     'employee_new_send_email_optional' => 'This is optional - you will be able to invite this person later.',
     'employee_new_success' => 'The employee has been added.',
-
     'teams_title' => 'All the teams listed in {company}',
-    'teams_number_teams' => '{company} has one team. | {company} has {count} teams.',
+    'teams_number_teams' => '{company} has one team.|{company} has {count} teams.',
     'teams_cta' => 'Add a team',
     'teams_blank' => 'Teams are a great way for groups of people in your company to work together in officelife.',
     'team_new_name' => 'Name of the team',
@@ -92,11 +84,10 @@ return [
     'team_visit_page' => 'Visit team page',
     'team_view_audit_logs' => 'View audit logs',
     'team_confirm_deletion' => 'Are you sure you want to delete the team called {name}? This will remove all the team members from this team, as well as delete all the notes, news and associated data with it.',
-
     'employee_statuses_title' => 'All the employee statuses in {company}',
     'employee_statuses_number_positions' => '{company} has one employee status. | {company} has {count} employee statuses.',
     'employee_statuses_cta' => 'Add an employee status',
-    'employee_statuses_blank' => 'Statuses are terms that describe the employment status of an employee. Like full-time, part-time, etc....',
+    'employee_statuses_blank' => 'Statuses are terms that describe the employment status of an employee. Like full-time, part-time, etc…',
     'employee_statuses_new_title' => 'Status name',
     'employee_statuses_new_external' => 'This status applies to external employees',
     'employee_statuses_new_external_help' => 'Checking this box will add a couple of fields for those employees (like contract renewal dates).',
@@ -106,7 +97,6 @@ return [
     'employee_statuses_success_destroy' => 'The employee status has been destroyed',
     'employee_statuses_internal' => 'internal',
     'employee_statuses_external' => 'external',
-
     'positions_title' => 'All the positions used in {company}',
     'positions_number_positions' => '{company} has one position. | {company} has {count} positions.',
     'positions_cta' => 'Add a position',
@@ -115,11 +105,10 @@ return [
     'position_success_new' => 'The position has been created',
     'position_success_update' => 'The position has been updated',
     'position_success_destroy' => 'The position has been destroyed',
-
     'flows_title' => 'All the flows in {company}',
     'flows_cta' => 'Create a flow',
     'flows_number_flows' => '{company} has one flow. | {company} has {count} flows.',
-    'flows_blank' => 'Flows lets you define how the system should react when something in the company happens. It’s... quite powerful.',
+    'flows_blank' => 'Flows lets you define how the system should react when something in the company happens. It’s… quite powerful.',
     'flow_new_flow' => 'What is the name of the flow?',
     'flow_new_help' => 'This is an internal name, only used to identify the flow.',
     'flow_new_days' => 'days',
@@ -161,7 +150,6 @@ return [
     'flow_new_action_label_team_employee' => 'the team of the employee',
     'flow_new_action_label_employee' => 'an employee',
     'flow_new_action_label_unknown_message' => 'an unknown message',
-
     // account logs
     'log_account_created' => 'Created the account.',
     'log_employee_added_to_company' => 'Added :employee as an employee.',
@@ -325,7 +313,6 @@ return [
     'log_meeting_date_set' => 'Set the meeting date in a meeting of the project called :project_name.',
     'log_company_founded_date_updated' => 'Updated the founded date of the company to :founded_at.',
     'log_group_updated' => 'Updated the group called :group_name.',
-
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',
@@ -407,7 +394,6 @@ return [
     'employee_log_meeting_decision_destroyed' => 'Deleted a meeting decision about an agenda item in a meeting in the group called :group_name.',
     'employee_log_meeting_decision_updated' => 'Updated a meeting decision about an agenda item in a meeting in the group called :group_name.',
     'employee_log_add_guest_to_meeting' => 'Has been added in a meeting of the project called :project_name.',
-
     // team logs
     'team_log_team_created' => 'Created the team.',
     'team_log_team_updated' => 'Changed the name from :old_name to :new_name.',
@@ -425,7 +411,6 @@ return [
     'team_log_team_news_destroyed' => 'Deleted the news called :title.',
     'team_log_recent_ship_created' => 'Created a new recent ship called :title.',
     'team_log_ship_destroyed' => 'Deleted the recent ship called :title.',
-
     'notification_dummy_data_generated' => 'Dummy data have been generated for :name.',
     'notification_employee_added_to_company' => 'You have been added to :name.',
     'notification_employee_added_to_team' => 'You have been added to the team called :name.',
@@ -440,11 +425,9 @@ return [
     'notification_employee_allowed_to_manage_expenses' => 'You are now allowed to manage company’s expenses.',
     'notification_expense_accepted_by_accounting' => 'Your expense called :title has been approved by the accounting department.',
     'notification_expense_rejected_by_accounting' => 'Your expense called :title has been rejected by the accounting department.',
-
     'morale_1' => 'Positive',
     'morale_2' => 'Neutral',
     'morale_3' => 'Negative',
-
     'company_news_title' => 'Company news',
     'company_news_blank' => 'Do you need to broadcast an announcement or a news to every employee of your company? You can do so here!',
     'company_news_number_news' => '{company} has {count} company news.',
@@ -459,13 +442,12 @@ return [
     'company_news_edit_headline' => 'Edit a company news',
     'company_news_create_success' => 'The news has been published',
     'company_news_update_success' => 'The news has been updated',
-
     'pto_policies_edit_title_1' => 'As software makers, we think it’s our responsability to promote a culture where employees are actually trusted and autonomous.',
     'pto_policies_edit_title_2' => 'We have a very limited set of features around Paid Time Offs (a barbaric name that refers to the holidays employees are allowed to take each year). On purpose. Click here to read more about our way of thinking.',
     'pto_policies_edit_title_3' => 'The only setting we need to know is the amount of working days each year has, so we can calculate how much holidays the employees gain each day.',
     'pto_policies_edit_title_4' => 'You just need to make sure that for each one of those years below, the amount of days actually worked is correct for your country.',
     'pto_policies_edit_title' => 'All {name} Paid Time Off policies',
-    'pto_policies_edit_year' => 'In {year}...',
+    'pto_policies_edit_year' => 'In {year}…',
     'pto_policies_stat_worked_days' => 'worked days',
     'pto_policies_stat_default_holidays' => 'default amount of holidays per employee',
     'pto_policies_stat_default_sick_days' => 'default amount of sick days',
@@ -484,7 +466,6 @@ return [
     'pto_policies_legend_' => 'Add/remove holidays by clicking in a day in the calendar below',
     'pto_policies_edit_total' => 'Employees will have to work a total of {totalWorkedDays} in {year}.',
     'pto_policies_update' => 'The policy has been updated',
-
     'pronoun_he_him' => 'he/him',
     'pronoun_she_her' => 'she/her',
     'pronoun_they_them' => 'they/them',
@@ -493,7 +474,6 @@ return [
     'pronoun_xe_xem' => 'xe/xem',
     'pronoun_ze_hir' => 'ze/hir',
     'pronoun_blank' => 'No gender',
-
     'questions_number_questions' => '{company} has {count} questions.',
     'questions_blank' => 'Ask questions about your colleagues so they can know each other better.',
     'questions_title' => 'Questions to get to know your colleagues',
@@ -511,7 +491,6 @@ return [
     'question_status_active' => 'active',
     'question_status_inactive' => 'inactive',
     'question_number_of_answers' => '{count} answer | {count} answers',
-
     'hardware_title' => 'Manage company hardware',
     'hardware_blank' => 'Here you can keep track of all the hardware your company buys, and whose employee has what.',
     'hardware_description' => 'This is all the hardware that you have in your company.',
@@ -536,7 +515,6 @@ return [
     'hardware_show_history' => 'History',
     'hardware_search_placeholder' => 'Find by item name or serial number',
     'hardware_edit_title' => 'Edit an item',
-
     'expense_categories_title' => 'Expenses management',
     'expense_category_blank' => 'You haven’t configured any expense category yet.',
     'expense_category_headline' => 'Expense categories',
@@ -557,7 +535,6 @@ return [
     'expense_employees_create_label' => 'Add an employee by typing a name below',
     'expense_employees_assign_success' => 'The employee has been added to the list of authorized employees.',
     'expense_employees_unassign_success' => 'The employee has been removed from the list of authorized employees.',
-
     'general_title' => 'General settings',
     'general_information' => 'Account information',
     'general_name' => 'Company name',
@@ -582,12 +559,10 @@ return [
     'general_founded_date_cta' => 'Change date',
     'general_founded_date_no_date' => 'No date yet',
     'general_founded_date_success' => 'The founded date has been changed.',
-
     'ecoffee_title' => 'E-Coffee sessions in the company',
     'ecoffee_desc' => 'E-Coffees are a great way for employees to take some time with another colleague and spend 15 minutes in a week to get to know him/her. The goal is to talk to everything but work. The more you know your colleagues, the more powerful their bonds.',
     'ecoffee_enabled' => 'e-Coffees are enabled',
     'ecoffee_disabled' => 'e-Coffees are disabled',
-
     'import_employees_status_created' => 'created',
     'import_employees_status_uploaded' => 'uploaded',
     'import_employees_status_imported' => 'imported',
@@ -619,7 +594,6 @@ return [
     'import_employees_show_status' => 'Status',
     'import_employees_show_first_five_entries' => 'First five of the {count} entries of the file',
     'import_employees_show_entries_errors' => 'All {count} entries in error in the file',
-
     'cancel_account_title' => 'Are you sure you want to cancel your account?',
     'cancel_account_thanks' => 'Thanks for giving OfficeLife a try!',
     'cancel_account_please_note' => 'Please note that...',
