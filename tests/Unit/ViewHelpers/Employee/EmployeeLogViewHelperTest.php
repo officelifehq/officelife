@@ -39,7 +39,7 @@ class EmployeeLogViewHelperTest extends TestCase
                     'avatar' => ImageHelper::getAvatar($michael, 34),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
-                'localized_audited_at' => 'Jan 12, 2020 00:00',
+                'localized_audited_at' => 'Jan 12, 2020 12:00 AM',
             ],
             EmployeeLogViewHelper::list($logs, $michael->company)->toArray()[0]
         );

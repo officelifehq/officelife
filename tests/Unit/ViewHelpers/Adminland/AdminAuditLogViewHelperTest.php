@@ -53,7 +53,7 @@ class AdminAuditLogViewHelperTest extends TestCase
                     'avatar' => ImageHelper::getAvatar($auditLogA->author, 35),
                     'url' => env('APP_URL').'/'.$auditLogA->company_id.'/employees/'.$auditLogA->author->id,
                 ],
-                'localized_audited_at' => 'Jan 12, 2020 00:00',
+                'localized_audited_at' => 'Jan 12, 2020 12:00 AM',
             ],
             $collection[0]
         );
