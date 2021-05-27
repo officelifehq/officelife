@@ -1,5 +1,4 @@
 <?php
-
 return [
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
@@ -12,7 +11,6 @@ return [
     'register_cta' => 'Create your account →',
     'register_already_an_account' => 'Already have an account?',
     'register_sign_in' => 'Sign in instead',
-
     'login_email' => 'Your email address',
     'login_password' => 'Your password (we hope it’s strong)',
     'login_cta' => 'Login →',
@@ -21,13 +19,11 @@ return [
     'login_title' => 'It’s great to see you again.',
     'login_no_account' => 'You are not lucky to have an account yet?',
     'login_register' => 'Create your account now',
-
     'confirmation_title' => 'Please verify your email address.',
     'confirmation_fresh' => 'A fresh verification link has been sent to your email address.',
     'confirmation_check' => 'Before proceeding, please check your email for a verification link.',
     'confirmation_request_another' => 'If you did not receive the verification email, you can request another using the button below.',
     'confirmation_request_another_button' => 'Resend the verification email',
-
     'invitation_invalid_link' => 'This invitation link is invalid.',
     'invitation_link_already_accepted' => 'This invitation has already been accepted. Please sign in to your account.',
     'invitation_logged_accept_title' => 'Would you like to join {name}?',
