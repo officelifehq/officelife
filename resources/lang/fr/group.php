@@ -1,11 +1,11 @@
 <?php
 return [
-    'create_title' => 'Create a group',
-    'create_input_name' => 'Give the group a name',
-    'create_input_name_help' => 'A group can be a commitee, a chapter/guild (agile) or anything else.',
-    'create_members' => 'Who should be part of this group?',
-    'create_members_help' => 'Type the first letters of the employee',
-    'index_title' => 'All the groups in the company',
+    'create_title' => 'Créer un groupe',
+    'create_input_name' => 'Donnez un nom au groupe',
+    'create_input_name_help' => 'Un groupe peut être un comité, un chapitre/une guilde (agile) ou n’importe quoi d’autre.',
+    'create_members' => 'Qui devrait faire partie de ce groupe ?',
+    'create_members_help' => 'Tapez les premières lettres de l’employé·e',
+    'index_title' => 'Tous les groupes de l’entreprise',
     'index_cta' => 'Create a group',
     'index_blank_title' => 'Start a group, record meeting notes, and enjoy!',
     'index_menu_summary' => 'Summary',

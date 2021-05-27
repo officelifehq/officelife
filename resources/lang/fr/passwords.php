@@ -10,9 +10,9 @@ return [
     | has failed, such as for an invalid token or invalid new password.
     |
     */
-    'password' => 'Passwords must be at least six characters and match the confirmation.',
-    'reset' => 'Your password has been reset!',
-    'sent' => 'We have e-mailed your password reset link!',
-    'token' => 'This password reset token is invalid.',
-    'user' => "We can't find a user with that e-mail address.",
+    'password' => 'Les mots de passe doivent comporter au moins six caractères et correspondre à la confirmation.',
+    'reset' => 'Votre mot de passe a été réinitialisé !',
+    'sent' => 'Nous vous avons envoyé par courriel le lien de réinitialisation de votre mot de passe !',
+    'token' => 'Ce jeton de réinitialisation du mot de passe est invalide.',
+    'user' => "Nous ne trouvons pas d’utilisateur avec cette adresse courriel.",
 ];
