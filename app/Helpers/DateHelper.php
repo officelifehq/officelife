@@ -21,7 +21,7 @@ class DateHelper
             $date->setTimezone($timezone);
         }
 
-        return $date->format(trans('format.date'));
+        return $date->isoFormat(trans('format.date'));
     }
 
     /**
@@ -38,7 +38,7 @@ class DateHelper
             $date->setTimezone($timezone);
         }
 
-        return $date->format(trans('format.short_date_year_time'));
+        return $date->isoFormat(trans('format.short_date_year_time'));
     }
 
     /**
@@ -71,7 +71,7 @@ class DateHelper
      */
     public static function formatShortMonthAndDay(Carbon $date): string
     {
-        return $date->format(trans('format.short_date'));
+        return $date->isoFormat(trans('format.short_date'));
     }
 
     /**
@@ -109,7 +109,7 @@ class DateHelper
      */
     public static function translateMonth(Carbon $date): string
     {
-        return $date->format(trans('format.full_month'));
+        return $date->isoFormat(trans('format.full_month'));
     }
 
     /**
@@ -131,7 +131,7 @@ class DateHelper
      */
     public static function dayWithShortMonth(Carbon $date): string
     {
-        return $date->format(trans('format.day_short_month'));
+        return $date->isoFormat(trans('format.day_short_month'));
     }
 
     /**
@@ -175,10 +175,10 @@ class DateHelper
     public static function determineDateStatus(Carbon $date): string
     {
         $status = '';
-        if ($date->isFuture() == 1) {
+        if ($date->isFuture()) {
             $status = 'future';
         } else {
-            if ($date->isCurrentDay() == 1) {
+            if ($date->isCurrentDay()) {
                 $status = 'current';
             } else {
                 $status = 'past';
@@ -233,7 +233,7 @@ class DateHelper
 
             $currentMonth->push([
                 'day' => 0,
-                'abbreviation' => $date->format('M'),
+                'abbreviation' => $date->isoFormat('MMM'),
             ]);
 
             $daysInMonth = $date->daysInMonth;
@@ -242,7 +242,7 @@ class DateHelper
                     'id' => $firstDayId,
                     'day_of_year' => $date->dayOfYear,
                     'day_of_week' => $date->dayOfWeek, // 0: sunday / 6: saturday
-                    'abbreviation' => substr($date->format('D'), 0, 1),
+                    'abbreviation' => mb_substr($date->isoFormat('dd'), 0, 1),
                     'is_worked' => $calendarDays->find($firstDayId)->is_worked,
                 ]);
                 $date->addDay();
