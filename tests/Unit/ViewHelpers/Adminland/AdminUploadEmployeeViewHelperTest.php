@@ -126,12 +126,12 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            'Feb 20, 2021 12:12',
+            'Feb 20, 2021 12:12 PM',
             $array['import_ended_at']
         );
 
         $this->assertEquals(
-            'Feb 20, 2021 12:12',
+            'Feb 20, 2021 12:12 PM',
             $array['import_ended_at']
         );
 
