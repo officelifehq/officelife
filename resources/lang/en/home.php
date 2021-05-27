@@ -1,5 +1,4 @@
 <?php
-
 return [
     'create_company_cta' => 'Add a company',
     'create_company' => 'Create a company',
@@ -7,5 +6,5 @@ return [
     'join_company' => 'Join a company',
     'join_company_desc' => 'Choose this is you are an employee of an existing company and need access to your account.',
     'companies_part_of' => 'All the companies you are part of',
-    'number_of_employees' => 'no employee | 1 employee | {count} employees',
+    'number_of_employees' => '{count} employee|{count} employees',
 ];
