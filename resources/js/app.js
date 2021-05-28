@@ -10,7 +10,8 @@ const langs = require('./langs').default;
 
 const el = document.getElementById('app');
 
-langs.loadLanguage('en', true).then((locale) => {
+langs.loadLanguage(document.querySelector('html').getAttribute('lang'), true)
+.then((locale) => {
 
   const app = createApp({
     locale,

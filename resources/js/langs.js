@@ -2,12 +2,14 @@
 
 import { createI18n } from 'vue-i18n';
 import messages from '../../public/js/langs/en.json';
+import pluralization from './pluralization.js';
 
 export default {
   i18n: createI18n({
-    locale: 'en', // set locale
+    locale: 'en',
     fallbackLocale: 'en',
     messages: {'en': messages},
+    pluralizationRules: pluralization,
   }),
 
   loadedLanguages : ['en'], // our default language that is preloaded
@@ -21,8 +23,8 @@ export default {
   _loadLanguageAsync (lang) {
     if (this.i18n.locale !== lang) {
       if (!this.loadedLanguages.includes(lang)) {
-        return axios.get(`js/langs/${lang}.json`).then(msgs => {
-          this.i18n.setLocaleMessage(lang, msgs.data);
+        return this._loadLanguageMessagesAsync(lang).then(msgs => {
+          this.i18n.global.setLocaleMessage(lang, msgs);
           this.loadedLanguages.push(lang);
           return this.i18n;
         });
@@ -31,7 +33,17 @@ export default {
     return Promise.resolve(this.i18n);
   },
 
-  loadLanguage: function(lang, set) {
+  _loadLanguageMessagesAsync (lang) {
+    const src = document.getElementById('app-js').getAttribute('src');
+    const q = src.indexOf('?');
+    const query = q > 0 ? src.substring(q) : '';
+
+    return axios.get(`js/langs/${lang}.json${query}`).then(msgs => {
+      return msgs.data;
+    });
+  },
+
+  loadLanguage (lang, set) {
     return this._loadLanguageAsync(lang).then(i18n => {
       if (set) {
         this._setI18nLanguage(lang);
