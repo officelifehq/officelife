@@ -24,7 +24,7 @@ class GiveSeatToEveryEmployeeTest extends TestCase
         $software = Software::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $software->employees()->syncWithoutDetaching([$dwight->id]);
+        $software->employees()->syncWithoutDetaching([$michael->id]);
         $this->executeService($michael, $software, $dwight);
     }
 
@@ -36,7 +36,7 @@ class GiveSeatToEveryEmployeeTest extends TestCase
         $software = Software::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $software->employees()->syncWithoutDetaching([$dwight->id]);
+        $software->employees()->syncWithoutDetaching([$michael->id]);
         $this->executeService($michael, $software, $dwight);
     }
 
@@ -50,7 +50,7 @@ class GiveSeatToEveryEmployeeTest extends TestCase
         $software = Software::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $software->employees()->syncWithoutDetaching([$dwight->id]);
+        $software->employees()->syncWithoutDetaching([$michael->id]);
         $this->executeService($michael, $software, $dwight);
     }
 
@@ -63,7 +63,7 @@ class GiveSeatToEveryEmployeeTest extends TestCase
             'company_id' => $michael->company_id,
             'seats' => 0,
         ]);
-        $software->employees()->syncWithoutDetaching([$dwight->id]);
+        $software->employees()->syncWithoutDetaching([$michael->id]);
 
         $this->executeService($michael, $software, $dwight);
     }

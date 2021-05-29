@@ -73,7 +73,7 @@ class GiveSeatToEveryEmployee extends BaseService
 
         foreach ($potentialEmployees as $employee) {
             $this->software->employees()->syncWithoutDetaching([
-                $this->data['employee_id'] => [
+                $employee->id => [
                     'product_key' => null,
                     'notes' => null,
                 ],

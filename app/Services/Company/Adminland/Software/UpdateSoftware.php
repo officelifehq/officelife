@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Software;
+use App\Jobs\ConvertSoftwarePurchase;
 
 class UpdateSoftware extends BaseService
 {
@@ -32,7 +33,7 @@ class UpdateSoftware extends BaseService
             'order_number' => 'nullable|string|max:255',
             'purchase_amount' => 'nullable|integer',
             'currency' => 'nullable|string|max:255',
-            'purchased_date' => 'nullable|date_format:Y-m-d',
+            'purchased_at' => 'nullable|date_format:Y-m-d',
         ];
     }
 
@@ -47,6 +48,7 @@ class UpdateSoftware extends BaseService
         $this->data = $data;
         $this->validate();
         $this->update();
+        $this->convertCurrency();
         $this->log();
 
         return $this->software;
@@ -76,8 +78,17 @@ class UpdateSoftware extends BaseService
         $this->software->order_number = $this->valueOrNull($this->data, 'order_number');
         $this->software->purchase_amount = $this->valueOrNull($this->data, 'purchase_amount');
         $this->software->currency = $this->valueOrNull($this->data, 'currency');
-        $this->software->purchased_at = $this->valueOrNull($this->data, 'purchased_date');
+        $this->software->purchased_at = $this->valueOrNull($this->data, 'purchased_at');
         $this->software->save();
+    }
+
+    private function convertCurrency(): void
+    {
+        if (is_null($this->valueOrNull($this->data, 'purchase_amount'))) {
+            return;
+        }
+
+        ConvertSoftwarePurchase::dispatch($this->software);
     }
 
     private function log(): void

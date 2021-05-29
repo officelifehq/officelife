@@ -108,6 +108,13 @@ export default {
     };
   },
 
+  mounted() {
+    if (localStorage.success) {
+      this.flash(localStorage.success, 'success');
+      localStorage.removeItem('success');
+    }
+  },
+
   created() {
     this.localSoftwares = this.softwares.softwares;
   },

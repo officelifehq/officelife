@@ -67,6 +67,7 @@ class AdminSoftwareViewHelperTest extends TestCase
                 'product_key' => $office365->product_key,
                 'seats' => $office365->seats,
                 'used_seats' => 0,
+                'remaining_seats' => $office365->seats,
                 'licensed_to_name' => $office365->licensed_to_name,
                 'licensed_to_email_address' => $office365->licensed_to_email_address,
                 'order_number' => $office365->order_number,

@@ -56,47 +56,67 @@
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="mt5">
-          <h2 class="pa3 normal ma0 bb bb-gray" data-cy="item-name">
+          <h2 class="pa3 normal ma0 mb2" data-cy="item-name">
             {{ software.name }}
           </h2>
 
-          <div class="product-key pa3 bb bb-gray">
-            <p class="mb1 mt0 f6 fw5"><span class="mr1">🗝</span> Product key</p>
+          <ul class="list pb3 pr3 pl3 mb2 mt0 f6">
+            <li class="di mr3"><inertia-link :href="'/' + $page.props.auth.company.id + '/account/softwares/' + software.id + '/edit'">{{ $t('app.edit') }}</inertia-link></li>
+
+            <!-- DELETE AN ITEM -->
+            <li v-if="deleteSoftware" class="di">
+              {{ $t('app.sure') }}
+              <a class="c-delete mr1 pointer" @click.prevent="destroy()">
+                {{ $t('app.yes') }}
+              </a>
+              <a class="pointer" @click.prevent="deleteSoftware = false">
+                {{ $t('app.no') }}
+              </a>
+            </li>
+            <li v-else class="di">
+              <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click.prevent="deleteSoftware = true">
+                {{ $t('app.delete') }}
+              </a>
+            </li>
+          </ul>
+
+          <div class="product-key pa3">
+            <p class="mb2 mt0 f6 fw5"><span class="mr1">🗝</span> {{ $t('account.software_show_product_key') }}</p>
             <div class="code br3 ba bb-gray pa3">
               {{ software.product_key }}
             </div>
           </div>
 
-          <div class="pa3 bb bb-gray">
-            <p class="mb1 f6 fw5"><span class="mr1">👨‍🎓</span> Purchase information</p>
+          <div class="pa3">
+            <p class="mb2 f6 fw5"><span class="mr1">👨‍🎓</span> {{ $t('account.software_show_purchase_information') }}</p>
             <div>
-              Licensed to: {{ software.licensed_to_name }} <span v-if="software.licensed_to_email_address">
+              {{ $t('account.software_show_licensed_to') }} {{ software.licensed_to_name }} <span v-if="software.licensed_to_email_address">
                 ({{ software.licensed_to_email_address }})
               </span>
             </div>
           </div>
 
-          <div v-if="software.purchase_amount" class="pa3 bb bb-gray">
-            <p class="mb1 f6 fw5"><span class="mr1">💰</span> Price</p>
+          <div v-if="software.purchase_amount" class="pa3">
+            <p class="mb1 f6 fw5"><span class="mr1">💰</span> {{ $t('account.software_show_price') }}</p>
             <div class="">
               {{ software.currency }} {{ software.purchase_amount }} <span v-if="software.exchange_rate">
-                ({{ software.converted_to_currency }} {{ software.converted_purchase_amount }} - Exchange rate: {{ software.exchange_rate }})
+                ({{ software.converted_to_currency }} {{ software.converted_purchase_amount }} - {{ $t('account.software_show_exchange_rate') }} {{ software.exchange_rate }})
               </span>
             </div>
           </div>
 
           <div v-if="software.purchased_at" class="mb4">
-            <p class="mb1 f6 fw5"><span class="mr1">📆</span> Purchase date</p>
+            <p class="mb1 f6 fw5"><span class="mr1">📆</span> {{ $t('account.software_show_purchase_date') }}</p>
             <div>{{ software.purchased_at }}</div>
           </div>
 
           <div v-if="software.website" class="mb4">
-            <p class="mb1 f6 fw5"><span class="mr1">🔗</span> Website</p>
+            <p class="mb1 f6 fw5"><span class="mr1">🔗</span> {{ $t('account.software_show_website') }}</p>
             <div>{{ software.website }}</div>
           </div>
 
           <div v-if="software.order_number" class="mb4">
-            <p class="mb1 f6 fw5"><span class="mr1">🐝</span> Order number</p>
+            <p class="mb1 f6 fw5"><span class="mr1">🐝</span> {{ $t('account.software_show_order_number') }}</p>
             <div>{{ software.order_number }}</div>
           </div>
 
@@ -106,39 +126,61 @@
               <div class="f6">
                 <span class="mr1">
                   🪑
-                </span> Seats
+                </span> {{ $t('account.software_show_seats') }}
               </div>
 
               <a v-if="!assignSeatMode" href="#" class="btn" @click.prevent="setAssignMode()">
-                Use a seat
+                {{ $t('account.software_show_use_seat') }}
               </a>
               <a v-if="assignSeatMode" href="#" class="btn" @click.prevent="hideAssignMode()">
-                Cancel
+                {{ $t('app.cancel') }}
               </a>
             </div>
 
             <!-- modal to use a seat -->
             <div v-if="assignSeatMode" class="add-section pa3 br3 mb3">
-              <p v-if="!searchMode" class="fw5 mt0">You have two options to assign a software to an employee:</p>
-              <div v-if="!searchMode" class="flex justify-between">
+              <p v-if="!searchMode && !giveSeatToEveryOneMode" class="fw5 mt0">{{ $t('account.software_show_two_options') }}</p>
+              <div v-if="!searchMode && !giveSeatToEveryOneMode" class="flex justify-between">
                 <div class="w-50 mr4 flex items-start">
                   <p class="ma0 option br-100 mr2">a</p>
                   <div>
                     <div class="lh-copy mb3">
-                      Give a seat to every active employee in the company who doesn't yet have this software ({{ employeesWithoutSofware }} total)
+                      {{ $t('account.software_show_option_a', {count: employeesWithoutSofware}) }}
                     </div>
-                    <a class="dib btn" href="#">Do this</a>
+                    <a class="dib btn" href="#" @click.prevent="showGiveSeatToEveryOne()">{{ $t('account.software_show_start') }}</a>
                   </div>
                 </div>
                 <div class="w-50 flex items-start">
                   <p class="ma0 option br-100 mr2">b</p>
                   <div>
                     <div class="mb3">
-                      Give a seat to a specific employee
+                      {{ $t('account.software_show_give_seat_specific') }}
                     </div>
-                    <a class="dib btn" href="#" @click.prevent="showSearch()">Do this</a>
+                    <a class="dib btn" href="#" @click.prevent="showSearch()">{{ $t('app.choose') }}</a>
                   </div>
                 </div>
+              </div>
+
+              <!-- option a: give a seat to every employee -->
+              <div v-if="giveSeatToEveryOneMode">
+                <form class="relative" @submit.prevent="assignAll()">
+                  <p class="lh-copy mt0">{{ $t('account.software_show_confirm', {count: employeesWithoutSofware}) }}</p>
+
+                  <!-- note in case we don't have enough remaining seats -->
+                  <div v-if="employeesWithoutSofware > software.remaining_seats" class="flex items-center">
+                    <span class="mr2">
+                      ⚠️
+                    </span>
+                    <p class="ma0 lh-copy">{{ $t('account.software_show_not_enough_seats') }}</p>
+                  </div>
+
+                  <div class="w-100 tr">
+                    <a class="btn dib-l db mb2 mb0-ns mr2" @click.prevent="hideAssignMode()">
+                      {{ $t('app.cancel') }}
+                    </a>
+                    <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.update')" />
+                  </div>
+                </form>
               </div>
 
               <!-- option b: give a seat to a specific employee -->
@@ -149,7 +191,7 @@
                               v-model="form.searchTerm"
                               :name="'name'"
                               :errors="$page.props.errors.name"
-                              :label="$t('group.meeting_show_participants_add_guest_input')"
+                              :label="$t('account.software_show_who')"
                               :required="true"
                               @keyup="search"
                               @input="search"
@@ -174,13 +216,12 @@
             </div>
 
             <div class="mb2">
-              <span class="gray">
-                Current usage:
-              </span> {{ localUsedSeats }}/{{ software.seats }} seats used
+              {{ $t('account.software_show_stat', {localUsedSeats: localUsedSeats, seats: software.seats }) }}
             </div>
 
-            <ul class="mb3 list pl0 mv0 center ba br2 bb-gray">
-              <li v-for="employee in localEmployees" :key="employee.id" class="pv3 ph2 bb bb-gray bb-gray-hover seats-item">
+            <!-- list of employees -->
+            <ul v-if="localEmployees.length > 0" class="mb3 list pl0 mv0 center ba br2 bb-gray">
+              <li v-for="employee in localEmployees" :key="employee.id" class="pv3 ph2 bb bb-gray bb-gray-hover seats-item flex justify-between">
                 <small-name-and-avatar
                   :name="employee.name"
                   :avatar="employee.avatar"
@@ -188,6 +229,22 @@
                   :top="'0px'"
                   :margin-between-name-avatar="'29px'"
                 />
+
+                <!-- remove employee -->
+                <div class="f7">
+                  <div v-if="idToDelete == employee.id">
+                    {{ $t('app.sure') }}
+                    <a class="c-delete mr1 pointer" @click.prevent="detach(employee)">
+                      {{ $t('app.yes') }}
+                    </a>
+                    <a class="pointer" @click.prevent="idToDelete = 0">
+                      {{ $t('app.no') }}
+                    </a>
+                  </div>
+                  <div v-else>
+                    <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click.prevent="idToDelete = employee.id">{{ $t('app.delete') }}</a>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>
@@ -212,6 +269,7 @@ import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 import TextInput from '@/Shared/TextInput';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
+import LoadingButton from '@/Shared/LoadingButton';
 
 export default {
   components: {
@@ -219,6 +277,7 @@ export default {
     SmallNameAndAvatar,
     TextInput,
     'ball-pulse-loader': BallPulseLoader.component,
+    LoadingButton,
   },
 
   props: {
@@ -251,17 +310,25 @@ export default {
       processingSearch: false,
       loadingState: '',
       errorTemplate: Error,
-      localEmployees: null,
+      localEmployees: [],
       localUsedSeats: 0,
       employeesWithoutSofware: 0,
       assignSeatMode: false,
       searchMode: false,
+      giveSeatToEveryOneMode: false,
+      idToDelete: 0,
+      deleteSoftware: false,
     };
   },
 
   mounted() {
     this.localEmployees = this.employees;
     this.localUsedSeats = this.software.used_seats;
+
+    if (localStorage.success) {
+      this.flash(localStorage.success, 'success');
+      localStorage.removeItem('success');
+    }
   },
 
   methods: {
@@ -269,6 +336,7 @@ export default {
       this.getNumberOfEmployeesWithoutSoftware();
       this.assignSeatMode = true;
       this.hideSearch();
+      this.giveSeatToEveryOneMode = false;
     },
 
     showSearch() {
@@ -279,9 +347,14 @@ export default {
       });
     },
 
+    showGiveSeatToEveryOne() {
+      this.giveSeatToEveryOneMode = true;
+    },
+
     hideAssignMode() {
       this.assignSeatMode = false;
       this.hideSearch();
+      this.giveSeatToEveryOneMode = false;
     },
 
     hideSearch() {
@@ -315,6 +388,9 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/account/softwares/${this.software.id}/attach`, this.form)
         .then(response => {
+          this.loadingState = null;
+          this.flash(this.$t('account.software_show_add_employee'), 'success');
+
           this.localEmployees.unshift(response.data.data);
           this.localUsedSeats = this.localUsedSeats + 1;
           this.hideAssignMode();
@@ -331,6 +407,51 @@ export default {
           this.employeesWithoutSofware = response.data.data;
         })
         .catch(error => {
+          this.form.errors = error.response.data;
+        });
+    },
+
+    detach(employee) {
+      axios.delete(`/${this.$page.props.auth.company.id}/account/softwares/${this.software.id}/${employee.id}`)
+        .then(response => {
+          this.flash(this.$t('account.software_show_remove_employee'), 'success');
+
+          this.idToDelete = 0;
+          var id = this.localEmployees.findIndex(member => member.id === employee.id);
+          this.localEmployees.splice(id, 1);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    destroy() {
+      axios.delete(`/${this.$page.props.auth.company.id}/account/softwares/${this.software.id}`)
+        .then(response => {
+          localStorage.success = this.$t('account.software_delete');
+          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/account/softwares');
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    assignAll() {
+      this.loadingState = 'loading';
+
+      axios.post(`/${this.$page.props.auth.company.id}/account/softwares/${this.software.id}/attachAll`)
+        .then(response => {
+          this.loadingState = null;
+          this.flash(this.$t('account.software_show_add_all_employees'), 'success');
+          this.localEmployees = response.data.data;
+
+          this.localUsedSeats = this.localUsedSeats + this.employeesWithoutSofware;
+          this.hideAssignMode();
+        })
+        .catch(error => {
+          this.loadingState = null;
           this.form.errors = error.response.data;
         });
     },

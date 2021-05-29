@@ -60,6 +60,7 @@ class AdminSoftwareViewHelper
             'product_key' => $software->product_key,
             'seats' => $software->seats,
             'used_seats' => $numberOfSeatsUsed,
+            'remaining_seats' => $software->seats - $numberOfSeatsUsed,
             'licensed_to_name' => $software->licensed_to_name,
             'licensed_to_email_address' => $software->licensed_to_email_address,
             'order_number' => $software->order_number,
@@ -71,6 +72,35 @@ class AdminSoftwareViewHelper
             'converted_at' => $software->converted_at ? DateHelper::formatDate($software->converted_at) : null,
             'exchange_rate' => $software->exchange_rate,
         ];
+    }
+
+    /**
+     * Edit a given software.
+     *
+     * @param Software $software
+     * @return array
+     */
+    public static function edit(Software $software): array
+    {
+        return [
+      'id' => $software->id,
+      'name' => $software->name,
+      'website' => $software->website,
+      'product_key' => $software->product_key,
+      'seats' => $software->seats,
+      'used_seats' => $numberOfSeatsUsed,
+      'remaining_seats' => $software->seats - $numberOfSeatsUsed,
+      'licensed_to_name' => $software->licensed_to_name,
+      'licensed_to_email_address' => $software->licensed_to_email_address,
+      'order_number' => $software->order_number,
+      'purchase_amount' => $software->purchase_amount,
+      'currency' => $software->currency,
+      'converted_purchase_amount' => $software->converted_purchase_amount,
+      'converted_to_currency' => $software->converted_to_currency,
+      'purchased_at' => $software->purchased_at ? DateHelper::formatDate($software->purchased_at) : null,
+      'converted_at' => $software->converted_at ? DateHelper::formatDate($software->converted_at) : null,
+      'exchange_rate' => $software->exchange_rate,
+    ];
     }
 
     /**

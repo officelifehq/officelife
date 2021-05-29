@@ -19,7 +19,10 @@ use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
 use App\Http\ViewHelpers\Adminland\AdminHardwareViewHelper;
 use App\Http\ViewHelpers\Adminland\AdminSoftwareViewHelper;
 use App\Services\Company\Adminland\Software\CreateSoftware;
+use App\Services\Company\Adminland\Software\DestroySoftware;
 use App\Services\Company\Adminland\Software\GiveSeatToEmployee;
+use App\Services\Company\Adminland\Software\TakeSeatFromEmployee;
+use App\Services\Company\Adminland\Software\GiveSeatToEveryEmployee;
 
 class AdminSoftwareController extends Controller
 {
@@ -134,14 +137,17 @@ class AdminSoftwareController extends Controller
             return redirect('home');
         }
 
-        $employees = $software->employees()->paginate(10);
+        $employees = $software->employees()->get();
         $employeeCollection = AdminSoftwareViewHelper::seats($employees, $company);
         $software = AdminSoftwareViewHelper::show($software);
 
         return Inertia::render('Adminland/Software/Show', [
             'software' => $software,
             'employees' => $employeeCollection,
-            'paginator' => PaginatorHelper::getData($employees),
+            'url_edit' => route('software.edit', [
+                'company' => $company,
+                'software' => $software,
+            ]),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -209,6 +215,67 @@ class AdminSoftwareController extends Controller
         ]);
     }
 
+    /**
+     * Attach all the employees to the software.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $softwareId
+     * @return JsonResponse
+     */
+    public function attachAll(Request $request, int $companyId, int $softwareId): JsonResponse
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $software = (new GiveSeatToEveryEmployee)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'software_id' => $softwareId,
+        ]);
+
+        $employees = $software->employees()->get();
+        $employeeCollection = AdminSoftwareViewHelper::seats($employees, $loggedCompany);
+
+        return response()->json([
+            'data' => $employeeCollection,
+        ]);
+    }
+
+    /**
+     * Detach an employee from the software.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $softwareId
+     * @param integer $employeeId
+     * @return JsonResponse
+     */
+    public function detach(Request $request, int $companyId, int $softwareId, int $employeeId): JsonResponse
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        (new TakeSeatFromEmployee)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'software_id' => $softwareId,
+            'employee_id' => $employeeId,
+        ]);
+
+        return response()->json([
+            'data' => true,
+        ]);
+    }
+
+    /**
+     * Get the current number of employees who don't have the given software.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $softwareId
+     * @return JsonResponse
+     */
     public function numberOfEmployeesWhoDontHaveSoftware(Request $request, int $companyId, int $softwareId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
@@ -221,6 +288,62 @@ class AdminSoftwareController extends Controller
 
         return response()->json([
             'data' => $numberOfEmployeesWithoutSoftware,
+        ]);
+    }
+
+    /**
+     * Edit the software.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $softwareId
+     * @return mixed
+     */
+    public function edit(Request $request, int $companyId, int $softwareId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+
+        try {
+            $software = Software::where('company_id', $company->id)
+                ->with('employees')
+                ->findOrFail($softwareId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $software = AdminSoftwareViewHelper::show($software);
+
+        return Inertia::render('Adminland/Software/Edit', [
+            'software' => $software,
+            'url_edit' => route('software.edit', [
+                'company' => $company,
+                'software' => $software,
+            ]),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Destroy the software.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $softwareId
+     * @return JsonResponse
+     */
+    public function destroy(Request $request, int $companyId, int $softwareId): JsonResponse
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        (new DestroySoftware)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'software_id' => $softwareId,
+        ]);
+
+        return response()->json([
+            'data' => true,
         ]);
     }
 }
