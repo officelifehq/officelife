@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Vluzrmos\LanguageDetector\Facades\LanguageDetector;
 
 class LocaleHelper
 {
@@ -18,7 +19,7 @@ class LocaleHelper
     {
         $locale = Auth::check() ? Auth::user()->locale : null;
         if (!$locale) {
-            $locale = config('app.locale');
+            $locale = LanguageDetector::detect() ?: config('app.locale');
         }
 
         return $locale;
@@ -48,7 +49,7 @@ class LocaleHelper
      */
     public static function getLocaleList()
     {
-        return collect(config('app.languages'))->map(function ($lang) {
+        return collect(config('lang-detector.languages'))->map(function ($lang) {
             return [
                 'lang' => $lang,
                 'name' => self::getLocaleName($lang),
