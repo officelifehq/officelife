@@ -48,7 +48,7 @@ class LocaleHelper
      */
     public static function getLocaleList()
     {
-        return collect(config('lang-detector.languages'))->map(function ($lang) {
+        return collect(config('app.languages'))->map(function ($lang) {
             return [
                 'lang' => $lang,
                 'name' => self::getLocaleName($lang),
