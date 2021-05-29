@@ -43,6 +43,10 @@ nav {
       }
     }
   }
+
+  &.demo-mode {
+    background-color: #fff9cb;
+  }
 }
 
 .ball-pulse {
@@ -55,11 +59,20 @@ nav {
 <template>
   <div>
     <div class="dn db-m db-l">
+      <!-- DEMO MODE -->
+      <nav v-if="$page.props.demo_mode" class="bb b--white-10 tc pa3 demo-mode">
+        <span class="mr1">
+          ⚠️
+        </span> {{ $t('app.demo_mode_desc') }} <a href="">{{ $t('app.demo_mode_read_more') }}</a>
+      </nav>
+
       <nav class="flex justify-between bb b--white-10">
         <div class="flex-grow pa2 flex items-center">
           <inertia-link href="/home" class="mr3 no-underline pa2 bb-0">
             <img loading="lazy" src="/img/logo.png" height="30" width="30" alt="logo" />
           </inertia-link>
+
+          <!-- MENU -->
           <div v-if="!noMenu">
             <inertia-link v-if="$page.props.auth.employee.display_welcome_message" :href="'/' + $page.props.auth.company.id + '/welcome'" data-cy="header-desktop-welcome-tab" class="mr1 no-underline pa2 bb-0 special">
               <span class="mr1">👋</span> {{ $t('app.header_welcome') }}

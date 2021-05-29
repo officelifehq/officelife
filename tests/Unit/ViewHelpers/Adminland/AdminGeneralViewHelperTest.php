@@ -50,7 +50,7 @@ class AdminGeneralViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            'Jan 01, 2018 00:00',
+            'Jan 01, 2018 12:00 AM',
             $response['creation_date']
         );
 

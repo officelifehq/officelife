@@ -32,12 +32,13 @@
                   :extra-class-upper-div="'mb3'"
       />
 
-      <checkbox :id="'terms'"
-                v-model="form.terms"
-                :datacy="'accept-terms'"
-                :label="$t('auth.register_terms')"
-                :extra-class-upper-div="'mb3 relative'"
-                :required="true"
+      <checkbox
+        :id="'terms'"
+        v-model="form.terms"
+        :datacy="'accept-terms'"
+        :label="$t('auth.register_terms', {url : betaTermsOfUse })"
+        :extra-class-upper-div="'mb3 relative'"
+        :required="true"
       />
 
       <!-- Actions -->
@@ -74,6 +75,18 @@ export default {
     TextInput,
     Errors,
     LoadingButton,
+    Checkbox,
+  },
+
+  props: {
+    signInUrl: {
+      type: String,
+      default: null,
+    },
+    betaTermsOfUse: {
+      type: String,
+      default: null,
+    },
   },
 
   data() {

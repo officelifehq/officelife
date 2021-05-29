@@ -1,6 +1,6 @@
 <template>
   <layout :no-menu="true">
-    <div>
+    <div class="mt4">
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <div v-if="$page.props.jetstream.canUpdateProfileInformation">
           <update-profile-information-form :user="$page.props.user" />

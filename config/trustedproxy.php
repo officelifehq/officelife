@@ -49,4 +49,9 @@ return [
      */
     'headers' => Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_HOST | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO | Request::HEADER_X_FORWARDED_AWS_ELB,
 
+    /*
+     * Enable cloudflare trusted proxies
+     */
+    'cloudflare' => (bool) env('APP_TRUSTED_CLOUDFLARE', false),
+
 ];

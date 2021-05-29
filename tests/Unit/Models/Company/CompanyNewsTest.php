@@ -53,7 +53,7 @@ class CompanyNewsTest extends ApiTestCase
                     'id' => $michael->id,
                     'name' => 'michael scott',
                 ],
-                'localized_created_at' => 'Jan 12, 2020 00:00',
+                'localized_created_at' => 'Jan 12, 2020 12:00 AM',
                 'created_at' => '2020-01-12 00:00:00',
             ],
             $news->toObject()
@@ -80,7 +80,7 @@ class CompanyNewsTest extends ApiTestCase
                     'id' => null,
                     'name' => 'michael scott',
                 ],
-                'localized_created_at' => 'Jan 12, 2020 00:00',
+                'localized_created_at' => 'Jan 12, 2020 12:00 AM',
                 'created_at' => '2020-01-12 00:00:00',
             ],
             $news->toObject()

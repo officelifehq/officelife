@@ -1,3 +1,15 @@
+<style lang="scss" scoped>
+.logo {
+  width: 102px;
+  top: -78px;
+}
+
+.demo-mode {
+  box-shadow: 0 0 0 1px #e3e8ee;
+  background-color: #f6fafc;
+}
+</style>
+
 <template>
   <authentication-card>
     <template #logo>
@@ -9,12 +21,14 @@
       <p class="tc mb4">🥳 {{ $t('auth.login_title') }}</p>
     </template>
 
-    <div v-if="status" class="mt3 ba br3 pa3">
-      {{ status }}
+    <div v-if="$page.props.demo_mode" class="demo-mode pa3 mb3">
+      <p>{{ $t('app.demo_mode_login') }}</p>
+      <p class="pl3 mt0 mb2">{{ $t('app.demo_mode_email') }}: <span class="fw6">admin@admin.com</span></p>
+      <p class="pl3 ma0">{{ $t('app.demo_mode_password') }}: <span class="fw6">admin</span></p>
     </div>
 
     <!-- Form Errors -->
-    <errors :errors="errors" :class="'mb3'" />
+    <errors :errors="form.errors" :class="'mb3'" />
 
     <form @submit.prevent="submit">
       <text-input v-model="form.email"
@@ -77,6 +91,10 @@ export default {
       type: String,
       default: '',
     },
+    enableSignup: {
+      type: Boolean,
+      default: false,
+    }
   },
 
   data() {
