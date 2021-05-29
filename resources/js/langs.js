@@ -15,7 +15,11 @@ export default {
   loadedLanguages : ['en'], // our default language that is preloaded
 
   _setI18nLanguage (lang) {
-    this.i18n.locale = lang;
+    if (this.i18n.mode === 'legacy') {
+      this.i18n.global.locale = lang;
+    } else {
+      this.i18n.global.locale.value = lang;
+    }
     axios.defaults.headers.common['Accept-Language'] = lang;
     document.querySelector('html').setAttribute('lang', lang);
   },
@@ -23,11 +27,14 @@ export default {
   _loadLanguageAsync (lang) {
     if (this.i18n.locale !== lang) {
       if (!this.loadedLanguages.includes(lang)) {
-        return this._loadLanguageMessagesAsync(lang).then(msgs => {
-          this.i18n.global.setLocaleMessage(lang, msgs);
-          this.loadedLanguages.push(lang);
-          return this.i18n;
-        });
+        return this._loadLanguageMessagesAsync(lang)
+          .then(msgs => {
+            if (msgs !== null) {
+              this.i18n.global.setLocaleMessage(lang, msgs);
+              this.loadedLanguages.push(lang);
+            }
+            return this.i18n;
+          });
       }
     }
     return Promise.resolve(this.i18n);
@@ -38,17 +45,22 @@ export default {
     const q = src.indexOf('?');
     const query = q > 0 ? src.substring(q) : '';
 
-    return axios.get(`js/langs/${lang}.json${query}`).then(msgs => {
-      return msgs.data;
-    });
+    return axios.get(`js/langs/${lang}.json${query}`)
+      .then(msgs => {
+        return msgs.data;
+      })
+      .catch(error => {
+        return null;
+      });
   },
 
   loadLanguage (lang, set) {
-    return this._loadLanguageAsync(lang).then(i18n => {
-      if (set) {
-        this._setI18nLanguage(lang);
-      }
-      return i18n;
-    });
+    return this._loadLanguageAsync(lang)
+      .then(i18n => {
+        if (set) {
+          this._setI18nLanguage(lang);
+        }
+        return i18n;
+      });
   }
 };
