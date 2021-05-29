@@ -35,6 +35,7 @@ class Kernel extends HttpKernel
             'sentry.context',
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
+            'locale',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
         ],
@@ -43,6 +44,7 @@ class Kernel extends HttpKernel
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             'sentry.context',
+            'locale',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -60,6 +62,7 @@ class Kernel extends HttpKernel
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'locale' => \App\Http\Middleware\CheckLocale::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'sentry.context' => \App\Http\Middleware\SentryContext::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
@@ -86,5 +89,6 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
+        \App\Http\Middleware\CheckLocale::class,
     ];
 }

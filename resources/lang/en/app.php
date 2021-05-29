@@ -162,4 +162,7 @@ return [
     'rate_manager_average' => 'It’s going well',
     'rate_manager_good' => 'Simply great',
     'duration' => ':hours h :minutes',
+    /* */
+    'locale_en' => 'English',
+    'locale_fr' => 'French',
 ];
