@@ -70,7 +70,7 @@ class LocaleHelper
         $name = trans('app.locale_'.$lang, [], $locale);
         if ($name === 'app.locale_'.$lang) {
             // The name of the new language is not already set, even in english
-            $name = $lang;
+            $name = $lang; // @codeCoverageIgnore
         }
 
         return $name;
@@ -86,6 +86,7 @@ class LocaleHelper
         $lang = self::getLang();
         switch ($lang) {
             // Source: https://meta.wikimedia.org/wiki/Template:List_of_language_names_ordered_by_code
+            // @codeCoverageIgnoreStart
             case 'ar':
             case 'arc':
             case 'dv':
@@ -98,6 +99,7 @@ class LocaleHelper
             case 'ps':
             case 'ur':
             case 'yi':
+            // @codeCoverageIgnoreEnd
                 return 'rtl';
             default:
                 return 'ltr';
