@@ -2,19 +2,13 @@
   <layout :no-menu="true">
     <div class="mt4">
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
-        <div v-if="$page.props.jetstream.canUpdateProfileInformation">
-          <update-profile-information-form :user="$page.props.user" />
-        </div>
+        <update-profile-information-form :user="$page.props.auth.user" />
 
-        <div v-if="$page.props.jetstream.canUpdatePassword">
-          <update-password-form class="mt1" />
-        </div>
+        <update-password-form class="mt1" />
 
-        <update-locale :user="$page.props.user" class="mt1" />
+        <update-locale :user="$page.props.auth.user" class="mt1" />
 
-        <div v-if="$page.props.jetstream.canManageTwoFactorAuthentication">
-          <two-factor-authentication-form class="mt1" />
-        </div>
+        <two-factor-authentication-form class="mt1" />
 
         <logout-other-browser-sessions-form :sessions="sessions" class="mt1" />
       </div>

@@ -38,6 +38,7 @@ class Kernel extends HttpKernel
             'locale',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
+            \App\Http\Middleware\ShareInertiaData::class,
         ],
 
         'api' => [
