@@ -10,6 +10,8 @@
           <update-password-form class="mt1" />
         </div>
 
+        <update-locale :user="$page.props.user" class="mt1" />
+
         <div v-if="$page.props.jetstream.canManageTwoFactorAuthentication">
           <two-factor-authentication-form class="mt1" />
         </div>
@@ -26,6 +28,7 @@ import LogoutOtherBrowserSessionsForm from './Partials/LogoutOtherBrowserSession
 import TwoFactorAuthenticationForm from './Partials/TwoFactorAuthenticationForm';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
+import UpdateLocale from './Partials/UpdateLocale';
 
 export default {
 
@@ -36,7 +39,9 @@ export default {
     TwoFactorAuthenticationForm,
     UpdatePasswordForm,
     UpdateProfileInformationForm,
+    UpdateLocale,
   },
+
   props: {
     sessions: {
       type: Array,

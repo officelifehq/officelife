@@ -39,7 +39,6 @@ return [
     'login' => 'Log in',
 
     'flash_done' => 'Done.',
-    'flash_change_saved' => 'Change saved.',
 
     'error_title' => '👇 Oops. An error occured.',
     'error_not_same_company' => 'This item does not belong to this company.',
@@ -169,7 +168,7 @@ return [
     'rate_manager_average' => 'It’s going well',
     'rate_manager_good' => 'Simply great',
     'duration' => ':hours h :minutes',
-    /* */
+
     'locale_en' => 'English',
     'locale_fr' => 'French',
 ];
