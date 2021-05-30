@@ -16,6 +16,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('search/teams', 'HeaderSearchController@teams');
 
     Route::post('help', 'HelpController@toggle');
+    Route::post('locale', 'User\\LocaleController@update');
 
     Route::resource('company', 'Company\\CompanyController')->only(['create', 'store']);
 

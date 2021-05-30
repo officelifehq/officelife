@@ -11,7 +11,7 @@
 
     <div class="fl-ns w-two-thirds-ns w-100">
       <form @submit.prevent="$emit('submitted')">
-        <div class="mb2 mt3">
+        <div class="mb2">
           <slot name="form"></slot>
         </div>
 

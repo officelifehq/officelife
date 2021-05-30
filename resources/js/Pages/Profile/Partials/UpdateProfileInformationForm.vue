@@ -89,7 +89,7 @@ export default {
         errorBag: 'updateProfileInformation',
         preserveScroll: true,
         onSuccess: () => {
-          this.flash(this.$t('app.flash_change_saved'), 'success');
+          this.flash(this.$t('app.saved'), 'success');
         }
       });
     },

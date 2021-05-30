@@ -74,7 +74,7 @@ export default {
         errorBag: 'updatePassword',
         preserveScroll: true,
         onSuccess: () => {
-          this.flash(this.$t('app.flash_change_saved'), 'success');
+          this.flash(this.$t('app.saved'), 'success');
           this.form.reset();
         },
         onError: () => {
