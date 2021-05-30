@@ -30,7 +30,8 @@
         "spatie/laravel-activitylog": "^3.1",
         "spatie/simple-excel": "^1.13",
         "tightenco/ziggy": "^1.0",
-        "uploadcare/uploadcare-php": "^3.0"
+        "uploadcare/uploadcare-php": "^3.0",
+        "vluzrmos/language-detector": "^2.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

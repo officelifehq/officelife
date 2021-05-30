@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "822946621884cd3c6a54e21ae030129f",
+    "content-hash": "3695daf5993e9c977ea0cefdaa0d7737",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -7669,6 +7669,65 @@
                 }
             ],
             "time": "2021-01-20T15:23:13+00:00"
+        },
+        {
+            "name": "vluzrmos/language-detector",
+            "version": "v2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vluzrmos/laravel-language-detector.git",
+                "reference": "275330d755c85454eaa33821f16069a38378f5c1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vluzrmos/laravel-language-detector/zipball/275330d755c85454eaa33821f16069a38378f5c1",
+                "reference": "275330d755c85454eaa33821f16069a38378f5c1",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "~6.0 || ~7.0 || ~8.0",
+                "illuminate/cookie": "~6.0 || ~7.0 || ~8.0",
+                "illuminate/support": "~6.0 || ~7.0 || ~8.0",
+                "illuminate/translation": "~6.0 || ~7.0 || ~8.0",
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "orchestra/testbench": "^5.0 || ^6.0",
+                "phpunit/phpunit": "^8.5 || ^9.0"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Vluzrmos\\LanguageDetector\\": "src/"
+                },
+                "files": [
+                    "src/Support/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vagner do Carmo",
+                    "email": "vluzrmos@gmail.com"
+                }
+            ],
+            "description": "Detect the language for your application using browser preferences, subdomains or route prefixes.",
+            "keywords": [
+                "i18n",
+                "language",
+                "laravel",
+                "locale",
+                "lumen"
+            ],
+            "support": {
+                "issues": "https://github.com/vluzrmos/laravel-language-detector/issues",
+                "source": "https://github.com/vluzrmos/laravel-language-detector/tree/v2.3"
+            },
+            "time": "2021-02-12T13:41:31+00:00"
         },
         {
             "name": "voku/portable-ascii",
