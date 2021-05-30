@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Helpers;
 
+use Tests\TestCase;
 use App\Models\User\User;
 use App\Helpers\LocaleHelper;
 use Illuminate\Support\Facades\App;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
 
 class LocaleHelperTest extends TestCase
 {
@@ -25,7 +25,7 @@ class LocaleHelperTest extends TestCase
     public function it_returns_right_locale_if_user_logged()
     {
         $user = User::factory()->create([
-            'locale' => 'fr'
+            'locale' => 'fr',
         ]);
         $this->be($user);
 
@@ -69,6 +69,8 @@ class LocaleHelperTest extends TestCase
     /**
      * @test
      * @dataProvider localeHelperGetLangProvider
+     * @param mixed $locale
+     * @param mixed $expect
      */
     public function it_return_languages($locale, $expect)
     {

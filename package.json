@@ -3,7 +3,9 @@
     "scripts": {
         "dev": "yarn development",
         "development": "mix",
+        "predevelopment": "php artisan lang:generate -vvv",
         "watch": "mix watch",
+        "prewatch": "php artisan lang:generate -vvv",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "yarn production",
@@ -84,7 +86,7 @@
         "*.php": [
             "php ./vendor/bin/php-cs-fixer fix --config .php_cs"
         ],
-        ".js|.*.js|resources/js/**/*.{vue,js}": [
+        "*.js|.*.js|resources/js/**/*.{vue,js}": [
             "yarn lint --fix"
         ],
         "tests/Features/**/*.js": [

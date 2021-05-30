@@ -3,81 +3,70 @@
     <template #logo>
       <authentication-card-logo />
 
-      <h2 class="fw5 tc pt5">
-        👋 {{ $t('auth.register_salute') }}
-      </h2>
-
-      <p class="tc mb4">{{ $t('auth.register_title') }}</p>
+      <p class="fw5 pt5">
+        {{ $t('passwords.reset_password_message') }}
+      </p>
     </template>
+
+    <validation-errors class="mb-4" />
 
     <form @submit.prevent="submit">
       <text-input v-model="form.email"
                   :name="'email'"
-                  :errors="form.errors.email"
+                  type="email"
+                  :errors="$page.props.errors.email"
                   :label="$t('auth.register_email')"
-                  :help="$t('auth.register_email_help')"
                   :required="true"
       />
-
       <text-input v-model="form.password"
                   :name="'password'"
-                  :errors="form.errors.password"
-                  class="mb3"
+                  :errors="$page.props.errors.password"
                   type="password"
                   :label="$t('auth.register_password')"
                   :required="true"
-                  :extra-class-upper-div="'mb3'"
+                  autocomplete="new-password"
+      />
+      <text-input v-model="form.password_confirmation"
+                  :name="'password_confirmation'"
+                  type="password"
+                  :label="$t('auth.register_password_confirmation')"
+                  :required="true"
+                  :extra-class-upper-div="'mb4'"
+                  autocomplete="new-password"
       />
 
-      <checkbox
-        :id="'terms'"
-        v-model="form.terms"
-        :datacy="'accept-terms'"
-        :label="$t('auth.register_terms', {url : 'https://docs.officelife.io/documentation/officelife-beta.html' })"
-        :extra-class-upper-div="'mb3 relative'"
-        :required="true"
-      />
-
-      <!-- Actions -->
       <div class="flex-ns justify-between">
         <loading-button :class="'add mb2'" :state="form.processing">
-          {{ $t('auth.register_cta') }}
+          {{ $t('passwords.reset_password_action') }}
         </loading-button>
       </div>
     </form>
-
-    <template #footer>
-      <p class="f6">
-        {{ $t('auth.register_already_an_account') }}
-        <inertia-link :href="route('login')">{{ $t('auth.register_sign_in') }}</inertia-link>
-      </p>
-    </template>
   </authentication-card>
 </template>
 
 <script>
 import AuthenticationCard from '@/Shared/Layout/AuthenticationCard';
 import AuthenticationCardLogo from '@/Shared/Layout/AuthenticationCardLogo';
-import Checkbox from '@/Shared/Checkbox';
-import TextInput from '@/Shared/TextInput';
 import LoadingButton from '@/Shared/LoadingButton';
+import TextInput from '@/Shared/TextInput';
+import ValidationErrors from '@/Shared/ValidationErrors';
 import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
   components: {
     AuthenticationCard,
     AuthenticationCardLogo,
-    Checkbox,
-    TextInput,
     LoadingButton,
+    TextInput,
+    ValidationErrors
   },
 
   props: {
-    signInUrl: {
+    email: {
       type: String,
       default: null,
     },
-    betaTermsOfUse: {
+    token: {
       type: String,
       default: null,
     },
@@ -86,22 +75,20 @@ export default {
   data() {
     return {
       form: useForm({
-        email: '',
+        token: this.token,
+        email: this.email,
         password: '',
-        terms: false,
-      }),
-      errorTemplate: Error,
+        password_confirmation: '',
+      })
     };
   },
 
   methods: {
     submit() {
-      this.form.post(this.route('register'), {
-        onFinish: () => {
-          this.form.reset('password');
-        }
+      this.form.post(this.route('password.update'), {
+        onFinish: () => this.form.reset('password', 'password_confirmation'),
       });
-    },
+    }
   }
 };
 </script>

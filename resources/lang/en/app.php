@@ -5,6 +5,7 @@ return [
     'post' => 'Post',
     'create' => 'Create',
     'submit' => 'Submit',
+    'confirm' => 'Confirm',
     'add' => 'Add',
     'cancel' => 'Cancel',
     'delete_confirm' => 'Sure?',
@@ -35,6 +36,11 @@ return [
     'disable' => 'Disable',
     'saved' => 'Saved',
     'import_review' => 'Import and review',
+    'login' => 'Log in',
+
+    'flash_done' => 'Done.',
+    'flash_change_saved' => 'Change saved.',
+
     'error_title' => '👇 Oops. An error occured.',
     'error_not_same_company' => 'This item does not belong to this company.',
     'error_wrong_employee_id' => 'We can’t find the requested employee.',
@@ -143,6 +149,7 @@ return [
     'header_home' => 'Summary',
     'header_find' => 'Find',
     'header_company' => 'Company',
+    'header_settings' => 'Settings',
     'header_switch_company' => 'Switch company',
     'header_go_to_employee_profile' => 'Your profile',
     'header_logout' => 'Logout',

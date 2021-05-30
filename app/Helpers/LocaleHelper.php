@@ -18,7 +18,7 @@ class LocaleHelper
     public static function getLocale()
     {
         $locale = Auth::check() ? Auth::user()->locale : null;
-        if (!$locale) {
+        if (! $locale) {
             $locale = LanguageDetector::detect() ?: config('app.locale');
         }
 
@@ -28,7 +28,8 @@ class LocaleHelper
     /**
      * Get the current lang from locale.
      *
-     * @return string  lang, lowercase form.
+     * @param mixed|null $locale
+     * @return string  lang, lowercase form
      */
     public static function getLang($locale = null)
     {

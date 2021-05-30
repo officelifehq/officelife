@@ -1,12 +1,16 @@
 <?php
 return [
     'failed' => 'These credentials do not match our records.',
+    'mismatch' => 'The provided password does not match your current password.',
+
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+
     'register_salute' => 'Hi friend!',
     'register_title' => 'You are one step away from being happier at work.',
     'register_email' => 'Your email address',
     'register_email_help' => 'We’ll never spam. You’ll receive one email to confirm your email address once you sign up, and won’t be added to any nasty email marketing campaigns, nor will you receive emails from a sales team.',
     'register_password' => 'Enter a hard-to-guess password',
+    'register_password_confirmation' => 'Confirm your password',
     'register_terms' => 'I agree to the beta <a href="{url}">terms of use</a>.',
     'register_cta' => 'Create your account →',
     'register_already_an_account' => 'Already have an account?',
