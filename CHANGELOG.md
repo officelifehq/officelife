@@ -1,3 +1,20 @@
+# [0.1.0-alpha.10](https://github.com/officelifehq/officelife/compare/v0.1.0-alpha.9...v0.1.0-alpha.10) (2021-05-29)
+
+
+### Features
+
+* add demo mode to instance ([#897](https://github.com/officelifehq/officelife/issues/897)) ([70b6fa2](https://github.com/officelifehq/officelife/commit/70b6fa2c509315322d5ed76f1002be302b635785))
+* add link to setup guide on welcome screen ([#914](https://github.com/officelifehq/officelife/issues/914)) ([cfe2cc0](https://github.com/officelifehq/officelife/commit/cfe2cc062d682bc3d943c0ca781113bbfabc7531))
+* add locale property to users ([#925](https://github.com/officelifehq/officelife/issues/925)) ([e839376](https://github.com/officelifehq/officelife/commit/e83937610d3f95fbe0acd4aac658c03e2251b0c2))
+* allow to set locale and load language ([#924](https://github.com/officelifehq/officelife/issues/924)) ([17f9c03](https://github.com/officelifehq/officelife/commit/17f9c0337744e14791fc01f6418d05abe275f392))
+* banner on profile image showing we can change avatar ([#927](https://github.com/officelifehq/officelife/issues/927)) ([45509ec](https://github.com/officelifehq/officelife/commit/45509ec7421096f188f89f05cc5bd76280701b6c))
+* **technical:** integrate laravel-cloudflare ([#622](https://github.com/officelifehq/officelife/issues/622)) ([6b7d581](https://github.com/officelifehq/officelife/commit/6b7d5811132403689bf33b1e2b817c067337f40f))
+
+
+### Bug Fixes
+
+* fix worklog message in double ([#923](https://github.com/officelifehq/officelife/issues/923)) ([82b5a07](https://github.com/officelifehq/officelife/commit/82b5a07418ab8fc7ffa8c03a5baea669f145da5e))
+
 # [0.1.0-alpha.9](https://github.com/officelifehq/officelife/compare/v0.1.0-alpha.8...v0.1.0-alpha.9) (2021-05-22)
 
 
