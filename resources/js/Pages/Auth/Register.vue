@@ -75,7 +75,6 @@ export default {
     TextInput,
     Errors,
     LoadingButton,
-    Checkbox,
   },
 
   props: {
