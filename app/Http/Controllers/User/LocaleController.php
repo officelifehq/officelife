@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\User\Notification;
+namespace App\Http\Controllers\User;
 
 use Inertia\Response;
 use Illuminate\Http\Request;
+use App\Services\User\UpdateLocale;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Services\Company\Project\UpdateLocale;
 
 class LocaleController extends Controller
 {
@@ -22,7 +22,7 @@ class LocaleController extends Controller
     {
         (new UpdateLocale)->execute([
             'user_id' => Auth::user()->id,
-            'locale' => '',
+            'locale' => $request->input('locale'),
         ]);
 
         return response()->json([

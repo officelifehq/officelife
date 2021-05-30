@@ -53,20 +53,20 @@ export default {
     };
   },
 
+  mounted() {
+    this.form.locale = this.$page.props.auth.user.locale;
+  },
+
   methods: {
     updateLocale() {
-      axios.post(`/${this.$page.props.auth.company.id}/account/employees/storeUpload`, this.form, this.form)
+      axios.post('/locale', this.form)
         .then(response => {
           this.flash(this.$t('app.saved'), 'success');
 
           this.loadingState = null;
-          this.form.title = null;
-          this.modal = false;
-          this.localPositions.push(response.data.data);
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = error.response.data;
         });
     },
   },
