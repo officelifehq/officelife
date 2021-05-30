@@ -14,8 +14,6 @@ class LocaleController extends Controller
      * Update the user locale.
      *
      * @param Request $request
-     * @param int $companyId
-     *
      * @return mixed
      */
     public function update(Request $request)

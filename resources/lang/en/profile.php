@@ -30,4 +30,6 @@ return [
     'update_profile_title' => 'Profile information',
     'update_profile_description' => 'Update your account’s profile information and email address.',
 
+    'update_locale_title' => 'Language',
+    'update_locale_description' => 'Most of the interface is translated into other languages.',
 ];
