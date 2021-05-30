@@ -18,9 +18,9 @@
     </template>
 
     <template #content>
-      <h3 v-if="twoFactorEnabled" class="fw6">
+      <p v-if="twoFactorEnabled" class="fw6">
         {{ $t('profile.2fa_message_enabled') }}
-      </h3>
+      </p>
 
       <h3 v-else class="fw6">
         {{ $t('profile.2fa_message_disabled') }}

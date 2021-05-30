@@ -15,11 +15,13 @@ trait PasswordValidationRules
     protected function passwordRules($confirmed = false)
     {
         $passwordRules = new Password;
+
         if (config('auth.complex_password')) {
-            $passwordRules = $passwordRules->requireUppercase()->requireNumeric()->requireSpecialCharacter();
+            $passwordRules = $passwordRules->length(7)->requireNumeric();
         } else {
             $passwordRules = $passwordRules->length(3);
         }
+
         return [
             'required',
             'string',

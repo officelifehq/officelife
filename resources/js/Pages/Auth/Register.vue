@@ -10,9 +10,6 @@
       <p class="tc mb4">{{ $t('auth.register_title') }}</p>
     </template>
 
-    <!-- Form Errors -->
-    <errors :errors="$page.props.errors" />
-
     <form @submit.prevent="submit">
       <text-input v-model="form.email"
                   :name="'email'"
@@ -36,7 +33,7 @@
         :id="'terms'"
         v-model="form.terms"
         :datacy="'accept-terms'"
-        :label="$t('auth.register_terms', {url : betaTermsOfUse })"
+        :label="$t('auth.register_terms', {url : 'https://docs.officelife.io/documentation/officelife-beta.html' })"
         :extra-class-upper-div="'mb3 relative'"
         :required="true"
       />
@@ -63,7 +60,6 @@ import AuthenticationCard from '@/Shared/Layout/AuthenticationCard';
 import AuthenticationCardLogo from '@/Shared/Layout/AuthenticationCardLogo';
 import Checkbox from '@/Shared/Checkbox';
 import TextInput from '@/Shared/TextInput';
-import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import { useForm } from '@inertiajs/inertia-vue3';
 
@@ -73,7 +69,6 @@ export default {
     AuthenticationCardLogo,
     Checkbox,
     TextInput,
-    Errors,
     LoadingButton,
     Checkbox,
   },

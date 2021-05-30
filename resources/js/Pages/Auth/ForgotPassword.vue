@@ -8,8 +8,10 @@
       {{ $t('passwords.forgot_password_message') }}
     </div>
 
-    <div v-if="status" class="mt3 ba br3 pa3">
-      {{ status }}
+    <div v-if="status" class="mt3 ba br3 pa3 bb-gray">
+      <span class="mr1">
+        ✅
+      </span> {{ status }}
     </div>
 
     <validation-errors class="mb-4" />

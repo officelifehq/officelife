@@ -54,7 +54,7 @@
     </form>
 
     <template #footer>
-      <inertia-link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
+      <inertia-link v-if="canResetPassword" :href="route('password.request')" class="f6">
         {{ $t('passwords.forgot_password_link') }}
       </inertia-link>
       <p class="f6">
