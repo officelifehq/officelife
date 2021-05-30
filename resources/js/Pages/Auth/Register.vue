@@ -70,7 +70,6 @@ export default {
     Checkbox,
     TextInput,
     LoadingButton,
-    Checkbox,
   },
 
   props: {

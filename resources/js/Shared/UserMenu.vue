@@ -104,7 +104,7 @@ svg {
               </svg>
             </span>
             <inertia-link :href="route('profile.show')" class="no-color no-underline" data-cy="logout-button">
-              {{ $t('app.header_profile') }}
+              {{ $t('app.header_settings') }}
             </inertia-link>
           </li>
 
