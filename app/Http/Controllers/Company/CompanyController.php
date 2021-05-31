@@ -57,8 +57,6 @@ class CompanyController extends Controller
      * Join the company.
      *
      * @param Request $request
-     *
-     * @return \Illuminate\Routing\Redirector|RedirectResponse
      */
     public function actuallyJoin(Request $request)
     {
