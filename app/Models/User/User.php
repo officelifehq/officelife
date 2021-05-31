@@ -32,6 +32,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'nickname',
         'uuid',
         'show_help',
+        'locale',
     ];
 
     /**

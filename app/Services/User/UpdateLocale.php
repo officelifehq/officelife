@@ -4,6 +4,7 @@ namespace App\Services\User;
 
 use App\Models\User\User;
 use App\Services\BaseService;
+use Illuminate\Validation\Rule;
 
 class UpdateLocale extends BaseService
 {
@@ -19,7 +20,11 @@ class UpdateLocale extends BaseService
     {
         return [
             'user_id' => 'required|integer|exists:users,id',
-            'locale' => 'required|string',
+            'locale' => [
+                'required',
+                'string',
+                Rule::in(config('lang-detector.languages')),
+            ],
         ];
     }
 
