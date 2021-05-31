@@ -30,7 +30,12 @@ langs.loadLanguage(document.querySelector('html').getAttribute('lang'), true)
 
   Sentry.init(app, process.env.MIX_SENTRY_RELEASE);
 
-  app.mixin({ methods: _.assign({ route }, require('./methods').default) })
+  app.mixin({ methods: _.assign({
+    route,
+    loadLanguage: function(locale, set) {
+      return langs.loadLanguage(locale, set);
+    }
+  }, require('./methods').default) })
     .use(InertiaPlugin)
     .use(langs.i18n)
     .mount(el);

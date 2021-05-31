@@ -9,14 +9,10 @@
     </template>
 
     <template #form>
-      <select v-model="form.locale">
-        <option value="en">
-          {{ $t('app.locale_en') }}
-        </option>
-        <option value="fr">
-          {{ $t('app.locale_fr') }}
-        </option>
-      </select>
+      <select-box v-model="form.locale"
+                  :options="localesFiltered"
+                  :required="true"
+      />
     </template>
 
     <template #actions>
@@ -30,27 +26,44 @@
 <script>
 import LoadingButton from '@/Shared/LoadingButton';
 import FormSection from '@/Shared/Layout/FormSection';
+import SelectBox from '@/Shared/Select';
+import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
   components: {
     LoadingButton,
     FormSection,
+    SelectBox,
   },
 
   props: {
     user: {
       type: Object,
       default: null,
+    },
+    locales: {
+      type: Array,
+      default: () => [],
     }
   },
 
   data() {
     return {
-      form: {
-        locale: null,
-      },
-      loadingState: '',
+      form: useForm({
+        locale: '',
+      }),
     };
+  },
+
+  computed: {
+    localesFiltered: function() {
+      return _.map(this.locales, locale => {
+        return {
+          value: locale.lang,
+          label: locale['name-orig'] + (locale['name-orig'] !== locale.name ? ' (' + locale.name + ')' : ''),
+        };
+      });
+    }
   },
 
   mounted() {
@@ -59,15 +72,15 @@ export default {
 
   methods: {
     updateLocale() {
-      axios.post('/locale', this.form)
-        .then(response => {
-          this.flash(this.$t('app.saved'), 'success');
-
-          this.loadingState = null;
+      Promise.all([
+        this.loadLanguage(this.form.locale, true),
+        this.form.post('/locale', {
+          preserveScroll: true,
+          onSuccess: () => {
+            this.flash(this.$t('app.saved'), 'success');
+          },
         })
-        .catch(error => {
-          this.loadingState = null;
-        });
+      ]);
     },
   },
 };

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\LocaleHelper;
 use Inertia\Inertia;
 use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\Facades\Session;
@@ -26,6 +27,7 @@ class ShareInertiaData
             'jetstream' => function () use ($request) {
                 return [
                     'flash' => $request->session()->get('flash', []),
+                    'languages' => LocaleHelper::getLocaleList(),
                 ];
             },
             'user' => function () use ($request) {
