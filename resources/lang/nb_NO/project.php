@@ -7,7 +7,7 @@ return [
     'index_blank_title' => 'Start a project now to move things forward!',
     'menu_summary' => 'Project summary',
     'menu_messages' => 'Messages',
-    'menu_tasks' => 'Tâches',
+    'menu_tasks' => 'Tasks',
     'menu_calendar' => 'Calendar',
     'menu_members' => 'Members',
     'menu_finance' => 'Finance',
