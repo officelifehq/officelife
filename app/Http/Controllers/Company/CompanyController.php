@@ -40,4 +40,15 @@ class CompanyController extends Controller
 
         return redirect($company->id.'/welcome');
     }
+
+    /**
+     * Show the Join company screen.
+     *
+     * @param Request $request
+     * @return \Illuminate\Routing\Redirector|RedirectResponse
+     */
+    public function join(Request $request)
+    {
+        return Inertia::render('Home/JoinCompany');
+    }
 }
