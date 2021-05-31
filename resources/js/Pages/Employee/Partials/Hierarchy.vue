@@ -139,7 +139,7 @@
     <!-- LIST OF EMPLOYEES -->
     <div class="br3 bg-white box z-1 pa3 list-employees">
       <!-- Blank state -->
-      <p v-if="localManagersOfEmployee.length == 0 && localDirectReports.length == 0" class="lh-copy mb0 f6">
+      <p v-if="localManagersOfEmployee.length == 0 && localDirectReports.length == 0" class="lh-copy mb0 mt0 f6">
         {{ $t('employee.hierarchy_blank') }}
       </p>
 

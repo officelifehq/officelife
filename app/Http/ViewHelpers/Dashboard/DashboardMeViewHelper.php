@@ -18,6 +18,7 @@ use Money\Currencies\ISOCurrencies;
 use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
 
 class DashboardMeViewHelper
@@ -320,12 +321,16 @@ class DashboardMeViewHelper
             return null;
         }
 
-        $match = ECoffeeMatch::where('e_coffee_id', $latestECoffee->id)
-            ->where(function ($query) use ($employee) {
-                $query->where('employee_id', $employee->id)
-                    ->orWhere('with_employee_id', $employee->id);
-            })
-            ->firstOrFail();
+        try {
+            $match = ECoffeeMatch::where('e_coffee_id', $latestECoffee->id)
+                ->where(function ($query) use ($employee) {
+                    $query->where('employee_id', $employee->id)
+                        ->orWhere('with_employee_id', $employee->id);
+                })
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
 
         if ($match->employee_id == $employee->id) {
             $otherEmployee = $match->employeeMatchedWith;

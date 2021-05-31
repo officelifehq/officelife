@@ -22,9 +22,9 @@ img {
         <errors :errors="form.errors" />
 
         <form @submit.prevent="submit">
-          <text-input v-model="form.name"
-                      :name="'name'"
-                      :errors="$page.props.errors.name"
+          <text-input v-model="form.code"
+                      :name="'code'"
+                      :errors="$page.props.errors.code"
                       :label="$t('company.join_code')"
                       :help="$t('company.join_code_help')"
                       :required="true"
@@ -74,7 +74,7 @@ export default {
   data() {
     return {
       form: {
-        name: null,
+        code: null,
         errors: [],
       },
       loadingState: '',
@@ -86,10 +86,15 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      this.$inertia.post(this.route('company.store'), this.form)
-        .then(() =>
-          this.loadingState = null
-        );
+      axios.post('/company/join', this.form)
+        .then(response => {
+          this.loadingState = null;
+          this.$inertia.visit(response.data.data.url);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
     },
   }
 };

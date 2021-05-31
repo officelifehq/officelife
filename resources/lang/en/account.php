@@ -313,6 +313,7 @@ return [
     'log_meeting_date_set' => 'Set the meeting date in a meeting of the project called :project_name.',
     'log_company_founded_date_updated' => 'Updated the founded date of the company to :founded_at.',
     'log_group_updated' => 'Updated the group called :group_name.',
+    'log_employee_joined_company' => 'Joined the company called :company_name.',
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',

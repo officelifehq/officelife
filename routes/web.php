@@ -21,6 +21,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('company/create', 'Company\\CompanyController@create');
     Route::post('company/store', 'Company\\CompanyController@store')->name('company.store');
     Route::get('company/join', 'Company\\CompanyController@join');
+    Route::post('company/join', 'Company\\CompanyController@actuallyJoin')->name('company.join');
 
     // only available if user is in the right account
     Route::middleware(['company'])->prefix('{company}')->group(function () {
