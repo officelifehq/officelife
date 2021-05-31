@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use App\Helpers\LocaleHelper;
 use Inertia\Inertia;
-use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\Facades\Session;
 
 /**
@@ -35,7 +34,9 @@ class ShareInertiaData
                     return;
                 }
 
-                return [];
+                return [
+                    'two_factor_enabled' => ! is_null($request->user()->two_factor_secret),
+                ];
             },
             'errorBags' => function () {
                 return collect(optional(Session::get('errors'))->getBags() ?: [])->mapWithKeys(function ($bag, $key) {

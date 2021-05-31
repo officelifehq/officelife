@@ -25,6 +25,6 @@ class LocaleController extends Controller
 
         return $request->wantsJson()
                     ? new JsonResponse('', 200)
-                    : back()->with('status', 'locale-defined');
+                    : back()->with('status', 'locale-changed');
     }
 }
