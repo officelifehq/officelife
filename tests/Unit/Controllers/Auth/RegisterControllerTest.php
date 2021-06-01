@@ -25,7 +25,7 @@ class RegisterControllerTest extends TestCase
             'password' => 'pam',
         ];
 
-        $response = $this->post('signup', $params);
+        $response = $this->post('register', $params);
 
         $response->assertStatus(302);
 

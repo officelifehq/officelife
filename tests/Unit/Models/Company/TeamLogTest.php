@@ -31,7 +31,7 @@ class TeamLogTest extends ApiTestCase
             'audited_at' => '2017-01-22 17:56:03',
         ]);
         $this->assertEquals(
-            'Jan 22, 2017 17:56',
+            'Jan 22, 2017 05:56 PM',
             $teamLog->date
         );
     }

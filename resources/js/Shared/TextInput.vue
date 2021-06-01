@@ -21,7 +21,7 @@
 
 <template>
   <div :class="extraClassUpperDiv">
-    <label v-if="label" class="db fw4 lh-copy f6" :for="id">
+    <label v-if="label" class="db fw4 lh-copy f6" :for="realId">
       {{ label }}
       <span v-if="!required" class="optional-badge f7">
         {{ $t('app.optional') }}
@@ -29,9 +29,8 @@
     </label>
     <input :id="realId"
            :ref="customRef"
-           v-bind="$attrs"
            v-model="proxyValue"
-           class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
+           :class="defaultClass"
            :required="required"
            :type="type"
            :name="name"
@@ -41,6 +40,7 @@
            :min="min"
            :placeholder="placeholder"
            :data-cy="datacy"
+           v-bind="$attrs"
            @keydown.esc="sendEscKey"
            @keydown.enter="sendEnterKey"
     />
@@ -110,6 +110,10 @@ export default {
     required: {
       type: Boolean,
       default: false,
+    },
+    defaultClass: {
+      type: String,
+      default: 'br2 f5 w-100 ba b--black-40 pa2 outline-0'
     },
     extraClassUpperDiv: {
       type: String,

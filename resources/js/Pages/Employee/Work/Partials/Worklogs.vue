@@ -117,7 +117,7 @@
 
         <!-- case of no content for the day -->
         <div v-if="!localWorklog.worklog_parsed_content" class="tc pa3">
-          {{ $t('employee.worklog_blank') }} 😭
+          {{ $t('employee.worklog_blank') }}
         </div>
       </div>
     </div>

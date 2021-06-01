@@ -1,12 +1,11 @@
 <?php
-
 return [
-
     'update' => 'Update',
     'save' => 'Save',
     'post' => 'Post',
     'create' => 'Create',
     'submit' => 'Submit',
+    'confirm' => 'Confirm',
     'add' => 'Add',
     'cancel' => 'Cancel',
     'delete_confirm' => 'Sure?',
@@ -37,6 +36,9 @@ return [
     'disable' => 'Disable',
     'saved' => 'Saved',
     'import_review' => 'Import and review',
+    'login' => 'Log in',
+
+    'flash_done' => 'Done.',
 
     'year' => 'Year',
     'month' => 'Month',
@@ -52,26 +54,21 @@ return [
     'error_skill_name_not_unique' => 'There is already a skill with this name.',
     'error_not_enough_permission' => 'You do not have the right to do this action.',
     'error_project_code_already_exists' => 'This project code is already used. Pick a new one.',
-    'error_more' => 'See more...',
+    'error_more' => 'See more…',
     'error_exception' => 'Exception:',
     'error_email_already_taken' => 'This email is already taken.',
-
     'demo_mode_desc' => 'This is a demo account. Some features are deactivated. Data resets every 5 minutes.',
     'demo_mode_deactivated' => 'This feature is deactivated in demo mode.',
     'demo_mode_read_more' => 'Read more',
     'demo_mode_login' => 'This is a demo account. Please use the following credentials:',
     'demo_mode_email' => 'Email',
     'demo_mode_password' => 'Password',
-
     'previous' => 'Previous',
     'next' => 'Next',
-
     'no_results' => 'No results',
     'no_position_defined' => 'No position defined',
-
     'show_help' => 'Show help',
     'hide_help' => 'Hide help',
-
     'breadcrumb_dashboard' => 'Home',
     'breadcrumb_dashboard_hr' => 'Human Resources',
     'breadcrumb_dashboard_manager' => 'Manager',
@@ -155,11 +152,11 @@ return [
     'breadcrumb_group_detail' => 'Detail of a group',
     'breadcrumb_group_delete' => 'Delete the group',
     'breadcrumb_group_edit' => 'Edit the group',
-
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',
     'header_find' => 'Find',
     'header_company' => 'Company',
+    'header_settings' => 'Settings',
     'header_switch_company' => 'Switch company',
     'header_go_to_employee_profile' => 'Your profile',
     'header_logout' => 'Logout',
@@ -168,20 +165,18 @@ return [
     'header_search_teams' => 'Teams',
     'header_search_no_employee_found' => 'No employees found',
     'header_search_no_team_found' => 'No teams found',
-
     'permission_100' => 'Administrator',
     'permission_200' => 'Human Resource Representative',
     'permission_300' => 'Employee',
-
     'notification_blank_state' => 'There are no new notifications',
     'notification_view_all' => 'View all notifications',
-
     'days_left' => '1 day left|:count days left',
     'hours_left' => '1 hour left|:count hours left',
-
     'rate_manager_bad' => 'Not ideal',
     'rate_manager_average' => 'It’s going well',
     'rate_manager_good' => 'Simply great',
-
     'duration' => ':hours h :minutes',
+
+    'locale_en' => 'English',
+    'locale_fr' => 'French',
 ];
