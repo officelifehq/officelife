@@ -175,6 +175,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Analytics API key
+    |--------------------------------------------------------------------------
+    |
+    | We use Fathom for the analytics. https://usefathom.com
+    |
+    */
+    'fathom_api_key' => env('FATHOM_API_KEY', null),
+
+    /*
+    |--------------------------------------------------------------------------
     | URL of the documentation center
     |--------------------------------------------------------------------------
     |
@@ -216,7 +226,7 @@ return [
         'account_hardware_create' => 'introduction.html',
         'team_recent_ship' => 'introduction.html',
         'team_recent_ship_create' => 'introduction.html',
-        'account_general_company_name' => 'introduction.html',
+        'account_general_company_name' => 'manage/company-management',
         'account_general_currency' => 'manage/company-management.html#currency',
         'account_general_logo' => 'manage/company-management.html#logo',
         'account_general_founded_date' => 'manage/company-management.html#defining-the-company-s-founded-date',

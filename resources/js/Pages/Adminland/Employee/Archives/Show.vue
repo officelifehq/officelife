@@ -116,7 +116,7 @@
 
             <!-- action to import the listing -->
             <form v-if="report.status != 'imported'" class="tc mb4" @submit.prevent="submit">
-              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('account.import_employees_archives_finalize_import', { count: report.number_of_entries_that_can_be_imported })" :cypress-selector="'submit-add-news-button'" />
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$tc('account.import_employees_archives_finalize_import', report.number_of_entries_that_can_be_imported, { count: report.number_of_entries_that_can_be_imported })" :cypress-selector="'submit-add-news-button'" />
             </form>
           </div>
 
@@ -162,7 +162,7 @@
             </div>
 
             <!-- LIST OF THE ALL ENTRIES IN ERROR -->
-            <p class="f6 mb1">{{ $t('account.import_employees_show_entries_errors', { count: report.failed_entries.length }) }}</p>
+            <p class="f6 mb1">{{ $tc('account.import_employees_show_entries_errors', report.failed_entries.length, { count: report.failed_entries.length }) }}</p>
             <div v-if="report.failed_entries.length > 0" class="center bt br bl br2 bb-gray dt w-100">
               <div class="dt-row">
                 <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">

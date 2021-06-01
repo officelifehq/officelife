@@ -11,6 +11,9 @@ class UserLocale extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::table('users', function (Blueprint $table) {
             $table->string('locale', 5)->nullable()->after('password');
         });

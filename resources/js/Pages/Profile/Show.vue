@@ -6,7 +6,7 @@
 
         <update-password-form class="mt1" />
 
-        <update-locale :user="$page.props.auth.user" class="mt1" />
+        <update-locale :user="$page.props.auth.user" :locales="$page.props.jetstream.languages" class="mt1" />
 
         <two-factor-authentication-form class="mt1" />
 
@@ -28,7 +28,6 @@ export default {
 
   components: {
     Layout,
-    // DeleteUserForm,
     LogoutOtherBrowserSessionsForm,
     TwoFactorAuthenticationForm,
     UpdatePasswordForm,

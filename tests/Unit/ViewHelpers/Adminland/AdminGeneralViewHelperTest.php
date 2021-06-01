@@ -74,6 +74,10 @@ class AdminGeneralViewHelperTest extends TestCase
             $response['founded_at']
         );
 
+        $this->assertNotNull(
+            $response['invitation_code']
+        );
+
         $response['administrators']->sortBy('id');
 
         $this->assertEquals(

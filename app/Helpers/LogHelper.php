@@ -1243,6 +1243,12 @@ class LogHelper
                 ]);
                 break;
 
+            case 'employee_joined_company':
+                $sentence = trans('account.log_employee_joined_company', [
+                    'company_name' => $log->object->{'company_name'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;

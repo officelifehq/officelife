@@ -13,6 +13,10 @@ use App\Jobs\ProvisionDefaultAccountData;
 
 class CreateCompany extends BaseService
 {
+    private array $data;
+    private Company $company;
+    private Employee $employee;
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -35,35 +39,54 @@ class CreateCompany extends BaseService
      */
     public function execute(array $data): Company
     {
-        $this->validateRules($data);
+        $this->data = $data;
+        $this->validate();
+        $this->createCompany();
+        $this->createUniqueInvitationCodeForCompany();
+        $this->addFirstEmployee();
+        $this->provisionDefaultAccountData();
+        $this->logAccountAudit();
 
-        $company = Company::create([
-            'name' => $data['name'],
+        return $this->company;
+    }
+
+    private function validate(): void
+    {
+        $this->validateRules($this->data);
+    }
+
+    private function createCompany(): void
+    {
+        $this->company = Company::create([
+            'name' => $this->data['name'],
         ]);
+    }
 
-        $user = User::find($data['author_id']);
-        $employee = $this->addFirstEmployee($company, $user);
+    private function createUniqueInvitationCodeForCompany(): void
+    {
+        $uniqueCode = uniqid();
 
-        $this->provisionDefaultAccountData($employee);
+        $company = Company::where('code_to_join_company', $uniqueCode)
+            ->first();
 
-        $this->logAccountAudit($company, $employee);
+        while ($company) {
+            $this->createUniqueInvitationCodeForCompany();
+        }
 
-        return $company;
+        $this->company->code_to_join_company = $uniqueCode;
+        $this->company->save();
     }
 
     /**
      * Add the first employee to the company.
-     *
-     * @param Company $company
-     * @param User $user
-     *
-     * @return Employee
      */
-    private function addFirstEmployee(Company $company, User $user): Employee
+    private function addFirstEmployee(): void
     {
-        return Employee::create([
+        $user = User::find($this->data['author_id']);
+
+        $this->employee = Employee::create([
             'user_id' => $user->id,
-            'company_id' => $company->id,
+            'company_id' => $this->company->id,
             'uuid' => Str::uuid()->toString(),
             'permission_level' => config('officelife.permission_level.administrator'),
             'email' => $user->email,
@@ -75,30 +98,22 @@ class CreateCompany extends BaseService
 
     /**
      * Provision the newly created account with default data.
-     *
-     * @param Employee $employee
      */
-    private function provisionDefaultAccountData(Employee $employee): void
+    private function provisionDefaultAccountData(): void
     {
-        ProvisionDefaultAccountData::dispatch($employee);
+        ProvisionDefaultAccountData::dispatch($this->employee);
     }
 
-    /**
-     * Add an audit log entry for this action.
-     *
-     * @param Company  $company
-     * @param Employee $employee
-     */
-    private function logAccountAudit(Company $company, Employee $employee): void
+    private function logAccountAudit(): void
     {
         LogAccountAudit::dispatch([
-            'company_id' => $company->id,
+            'company_id' => $this->company->id,
             'action' => 'account_created',
-            'author_id' => $employee->id,
-            'author_name' => $employee->name,
+            'author_id' => $this->employee->id,
+            'author_name' => $this->employee->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'company_name' => $company->name,
+                'company_name' => $this->company->name,
             ]),
         ])->onQueue('low');
     }

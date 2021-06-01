@@ -43,6 +43,8 @@ class CreateCompanyTest extends TestCase
             'name' => 'Dunder Mifflin',
         ]);
 
+        $this->assertNotNull($company->code_to_join_company);
+
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael) {
             return $job->auditLog['action'] === 'account_created' &&
                 $job->auditLog['author_id'] === $michael->id &&
