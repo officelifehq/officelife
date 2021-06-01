@@ -31,7 +31,7 @@ class UpdateSoftware extends BaseService
             'licensed_to_name' => 'nullable|string|max:255',
             'licensed_to_email_address' => 'nullable|email|max:255',
             'order_number' => 'nullable|string|max:255',
-            'purchase_amount' => 'nullable|integer',
+            'purchase_amount' => 'nullable|numeric',
             'currency' => 'nullable|string|max:255',
             'purchased_at' => 'nullable|date_format:Y-m-d',
         ];
@@ -76,7 +76,7 @@ class UpdateSoftware extends BaseService
         $this->software->licensed_to_name = $this->valueOrNull($this->data, 'licensed_to_name');
         $this->software->licensed_to_email_address = $this->valueOrNull($this->data, 'licensed_to_email_address');
         $this->software->order_number = $this->valueOrNull($this->data, 'order_number');
-        $this->software->purchase_amount = $this->valueOrNull($this->data, 'purchase_amount');
+        $this->software->purchase_amount = $this->valueOrNull($this->data, 'purchase_amount') ? $this->data['purchase_amount'] * 100 : null;
         $this->software->currency = $this->valueOrNull($this->data, 'currency');
         $this->software->purchased_at = $this->valueOrNull($this->data, 'purchased_at');
         $this->software->save();

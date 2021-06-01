@@ -72,6 +72,16 @@
               </div>
             </li>
           </ul>
+
+          <!-- BLANK STATE -->
+          <div v-else class="tc">
+            <img loading="lazy" src="/img/streamline-icon-code-developer-1-3@140x140.png" alt="project symbol" height="140"
+                 width="140"
+            />
+            <p class="mb3">
+              <span class="db mb4">{{ $t('account.software_index_blank_description') }}</span>
+            </p>
+          </div>
         </div>
       </div>
     </div>

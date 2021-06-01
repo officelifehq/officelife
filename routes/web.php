@@ -449,6 +449,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('account/softwares', 'Company\\Adminland\\AdminSoftwareController@store');
             Route::get('account/softwares/{software}', 'Company\\Adminland\\AdminSoftwareController@show')->name('software.show');
             Route::get('account/softwares/{software}/edit', 'Company\\Adminland\\AdminSoftwareController@edit')->name('software.edit');
+            Route::put('account/softwares/{software}', 'Company\\Adminland\\AdminSoftwareController@update');
             Route::post('account/softwares/{software}/search', 'Company\\Adminland\\AdminSoftwareController@potentialEmployees');
             Route::get('account/softwares/{software}/numberOfEmployeesWhoDontHaveSoftware', 'Company\\Adminland\\AdminSoftwareController@numberOfEmployeesWhoDontHaveSoftware');
             Route::post('account/softwares/{software}/attach', 'Company\\Adminland\\AdminSoftwareController@attach');

@@ -83,24 +83,19 @@ class AdminSoftwareViewHelper
     public static function edit(Software $software): array
     {
         return [
-      'id' => $software->id,
-      'name' => $software->name,
-      'website' => $software->website,
-      'product_key' => $software->product_key,
-      'seats' => $software->seats,
-      'used_seats' => $numberOfSeatsUsed,
-      'remaining_seats' => $software->seats - $numberOfSeatsUsed,
-      'licensed_to_name' => $software->licensed_to_name,
-      'licensed_to_email_address' => $software->licensed_to_email_address,
-      'order_number' => $software->order_number,
-      'purchase_amount' => $software->purchase_amount,
-      'currency' => $software->currency,
-      'converted_purchase_amount' => $software->converted_purchase_amount,
-      'converted_to_currency' => $software->converted_to_currency,
-      'purchased_at' => $software->purchased_at ? DateHelper::formatDate($software->purchased_at) : null,
-      'converted_at' => $software->converted_at ? DateHelper::formatDate($software->converted_at) : null,
-      'exchange_rate' => $software->exchange_rate,
-    ];
+            'id' => $software->id,
+            'name' => $software->name,
+            'product_key' => $software->product_key,
+            'seats' => $software->seats,
+            'licensed_to' => $software->licensed_to,
+            'licensed_to_email' => $software->licensed_to_email,
+            'purchase_amount' => $software->purchase_amount,
+            'currency' => $software->currency,
+            'website' => $software->website,
+            'purchased_date_year' => $software->purchased_at ? $software->purchased_at->year : null,
+            'purchased_date_month' => $software->purchased_at ? $software->purchased_at->month : null,
+            'purchased_date_day' => $software->purchased_at ? $software->purchased_at->day : null,
+        ];
     }
 
     /**

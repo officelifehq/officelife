@@ -291,7 +291,7 @@ export default {
       form: {
         name: null,
         product_key: null,
-        sets: null,
+        seats: null,
         licensed_to: null,
         licensed_to_email: null,
         purchase_amount: null,
@@ -300,9 +300,6 @@ export default {
         purchased_date_year: null,
         purchased_date_month: null,
         purchased_date_day: null,
-        expiration_date_year: null,
-        expiration_date_month: null,
-        expiration_date_day: null,
         errors: [],
       },
       loadingState: '',
@@ -315,7 +312,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/account/softwares', this.form)
+      axios.post(`${this.$page.props.auth.company.id}/account/softwares`, this.form)
         .then(response => {
           localStorage.success = this.$t('account.software_new_success');
           this.$inertia.visit(response.data.data);

@@ -628,6 +628,7 @@ return [
     'software_new_website' => 'Website',
     'software_index_title' => 'Softwares used in the company',
     'software_index_cta' => 'Add a software',
+    'software_index_blank_description' => 'Manage the softwares that your commpany uses.',
     'software_index_count' => '{company} manages {count} softwares.',
     'software_show_add_employee' => 'The employee has been added.',
     'software_show_remove_employee' => 'The employee has been removed.',

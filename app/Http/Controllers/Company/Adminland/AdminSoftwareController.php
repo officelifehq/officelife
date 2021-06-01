@@ -19,6 +19,7 @@ use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
 use App\Http\ViewHelpers\Adminland\AdminHardwareViewHelper;
 use App\Http\ViewHelpers\Adminland\AdminSoftwareViewHelper;
 use App\Services\Company\Adminland\Software\CreateSoftware;
+use App\Services\Company\Adminland\Software\UpdateSoftware;
 use App\Services\Company\Adminland\Software\DestroySoftware;
 use App\Services\Company\Adminland\Software\GiveSeatToEmployee;
 use App\Services\Company\Adminland\Software\TakeSeatFromEmployee;
@@ -83,15 +84,6 @@ class AdminSoftwareController extends Controller
             );
         }
 
-        $expiredAt = null;
-        if ($request->input('expiration_date_year')) {
-            $expiredAt = Carbon::create(
-                intval($request->input('expiration_date_year')),
-                intval($request->input('expiration_date_month')),
-                intval($request->input('expiration_date_day'))
-            );
-        }
-
         $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
@@ -105,7 +97,6 @@ class AdminSoftwareController extends Controller
             'purchase_amount' => $request->input('purchase_amount'),
             'currency' => $request->input('currency'),
             'purchased_at' => $purchasedAt ? $purchasedAt->format('Y-m-d') : null,
-            'expired_at' => $expiredAt ? $expiredAt->format('Y-m-d') : null,
         ];
 
         (new CreateSoftware)->execute($data);
@@ -139,10 +130,10 @@ class AdminSoftwareController extends Controller
 
         $employees = $software->employees()->get();
         $employeeCollection = AdminSoftwareViewHelper::seats($employees, $company);
-        $software = AdminSoftwareViewHelper::show($software);
+        $information = AdminSoftwareViewHelper::show($software);
 
         return Inertia::render('Adminland/Software/Show', [
-            'software' => $software,
+            'software' => $information,
             'employees' => $employeeCollection,
             'url_edit' => route('software.edit', [
                 'company' => $company,
@@ -311,16 +302,61 @@ class AdminSoftwareController extends Controller
             return redirect('home');
         }
 
-        $software = AdminSoftwareViewHelper::show($software);
+        $software = AdminSoftwareViewHelper::edit($software);
 
         return Inertia::render('Adminland/Software/Edit', [
             'software' => $software,
-            'url_edit' => route('software.edit', [
+            'currencies' => DashboardMeViewHelper::currencies(),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Update the software.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $softwareId
+     * @return mixed
+     */
+    public function update(Request $request, int $companyId, int $softwareId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $purchasedAt = null;
+        if ($request->input('purchased_date_year')) {
+            $purchasedAt = Carbon::create(
+                intval($request->input('purchased_date_year')),
+                intval($request->input('purchased_date_month')),
+                intval($request->input('purchased_date_day'))
+            );
+        }
+
+        $data = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'software_id' => $softwareId,
+            'name' => $request->input('name'),
+            'seats' => $request->input('seats'),
+            'product_key' => $request->input('product_key'),
+            'website' => $request->input('website'),
+            'licensed_to_name' => $request->input('licensed_to_name'),
+            'licensed_to_email_address' => $request->input('licensed_to_email_address'),
+            'order_number' => $request->input('order_number'),
+            'purchase_amount' => $request->input('purchase_amount'),
+            'currency' => $request->input('currency'),
+            'purchased_at' => $purchasedAt ? $purchasedAt->format('Y-m-d') : null,
+        ];
+
+        $software = (new UpdateSoftware)->execute($data);
+
+        return response()->json([
+            'data' => route('software.show', [
                 'company' => $company,
                 'software' => $software,
             ]),
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-        ]);
+        ], 201);
     }
 
     /**

@@ -85,17 +85,7 @@ input[type=radio] {
             </div>
 
             <!-- Purchase information -->
-            <!-- toggle display purchase information -->
-            <div v-if="!showPurchaseInformation" class="cf pa3 bb bb-gray">
-              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                &nbsp;
-              </div>
-              <div class="fl-ns w-two-thirds-ns w-100">
-                <p class="pointer" @click.prevent="showPurchaseInformation = true"><span class="ba br-100 plus-button">+</span> Add purchase information</p>
-              </div>
-            </div>
-            <!-- section to add purchase information -->
-            <div v-else class="cf pa3 bb bb-gray pb4">
+            <div class="cf pa3 bb bb-gray pb4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
                 <strong>{{ $t('account.software_new_purchase_information') }}</strong>
               </div>
@@ -178,16 +168,7 @@ input[type=radio] {
             </div>
 
             <!-- Purchase date -->
-            <!-- toggle display purchase date -->
-            <div v-if="!showPurchaseDateInformation" class="cf pa3 bb bb-gray">
-              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                &nbsp;
-              </div>
-              <div class="fl-ns w-two-thirds-ns w-100">
-                <p class="pointer" @click.prevent="showPurchaseDateInformation = true"><span class="ba br-100 plus-button">+</span> Add purchase information date</p>
-              </div>
-            </div>
-            <div v-else class="cf pa3 bb bb-gray pb4">
+            <div class="cf pa3 bb bb-gray pb4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
                 <strong>{{ $t('account.software_new_purchased_date') }}</strong>
                 <p class="f7 silver lh-copy pr3-ns">
@@ -280,6 +261,10 @@ export default {
       type: Array,
       default: null,
     },
+    software: {
+      type: Object,
+      default: null,
+    },
     currencies: {
       type: Object,
       default: null,
@@ -300,41 +285,33 @@ export default {
         purchased_date_year: null,
         purchased_date_month: null,
         purchased_date_day: null,
-        expiration_date_year: null,
-        expiration_date_month: null,
-        expiration_date_day: null,
         errors: [],
       },
       loadingState: '',
-      showPurchaseInformation: false,
-      showPurchaseDateInformation: false,
     };
   },
 
-  mounted() {
-    this.name = this.software.name;
-    this.product_key = this.software.product_key;
-    this.sets = this.software.sets;
-    this.licensed_to = this.software.licensed_to;
-    this.licensed_to_email = this.software.licensed_to_email;
-    this.purchase_amount = this.software.purchase_amount;
-    this.currency = this.software.currency;
-    this.website = this.software.website;
-    this.purchased_date_year = this.software.purchased_date_year;
-    this.purchased_date_month = this.software.purchased_date_month;
-    this.purchased_date_day = this.software.purchased_date_day;
-    this.expiration_date_year = this.software.expiration_date_year;
-    this.expiration_date_month = this.software.expiration_date_month;
-    this.expiration_date_day = this.software.expiration_date_day;
+  created() {
+    this.form.name = this.software.name;
+    this.form.product_key = this.software.product_key;
+    this.form.seats = this.software.seats;
+    this.form.licensed_to = this.software.licensed_to;
+    this.form.licensed_to_email = this.software.licensed_to_email;
+    this.form.purchase_amount = this.software.purchase_amount;
+    this.form.currency = this.software.currency;
+    this.form.website = this.software.website;
+    this.form.purchased_date_year = this.software.purchased_date_year;
+    this.form.purchased_date_month = this.software.purchased_date_month;
+    this.form.purchased_date_day = this.software.purchased_date_day;
   },
 
   methods: {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/account/softwares', this.form)
+      axios.put(`/${this.$page.props.auth.company.id}/account/softwares/${this.software.id}`, this.form)
         .then(response => {
-          localStorage.success = this.$t('account.software_new_success');
+          localStorage.success = this.$t('account.software_edit_success');
           this.$inertia.visit(response.data.data);
         })
         .catch(error => {
