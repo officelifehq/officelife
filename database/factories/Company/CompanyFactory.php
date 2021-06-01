@@ -24,6 +24,7 @@ class CompanyFactory extends Factory
         return [
             'name' => $this->faker->name,
             'currency' => 'USD',
+            'code_to_join_company' => 'USD',
         ];
     }
 }

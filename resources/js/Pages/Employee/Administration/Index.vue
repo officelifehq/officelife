@@ -61,9 +61,9 @@
             :hardware="hardware"
           />
 
-          <holidays
+          <!-- <holidays
             :employee="employee"
-          />
+          /> -->
         </div>
       </div>
     </div>
@@ -78,7 +78,6 @@ import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
 import Expenses from '@/Pages/Employee/Administration/Partials/Expenses';
 import Timesheets from '@/Pages/Employee/Administration/Partials/Timesheets';
 import Hardware from '@/Pages/Employee/Administration/Partials/Hardware';
-import Holidays from '@/Pages/Employee/Administration/Partials/Holidays';
 
 export default {
   components: {
@@ -89,7 +88,6 @@ export default {
     Expenses,
     Timesheets,
     Hardware,
-    Holidays,
   },
 
   props: {

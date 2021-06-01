@@ -208,6 +208,7 @@ return [
     'stat_hiring' => '{percent}% employees have been hired after {name}',
     'past_position_history_title' => 'Position history in the company',
     'groups_title' => 'Groups {name} is part of',
+    'groups_blank' => 'This person is not yet associated with a group yet.',
     'worklog_year_selector' => 'Choose a year',
     'worklog_filter_month' => 'Choose a month',
 ];

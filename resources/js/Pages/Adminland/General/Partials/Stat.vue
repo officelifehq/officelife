@@ -1,6 +1,6 @@
 <style lang="scss" scoped>
 .title {
-  min-width: 240px;
+  min-width: 410px;
 }
 
 .admin:not(:last-child) {
@@ -36,9 +36,13 @@
         <span class="dib-ns db mb0-ns mb2 title">{{ $t('account.general_creation_date') }}</span>
         <span class="fw6">{{ information.creation_date }}</span>
       </li>
-      <li class="mb4">
+      <li class="mb3">
         <span class="dib-ns db mb0-ns mb2 title">{{ $t('account.general_creation_size') }}</span>
         <span class="fw6">{{ $t('account.general_creation_size_kb', { size: information.total_size }) }}</span>
+      </li>
+      <li class="mb4">
+        <span class="dib-ns db mb0-ns mb2 title">{{ $t('account.general_invitation_code') }}</span>
+        <span class="fw6">{{ information.invitation_code }}</span>
       </li>
     </ul>
   </div>

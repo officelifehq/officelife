@@ -29,6 +29,7 @@ class Company extends Model
         'logo_file_id',
         'e_coffee_enabled',
         'founded_at',
+        'code_to_join_company',
     ];
 
     /**
