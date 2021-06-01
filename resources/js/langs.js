@@ -6,13 +6,11 @@ import pluralization from './pluralization.js';
 
 export default {
   i18n: createI18n({
-    locale: 'en',
+    locale: 'en', // default locale
     fallbackLocale: 'en',
     messages: {'en': messages},
     pluralizationRules: pluralization,
   }),
-
-  loadedLanguages : ['en'], // our default language that is preloaded
 
   _setI18nLanguage (lang) {
     if (this.i18n.mode === 'legacy') {
@@ -26,12 +24,11 @@ export default {
 
   _loadLanguageAsync (lang) {
     if (this.i18n.locale !== lang) {
-      if (!this.loadedLanguages.includes(lang)) {
+      if (!this.i18n.global.availableLocales.includes(lang)) {
         return this._loadLanguageMessagesAsync(lang)
           .then(msgs => {
             if (msgs !== null) {
               this.i18n.global.setLocaleMessage(lang, msgs);
-              this.loadedLanguages.push(lang);
             }
             return this.i18n;
           });

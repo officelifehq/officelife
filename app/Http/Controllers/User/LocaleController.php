@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
-use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Services\User\UpdateLocale;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class LocaleController extends Controller
@@ -23,8 +23,8 @@ class LocaleController extends Controller
             'locale' => $request->input('locale'),
         ]);
 
-        return response()->json([
-            'data' => true,
-        ], 200);
+        return $request->wantsJson()
+                    ? new JsonResponse('', 200)
+                    : back()->with('status', 'locale-changed');
     }
 }
