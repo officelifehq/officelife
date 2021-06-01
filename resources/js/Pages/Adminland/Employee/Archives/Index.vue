@@ -79,7 +79,7 @@
           <ul v-if="importJobs.entries.length > 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="statuses-list" :data-cy-items="importJobs.entries.map(n => n.id)">
             <li v-for="job in importJobs.entries" :key="job.id" class="pa3 bb bb-gray bb-gray-hover flex justify-between items-center">
               <div class="di relative">
-                <span class="db mb2">{{ $t('account.import_employees_archives_item_title', { count: job.number_of_entries }) }}
+                <span class="db mb2">{{ $tc('account.import_employees_archives_item_title', job.number_of_entries, { count: job.number_of_entries }) }}
                   <span v-if="job.status == 'imported'" :class="job.status" class="type relative">
                     <svg class="check relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
