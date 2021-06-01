@@ -34,7 +34,7 @@
 
         <ul class="list pl0">
           <li class="mb3 flex-ns items-center">
-            <span class="dib-ns db mb0-ns mb2 title">{{ $t('account.general_rename_input') }}</span>
+            <span class="dib-ns db mb0-ns mb2 title">{{ $t('account.general_founded_date_label') }}</span>
             <span>
               <text-input
                 :id="'name'"

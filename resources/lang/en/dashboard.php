@@ -177,7 +177,7 @@ return [
     'rate_your_manager_thanks_add_comment' => 'Thanks for your opinion. Care to add a comment?',
     'rate_your_manager_thanks_add_comment_desc' => 'Your comment will also be completely anonymous, but you can reveal your identity if you want.',
     'rate_your_manager_thanks_add_comment_cta' => 'Add a comment',
-    'rate_your_manager_thanks_add_comment_reveal_identity' => 'Reveal your identity to Roger so he can reply to you',
+    'rate_your_manager_thanks_add_comment_reveal_identity' => 'Reveal your identity to your manager so (s)he can reply to you',
     'rate_your_manager_final_sucess_message' => 'Thanks for giving your opinion',
     'contract_renewal_date_title' => 'Contract renewal',
     'contract_renewal_date' => 'Your contract ends on {date}, which is in {count} days.',

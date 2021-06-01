@@ -313,6 +313,7 @@ return [
     'log_meeting_date_set' => 'Set the meeting date in a meeting of the project called :project_name.',
     'log_company_founded_date_updated' => 'Updated the founded date of the company to :founded_at.',
     'log_group_updated' => 'Updated the group called :group_name.',
+    'log_employee_joined_company' => 'Joined the company called :company_name.',
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',
@@ -559,6 +560,7 @@ return [
     'general_founded_date_cta' => 'Change date',
     'general_founded_date_no_date' => 'No date yet',
     'general_founded_date_success' => 'The founded date has been changed.',
+    'general_invitation_code' => 'Code that employees can use to join the company',
     'ecoffee_title' => 'E-Coffee sessions in the company',
     'ecoffee_desc' => 'E-Coffees are a great way for employees to take some time with another colleague and spend 15 minutes in a week to get to know him/her. The goal is to talk to everything but work. The more you know your colleagues, the more powerful their bonds.',
     'ecoffee_enabled' => 'e-Coffees are enabled',

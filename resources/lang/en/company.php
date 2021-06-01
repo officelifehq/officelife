@@ -9,6 +9,12 @@ return [
     'new_name' => 'What is the name of your company?',
     'subtitle' => 'There is only one step to get started.',
     'next_step_cta' => 'Ok, let’s go',
+
+    'join_title' => 'Join your company already on OfficeLife',
+    'join_subtitle' => 'There is only one step to get started.',
+    'join_code' => 'What is the code of the company you want to join?',
+    'join_code_help' => 'If you do not know it, your company’s administrator can give it to you.',
+
     'employees_title' => 'Our employees',
     'employees_total' => '{count} employees in the company',
     'new_hires_total' => '{count} new employees hired this year so far',
