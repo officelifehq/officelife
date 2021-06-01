@@ -22,6 +22,10 @@
   </script>
   @endif
 
+  @if (config('officelife.fathom_api_key') && config('app.env') == 'production')
+    <script src="https://cdn.usefathom.com/script.js" data-site="{{ config('officelife.fathom_api_key') }}" defer></script>
+  @endif
+
   @routes
 </head>
 
