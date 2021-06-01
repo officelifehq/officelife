@@ -314,16 +314,12 @@ return [
     'log_meeting_date_set' => 'Set the meeting date in a meeting of the project called :project_name.',
     'log_company_founded_date_updated' => 'Updated the founded date of the company to :founded_at.',
     'log_group_updated' => 'Updated the group called :group_name.',
-<<<<<<< HEAD
     'log_software_created' => 'Created a software called :software_name.',
     'log_software_updated' => 'Updated the software called :software_name.',
     'log_software_destroyed' => 'Deleted the software called :software_name.',
     'log_software_seat_given_to_employee' => 'Gave a license of the software called :software_name to :employee_name.',
     'log_software_seat_taken_from_employee' => 'Took the license of the software called :software_name back from :employee_name.',
     'log_software_seat_given_to_employees' => 'Gave a license of the software called :software_name to all employees in the company.',
-
-=======
->>>>>>> main
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',
