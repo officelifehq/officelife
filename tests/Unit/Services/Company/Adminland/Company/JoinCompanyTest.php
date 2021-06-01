@@ -42,9 +42,11 @@ class JoinCompanyTest extends TestCase
             'email' => $dwight->email,
         ]);
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($dwight, $company) {
+        $employee = Employee::where('user_id', $dwight->id)->first();
+
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($employee, $company) {
             return $job->auditLog['action'] === 'employee_joined_company' &&
-                $job->auditLog['author_id'] === $dwight->id &&
+                $job->auditLog['author_id'] === $employee->id &&
                 $job->auditLog['objects'] === json_encode([
                     'company_name' => $company->name,
                 ]);
