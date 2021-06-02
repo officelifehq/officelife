@@ -660,9 +660,9 @@ class Employee extends Model
      *
      * @param mixed $value
      *
-     * @return string
+     * @return string|null
      */
-    public function getNameAttribute($value): string
+    public function getNameAttribute($value): ?string
     {
         if (! $this->first_name) {
             return $this->email;
