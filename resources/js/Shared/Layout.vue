@@ -47,6 +47,10 @@ nav {
   &.demo-mode {
     background-color: #fff9cb;
   }
+
+  &.beta-mode {
+    background-color: #fff9cb;
+  }
 }
 
 .ball-pulse {
@@ -212,6 +216,12 @@ nav {
     </main>
 
     <toaster />
+
+    <div class="mt5 mb3 cf mw6 center tc f7">
+      <span class="mr1">
+        🎡
+      </span> Welcome to OfficeLife beta! <a href="https://github.com/officelifehq/officelife/discussions/944">Contact us to send feedback</a>
+    </div>
   </div>
 </template>
 
