@@ -164,7 +164,6 @@ return [
     'accounting_accepted_rejected_expenses' => 'All expenses',
     'accounting_expense_detail_accoutant_section' => 'Accountant',
     'accounting_expense_detail_accoutant_name' => 'Accountant name',
-    'expense_detail_status' => 'Accountant name',
     'expense_detail_status_manager_approval_title' => 'This expense is waiting for manager approval.',
     'expense_detail_status_accounting_approval_title' => 'This expense is waiting for the accounting department approval.',
     'expense_detail_status_rejected_by_manager_title' => 'This expense has been rejected by the manager for the following reason:',

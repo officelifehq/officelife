@@ -12,7 +12,6 @@ return [
     | Format parameters are described here http://www.php.net/manual/en/function.date.php
     |
     */
-
     /* date and time in a format like "Oct 29, 1981 19:32" - see https://carbon.nesbot.com/docs/#iso-format-available-replacements */
     'short_date_year_time' => 'MMM DD, YYYY hh:mm A',
     /* day and the month in a format like "Jul 29" or "Jul 01" - see https://carbon.nesbot.com/docs/#iso-format-available-replacements */

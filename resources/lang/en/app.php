@@ -37,9 +37,7 @@ return [
     'saved' => 'Saved',
     'import_review' => 'Import and review',
     'login' => 'Log in',
-
     'flash_done' => 'Done.',
-
     'error_title' => '👇 Oops. An error occured.',
     'error_not_same_company' => 'This item does not belong to this company.',
     'error_wrong_employee_id' => 'We can’t find the requested employee.',
@@ -169,7 +167,6 @@ return [
     'rate_manager_average' => 'It’s going well',
     'rate_manager_good' => 'Simply great',
     'duration' => ':hours h :minutes',
-
     'locale_en' => 'English',
     'locale_fr' => 'French',
 ];

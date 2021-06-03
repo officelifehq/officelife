@@ -2,9 +2,7 @@
 return [
     'failed' => 'These credentials do not match our records.',
     'mismatch' => 'The provided password does not match your current password.',
-
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
     'register_salute' => 'Hi friend!',
     'register_title' => 'You are one step away from being happier at work.',
     'register_email' => 'Your email address',
