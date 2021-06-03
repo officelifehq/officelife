@@ -15,7 +15,6 @@ return [
     'sent' => 'We have e-mailed your password reset link!',
     'token' => 'This password reset token is invalid.',
     'user' => "We can't find a user with that e-mail address.",
-
     'confirm_password_message' => 'This is a secure area of the application. Please confirm your password before continuing.',
     'forgot_password_message' => 'Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.',
     'forgot_password_action' => 'Email Password Reset Link',
@@ -28,5 +27,4 @@ return [
     '2fa_recovery_code_placeholder' => 'Recovery Code',
     '2fa_code_action' => 'Use a recovery code',
     '2fa_recovery_code_action' => 'Use an authentication code',
-
 ];
