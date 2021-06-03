@@ -100,7 +100,7 @@ return [
     'edit_information_menu_address' => 'Changer l’adresse du domicile',
     'edit_information_menu_contract' => 'Coordonnées',
     'edit_information_address' => 'Adresse',
-    'edit_information_address_help' => 'Only administrators and HR will be able to see the complete address. Any other people will be able to see the city and country.',
+    'edit_information_address_help' => 'Seuls les administrateurs et les RH pourront voir l\'adresse complète. Toute autre personne pourra voir la ville et le pays.',
     'edit_information_street' => 'Street',
     'edit_information_city' => 'Ville',
     'edit_information_state' => 'State/province',
