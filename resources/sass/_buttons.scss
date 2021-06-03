@@ -1,24 +1,19 @@
 .btn {
-  background: linear-gradient(0deg, rgba(250, 251, 253, 1) 0%, rgba(255, 255, 255, 1) 100%);
-  border-radius: 5px;
-  border: 1px solid #d3d3d9;
+  background: rgb(250, 251, 252);
+  border-radius: 6px;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset;
   color: #727184;
   cursor: pointer;
-  padding: 8px 12px;
+  padding: 5px 16px;
   text-align: center;
 
   &:hover {
-    background-color: #d7e0e9;
-    border-color: #b1aaaa;
+    background-color: #f3f4f6;
+    border-color: rgba(27, 31, 35, 0.15);
     color: #4d545f;
     text-decoration: none;
-    border-bottom-width: 1px;
-    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(1px);
+    transition-duration: 0.1s;
   }
 
   &.add {
