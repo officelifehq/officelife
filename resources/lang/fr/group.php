@@ -31,7 +31,7 @@ return [
     'meeting_show_participants_add_guest' => 'Ajoutez un·e invité·e',
     'meeting_show_participants_add_guest_input' => 'Qui doit être ajouté·e comme invité·e ?',
     'meeting_show_participants_edit_guests' => 'Invité·e·s d’édition',
-    'meeting_show_add_guest_success' => 'L\'invité a été ajouté.',
+    'meeting_show_add_guest_success' => 'L’invité a été ajouté.',
     'meeting_show_remove_guest_success' => 'L’invité·e a été supprimé·e.',
     'meeting_show_participants_help' => 'Cliquez sur les noms des personnes qui étaient présentes à la réunion.',
     'meeting_show_participants_exit_edit_guests' => 'Quittez le mode édition',
