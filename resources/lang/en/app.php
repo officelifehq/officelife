@@ -114,6 +114,7 @@ return [
     'breadcrumb_project_detail' => 'Project detail',
     'breadcrumb_project_create' => 'Add a new project',
     'breadcrumb_project_edit' => 'Edit project',
+    'breadcrumb_project_status_edit' => 'Edit status',
     'breadcrumb_project_delete' => 'Delete project',
     'breadcrumb_project_create_message' => 'Add a new message',
     'breadcrumb_project_edit_message' => 'Edit message',
