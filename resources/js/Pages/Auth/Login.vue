@@ -24,7 +24,7 @@
     <div v-if="$page.props.demo_mode" class="demo-mode pa3 mb3">
       <p>{{ $t('app.demo_mode_login') }}</p>
       <p class="pl3 mt0 mb2">{{ $t('app.demo_mode_email') }}: <span class="fw6">admin@admin.com</span></p>
-      <p class="pl3 ma0">{{ $t('app.demo_mode_password') }}: <span class="fw6">admin</span></p>
+      <p class="pl3 ma0">{{ $t('app.demo_mode_password') }}: <span class="fw6">admin123</span></p>
     </div>
 
     <!-- Form Errors -->

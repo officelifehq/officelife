@@ -268,7 +268,7 @@ class SetupDummyAccount extends Command
 
         $user = (new CreateAccount)->execute([
             'email' => 'admin@admin.com',
-            'password' => 'admin',
+            'password' => 'admin123',
             'first_name' => 'Michael',
             'last_name' => 'Scott',
         ]);
@@ -2173,7 +2173,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
 
         $user = (new CreateAccount)->execute([
             'email' => 'blank@blank.com',
-            'password' => 'blank',
+            'password' => 'blank123',
             'first_name' => 'Roger',
             'last_name' => 'Rabbit',
         ]);
