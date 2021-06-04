@@ -123,9 +123,4 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
-    'attributes' => [
-        'date' => 'Дата',
-        'last_name' => 'Фамилия',
-        'second' => 'Секунда',
-    ],
 ];

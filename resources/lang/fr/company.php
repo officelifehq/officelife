@@ -67,4 +67,7 @@ return [
     'join_code' => 'Quel est le code de l’entreprise que vous souhaitez rejoindre ?',
     'join_subtitle' => 'Il n’y a qu’une seule étape pour commencer.',
     'join_title' => 'Rejoignez votre entreprise déjà sur OfficeLife',
+    'questions_active' => 'Question active',
+    'stat_number_of_teams' => 'nombre d’équipes',
+    'stat_number_of_employees' => 'nombre d’employé·e·s',
 ];
