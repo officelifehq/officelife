@@ -13,6 +13,8 @@ class CreateAccount extends BaseService implements CreatesNewUsers
 {
     use PasswordValidationRules;
 
+    private User $user;
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -57,30 +59,26 @@ class CreateAccount extends BaseService implements CreatesNewUsers
     {
         $this->validateRules($data);
 
-        $user = $this->createUser($data);
+        $this->createUser($data);
 
         if (! config('mail.verify') || User::count() == 1) {
             // if it's the first user, we can skip the email verification
-            $user->markEmailAsVerified();
-        } else {
-            $user->sendEmailVerificationNotification();
+            $this->user->markEmailAsVerified();
         }
 
-        return $user;
+        return $this->user;
     }
 
     /**
      * Create the user.
      *
      * @param array $data
-     *
-     * @return User
      */
-    private function createUser(array $data): User
+    private function createUser(array $data): void
     {
         $uuid = Str::uuid()->toString();
 
-        $user = User::create([
+        $this->user = User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'first_name' => $this->valueOrNull($data, 'first_name'),
@@ -89,7 +87,5 @@ class CreateAccount extends BaseService implements CreatesNewUsers
             'nickname' => $this->valueOrNull($data, 'nickname'),
             'uuid' => $uuid,
         ]);
-
-        return $user;
     }
 }
