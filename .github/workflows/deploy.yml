@@ -142,11 +142,68 @@ jobs:
   ######################
   deploy:
     runs-on: ubuntu-latest
-    name: Deploy
+    name: Deploy fortrabbit
     needs: build
     if: github.event_name != 'pull_request'
 
     environment: fortrabbit
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: webfactory/ssh-agent@v0.5.2
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Download assets
+        uses: actions/download-artifact@v2
+        with:
+          name: assets
+          path: public
+
+      - name: Configure Git
+        run: |
+          git config user.email $GIT_EMAIL
+          git config user.name $GIT_USERNAME
+        env:
+          GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+
+      - name: Create release files
+        run: |
+          echo ${{ needs.build.outputs.version }} > config/.release
+          echo $GITHUB_SHA > config/.commit
+
+      - name: Commit everything
+        run: |
+          git add -A --force public config
+          git commit -m "Build $($CURRENT_DATE_TIME)"
+        env:
+          CURRENT_DATE_TIME: "date +%Y-%m-%d:%H-%M"
+
+      - name: Deploy
+        run: |
+          git remote add deploy $REPO_URL
+          git push deploy main:master --force
+        env:
+          # This avoids a failure when the client does not know the SSH Host already
+          GIT_SSH_COMMAND: "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+          REPO_URL: ${{ secrets.REPO_URL }}
+
+
+  ######################
+  # Deploy on demo
+  ######################
+  demo:
+    runs-on: ubuntu-latest
+    name: Deploy demo
+    needs: build
+    if: github.event_name != 'pull_request'
+
+    environment: demo
 
     steps:
       - name: Checkout repository
