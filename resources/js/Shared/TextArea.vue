@@ -21,7 +21,7 @@
 
 <template>
   <div class="mb3">
-    <label v-if="label" class="db fw4 lh-copy f6" :for="id">
+    <label v-if="label" class="db fw4 lh-copy f6" :for="realId">
       {{ label }}
       <span v-if="!required" class="optional-badge f7">
         {{ $t('app.optional') }}

@@ -23,11 +23,11 @@
 
       <div class="flex pa0-ns pa3">
         <div>
-          <p class="ttu f7 gray mb1 mt0 mr5">number of employees</p>
+          <p class="ttu f7 gray mb1 mt0 mr5">{{ $t('company.stat_number_of_employees') }}</p>
           <p class="mt0 mb0">{{ statistics.number_of_employees }}</p>
         </div>
         <div>
-          <p class="ttu f7 gray mb1 mt0 mr5">number of teams</p>
+          <p class="ttu f7 gray mb1 mt0 mr5">{{ $t('company.stat_number_of_teams') }}</p>
           <p class="mt0 mb0">{{ statistics.number_of_teams }}</p>
         </div>
         <div v-if="statistics.founded_at" class="">

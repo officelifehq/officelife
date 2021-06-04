@@ -91,7 +91,7 @@ nav {
               <span class="mr1">🔍</span> {{ $t('app.header_find') }}
             </a>
             <inertia-link v-if="$page.props.auth.company && $page.props.auth.employee.permission_level <= 200" :href="'/' + $page.props.auth.company.id + '/account'" data-cy="header-adminland-link" class="no-underline pa2 bb-0 special">
-              <span class="mr1">👮‍♂️</span> Adminland
+              <span class="mr1">👮‍♂️</span> {{ $t('app.header_adminland') }}
             </inertia-link>
           </div>
         </div>
