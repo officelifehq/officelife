@@ -63,4 +63,8 @@ return [
     'news_index_title' => 'Toute l’actualité de l’entreprise',
     'news_index_blank' => 'Aucune actualité d’entreprise n’a encore été écrite.',
     'news_view_all' => 'Afficher toutes les actualités de l’entreprise',
+    'join_code_help' => 'Si vous ne le connaissez pas, l’administrateur de votre entreprise peut vous le donner.',
+    'join_code' => 'Quel est le code de l’entreprise que vous souhaitez rejoindre ?',
+    'join_subtitle' => 'Il n’y a qu’une seule étape pour commencer.',
+    'join_title' => 'Rejoignez votre entreprise déjà sur OfficeLife',
 ];
