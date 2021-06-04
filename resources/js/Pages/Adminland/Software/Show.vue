@@ -105,17 +105,17 @@
             </div>
           </div>
 
-          <div v-if="software.purchased_at" class="mb4">
+          <div v-if="software.purchased_at" class="pa3">
             <p class="mb1 f6 fw5"><span class="mr1">📆</span> {{ $t('account.software_show_purchase_date') }}</p>
             <div>{{ software.purchased_at }}</div>
           </div>
 
-          <div v-if="software.website" class="mb4">
+          <div v-if="software.website" class="pa3">
             <p class="mb1 f6 fw5"><span class="mr1">🔗</span> {{ $t('account.software_show_website') }}</p>
             <div>{{ software.website }}</div>
           </div>
 
-          <div v-if="software.order_number" class="mb4">
+          <div v-if="software.order_number" class="pa3">
             <p class="mb1 f6 fw5"><span class="mr1">🐝</span> {{ $t('account.software_show_order_number') }}</p>
             <div>{{ software.order_number }}</div>
           </div>
