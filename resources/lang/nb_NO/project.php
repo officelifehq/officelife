@@ -58,7 +58,6 @@ return [
     'edit_success' => 'The project has been successfully edited.',
     'members_index_role' => 'In the project since {date}',
     'members_index_position_with_role' => 'Also, {role} in the company.',
-    'members_index_position' => '{role}',
     'members_index_add_cta' => 'Add a new member',
     'members_index_add_title' => 'Add a member to the project',
     'members_index_add_select_title' => 'Select an employee',
