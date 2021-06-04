@@ -18,9 +18,9 @@
 
       <div>
         <h2 class="fw3 mt0 mb2">
-          Hi {{ employee.name }}!
+          {{ $t('dashboard.welcome_title', { name: employee.name }) }}
         </h2>
-        <p class="ma0 lh-copy welcome">Here is a quick summary of what’s happening for you and the teams you are part of, and the actions you have to take.</p>
+        <p class="ma0 lh-copy welcome">{{ $t('dashboard.welcome_message') }}</p>
       </div>
     </div>
 
