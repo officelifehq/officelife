@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-return [
+$config = [
 
     /*
     |--------------------------------------------------------------------------
@@ -12,6 +13,9 @@ return [
     | This option controls the default cache connection that gets used while
     | using this caching library. This connection is used when another is
     | not explicitly specified when executing a given caching function.
+    |
+    | Supported: "apc", "array", "database", "file",
+    |            "memcached", "redis", "dynamodb"
     |
     */
 
@@ -26,9 +30,6 @@ return [
     | well as their drivers. You may even define multiple stores for the
     | same cache driver to group types of items stored in your caches.
     |
-    | Supported drivers: "apc", "array", "database", "file",
-    |            "memcached", "redis", "dynamodb", "null"
-    |
     */
 
     'stores' => [
@@ -39,14 +40,12 @@ return [
 
         'array' => [
             'driver' => 'array',
-            'serialize' => false,
         ],
 
         'database' => [
             'driver' => 'database',
             'table' => 'cache',
             'connection' => null,
-            'lock_connection' => null,
         ],
 
         'file' => [
@@ -62,7 +61,7 @@ return [
                 env('MEMCACHED_PASSWORD'),
             ],
             'options' => [
-                // Memcached::OPT_CONNECT_TIMEOUT => 2000,
+                // Memcached::OPT_CONNECT_TIMEOUT  => 2000,
             ],
             'servers' => [
                 [
@@ -76,7 +75,6 @@ return [
         'redis' => [
             'driver' => 'redis',
             'connection' => 'cache',
-            'lock_connection' => 'default',
         ],
 
         'dynamodb' => [
@@ -101,6 +99,59 @@ return [
     |
     */
 
-    'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache'),
+    'prefix' => env(
+        'CACHE_PREFIX',
+        Str::slug(env('APP_NAME', 'laravel'), '_').'_cache'
+    ),
 
 ];
+
+// on fortrabbit: construct credentials from App secrets
+if (env('APP_SECRETS')) {
+    $secrets = json_decode(file_get_contents(env('APP_SECRETS')), true);
+    if (array_key_exists('MEMCACHE', $secrets)) {
+        $servers = [[
+            'host' => $secrets['MEMCACHE']['HOST1'],
+            'port' => $secrets['MEMCACHE']['PORT1'],
+            'weight' => 100,
+        ]];
+        if ($secrets['MEMCACHE']['COUNT'] > 1) {
+            $servers [] = [
+                'host' => $secrets['MEMCACHE']['HOST2'],
+                'port' => $secrets['MEMCACHE']['PORT2'],
+                'weight' => 100,
+            ];
+        }
+        Arr::set($config, 'stores.memcached.servers', $servers);
+    }
+}
+
+if (extension_loaded('memcached')) {
+    $timeout_ms = 50;
+    $options = [
+        // Assure that dead servers are properly removed and ...
+        \Memcached::OPT_REMOVE_FAILED_SERVERS => true,
+
+        // ... retried after a short while (here: 2 seconds)
+        \Memcached::OPT_RETRY_TIMEOUT         => 2,
+
+        // KETAMA must be enabled so that replication can be used
+        \Memcached::OPT_LIBKETAMA_COMPATIBLE  => true,
+
+        // Replicate the data, write it to both memcached servers
+        \Memcached::OPT_NUMBER_OF_REPLICAS    => 1,
+
+        // Those values assure that a dead (due to increased latency or
+        // really unresponsive) memcached server is dropped fast
+        \Memcached::OPT_POLL_TIMEOUT          => $timeout_ms,        // milliseconds
+        \Memcached::OPT_SEND_TIMEOUT          => $timeout_ms * 1000, // microseconds
+        \Memcached::OPT_RECV_TIMEOUT          => $timeout_ms * 1000, // microseconds
+        \Memcached::OPT_CONNECT_TIMEOUT       => $timeout_ms,        // milliseconds
+
+        // Further performance tuning
+        \Memcached::OPT_NO_BLOCK              => true,
+    ];
+    Arr::set($config, 'stores.memcached.options', $options);
+}
+
+return $config;
