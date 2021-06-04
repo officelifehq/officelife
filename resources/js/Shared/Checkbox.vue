@@ -25,7 +25,7 @@ input[type=checkbox] {
   <div :class="extraClassUpperDiv">
     <div class="flex items-start">
       <input
-        :id="id"
+        :id="realId"
         v-model="proxyValue"
         :value="value"
         type="checkbox"
@@ -35,7 +35,7 @@ input[type=checkbox] {
         :data-cy="datacy"
         v-bind="$attrs"
       />
-      <label v-if="label" class="fw4 lh-copy f5 pointer di" :for="id">
+      <label v-if="label" class="fw4 lh-copy f5 pointer di" :for="realId">
         <span v-html="label"></span>
         <span v-if="!required" class="optional-badge f7">
           {{ $t('app.optional') }}
@@ -126,6 +126,9 @@ export default {
       set(value) {
         this.$emit('update:modelValue', value);
       },
+    },
+    realId() {
+      return this.id + this._.uid;
     },
     hasError() {
       return this.localErrors.length > 0 && this.required;

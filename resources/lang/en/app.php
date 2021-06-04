@@ -147,6 +147,7 @@ return [
     'header_home' => 'Summary',
     'header_find' => 'Find',
     'header_company' => 'Company',
+    'header_adminland' => 'Adminland',
     'header_settings' => 'Settings',
     'header_switch_company' => 'Switch company',
     'header_go_to_employee_profile' => 'Your profile',
