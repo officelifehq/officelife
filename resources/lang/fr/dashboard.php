@@ -214,4 +214,6 @@ return [
     'e_coffee_match_happened_title' => 'Merci d’avoir parlé à {name} cette semaine.',
     'e_coffee_match_happened_desc' => 'Rendez-vous la semaine prochaine pour un nouveau match !',
     'project_title' => 'Projets actifs dont vous faites partie',
+    'welcome_title' => 'Bonjour {name} !',
+    'welcome_message' => 'Voici un bref résumé de ce qui se passe pour vous et les équipes dont vous faites partie, et les actions que vous devez prendre.',
 ];
