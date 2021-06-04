@@ -38,4 +38,6 @@ return [
     'invitation_unlogged_choice_login_desc' => 'Utilisez cette option si vous avez déjà un compte sur OfficeLife',
     'invitation_unlogged_choice_account' => 'Créer un compte',
     'invitation_unlogged_choice_login' => 'Connectez-vous à votre compte',
+    'register_password_confirmation' => 'Confirmez votre mot de passe',
+    'mismatch' => 'Le mot de passe fourni ne correspond pas à votre mot de passe actuel.',
 ];

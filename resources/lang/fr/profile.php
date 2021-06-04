@@ -23,7 +23,7 @@ return [
     'update_password_current_password' => 'Mot de passe actuel',
     'update_password_new_password' => 'Nouveau mot de passe',
     'update_profile_title' => 'Informations sur le profil',
-    'update_profile_description' => 'Mettez à jour les informations de profil et l’adresse courriel de votre compte.',
+    'update_profile_description' => 'Mettez à jour les informations de profil et l’adresse électronique de votre compte.',
     'update_locale_title' => 'Langue',
     'update_locale_description' => 'La plupart de l’interface est traduite dans d’autres langues.',
 ];

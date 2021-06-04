@@ -162,7 +162,11 @@ return [
     'demo_mode_read_more' => 'En savoir plus',
     'demo_mode_deactivated' => 'Cette fonctionnalité est désactivées en mode démo.',
     'demo_mode_desc' => 'Il s’agit d’un compte de démo. Certaines fonctionnalités sont désactivées. Les données sont réinitialisées toutes les 5 minutes.',
-
     'locale_en' => 'Anglais',
     'locale_fr' => 'Français',
+    'header_settings' => 'Paramètres',
+    'breadcrumb_project_status_edit' => 'Édition d’un statut',
+    'flash_done' => 'Terminé.',
+    'login' => 'Se connecter',
+    'confirm' => 'Confirmer',
 ];

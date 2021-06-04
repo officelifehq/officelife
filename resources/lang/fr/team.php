@@ -5,7 +5,7 @@ return [
     'index_count' => '{count} membre|{count} membres',
     'count_team_members' => '{count} membre de l’équipe|{count} membres de l’équipe',
     'count_team_news' => '{count} nouvelle|{count} nouvelles',
-    'most_recent_team_member' => 'Cette équipe compte :count membres, le plus récent étant :link.',
+    'most_recent_team_member' => 'Cette équipe compte :count membre, le plus récent étant :link.|Cette équipe compte :count membres, le plus récent étant :link.',
     'team_list_blank' => 'Les équipes sont un excellent moyen pour les groupes de personnes de votre entreprise de travailler ensemble dans OfficeLife. Les équipes peuvent être ajoutées dans votre espace d’administration.',
     'news_write' => 'Écrire une nouvelle',
     'news_view_all' => 'Afficher toutes les nouvelles',
