@@ -26,5 +26,5 @@ return [
     'forgot_password_link' => 'Mot de passe oublié ?',
     'forgot_password_action' => 'Lien de réinitialisation du mot de passe',
     'forgot_password_message' => 'Vous avez oublié votre mot de passe ? Aucun problème. Il suffit de nous communiquer votre adresse électronique et nous vous enverrons un lien de réinitialisation du mot de passe qui vous permettra d’en choisir un nouveau.',
-    'confirm_password_message' => 'Il s’agit d\'une zone sécurisée de l’application. Veuillez confirmer votre mot de passe avant de continuer.',
+    'confirm_password_message' => 'Il s’agit d’une zone sécurisée de l’application. Veuillez confirmer votre mot de passe avant de continuer.',
 ];

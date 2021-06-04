@@ -102,7 +102,7 @@
                 {{ $t('project.members_index_position_with_role', { role: message.author.position.title }) }}
               </span>
               <span v-if="message.author.position && !message.author.role" class="db f7 gray">
-                {{ $t('project.members_index_position', { role: message.author.position.title }) }}
+                {{ message.author.position.title }}
               </span>
             </div>
           </div>
