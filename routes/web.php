@@ -12,6 +12,7 @@ Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join'
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('home', 'HomeController@index')->name('home');
+    Route::get('companies', 'HomeController@list')->name('companies');
     Route::post('search/employees', 'HeaderSearchController@employees');
     Route::post('search/teams', 'HeaderSearchController@teams');
 
