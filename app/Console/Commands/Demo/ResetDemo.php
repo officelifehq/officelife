@@ -41,7 +41,7 @@ class ResetDemo extends Command
             try {
                 Artisan::call('down');
 
-                $this->line('Downlading file...');
+                $this->line('Downloading file...');
                 $file = Http::get('https://github.com/officelifehq/demosql/raw/main/officelife.sql');
 
                 $this->line('Running transaction...');
