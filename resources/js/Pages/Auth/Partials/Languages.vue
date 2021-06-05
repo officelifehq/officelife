@@ -1,5 +1,6 @@
 <template>
   <div class="f7 mr4 mb4">
+    🌍
     <ul class="list">
       <li class="di silver">
         {{ $t('auth.change_language') }}
