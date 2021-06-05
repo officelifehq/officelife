@@ -47,6 +47,8 @@
     </form>
 
     <template #footer>
+      <languages @update:lang="form.locale = $event" />
+
       <p class="f6">
         {{ $t('auth.register_already_an_account') }}
         <inertia-link :href="route('login')">{{ $t('auth.register_sign_in') }}</inertia-link>
@@ -62,6 +64,7 @@ import Checkbox from '@/Shared/Checkbox';
 import TextInput from '@/Shared/TextInput';
 import LoadingButton from '@/Shared/LoadingButton';
 import { useForm } from '@inertiajs/inertia-vue3';
+import Languages from './Partials/Languages';
 
 export default {
   components: {
@@ -70,6 +73,7 @@ export default {
     Checkbox,
     TextInput,
     LoadingButton,
+    Languages,
   },
 
   props: {
@@ -89,6 +93,7 @@ export default {
         email: '',
         password: '',
         terms: false,
+        locale: null,
       }),
       errorTemplate: Error,
     };

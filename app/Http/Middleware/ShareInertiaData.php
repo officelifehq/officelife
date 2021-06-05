@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Helpers\LocaleHelper;
 use Inertia\Inertia;
+use App\Helpers\LocaleHelper;
 use Illuminate\Support\Facades\Session;
 
 /**
@@ -27,6 +27,7 @@ class ShareInertiaData
                 return [
                     'flash' => $request->session()->get('flash', []),
                     'languages' => LocaleHelper::getLocaleList(),
+                    'enableSignups' => config('officelife.enable_signups'),
                 ];
             },
             'user' => function () use ($request) {
