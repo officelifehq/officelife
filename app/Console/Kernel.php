@@ -40,7 +40,13 @@ class Kernel extends ConsoleKernel
         // disabled until PTOs will be finally implemented
         //$schedule->command('timeoff:calculate '.Carbon::today()->format('Y-m-d'))->daily();
 
-        $schedule->command('cloudflare:reload')->daily();
+        if (config('trustedproxy.cloudflare')) {
+            $schedule->command('cloudflare:reload')->daily();
+        }
+
+        if (config('officelife.demo_mode')) {
+            $schedule->command('demo:reset')->hourly();
+        }
     }
 
     /**

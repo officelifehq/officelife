@@ -52,6 +52,6 @@ return [
     /*
      * Enable cloudflare trusted proxies
      */
-    'cloudflare' => (bool) env('APP_TRUSTED_CLOUDFLARE', false),
+    'cloudflare' => env('APP_TRUSTED_CLOUDFLARE', false),
 
 ];
