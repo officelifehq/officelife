@@ -37,7 +37,8 @@ class Kernel extends ConsoleKernel
         $schedule->job(new StartRateYourManagerProcess())->lastDayOfMonth('01:00');
         $schedule->job(new StopRateYourManagerProcess())->hourly();
 
-        $schedule->command('timeoff:calculate '.Carbon::today()->format('Y-m-d'))->daily();
+        // disabled until PTOs will be finally implemented
+        //$schedule->command('timeoff:calculate '.Carbon::today()->format('Y-m-d'))->daily();
 
         $schedule->command('cloudflare:reload')->daily();
     }
