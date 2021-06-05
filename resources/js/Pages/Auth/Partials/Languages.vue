@@ -1,9 +1,8 @@
 <template>
   <div class="f7 mr4 mb4">
-    🌍
     <ul class="list">
       <li class="di silver">
-        {{ $t('auth.change_language') }}
+        🌍 {{ $t('auth.change_language') }}
       </li>
       <li v-for="language in $page.props.jetstream.languages" :key="language.lang" :title="language['name-orig']" class="di ml1">
         <a v-if="language.lang !== lang" :href="url+'?lang='+language.lang" :title="language['name-orig']"
