@@ -40,10 +40,10 @@ return [
     | Email address of the system administrators of the instance
     |--------------------------------------------------------------------------
     |
-    | This defines the name of the site.
+    | This defines the email address of the administrators.
     |
     */
-    'email_instance_administrator' => env('EMAIL_INSTANCE_ADMINISTRATOR', 'support@officelife.io'),
+    'email_instance_administrator' => env('EMAIL_INSTANCE_ADMINISTRATOR'),
 
     /*
     |--------------------------------------------------------------------------

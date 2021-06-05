@@ -24,7 +24,7 @@
     <div v-if="$page.props.demo_mode" class="demo-mode pa3 mb3">
       <p>{{ $t('app.demo_mode_login') }}</p>
       <p class="pl3 mt0 mb2">{{ $t('app.demo_mode_email') }}: <span class="fw6">admin@admin.com</span></p>
-      <p class="pl3 ma0">{{ $t('app.demo_mode_password') }}: <span class="fw6">admin</span></p>
+      <p class="pl3 ma0">{{ $t('app.demo_mode_password') }}: <span class="fw6">admin123</span></p>
     </div>
 
     <!-- Form Errors -->
@@ -33,7 +33,6 @@
     <form @submit.prevent="submit">
       <text-input v-model="form.email"
                   :name="'email'"
-                  :errors="form.errors.email"
                   :label="$t('auth.login_email')"
                   :required="true"
                   :type="'email'"
@@ -41,7 +40,6 @@
       />
       <text-input v-model="form.password"
                   :name="'password'"
-                  :errors="form.errors.password"
                   type="password"
                   :label="$t('auth.login_password')"
                   :required="true"
@@ -54,10 +52,12 @@
     </form>
 
     <template #footer>
-      <inertia-link v-if="canResetPassword" :href="route('password.request')" class="f6">
+      <languages />
+
+      <inertia-link v-if="canResetPassword && !$page.props.demo_mode" :href="route('password.request')" class="f6">
         {{ $t('passwords.forgot_password_link') }}
       </inertia-link>
-      <p class="f6">
+      <p v-if="$page.props.jetstream.enableSignups" class="f6">
         {{ $t('auth.login_no_account') }}
         <inertia-link :href="route('register')">{{ $t('auth.login_register') }}</inertia-link>
       </p>
@@ -72,6 +72,7 @@ import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import { useForm } from '@inertiajs/inertia-vue3';
+import Languages from './Partials/Languages';
 
 export default {
   components: {
@@ -80,6 +81,7 @@ export default {
     TextInput,
     Errors,
     LoadingButton,
+    Languages,
   },
 
   props: {
@@ -91,10 +93,6 @@ export default {
       type: String,
       default: '',
     },
-    enableSignup: {
-      type: Boolean,
-      default: false,
-    }
   },
 
   data() {
@@ -107,12 +105,6 @@ export default {
       errors: [],
       errorTemplate: Error,
     };
-  },
-
-  computed: {
-    loadingState() {
-      return this.form.processing ? 'loading' : '';
-    }
   },
 
   mounted() {

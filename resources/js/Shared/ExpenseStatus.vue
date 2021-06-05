@@ -188,7 +188,7 @@
       <h3 class="fw5 f5">
         <span class="mr2">
           🕵️‍♀️
-        </span> Accoutant
+        </span> {{ $t('dashboard.accounting_expense_detail_accoutant_section') }}
       </h3>
 
       <ul class="list ma0 pl0">

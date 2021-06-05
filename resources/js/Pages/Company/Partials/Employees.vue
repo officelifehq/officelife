@@ -25,21 +25,21 @@
     <div class="br3 bg-white box z-1 relative">
       <!-- general stats -->
       <div class="pa3 bb bb-gray">
-        <p>{{ $t('company.employees_total', { count: statistics.number_of_employees }) }}</p>
+        <p>{{ $tc('company.employees_total', statistics.number_of_employees, { count: statistics.number_of_employees }) }}</p>
 
         <div class="flex items-center relative tr employees">
           <avatar v-for="employee in employees.ten_random_employees" :key="employee.id" :avatar="employee.avatar" :size="32" :url="employee.url"
                   :class="'br-100 small-avatar pointer'"
           />
           <div v-if="employees.number_of_employees_left > 0" class="pl2 f7 more-members relative gray">
-            {{ $t('project.menu_other_member', { count: employees.number_of_employees_left }) }}
+            {{ $tc('project.menu_other_member', employees.number_of_employees_left, { count: employees.number_of_employees_left }) }}
           </div>
         </div>
       </div>
 
       <!-- general stats -->
       <div class="pa3">
-        {{ $t('company.new_hires_total', { count: employees.employees_hired_in_the_current_year }) }}
+        {{ $tc('company.new_hires_total', employees.employees_hired_in_the_current_year, { count: employees.employees_hired_in_the_current_year }) }}
       </div>
 
       <div class="ph3 pv2 tc f6 bt bb-gray">

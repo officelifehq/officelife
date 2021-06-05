@@ -47,6 +47,10 @@ nav {
   &.demo-mode {
     background-color: #fff9cb;
   }
+
+  &.beta-mode {
+    background-color: #fff9cb;
+  }
 }
 
 .ball-pulse {
@@ -87,7 +91,7 @@ nav {
               <span class="mr1">🔍</span> {{ $t('app.header_find') }}
             </a>
             <inertia-link v-if="$page.props.auth.company && $page.props.auth.employee.permission_level <= 200" :href="'/' + $page.props.auth.company.id + '/account'" data-cy="header-adminland-link" class="no-underline pa2 bb-0 special">
-              <span class="mr1">👮‍♂️</span> Adminland
+              <span class="mr1">👮‍♂️</span> {{ $t('app.header_adminland') }}
             </inertia-link>
           </div>
         </div>
@@ -212,6 +216,12 @@ nav {
     </main>
 
     <toaster />
+
+    <div class="mt5 mb3 cf mw6 center tc f7">
+      <span class="mr1">
+        🎡
+      </span> Welcome to OfficeLife beta! <a href="https://github.com/officelifehq/officelife/discussions/944">Contact us to send feedback</a>
+    </div>
   </div>
 </template>
 

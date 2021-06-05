@@ -59,7 +59,7 @@
           <!-- call to action -->
           <div v-if="! directReport.contract_information.late" class="tr">
             <span class="db">{{ $t('dashboard.manager_contract_renewal_dates_ends_on', { date: directReport.contract_information.contract_renewed_at}) }}</span>
-            <span class="f7">{{ $t('dashboard.manager_contract_renewal_dates_ends_range', { count: directReport.contract_information.number_of_days}) }}</span>
+            <span class="f7">{{ $t('dashboard.manager_contract_renewal_dates_ends_range', directReport.contract_information.number_of_days, { count: directReport.contract_information.number_of_days}) }}</span>
           </div>
           <div v-else class="tr">
             <span>{{ $t('dashboard.manager_contract_renewal_dates_ended_on', { date: directReport.contract_information.contract_renewed_at}) }}</span>

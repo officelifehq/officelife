@@ -73,7 +73,7 @@ input[type=checkbox] {
     <div class="dib">
       <div class="flex items-start">
         <input
-          :id="id"
+          :id="realId"
           v-model="proxyValue"
           :value="value"
           :data-cy="datacy + '-single-item'"
@@ -86,7 +86,7 @@ input[type=checkbox] {
         />
 
         <!-- content of the checkbox -->
-        <label v-if="label" :for="id" class="fw4 lh-copy f5 pointer di relative">
+        <label v-if="label" :for="realId" class="fw4 lh-copy f5 pointer di relative">
           <span class="mr2 hover-effect" v-html="label"></span>
 
           <small-name-and-avatar
@@ -238,6 +238,9 @@ export default {
       set(value) {
         this.$emit('update:modelValue', value);
       },
+    },
+    realId() {
+      return this.id + this._.uid;
     },
     hasError() {
       return this.errors.length > 0 && this.required;

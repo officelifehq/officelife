@@ -1,11 +1,11 @@
 <?php
 return [
-    'failed' => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'failed' => 'Неверное имя пользователя или пароль.',
+    'throttle' => 'Слишком много попыток входа. Пожалуйста, попробуйте еще раз через :seconds секунд.',
     'register_salute' => 'Hi friend!',
     'register_title' => 'You are one step away from being happier at work.',
     'register_email' => 'Your email address',
-    'register_email_help' => 'We\'ll never spam. You\'ll receive one email to confirm your email address once you sign up, and won\'t be added to any nasty email marketing campaigns, nor will you receive emails from a sales team.',
+    'register_email_help' => 'We’ll never spam. You’ll receive one email to confirm your email address once you sign up, and won’t be added to any nasty email marketing campaigns, nor will you receive emails from a sales team.',
     'register_password' => 'Enter a hard-to-guess password',
     'register_terms' => 'I agree to the beta <a href="{url}">terms of use</a>.',
     'register_cta' => 'Create your account →',
@@ -33,7 +33,7 @@ return [
     'invitation_unlogged_create_account_instead' => 'Login with an existing account instead.',
     'invitation_unlogged_login_instead' => 'Create a new account instead.',
     'invitation_unlogged_choice_account_title' => 'Create an account',
-    'invitation_unlogged_choice_account_desc' => 'Use this option if you don\'t have an account',
+    'invitation_unlogged_choice_account_desc' => 'Use this option if you don’t have an account',
     'invitation_unlogged_choice_login_title' => 'Use an existing OfficeLife account',
     'invitation_unlogged_choice_login_desc' => 'Use this option if you already have an account on OfficeLife',
     'invitation_unlogged_choice_account' => 'Create an account',

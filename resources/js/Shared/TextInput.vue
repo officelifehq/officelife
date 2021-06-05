@@ -1,7 +1,8 @@
 <style lang="scss" scoped>
 .error-explanation {
-  background-color: #fde0de;
-  border-color: rgb(226, 171, 167);
+  background-color: #fff5f5;
+  border-color: #fc8181;
+  color: #c53030;
 }
 
 .error {
@@ -45,7 +46,12 @@
            @keydown.enter="sendEnterKey"
     />
     <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
-      {{ errors }}
+      <template v-if="!arrayError">
+        {{ errors }}
+      </template>
+      <div v-for="error in errors" v-else :key="error.id">
+        {{ error }}
+      </div>
     </div>
     <p v-if="help" class="f7 mb3 lh-copy">
       {{ help }}
@@ -88,7 +94,7 @@ export default {
       default: 'input',
     },
     errors: {
-      type: String,
+      type: [String, Array],
       default: '',
     },
     datacy: {
@@ -137,12 +143,6 @@ export default {
     'esc-key-pressed', 'update:modelValue'
   ],
 
-  data() {
-    return {
-      localErrors: '',
-    };
-  },
-
   computed: {
     proxyValue: {
       get() {
@@ -158,18 +158,12 @@ export default {
     },
 
     hasError() {
-      return this.localErrors.length > 0 && this.required;
-    }
-  },
-
-  watch: {
-    errors(value) {
-      this.localErrors = value;
+      return this.errors.length > 0 && this.required;
     },
-  },
 
-  mounted() {
-    this.localErrors = this.errors;
+    arrayError() {
+      return _.isArray(this.errors);
+    },
   },
 
   methods: {

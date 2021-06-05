@@ -12,14 +12,14 @@ return [
     | Format parameters are described here http://www.php.net/manual/en/function.date.php
     |
     */
-    'short_date_year_time' => 'd M Y H:i',
-    'short_date' => 'd M',
+    'short_date_year_time' => 'DD MMM YYYY hh:mm',
+    'short_date' => 'DD MMM',
     'short_month_day' => 'MMM Y',
     'long_month_day' => 'D MMMM',
     'day_month_parenthesis' => 'dddd (D MMM)',
-    'date' => 'd M Y',
-    'full_month' => 'F',
-    'full_date' => 'dddd D MMM Y',
+    'date' => 'DD MMM YYYY',
+    'full_month' => 'MMMM',
+    'full_date' => 'dddd D MMM YYYY',
     'day' => 'dddd',
-    'day_short_month' => 'j M',
+    'day_short_month' => 'D MMM',
 ];

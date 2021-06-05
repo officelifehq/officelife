@@ -27,6 +27,7 @@ class ShareInertiaData
                 return [
                     'flash' => $request->session()->get('flash', []),
                     'languages' => LocaleHelper::getLocaleList(),
+                    'enableSignups' => config('officelife.enable_signups'),
                 ];
             },
             'user' => function () use ($request) {

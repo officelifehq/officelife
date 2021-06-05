@@ -68,7 +68,7 @@ return [
     'employee_new_hr' => 'Human Resource Representative',
     'employee_new_user' => 'Employee',
     'employee_new_administrator_desc' => 'Can do everything, including account management. Caution: the employee will have access to everything, including all private data of other employees.',
-    'employee_new_hr_desc' => 'Have access to most features, including reading and writing private information, but can\'t manage the account itself.',
+    'employee_new_hr_desc' => 'Have access to most features, including reading and writing private information, but can’t manage the account itself.',
     'employee_new_user_desc' => 'Can see all teams and employees, but can not manage the account or read private information.',
     'employee_new_send_email' => 'Send an email to this person with a link to setup the account.',
     'employee_new_send_email_optional' => 'This is optional - you will be able to invite this person later.',

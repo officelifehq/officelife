@@ -21,7 +21,7 @@
     <div class="br3 bg-white box z-1">
       <!-- active question, if defined -->
       <div v-if="questions.active_question" class="pa3 bb bb-gray">
-        <p class="f7 gray ma0">Active question</p>
+        <p class="f7 gray ma0">{{ $t('company.questions_active') }}</p>
         <inertia-link :href="questions.active_question.url" class="dib ma0 mt2 fw6">{{ questions.active_question.title }}</inertia-link>
       </div>
 
