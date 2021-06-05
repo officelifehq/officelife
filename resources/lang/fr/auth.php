@@ -40,4 +40,5 @@ return [
     'invitation_unlogged_choice_login' => 'Connectez-vous à votre compte',
     'register_password_confirmation' => 'Confirmez votre mot de passe',
     'mismatch' => 'Le mot de passe fourni ne correspond pas à votre mot de passe actuel.',
+    'change_language' => 'Modifier la langue :',
 ];
