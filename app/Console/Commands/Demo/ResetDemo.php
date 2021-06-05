@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Demo;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -32,6 +32,11 @@ class ResetDemo extends Command
      */
     public function handle(): void
     {
+        if (! config('officelife.demo_mode')) {
+            $this->line('This command is only available in demo mode.');
+            return;
+        }
+
         if ($this->confirmToProceed()) {
             try {
                 Artisan::call('down');
@@ -43,7 +48,7 @@ class ResetDemo extends Command
                 DB::unprepared($file->body());
 
                 $this->line('Running migration...');
-                Artisan::call('migrate', ['--force' => true]);
+                Artisan::call('migrate', ['--force' => true, '--verbose' => true]);
             } finally {
                 Artisan::call('up');
             }
