@@ -45,7 +45,7 @@ class Kernel extends ConsoleKernel
         }
 
         if (config('officelife.demo_mode')) {
-            $schedule->command('demo:reset')->hourly();
+            $schedule->command('demo:reset', ['--force' => true])->hourly();
         }
     }
 
@@ -58,6 +58,10 @@ class Kernel extends ConsoleKernel
 
         if ($this->app->environment() != 'production') {
             $this->load(__DIR__.'/Commands/Tests');
+        }
+
+        if (config('officelife.demo_mode')) {
+            $this->load(__DIR__.'/Commands/Demo');
         }
 
         require base_path('routes/console.php');
