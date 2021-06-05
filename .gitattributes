@@ -16,3 +16,4 @@ sonar-project.properties export-ignore
 /.github export-ignore
 /scripts export-ignore
 /tests export-ignore
+*.sql filter=lfs diff=lfs merge=lfs -text
