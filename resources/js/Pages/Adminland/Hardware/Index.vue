@@ -56,7 +56,7 @@
           <h2 class="tc normal mb4 relative">
             {{ $t('account.hardware_title') }}
 
-            <help :url="$page.props.help_links.account_hardware_create" :datacy="'help-icon-hardware'" :top="'1px'" />
+            <help :url="$page.props.help_links.hardware" :datacy="'help-icon-hardware'" :top="'1px'" />
           </h2>
 
           <p class="relative adminland-headline">
