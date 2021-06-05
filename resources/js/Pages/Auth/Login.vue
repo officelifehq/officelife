@@ -54,10 +54,12 @@
     </form>
 
     <template #footer>
+      <languages />
+
       <inertia-link v-if="canResetPassword" :href="route('password.request')" class="f6">
         {{ $t('passwords.forgot_password_link') }}
       </inertia-link>
-      <p class="f6">
+      <p v-if="$page.props.jetstream.enableSignups" class="f6">
         {{ $t('auth.login_no_account') }}
         <inertia-link :href="route('register')">{{ $t('auth.login_register') }}</inertia-link>
       </p>
@@ -72,6 +74,7 @@ import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import { useForm } from '@inertiajs/inertia-vue3';
+import Languages from './Partials/Languages';
 
 export default {
   components: {
@@ -80,6 +83,7 @@ export default {
     TextInput,
     Errors,
     LoadingButton,
+    Languages,
   },
 
   props: {
@@ -91,10 +95,6 @@ export default {
       type: String,
       default: '',
     },
-    enableSignup: {
-      type: Boolean,
-      default: false,
-    }
   },
 
   data() {
@@ -107,12 +107,6 @@ export default {
       errors: [],
       errorTemplate: Error,
     };
-  },
-
-  computed: {
-    loadingState() {
-      return this.form.processing ? 'loading' : '';
-    }
   },
 
   mounted() {
