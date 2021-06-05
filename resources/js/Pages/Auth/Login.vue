@@ -33,7 +33,6 @@
     <form @submit.prevent="submit">
       <text-input v-model="form.email"
                   :name="'email'"
-                  :errors="form.errors.email"
                   :label="$t('auth.login_email')"
                   :required="true"
                   :type="'email'"
@@ -41,7 +40,6 @@
       />
       <text-input v-model="form.password"
                   :name="'password'"
-                  :errors="form.errors.password"
                   type="password"
                   :label="$t('auth.login_password')"
                   :required="true"
