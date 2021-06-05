@@ -54,7 +54,7 @@
     <template #footer>
       <languages />
 
-      <inertia-link v-if="canResetPassword" :href="route('password.request')" class="f6">
+      <inertia-link v-if="canResetPassword && !$page.props.demo_mode" :href="route('password.request')" class="f6">
         {{ $t('passwords.forgot_password_link') }}
       </inertia-link>
       <p v-if="$page.props.jetstream.enableSignups" class="f6">
