@@ -132,7 +132,7 @@ class TeamShowViewHelper
     public static function searchPotentialLead(Company $company, string $criteria): Collection
     {
         $potentialEmployees = $company->employees()
-            ->select('id', 'first_name', 'last_name')
+            ->select('id', 'first_name', 'last_name', 'email')
             ->notLocked()
             ->where(function ($query) use ($criteria) {
                 $query->where('first_name', 'LIKE', '%'.$criteria.'%')
