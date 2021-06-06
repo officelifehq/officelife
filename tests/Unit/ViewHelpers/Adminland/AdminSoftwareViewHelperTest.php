@@ -71,7 +71,7 @@ class AdminSoftwareViewHelperTest extends TestCase
                 'licensed_to_name' => $office365->licensed_to_name,
                 'licensed_to_email_address' => $office365->licensed_to_email_address,
                 'order_number' => $office365->order_number,
-                'purchase_amount' => $office365->purchase_amount,
+                'purchase_amount' => $office365->purchase_amount / 100,
                 'currency' => $office365->currency,
                 'converted_purchase_amount' => $office365->converted_purchase_amount,
                 'converted_to_currency' => $office365->converted_to_currency,
