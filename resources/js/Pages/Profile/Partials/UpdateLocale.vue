@@ -72,15 +72,14 @@ export default {
 
   methods: {
     updateLocale() {
-      Promise.all([
-        this.loadLanguage(this.form.locale, true),
+      this.loadLanguage(this.form.locale, true).then(() => {
         this.form.post('/locale', {
           preserveScroll: true,
           onSuccess: () => {
             this.flash(this.$t('app.saved'), 'success');
           },
-        })
-      ]);
+        });
+      });
     },
   },
 };
