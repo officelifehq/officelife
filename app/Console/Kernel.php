@@ -46,7 +46,7 @@ class Kernel extends ConsoleKernel
 
         if (config('officelife.demo_mode')) {
             $schedule->command('demo:reset', ['--force'])
-                ->everyFiveMinutes()
+                ->hourly()
                 ->emailOutputOnFailure(config('officelife.email_instance_administrator'));
         }
     }
