@@ -89,7 +89,7 @@ class GetGPSCoordinate extends BaseService
 
             return $place;
         } catch (HttpClientException $e) {
-            Log::error('Error making the call: '.$e);
+            Log::error('Error calling location_iq: '.$e);
         }
 
         return null;

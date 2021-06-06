@@ -59,7 +59,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
             throw new WrongCurrencyLayerApiKeyException();
         }
 
-        if (config('officelife.currency_layer_plan') == 'free') {
+        if (config('officelife.currency_layer_plan') === 'free') {
             $uri = config('officelife.currency_layer_url_free_plan');
         } else {
             $uri = config('officelife.currency_layer_url_paid_plan');
@@ -79,7 +79,6 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
     {
         if (Cache::has($this->cachedKey())) {
             $this->rate = Cache::get($this->cachedKey());
-
             return;
         }
 
@@ -89,18 +88,19 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
             $currencies = $this->companyCurrency.$this->amountCurrency;
             $this->rate = $response->json("quotes.{$currencies}");
         } catch (HttpClientException $e) {
-            Log::error('Error making the call: '.$e);
-            throw new \Exception('Can’t access Currency Layer api');
+            Log::error('Error calling currencylayer: '.$e);
         } catch (ErrorException $e) {
-            throw new \Exception('Can’t get the proper exchange rate');
+            Log::error('Error getting exchange rate: '.$e);
         }
 
-        Cache::put($this->cachedKey(), $this->rate, now()->addMinutes(60));
+        Cache::put($this->cachedKey(), $this->rate, Carbon::now()->addMinutes(60));
     }
 
     private function convert(): void
     {
-        $this->convertedAmount = $this->amount / $this->rate;
+        if ($this->rate !== 0.0) {
+            $this->convertedAmount = $this->amount / $this->rate;
+        }
     }
 
     /**
