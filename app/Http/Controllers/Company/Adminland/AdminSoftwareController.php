@@ -356,7 +356,7 @@ class AdminSoftwareController extends Controller
                 'company' => $company,
                 'software' => $software,
             ]),
-        ], 201);
+        ], 200);
     }
 
     /**
