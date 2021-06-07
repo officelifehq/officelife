@@ -91,7 +91,7 @@ input[type=radio] {
                 &nbsp;
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
-                <p class="pointer" @click.prevent="showPurchaseInformation = true"><span class="ba br-100 plus-button">+</span> Add purchase information</p>
+                <p class="pointer" @click.prevent="showPurchaseInformation = true"><span class="ba br-100 plus-button">+</span> {{ $t('account.software_new_purchase_information_cta') }}</p>
               </div>
             </div>
             <!-- section to add purchase information -->
