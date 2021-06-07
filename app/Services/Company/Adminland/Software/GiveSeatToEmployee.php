@@ -7,7 +7,6 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Software;
-use App\Exceptions\NotEnoughSoftwareSeat;
 
 class GiveSeatToEmployee extends BaseService
 {
@@ -42,7 +41,6 @@ class GiveSeatToEmployee extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->makeSureSoftwareCanBeCheckedOut();
         $this->checkOut();
         $this->log();
 
@@ -62,13 +60,6 @@ class GiveSeatToEmployee extends BaseService
 
         $this->software = Software::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['software_id']);
-    }
-
-    private function makeSureSoftwareCanBeCheckedOut(): void
-    {
-        if ($this->software->employees()->count() + 1 > $this->software->seats) {
-            throw new NotEnoughSoftwareSeat();
-        }
     }
 
     private function checkOut(): void

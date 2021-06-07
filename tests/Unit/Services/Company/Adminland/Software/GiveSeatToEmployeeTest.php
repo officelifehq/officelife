@@ -7,7 +7,6 @@ use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Software;
 use Illuminate\Support\Facades\Queue;
-use App\Exceptions\NotEnoughSoftwareSeat;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -49,21 +48,6 @@ class GiveSeatToEmployeeTest extends TestCase
         $software = Software::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $software, $dwight);
-    }
-
-    /** @test */
-    public function it_fails_if_seat_number_is_too_low(): void
-    {
-        $this->expectException(NotEnoughSoftwareSeat::class);
-
-        $michael = $this->createAdministrator();
-        $dwight = $this->createAnotherEmployee($michael);
-        $software = Software::factory()->create([
-            'company_id' => $michael->company_id,
-            'seats' => 0,
-        ]);
-        $software->employees()->syncWithoutDetaching([$dwight->id]);
         $this->executeService($michael, $software, $dwight);
     }
 
