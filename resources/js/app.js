@@ -4,7 +4,7 @@ require('./bootstrap');
 import { createApp, h } from 'vue';
 import { App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
-import Sentry from './sentry';
+//import Sentry from './sentry';
 
 const langs = require('./langs').default;
 
@@ -23,12 +23,12 @@ langs.loadLanguage(document.querySelector('html').getAttribute('lang'), true)
       }),
     mounted() {
       this.$nextTick(() => {
-        Sentry.setContext(this, locale);
+        //Sentry.setContext(this, locale);
       });
     }
   });
 
-  Sentry.init(app, process.env.MIX_SENTRY_RELEASE);
+  //Sentry.init(app, process.env.MIX_SENTRY_RELEASE);
 
   app.mixin({ methods: _.assign({
     route,
