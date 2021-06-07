@@ -95,26 +95,26 @@ input[type=radio] {
                             v-model="form.website"
                             :name="'website'"
                             :errors="$page.props.errors.website"
-                            :type="'email'"
+                            :type="'text'"
                             autocomplete="off"
                             :label="$t('account.software_new_website')"
                             :required="false"
                 />
 
                 <!-- Licensed to -->
-                <text-input :id="'licensed_to'"
-                            v-model="form.licensed_to"
-                            :name="'licensed_to'"
-                            :errors="$page.props.errors.licensed_to"
+                <text-input :id="'licensed_to_name'"
+                            v-model="form.licensed_to_name"
+                            :name="'licensed_to_name'"
+                            :errors="$page.props.errors.licensed_to_name"
                             :label="$t('account.software_new_licensed_to')"
                             :required="false"
                 />
 
                 <!-- Licensed to email -->
-                <text-input :id="'licensed_to_email'"
-                            v-model="form.licensed_to_email"
-                            :name="'licensed_to_email'"
-                            :errors="$page.props.errors.licensed_to_email"
+                <text-input :id="'licensed_to_email_address'"
+                            v-model="form.licensed_to_email_address"
+                            :name="'licensed_to_email_address'"
+                            :errors="$page.props.errors.licensed_to_email_address"
                             :type="'email'"
                             autocomplete="off"
                             :label="$t('account.software_new_licensed_to_email')"
@@ -277,8 +277,8 @@ export default {
         name: null,
         product_key: null,
         sets: null,
-        licensed_to: null,
-        licensed_to_email: null,
+        licensed_to_name: null,
+        licensed_to_email_address: null,
         purchase_amount: null,
         currency: null,
         website: null,
@@ -295,8 +295,8 @@ export default {
     this.form.name = this.software.name;
     this.form.product_key = this.software.product_key;
     this.form.seats = this.software.seats;
-    this.form.licensed_to = this.software.licensed_to;
-    this.form.licensed_to_email = this.software.licensed_to_email;
+    this.form.licensed_to_name = this.software.licensed_to_name;
+    this.form.licensed_to_email_address = this.software.licensed_to_email_address;
     this.form.purchase_amount = this.software.purchase_amount;
     this.form.currency = this.software.currency;
     this.form.website = this.software.website;
