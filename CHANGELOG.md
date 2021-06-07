@@ -1,3 +1,19 @@
+# [0.2.0](https://github.com/officelifehq/officelife/compare/v0.1.0...v0.2.0) (2021-06-07)
+
+
+### Bug Fixes
+
+* fix admin log view agenda_item_created ([#982](https://github.com/officelifehq/officelife/issues/982)) ([ccebe41](https://github.com/officelifehq/officelife/commit/ccebe4167ad26796659c8039461b503d0921cdd6))
+* fix edit employee twitter help message ([#990](https://github.com/officelifehq/officelife/issues/990)) ([e864fa3](https://github.com/officelifehq/officelife/commit/e864fa383f18eec2024f7cc2de38301669537721))
+* fix email not being searchable in various contexts ([#981](https://github.com/officelifehq/officelife/issues/981)) ([aea85f2](https://github.com/officelifehq/officelife/commit/aea85f27812344bdd92c841f1d10c265418acd3f))
+* fix team lead assignment leading to error ([#980](https://github.com/officelifehq/officelife/issues/980)) ([37622c8](https://github.com/officelifehq/officelife/commit/37622c880b208b81d72efbfdd0f1cb21c02f0363))
+* remove sentry ([#988](https://github.com/officelifehq/officelife/issues/988)) ([2a6b0f2](https://github.com/officelifehq/officelife/commit/2a6b0f278c2a64fb5513ae37f1aa9ad18eab0434))
+
+
+### Features
+
+* put sentry back ([#989](https://github.com/officelifehq/officelife/issues/989)) ([fc517cf](https://github.com/officelifehq/officelife/commit/fc517cfba4c435e3d45b562a45bba86cb50bdb47))
+
 # [0.1.0](https://github.com/officelifehq/officelife/compare/v0.0.1...v0.1.0) (2021-06-06)
 
 
