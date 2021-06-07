@@ -5,18 +5,12 @@ namespace App\Services\Company\Place;
 use Illuminate\Support\Str;
 use App\Models\Company\Place;
 use App\Services\BaseService;
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\HttpClientException;
 
 class GetGPSCoordinate extends BaseService
 {
-    /**
-     * The Guzzle instance.
-     *
-     * @var GuzzleClient
-     */
-    protected $client;
-
     /**
      * Get the validation rules that apply to the service.
      *
@@ -36,19 +30,12 @@ class GetGPSCoordinate extends BaseService
      * You should use the FetchAddressGeocoding job for this.
      *
      * @param array        $data
-     * @param GuzzleClient $client the Guzzle client, only needed when unit testing
      *
      * @return Place|null
      */
-    public function execute(array $data, GuzzleClient $client = null)
+    public function execute(array $data)
     {
         $this->validateRules($data);
-
-        if (! is_null($client)) {
-            $this->client = $client;
-        } else {
-            $this->client = new GuzzleClient();
-        }
 
         $place = Place::findOrFail($data['place_id']);
 
@@ -93,17 +80,18 @@ class GetGPSCoordinate extends BaseService
         }
 
         try {
-            $response = $this->client->request('GET', $query);
-        } catch (ClientException $e) {
-            return null;
+            $response = Http::get($query);
+            $response->throw();
+
+            $place->latitude = $response->json('0.lat');
+            $place->longitude = $response->json('0.lon');
+            $place->save();
+
+            return $place;
+        } catch (HttpClientException $e) {
+            Log::error('Error calling location_iq: '.$e);
         }
 
-        $response = json_decode($response->getBody());
-
-        $place->latitude = $response[0]->lat;
-        $place->longitude = $response[0]->lon;
-        $place->save();
-
-        return $place;
+        return null;
     }
 }
