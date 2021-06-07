@@ -40,7 +40,7 @@ class ConvertExpense implements ShouldQueue
             amount: $this->expense->amount,
             amountCurrency: $this->expense->currency,
             companyCurrency: $this->expense->company->currency,
-            amountDate: $this->expense->expensed_at
+            amountDate: $this->expense->expensed_at,
         );
 
         if (is_null($array)) {
