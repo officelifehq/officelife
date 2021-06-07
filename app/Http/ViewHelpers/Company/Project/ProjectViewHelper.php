@@ -220,7 +220,7 @@ class ProjectViewHelper
     public static function searchProjectLead(Company $company, string $criteria): Collection
     {
         $employees = $company->employees()
-            ->select('id', 'first_name', 'last_name', 'avatar_file_id')
+            ->select('id', 'first_name', 'last_name', 'avatar_file_id', 'email')
             ->notLocked()
             ->where(function ($query) use ($criteria) {
                 $query->where('first_name', 'LIKE', '%'.$criteria.'%')

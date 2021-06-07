@@ -187,6 +187,7 @@ export default {
   methods: {
     displaySearch() {
       this.editMode = true;
+      this.form.errors = [];
 
       this.$nextTick(() => {
         this.$refs.search.focus();
@@ -195,6 +196,7 @@ export default {
 
     hideRemovalMode() {
       this.removeMode = false;
+      this.form.errors = [];
     },
 
     search: _.debounce(
@@ -209,6 +211,7 @@ export default {
               this.potentialTeamLeads = response.data.data;
               this.processingSearch = false;
               this.hasMadeASearch = true;
+              this.form.errors = [];
             })
             .catch(error => {
               this.form.errors = error.response.data;

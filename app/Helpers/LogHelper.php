@@ -1153,11 +1153,7 @@ class LogHelper
 
             case 'agenda_item_created':
                 $sentence = trans('account.log_agenda_item_created', [
-                    'group_id' => $log->object->{'group_id'},
                     'group_name' => $log->object->{'group_name'},
-                    'employee_id' => $log->object->{'employee_id'},
-                    'employee_name' => $log->object->{'employee_name'},
-                    'meeting_id' => $log->object->{'meeting_id'},
                 ]);
                 break;
 
