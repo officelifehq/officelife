@@ -100,7 +100,7 @@
             <p class="mb1 f6 fw5"><span class="mr1">💰</span> {{ $t('account.software_show_price') }}</p>
             <div class="">
               {{ software.currency }} {{ software.purchase_amount }} <span v-if="software.exchange_rate">
-                ({{ software.converted_to_currency }} {{ software.converted_purchase_amount }} - {{ $t('account.software_show_exchange_rate') }} {{ software.exchange_rate }})
+                ({{ software.converted_to_currency }} {{ software.converted_purchase_amount }} — {{ $t('account.software_show_exchange_rate') }} {{ software.exchange_rate }})
               </span>
             </div>
           </div>
