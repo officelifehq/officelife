@@ -3,11 +3,8 @@
 namespace Tests\Unit\Services\Company\Place;
 
 use Tests\TestCase;
-use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
 use App\Models\Company\Place;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Handler\MockHandler;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Place\GetGPSCoordinate;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -38,9 +35,9 @@ class GetGPSCoordinateTest extends TestCase
         config(['officelife.location_iq_api_key' => 'test']);
 
         $body = file_get_contents(base_path('tests/Fixtures/Services/Company/Place/GetGPSCoordinateSampleResponse.json'));
-        $mock = new MockHandler([new Response(200, [], $body)]);
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
+        Http::fake([
+            'us1.locationiq.com/v1/*' => Http::response($body, 200),
+        ]);
 
         $place = Place::factory()->create();
 
@@ -48,7 +45,7 @@ class GetGPSCoordinateTest extends TestCase
             'place_id' => $place->id,
         ];
 
-        $place = (new GetGPSCoordinate)->execute($request, $client);
+        $place = (new GetGPSCoordinate)->execute($request);
 
         $this->assertDatabaseHas('places', [
             'id' => $place->id,
@@ -88,9 +85,9 @@ class GetGPSCoordinateTest extends TestCase
         config(['officelife.location_iq_api_key' => 'test']);
 
         $body = file_get_contents(base_path('tests/Fixtures/Services/Company/Place/GetGPSCoordinateGarbageResponse.json'));
-        $mock = new MockHandler([new Response(404, [], $body)]);
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
+        Http::fake([
+            'us1.locationiq.com/v1/*' => Http::response($body, 404),
+        ]);
 
         $place = Place::factory()->create([
             'street' => '',
@@ -102,7 +99,7 @@ class GetGPSCoordinateTest extends TestCase
             'place_id' => $place->id,
         ];
 
-        $place = (new GetGPSCoordinate)->execute($request, $client);
+        $place = (new GetGPSCoordinate)->execute($request);
 
         $this->assertNull($place);
     }

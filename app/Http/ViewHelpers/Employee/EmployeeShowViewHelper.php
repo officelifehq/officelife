@@ -915,16 +915,11 @@ class EmployeeShowViewHelper
             return null;
         }
 
-        $softwares = $employee->softwares;
-
-        $softwareCollection = collect([]);
-        foreach ($softwares as $item) {
-            $softwareCollection->push([
+        return $employee->softwares->map(function ($item) {
+            return [
                 'id' => $item->id,
                 'name' => $item->name,
-            ]);
-        }
-
-        return $softwareCollection;
+            ];
+        });
     }
 }

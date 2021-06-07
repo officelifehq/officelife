@@ -153,14 +153,11 @@ class AdminSoftwareViewHelper
             ->take(10)
             ->get();
 
-        $employeesCollection = collect([]);
-        foreach ($potentialEmployees as $employee) {
-            $employeesCollection->push([
+        return $potentialEmployees->map(function ($employee) {
+            return [
                 'id' => $employee->id,
                 'name' => $employee->name,
-            ]);
-        }
-
-        return $employeesCollection;
+            ];
+        });
     }
 }
