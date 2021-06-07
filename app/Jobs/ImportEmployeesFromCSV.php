@@ -2,10 +2,10 @@
 
 namespace App\Jobs;
 
+use Throwable;
 use App\Models\Company\File;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Carbon;
-use App\Models\Company\Employee;
 use App\Models\Company\ImportJob;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Queue\SerializesModels;
@@ -36,6 +36,13 @@ class ImportEmployeesFromCSV implements ShouldQueue
     public File $file;
 
     /**
+     * Delete the job if its models no longer exist.
+     *
+     * @var bool
+     */
+    public $deleteWhenMissingModels = true;
+
+    /**
      * Create a new job instance.
      *
      * @param array $data
@@ -51,28 +58,37 @@ class ImportEmployeesFromCSV implements ShouldQueue
      */
     public function handle(): void
     {
-        try {
-            $this->importJob->import_started_at = Carbon::now();
-            $this->importJob->save();
+        $this->importJob->update([
+            'import_started_at' => Carbon::now(),
+        ]);
 
-            $this->readFile();
+        $this->readFile();
 
-            $this->importJob->status = ImportJob::UPLOADED;
-        } catch (\ErrorException $e) {
-            $this->importJob->status = ImportJob::FAILED;
-        }
+        $this->importJob->update([
+            'status' => ImportJob::UPLOADED,
+            'import_ended_at' => Carbon::now(),
+        ]);
+    }
 
-        $this->importJob->import_ended_at = Carbon::now();
-        $this->importJob->save();
+    /**
+     * Handle a job failure.
+     *
+     * @param  \Throwable  $exception
+     */
+    public function failed(Throwable $exception)
+    {
+        $this->importJob->update([
+            'status' => ImportJob::FAILED,
+        ]);
     }
 
     private function readFile(): void
     {
         try {
             $response = Http::get($this->file->cdn_url.urlencode($this->file->name));
-            Storage::disk('local')->put($this->file->name, $response->body());
+            Storage::disk('local')->put("imports/{$this->file->name}", $response->body());
 
-            SimpleExcelReader::create(Storage::disk('local')->path($this->file->name))
+            SimpleExcelReader::create(Storage::disk('local')->path("imports/{$this->file->name}"))
                 ->trimHeaderRow()
                 ->headersToSnakeCase()
                 ->getRows()
@@ -80,8 +96,8 @@ class ImportEmployeesFromCSV implements ShouldQueue
                     $this->handleRow($rowProperties);
                 });
         } finally {
-            if (Storage::disk('local')->exists($this->file->name)) {
-                Storage::disk('local')->delete($this->file->name);
+            if (Storage::disk('local')->exists("imports/{$this->file->name}")) {
+                Storage::disk('local')->delete("imports/{$this->file->name}");
             }
         }
     }
@@ -94,17 +110,17 @@ class ImportEmployeesFromCSV implements ShouldQueue
             $skipReason = ImportJob::INVALID_EMAIL;
         }
 
-        if ($this->isEmailAlreadyTaken($rowProperties) && $skipReason == '') {
+        if ($this->isEmailAlreadyTaken($rowProperties) && $skipReason === '') {
             $skipReason = ImportJob::EMAIL_ALREADY_TAKEN;
         }
 
         ImportJobReport::create([
-            'import_job_id' => $this->job->id,
+            'import_job_id' => $this->importJob->id,
             'employee_first_name' => $rowProperties['first_name'],
             'employee_last_name' => $rowProperties['last_name'],
             'employee_email' => $rowProperties['email'],
-            'skipped_during_upload' => $skipReason == '' ? false : true,
-            'skipped_during_upload_reason' => $skipReason == '' ? null : $skipReason,
+            'skipped_during_upload' => $skipReason !== '',
+            'skipped_during_upload_reason' => $skipReason === '' ? null : $skipReason,
         ]);
     }
 
@@ -122,20 +138,20 @@ class ImportEmployeesFromCSV implements ShouldQueue
     private function isEmailAlreadyTaken(array $row): bool
     {
         // check if the email is already taken in the list that is being imported
-        $importJob = ImportJobReport::where('import_job_id', $this->job->id)
+        $importJobReportCount = $this->importJob->reports
             ->where('employee_email', $row['email'])
-            ->first();
+            ->count();
 
-        if ($importJob) {
+        if ($importJobReportCount > 0) {
             return true;
         }
 
         // check if the email is already taken from the list of existing employees
-        $employee = Employee::where('company_id', $this->job->company_id)
+        $employeeCount = $this->importJob->company->employees
             ->where('email', $row['email'])
-            ->first();
+            ->count();
 
-        if ($employee) {
+        if ($employeeCount > 0) {
             return true;
         }
 
