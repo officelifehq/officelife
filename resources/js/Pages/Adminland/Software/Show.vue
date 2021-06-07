@@ -343,7 +343,7 @@ export default {
       this.searchMode = true;
 
       this.$nextTick(() => {
-        this.$refs['search'].focus();
+        this.$refs.search.focus();
       });
     },
 
