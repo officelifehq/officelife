@@ -46,7 +46,7 @@
           </h2>
 
           <p class="relative adminland-headline">
-            <span class="dib mb3 di-l" :class="localSoftwares.length == 0 ? 'white' : ''">
+            <span class="dib mb3 di-l" :class="{ white: localSoftwares.length === 0 }">
               {{ $tc('account.software_index_count', localSoftwares.length, { company: $page.props.auth.company.name, count: localSoftwares.length}) }}
             </span>
             <inertia-link :href="softwares.url_new" class="btn absolute-l relative dib-l db right-0">
