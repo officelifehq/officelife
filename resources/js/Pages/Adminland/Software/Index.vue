@@ -42,7 +42,7 @@
           <h2 class="tc normal mb4">
             {{ $t('account.software_index_title') }}
 
-            <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
+            <help :url="$page.props.help_links.softwares" :top="'1px'" />
           </h2>
 
           <p class="relative adminland-headline">

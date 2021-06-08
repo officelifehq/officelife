@@ -224,6 +224,7 @@ return [
         'team_morale' => 'manage/team-management.html#team-morale',
         'manager_rate_manager' => 'grow/rate-your-manager.html',
         'hardware' => 'operate/hardware.html',
+        'softwares' => 'operate/software.html',
         'team_recent_ship' => 'introduction.html',
         'team_recent_ship_create' => 'introduction.html',
         'account_general_company_name' => 'manage/company-management',

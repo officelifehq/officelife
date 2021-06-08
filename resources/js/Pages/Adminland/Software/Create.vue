@@ -39,6 +39,8 @@ input[type=radio] {
         <div class="">
           <h2 class="pa3 mt5 center tc normal mb2">
             {{ $t('account.software_new_title', { name: $page.props.auth.company.name}) }}
+
+            <help :url="$page.props.help_links.softwares" :top="'1px'" />
           </h2>
 
           <form @submit.prevent="submit">
@@ -264,6 +266,7 @@ import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
 import SelectBox from '@/Shared/Select';
 import TextArea from '@/Shared/TextArea';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
@@ -273,6 +276,7 @@ export default {
     LoadingButton,
     SelectBox,
     TextArea,
+    Help,
   },
 
   props: {
