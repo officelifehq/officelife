@@ -38,6 +38,11 @@ return [
     'import_review' => 'Import and review',
     'login' => 'Log in',
     'flash_done' => 'Done.',
+
+    'year' => 'Year',
+    'month' => 'Month',
+    'day' => 'Day',
+
     'error_title' => '👇 Oops. An error occured.',
     'error_not_same_company' => 'This item does not belong to this company.',
     'error_wrong_employee_id' => 'We can’t find the requested employee.',
@@ -91,6 +96,10 @@ return [
     'breadcrumb_account_employee_lock' => 'Lock an employee',
     'breadcrumb_account_employee_unlock' => 'Unlock an employee',
     'breadcrumb_account_employee_invite' => 'Invite an employee',
+    'breadcrumb_account_manage_softwares' => 'Software management',
+    'breadcrumb_account_add_software' => 'Add software',
+    'breadcrumb_account_show_software' => 'View software details',
+    'breadcrumb_account_edit_software' => 'Edit software',
     'breadcrumb_account_add_hardware' => 'Add item',
     'breadcrumb_account_show_hardware' => 'Show item',
     'breadcrumb_account_manage_e_coffee' => 'eCoffee management',

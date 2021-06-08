@@ -146,6 +146,8 @@ return [
     'edit_contract_rate_add_desc' => '{currency} per hour',
     'hardware_title' => 'Hardware',
     'hardware_no_info' => 'No items have been lent yet.',
+    'software_title' => 'Softwares',
+    'software_no_info' => 'No softwares have been assigned yet.',
     'recent_ship_title' => 'Accomplishments',
     'recent_ship_list_blank' => 'This person has not done any accomplishments yet.',
     'skills_title' => 'Skills',

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Services\User\UpdateLocale;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class LocaleController extends Controller

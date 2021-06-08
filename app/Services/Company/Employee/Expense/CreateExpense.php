@@ -18,11 +18,8 @@ use App\Models\Company\ExpenseCategory;
 class CreateExpense extends BaseService
 {
     private Expense $expense;
-
     private Employee $employee;
-
     private array $data;
-
     private Collection $managers;
 
     /**

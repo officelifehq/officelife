@@ -61,6 +61,11 @@
             :hardware="hardware"
           />
 
+          <softwares
+            v-if="permissions.can_see_software"
+            :softwares="softwares"
+          />
+
           <!-- <holidays
             :employee="employee"
           /> -->
@@ -78,6 +83,7 @@ import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
 import Expenses from '@/Pages/Employee/Administration/Partials/Expenses';
 import Timesheets from '@/Pages/Employee/Administration/Partials/Timesheets';
 import Hardware from '@/Pages/Employee/Administration/Partials/Hardware';
+import Softwares from '@/Pages/Employee/Administration/Partials/Software';
 
 export default {
   components: {
@@ -88,6 +94,7 @@ export default {
     Expenses,
     Timesheets,
     Hardware,
+    Softwares,
   },
 
   props: {
@@ -120,6 +127,10 @@ export default {
       default: null,
     },
     timesheets: {
+      type: Object,
+      default: null,
+    },
+    softwares: {
       type: Object,
       default: null,
     },

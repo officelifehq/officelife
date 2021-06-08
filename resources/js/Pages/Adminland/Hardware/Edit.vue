@@ -34,7 +34,7 @@ input[type=radio] {
           <h2 class="tc normal mb4">
             {{ $t('account.hardware_edit_title') }}
 
-            <help :url="$page.props.help_links.account_hardware_create" :datacy="'help-icon-hardware'" />
+            <help :url="$page.props.help_links.hardware" :datacy="'help-icon-hardware'" />
           </h2>
 
           <form @submit.prevent="submit">
