@@ -5,7 +5,6 @@ namespace App\Services\Company\Adminland\Employee;
 use App\Models\Company\File;
 use App\Services\BaseService;
 use App\Models\Company\ImportJob;
-use App\Jobs\ImportEmployeesFromCSV;
 
 class StoreEmployeesFromCSVInTemporaryTable extends BaseService
 {
@@ -41,7 +40,12 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
         $this->validate();
         $this->import();
 
-        ImportEmployeesFromCSV::dispatch($this->importJob, $this->file);
+        ImportEmployeesFromCSV::dispatch([
+            'company_id' => $this->data['company_id'],
+            'author_id' => $this->data['author_id'],
+            'import_job_id' => $this->importJob->id,
+            'file_id' => $this->file->id,
+        ]);
 
         return $this->importJob;
     }

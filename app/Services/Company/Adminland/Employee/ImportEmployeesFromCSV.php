@@ -1,63 +1,91 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Services\Company\Adminland\Employee;
 
 use Throwable;
+use Illuminate\Support\Str;
 use App\Models\Company\File;
-use Illuminate\Bus\Queueable;
+use App\Services\BaseService;
 use Illuminate\Support\Carbon;
 use App\Models\Company\ImportJob;
+use App\Services\QueuableService;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Queue\SerializesModels;
+use App\Services\DispatchableService;
 use App\Models\Company\ImportJobReport;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Validator;
 use Spatie\SimpleExcel\SimpleExcelReader;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
 
-class ImportEmployeesFromCSV implements ShouldQueue
+class ImportEmployeesFromCSV extends BaseService implements QueuableService
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use DispatchableService;
 
     /**
-     * The import job to treat.
+     * Data input for the service.
      *
      * @var array
      */
-    public ImportJob $importJob;
+    public array $data;
+
+    private ImportJob $importJob;
+
+    private File $file;
 
     /**
-     * The file to download.
+     * Get the validation rules that apply to the service.
      *
-     * @var array
+     * @return array
      */
-    public File $file;
-
-    /**
-     * Delete the job if its models no longer exist.
-     *
-     * @var bool
-     */
-    public $deleteWhenMissingModels = true;
-
-    /**
-     * Create a new job instance.
-     *
-     * @param array $data
-     */
-    public function __construct(ImportJob $importJob, File $file)
+    public function rules(): array
     {
-        $this->importJob = $importJob;
-        $this->file = $file;
+        return [
+            'company_id' => 'required|integer|exists:companies,id',
+            'author_id' => 'required|integer|exists:employees,id',
+            'import_job_id' => 'required|integer|exists:import_jobs,id',
+            'file_id' => 'required|integer|exists:files,id',
+        ];
     }
 
     /**
-     * Execute the job.
+     * Read the CSV file and put rows in the temporary table.
+     *
+     * @param array $data
      */
-    public function handle(): void
+    public function init(array $data): self
     {
+        $this->data = $data;
+        $this->validate();
+
+        return $this;
+    }
+
+    private function validate(): array
+    {
+        $this->validateRules($this->data);
+
+        $this->author($this->data['author_id'])
+            ->inCompany($this->data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
+
+        $importJob = ImportJob::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['import_job_id']);
+
+        $file = File::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['file_id']);
+
+        return [$importJob, $file];
+    }
+
+    /**
+     * Import the employees.
+     */
+    public function execute(): void
+    {
+        [$importJob, $file] = $this->validate();
+        $this->importJob = $importJob;
+        $this->file = $file;
+
         $this->importJob->update([
             'status' => ImportJob::STARTED,
             'import_started_at' => Carbon::now(),
@@ -76,7 +104,7 @@ class ImportEmployeesFromCSV implements ShouldQueue
      *
      * @param  \Throwable  $exception
      */
-    public function failed(Throwable $exception)
+    public function failed(Throwable $exception): void
     {
         $this->importJob->update([
             'status' => ImportJob::FAILED,
@@ -85,11 +113,14 @@ class ImportEmployeesFromCSV implements ShouldQueue
 
     private function readFile(): void
     {
+        $filePath = "imports/{$this->file->name}";
         try {
-            $response = Http::get($this->file->cdn_url.urlencode($this->file->name));
-            Storage::disk('local')->put("imports/{$this->file->name}", $response->body());
+            $response = Http::get(Str::finish($this->file->cdn_url, '/').urlencode($this->file->name));
+            $response->throw();
 
-            SimpleExcelReader::create(Storage::disk('local')->path("imports/{$this->file->name}"))
+            Storage::disk('local')->put($filePath, $response->body());
+
+            SimpleExcelReader::create(Storage::disk('local')->path($filePath))
                 ->trimHeaderRow()
                 ->headersToSnakeCase()
                 ->getRows()
@@ -97,8 +128,8 @@ class ImportEmployeesFromCSV implements ShouldQueue
                     $this->handleRow($rowProperties);
                 });
         } finally {
-            if (Storage::disk('local')->exists("imports/{$this->file->name}")) {
-                Storage::disk('local')->delete("imports/{$this->file->name}");
+            if (Storage::disk('local')->exists($filePath)) {
+                Storage::disk('local')->delete($filePath);
             }
         }
     }
