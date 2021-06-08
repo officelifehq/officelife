@@ -85,7 +85,7 @@
             </h2>
 
             <!-- Title when import is done -->
-            <h2 v-else-if="localReport.status === 'imported'" class="tc normal mb4">
+            <h2 v-else-if="localReport.status === 'imported' || localReport.status === 'importing'" class="tc normal mb4">
               {{ $t('account.import_employees_show_title_imported', { date: localReport.import_ended_at }) }}
 
               <help :url="$page.props.help_links.import_employees" :top="'1px'" />
@@ -130,11 +130,11 @@
 
             <!-- action to import the listing -->
             <form v-if="localReport.status === 'uploaded'" class="tc mb4" @submit.prevent="submit">
-              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$tc('account.import_employees_archives_finalize_import', localReport.number_of_entries_that_can_be_imported, { count: localReport.number_of_entries_that_can_be_imported })" :cypress-selector="'submit-add-news-button'" />
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="form.processing" :text="$tc('account.import_employees_archives_finalize_import', localReport.number_of_entries_that_can_be_imported, { count: localReport.number_of_entries_that_can_be_imported })" :cypress-selector="'submit-add-news-button'" />
             </form>
           </div>
 
-          <div v-if="localReport.status === 'uploaded' || localReport.status === 'imported'" class="pa3">
+          <div v-if="localReport.status === 'uploaded' || localReport.status === 'imported' || localReport.status === 'importing'" class="pa3">
             <!-- LIST OF THE FIRST FIVE ENTRIES IN THE REPORT -->
             <p class="f6 mb1">{{ $t('account.import_employees_show_first_five_entries', {count: localReport.number_of_entries }) }}</p>
             <div v-if="localReport.first_five_entries.length > 0" class="center bt br bl br2 bb-gray dt w-100 mb5">
@@ -235,6 +235,7 @@
 import Layout from '@/Shared/Layout';
 import Help from '@/Shared/Help';
 import LoadingButton from '@/Shared/LoadingButton';
+import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
   components: {
@@ -257,8 +258,8 @@ export default {
   data() {
     return {
       dataReport: null,
-      loadingState: '',
-      refresh: null,
+      form: useForm(),
+      refresh: _.debounce(() => this.doRefresh(), 1000),
     };
   },
 
@@ -270,25 +271,6 @@ export default {
 
   mounted() {
     this.dataReport = this.report;
-    this.refresh = _.debounce(function () {
-      if (this.$page.component === 'Adminland/Employee/Archives/Show'
-        && this.localReport.status !== 'imported'
-        && this.localReport.status !== 'uploaded') {
-        axios.get(route('account.employees.upload.archive.show', {
-          company: this.$page.props.auth.company.id,
-          archive: this.localReport.id,
-        }), {
-          headers: {
-            'X-Inertia': true,
-            'X-Inertia-Version': this.$page.version,
-          }
-        })
-          .then(response => {
-            this.dataReport = response.data.props.report;
-            this.refresh();
-          });
-      }
-    }, 5000);
     this.refresh();
   },
 
@@ -298,18 +280,32 @@ export default {
 
   methods: {
     submit() {
-      this.loadingState = 'loading';
-
-      axios.post(`/${this.$page.props.auth.company.id}/account/employees/upload/archives/${this.report.id}/import`)
-        .then(response => {
+      axios.post(this.route('account.employees.upload.archive.import', {
+        company: this.$page.props.auth.company.id,
+        archive: this.report.id
+      }))
+        .then(() => {
           localStorage.success = this.$t('account.import_employees_import_success');
-          this.$inertia.visit(`/${this.$page.props.auth.company.id}/account/employees/upload/archives`);
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = error.response.data;
+          this.$inertia.visit(this.route('account.employees.upload.archive', {company: this.$page.props.auth.company.id}));
         });
     },
+
+    doRefresh() {
+      if (this.$page.component === 'Adminland/Employee/Archives/Show'
+        && this.localReport.status !== 'imported'
+        && this.localReport.status !== 'uploaded') {
+        useForm().get(this.route('account.employees.upload.archive.show', {
+          company: this.$page.props.auth.company.id,
+          archive: this.localReport.id,
+        }), {
+          onFinish: (response) => {
+            this.dataReport = response.data.props.report;
+            this.refresh();
+          },
+        });
+      }
+    },
+
   }
 };
 

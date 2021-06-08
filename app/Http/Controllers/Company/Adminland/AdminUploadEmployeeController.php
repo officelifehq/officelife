@@ -127,8 +127,12 @@ class AdminUploadEmployeeController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        ImportJob::where('company_id', $loggedCompany->id)
+        $importJob = ImportJob::where('company_id', $loggedCompany->id)
             ->findOrFail($jobId);
+
+        $importJob->update([
+            'status' => ImportJob::IMPORTING,
+        ]);
 
         ImportEmployeesFromTemporaryTable::dispatch([
             'company_id' => $companyId,

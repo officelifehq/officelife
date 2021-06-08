@@ -569,6 +569,7 @@ return [
     'import_employees_status_started' => 'started',
     'import_employees_status_uploaded' => 'uploaded',
     'import_employees_status_imported' => 'imported',
+    'import_employees_status_importing' => 'importing',
     'import_employees_status_failed' => 'failed',
     'import_employees_archives_title' => 'List of previous import of employees',
     'import_employees_archives_cta' => 'Import a new list',
