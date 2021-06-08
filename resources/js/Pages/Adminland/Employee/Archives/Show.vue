@@ -272,8 +272,8 @@ export default {
     this.dataReport = this.report;
     this.refresh = _.debounce(function () {
       if (this.$page.component === 'Adminland/Employee/Archives/Show'
-        && localReport.status !== 'imported'
-        && localReport.status !== 'uploaded') {
+        && this.localReport.status !== 'imported'
+        && this.localReport.status !== 'uploaded') {
         axios.get(route('account.employees.upload.archive.show', {
           company: this.$page.props.auth.company.id,
           archive: this.localReport.id,

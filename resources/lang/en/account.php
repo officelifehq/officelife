@@ -585,7 +585,7 @@ return [
     'import_employees_import_description' => 'You can import a bunch of employees at once with a CSV file.',
     'import_employees_import_note' => 'Important note: your CSV file needs to follow a specific structure so we can properly import it.',
     'import_employees_import_instructions' => 'Read complete instructions here',
-    'import_employees_show_title_created' => 'Pending import waiting to be processed…',
+    'import_employees_show_title_created' => 'Your import is about to start…',
     'import_employees_show_title_started' => 'Import started on {date}…',
     'import_employees_show_title_uploaded' => 'You are about to import new employees',
     'import_employees_show_title_imported' => 'Entries you have imported on {date}',
