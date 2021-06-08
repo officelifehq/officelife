@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Throwable;
 use App\Jobs\ServiceQueue;
 
 /**
@@ -24,5 +25,14 @@ trait DispatchableService
         $service = new static();
         $service->init(...$arguments);
         return ServiceQueue::dispatch($service);
+    }
+
+    /**
+     * Handle a job failure.
+     *
+     * @param  \Throwable  $exception
+     */
+    public function failed(Throwable $exception): void
+    {
     }
 }

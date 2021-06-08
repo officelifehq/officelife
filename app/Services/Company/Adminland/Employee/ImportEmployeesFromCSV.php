@@ -20,12 +20,7 @@ class ImportEmployeesFromCSV extends BaseService implements QueuableService
 {
     use DispatchableService;
 
-    /**
-     * Data input for the service.
-     *
-     * @var array
-     */
-    public array $data;
+    private array $data;
 
     private ImportJob $importJob;
 
@@ -106,9 +101,11 @@ class ImportEmployeesFromCSV extends BaseService implements QueuableService
      */
     public function failed(Throwable $exception): void
     {
-        $this->importJob->update([
-            'status' => ImportJob::FAILED,
-        ]);
+        if ($this->importJob !== null) {
+            $this->importJob->update([
+                'status' => ImportJob::FAILED,
+            ]);
+        }
     }
 
     private function readFile(): void

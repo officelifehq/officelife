@@ -10,10 +10,10 @@ use App\Models\Company\ImportJob;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Jobs\ImportEmployeesFromTemporaryTable;
 use App\Services\Company\Adminland\File\UploadFile;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Adminland\AdminUploadEmployeeViewHelper;
+use App\Services\Company\Adminland\Employee\ImportEmployeesFromTemporaryTable;
 use App\Services\Company\Adminland\Employee\StoreEmployeesFromCSVInTemporaryTable;
 
 class AdminUploadEmployeeController extends Controller
