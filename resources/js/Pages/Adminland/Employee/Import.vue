@@ -40,7 +40,7 @@ input[type=radio] {
             <p>{{ $t('account.import_employees_import_description') }}</p>
             <div class="box-shadow-gray br3 pa3 f6">
               <p class="mt0 mb2">{{ $t('account.import_employees_import_note') }}</p>
-              <a :href="$page.props.help_links.import_employees">{{ $t('account.import_employees_import_instructions') }}</a>
+              <a href="https://docs.officelife.io/documentation/manage/employee-management.html#importing-employees" target="_blank">{{ $t('account.import_employees_import_instructions') }}</a>
             </div>
           </div>
 
