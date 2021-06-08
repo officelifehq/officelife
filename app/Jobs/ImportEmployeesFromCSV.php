@@ -59,6 +59,7 @@ class ImportEmployeesFromCSV implements ShouldQueue
     public function handle(): void
     {
         $this->importJob->update([
+            'status' => ImportJob::STARTED,
             'import_started_at' => Carbon::now(),
         ]);
 
