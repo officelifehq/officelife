@@ -25,7 +25,7 @@ class ServiceQueue implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param array $data
+     * @param BaseService $service
      */
     public function __construct(BaseService $service)
     {
@@ -48,7 +48,7 @@ class ServiceQueue implements ShouldQueue
      *
      * @param  \Throwable  $exception
      */
-    public function failed(Throwable $exception)
+    public function failed(Throwable $exception): void
     {
         $this->service->failed($exception);
     }

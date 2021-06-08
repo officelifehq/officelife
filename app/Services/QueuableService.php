@@ -4,6 +4,9 @@ namespace App\Services;
 
 use Throwable;
 
+/**
+ * Makes a BaseService queuable using the generic ServiceQueue job.
+ */
 interface QueuableService
 {
     /**
