@@ -51,13 +51,13 @@ class EmployeeShowViewHelper
             'holidays' => $employee->getHolidaysInformation(),
             'birthdate' => (! $employee->birthdate) ? null :
                 ($permissions['can_see_full_birthdate'] ? [
-                    'date' => DateHelper::formatDate($employee->birthdate, $loggedEmployee->timezone),
+                    'date' => DateHelper::formatDate($employee->birthdate),
                     'age' => Carbon::now()->year - $employee->birthdate->year,
                 ] : [
                     'date' => DateHelper::formatMonthAndDay($employee->birthdate),
                 ]),
             'hired_at' => (! $employee->hired_at) ? null : [
-                'full' => DateHelper::formatDate($employee->hired_at, $loggedEmployee->timezone),
+                'full' => DateHelper::formatDate($employee->hired_at),
                 'year' => $employee->hired_at->year,
                 'month' => $employee->hired_at->month,
                 'day' => $employee->hired_at->day,
@@ -65,7 +65,7 @@ class EmployeeShowViewHelper
             ],
             'contract_renewed_at' => (! $employee->contract_renewed_at) ? null :
                 ($permissions['can_see_contract_renewal_date'] ? [
-                    'date' => DateHelper::formatDate($employee->contract_renewed_at, $loggedEmployee->timezone),
+                    'date' => DateHelper::formatDate($employee->contract_renewed_at),
                 ] : null),
             'contract_rate' => (! $rate) ? null :
                 ($permissions['can_see_contract_renewal_date'] ? [

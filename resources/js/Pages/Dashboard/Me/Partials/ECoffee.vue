@@ -24,7 +24,7 @@
     <!-- case: the match hasn't taken place yet -->
     <div v-if="!localeCoffee.happened" class="cf mw7 center br3 mb3 bg-white box relative pa3">
       <p class="f4 fw4 mt1 mb2 lh-copy" data-cy="e-coffee-matched-with-name">{{ $t('dashboard.e_coffee_match_title', { name: localeCoffee.other_employee.name }) }}</p>
-      <p class="mt1 lh-copy">{{ $t('dashboard.e_coffee_match_desc', { firstname: localeCoffee.other_employee.first_name }) }}</p>
+      <p class="mt1 lh-copy mr6">{{ $t('dashboard.e_coffee_match_desc', { firstname: localeCoffee.other_employee.first_name }) }}</p>
 
       <p v-if="localeCoffee.other_employee.position" class="mt0 mb2 f6 gray">
         {{ $t('dashboard.e_coffee_match_desc_position', { firstname: localeCoffee.other_employee.first_name, position: localeCoffee.other_employee.position }) }}

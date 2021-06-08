@@ -2434,16 +2434,16 @@
         },
         {
             "name": "laravel/jetstream",
-            "version": "v2.3.6",
+            "version": "v2.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/jetstream.git",
-                "reference": "c1f1f4e4a7a690eda215286e2e56bb8acd626160"
+                "reference": "05fa16096324a90299277a3a1a6a3de311f3f587"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/jetstream/zipball/c1f1f4e4a7a690eda215286e2e56bb8acd626160",
-                "reference": "c1f1f4e4a7a690eda215286e2e56bb8acd626160",
+                "url": "https://api.github.com/repos/laravel/jetstream/zipball/05fa16096324a90299277a3a1a6a3de311f3f587",
+                "reference": "05fa16096324a90299277a3a1a6a3de311f3f587",
                 "shasum": ""
             },
             "require": {
@@ -2497,7 +2497,7 @@
                 "issues": "https://github.com/laravel/jetstream/issues",
                 "source": "https://github.com/laravel/jetstream"
             },
-            "time": "2021-05-18T15:34:01+00:00"
+            "time": "2021-06-01T15:46:41+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -8224,16 +8224,16 @@
         },
         {
             "name": "vluzrmos/language-detector",
-            "version": "v2.3",
+            "version": "v2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vluzrmos/laravel-language-detector.git",
-                "reference": "275330d755c85454eaa33821f16069a38378f5c1"
+                "reference": "c049a2c477f582c8154e59ab01b4205b1798a6af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vluzrmos/laravel-language-detector/zipball/275330d755c85454eaa33821f16069a38378f5c1",
-                "reference": "275330d755c85454eaa33821f16069a38378f5c1",
+                "url": "https://api.github.com/repos/vluzrmos/laravel-language-detector/zipball/c049a2c477f582c8154e59ab01b4205b1798a6af",
+                "reference": "c049a2c477f582c8154e59ab01b4205b1798a6af",
                 "shasum": ""
             },
             "require": {
@@ -8249,6 +8249,13 @@
                 "phpunit/phpunit": "^8.5 || ^9.0"
             },
             "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vluzrmos\\LanguageDetector\\Providers\\LanguageDetectorServiceProvider"
+                    ]
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Vluzrmos\\LanguageDetector\\": "src/"
@@ -8277,9 +8284,9 @@
             ],
             "support": {
                 "issues": "https://github.com/vluzrmos/laravel-language-detector/issues",
-                "source": "https://github.com/vluzrmos/laravel-language-detector/tree/v2.3"
+                "source": "https://github.com/vluzrmos/laravel-language-detector/tree/v2.3.2"
             },
-            "time": "2021-02-12T13:41:31+00:00"
+            "time": "2021-06-01T17:57:17+00:00"
         },
         {
             "name": "voku/portable-ascii",
