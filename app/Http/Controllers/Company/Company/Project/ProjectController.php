@@ -400,7 +400,7 @@ class ProjectController extends Controller
     public function search(Request $request, int $companyId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
-        $employees = ProjectViewHelper::searchProjectLead($loggedCompany, $request->input('searchTerm'));
+        $employees = ProjectViewHelper::searchProjectLead($loggedCompany, $request->input('searchTerm', ''));
 
         return response()->json([
             'data' => $employees,
