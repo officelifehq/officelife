@@ -111,20 +111,26 @@ class ImportEmployeesFromCSV extends BaseService implements QueuableService
     private function readFile(): void
     {
         $filePath = "imports/{$this->file->name}";
+        $reader = null;
+
         try {
             $response = Http::get(Str::finish($this->file->cdn_url, '/').urlencode($this->file->name));
             $response->throw();
 
             Storage::disk('local')->put($filePath, $response->body());
 
-            SimpleExcelReader::create(Storage::disk('local')->path($filePath))
+            $reader = SimpleExcelReader::create(Storage::disk('local')->path($filePath))
                 ->trimHeaderRow()
-                ->headersToSnakeCase()
-                ->getRows()
+                ->headersToSnakeCase();
+
+            $reader->getRows()
                 ->each(function (array $rowProperties) {
                     $this->handleRow($rowProperties);
                 });
         } finally {
+            if ($reader) {
+                $reader->close();
+            }
             if (Storage::disk('local')->exists($filePath)) {
                 Storage::disk('local')->delete($filePath);
             }
