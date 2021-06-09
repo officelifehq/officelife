@@ -51,13 +51,13 @@ class ImportEmployeesFromTemporaryTable extends BaseService implements QueuableS
      */
     public function execute(): void
     {
-        $this->importJob = $this->validate();
+        $this->validate();
 
         $this->import();
         $this->markAsMigrated();
     }
 
-    private function validate(): ImportJob
+    private function validate(): void
     {
         $this->validateRules($this->data);
 
@@ -66,7 +66,7 @@ class ImportEmployeesFromTemporaryTable extends BaseService implements QueuableS
             ->asAtLeastHR()
             ->canExecuteService();
 
-        return ImportJob::where('company_id', $this->data['company_id'])
+        $this->importJob = ImportJob::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['import_job_id']);
     }
 
@@ -106,7 +106,7 @@ class ImportEmployeesFromTemporaryTable extends BaseService implements QueuableS
      */
     public function failed(Throwable $exception): void
     {
-        if ($this->importJob !== null) {
+        if (! is_null($this->importJob)) {
             $this->importJob->update([
                 'status' => ImportJob::FAILED,
             ]);
