@@ -237,7 +237,6 @@ import Layout from '@/Shared/Layout';
 import Help from '@/Shared/Help';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
-import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
   components: {
@@ -305,15 +304,19 @@ export default {
         && this.loadingState === null
         && this.localReport.status !== 'imported'
         && this.localReport.status !== 'uploaded') {
-        useForm().get(this.route('account.employees.upload.archive.show', {
+        axios.get(route('account.employees.upload.archive.show', {
           company: this.$page.props.auth.company.id,
           archive: this.localReport.id,
         }), {
-          onSuccess: (response) => {
-            this.dataReport = response.props.report;
+          headers: {
+            'X-Inertia': true,
+            'X-Inertia-Version': this.$page.version,
+          }
+        })
+          .then(response => {
+            this.dataReport = response.data.props.report;
             this.refresh();
-          },
-        });
+          });
       }
     },
 
