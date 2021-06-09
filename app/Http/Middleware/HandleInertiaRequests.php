@@ -47,6 +47,7 @@ class HandleInertiaRequests extends Middleware
                     'name' => $request->user()->name,
                     'show_help' => $request->user()->show_help,
                     'locale' => $request->user()->locale,
+                    'timezone' => $request->user()->timezone,
                 ] : null,
                 'company' => $request->user() && ! is_null(InstanceHelper::getLoggedCompany()) ? InstanceHelper::getLoggedCompany() : null,
                 'employee' => $request->user() && ! is_null(InstanceHelper::getLoggedEmployee()) ? [
