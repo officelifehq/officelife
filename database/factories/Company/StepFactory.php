@@ -27,7 +27,7 @@ class StepFactory extends Factory
             'number' => 3,
             'unit_of_time' => 'days',
             'modifier' => 'after',
-            'real_number_of_days' => 3,
+            'relative_number_of_days' => 3,
         ];
     }
 }

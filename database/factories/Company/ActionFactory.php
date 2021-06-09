@@ -25,8 +25,7 @@ class ActionFactory extends Factory
         return [
             'step_id' => Step::factory(),
             'type' => 'notification',
-            'recipient' => 'manager',
-            'specific_recipient_information' => null,
+            'content' => '{}',
         ];
     }
 }
