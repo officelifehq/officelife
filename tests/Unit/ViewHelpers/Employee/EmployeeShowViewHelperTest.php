@@ -17,6 +17,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
+use App\Models\Company\Software;
 use App\Models\Company\Timesheet;
 use App\Models\Company\ProjectTask;
 use App\Models\Company\ECoffeeMatch;
@@ -765,5 +766,32 @@ class EmployeeShowViewHelperTest extends TestCase
             ],
             EmployeeShowViewHelper::employeeCurrentAndPastPositions($michael, $michael->company)->toArray()
         );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_software(): void
+    {
+        $michael = $this->createAdministrator();
+        $software = Software::factory()->create([
+            'company_id' => $michael->company_id,
+            'name' => 'iphone',
+        ]);
+        $software->employees()->syncWithoutDetaching([$michael->id]);
+
+        $collection = EmployeeShowViewHelper::softwares($michael, ['can_see_software' => true]);
+
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $software->id,
+                    'name' => 'iphone',
+                ],
+            ],
+            $collection->toArray()
+        );
+
+        $collection = EmployeeShowViewHelper::softwares($michael, ['can_see_software' => false]);
+        $this->assertNull($collection);
     }
 }

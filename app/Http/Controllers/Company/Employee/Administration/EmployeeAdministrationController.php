@@ -33,6 +33,7 @@ class EmployeeAdministrationController extends Controller
                 ->with('user')
                 ->with('status')
                 ->with('hardware')
+                ->with('softwares')
                 ->with('expenses')
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
@@ -44,6 +45,9 @@ class EmployeeAdministrationController extends Controller
 
         // hardware
         $hardware = EmployeeShowViewHelper::hardware($employee, $permissions);
+
+        // softwares
+        $softwares = EmployeeShowViewHelper::softwares($employee, $permissions);
 
         // all expenses of this employee
         $expenses = EmployeeShowViewHelper::expenses($employee, $permissions, $loggedEmployee);
@@ -61,6 +65,7 @@ class EmployeeAdministrationController extends Controller
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'hardware' => $hardware,
             'expenses' => $expenses,
+            'softwares' => $softwares,
             'timesheets' => $timesheets,
         ]);
     }

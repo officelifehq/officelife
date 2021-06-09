@@ -51,13 +51,13 @@ class EmployeeShowViewHelper
             'holidays' => $employee->getHolidaysInformation(),
             'birthdate' => (! $employee->birthdate) ? null :
                 ($permissions['can_see_full_birthdate'] ? [
-                    'date' => DateHelper::formatDate($employee->birthdate, $loggedEmployee->timezone),
+                    'date' => DateHelper::formatDate($employee->birthdate),
                     'age' => Carbon::now()->year - $employee->birthdate->year,
                 ] : [
                     'date' => DateHelper::formatMonthAndDay($employee->birthdate),
                 ]),
             'hired_at' => (! $employee->hired_at) ? null : [
-                'full' => DateHelper::formatDate($employee->hired_at, $loggedEmployee->timezone),
+                'full' => DateHelper::formatDate($employee->hired_at),
                 'year' => $employee->hired_at->year,
                 'month' => $employee->hired_at->month,
                 'day' => $employee->hired_at->day,
@@ -65,7 +65,7 @@ class EmployeeShowViewHelper
             ],
             'contract_renewed_at' => (! $employee->contract_renewed_at) ? null :
                 ($permissions['can_see_contract_renewal_date'] ? [
-                    'date' => DateHelper::formatDate($employee->contract_renewed_at, $loggedEmployee->timezone),
+                    'date' => DateHelper::formatDate($employee->contract_renewed_at),
                 ] : null),
             'contract_rate' => (! $rate) ? null :
                 ($permissions['can_see_contract_renewal_date'] ? [
@@ -247,6 +247,12 @@ class EmployeeShowViewHelper
             $canSeeHardware = true;
         }
 
+        // can see softwares
+        $canSeeSoftware = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeSoftware = true;
+        }
+
         // can see contract renewal date for external employees
         $canSeeContractRenewalDate = $loggedEmployee->permission_level <= 200;
         if ($loggedEmployee->id == $employee->id) {
@@ -300,6 +306,7 @@ class EmployeeShowViewHelper
             'can_see_work_from_home_history' => $canSeeWorkFromHomeHistory,
             'can_see_work_log_history' => $canSeeWorkLogHistory,
             'can_see_hardware' => $canSeeHardware,
+            'can_see_software' => $canSeeSoftware,
             'can_edit_profile' => $canEditProfile,
             'can_delete_profile' => $canDeleteProfile,
             'can_see_audit_log' => $canSeeAuditLog,
@@ -892,5 +899,27 @@ class EmployeeShowViewHelper
         }
 
         return $positionCollection;
+    }
+
+    /**
+     * Array containing information about the software associated with the
+     * employee.
+     *
+     * @param Employee $employee
+     * @param array $permissions
+     * @return Collection|null
+     */
+    public static function softwares(Employee $employee, array $permissions): ?Collection
+    {
+        if (! $permissions['can_see_software']) {
+            return null;
+        }
+
+        return $employee->softwares->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'name' => $item->name,
+            ];
+        });
     }
 }

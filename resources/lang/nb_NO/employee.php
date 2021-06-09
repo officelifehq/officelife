@@ -114,7 +114,7 @@ return [
     'edit_information_social' => 'Social network presence',
     'edit_information_social_help' => 'Use those fields to help your coworkers communicate with you.',
     'edit_information_twitter' => 'Twitter handle',
-    'edit_information_twitter_help' => 'Write the twitter handle without the `http` part or the `@` symbol.',
+    'edit_information_twitter_help' => 'Write the twitter handle without the `http` part or the `{\'@\'}` symbol.',
     'edit_information_slack' => 'Slack handle',
     'edit_information_slack_help' => 'Write only the nickname used on Slack.',
     'edit_information_firstname' => 'First name',

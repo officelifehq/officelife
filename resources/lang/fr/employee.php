@@ -115,7 +115,7 @@ return [
     'edit_information_social' => 'Présence sur les réseaux sociaux',
     'edit_information_social_help' => 'Utilisez ces champs pour aider vos collègues à communiquer avec vous.',
     'edit_information_twitter' => 'Identifiant Twitter',
-    'edit_information_twitter_help' => 'Écrivez l’identifiant twitter sans la partie `http` ou le symbole `@`.',
+    'edit_information_twitter_help' => 'Écrivez l’identifiant twitter sans la partie `http` ou le symbole `{\'@\'}`.',
     'edit_information_slack' => 'Identifiant Slack',
     'edit_information_slack_help' => 'N’écrivez que le surnom utilisé sur Slack.',
     'edit_information_firstname' => 'Prénom',

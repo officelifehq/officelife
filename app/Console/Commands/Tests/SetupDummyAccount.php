@@ -56,6 +56,7 @@ use App\Services\Company\Project\MarkProjectMessageasRead;
 use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Question\CreateQuestion;
+use App\Services\Company\Adminland\Software\CreateSoftware;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Services\Company\Employee\Timesheet\RejectTimesheet;
 use App\Services\Company\Employee\Timesheet\SubmitTimesheet;
@@ -64,6 +65,7 @@ use App\Services\Company\Project\AssignProjectTaskToEmployee;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
+use App\Services\Company\Adminland\Software\GiveSeatToEmployee;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 use App\Services\Company\Employee\Timesheet\CreateOrGetTimesheet;
@@ -208,6 +210,7 @@ class SetupDummyAccount extends Command
         $this->addAnswers();
         $this->addExpenses();
         $this->createHardware();
+        $this->createSoftware();
         $this->addRecentShips();
         $this->addRateYourManagerSurveys();
         $this->addOneOnOnes();
@@ -1381,6 +1384,44 @@ class SetupDummyAccount extends Command
                 'name' => $hardware->shuffle()->first(),
                 'serial_number' => $this->faker->swiftBicNumber,
             ]);
+        }
+    }
+
+    private function createSoftware(): void
+    {
+        $this->info('☐ Add softwares and associate them to employees');
+
+        $softwares = collect([
+            'Office 365',
+            'Sketch',
+            'Adobe Reader',
+            'Sublime Text 4',
+            'Powerpoint',
+            'Zoom',
+            'Teams',
+        ]);
+
+        foreach ($softwares as $item) {
+            $newlyItem = (new CreateSoftware)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->michael->id,
+                'name' => $item,
+                'seats' => rand(3, 30),
+                'product_key' => $this->faker->uuid,
+            ]);
+
+            foreach ($this->employees as $employee) {
+                if (rand(1, 2) == 1) {
+                    continue;
+                }
+
+                (new GiveSeatToEmployee)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'employee_id' => $employee->id,
+                    'software_id' => $newlyItem->id,
+                ]);
+            }
         }
     }
 

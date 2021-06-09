@@ -24,6 +24,7 @@ use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use App\Models\Company\Position;
+use App\Models\Company\Software;
 use App\Models\Company\TeamNews;
 use App\Models\Company\Timesheet;
 use App\Models\Company\AgendaItem;
@@ -496,6 +497,19 @@ class EmployeeTest extends TestCase
         $dwight->groups()->sync([$group->id]);
 
         $this->assertTrue($dwight->groups()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_softwares(): void
+    {
+        $dwight = Employee::factory()->create([]);
+        $software = Software::factory()->create([
+            'company_id' => $dwight->company_id,
+        ]);
+
+        $dwight->softwares()->sync([$software->id]);
+
+        $this->assertTrue($dwight->softwares()->exists());
     }
 
     /** @test */

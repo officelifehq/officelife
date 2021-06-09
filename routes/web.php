@@ -444,6 +444,20 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('account/hardware/search', 'Company\\Adminland\\AdminHardwareController@search');
             Route::resource('account/hardware', 'Company\\Adminland\\AdminHardwareController');
 
+            // software
+            Route::get('account/softwares', 'Company\\Adminland\\AdminSoftwareController@index')->name('software.index');
+            Route::get('account/softwares/create', 'Company\\Adminland\\AdminSoftwareController@create')->name('software.create');
+            Route::post('account/softwares', 'Company\\Adminland\\AdminSoftwareController@store')->name('software.store');
+            Route::get('account/softwares/{software}', 'Company\\Adminland\\AdminSoftwareController@show')->name('software.show');
+            Route::get('account/softwares/{software}/edit', 'Company\\Adminland\\AdminSoftwareController@edit')->name('software.edit');
+            Route::put('account/softwares/{software}', 'Company\\Adminland\\AdminSoftwareController@update');
+            Route::post('account/softwares/{software}/search', 'Company\\Adminland\\AdminSoftwareController@potentialEmployees');
+            Route::get('account/softwares/{software}/numberOfEmployeesWhoDontHaveSoftware', 'Company\\Adminland\\AdminSoftwareController@numberOfEmployeesWhoDontHaveSoftware');
+            Route::post('account/softwares/{software}/attach', 'Company\\Adminland\\AdminSoftwareController@attach');
+            Route::post('account/softwares/{software}/attachAll', 'Company\\Adminland\\AdminSoftwareController@attachAll');
+            Route::delete('account/softwares/{software}/{employee}', 'Company\\Adminland\\AdminSoftwareController@detach');
+            Route::delete('account/softwares/{software}', 'Company\\Adminland\\AdminSoftwareController@destroy');
+
             // expenses
             Route::resource('account/expenses', 'Company\\Adminland\\AdminExpenseController', ['as' => 'account'])->except(['show']);
             Route::post('account/expenses/search', 'Company\\Adminland\\AdminExpenseController@search');

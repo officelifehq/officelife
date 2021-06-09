@@ -11,7 +11,7 @@ li:last-child {
         👨‍💻
       </span> {{ $t('employee.hardware_title') }}
 
-      <help :url="$page.props.help_links.account_hardware_create" :datacy="'help-icon-hardware'" />
+      <help :url="$page.props.help_links.hardware" :datacy="'help-icon-hardware'" />
     </span>
 
     <div v-if="hardware.length > 0" class="br3 bg-white box z-1 pa3">
@@ -22,7 +22,7 @@ li:last-child {
       </ul>
     </div>
 
-    <!-- case of no address set in profile -->
+    <!-- case of no hardware -->
     <div v-else class="br3 bg-white box z-1 pa3">
       <p class="mb0 mt0 lh-copy f6" data-cy="hardware-blank">
         {{ $t('employee.hardware_no_info') }}

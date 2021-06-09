@@ -262,6 +262,16 @@ class Company extends Model
     }
 
     /**
+     * Get all softwares in the company.
+     *
+     * @return HasMany
+     */
+    public function softwares()
+    {
+        return $this->hasMany(Software::class);
+    }
+
+    /**
      * Get the logo associated with the company.
      *
      * @return HasOne
