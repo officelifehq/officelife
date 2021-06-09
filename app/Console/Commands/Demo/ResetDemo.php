@@ -5,6 +5,7 @@ namespace App\Console\Commands\Demo;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Console\ConfirmableTrait;
 
@@ -41,11 +42,19 @@ class ResetDemo extends Command
             try {
                 Artisan::call('down');
 
-                $this->line('Downloading file...');
-                $file = Http::get('https://github.com/officelifehq/demosql/raw/main/officelife.sql');
+                if (Cache::has('databasereset')) {
+                    $sql = Cache::get('databasereset');
+                } else {
+                    $this->line('Downloading file...');
+                    $file = Http::get('https://github.com/officelifehq/demosql/raw/main/officelife.sql');
+                    $file->throw();
+
+                    $sql = $file->body();
+                    Cache::put('databasereset', $sql, 7200);
+                }
 
                 $this->line('Running transaction...');
-                DB::unprepared($file->body());
+                DB::unprepared($sql);
 
                 $this->line('Running migration...');
                 Artisan::call('migrate', ['--force' => true, '--verbose' => true]);
