@@ -31,7 +31,7 @@ class TimezoneController extends Controller
     public function update(Request $request)
     {
         (new UpdateTimezone)->execute([
-            'user_id' => Auth::user()->id,
+            'user_id' => Auth::id(),
             'timezone' => $request->input('timezone'),
         ]);
 

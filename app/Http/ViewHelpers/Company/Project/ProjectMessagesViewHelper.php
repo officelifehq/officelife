@@ -11,6 +11,7 @@ use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Company\ProjectMessage;
 
 class ProjectMessagesViewHelper
@@ -95,7 +96,7 @@ class ProjectMessagesViewHelper
             'title' => $projectMessage->title,
             'content' => $projectMessage->content,
             'parsed_content' => StringHelper::parse($projectMessage->content),
-            'written_at' => DateHelper::formatDate($projectMessage->created_at, $employee->timezone),
+            'written_at' => DateHelper::formatDate($projectMessage->created_at, Auth::user()->timezone),
             'written_at_human' => $projectMessage->created_at->diffForHumans(),
             'url_edit' => route('projects.messages.edit', [
                 'company' => $projectMessage->project->company_id,
@@ -107,7 +108,7 @@ class ProjectMessagesViewHelper
                 'name' => $author->name,
                 'avatar' => ImageHelper::getAvatar($author, 64),
                 'role' => $role ? $role->role : null,
-                'added_at' => $role ? DateHelper::formatDate(Carbon::createFromFormat('Y-m-d H:i:s', $role->created_at), $employee->timezone) : null,
+                'added_at' => $role ? DateHelper::formatDate(Carbon::createFromFormat('Y-m-d H:i:s', $role->created_at), Auth::user()->timezone) : null,
                 'position' => (! $author->position) ? null : [
                     'id' => $author->position->id,
                     'title' => $author->position->title,

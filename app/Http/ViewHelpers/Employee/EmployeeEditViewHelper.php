@@ -4,6 +4,7 @@ namespace App\Http\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use App\Models\Company\Employee;
+use Illuminate\Support\Facades\Auth;
 
 class EmployeeEditViewHelper
 {
@@ -35,7 +36,7 @@ class EmployeeEditViewHelper
             'twitter_handle' => $employee->twitter_handle,
             'slack_handle' => $employee->slack_handle,
             'max_year' => Carbon::now()->year,
-            'timezone' => $employee->timezone,
+            'timezone' => Auth::user()->timezone,
         ];
     }
 }

@@ -8,7 +8,6 @@ use App\Helpers\ImageHelper;
 use App\Helpers\MoneyHelper;
 use App\Helpers\QuestionHelper;
 use App\Models\Company\Company;
-use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
@@ -16,6 +15,7 @@ use Illuminate\Support\Collection;
 use App\Helpers\WorkFromHomeHelper;
 use Money\Currencies\ISOCurrencies;
 use App\Models\Company\ECoffeeMatch;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -160,7 +160,7 @@ class DashboardMeViewHelper
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
                 'category' => ($expense->category) ? $expense->category->name : null,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $employee->timezone),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, Auth::user()->timezone),
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
@@ -288,14 +288,14 @@ class DashboardMeViewHelper
 
         if ($employee->contract_renewed_at->isBefore($now)) {
             return [
-                'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at, $employee->timezone),
+                'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at, Auth::user()->timezone),
                 'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
                 'late' => true,
             ];
         }
 
         return [
-            'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at, $employee->timezone),
+            'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at, Auth::user()->timezone),
             'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
             'late' => false,
         ];

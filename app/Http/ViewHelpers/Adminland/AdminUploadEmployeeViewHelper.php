@@ -6,6 +6,7 @@ use App\Helpers\DateHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\ImportJob;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Company\ImportJobReport;
 
 class AdminUploadEmployeeViewHelper
@@ -37,8 +38,8 @@ class AdminUploadEmployeeViewHelper
                 'status' => $importJob->status,
                 'status_translated' => trans('account.import_employees_status_'.$importJob->status),
                 'number_of_entries' => $count,
-                'import_started_at' => $importJob->import_started_at ? DateHelper::formatShortDateWithTime($importJob->import_started_at, $loggedEmployee->timezone) : null,
-                'import_ended_at' => $importJob->import_ended_at ? DateHelper::formatShortDateWithTime($importJob->import_ended_at, $loggedEmployee->timezone) : null,
+                'import_started_at' => $importJob->import_started_at ? DateHelper::formatShortDateWithTime($importJob->import_started_at, Auth::user()->timezone) : null,
+                'import_ended_at' => $importJob->import_ended_at ? DateHelper::formatShortDateWithTime($importJob->import_ended_at, Auth::user()->timezone) : null,
                 'url' => route('account.employees.upload.archive.show', [
                     'company' => $company,
                     'archive' => $importJob,
@@ -105,8 +106,8 @@ class AdminUploadEmployeeViewHelper
                 ]),
             ],
             'status' => trans('account.import_employees_status_'.$importJob->status),
-            'import_started_at' => $importJob->import_started_at ? DateHelper::formatShortDateWithTime($importJob->import_started_at, $loggedEmployee->timezone) : null,
-            'import_ended_at' => $importJob->import_ended_at ? DateHelper::formatShortDateWithTime($importJob->import_ended_at, $loggedEmployee->timezone) : null,
+            'import_started_at' => $importJob->import_started_at ? DateHelper::formatShortDateWithTime($importJob->import_started_at, Auth::user()->timezone) : null,
+            'import_ended_at' => $importJob->import_ended_at ? DateHelper::formatShortDateWithTime($importJob->import_ended_at, Auth::user()->timezone) : null,
             'number_of_entries' => $allEntriesCount,
             'number_of_entries_that_can_be_imported' => $allEntriesCount - $failedJobReportsCollection->count(),
             'number_of_failed_entries' => $failedJobReportsCollection->count(),

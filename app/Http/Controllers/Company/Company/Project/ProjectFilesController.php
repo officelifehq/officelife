@@ -13,6 +13,7 @@ use App\Models\Company\Project;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Project\AddFileToProject;
 use App\Services\Company\Adminland\File\UploadFile;
 use App\Services\Company\Project\DestroyProjectFile;
@@ -106,7 +107,7 @@ class ProjectFilesController extends Controller
                         'employee' => $loggedEmployee,
                     ]),
                 ],
-                'created_at' => DateHelper::formatDate($file->created_at, $loggedEmployee->timezone),
+                'created_at' => DateHelper::formatDate($file->created_at, Auth::user()->timezone),
             ],
         ], 200);
     }

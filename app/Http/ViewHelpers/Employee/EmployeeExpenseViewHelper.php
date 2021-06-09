@@ -7,6 +7,7 @@ use App\Helpers\MoneyHelper;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class EmployeeExpenseViewHelper
@@ -58,7 +59,7 @@ class EmployeeExpenseViewHelper
                 'title' => $expense->title,
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, Auth::user()->timezone),
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,

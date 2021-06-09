@@ -9,6 +9,7 @@ use App\Helpers\MoneyHelper;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
 use Illuminate\Database\Eloquent\Collection;
@@ -82,16 +83,16 @@ class DashboardManagerViewHelper
         $expense = [
             'id' => $expense->id,
             'title' => $expense->title,
-            'created_at' => DateHelper::formatDate($expense->created_at, $loggedEmployee->timezone),
+            'created_at' => DateHelper::formatDate($expense->created_at, Auth::user()->timezone),
             'amount' => MoneyHelper::format($expense->amount, $expense->currency),
             'status' => $expense->status,
             'category' => ($expense->category) ? $expense->category->name : null,
-            'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
+            'expensed_at' => DateHelper::formatDate($expense->expensed_at, Auth::user()->timezone),
             'converted_amount' => $expense->converted_amount ?
                 MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                 null,
             'converted_at' => $expense->converted_at ?
-                DateHelper::formatShortDateWithTime($expense->converted_at, $loggedEmployee->timezone) :
+                DateHelper::formatShortDateWithTime($expense->converted_at, Auth::user()->timezone) :
                 null,
             'exchange_rate' => $expense->exchange_rate,
             'employee' => $expenseEmployee ? [

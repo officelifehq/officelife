@@ -5,6 +5,7 @@ namespace App\Http\ViewHelpers\Dashboard;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Employee;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Company\OneOnOneEntry;
 
 class DashboardOneOnOneViewHelper
@@ -64,7 +65,7 @@ class DashboardOneOnOneViewHelper
 
         $array = [
             'id' => $entry->id,
-            'happened_at' => DateHelper::formatDate($entry->happened_at, $employee->timezone),
+            'happened_at' => DateHelper::formatDate($entry->happened_at, Auth::user()->timezone),
             'happened' => $entry->happened,
             'employee' => [
                 'id' => $entry->employee->id,
@@ -88,14 +89,14 @@ class DashboardOneOnOneViewHelper
             'action_items' => $actionItems,
             'notes' => $notes,
             'previous_entry' => $previousEntry ? [
-                'happened_at' => DateHelper::formatDate($previousEntry->happened_at, $employee->timezone),
+                'happened_at' => DateHelper::formatDate($previousEntry->happened_at, Auth::user()->timezone),
                 'url' => route('dashboard.oneonones.show', [
                     'company' => $company,
                     'entry' => $previousEntry,
                 ]),
             ] : null,
             'next_entry' => $nextEntry ? [
-                'happened_at' => DateHelper::formatDate($nextEntry->happened_at, $employee->timezone),
+                'happened_at' => DateHelper::formatDate($nextEntry->happened_at, Auth::user()->timezone),
                 'url' => route('dashboard.oneonones.show', [
                     'company' => $company,
                     'entry' => $nextEntry,

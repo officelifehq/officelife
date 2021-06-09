@@ -16,6 +16,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\WorkFromHomeHelper;
 use App\Models\Company\ECoffeeMatch;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Company\EmployeeStatus;
 
 class EmployeeShowViewHelper
@@ -605,7 +606,7 @@ class EmployeeShowViewHelper
                 'title' => $expense->title,
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $loggedEmployee->timezone),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, Auth::user()->timezone),
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
@@ -653,7 +654,7 @@ class EmployeeShowViewHelper
         foreach ($oneOnOnes as $oneOnOne) {
             $collection->push([
                 'id' => $oneOnOne->id,
-                'happened_at' => DateHelper::formatDate($oneOnOne->happened_at, $loggedEmployee->timezone),
+                'happened_at' => DateHelper::formatDate($oneOnOne->happened_at, Auth::user()->timezone),
                 'manager' => [
                     'id' => $oneOnOne->manager->id,
                     'name' => $oneOnOne->manager->name,

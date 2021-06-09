@@ -6,6 +6,7 @@ use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class AdminAuditLogViewHelper
 {
@@ -29,7 +30,7 @@ class AdminAuditLogViewHelper
                         'employee' => $author,
                     ]),
                 ],
-                'localized_audited_at' => DateHelper::formatShortDateWithTime($log->audited_at, $loggedEmployee->timezone),
+                'localized_audited_at' => DateHelper::formatShortDateWithTime($log->audited_at, Auth::user()->timezone),
             ]);
         }
 

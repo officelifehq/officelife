@@ -4,12 +4,11 @@ namespace App\Http\ViewHelpers\Adminland;
 
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\File;
-use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Money\Currencies\ISOCurrencies;
+use Illuminate\Support\Facades\Auth;
 
 class AdminGeneralViewHelper
 {
@@ -45,7 +44,7 @@ class AdminGeneralViewHelper
         }
 
         // creation date of the account
-        $creationDate = DateHelper::formatShortDateWithTime($company->created_at, $loggedEmployee->timezone);
+        $creationDate = DateHelper::formatShortDateWithTime($company->created_at, Auth::user()->timezone);
 
         // total file sizes
         $totalSize = DB::table('files')->where('company_id', $company->id)

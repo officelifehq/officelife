@@ -4,16 +4,15 @@ namespace App\Http\Controllers\Company\Company\Project;
 
 use Carbon\Carbon;
 use Inertia\Inertia;
-use Inertia\Response;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
-use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Project\CreateProjectDecision;
 use App\Services\Company\Project\DestroyProjectDecision;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -147,7 +146,7 @@ class ProjectDecisionsController extends Controller
             'data' => [
                 'id' => $projectDecision->id,
                 'title' => $projectDecision->title,
-                'decided_at' => DateHelper::formatDate($projectDecision->decided_at, $loggedEmployee->timezone),
+                'decided_at' => DateHelper::formatDate($projectDecision->decided_at, Auth::user()->timezone),
                 'deciders' => $decidersCollection,
             ],
         ], 201);

@@ -9,6 +9,7 @@ use App\Models\Company\AuditLog;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class AdminHardwareViewHelper
 {
@@ -209,7 +210,7 @@ class AdminHardwareViewHelper
 
             $logsCollection->push([
                 'id' => $log->id,
-                'date' => DateHelper::formatDate($log->audited_at, $employee->timezone),
+                'date' => DateHelper::formatDate($log->audited_at, Auth::user()->timezone),
                 'sentence' => $sentence,
             ]);
         }

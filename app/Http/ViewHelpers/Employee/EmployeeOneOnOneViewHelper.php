@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Employee;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Company\OneOnOneEntry;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as SupportCollection;
@@ -58,7 +59,7 @@ class EmployeeOneOnOneViewHelper
         foreach ($oneOnOnes as $oneOnOne) {
             $collection->push([
                 'id' => $oneOnOne->id,
-                'happened_at' => DateHelper::formatDate($oneOnOne->happened_at, $loggedEmployee->timezone),
+                'happened_at' => DateHelper::formatDate($oneOnOne->happened_at, Auth::user()->timezone),
                 'number_of_talking_points' => $oneOnOne->talkingPoints->count(),
                 'number_of_action_items' => $oneOnOne->actionItems->count(),
                 'number_of_notes' => $oneOnOne->notes->count(),
@@ -137,7 +138,7 @@ class EmployeeOneOnOneViewHelper
 
         $array = [
             'id' => $entry->id,
-            'happened_at' => DateHelper::formatDate($entry->happened_at, $employee->timezone),
+            'happened_at' => DateHelper::formatDate($entry->happened_at, Auth::user()->timezone),
             'happened' => $entry->happened,
             'employee' => [
                 'id' => $entry->employee->id,
@@ -161,7 +162,7 @@ class EmployeeOneOnOneViewHelper
             'action_items' => $actionItems,
             'notes' => $notes,
             'previous_entry' => $previousEntry ? [
-                'happened_at' => DateHelper::formatDate($previousEntry->happened_at, $employee->timezone),
+                'happened_at' => DateHelper::formatDate($previousEntry->happened_at, Auth::user()->timezone),
                 'url' => route('employees.show.performance.oneonones.show', [
                     'company' => $company,
                     'employee' => $entry->employee,
@@ -169,7 +170,7 @@ class EmployeeOneOnOneViewHelper
                 ]),
             ] : null,
             'next_entry' => $nextEntry ? [
-                'happened_at' => DateHelper::formatDate($nextEntry->happened_at, $employee->timezone),
+                'happened_at' => DateHelper::formatDate($nextEntry->happened_at, Auth::user()->timezone),
                 'url' => route('employees.show.performance.oneonones.show', [
                     'company' => $company,
                     'employee' => $entry->employee,

@@ -35,7 +35,7 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         $company = (new CreateCompany)->execute([
-            'author_id' => Auth::user()->id,
+            'author_id' => Auth::id(),
             'name' => $request->input('name'),
         ]);
 
@@ -61,7 +61,7 @@ class CompanyController extends Controller
     public function actuallyJoin(Request $request)
     {
         $company = (new JoinCompany)->execute([
-            'user_id' => Auth::user()->id,
+            'user_id' => Auth::id(),
             'code' => $request->input('code'),
         ]);
 

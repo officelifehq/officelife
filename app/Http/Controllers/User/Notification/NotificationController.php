@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
@@ -35,7 +36,7 @@ class NotificationController extends Controller
                 'action' => $notification->action,
                 'localized_content' => $notification->content,
                 'read' => $notification->read,
-                'created_at' => DateHelper::formatShortDateWithTime($notification->created_at, $loggedEmployee->timezone),
+                'created_at' => DateHelper::formatShortDateWithTime($notification->created_at, Auth::user()->timezone),
             ]);
         }
 

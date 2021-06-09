@@ -11,6 +11,7 @@ use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Company\MoraleTeamHistory;
 
 class TeamShowViewHelper
@@ -216,13 +217,13 @@ class TeamShowViewHelper
     public static function morale(Team $team, Employee $loggedEmployee): array
     {
         // yesterday
-        $yesterday = Carbon::now($loggedEmployee->timezone)->yesterday();
+        $yesterday = Carbon::now(Auth::user()->timezone)->yesterday();
         $moraleOfYesterday = MoraleTeamHistory::where('team_id', $team->id)
             ->whereDate('created_at', $yesterday)
             ->first();
 
         // last week
-        $mondayOfLastWeek = Carbon::now($loggedEmployee->timezone)->startOfWeek()->subDays(7);
+        $mondayOfLastWeek = Carbon::now(Auth::user()->timezone)->startOfWeek()->subDays(7);
         $moraleOfLastWeek = MoraleTeamHistory::where('team_id', $team->id)
             ->whereBetween('created_at', [
                 $mondayOfLastWeek->toDateString().' 00:00:00',
@@ -231,7 +232,7 @@ class TeamShowViewHelper
             ->avg('average');
 
         // last month
-        $mondayOfLastMonth = Carbon::now($loggedEmployee->timezone)->subMonth()->startOfMonth();
+        $mondayOfLastMonth = Carbon::now(Auth::user()->timezone)->subMonth()->startOfMonth();
         $moraleOfLastMonth = MoraleTeamHistory::where('team_id', $team->id)
             ->whereBetween('created_at', [
                 $mondayOfLastMonth->toDateString().' 00:00:00',

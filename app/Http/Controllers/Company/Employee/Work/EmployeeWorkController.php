@@ -9,6 +9,7 @@ use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Http\ViewHelpers\Employee\EmployeeWorkViewHelper;
@@ -43,8 +44,8 @@ class EmployeeWorkController extends Controller
         $permissions = EmployeeShowViewHelper::permissions($loggedEmployee, $employee);
 
         // worklogs
-        $startOfWeek = Carbon::now()->setTimezone($loggedEmployee->timezone)->startOfWeek();
-        $currentDay = Carbon::now()->setTimezone($loggedEmployee->timezone);
+        $startOfWeek = Carbon::now()->setTimezone(Auth::user()->timezone)->startOfWeek();
+        $currentDay = Carbon::now()->setTimezone(Auth::user()->timezone);
         $worklogsCollection = EmployeeWorkViewHelper::worklog($employee, $loggedEmployee, $startOfWeek, $currentDay);
         $weeks = EmployeeWorkViewHelper::weeks($loggedEmployee);
 
@@ -102,12 +103,12 @@ class EmployeeWorkController extends Controller
             return redirect('home');
         }
 
-        $startOfWeek = Carbon::createFromFormat('Y-m-d', $week, $loggedEmployee->timezone);
+        $startOfWeek = Carbon::createFromFormat('Y-m-d', $week, Auth::user()->timezone);
 
         if (! $day) {
             $day = $startOfWeek->copy()->addDays(4);
         } else {
-            $day = Carbon::createFromFormat('Y-m-d', $day, $loggedEmployee->timezone);
+            $day = Carbon::createFromFormat('Y-m-d', $day, Auth::user()->timezone);
         }
 
         $worklog = EmployeeWorkViewHelper::worklog($employee, $loggedEmployee, $startOfWeek, $day);
