@@ -45,6 +45,6 @@ class Flow extends Model
      */
     public function steps()
     {
-        return $this->hasMany(Step::class)->orderBy('real_number_of_days', 'asc');
+        return $this->hasMany(Step::class)->orderBy('relative_number_of_days', 'asc');
     }
 }

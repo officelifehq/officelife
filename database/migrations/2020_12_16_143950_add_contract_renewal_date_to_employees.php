@@ -11,6 +11,9 @@ class AddContractRenewalDateToEmployees extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::table('employees', function (Blueprint $table) {
             $table->datetime('contract_renewed_at')->nullable()->after('hired_at');
         });

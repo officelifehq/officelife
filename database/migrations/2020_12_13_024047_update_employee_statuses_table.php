@@ -11,6 +11,9 @@ class UpdateEmployeeStatusesTable extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::table('employee_statuses', function (Blueprint $table) {
             $table->string('type')->default('internal')->after('name');
         });

@@ -30,7 +30,7 @@ class StepTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_calculates_the_real_number_of_days(): void
+    public function it_calculates_the_relative_number_of_days(): void
     {
         $step = Step::factory()->create([
             'modifier' => Step::MODIFIER_SAME_DAY,
@@ -40,7 +40,7 @@ class StepTest extends ApiTestCase
 
         $this->assertEquals(
             0,
-            $step->real_number_of_days
+            $step->relative_number_of_days
         );
 
         $step = Step::factory()->create([
@@ -51,7 +51,7 @@ class StepTest extends ApiTestCase
         $step->calculateDays();
         $this->assertEquals(
             -9,
-            $step->real_number_of_days
+            $step->relative_number_of_days
         );
 
         $step = Step::factory()->create([
@@ -62,7 +62,7 @@ class StepTest extends ApiTestCase
         $step->calculateDays();
         $this->assertEquals(
             -63,
-            $step->real_number_of_days
+            $step->relative_number_of_days
         );
 
         $step = Step::factory()->create([
@@ -73,7 +73,7 @@ class StepTest extends ApiTestCase
         $step->calculateDays();
         $this->assertEquals(
             -270,
-            $step->real_number_of_days
+            $step->relative_number_of_days
         );
 
         $step = Step::factory()->create([
@@ -84,7 +84,7 @@ class StepTest extends ApiTestCase
         $step->calculateDays();
         $this->assertEquals(
             9,
-            $step->real_number_of_days
+            $step->relative_number_of_days
         );
 
         $step = Step::factory()->create([
@@ -95,7 +95,7 @@ class StepTest extends ApiTestCase
         $step->calculateDays();
         $this->assertEquals(
             63,
-            $step->real_number_of_days
+            $step->relative_number_of_days
         );
 
         $step = Step::factory()->create([
@@ -106,7 +106,7 @@ class StepTest extends ApiTestCase
         $step->calculateDays();
         $this->assertEquals(
             270,
-            $step->real_number_of_days
+            $step->relative_number_of_days
         );
     }
 }

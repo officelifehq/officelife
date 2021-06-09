@@ -11,6 +11,9 @@ class RemoveRealNumberOfDaysFromSteps extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::table('steps', function (Blueprint $table) {
             $table->dropColumn('real_number_of_days');
         });

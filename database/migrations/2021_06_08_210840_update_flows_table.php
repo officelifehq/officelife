@@ -11,12 +11,15 @@ class UpdateFlowsTable extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::table('actions', function (Blueprint $table) {
             $table->json('content')->after('type');
         });
 
         Schema::table('steps', function (Blueprint $table) {
-            $table->double('relative_number_of_days')->after('modifier');
+            $table->double('relative_number_of_days')->after('modifier')->default(0);
         });
     }
 }

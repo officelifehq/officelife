@@ -18,14 +18,4 @@ class UserLocale extends Migration
             $table->string('locale', 5)->nullable()->after('password');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down()
-    {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('locale');
-        });
-    }
 }

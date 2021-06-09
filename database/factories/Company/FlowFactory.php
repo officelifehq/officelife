@@ -25,7 +25,7 @@ class FlowFactory extends Factory
         return [
             'company_id' => Company::factory(),
             'name' => 'Birthdate',
-            'type' => 'date',
+            'type' => Flow::DATE_BASED,
         ];
     }
 }

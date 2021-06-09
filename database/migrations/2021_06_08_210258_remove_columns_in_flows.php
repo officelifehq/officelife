@@ -11,6 +11,9 @@ class RemoveColumnsInFlows extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::table('actions', function (Blueprint $table) {
             $table->dropColumn('recipient');
         });

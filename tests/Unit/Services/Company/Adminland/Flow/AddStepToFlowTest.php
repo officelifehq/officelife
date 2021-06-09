@@ -78,7 +78,7 @@ class AddStepToFlowTest extends TestCase
             'flow_id' => $flow->id,
             'number' => 6,
             'unit_of_time' => 'days',
-            'real_number_of_days' => -6,
+            'relative_number_of_days' => -6,
         ]);
 
         $this->assertInstanceOf(
