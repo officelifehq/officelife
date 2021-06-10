@@ -110,7 +110,6 @@ class AddActionToStepTest extends TestCase
             'id' => $action->id,
             'step_id' => $step->id,
             'type' => Action::TYPE_CREATE_TASK,
-            'content' => $json,
         ]);
 
         $this->assertInstanceOf(
