@@ -173,6 +173,7 @@ return [
     'log_position_assigned' => 'Assigned the position called :name to :employee.',
     'log_position_removed' => 'Removed the position called :name to :employee.',
     'log_flow_created' => 'Created the flow called :name.',
+    'log_flow_started' => 'Started the flow called :name.',
     'log_employee_worklog_logged' => 'Added a worklog.',
     'log_employee_status_created' => 'Added an employee status called :name.',
     'log_employee_status_updated' => 'Updated the name of the employee status from :former_name to :new_name.',

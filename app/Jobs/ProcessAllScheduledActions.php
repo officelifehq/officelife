@@ -24,7 +24,7 @@ class ProcessAllScheduledActions implements ShouldQueue
             ->get();
 
         foreach ($actions as $action) {
-            ProcessScheduleAction::dispatch($action);
+            ProcessScheduledAction::dispatch($action);
         }
     }
 }

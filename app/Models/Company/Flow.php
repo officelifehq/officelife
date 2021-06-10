@@ -33,6 +33,7 @@ class Flow extends Model
         'type',
         'trigger',
         'anniversary',
+        'paused',
     ];
 
     /**
@@ -42,6 +43,7 @@ class Flow extends Model
      */
     protected $casts = [
         'anniversary' => 'boolean',
+        'paused' => 'boolean',
     ];
 
     /**

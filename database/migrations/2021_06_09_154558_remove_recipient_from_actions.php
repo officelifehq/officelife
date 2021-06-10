@@ -21,6 +21,7 @@ class RemoveRecipientFromActions extends Migration
         Schema::create('flows', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
+            $table->boolean('paused')->default(true);
             $table->string('name');
             $table->string('type');
             $table->string('trigger')->nullable();
