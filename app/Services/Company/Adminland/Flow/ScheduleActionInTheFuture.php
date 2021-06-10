@@ -37,8 +37,6 @@ class ScheduleActionInTheFuture
 
     private function scheduleAction(Step $step, Flow $flow, Action $action, Employee $employee): void
     {
-        $now = Carbon::now();
-
         // real_number_of_days is either positive or negative, depending on the
         // step (a step can be before, or after a given date)
         if ($step->real_number_of_days >= 0) {
@@ -52,11 +50,11 @@ class ScheduleActionInTheFuture
         //the present or the future.
         // if it's not an anniversary, we simply don't process the step
         // in the past.
-        if ($dateStepShouldBeTriggered->isPast($now) && ! $flow->anniversary) {
+        if ($dateStepShouldBeTriggered->isPast() && ! $flow->anniversary) {
             return;
         }
 
-        while ($dateStepShouldBeTriggered->isPast($now)) {
+        while ($dateStepShouldBeTriggered->isPast()) {
             $dateStepShouldBeTriggered->addYear();
         }
 
