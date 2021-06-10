@@ -63,6 +63,8 @@ jobs:
         run: |
           sed -e 's/CACHE_DRIVER=.*/CACHE_DRIVER=file/' tests/.env.ci-${{ matrix.connection }} > .env
           echo "DEMO_MODE=true" >> .env
+          touch config/.version config/.release
+
       - name: Create mysql database
         run: |
           sudo systemctl start mysql.service
@@ -88,7 +90,9 @@ jobs:
         working-directory: ./demosql
         run: |
           status=$(git status --porcelain)
-          if [ -n "$status" ]; then
+          if [ -z "$status" ]; then
+            echo "No change to commit"
+          else
             git config user.email demosql@officelife.io
             git config user.name demosql
             git add -A --force public config
