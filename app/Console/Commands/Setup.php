@@ -17,6 +17,7 @@ class Setup extends Command
      */
     protected $signature = 'setup
                             {--force : Force the operation to run when in production.}
+                            {--skip-migration : Skip running migrations.}
                             {--skip-storage-link : Skip storage link create.}';
 
     /**
@@ -55,7 +56,9 @@ class Setup extends Command
                 $this->artisan('✓ Symlink the storage folder', 'storage:link'); // @codeCoverageIgnore
             }
 
-            $this->artisan('✓ Performing migrations', 'migrate', ['--force']);
+            if ($this->option('skip-storage-link') !== true) {
+                $this->artisan('✓ Performing migrations', 'migrate', ['--force']);
+            }
 
             // Cache config
             if ($this->getLaravel()->environment() == 'production'

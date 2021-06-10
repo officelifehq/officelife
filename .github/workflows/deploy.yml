@@ -245,9 +245,12 @@ jobs:
       - name: Update .htaccess
         run: cp -f scripts/.htaccess_production public/.htaccess
 
+      - name: Update fortrabbit.yml
+        run: sed -i 's/artisan setup/artisan setup --skip-migration/' fortrabbit.yml
+
       - name: Commit everything
         run: |
-          git add -A --force public config
+          git add -A --force public config fortrabbit.yml
           git commit -m "Build $($CURRENT_DATE_TIME)"
         env:
           CURRENT_DATE_TIME: "date +%Y-%m-%d:%H-%M"
