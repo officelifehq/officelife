@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Inertia\Inertia;
 use App\Helpers\LocaleHelper;
-use App\Helpers\TimezoneHelper;
 use Illuminate\Support\Facades\Session;
 
 /**
@@ -28,7 +27,6 @@ class ShareInertiaData
                 return [
                     'flash' => $request->session()->get('flash', []),
                     'languages' => LocaleHelper::getLocaleList(),
-                    'timezones' => TimezoneHelper::getListOfTimezones(),
                     'enableSignups' => config('officelife.enable_signups'),
                 ];
             },
