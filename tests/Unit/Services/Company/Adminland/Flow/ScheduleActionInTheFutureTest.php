@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Services\Company\Adminland\Flow;
 
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -8,62 +8,16 @@ use App\Models\Company\Flow;
 use App\Models\Company\Step;
 use App\Models\Company\Action;
 use App\Models\Company\Employee;
-use App\Services\BaseServiceAction;
-use App\Models\Company\ScheduledAction;
-use App\Exceptions\MissingInformationInJsonAction;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Adminland\Flow\ScheduleFlowsForEmployee;
+use App\Services\Company\Adminland\Flow\ScheduleActionInTheFuture;
 
-class BaseServiceActionTest extends TestCase
+class ScheduleActionInTheFutureTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_returns_an_empty_keys_array(): void
-    {
-        $stub = $this->getMockForAbstractClass(BaseServiceAction::class);
-
-        $this->assertIsArray(
-            $stub->keys()
-        );
-    }
-
-    /** @test */
-    public function it_raises_an_exception_if_a_key_is_missing_in_json(): void
-    {
-        $keys = [
-            'product_name' => 'test',
-        ];
-
-        $scheduledAction = ScheduledAction::factory()->create([
-            'content' => json_encode(['name' => 'test']),
-        ]);
-
-        $stub = $this->getMockForAbstractClass(BaseServiceAction::class, [], '', true, true, true, ['keys']);
-
-        $stub->expects($this->any())
-             ->method('keys')
-             ->will($this->returnValue($keys));
-
-        $this->expectException(MissingInformationInJsonAction::class);
-        $stub->validateJsonStructure($scheduledAction);
-    }
-
-    /** @test */
-    public function it_marks_a_scheduled_action_as_processed(): void
-    {
-        $scheduledAction = ScheduledAction::factory()->create();
-
-        $stub = $this->getMockForAbstractClass(BaseServiceAction::class);
-        $stub->markAsProcessed($scheduledAction);
-
-        $this->assertDatabaseHas('scheduled_actions', [
-            'id' => $scheduledAction->id,
-            'processed' => true,
-        ]);
-    }
-
-    /** @test */
-    public function it_schedules_a_new_iteration_of_the_action(): void
+    public function it_schedules_an_action_in_the_future_for_a_date_in_the_future(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
@@ -84,24 +38,55 @@ class BaseServiceActionTest extends TestCase
             'step_id' => $step->id,
         ]);
 
-        $stub = $this->getMockForAbstractClass(BaseServiceAction::class);
-        $stub->scheduleFutureIteration($action, $michael);
+        (new ScheduleActionInTheFuture)->execute($action, $michael);
 
         $this->assertDatabaseHas('scheduled_actions', [
             'action_id' => $action->id,
             'employee_id' => $michael->id,
-            'triggered_at' => '2021-03-11 00:00:00',
+            'triggered_at' => '2020-03-11 00:00:00',
             'content' => $action->content,
         ]);
     }
 
     /** @test */
-    public function it_doesnt_schedule_a_new_iteration_of_the_action_if_the_flow_is_not_an_anniversary(): void
+    public function it_schedules_an_action_in_the_future_for_a_date_in_the_past(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
         $michael = Employee::factory()->create([
-            'hired_at' => '2020-01-01',
+            'hired_at' => '1900-01-01',
+        ]);
+        $flow = Flow::factory()->create([
+            'company_id' => $michael->company_id,
+            'type' => Flow::DATE_BASED,
+            'trigger' => Flow::TRIGGER_HIRING_DATE,
+            'anniversary' => true,
+        ]);
+        $step = Step::factory()->create([
+            'flow_id' => $flow->id,
+            'real_number_of_days' => 70,
+        ]);
+        $action = Action::factory()->create([
+            'step_id' => $step->id,
+        ]);
+
+        (new ScheduleActionInTheFuture)->execute($action, $michael);
+
+        $this->assertDatabaseHas('scheduled_actions', [
+            'action_id' => $action->id,
+            'employee_id' => $michael->id,
+            'triggered_at' => '2018-03-12 00:00:00',
+            'content' => $action->content,
+        ]);
+    }
+
+    /** @test */
+    public function it_doesnt_schedule_an_action_if_flow_is_not_based_on_an_anniversary_of_the_trigger_date(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $michael = Employee::factory()->create([
+            'hired_at' => '2000-01-01',
         ]);
         $flow = Flow::factory()->create([
             'company_id' => $michael->company_id,
@@ -117,8 +102,11 @@ class BaseServiceActionTest extends TestCase
             'step_id' => $step->id,
         ]);
 
-        $stub = $this->getMockForAbstractClass(BaseServiceAction::class);
-        $stub->scheduleFutureIteration($action, $michael);
+        (new ScheduleFlowsForEmployee)->execute([
+            'company_id' => $michael->company_id,
+            'employee_id' => $michael->id,
+            'trigger' => Flow::TRIGGER_HIRING_DATE,
+        ]);
 
         $this->assertDatabaseMissing('scheduled_actions', [
             'action_id' => $action->id,

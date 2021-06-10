@@ -52,7 +52,9 @@ class ScheduleActionInTheFuture
             return;
         }
 
-        $dateStepShouldBeTriggered->addYear();
+        while ($dateStepShouldBeTriggered->isPast($now)) {
+            $dateStepShouldBeTriggered->addYear();
+        }
 
         ScheduledAction::create([
             'action_id' => $action->id,
