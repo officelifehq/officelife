@@ -1,0 +1,102 @@
+name: Build and test
+
+on:
+  push:
+    branches: [main, '20210610-demosql']
+
+env:
+  default-php-version: '8.0'
+  coverage-with: 'sqlite'
+
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    name: Testsuite ${{ matrix.testsuite }} with PHP ${{ matrix.php-version }} + ${{ matrix.connection }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.0']
+        connection: [mysql]
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Checkout demosql
+        uses: actions/checkout@v2
+        with:
+          repository: officelifehq/demosql
+          path: demosql
+
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, dom, fileinfo, ${{ matrix.connection }}
+          coverage: none
+      - name: Check PHP Version
+        run: php -v
+      - name: Check Composer Version
+        run: composer -V
+      - name: Check PHP Extensions
+        run: php -m
+
+    # Composer
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache composer files
+        uses: actions/cache@v2.1.6
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
+            ${{ runner.os }}-composer-${{ matrix.php-version }}
+            ${{ runner.os }}-composer-
+
+      - name: Install composer dependencies
+        run: composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
+
+    # Prepare
+      - name: Prepare environment
+        run: |
+          cp tests/.env.ci-${{ matrix.connection }} .env
+          echo "DEMO_MODE=true" >> .env
+      - name: Create mysql database
+        run: |
+          sudo systemctl start mysql.service
+          mysql --protocol=tcp -u root -proot -e "CREATE DATABASE IF NOT EXISTS officelife CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Generate key
+        run: php artisan demo:reset --force
+
+      - name: Run migrations
+        run: php artisan migrate --no-interaction -vvv
+      - name: Run seeds
+        run: php artisan db:seed --no-interaction -vvv
+
+      - name: Generate file
+        run: mysqldump --skip-add-drop-table --single-transaction -u root -proot officelife | sed -r 's/CREATE TABLE (`[^`]+`)/TRUNCATE TABLE \1; CREATE TABLE IF NOT EXISTS \1/g' > demosql/officelife.sql
+
+      - name: Send file
+        working-directory: ./demosql
+        run: |
+          status=$(git status --porcelain)
+          if [ -n "$status" ]; then
+            git config user.email demosql@officelife.io
+            git config user.name demosql
+            git add -A --force public config
+            git commit -m "Build $($CURRENT_DATE_TIME)"
+            git push origin
+          fi
+        env:
+          CURRENT_DATE_TIME: "date +%Y-%m-%d:%H-%M"
