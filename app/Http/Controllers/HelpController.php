@@ -18,7 +18,7 @@ class HelpController extends Controller
     public function toggle(Request $request): JsonResponse
     {
         $data = [
-            'user_id' => Auth::user()->id,
+            'user_id' => Auth::id(),
             'visibility' => ! Auth::user()->show_help,
         ];
 

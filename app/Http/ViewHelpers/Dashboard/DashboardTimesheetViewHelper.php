@@ -10,6 +10,7 @@ use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Employee\Timesheet\CreateOrGetTimesheet;
 
 class DashboardTimesheetViewHelper
@@ -116,7 +117,7 @@ class DashboardTimesheetViewHelper
             $information = [
                 'id' => $approver->id,
                 'name' => $approver->name,
-                'approved_at' => DateHelper::formatDate($timesheet->approved_at, $employee->timezone),
+                'approved_at' => DateHelper::formatDate($timesheet->approved_at, Auth::user()->timezone),
                 'avatar' => ImageHelper::getAvatar($approver),
                 'url' => route('employees.show', [
                     'company' => $timesheet->company,

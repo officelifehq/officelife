@@ -17,7 +17,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('search/teams', 'HeaderSearchController@teams');
 
     Route::post('help', 'HelpController@toggle');
-    Route::post('locale', 'User\\LocaleController@update');
+    Route::put('locale', 'User\\LocaleController@update');
+    Route::get('timezones', 'User\\TimezoneController@index')->name('user-timezone.index');
+    Route::put('timezone', 'User\\TimezoneController@update')->name('user-timezone.update');
 
     Route::get('company/create', 'Company\\CompanyController@create');
     Route::post('company/store', 'Company\\CompanyController@store')->name('company.store');

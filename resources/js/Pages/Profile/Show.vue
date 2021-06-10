@@ -8,6 +8,8 @@
 
         <update-locale :user="$page.props.auth.user" :locales="$page.props.jetstream.languages" class="mt1" />
 
+        <update-timezone :user="$page.props.auth.user" class="mt1" />
+
         <two-factor-authentication-form class="mt1" />
 
         <logout-other-browser-sessions-form :sessions="sessions" class="mt1" />
@@ -23,6 +25,7 @@ import TwoFactorAuthenticationForm from './Partials/TwoFactorAuthenticationForm'
 import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
 import UpdateLocale from './Partials/UpdateLocale';
+import UpdateTimezone from './Partials/UpdateTimezone';
 
 export default {
 
@@ -33,6 +36,7 @@ export default {
     UpdatePasswordForm,
     UpdateProfileInformationForm,
     UpdateLocale,
+    UpdateTimezone,
   },
 
   props: {

@@ -12,6 +12,7 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectTask;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Company\ProjectTaskList;
 
 class ProjectTasksViewHelper
@@ -194,8 +195,8 @@ class ProjectTasksViewHelper
             'title' => $task->title,
             'description' => $task->description,
             'completed' => $task->completed,
-            'completed_at' => $task->completed_at ? DateHelper::formatDate($task->completed_at, $employee->timezone) : null,
-            'created_at' => DateHelper::formatDate($task->created_at, $employee->timezone),
+            'completed_at' => $task->completed_at ? DateHelper::formatDate($task->completed_at, Auth::user()->timezone) : null,
+            'created_at' => DateHelper::formatDate($task->created_at, Auth::user()->timezone),
             'url' => route('projects.tasks.show', [
                 'company' => $company,
                 'project' => $task->project_id,
@@ -207,7 +208,7 @@ class ProjectTasksViewHelper
                 'name' => $author->name,
                 'avatar' => ImageHelper::getAvatar($author, 35),
                 'role' => $role ? $role->role : null,
-                'added_at' => $role ? DateHelper::formatDate(Carbon::createFromFormat('Y-m-d H:i:s', $role->created_at), $employee->timezone) : null,
+                'added_at' => $role ? DateHelper::formatDate(Carbon::createFromFormat('Y-m-d H:i:s', $role->created_at), Auth::user()->timezone) : null,
                 'position' => (! $author->position) ? null : $author->position->title,
                 'url' => route('employees.show', [
                     'company' => $company,
@@ -278,7 +279,7 @@ class ProjectTasksViewHelper
             $timeTrackingCollection->push([
                 'id' => (int) $timeTrackingEntry->id,
                 'duration' => TimeHelper::durationInHumanFormat((int) $timeTrackingEntry->duration),
-                'created_at' => DateHelper::formatDate($carbonDate, $employee->timezone),
+                'created_at' => DateHelper::formatDate($carbonDate, Auth::user()->timezone),
                 'employee' => [
                     'id' => $timeTrackingEntry->employee_id,
                     'name' => $timeTrackingEntry->first_name.' '.$timeTrackingEntry->last_name,

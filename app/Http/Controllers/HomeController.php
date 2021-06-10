@@ -37,8 +37,8 @@ class HomeController extends Controller
      */
     private function companies(bool $redirect)
     {
-        Cache::forget('cachedCompanyObject_'.Auth::user()->id);
-        Cache::forget('cachedEmployeeObject_'.Auth::user()->id);
+        Cache::forget('cachedCompanyObject_'.Auth::id());
+        Cache::forget('cachedEmployeeObject_'.Auth::id());
 
         $employees = Auth::user()->employees()->with('company')->notLocked()->get();
 

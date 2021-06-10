@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Company\Morale;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use Illuminate\Support\Facades\Auth;
 
 class WorklogHelper
 {
@@ -22,7 +23,7 @@ class WorklogHelper
     public static function getDailyInformationForEmployee(Carbon $date, Worklog $worklog = null, Morale $morale = null, Employee $loggedEmployee): array
     {
         return [
-            'date' => DateHelper::formatShortDateWithTime($date, $loggedEmployee->timezone),
+            'date' => DateHelper::formatShortDateWithTime($date, Auth::user()->timezone),
             'friendly_date' => DateHelper::formatDayAndMonthInParenthesis($date),
             'status' => DateHelper::determineDateStatus($date),
             'worklog_parsed_content' => is_null($worklog) ? null : StringHelper::parse($worklog->content),

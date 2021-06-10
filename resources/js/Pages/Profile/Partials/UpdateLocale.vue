@@ -73,7 +73,7 @@ export default {
   methods: {
     updateLocale() {
       this.loadLanguage(this.form.locale, true).then(() => {
-        this.form.post('/locale', {
+        this.form.put('/locale', {
           preserveScroll: true,
           onSuccess: () => {
             this.flash(this.$t('app.saved'), 'success');

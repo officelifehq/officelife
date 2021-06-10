@@ -19,7 +19,7 @@ class LocaleController extends Controller
     public function update(Request $request)
     {
         (new UpdateLocale)->execute([
-            'user_id' => Auth::user()->id,
+            'user_id' => Auth::id(),
             'locale' => $request->input('locale'),
         ]);
 

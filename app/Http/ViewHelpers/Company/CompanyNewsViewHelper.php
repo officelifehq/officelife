@@ -7,6 +7,7 @@ use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyNewsViewHelper
 {
@@ -38,7 +39,7 @@ class CompanyNewsViewHelper
                         'employee' => $author,
                     ]),
                 ] : $news->author_name,
-                'written_at' => DateHelper::formatDate($news->created_at, $employee->timezone),
+                'written_at' => DateHelper::formatDate($news->created_at, Auth::user()->timezone),
             ]);
         }
 

@@ -8,6 +8,7 @@ use App\Helpers\ImageHelper;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectFilesViewHelper
 {
@@ -45,7 +46,7 @@ class ProjectFilesViewHelper
                         'employee' => $uploader,
                     ]),
                 ] : $file->uploader_name,
-                'created_at' => DateHelper::formatDate($file->created_at, $employee->timezone),
+                'created_at' => DateHelper::formatDate($file->created_at, Auth::user()->timezone),
             ]);
         }
 

@@ -24,7 +24,7 @@ class CheckCompany
         $requestedCompanyId = $request->route()->parameter('company');
 
         try {
-            $employee = Employee::where('user_id', Auth::user()->id)
+            $employee = Employee::where('user_id', Auth::id())
                 ->where('company_id', $requestedCompanyId)
                 ->firstOrFail();
 
@@ -32,8 +32,8 @@ class CheckCompany
                 abort(401);
             }
 
-            $cachedCompanyObject = 'cachedCompanyObject_' . Auth::user()->id;
-            $cachedEmployeeObject = 'cachedEmployeeObject_' . Auth::user()->id;
+            $cachedCompanyObject = 'cachedCompanyObject_' . Auth::id();
+            $cachedEmployeeObject = 'cachedEmployeeObject_' . Auth::id();
 
             Cache::put($cachedCompanyObject, $employee->company, now()->addMinutes(60));
             Cache::put($cachedEmployeeObject, $employee, now()->addMinutes(60));

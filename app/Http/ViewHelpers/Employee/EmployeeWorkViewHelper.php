@@ -13,6 +13,7 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectTask;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Company\ProjectMessage;
 
 class EmployeeWorkViewHelper
@@ -75,7 +76,7 @@ class EmployeeWorkViewHelper
      */
     public static function weeks(Employee $loggedEmployee): Collection
     {
-        $date = Carbon::now()->setTimezone($loggedEmployee->timezone);
+        $date = Carbon::now()->setTimezone(Auth::user()->timezone);
         $currentWeek = $date->copy()->startofWeek();
 
         $weeksCollection = collect([]);

@@ -6,7 +6,6 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Helpers\TimezoneHelper;
 use App\Models\Company\Country;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
@@ -61,7 +60,6 @@ class EmployeeEditController extends Controller
 
         return Inertia::render('Employee/Edit', [
             'employee' => EmployeeEditViewHelper::show($employee),
-            'timezones' => TimezoneHelper::getListOfTimezones(),
             'permissions' => EmployeeShowViewHelper::permissions($loggedEmployee, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);

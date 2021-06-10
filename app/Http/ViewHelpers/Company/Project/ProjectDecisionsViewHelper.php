@@ -8,6 +8,7 @@ use App\Models\Company\Company;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectDecisionsViewHelper
 {
@@ -46,7 +47,7 @@ class ProjectDecisionsViewHelper
             $decisionsCollection->push([
                 'id' => $decision->id,
                 'title' => $decision->title,
-                'decided_at' => DateHelper::formatDate($decision->decided_at, $employee->timezone),
+                'decided_at' => DateHelper::formatDate($decision->decided_at, Auth::user()->timezone),
                 'deciders' => $decidersCollection,
             ]);
         }

@@ -13,6 +13,7 @@ use App\Models\Company\Project;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Project\AddEmployeeToProject;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
@@ -106,7 +107,7 @@ class ProjectMembersController extends Controller
                 'name' => $employee->name,
                 'avatar' => ImageHelper::getAvatar($employee, 64),
                 'role' => $request->input('role'),
-                'added_at' => DateHelper::formatDate(Carbon::now(), $loggedEmployee->timezone),
+                'added_at' => DateHelper::formatDate(Carbon::now(), Auth::user()->timezone),
                 'position' => (! $employee->position) ? null : [
                     'id' => $employee->position->id,
                     'title' => $employee->position->title,

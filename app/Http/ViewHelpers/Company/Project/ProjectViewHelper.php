@@ -9,6 +9,7 @@ use App\Models\Company\Company;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectViewHelper
 {
@@ -84,7 +85,7 @@ class ProjectViewHelper
                 'title' => $latestStatus->title,
                 'status' => $latestStatus->status,
                 'description' => StringHelper::parse($latestStatus->description),
-                'written_at' => DateHelper::formatDate($latestStatus->created_at, $employee->timezone),
+                'written_at' => DateHelper::formatDate($latestStatus->created_at, Auth::user()->timezone),
                 'author' => $author ? [
                     'id' => $author->id,
                     'name' => $author->name,

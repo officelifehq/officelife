@@ -6,10 +6,10 @@ use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\MoneyHelper;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Employee\Expense\CreateExpense;
 
 class DashboardMeExpenseController extends Controller
@@ -46,7 +46,7 @@ class DashboardMeExpenseController extends Controller
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
                 'category' => ($expense->category) ? $expense->category->name : null,
-                'expensed_at' => DateHelper::formatDate($expense->expensed_at, $employee->timezone),
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at, Auth::user()->timezone),
                 'url' => route('employee.administration.expenses.show', [
                     'company' => $employee->company,
                     'employee' => $employee,
