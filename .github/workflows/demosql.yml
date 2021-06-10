@@ -80,7 +80,9 @@ jobs:
         run: php artisan db:seed --no-interaction -vvv
 
       - name: Generate file
-        run: mysqldump --skip-add-drop-table --single-transaction -u root -proot officelife | sed -r 's/CREATE TABLE (`[^`]+`)/TRUNCATE TABLE \1; CREATE TABLE IF NOT EXISTS \1/g' > demosql/officelife.sql
+        run: |
+          mysqldump --skip-add-drop-table --skip-dump-date --single-transaction -u root -proot officelife | \
+            sed -r 's/CREATE TABLE (`[^`]+`)/CREATE TABLE IF NOT EXISTS \1/g; s/LOCK TABLES (`[^`]+`)/TRUNCATE TABLE \1; LOCK TABLES \1/g' > officelife.sql
 
       - name: Send file
         working-directory: ./demosql
