@@ -61,7 +61,7 @@ jobs:
     # Prepare
       - name: Prepare environment
         run: |
-          cp tests/.env.ci-${{ matrix.connection }} .env
+          sed -e 's/CACHE_DRIVER=.*/CACHE_DRIVER=file/' tests/.env.ci-${{ matrix.connection }} > .env
           echo "DEMO_MODE=true" >> .env
       - name: Create mysql database
         run: |
@@ -71,7 +71,7 @@ jobs:
       - name: Generate key
         run: php artisan key:generate
 
-      - name: Generate key
+      - name: Reset demo env
         run: php artisan demo:reset --force
 
       - name: Run migrations
