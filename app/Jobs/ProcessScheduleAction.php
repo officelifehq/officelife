@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\Company\Place;
 use Illuminate\Bus\Queueable;
 use App\Models\Company\Action;
 use Illuminate\Queue\SerializesModels;
@@ -17,7 +16,7 @@ class ProcessScheduleAction implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * The place instance.
+     * The schedule instance instance.
      *
      * @var ScheduledAction
      */

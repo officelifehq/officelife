@@ -11,9 +11,9 @@ class RemoveRecipientFromActions extends Migration
      */
     public function up()
     {
-        Schema::drop('flows');
-        Schema::drop('steps');
         Schema::drop('actions');
+        Schema::drop('steps');
+        Schema::drop('flows');
 
         // necessary for SQLlite
         Schema::enableForeignKeyConstraints();

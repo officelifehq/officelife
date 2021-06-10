@@ -27,6 +27,7 @@ class ScheduledAction extends Model
         'triggered_at',
         'content',
         'processed',
+        'employee_id',
     ];
 
     /**

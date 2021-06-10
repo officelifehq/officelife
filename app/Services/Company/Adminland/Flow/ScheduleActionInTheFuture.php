@@ -24,37 +24,41 @@ class ScheduleActionInTheFuture
         $step = $action->step;
         $flow = $action->step->flow;
 
-        $this->determineTriggerDate($flow);
+        $this->determineTriggerDate($flow, $employee);
         $this->scheduleAction($step, $flow, $action, $employee);
     }
 
-    private function determineTriggerDate(Flow $flow): void
+    private function determineTriggerDate(Flow $flow, Employee $employee): void
     {
         if ($flow->trigger == Flow::TRIGGER_HIRING_DATE) {
-            $this->date = $this->employee->hired_at;
+            $this->date = $employee->hired_at;
         }
     }
 
     private function scheduleAction(Step $step, Flow $flow, Action $action, Employee $employee): void
     {
+        $now = Carbon::now();
+
+        // real_number_of_days is either positive or negative, depending on the
+        // step (a step can be before, or after a given date)
+        $dateStepShouldBeTriggered = $this->date->copy()->addDays($step->real_number_of_days);
+
         // if the flow is set for the anniversary of the given date, we
         // need to make sure that each step of the flow is executed in
         //the present or the future.
         // if it's not an anniversary, we simply don't process the step
         // in the past.
-        $now = Carbon::now();
-        $dateStepShouldBeTriggered = $this->date->copy()->addDays($step->real_number_of_days);
-
-        if ($dateStepShouldBeTriggered->isPast($now) && $flow->anniversary) {
-            $dateStepShouldBeTriggered->addYear();
-        } else {
+        if ($dateStepShouldBeTriggered->isPast($now) && ! $flow->anniversary) {
             return;
         }
+
+        $dateStepShouldBeTriggered->addYear();
 
         ScheduledAction::create([
             'action_id' => $action->id,
             'employee_id' => $employee->id,
-            'triggered_at' => $this->date,
+            'triggered_at' => $dateStepShouldBeTriggered,
+            'content' => $action->content,
         ]);
     }
 }

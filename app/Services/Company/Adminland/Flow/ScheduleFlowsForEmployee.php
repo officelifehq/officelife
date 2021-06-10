@@ -28,7 +28,8 @@ class ScheduleFlowsForEmployee extends BaseService
     }
 
     /**
-     * Schedules a flow for a given employee that matches a given type, like
+     * Schedules all the actions for all the flows that match a given trigger
+     * type for a given employee.
      * Flow::TRIGGER_HIRING_DATE for instance.
      *
      * @param array $data

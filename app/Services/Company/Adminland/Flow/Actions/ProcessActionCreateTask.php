@@ -48,6 +48,7 @@ class ProcessActionCreateTask extends BaseServiceAction
         $this->validateJsonStructure($this->scheduledAction);
         $this->createTask();
         $this->markAsProcessed($this->scheduledAction);
+        $this->scheduleFutureIteration($scheduledAction->action, $this->employee);
     }
 
     private function createTask(): void

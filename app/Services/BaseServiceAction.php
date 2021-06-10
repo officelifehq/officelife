@@ -47,12 +47,15 @@ abstract class BaseServiceAction
 
     /**
      * Schedule a future iteration for the given action.
+     * Does not run the action if the flow is not meant to have a recurrence.
      *
      * @param Action $action
      * @param Employee $employee
      */
     public function scheduleFutureIteration(Action $action, Employee $employee): void
     {
-        (new ScheduleActionInTheFuture)->execute($action, $employee);
+        if ($action->step->flow->anniversary) {
+            (new ScheduleActionInTheFuture)->execute($action, $employee);
+        }
     }
 }
