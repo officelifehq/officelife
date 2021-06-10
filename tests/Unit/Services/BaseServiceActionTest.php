@@ -90,7 +90,7 @@ class BaseServiceActionTest extends TestCase
         $this->assertDatabaseHas('scheduled_actions', [
             'action_id' => $action->id,
             'employee_id' => $michael->id,
-            'triggered_at' => '2021-03-11 00:00:00',
+            'triggered_at' => '2020-03-11 00:00:00',
         ]);
     }
 

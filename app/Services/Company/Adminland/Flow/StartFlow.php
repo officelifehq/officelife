@@ -65,7 +65,7 @@ class StartFlow extends BaseService
 
     private function destroyUnprocessedScheduledActions(): void
     {
-        $actions = $this->flow->steps->actions
+        $actions = $this->flow->steps()->actions()
             ->select('actions.id')
             ->pluck('id')
             ->toArray();
@@ -84,7 +84,7 @@ class StartFlow extends BaseService
         $this->flow->paused = false;
         $this->flow->save();
 
-        $employees = $this->flow->company->employees->notLocked->get();
+        $employees = $this->flow->company()->employees()->notLocked()->get();
 
         foreach ($employees as $employee) {
             (new ScheduleFlowsForEmployee)->execute([

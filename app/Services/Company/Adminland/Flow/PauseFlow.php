@@ -61,7 +61,7 @@ class PauseFlow extends BaseService
 
     private function destroyUnprocessedScheduledActions(): void
     {
-        $actions = $this->flow->steps->actions
+        $actions = $this->flow->steps()->actions()
             ->select('actions.id')
             ->pluck('id')
             ->toArray();

@@ -62,7 +62,7 @@ class ScheduleFlowsForEmployee extends BaseService
 
     private function checkFlows()
     {
-        if (! $this->flows) {
+        if ($this->flows->count()) {
             return;
         }
 

@@ -41,7 +41,11 @@ class ScheduleActionInTheFuture
 
         // real_number_of_days is either positive or negative, depending on the
         // step (a step can be before, or after a given date)
-        $dateStepShouldBeTriggered = $this->date->copy()->addDays($step->real_number_of_days);
+        if ($step->real_number_of_days >= 0) {
+            $dateStepShouldBeTriggered = $this->date->copy()->addDays((int) $step->real_number_of_days);
+        } else {
+            $dateStepShouldBeTriggered = $this->date->copy()->subDays((int) $step->real_number_of_days * -1);
+        }
 
         // if the flow is set for the anniversary of the given date, we
         // need to make sure that each step of the flow is executed in
