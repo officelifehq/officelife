@@ -24,6 +24,20 @@ class Step extends Model
     use HasFactory;
 
     /**
+     * Possible modifiers.
+     */
+    const MODIFIER_BEFORE = 'before';
+    const MODIFIER_AFTER = 'after';
+    const MODIFIER_SAME_DAY = 'same_day';
+
+    /**
+     * Possible modifiers.
+     */
+    const UNIT_DAY = 'day';
+    const UNIT_WEEK = 'week';
+    const UNIT_MONTH = 'month';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -61,34 +75,34 @@ class Step extends Model
      */
     public function calculateDays(): void
     {
-        if ($this->modifier == 'same_day') {
+        if ($this->modifier == Step::MODIFIER_SAME_DAY) {
             $this->real_number_of_days = 0;
         }
 
-        if ($this->modifier == 'before') {
-            if ($this->unit_of_time == 'days') {
+        if ($this->modifier == Step::MODIFIER_BEFORE) {
+            if ($this->unit_of_time == Step::UNIT_DAY) {
                 $this->real_number_of_days = $this->number * -1;
             }
 
-            if ($this->unit_of_time == 'weeks') {
+            if ($this->unit_of_time == Step::UNIT_WEEK) {
                 $this->real_number_of_days = $this->number * 7 * -1;
             }
 
-            if ($this->unit_of_time == 'months') {
+            if ($this->unit_of_time == Step::UNIT_MONTH) {
                 $this->real_number_of_days = $this->number * 30 * -1;
             }
         }
 
-        if ($this->modifier == 'after') {
-            if ($this->unit_of_time == 'days') {
+        if ($this->modifier == Step::MODIFIER_AFTER) {
+            if ($this->unit_of_time == Step::UNIT_DAY) {
                 $this->real_number_of_days = $this->number;
             }
 
-            if ($this->unit_of_time == 'weeks') {
+            if ($this->unit_of_time == Step::UNIT_WEEK) {
                 $this->real_number_of_days = $this->number * 7;
             }
 
-            if ($this->unit_of_time == 'months') {
+            if ($this->unit_of_time == Step::UNIT_MONTH) {
                 $this->real_number_of_days = $this->number * 30;
             }
         }

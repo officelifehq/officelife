@@ -24,17 +24,17 @@ class AddStepToFlow extends BaseService
             'unit_of_time' => [
                 'nullable',
                 Rule::in([
-                    'days',
-                    'weeks',
-                    'months',
+                    Step::UNIT_DAY,
+                    Step::UNIT_WEEK,
+                    Step::UNIT_MONTH,
                 ]),
             ],
             'modifier' => [
                 'required',
                 Rule::in([
-                    'before',
-                    'after',
-                    'same_day',
+                    Step::MODIFIER_BEFORE,
+                    Step::MODIFIER_AFTER,
+                    Step::MODIFIER_SAME_DAY,
                 ]),
             ],
         ];

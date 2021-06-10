@@ -3,15 +3,24 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Flow extends Model
 {
-    use LogsActivity,
-        HasFactory;
+    use HasFactory;
+
+    /**
+     * Possible flow type.
+     */
+    const DATE_BASED = 'date';
+    const EVENT_BASED = 'event';
+
+    /**
+     * Possible triggers.
+     */
+    const TRIGGER_HIRING_DATE = 'hiring_date';
 
     /**
      * The attributes that are mass assignable.
@@ -22,15 +31,17 @@ class Flow extends Model
         'company_id',
         'name',
         'type',
+        'trigger',
+        'anniversary',
     ];
 
     /**
-     * The attributes that are logged when changed.
+     * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected static $logAttributes = [
-        'name',
+    protected $casts = [
+        'anniversary' => 'boolean',
     ];
 
     /**

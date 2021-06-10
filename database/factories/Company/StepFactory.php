@@ -25,8 +25,8 @@ class StepFactory extends Factory
         return [
             'flow_id' => Flow::factory(),
             'number' => 3,
-            'unit_of_time' => 'days',
-            'modifier' => 'after',
+            'unit_of_time' => Step::UNIT_DAY,
+            'modifier' => Step::MODIFIER_AFTER,
             'real_number_of_days' => 3,
         ];
     }

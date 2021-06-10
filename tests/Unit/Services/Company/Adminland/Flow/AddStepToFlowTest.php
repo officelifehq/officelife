@@ -67,8 +67,8 @@ class AddStepToFlowTest extends TestCase
             'author_id' => $michael->id,
             'flow_id' => $flow->id,
             'number' => 6,
-            'unit_of_time' => 'days',
-            'modifier' => 'before',
+            'unit_of_time' => Step::UNIT_DAY,
+            'modifier' => Step::MODIFIER_BEFORE,
         ];
 
         $step = (new AddStepToFlow)->execute($request);
@@ -77,7 +77,7 @@ class AddStepToFlowTest extends TestCase
             'id' => $step->id,
             'flow_id' => $flow->id,
             'number' => 6,
-            'unit_of_time' => 'days',
+            'unit_of_time' => Step::UNIT_DAY,
             'real_number_of_days' => -6,
         ]);
 

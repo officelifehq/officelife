@@ -33,7 +33,7 @@ class StepTest extends ApiTestCase
     public function it_calculates_the_real_number_of_days(): void
     {
         $step = Step::factory()->create([
-            'modifier' => 'same_day',
+            'modifier' => Step::MODIFIER_SAME_DAY,
         ]);
         $step->calculateDays();
         $this->assertEquals(
@@ -42,8 +42,8 @@ class StepTest extends ApiTestCase
         );
 
         $step = Step::factory()->create([
-            'modifier' => 'before',
-            'unit_of_time' => 'days',
+            'modifier' => Step::MODIFIER_BEFORE,
+            'unit_of_time' => Step::UNIT_DAY,
             'number' => 9,
         ]);
         $step->calculateDays();
@@ -53,8 +53,8 @@ class StepTest extends ApiTestCase
         );
 
         $step = Step::factory()->create([
-            'modifier' => 'before',
-            'unit_of_time' => 'weeks',
+            'modifier' => Step::MODIFIER_BEFORE,
+            'unit_of_time' => Step::UNIT_WEEK,
             'number' => 9,
         ]);
         $step->calculateDays();
@@ -64,8 +64,8 @@ class StepTest extends ApiTestCase
         );
 
         $step = Step::factory()->create([
-            'modifier' => 'before',
-            'unit_of_time' => 'months',
+            'modifier' => Step::MODIFIER_BEFORE,
+            'unit_of_time' => Step::UNIT_MONTH,
             'number' => 9,
         ]);
         $step->calculateDays();
@@ -75,8 +75,8 @@ class StepTest extends ApiTestCase
         );
 
         $step = Step::factory()->create([
-            'modifier' => 'after',
-            'unit_of_time' => 'days',
+            'modifier' => Step::MODIFIER_AFTER,
+            'unit_of_time' => Step::UNIT_DAY,
             'number' => 9,
         ]);
         $step->calculateDays();
@@ -86,8 +86,8 @@ class StepTest extends ApiTestCase
         );
 
         $step = Step::factory()->create([
-            'modifier' => 'after',
-            'unit_of_time' => 'weeks',
+            'modifier' => Step::MODIFIER_AFTER,
+            'unit_of_time' => Step::UNIT_WEEK,
             'number' => 9,
         ]);
         $step->calculateDays();
@@ -97,8 +97,8 @@ class StepTest extends ApiTestCase
         );
 
         $step = Step::factory()->create([
-            'modifier' => 'after',
-            'unit_of_time' => 'months',
+            'modifier' => Step::MODIFIER_AFTER,
+            'unit_of_time' => Step::UNIT_MONTH,
             'number' => 9,
         ]);
         $step->calculateDays();

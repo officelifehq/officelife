@@ -11,6 +11,12 @@ class Action extends Model
     use HasFactory;
 
     /**
+     * Possible actions.
+     */
+    const TYPE_CREATE_TASK = 'create_task';
+    const TYPE_CREATE_PROJECT = 'create_project';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -18,8 +24,7 @@ class Action extends Model
     protected $fillable = [
         'step_id',
         'type',
-        'recipient',
-        'specific_recipient_information',
+        'content',
     ];
 
     /**

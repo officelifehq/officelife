@@ -24,18 +24,17 @@ class CreateFlow extends BaseService
             'type' => [
                 'required',
                 Rule::in([
-                    'employee_joins_company',
-                    'employee_leaves_company',
-                    'employee_birthday',
-                    'employee_joins_team',
-                    'employee_leaves_team',
-                    'employee_becomes_manager',
-                    'employee_new_position',
-                    'employee_leaves_holidays',
-                    'employee_returns_holidays',
-                    'employee_returns_leave',
+                    Flow::DATE_BASED,
+                    Flow::EVENT_BASED,
                 ]),
             ],
+            'trigger' => [
+                'required',
+                Rule::in([
+                    Flow::TRIGGER_HIRING_DATE,
+                ]),
+            ],
+            'anniversary' => 'required|boolean',
         ];
     }
 
@@ -59,6 +58,8 @@ class CreateFlow extends BaseService
             'company_id' => $data['company_id'],
             'name' => $data['name'],
             'type' => $data['type'],
+            'trigger' => $data['trigger'],
+            'anniversary' => $data['anniversary'],
         ]);
 
         LogAccountAudit::dispatch([
