@@ -130,7 +130,7 @@
             </div>
 
             <!-- Contract rate -->
-            <div v-if="employee.status_type === 'external'" class="cf pa3 bb bb-gray pb4">
+            <div class="cf pa3 bb bb-gray pb4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
                 <strong>{{ $t('employee.edit_contract_rate_title') }}</strong>
                 <p class="f7 silver lh-copy pr3-ns">

@@ -45,7 +45,6 @@ class EmployeeEditViewHelperTest extends TestCase
                 'slack_handle' => $michael->slack_handle,
                 'max_year' => 2018,
                 'timezone' => 'Africa/Banjul',
-                'status_type' => 'internal',
             ],
             $array
         );
