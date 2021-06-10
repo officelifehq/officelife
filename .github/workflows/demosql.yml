@@ -1,18 +1,13 @@
-name: Build and test
+name: Demo sql update
 
 on:
   push:
     branches: [main, '20210610-demosql']
 
-env:
-  default-php-version: '8.0'
-  coverage-with: 'sqlite'
-
-
 jobs:
   tests:
     runs-on: ubuntu-latest
-    name: Testsuite ${{ matrix.testsuite }} with PHP ${{ matrix.php-version }} + ${{ matrix.connection }}
+    name: Demosql update
 
     strategy:
       fail-fast: false
