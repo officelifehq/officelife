@@ -4,6 +4,7 @@ namespace Tests\Unit\Services\Company\Adminland\Flow\Actions;
 
 use Tests\TestCase;
 use App\Models\Company\Project;
+use App\Models\Company\ScheduledAction;
 use App\Exceptions\MissingInformationInJsonAction;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Flow\Actions\ProcessActionCreateProject;
@@ -13,11 +14,11 @@ class ProcessActionCreateProjectTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_projectz(): void
+    public function it_creates_a_project(): void
     {
         $michael = $this->createAdministrator();
-        $project = (new ProcessActionCreateProject)->execute([
-            'employee' => $michael,
+        $scheduledAction = ScheduledAction::factory()->create([
+            'employee_id' => $michael->id,
             'content' => json_encode([
                 'project_name' => 'Onboarding of employee x',
                 'project_summary' => 'All the things we need to do to make sure',
@@ -25,6 +26,7 @@ class ProcessActionCreateProjectTest extends TestCase
                 'project_project_lead_id' => null,
             ]),
         ]);
+        $project = (new ProcessActionCreateProject)->execute($scheduledAction);
 
         $this->assertDatabaseHas('projects', [
             'id' => $project->id,
@@ -47,9 +49,12 @@ class ProcessActionCreateProjectTest extends TestCase
         $michael = $this->createAdministrator();
         $this->expectException(MissingInformationInJsonAction::class);
 
-        (new ProcessActionCreateProject)->execute([
-            'employee' => $michael,
-            'content' => json_encode(['name' => 'Create a new project']),
+        $scheduledAction = ScheduledAction::factory()->create([
+            'employee_id' => $michael->id,
+            'content' => json_encode([
+                'name' => 'Onboarding of employee x',
+            ]),
         ]);
+        $project = (new ProcessActionCreateProject)->execute($scheduledAction);
     }
 }

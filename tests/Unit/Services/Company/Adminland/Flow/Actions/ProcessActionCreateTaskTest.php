@@ -28,6 +28,11 @@ class ProcessActionCreateTaskTest extends TestCase
             'employee_id' => $michael->id,
             'title' => 'Create a new project',
         ]);
+
+        $this->assertDatabaseHas('scheduled_actions', [
+            'id' => $scheduledAction->id,
+            'processed' => true,
+        ]);
     }
 
     /** @test */

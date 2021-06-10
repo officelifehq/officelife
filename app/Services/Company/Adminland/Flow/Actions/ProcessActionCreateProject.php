@@ -5,59 +5,62 @@ namespace App\Services\Company\Adminland\Flow\Actions;
 use App\Models\Company\Action;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Services\BaseServiceAction;
+use App\Models\Company\ScheduledAction;
 use App\Services\Company\Project\CreateProject;
-use App\Exceptions\MissingInformationInJsonAction;
 
-class ProcessActionCreateProject
+class ProcessActionCreateProject extends BaseServiceAction
 {
     private array $data;
     private Employee $employee;
     private Project $project;
+    private ScheduledAction $scheduledAction;
 
     /**
-     * Create a project, in the context of an action.
+     * Get the keys that should be in the JSON.
      *
-     * @param array $data
-     * @return Project
+     * @return array
      */
-    public function execute(array $data): Project
+    public function keys(): array
     {
-        $this->data = $data;
-        $this->employee = $data['employee'];
-
-        $this->validate();
-        $this->validateJsonStructure();
-        $this->createProject();
-
-        return $this->project;
-    }
-
-    private function validate(): void
-    {
-        if ($this->employee->locked) {
-            return;
-        }
-    }
-
-    private function validateJsonStructure(): void
-    {
-        $keys = [
+        return [
             'project_name',
             'project_summary',
             'project_description',
             'project_project_lead_id',
         ];
+    }
 
-        foreach ($keys as $key) {
-            if (! array_key_exists($key, json_decode($this->data['content'], true))) {
-                throw new MissingInformationInJsonAction();
-            }
+    /**
+     * Create a project, in the context of an action.
+     *
+     * @param ScheduledAction $scheduledAction
+     * @return Project|null
+     */
+    public function execute(ScheduledAction $scheduledAction): ?Project
+    {
+        $this->employee = $scheduledAction->employee;
+        $this->scheduledAction = $scheduledAction;
+
+        if ($this->employee->locked) {
+            return null;
         }
+
+        if ($this->scheduledAction->processed) {
+            return null;
+        }
+
+        $this->validateJsonStructure($this->scheduledAction);
+        $this->createProject();
+        $this->markAsProcessed($this->scheduledAction);
+        $this->scheduleFutureIteration($scheduledAction->action, $this->employee);
+
+        return $this->project;
     }
 
     private function createProject(): void
     {
-        $content = json_decode($this->data['content']);
+        $content = json_decode($this->scheduledAction->content);
 
         $this->project = (new CreateProject)->execute([
             'company_id' => $this->employee->company_id,

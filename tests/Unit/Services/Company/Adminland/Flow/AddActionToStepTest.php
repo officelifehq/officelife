@@ -93,13 +93,15 @@ class AddActionToStepTest extends TestCase
             'flow_id' => $flow->id,
         ]);
 
+        $json = json_encode(['team_id' => 1]);
+
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'flow_id' => $step->flow_id,
             'step_id' => $step->id,
             'type' => Action::TYPE_CREATE_TASK,
-            'content' => json_encode(['team_id' => 1]),
+            'content' => $json,
         ];
 
         $action = (new AddActionToStep)->execute($request);
@@ -108,7 +110,7 @@ class AddActionToStepTest extends TestCase
             'id' => $action->id,
             'step_id' => $step->id,
             'type' => Action::TYPE_CREATE_TASK,
-            'content' => json_encode(['team_id' => 1]),
+            'content' => $json,
         ]);
 
         $this->assertInstanceOf(
