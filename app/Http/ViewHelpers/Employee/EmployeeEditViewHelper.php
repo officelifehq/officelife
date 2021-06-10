@@ -36,7 +36,7 @@ class EmployeeEditViewHelper
             'slack_handle' => $employee->slack_handle,
             'max_year' => Carbon::now()->year,
             'timezone' => $employee->timezone,
-            'status' => $employee->status,
+            'status_type' => $employee->status->type,
         ];
     }
 }
