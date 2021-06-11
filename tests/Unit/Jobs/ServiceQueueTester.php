@@ -15,12 +15,6 @@ class ServiceQueueTester extends BaseService implements QueuableService
     public static bool $executed = false;
     public static bool $failed = false;
 
-    public function __construct()
-    {
-        self::$executed = false;
-        self::$failed = false;
-    }
-
     /**
      * Initialize the service.
      *
@@ -29,6 +23,9 @@ class ServiceQueueTester extends BaseService implements QueuableService
     public function init(array $data = []): self
     {
         $this->data = $data;
+        self::$executed = false;
+        self::$failed = false;
+
         return $this;
     }
 

@@ -41,7 +41,7 @@ class AddEmployeeToGroup extends BaseService implements QueuableService
      * Initialize service.
      *
      * @param array $data
-     * @return Employee
+     * @return self
      */
     public function init(array $data = []): self
     {
@@ -53,6 +53,8 @@ class AddEmployeeToGroup extends BaseService implements QueuableService
 
     /**
      * Add an employee to a group.
+     *
+     * @return void
      */
     public function handle(): void
     {
