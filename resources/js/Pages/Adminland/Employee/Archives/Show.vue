@@ -63,27 +63,41 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="mt5">
           <div class="pa3 bb bb-gray">
+            <!-- Title when import is waiting processing -->
+            <h2 v-if="localReport.status === 'created'" class="tc normal mb4">
+              {{ $t('account.import_employees_show_title_created') }}
+
+              <help :url="$page.props.help_links.import_employees" :top="'1px'" />
+            </h2>
+
+            <!-- Title when import has started -->
+            <h2 v-else-if="localReport.status === 'started'" class="tc normal mb4">
+              {{ $t('account.import_employees_show_title_started', { date: localReport.import_started_at }) }}
+
+              <help :url="$page.props.help_links.import_employees" :top="'1px'" />
+            </h2>
+
             <!-- Title when import needs to happen -->
-            <h2 v-if="report.status == 'uploaded'" class="tc normal mb4">
+            <h2 v-else-if="localReport.status === 'uploaded'" class="tc normal mb4">
               {{ $t('account.import_employees_show_title_uploaded') }}
 
               <help :url="$page.props.help_links.import_employees" :top="'1px'" />
             </h2>
 
             <!-- Title when import is done -->
-            <h2 v-if="report.status == 'imported'" class="tc normal mb4">
-              {{ $t('account.import_employees_show_title_imported', { date: report.import_ended_at }) }}
+            <h2 v-else-if="localReport.status === 'imported' || localReport.status === 'importing'" class="tc normal mb4">
+              {{ $t('account.import_employees_show_title_imported', { date: localReport.import_ended_at }) }}
 
               <help :url="$page.props.help_links.import_employees" :top="'1px'" />
             </h2>
 
-            <div class="flex justify-around items-center mb4">
+            <div v-if="localReport.status !== 'created' && localReport.status !== 'started'" class="flex justify-around items-center mb4">
               <div class="">
                 <span class="db gray mb2 f6">
                   {{ $t('account.import_employees_show_title_number_entries') }}
                 </span>
                 <span class="f3">
-                  {{ report.number_of_entries }}
+                  {{ localReport.number_of_entries }}
                 </span>
               </div>
               <div class="arrow">
@@ -96,7 +110,7 @@
                   {{ $t('account.import_employees_show_title_number_entries_errors') }}
                 </span>
                 <span class="f3">
-                  {{ report.number_of_failed_entries }}
+                  {{ localReport.number_of_failed_entries }}
                 </span>
               </div>
               <div class="arrow">
@@ -109,21 +123,22 @@
                   {{ $t('account.import_employees_show_title_number_entries_import') }}
                 </span>
                 <span class="f3">
-                  {{ report.number_of_entries_that_can_be_imported }}
+                  {{ localReport.number_of_entries_that_can_be_imported }}
                 </span>
               </div>
             </div>
 
             <!-- action to import the listing -->
-            <form v-if="report.status != 'imported'" class="tc mb4" @submit.prevent="submit">
-              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$tc('account.import_employees_archives_finalize_import', report.number_of_entries_that_can_be_imported, { count: report.number_of_entries_that_can_be_imported })" :cypress-selector="'submit-add-news-button'" />
+            <form v-if="localReport.status === 'uploaded'" class="tc mb4" @submit.prevent="submit">
+              <errors :errors="errors" />
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$tc('account.import_employees_archives_finalize_import', localReport.number_of_entries_that_can_be_imported, { count: localReport.number_of_entries_that_can_be_imported })" :cypress-selector="'submit-add-news-button'" />
             </form>
           </div>
 
-          <div class="pa3">
+          <div v-if="localReport.status === 'uploaded' || localReport.status === 'imported' || localReport.status === 'importing'" class="pa3">
             <!-- LIST OF THE FIRST FIVE ENTRIES IN THE REPORT -->
-            <p class="f6 mb1">{{ $t('account.import_employees_show_first_five_entries', {count: report.number_of_entries }) }}</p>
-            <div v-if="report.first_five_entries.length > 0" class="center bt br bl br2 bb-gray dt w-100 mb5">
+            <p class="f6 mb1">{{ $t('account.import_employees_show_first_five_entries', {count: localReport.number_of_entries }) }}</p>
+            <div v-if="localReport.first_five_entries.length > 0" class="center bt br bl br2 bb-gray dt w-100 mb5">
               <div class="dt-row">
                 <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
                   {{ $t('account.import_employees_show_email') }}
@@ -138,7 +153,7 @@
                   {{ $t('account.import_employees_show_status') }}
                 </div>
               </div>
-              <div v-for="entry in report.first_five_entries" :key="entry.id" class="dt-row pv3 ph2 bb bb-gray bb-gray-hover pa3">
+              <div v-for="entry in localReport.first_five_entries" :key="entry.id" class="dt-row pv3 ph2 bb bb-gray bb-gray-hover pa3">
                 <div class="dtc pv3 ph2 bb bb-gray">
                   {{ entry.employee_email }}
                 </div>
@@ -162,8 +177,8 @@
             </div>
 
             <!-- LIST OF THE ALL ENTRIES IN ERROR -->
-            <p class="f6 mb1">{{ $tc('account.import_employees_show_entries_errors', report.failed_entries.length, { count: report.failed_entries.length }) }}</p>
-            <div v-if="report.failed_entries.length > 0" class="center bt br bl br2 bb-gray dt w-100">
+            <p class="f6 mb1">{{ $tc('account.import_employees_show_entries_errors', localReport.failed_entries.length, { count: localReport.failed_entries.length }) }}</p>
+            <div v-if="localReport.failed_entries.length > 0" class="center bt br bl br2 bb-gray dt w-100">
               <div class="dt-row">
                 <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
                   {{ $t('account.import_employees_show_email') }}
@@ -178,7 +193,7 @@
                   {{ $t('account.import_employees_show_status') }}
                 </div>
               </div>
-              <div v-for="entry in report.failed_entries" :key="entry.id" class="dt-row pv3 ph2 bb bb-gray bb-gray-hover pa3">
+              <div v-for="entry in localReport.failed_entries" :key="entry.id" class="dt-row pv3 ph2 bb bb-gray bb-gray-hover pa3">
                 <!-- email -->
                 <div v-if="entry.employee_email" class="dtc pv3 ph2 bb bb-gray">
                   {{ entry.employee_email }}
@@ -220,12 +235,14 @@
 <script>
 import Layout from '@/Shared/Layout';
 import Help from '@/Shared/Help';
+import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 
 export default {
   components: {
     Layout,
     Help,
+    Errors,
     LoadingButton,
   },
 
@@ -242,24 +259,67 @@ export default {
 
   data() {
     return {
-      loadingState: '',
+      dataReport: null,
+      loadingState: null,
+      errors: null,
+      refresh: _.debounce(() => this.doRefresh(), 1000),
     };
+  },
+
+  computed: {
+    localReport() {
+      return this.dataReport ?? this.report;
+    }
+  },
+
+  mounted() {
+    this.dataReport = this.report;
+    this.refresh();
+  },
+
+  unmounted() {
+    this.refresh.cancel();
   },
 
   methods: {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(`/${this.$page.props.auth.company.id}/account/employees/upload/archives/${this.report.id}/import`)
-        .then(response => {
+      axios.post(this.route('account.employees.upload.archive.import', {
+        company: this.$page.props.auth.company.id,
+        archive: this.report.id
+      }))
+        .then(() => {
           localStorage.success = this.$t('account.import_employees_import_success');
-          this.$inertia.visit(`/${this.$page.props.auth.company.id}/account/employees/upload/archives`);
+          this.$inertia.visit(this.route('account.employees.upload.archive', {company: this.$page.props.auth.company.id}));
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = error.response.data;
+          this.errors = error.response.data;
         });
     },
+
+    doRefresh() {
+      if (this.$page.component === 'Adminland/Employee/Archives/Show'
+        && this.loadingState === null
+        && this.localReport.status !== 'imported'
+        && this.localReport.status !== 'uploaded') {
+        axios.get(route('account.employees.upload.archive.show', {
+          company: this.$page.props.auth.company.id,
+          archive: this.localReport.id,
+        }), {
+          headers: {
+            'X-Inertia': true,
+            'X-Inertia-Version': this.$page.version,
+          }
+        })
+          .then(response => {
+            this.dataReport = response.data.props.report;
+            this.refresh();
+          });
+      }
+    },
+
   }
 };
 

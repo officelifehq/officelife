@@ -17,7 +17,9 @@ class ImportJob extends Model
      * Possible status of an import job.
      */
     const CREATED = 'created';
+    const STARTED = 'started';
     const UPLOADED = 'uploaded';
+    const IMPORTING = 'importing';
     const IMPORTED = 'imported';
     const FAILED = 'failed';
 

@@ -69,7 +69,7 @@ class ImportEmployeesFromTemporaryTableTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new ImportEmployeesFromTemporaryTable)->execute($request);
+        (new ImportEmployeesFromTemporaryTable)->init($request)->execute();
     }
 
     private function executeService(Employee $michael, ImportJob $importJob, ImportJobReport $report): void
@@ -82,7 +82,7 @@ class ImportEmployeesFromTemporaryTableTest extends TestCase
             'import_job_id' => $importJob->id,
         ];
 
-        (new ImportEmployeesFromTemporaryTable)->execute($request);
+        (new ImportEmployeesFromTemporaryTable)->init($request)->execute();
 
         $this->assertDatabaseHas('import_jobs', [
             'id' => $importJob->id,

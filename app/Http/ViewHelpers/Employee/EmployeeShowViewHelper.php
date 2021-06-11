@@ -291,6 +291,8 @@ class EmployeeShowViewHelper
         $canEditContractInfoTab = $loggedEmployee->permission_level <= 200;
         if ($employee->status) {
             $canEditContractInfoTab = $employee->status->type == EmployeeStatus::EXTERNAL;
+        } else {
+            $canEditContractInfoTab = false;
         }
 
         return [
