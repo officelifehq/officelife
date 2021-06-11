@@ -12,7 +12,7 @@ return [
     | Format parameters are described here http://www.php.net/manual/en/function.date.php
     |
     */
-    'short_date_year_time' => 'DD MMM YYYY hh:mm',
+    'short_date_year_time' => 'DD MMM YYYY kk:mm',
     'short_date' => 'DD MMM',
     'short_month_day' => 'MMM Y',
     'long_month_day' => 'D MMMM',
