@@ -80,11 +80,11 @@
             <li v-for="job in importJobs.entries" :key="job.id" class="pa3 bb bb-gray bb-gray-hover flex justify-between items-center">
               <div class="di relative">
                 <span class="db mb2">{{ $tc('account.import_employees_archives_item_title', job.number_of_entries, { count: job.number_of_entries }) }}
-                  <span v-if="job.status == 'imported'" :class="job.status" class="type relative">
+                  <span v-if="job.status === 'imported' || job.status === 'importing'" :class="job.status" class="type relative">
                     <svg class="check relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                     </svg>
-                    {{ job.status_translated }}
+                    {{ $t('account.import_employees_status_'+job.status) }}
                   </span>
                 </span>
                 <span class="db f7">{{ $t('account.import_employees_archives_item_date', { date: job.import_started_at, author: job.author.name }) }}</span>
@@ -98,7 +98,7 @@
           </ul>
 
           <!-- BLANK STATE -->
-          <div v-if="importJobs.entries.length == 0" class="pa3 mt5">
+          <div v-if="importJobs.entries.length === 0" class="pa3 mt5">
             <p class="tc measure center mb4 lh-copy">
               {{ $t('account.import_employees_archives_blank_description') }}
             </p>
