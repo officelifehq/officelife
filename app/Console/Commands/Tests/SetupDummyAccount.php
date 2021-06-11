@@ -1389,7 +1389,7 @@ class SetupDummyAccount extends Command
 
     private function createSoftware(): void
     {
-        $this->info('☐ Add softwares and associate them to employees');
+        $this->info('☐ Add software and associate them to employees');
 
         $softwares = collect([
             'Office 365',
