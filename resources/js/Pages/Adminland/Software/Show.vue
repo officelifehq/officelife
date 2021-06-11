@@ -164,7 +164,7 @@
               <!-- option a: give a seat to every employee -->
               <div v-if="giveSeatToEveryOneMode">
                 <form class="relative" @submit.prevent="assignAll()">
-                  <p class="lh-copy mt0">{{ $t('account.software_show_confirm', {count: employeesWithoutSofware}) }}</p>
+                  <p class="lh-copy mt0">{{ $tc('account.software_show_confirm', employeesWithoutSofware, {count: employeesWithoutSofware}) }}</p>
 
                   <!-- note in case we don't have enough remaining seats -->
                   <div v-if="employeesWithoutSofware > software.remaining_seats" class="flex items-center">

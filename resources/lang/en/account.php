@@ -652,7 +652,7 @@ return [
     'software_show_option_a' => 'Give a seat to every active employee in the company who does not yet have this software ({count} total)',
     'software_show_start' => 'Start',
     'software_show_give_seat_specific' => 'Give a seat to a specific employee',
-    'software_show_confirm' => 'Please confirm that you want to assign the software to the {count} employees who does not have the software yet.',
+    'software_show_confirm' => 'Please confirm that you want to assign the software to {count} employee who does not have the software yet.|Please confirm that you want to assign the software to the {count} employees who does not have the software yet.',
     'software_show_not_enough_seats' => 'Note that you do not have enough remaining seats to assign all these employees. You can still proceed, but at your own risk.',
     'software_show_who' => 'Who would like to give a copy of the software to?',
     'software_show_stat' => '{localUsedSeats}/{seats} seats used',
