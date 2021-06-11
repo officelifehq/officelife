@@ -28,6 +28,19 @@ trait DispatchableService
     }
 
     /**
+     * Dispatch the service with the given arguments.
+     *
+     * @return mixed
+     */
+    public static function dispatchSync(...$arguments)
+    {
+        /** @var QueuableService $service */
+        $service = new static();
+        $service->init(...$arguments);
+        return ServiceQueue::dispatchSync($service);
+    }
+
+    /**
      * Handle a job failure.
      *
      * @param  \Throwable  $exception

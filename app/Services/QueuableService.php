@@ -19,7 +19,7 @@ interface QueuableService
     /**
      * Execute the service.
      */
-    public function execute(): void;
+    public function handle(): void;
 
     /**
      * Handle a job failure.

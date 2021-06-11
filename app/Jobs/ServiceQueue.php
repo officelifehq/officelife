@@ -41,7 +41,7 @@ class ServiceQueue implements ShouldQueue
     public function handle(): void
     {
         try {
-            $this->service->execute();
+            $this->service->handle();
         } catch (\Exception $e) {
             $this->fail($e);
         }

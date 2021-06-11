@@ -49,7 +49,7 @@ class ImportEmployeesFromTemporaryTable extends BaseService implements QueuableS
     /**
      * Execute the service.
      */
-    public function execute(): void
+    public function handle(): void
     {
         $this->importJob = $this->validate();
 

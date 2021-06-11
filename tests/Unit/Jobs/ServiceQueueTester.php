@@ -5,9 +5,12 @@ namespace Tests\Unit\Jobs;
 use Throwable;
 use App\Services\BaseService;
 use App\Services\QueuableService;
+use App\Services\DispatchableService;
 
 class ServiceQueueTester extends BaseService implements QueuableService
 {
+    use DispatchableService;
+
     public ?array $data = null;
     public static bool $executed = false;
     public static bool $failed = false;
@@ -32,7 +35,7 @@ class ServiceQueueTester extends BaseService implements QueuableService
     /**
      * Execute the service.
      */
-    public function execute(): void
+    public function handle(): void
     {
         self::$executed = true;
 
