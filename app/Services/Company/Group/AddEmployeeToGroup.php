@@ -8,9 +8,13 @@ use App\Models\Company\Group;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Services\QueuableService;
+use App\Services\DispatchableService;
 
-class AddEmployeeToGroup extends BaseService
+class AddEmployeeToGroup extends BaseService implements QueuableService
 {
+    use DispatchableService;
+
     private array $data;
 
     private Employee $employee;
@@ -34,23 +38,48 @@ class AddEmployeeToGroup extends BaseService
     }
 
     /**
-     * Add an employee to a group.
+     * Initialize service.
      *
      * @param array $data
+     * @return self
+     */
+    public function init(array $data = []): self
+    {
+        $this->data = $data;
+        $this->validate();
+
+        return $this;
+    }
+
+    /**
+     * Add an employee to a group.
+     *
+     * @return void
+     */
+    public function handle(): void
+    {
+        [$employee, $group] = $this->validate();
+        $this->employee = $employee;
+        $this->group = $group;
+
+        $this->attachEmployee();
+        $this->log();
+    }
+
+    /**
+     * Add an employee to a group.
+     *
      * @return Employee
      */
     public function execute(array $data): Employee
     {
         $this->data = $data;
-        $this->validate();
-
-        $this->attachEmployee();
-        $this->log();
+        $this->handle();
 
         return $this->employee;
     }
 
-    private function validate(): void
+    private function validate(): array
     {
         $this->validateRules($this->data);
 
@@ -59,10 +88,12 @@ class AddEmployeeToGroup extends BaseService
             ->asNormalUser()
             ->canExecuteService();
 
-        $this->employee = $this->validateEmployeeBelongsToCompany($this->data);
+        $employee = $this->validateEmployeeBelongsToCompany($this->data);
 
-        $this->group = Group::where('company_id', $this->data['company_id'])
+        $group = Group::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['group_id']);
+
+        return [$employee, $group];
     }
 
     private function attachEmployee(): void

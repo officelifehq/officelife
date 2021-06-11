@@ -107,7 +107,7 @@ class ImportEmployeesFromCSVTest extends TestCase
         ];
 
         $this->expectException(RequestException::class);
-        (new ImportEmployeesFromCSV)->init($request)->execute();
+        (new ImportEmployeesFromCSV)->init($request)->handle();
     }
 
     /** @test */
@@ -121,7 +121,7 @@ class ImportEmployeesFromCSVTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new ImportEmployeesFromCSV)->init($request)->execute();
+        (new ImportEmployeesFromCSV)->init($request)->handle();
     }
 
     private function executeService(Employee $michael, ImportJob $importJob, File $file): void
@@ -140,7 +140,7 @@ class ImportEmployeesFromCSVTest extends TestCase
             'file_id' => $file->id,
         ];
 
-        (new ImportEmployeesFromCSV)->init($request)->execute();
+        (new ImportEmployeesFromCSV)->init($request)->handle();
 
         $this->assertDatabaseHas('import_job_reports', [
             'import_job_id' => $importJob->id,

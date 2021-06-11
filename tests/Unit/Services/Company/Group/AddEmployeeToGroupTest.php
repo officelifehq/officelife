@@ -57,7 +57,7 @@ class AddEmployeeToGroupTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new AddEmployeeToGroup)->execute($request);
+        (new AddEmployeeToGroup)->init($request);
     }
 
     /** @test */

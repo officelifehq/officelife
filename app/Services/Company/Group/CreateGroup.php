@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Group;
 use App\Services\BaseService;
-use App\Jobs\AttachEmployeeToGroup;
 
 class CreateGroup extends BaseService
 {
@@ -70,7 +69,7 @@ class CreateGroup extends BaseService
         }
 
         foreach ($this->data['employees'] as $key => $employeeId) {
-            AttachEmployeeToGroup::dispatch([
+            AddEmployeeToGroup::dispatch([
                 'company_id' => $this->data['company_id'],
                 'author_id' => $this->data['author_id'],
                 'employee_id' => $employeeId,
