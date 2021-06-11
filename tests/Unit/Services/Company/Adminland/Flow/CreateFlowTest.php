@@ -71,6 +71,7 @@ class CreateFlowTest extends TestCase
             'name' => 'Selling team',
             'type' => Flow::DATE_BASED,
             'trigger' => Flow::TRIGGER_HIRING_DATE,
+            'paused' => true,
         ]);
 
         $this->assertInstanceOf(

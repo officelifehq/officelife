@@ -65,14 +65,17 @@ class StartFlow extends BaseService
 
     private function destroyUnprocessedScheduledActions(): void
     {
-        $actions = $this->flow->steps()->actions()
+        $actions = DB::table('actions')
+            ->join('steps', 'steps.id', '=', 'actions.step_id')
+            ->join('flows', 'flows.id', '=', 'steps.flow_id')
+            ->where('flows.id', $this->flow->id)
             ->select('actions.id')
-            ->pluck('id')
+            ->pluck('actions.id')
             ->toArray();
 
         $unprocessedScheduledActions = ScheduledAction::where('processed', false)
             ->whereIn('action_id', $actions)
-            ->select('actions.id')
+            ->select('id')
             ->pluck('id')
             ->toArray();
 

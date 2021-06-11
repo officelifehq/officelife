@@ -60,6 +60,7 @@ class CreateFlow extends BaseService
             'type' => $data['type'],
             'trigger' => $data['trigger'],
             'anniversary' => $data['anniversary'],
+            'paused' => true,
         ]);
 
         LogAccountAudit::dispatch([
