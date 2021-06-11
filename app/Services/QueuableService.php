@@ -14,7 +14,7 @@ interface QueuableService
      *
      * @param array $data
      */
-    public function init(array $data): self;
+    public function init(array $data = []): self;
 
     /**
      * Execute the service.

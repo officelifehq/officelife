@@ -38,7 +38,7 @@ class ImportEmployeesFromTemporaryTable extends BaseService implements QueuableS
      *
      * @param array $data
      */
-    public function init(array $data): self
+    public function init(array $data = []): self
     {
         $this->data = $data;
         $this->validate();

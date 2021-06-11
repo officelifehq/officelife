@@ -46,7 +46,7 @@ class ImportEmployeesFromCSV extends BaseService implements QueuableService
      *
      * @param array $data
      */
-    public function init(array $data): self
+    public function init(array $data = []): self
     {
         $this->data = $data;
         $this->validate();
