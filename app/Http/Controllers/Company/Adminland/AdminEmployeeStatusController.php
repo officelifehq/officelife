@@ -54,12 +54,7 @@ class AdminEmployeeStatusController extends Controller
         $employeeStatus = (new CreateEmployeeStatus)->execute($data);
 
         return response()->json([
-            'data' => [
-                'id' => $employeeStatus->id,
-                'name' => $employeeStatus->name,
-                'type' => $employeeStatus->type,
-                'type_translated' => trans('account.employee_statuses_'.$employeeStatus->type),
-            ],
+            'data' => AdminEmployeeStatusViewHelper::show($employeeStatus),
         ], 201);
     }
 
@@ -86,12 +81,7 @@ class AdminEmployeeStatusController extends Controller
         $employeeStatus = (new UpdateEmployeeStatus)->execute($data);
 
         return response()->json([
-            'data' => [
-                'id' => $employeeStatus->id,
-                'name' => $employeeStatus->name,
-                'type' => $employeeStatus->type,
-                'type_translated' => trans('account.employee_statuses_'.$employeeStatus->type),
-            ],
+            'data' => AdminEmployeeStatusViewHelper::show($employeeStatus),
         ], 200);
     }
 
