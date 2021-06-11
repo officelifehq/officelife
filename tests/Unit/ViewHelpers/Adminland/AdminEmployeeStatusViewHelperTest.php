@@ -26,7 +26,6 @@ class AdminEmployeeStatusViewHelperTest extends TestCase
                     'id' => $status->id,
                     'name' => 'Permanent',
                     'type' => 'internal',
-                    'type_translated' => 'internal',
                 ],
             ],
             $collection->toArray()
