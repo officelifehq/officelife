@@ -35,7 +35,6 @@ class AdminUploadEmployeeViewHelper
                     ]),
                 ],
                 'status' => $importJob->status,
-                'status_translated' => trans('account.import_employees_status_'.$importJob->status),
                 'number_of_entries' => $count,
                 'import_started_at' => $importJob->import_started_at ? DateHelper::formatShortDateWithTime($importJob->import_started_at, $loggedEmployee->timezone) : null,
                 'import_ended_at' => $importJob->import_ended_at ? DateHelper::formatShortDateWithTime($importJob->import_ended_at, $loggedEmployee->timezone) : null,
