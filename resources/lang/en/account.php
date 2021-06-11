@@ -634,7 +634,7 @@ return [
     'software_index_title' => 'Software used in the company',
     'software_index_cta' => 'Add a software',
     'software_index_blank_description' => 'Manage the software that your company uses.',
-    'software_index_count' => '{company} manages {count} software.',
+    'software_index_count' => '{company} manages {count} software.|{company} manages {count} software.',
     'software_show_add_employee' => 'The employee has been added.',
     'software_show_remove_employee' => 'The employee has been removed.',
     'software_show_add_all_employees' => 'All employees have been added.',
