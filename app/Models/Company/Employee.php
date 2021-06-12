@@ -9,6 +9,8 @@ use App\Helpers\ImageHelper;
 use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
 use App\Helpers\HolidayHelper;
+use App\Helpers\BirthdayHelper;
+use App\Helpers\InstanceHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -616,7 +618,7 @@ class Employee extends Model
                 'year' => $this->birthdate->year,
                 'month' => $this->birthdate->month,
                 'day' => $this->birthdate->day,
-                'age' => Carbon::now()->year - $this->birthdate->year,
+                'age' => BirthdayHelper::age($this->birthdate, InstanceHelper::getLoggedEmployee()->timezone),
             ],
             'raw_description' => $this->description,
             'parsed_description' => is_null($this->description) ? null : StringHelper::parse($this->description),
