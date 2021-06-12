@@ -86,7 +86,7 @@ class EmployeeShowViewHelperTest extends TestCase
     }
 
     /** @test */
-    public function it_calculate_the_age_of_the_employee(): void
+    public function it_calculates_the_age_of_the_employee(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 12, 21));
         $michael = $this->createAdministrator();
