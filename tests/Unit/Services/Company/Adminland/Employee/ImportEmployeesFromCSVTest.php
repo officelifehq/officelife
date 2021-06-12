@@ -124,6 +124,40 @@ class ImportEmployeesFromCSVTest extends TestCase
         (new ImportEmployeesFromCSV($request))->handle();
     }
 
+    /** @test */
+    public function it_save_state_when_failing(): void
+    {
+        $michael = $this->createEmployee();
+        $importJob = ImportJob::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $report = ImportJobReport::factory()->create([
+            'import_job_id' => $importJob->id,
+        ]);
+        $file = File::factory()->create([
+            'company_id' => $michael->company_id,
+            'cdn_url' => 'http://url.com/',
+            'name' => 'working.csv',
+        ]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'import_job_id' => $importJob->id,
+            'file_id' => $file->id,
+        ];
+
+        try {
+            $this->expectException(NotEnoughPermissionException::class);
+            ImportEmployeesFromCSV::dispatch($request);
+        } finally {
+            $this->assertDatabaseHas('import_jobs', [
+                'id' => $importJob->id,
+                'status' => 'failed',
+            ]);
+        }
+    }
+
     private function executeService(Employee $michael, ImportJob $importJob, File $file): void
     {
         Storage::fake('local');
