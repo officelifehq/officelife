@@ -69,7 +69,35 @@ class ImportEmployeesFromTemporaryTableTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new ImportEmployeesFromTemporaryTable)->init($request)->handle();
+        (new ImportEmployeesFromTemporaryTable($request))->handle();
+    }
+
+    /** @test */
+    public function it_save_state_when_failing(): void
+    {
+        $michael = $this->createEmployee();
+        $importJob = ImportJob::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $report = ImportJobReport::factory()->create([
+            'import_job_id' => $importJob->id,
+        ]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'import_job_id' => $importJob->id,
+        ];
+
+        try {
+            $this->expectException(NotEnoughPermissionException::class);
+            ImportEmployeesFromTemporaryTable::dispatchSync($request);
+        } finally {
+            $this->assertDatabaseHas('import_jobs', [
+                'id' => $importJob->id,
+                'status' => 'failed',
+            ]);
+        }
     }
 
     private function executeService(Employee $michael, ImportJob $importJob, ImportJobReport $report): void
@@ -82,7 +110,7 @@ class ImportEmployeesFromTemporaryTableTest extends TestCase
             'import_job_id' => $importJob->id,
         ];
 
-        (new ImportEmployeesFromTemporaryTable)->init($request)->handle();
+        (new ImportEmployeesFromTemporaryTable($request))->handle();
 
         $this->assertDatabaseHas('import_jobs', [
             'id' => $importJob->id,

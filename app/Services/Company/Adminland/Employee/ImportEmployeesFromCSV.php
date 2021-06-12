@@ -22,7 +22,10 @@ class ImportEmployeesFromCSV extends BaseService implements QueuableService
 
     private array $data;
 
-    private ImportJob $importJob;
+    /**
+     * @var ImportJob|null
+     */
+    private ?ImportJob $importJob = null;
 
     private File $file;
 
@@ -43,43 +46,10 @@ class ImportEmployeesFromCSV extends BaseService implements QueuableService
 
     /**
      * Read the CSV file and put rows in the temporary table.
-     *
-     * @param array $data
-     */
-    public function init(array $data = []): self
-    {
-        $this->data = $data;
-        $this->validate();
-
-        return $this;
-    }
-
-    private function validate(): array
-    {
-        $this->validateRules($this->data);
-
-        $this->author($this->data['author_id'])
-            ->inCompany($this->data['company_id'])
-            ->asAtLeastHR()
-            ->canExecuteService();
-
-        $importJob = ImportJob::where('company_id', $this->data['company_id'])
-            ->findOrFail($this->data['import_job_id']);
-
-        $file = File::where('company_id', $this->data['company_id'])
-            ->findOrFail($this->data['file_id']);
-
-        return [$importJob, $file];
-    }
-
-    /**
-     * Import the employees.
      */
     public function handle(): void
     {
-        [$importJob, $file] = $this->validate();
-        $this->importJob = $importJob;
-        $this->file = $file;
+        $this->validate();
 
         $this->importJob->update([
             'status' => ImportJob::STARTED,
@@ -94,6 +64,22 @@ class ImportEmployeesFromCSV extends BaseService implements QueuableService
         ]);
     }
 
+    private function validate(): void
+    {
+        $this->validateRules($this->data);
+
+        $this->author($this->data['author_id'])
+            ->inCompany($this->data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
+
+        $this->importJob = ImportJob::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['import_job_id']);
+
+        $this->file = File::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['file_id']);
+    }
+
     /**
      * Handle a job failure.
      *
@@ -101,6 +87,10 @@ class ImportEmployeesFromCSV extends BaseService implements QueuableService
      */
     public function failed(Throwable $exception): void
     {
+        if ($this->importJob === null) {
+            $this->importJob = ImportJob::where('company_id', $this->data['company_id'])
+                ->find($this->data['import_job_id']);
+        }
         if ($this->importJob !== null) {
             $this->importJob->update([
                 'status' => ImportJob::FAILED,

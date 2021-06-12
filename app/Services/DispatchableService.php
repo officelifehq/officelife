@@ -11,8 +11,14 @@ use Illuminate\Foundation\Bus\PendingDispatch;
  */
 trait DispatchableService
 {
-    final public function __construct()
+    /**
+     * Create a new service.
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = [])
     {
+        $this->data = $data;
     }
 
     /**
@@ -24,13 +30,12 @@ trait DispatchableService
     public static function dispatch(...$arguments): PendingDispatch
     {
         /** @var QueuableService $service */
-        $service = new static();
-        $service->init(...$arguments);
+        $service = new self(...$arguments);
         return ServiceQueue::dispatch($service);
     }
 
     /**
-     * Dispatch the service with the given arguments.
+     * Dispatch the service with the given arguments on the sync queue.
      *
      * @param  mixed  ...$arguments
      * @return mixed
@@ -38,8 +43,7 @@ trait DispatchableService
     public static function dispatchSync(...$arguments): mixed
     {
         /** @var QueuableService $service */
-        $service = new static();
-        $service->init(...$arguments);
+        $service = new self(...$arguments);
         return ServiceQueue::dispatchSync($service);
     }
 

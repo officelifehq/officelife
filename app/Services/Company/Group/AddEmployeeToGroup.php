@@ -38,29 +38,11 @@ class AddEmployeeToGroup extends BaseService implements QueuableService
     }
 
     /**
-     * Initialize service.
-     *
-     * @param array $data
-     * @return self
-     */
-    public function init(array $data = []): self
-    {
-        $this->data = $data;
-        $this->validate();
-
-        return $this;
-    }
-
-    /**
      * Add an employee to a group.
-     *
-     * @return void
      */
     public function handle(): void
     {
-        [$employee, $group] = $this->validate();
-        $this->employee = $employee;
-        $this->group = $group;
+        $this->validate();
 
         $this->attachEmployee();
         $this->log();
@@ -79,7 +61,7 @@ class AddEmployeeToGroup extends BaseService implements QueuableService
         return $this->employee;
     }
 
-    private function validate(): array
+    private function validate(): void
     {
         $this->validateRules($this->data);
 
@@ -88,12 +70,10 @@ class AddEmployeeToGroup extends BaseService implements QueuableService
             ->asNormalUser()
             ->canExecuteService();
 
-        $employee = $this->validateEmployeeBelongsToCompany($this->data);
+        $this->employee = $this->validateEmployeeBelongsToCompany($this->data);
 
-        $group = Group::where('company_id', $this->data['company_id'])
+        $this->group = Group::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['group_id']);
-
-        return [$employee, $group];
     }
 
     private function attachEmployee(): void
