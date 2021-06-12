@@ -62,7 +62,7 @@ class AdminFlowController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Adminland/Flow/Create', [
+        return Inertia::render('Adminland/Flow/ChooseFlowType', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
