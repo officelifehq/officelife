@@ -6,6 +6,12 @@
     top: 3px;
   }
 }
+
+.action-menu {
+  .odd {
+    background-color: #f5f5f5;
+  }
+}
 </style>
 
 <template>
@@ -24,8 +30,14 @@
     <!-- add actions -->
     <div class="pa3">
       <a v-show="!showActionMenu" class="btn dib" @click.prevent="showActionMenu = true">
-        Add action
+        + Add action
       </a>
+
+      <ul v-show="showActionMenu" class="list pa0 ma0 tl action-menu">
+        <li class="pa2 odd">Add a task</li>
+        <li class="pa2">Create a project</li>
+        <li class="pa2 odd">Create a project</li>
+      </ul>
 
       <div v-show="showActionMenu" class="tc">
         <div class="tl pv2 ph2 mb3 blank-state-actions dib mr3 br2 pointer" @click="addAction('notification')">

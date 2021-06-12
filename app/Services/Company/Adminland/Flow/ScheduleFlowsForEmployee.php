@@ -6,6 +6,8 @@ use App\Models\Company\Flow;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use App\Models\Company\ScheduledAction;
 
 class ScheduleFlowsForEmployee extends BaseService
 {
@@ -67,11 +69,32 @@ class ScheduleFlowsForEmployee extends BaseService
         }
 
         foreach ($this->flows as $flow) {
+            $this->destroyUnprocessedScheduledActions($flow);
+
             foreach ($flow->steps as $step) {
                 foreach ($step->actions as $action) {
                     (new ScheduleActionInTheFuture)->execute($action, $this->employee);
                 }
             }
         }
+    }
+
+    private function destroyUnprocessedScheduledActions(Flow $flow): void
+    {
+        $actions = DB::table('actions')
+            ->join('steps', 'steps.id', '=', 'actions.step_id')
+            ->join('flows', 'flows.id', '=', 'steps.flow_id')
+            ->where('flows.id', $this->flow->id)
+            ->select('actions.id')
+            ->pluck('actions.id')
+            ->toArray();
+
+        $unprocessedScheduledActions = ScheduledAction::where('processed', false)
+            ->whereIn('action_id', $actions)
+            ->select('id')
+            ->pluck('id')
+            ->toArray();
+
+        DB::table('scheduled_actions')->whereIn('id', $unprocessedScheduledActions)->delete();
     }
 }
