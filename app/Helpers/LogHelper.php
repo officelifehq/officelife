@@ -1291,6 +1291,12 @@ class LogHelper
                 ]);
                 break;
 
+            case 'expense_destroyed':
+                $sentence = trans('account.log_expense_destroyed', [
+                    'expense_title' => $log->object->{'expense_title'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
@@ -1860,6 +1866,12 @@ class LogHelper
                     'group_id' => $log->object->{'group_id'},
                     'group_name' => $log->object->{'group_name'},
                     'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
+            case 'expense_destroyed':
+                $sentence = trans('account.employee_log_expense_destroyed', [
+                    'expense_title' => $log->object->{'expense_title'},
                 ]);
                 break;
 
