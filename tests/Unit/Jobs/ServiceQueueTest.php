@@ -16,7 +16,7 @@ class ServiceQueueTest extends TestCase
     {
         config(['queue.default' => 'sync']);
 
-        ServiceQueueTester::dispatchSync();
+        ServiceQueueTester::dispatch();
 
         $this->assertTrue(ServiceQueueTester::$executed);
         $this->assertFalse(ServiceQueueTester::$failed);
@@ -27,7 +27,7 @@ class ServiceQueueTest extends TestCase
     {
         config(['queue.default' => 'sync']);
 
-        ServiceQueueTester::dispatchSync(['throw' => true]);
+        ServiceQueueTester::dispatch(['throw' => true]);
 
         $this->assertTrue(ServiceQueueTester::$executed);
         $this->assertTrue(ServiceQueueTester::$failed);
