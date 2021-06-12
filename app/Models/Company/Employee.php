@@ -600,6 +600,7 @@ class Employee extends Model
     public function toObject(): array
     {
         $address = $this->getCurrentAddress();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         return [
             'id' => $this->id,
@@ -618,7 +619,7 @@ class Employee extends Model
                 'year' => $this->birthdate->year,
                 'month' => $this->birthdate->month,
                 'day' => $this->birthdate->day,
-                'age' => BirthdayHelper::age($this->birthdate, InstanceHelper::getLoggedEmployee()->timezone),
+                'age' => BirthdayHelper::age($this->birthdate, $loggedEmployee ? $loggedEmployee->timezone : null),
             ],
             'raw_description' => $this->description,
             'parsed_description' => is_null($this->description) ? null : StringHelper::parse($this->description),
