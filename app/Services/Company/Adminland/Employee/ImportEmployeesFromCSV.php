@@ -22,7 +22,10 @@ class ImportEmployeesFromCSV extends BaseService implements QueuableService
 
     private array $data;
 
-    private ImportJob $importJob;
+    /**
+     * @var ImportJob|null
+     */
+    private ?ImportJob $importJob = null;
 
     private File $file;
 
@@ -84,7 +87,7 @@ class ImportEmployeesFromCSV extends BaseService implements QueuableService
      */
     public function failed(Throwable $exception): void
     {
-        if (! isset($this->importJob)) {
+        if ($this->importJob === null) {
             $this->importJob = ImportJob::where('company_id', $this->data['company_id'])
                 ->find($this->data['import_job_id']);
         }

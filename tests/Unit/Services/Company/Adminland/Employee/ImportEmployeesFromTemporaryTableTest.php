@@ -3,15 +3,14 @@
 namespace Tests\Unit\Services\Company\Adminland\Employee;
 
 use Tests\TestCase;
-use App\Jobs\ServiceQueue;
 use App\Models\Company\Employee;
 use App\Models\Company\ImportJob;
+use App\Jobs\AddEmployeeToCompany;
 use Illuminate\Support\Facades\Queue;
 use App\Models\Company\ImportJobReport;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 use App\Services\Company\Adminland\Employee\ImportEmployeesFromTemporaryTable;
 
 class ImportEmployeesFromTemporaryTableTest extends TestCase
@@ -91,9 +90,6 @@ class ImportEmployeesFromTemporaryTableTest extends TestCase
             'status' => ImportJob::IMPORTED,
         ]);
 
-        Queue::assertPushed(ServiceQueue::class, function ($service) {
-            return $service instanceof ServiceQueue
-                && $service->service instanceof AddEmployeeToCompany;
-        });
+        Queue::assertPushed(AddEmployeeToCompany::class);
     }
 }
