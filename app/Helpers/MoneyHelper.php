@@ -41,7 +41,7 @@ class MoneyHelper
     public static function parseInput(string $exchange, string $currency): int
     {
         $moneyParser = new DecimalMoneyParser(new ISOCurrencies());
-        $money = $moneyParser->parse((string) $exchange, new Currency($currency));
+        $money = $moneyParser->parse($exchange, new Currency($currency));
 
         return (int) $money->getAmount();
     }
