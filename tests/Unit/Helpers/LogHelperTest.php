@@ -30,6 +30,7 @@ class LogHelperTest extends TestCase
         ]);
 
         $this->assertIsString(LogHelper::processAuditLog($log));
+        $this->assertNotEquals(trans('account.log_employee_invited_to_become_user'), LogHelper::processAuditLog($log));
     }
 
     /** @test */
@@ -52,17 +53,21 @@ class LogHelperTest extends TestCase
     /** @test */
     public function it_returns_the_string_explaining_the_team_log(): void
     {
-        $team = Team::factory()->create([]);
+        $team = Team::factory()->create([
+            'name' => 'The best'
+        ]);
 
         $log = TeamLog::factory()->create([
-            'action' => 'team_log_team_created',
+            'action' => 'team_created',
             'objects' => json_encode([
-                'team_name' => $team->id,
+                'team_id' => $team->id,
+                'team_name' => $team->name,
             ]),
-            'team_id' => $team->id,
         ]);
 
         $this->assertIsString(LogHelper::processTeamLog($log));
+        $this->assertEquals('Created the team The best.', LogHelper::processTeamLog($log));
+        $this->assertNotEquals(trans('account.team_log_team_created'), LogHelper::processTeamLog($log));
     }
 
     /** @test */

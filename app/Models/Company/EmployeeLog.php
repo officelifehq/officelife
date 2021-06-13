@@ -4,14 +4,13 @@ namespace App\Models\Company;
 
 use App\Helpers\LogHelper;
 use App\Helpers\DateHelper;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Audit log at the employee level.
  */
-class EmployeeLog extends Model
+class EmployeeLog extends Logger
 {
     use HasFactory;
 
@@ -59,18 +58,6 @@ class EmployeeLog extends Model
     public function author()
     {
         return $this->belongsTo(Employee::class);
-    }
-
-    /**
-     * Get the JSON object.
-     *
-     * @param mixed $value
-     *
-     * @return array
-     */
-    public function getObjectAttribute($value)
-    {
-        return json_decode($this->objects);
     }
 
     /**

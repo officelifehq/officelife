@@ -402,7 +402,7 @@ return [
     'employee_log_meeting_decision_updated' => 'Updated a meeting decision about an agenda item in a meeting in the group called :group_name.',
     'employee_log_add_guest_to_meeting' => 'Has been added in a meeting of the project called :project_name.',
     // team logs
-    'team_log_team_created' => 'Created the team.',
+    'team_log_team_created' => 'Created the team :team_name.',
     'team_log_team_updated' => 'Changed the name from :old_name to :new_name.',
     'team_log_employee_added_to_team' => 'Added :employee_name to the team.',
     'team_log_employee_removed_from_team' => 'Removed :employee_name from the team.',

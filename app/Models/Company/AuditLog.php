@@ -3,11 +3,10 @@
 namespace App\Models\Company;
 
 use App\Helpers\LogHelper;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class AuditLog extends Model
+class AuditLog extends Logger
 {
     use HasFactory;
 
@@ -55,18 +54,6 @@ class AuditLog extends Model
     public function author()
     {
         return $this->belongsTo(Employee::class);
-    }
-
-    /**
-     * Get the JSON object.
-     *
-     * @param mixed $value
-
-     * @return mixed
-     */
-    public function getObjectAttribute($value)
-    {
-        return json_decode($this->objects);
     }
 
     /**
