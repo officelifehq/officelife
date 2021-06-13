@@ -9,6 +9,7 @@ use App\Helpers\ImageHelper;
 use App\Helpers\MoneyHelper;
 use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
+use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
@@ -52,7 +53,7 @@ class EmployeeShowViewHelper
             'birthdate' => (! $employee->birthdate) ? null :
                 ($permissions['can_see_full_birthdate'] ? [
                     'date' => DateHelper::formatDate($employee->birthdate),
-                    'age' => Carbon::now()->year - $employee->birthdate->year,
+                    'age' => BirthdayHelper::age($employee->birthdate, $loggedEmployee->timezone),
                 ] : [
                     'date' => DateHelper::formatMonthAndDay($employee->birthdate),
                 ]),
