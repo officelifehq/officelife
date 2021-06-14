@@ -5,34 +5,34 @@ namespace Tests\Unit\Jobs;
 use Throwable;
 use App\Services\BaseService;
 use App\Services\QueuableService;
+use App\Services\DispatchableService;
 
 class ServiceQueueTester extends BaseService implements QueuableService
 {
+    use DispatchableService;
+
     public ?array $data = null;
     public static bool $executed = false;
     public static bool $failed = false;
 
-    public function __construct()
-    {
-        self::$executed = false;
-        self::$failed = false;
-    }
+    public bool $object;
 
     /**
      * Initialize the service.
      *
      * @param array $data
      */
-    public function init(array $data): self
+    public function __construct(array $data = [])
     {
         $this->data = $data;
-        return $this;
+        self::$executed = false;
+        self::$failed = false;
     }
 
     /**
      * Execute the service.
      */
-    public function execute(): void
+    public function handle(): void
     {
         self::$executed = true;
 
@@ -49,5 +49,9 @@ class ServiceQueueTester extends BaseService implements QueuableService
     public function failed(Throwable $exception): void
     {
         self::$failed = true;
+
+        if (isset($this->obj)) {
+            // variable can be touch
+        }
     }
 }

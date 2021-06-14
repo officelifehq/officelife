@@ -170,4 +170,11 @@ return [
     'login' => 'Se connecter',
     'confirm' => 'Confirmer',
     'header_adminland' => 'Adminland',
+    'breadcrumb_account_edit_software' => 'Éditer le logiciel',
+    'breadcrumb_account_show_software' => 'Afficher les détails du logiciel',
+    'breadcrumb_account_add_software' => 'Ajouter un logiciel',
+    'breadcrumb_account_manage_softwares' => 'Gestion des logiciels',
+    'day' => 'Jour',
+    'month' => 'Mois',
+    'year' => 'Année',
 ];

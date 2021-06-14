@@ -136,4 +136,7 @@ return [
     'summary_project_status_edit_at_risk' => 'En danger',
     'summary_project_status_edit_on_track' => 'En bonne voie',
     'summary_project_status_edit_title' => 'Où en est le projet ?',
+    'create_input_add_project_lead' => 'Ajouter un chef de projet',
+    'create_input_add_summary' => 'Ajouter un résumé',
+    'create_input_add_project_code' => 'Ajouter le code du projet',
 ];

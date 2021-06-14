@@ -6,7 +6,6 @@ use Throwable;
 use App\Services\BaseService;
 use App\Models\Company\ImportJob;
 use App\Services\QueuableService;
-use App\Jobs\AddEmployeeToCompany;
 use App\Services\DispatchableService;
 use App\Models\Company\ImportJobReport;
 
@@ -16,7 +15,10 @@ class ImportEmployeesFromTemporaryTable extends BaseService implements QueuableS
 
     private array $data;
 
-    private ImportJob $importJob;
+    /**
+     * @var ImportJob|null
+     */
+    private ?ImportJob $importJob = null;
 
     /**
      * Get the validation rules that apply to the service.
@@ -35,29 +37,16 @@ class ImportEmployeesFromTemporaryTable extends BaseService implements QueuableS
     /**
      * Take all employees that were put in the temporary table during the CSV
      * import, and import them as employees in the company.
-     *
-     * @param array $data
      */
-    public function init(array $data): self
+    public function handle(): void
     {
-        $this->data = $data;
         $this->validate();
-
-        return $this;
-    }
-
-    /**
-     * Execute the service.
-     */
-    public function execute(): void
-    {
-        $this->importJob = $this->validate();
 
         $this->import();
         $this->markAsMigrated();
     }
 
-    private function validate(): ImportJob
+    private function validate(): void
     {
         $this->validateRules($this->data);
 
@@ -66,7 +55,7 @@ class ImportEmployeesFromTemporaryTable extends BaseService implements QueuableS
             ->asAtLeastHR()
             ->canExecuteService();
 
-        return ImportJob::where('company_id', $this->data['company_id'])
+        $this->importJob = ImportJob::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['import_job_id']);
     }
 
@@ -106,6 +95,10 @@ class ImportEmployeesFromTemporaryTable extends BaseService implements QueuableS
      */
     public function failed(Throwable $exception): void
     {
+        if ($this->importJob === null) {
+            $this->importJob = ImportJob::where('company_id', $this->data['company_id'])
+                ->find($this->data['import_job_id']);
+        }
         if ($this->importJob !== null) {
             $this->importJob->update([
                 'status' => ImportJob::FAILED,

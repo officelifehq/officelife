@@ -10,10 +10,14 @@ use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Services\QueuableService;
+use App\Services\DispatchableService;
 use App\Exceptions\EmailAlreadyUsedException;
 
-class AddEmployeeToCompany extends BaseService
+class AddEmployeeToCompany extends BaseService implements QueuableService
 {
+    use DispatchableService;
+
     private Employee $employee;
 
     private array $data;
@@ -46,6 +50,16 @@ class AddEmployeeToCompany extends BaseService
     public function execute(array $data): Employee
     {
         $this->data = $data;
+        $this->handle();
+
+        return $this->employee;
+    }
+
+    /**
+     * Add someone to the company.
+     */
+    public function handle(): void
+    {
         $this->validate();
 
         $this->makeSureEmailIsUniqueInCompany();
@@ -63,8 +77,6 @@ class AddEmployeeToCompany extends BaseService
                 'employee_id' => $this->employee->id,
             ]);
         }
-
-        return $this->employee;
     }
 
     private function validate(): void

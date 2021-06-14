@@ -23,6 +23,13 @@ class ServiceQueue implements ShouldQueue
     public QueuableService $service;
 
     /**
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 1;
+
+    /**
      * Create a new job instance.
      *
      * @param BaseService $service
@@ -40,11 +47,7 @@ class ServiceQueue implements ShouldQueue
      */
     public function handle(): void
     {
-        try {
-            $this->service->execute();
-        } catch (\Exception $e) {
-            $this->fail($e);
-        }
+        $this->service->handle();
     }
 
     /**

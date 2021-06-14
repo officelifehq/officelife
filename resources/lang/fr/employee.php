@@ -98,7 +98,7 @@ return [
     'edit_information_title' => 'Modifier les informations',
     'edit_information_menu' => 'Modifier les informations personnelles',
     'edit_information_menu_address' => 'Changer l’adresse du domicile',
-    'edit_information_menu_contract' => 'Coordonnées',
+    'edit_information_menu_contract' => 'Informations du contrat',
     'edit_information_address' => 'Adresse',
     'edit_information_address_help' => 'Seuls les administrateurs et les RH pourront voir l’adresse complète. Toute autre personne pourra voir la ville et le pays.',
     'edit_information_street' => 'Rue',
@@ -212,4 +212,6 @@ return [
     'worklog_year_selector' => 'Choisissez une année',
     'worklog_filter_month' => 'Choisissez un mois',
     'groups_blank' => 'Cette personne n’est pas encore associée à un groupe.',
+    'software_no_info' => 'Aucun logiciel n’a encore été attribué.',
+    'software_title' => 'Logiciels',
 ];

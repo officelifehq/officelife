@@ -10,10 +10,14 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Services\QueuableService;
+use App\Services\DispatchableService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class AttachEmployeeToShip extends BaseService
+class AttachEmployeeToShip extends BaseService implements QueuableService
 {
+    use DispatchableService;
+
     private array $data;
 
     private Employee $employee;
@@ -47,35 +51,47 @@ class AttachEmployeeToShip extends BaseService
     public function execute(array $data): Employee
     {
         $this->data = $data;
+        $this->handle();
 
-        $this->validateRules($data);
+        $this->employee->refresh();
 
-        $this->author($data['author_id'])
-            ->inCompany($data['company_id'])
-            ->asNormalUser()
-            ->canExecuteService();
+        return $this->employee;
+    }
 
-        $this->employee = $this->validateEmployeeBelongsToCompany($data);
-        $this->author = Employee::find($data['author_id']);
-
-        $this->ship = Ship::find($data['ship_id']);
-        $this->team = $this->ship->team;
-
-        if ($this->team->company_id != $data['company_id']) {
-            throw new ModelNotFoundException(trans('app.error_wrong_team_id'));
-        }
+    /**
+     * Associate an employee with a recent ship entry.
+     */
+    public function handle(): void
+    {
+        $this->validate();
 
         $this->ship->employees()->syncWithoutDetaching([
-            $data['employee_id'],
+            $this->data['employee_id'],
         ]);
 
         $this->addNotification();
 
         $this->log();
+    }
 
-        $this->employee->refresh();
+    private function validate(): void
+    {
+        $this->validateRules($this->data);
 
-        return $this->employee;
+        $this->author($this->data['author_id'])
+            ->inCompany($this->data['company_id'])
+            ->asNormalUser()
+            ->canExecuteService();
+
+        $this->employee = $this->validateEmployeeBelongsToCompany($this->data);
+        $this->author = Employee::find($this->data['author_id']);
+
+        $this->ship = Ship::find($this->data['ship_id']);
+        $this->team = $this->ship->team;
+
+        if ($this->team->company_id != $this->data['company_id']) {
+            throw new ModelNotFoundException(trans('app.error_wrong_team_id'));
+        }
     }
 
     /**

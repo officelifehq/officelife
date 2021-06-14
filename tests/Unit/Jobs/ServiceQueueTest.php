@@ -16,9 +16,16 @@ class ServiceQueueTest extends TestCase
     {
         config(['queue.default' => 'sync']);
 
-        $serviceQueue = new ServiceQueue(new ServiceQueueTester);
+        ServiceQueueTester::dispatch();
 
-        dispatch_sync($serviceQueue);
+        $this->assertTrue(ServiceQueueTester::$executed);
+        $this->assertFalse(ServiceQueueTester::$failed);
+    }
+
+    /** @test */
+    public function it_run_a_service_sync(): void
+    {
+        ServiceQueueTester::dispatchSync();
 
         $this->assertTrue(ServiceQueueTester::$executed);
         $this->assertFalse(ServiceQueueTester::$failed);
@@ -27,14 +34,24 @@ class ServiceQueueTest extends TestCase
     /** @test */
     public function it_run_a_service_which_failed(): void
     {
-        config(['queue.default' => 'sync']);
+        $this->expectException(\Exception::class);
+        try {
+            ServiceQueueTester::dispatchSync(['throw' => true]);
+        } finally {
+            $this->assertTrue(ServiceQueueTester::$executed);
+            $this->assertTrue(ServiceQueueTester::$failed);
+        }
+    }
 
-        $serviceQueue = new ServiceQueue((new ServiceQueueTester)->init(['throw' => true]));
+    /** @test */
+    public function service_is_not_run_if_queue_set(): void
+    {
+        config(['queue.default' => 'database']);
 
-        dispatch_sync($serviceQueue);
+        ServiceQueueTester::dispatch(['throw' => true]);
 
-        $this->assertTrue(ServiceQueueTester::$executed);
-        $this->assertTrue(ServiceQueueTester::$failed);
+        $this->assertFalse(ServiceQueueTester::$executed);
+        $this->assertFalse(ServiceQueueTester::$failed);
     }
 
     /** @test */

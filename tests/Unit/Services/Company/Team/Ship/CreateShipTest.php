@@ -4,15 +4,16 @@ namespace Tests\Unit\Services\Company\Team\Ship;
 
 use Tests\TestCase;
 use App\Jobs\LogTeamAudit;
+use App\Jobs\ServiceQueue;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use App\Jobs\AttachEmployeeToShip;
 use Illuminate\Support\Facades\Queue;
 use App\Services\Company\Team\Ship\CreateShip;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Team\Ship\AttachEmployeeToShip;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CreateShipTest extends TestCase
@@ -140,7 +141,10 @@ class CreateShipTest extends TestCase
         });
 
         if ($employees) {
-            Queue::assertPushed(AttachEmployeeToShip::class, 2);
+            Queue::assertPushed(ServiceQueue::class, function ($service) {
+                return $service instanceof ServiceQueue
+                    && $service->service instanceof AttachEmployeeToShip;
+            });
         }
     }
 }
