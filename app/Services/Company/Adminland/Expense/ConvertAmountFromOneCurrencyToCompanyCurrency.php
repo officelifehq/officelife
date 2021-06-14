@@ -86,11 +86,21 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
             $response = Http::get($this->query);
 
             $currencies = $this->companyCurrency.$this->amountCurrency;
-            $this->rate = $response->json("quotes.{$currencies}");
+            $rate = $response->json("quotes.{$currencies}");
+            if ($rate === null) {
+                throw new \Exception('Null rate');
+            }
+            $this->rate = $rate;
         } catch (HttpClientException $e) {
-            Log::error('Error calling currencylayer: '.$e);
+            Log::error('Error calling currencylayer: '.$e, [
+                'query' => $this->query,
+                'response' => $response->body(),
+            ]);
         } catch (ErrorException $e) {
-            Log::error('Error getting exchange rate: '.$e);
+            Log::error('Error getting exchange rate: '.$e, [
+                'query' => $this->query,
+                'response' => $response->body(),
+            ]);
         }
 
         Cache::put($this->cachedKey(), $this->rate, Carbon::now()->addMinutes(60));

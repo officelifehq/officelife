@@ -72,6 +72,17 @@ return [
             ],
         ],
 
+        'sentry' => [
+            'driver' => 'sentry',
+            'level'  => env('LOG_LEVEL', 'debug'),
+            'bubble' => true,
+        ],
+
+        'stacksentry' => [
+            'driver'   => 'stack',
+            'channels' => ['errorlog', 'sentry'],
+        ],
+
         'stderr' => [
             'driver' => 'monolog',
             'level' => env('LOG_LEVEL', 'debug'),
