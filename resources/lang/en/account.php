@@ -544,6 +544,7 @@ return [
     'expense_employees_create_label' => 'Add an employee by typing a name below',
     'expense_employees_assign_success' => 'The employee has been added to the list of authorized employees.',
     'expense_employees_unassign_success' => 'The employee has been removed from the list of authorized employees.',
+    'expense_destroy_success' => 'The expense has been deleted.',
     'general_title' => 'General settings',
     'general_information' => 'Account information',
     'general_name' => 'Company name',

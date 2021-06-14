@@ -170,9 +170,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                     Route::get('', 'Company\\Employee\\Administration\\EmployeeAdministrationController@show')->name('employees.administration.show');
 
                     // expenses
-                    Route::resource('expenses', 'Company\\Employee\\Administration\\Expenses\\EmployeeExpenseController', ['as' => 'employee.administration'])->only([
-                        'index', 'show',
-                    ]);
+                    Route::get('expenses', 'Company\\Employee\\Administration\\Expenses\\EmployeeExpenseController@index')->name('employee.administration.expenses.index');
+                    Route::get('expenses/{expense}', 'Company\\Employee\\Administration\\Expenses\\EmployeeExpenseController@show')->name('employee.administration.expenses.show');
+                    Route::delete('expenses/{expense}', 'Company\\Employee\\Administration\\Expenses\\EmployeeExpenseController@destroy');
 
                     // timesheets
                     Route::get('timesheets', 'Company\\Employee\\Administration\\Timesheets\\EmployeeTimesheetController@index')->name('employee.timesheets.index');

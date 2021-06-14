@@ -7,11 +7,13 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Expense;
+use App\Models\Company\Employee;
 
 class DestroyExpense extends BaseService
 {
     private array $data;
     private Expense $expense;
+    private Employee $employee;
 
     /**
      * Get the validation rules that apply to the service.

@@ -1293,6 +1293,7 @@ class LogHelper
 
             case 'expense_destroyed':
                 $sentence = trans('account.log_expense_destroyed', [
+                    'employee_name' => $log->object->{'employee_name'},
                     'expense_title' => $log->object->{'expense_title'},
                 ]);
                 break;
