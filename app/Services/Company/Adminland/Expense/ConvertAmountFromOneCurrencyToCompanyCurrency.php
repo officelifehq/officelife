@@ -89,6 +89,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
             return;
         }
 
+        $response = null;
         try {
             $response = Http::get($this->query);
             $response->throw();
