@@ -121,8 +121,7 @@ class CreateExpense extends BaseService
             ])->onQueue('low');
         }
 
-        ConvertExpense::dispatch($this->expense)
-            ->onQueue('low');
+        ConvertExpense::dispatch($this->expense);
     }
 
     /**
