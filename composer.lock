@@ -5276,22 +5276,22 @@
         },
         {
             "name": "spatie/simple-excel",
-            "version": "1.13.1",
+            "version": "1.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/simple-excel.git",
-                "reference": "4efc3285a718be728a345731b37207e98bf39ddb"
+                "reference": "48b71e8754e1f238e87a5bfa999000aaf8bf0458"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/simple-excel/zipball/4efc3285a718be728a345731b37207e98bf39ddb",
-                "reference": "4efc3285a718be728a345731b37207e98bf39ddb",
+                "url": "https://api.github.com/repos/spatie/simple-excel/zipball/48b71e8754e1f238e87a5bfa999000aaf8bf0458",
+                "reference": "48b71e8754e1f238e87a5bfa999000aaf8bf0458",
                 "shasum": ""
             },
             "require": {
                 "box/spout": "^3.0",
                 "illuminate/support": "^6.3|^7.0|^8.0",
-                "php": "^7.4|^8.0"
+                "php": "^8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^9.0",
@@ -5324,7 +5324,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/simple-excel/issues",
-                "source": "https://github.com/spatie/simple-excel/tree/1.13.1"
+                "source": "https://github.com/spatie/simple-excel/tree/1.14.1"
             },
             "funding": [
                 {
@@ -5332,7 +5332,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-26T08:06:51+00:00"
+            "time": "2021-06-11T06:33:30+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
