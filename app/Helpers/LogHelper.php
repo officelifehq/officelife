@@ -1298,6 +1298,13 @@ class LogHelper
                 ]);
                 break;
 
+            case 'software_file_destroyed':
+                $sentence = trans('account.log_software_file_destroyed', [
+                    'software_name' => $log->object->{'software_name'},
+                    'name' => $log->object->{'name'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;

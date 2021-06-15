@@ -3,9 +3,11 @@
 namespace Tests\Unit\Services\Company\Adminland\Software;
 
 use Tests\TestCase;
+use App\Models\Company\File;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Software;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
@@ -53,12 +55,20 @@ class DestroySoftwareTest extends TestCase
     private function executeService(Employee $michael): void
     {
         Queue::fake();
+        Event::fake();
 
         $software = Software::create([
             'company_id' => $michael->company_id,
             'name' => 'office',
             'product_key' => '456',
             'seats' => '5',
+        ]);
+
+        $file = File::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $software->files()->syncWithoutDetaching([
+            $file->id,
         ]);
 
         $request = [
@@ -71,6 +81,10 @@ class DestroySoftwareTest extends TestCase
 
         $this->assertDatabaseMissing('softwares', [
             'id' => $software->id,
+        ]);
+
+        $this->assertDatabaseMissing('files', [
+            'company_id' => $michael->company_id,
         ]);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $software) {

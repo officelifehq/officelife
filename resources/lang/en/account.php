@@ -320,7 +320,8 @@ return [
     'log_software_seat_given_to_employee' => 'Gave a license of the software called :software_name to :employee_name.',
     'log_software_seat_taken_from_employee' => 'Took the license of the software called :software_name back from :employee_name.',
     'log_software_seat_given_to_employees' => 'Gave a license of the software called :software_name to all employees in the company.',
-    'log_software_file_attached' => 'Uploaded a file to the software called :software_name.',
+    'log_file_added_to_software' => 'Uploaded a file called :name associated with the software called :software_name.',
+    'log_software_file_destroyed' => 'Deleted the file called :name that was associated with the software called :software_name.',
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',

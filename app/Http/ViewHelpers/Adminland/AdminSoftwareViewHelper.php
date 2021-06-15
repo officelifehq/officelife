@@ -3,8 +3,10 @@
 namespace App\Http\ViewHelpers\Adminland;
 
 use App\Helpers\DateHelper;
+use App\Helpers\FileHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
+use App\Models\Company\Employee;
 use App\Models\Company\Software;
 use Illuminate\Support\Collection;
 
@@ -159,5 +161,46 @@ class AdminSoftwareViewHelper
                 'name' => $employee->name,
             ];
         });
+    }
+
+    /**
+     * All the information about the files associated with the software.
+     *
+     * @param Software $software
+     * @param Employee $employee
+     * @return Collection
+     */
+    public static function files(Software $software, Employee $employee): Collection
+    {
+        $company = $software->company;
+
+        $files = $software->files()
+            ->with('uploader')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $filesCollection = collect([]);
+        foreach ($files as $file) {
+            $uploader = $file->uploader;
+
+            $filesCollection->push([
+                'id' => $file->id,
+                'size' => FileHelper::getSize($file->size),
+                'filename' => $file->name,
+                'download_url' => $file->cdn_url,
+                'uploader' => $uploader ? [
+                    'id' => $uploader->id,
+                    'name' => $uploader->name,
+                    'avatar' => ImageHelper::getAvatar($uploader, 24),
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $uploader,
+                    ]),
+                ] : $file->uploader_name,
+                'created_at' => DateHelper::formatDate($file->created_at, $employee->timezone),
+            ]);
+        }
+
+        return $filesCollection;
     }
 }

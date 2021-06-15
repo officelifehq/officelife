@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Company\Adminland;
 use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\DateHelper;
+use App\Helpers\FileHelper;
 use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
@@ -14,6 +16,7 @@ use App\Models\Company\Software;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Services\Company\Adminland\File\UploadFile;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
 use App\Http\ViewHelpers\Adminland\AdminHardwareViewHelper;
@@ -21,7 +24,9 @@ use App\Http\ViewHelpers\Adminland\AdminSoftwareViewHelper;
 use App\Services\Company\Adminland\Software\CreateSoftware;
 use App\Services\Company\Adminland\Software\UpdateSoftware;
 use App\Services\Company\Adminland\Software\DestroySoftware;
+use App\Services\Company\Adminland\Software\AddFileToSoftware;
 use App\Services\Company\Adminland\Software\GiveSeatToEmployee;
+use App\Services\Company\Adminland\Software\DestroySoftwareFile;
 use App\Services\Company\Adminland\Software\TakeSeatFromEmployee;
 use App\Services\Company\Adminland\Software\GiveSeatToEveryEmployee;
 
@@ -119,6 +124,7 @@ class AdminSoftwareController extends Controller
     public function show(Request $request, int $companyId, int $softwareId)
     {
         $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
 
         try {
             $software = Software::where('company_id', $company->id)
@@ -131,10 +137,13 @@ class AdminSoftwareController extends Controller
         $employees = $software->employees()->get();
         $employeeCollection = AdminSoftwareViewHelper::seats($employees, $company);
         $information = AdminSoftwareViewHelper::show($software);
+        $files = AdminSoftwareViewHelper::files($software, $employee);
 
         return Inertia::render('Adminland/Software/Show', [
             'software' => $information,
             'employees' => $employeeCollection,
+            'files' => $files,
+            'uploadcarePublicKey' => config('officelife.uploadcare_public_key'),
             'url_edit' => route('software.edit', [
                 'company' => $company,
                 'software' => $software,
@@ -381,5 +390,97 @@ class AdminSoftwareController extends Controller
         return response()->json([
             'data' => true,
         ]);
+    }
+
+    /**
+     * Store a file.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $softwareId
+     * @return JsonResponse|null
+     */
+    public function storeFile(Request $request, int $companyId, int $softwareId): ?JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        try {
+            $software = Software::where('company_id', $loggedCompany->id)
+                ->findOrFail($softwareId);
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
+
+        $file = (new UploadFile)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'uuid' => $request->input('uuid'),
+            'name' => $request->input('name'),
+            'original_url' => $request->input('original_url'),
+            'cdn_url' => $request->input('cdn_url'),
+            'mime_type' => $request->input('mime_type'),
+            'size' => $request->input('size'),
+            'type' => 'project_file',
+        ]);
+
+        (new AddFileToSoftware)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'software_id' => $software->id,
+            'file_id' => $file->id,
+        ]);
+
+        return response()->json([
+            'data' => [
+                'id' => $file->id,
+                'size' => FileHelper::getSize($file->size),
+                'filename' => $file->name,
+                'download_url' => $file->cdn_url,
+                'uploader' => [
+                    'id' => $loggedEmployee->id,
+                    'name' => $loggedEmployee->name,
+                    'avatar' => ImageHelper::getAvatar($loggedEmployee, 24),
+                    'url' => route('employees.show', [
+                        'company' => $loggedCompany,
+                        'employee' => $loggedEmployee,
+                    ]),
+                ],
+                'created_at' => DateHelper::formatDate($file->created_at, $loggedEmployee->timezone),
+            ],
+        ], 200);
+    }
+
+    /**
+     * Destroy a file.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $softwareId
+     * @param int $fileId
+     * @return JsonResponse|null
+     */
+    public function destroyFile(Request $request, int $companyId, int $softwareId, int $fileId): ?JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        try {
+            $software = Software::where('company_id', $loggedCompany->id)
+                ->findOrFail($softwareId);
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
+
+        (new DestroySoftwareFile)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'software_id' => $software->id,
+            'file_id' => $fileId,
+        ]);
+
+        return response()->json([
+            'data' => true,
+        ], 200);
     }
 }
