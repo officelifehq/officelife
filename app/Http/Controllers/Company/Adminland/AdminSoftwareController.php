@@ -10,7 +10,6 @@ use App\Helpers\FileHelper;
 use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Helpers\PaginatorHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\Software;
 use Illuminate\Http\JsonResponse;
@@ -47,7 +46,6 @@ class AdminSoftwareController extends Controller
         return Inertia::render('Adminland/Software/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'softwares' => $softwareInformation,
-            'paginator' => PaginatorHelper::getData($softwares),
         ]);
     }
 
