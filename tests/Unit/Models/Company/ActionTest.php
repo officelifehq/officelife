@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\ApiTestCase;
+use Tests\TestCase;
 use App\Models\Company\Action;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ActionTest extends ApiTestCase
+class ActionTest extends TestCase
 {
     use DatabaseTransactions;
 
