@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models\Company;
 
 use Tests\ApiTestCase;
+use App\Models\Company\File;
 use App\Models\Company\Employee;
 use App\Models\Company\Software;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -33,5 +34,16 @@ class SoftwareTest extends ApiTestCase
         $software->employees()->syncWithoutDetaching([$michael->id]);
 
         $this->assertTrue($software->employees()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_files(): void
+    {
+        $software = Software::factory()->create();
+
+        $file = File::factory()->create();
+        $software->files()->sync([$file->id]);
+
+        $this->assertTrue($software->files()->exists());
     }
 }

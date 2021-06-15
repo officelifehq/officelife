@@ -320,6 +320,8 @@ return [
     'log_software_seat_given_to_employee' => 'Gave a license of the software called :software_name to :employee_name.',
     'log_software_seat_taken_from_employee' => 'Took the license of the software called :software_name back from :employee_name.',
     'log_software_seat_given_to_employees' => 'Gave a license of the software called :software_name to all employees in the company.',
+    'log_file_added_to_software' => 'Uploaded a file called :name associated with the software called :software_name.',
+    'log_software_file_destroyed' => 'Deleted the file called :name that was associated with the software called :software_name.',
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',
@@ -642,6 +644,8 @@ return [
     'software_show_purchase_information' => 'Purchase information',
     'software_show_licensed_to' => 'Licensed to:',
     'software_show_price' => 'Price',
+    'software_show_files' => 'Files',
+    'software_show_files_blank' => 'There are no files associated with this software yet.',
     'software_show_exchange_rate' => 'Exchange rate:',
     'software_show_purchase_date' => 'Purchase date',
     'software_show_website' => 'Website',
