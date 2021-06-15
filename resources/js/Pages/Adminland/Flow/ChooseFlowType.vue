@@ -1,5 +1,9 @@
-<style scoped>
-
+<style lang="scss" scoped>
+.flow-list {
+  li:last-child {
+    border-bottom: 0;
+  }
+}
 </style>
 
 <template>
@@ -33,11 +37,18 @@
           <!-- choose a flow type -->
           <div>
             <p class="mt0 f6 gray">Actions to execute on a specific date</p>
-            <ul class="ba bb-gray br3 list pl0">
-              <li>When an employee joins the company</li>
+            <ul class="ba bb-gray br3 list pl0 flow-list">
+              <li class="pa3 bb-gray bb">
+                <inertia-link :href="url.onboarding" class="f5 fw5 dib mb2">When an employee joins the company</inertia-link>
+                <span class="db gray f6">This lets you define an onboarding flow.</span>
+              </li>
+              <li class="pa3">
+                <inertia-link class="f5 fw5 dib mb2">When an employee joins the company</inertia-link>
+                <span class="db gray f6">This lets you define an onboarding flow.</span>
+              </li>
             </ul>
 
-            <p class="mt0 f6 gray">Actions to execute on an anniversary of a specific date</p>
+            <p class="mt4 f6 gray">Actions to execute on an anniversary of a specific date</p>
             <ul class="ba bb-gray br3 list pl0">
               <li>Job anniversary</li>
             </ul>
@@ -58,6 +69,10 @@ export default {
 
   props: {
     notifications: {
+      type: Array,
+      default: null,
+    },
+    url: {
       type: Array,
       default: null,
     },

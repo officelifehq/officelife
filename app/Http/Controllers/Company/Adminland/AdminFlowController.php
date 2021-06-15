@@ -62,8 +62,13 @@ class AdminFlowController extends Controller
      */
     public function create(): Response
     {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
         return Inertia::render('Adminland/Flow/ChooseFlowType', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'url' => [
+                'onboarding' => route('account.flow.onboarding', ['company' => $loggedCompany]),
+            ],
         ]);
     }
 

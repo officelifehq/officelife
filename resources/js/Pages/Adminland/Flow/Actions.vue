@@ -21,8 +21,9 @@
         {{ $t('account.flow_new_action_following') }}
       </p>
       <ul class="list ma0 pa0 tl">
-        <li v-for="action in orderedActions" :key="action.id" class="relative db bb-gray-hover pv2 ph1">
-          <action-notification :action="action" @destroy="destroyAction(action)" @update="updateAction($event, action)" />
+        <li v-for="action in orderedActions" :key="action.id" class="relative db pv2 ph1">
+          <!-- <action-notification :action="action" @destroy="destroyAction(action)" @update="updateAction($event, action)" /> -->
+          <create-task v-if="action.type == 'task'" @destroy="destroyAction(action)" />
         </li>
       </ul>
     </div>
@@ -34,7 +35,7 @@
       </a>
 
       <ul v-show="showActionMenu" class="list pa0 ma0 tl action-menu">
-        <li class="pa2 odd">Add a task</li>
+        <li class="pa2 odd pointer" @click="addAction('task')">Create a task</li>
         <li class="pa2">Create a project</li>
         <li class="pa2 odd">Create a project</li>
       </ul>
@@ -64,11 +65,11 @@
 </template>
 
 <script>
-import ActionNotification from '@/Pages/Adminland/Flow/ActionNotification';
+import CreateTask from '@/Pages/Adminland/Flow/Actions/CreateTask';
 
 export default {
   components: {
-    ActionNotification,
+    CreateTask,
   },
 
   model: {

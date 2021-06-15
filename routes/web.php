@@ -421,7 +421,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::resource('account/positions', 'Company\\Adminland\\AdminPositionController');
 
             // flow management
-            Route::resource('account/flows', 'Company\\Adminland\\AdminFlowController');
+            Route::get('account/flows', 'Company\\Adminland\\AdminFlowController@index');
+            Route::get('account/flows/create', 'Company\\Adminland\\AdminFlowController@create');
+            Route::get('account/flows/create/onboarding', 'Company\\Adminland\\AdminFlowCreationController@onboarding')->name('account.flow.onboarding');
 
             // employee statuses
             Route::resource('account/employeestatuses', 'Company\\Adminland\\AdminEmployeeStatusController', ['as' => 'account_employeestatuses']);
