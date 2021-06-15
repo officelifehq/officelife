@@ -644,6 +644,8 @@ return [
     'software_show_purchase_information' => 'Purchase information',
     'software_show_licensed_to' => 'Licensed to:',
     'software_show_price' => 'Price',
+    'software_show_files' => 'Files',
+    'software_show_files_blank' => 'There are no files associated with this software yet.',
     'software_show_exchange_rate' => 'Exchange rate:',
     'software_show_purchase_date' => 'Purchase date',
     'software_show_website' => 'Website',

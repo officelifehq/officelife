@@ -132,7 +132,7 @@
               <div class="f6">
                 <span class="mr1">
                   🗄
-                </span> Files
+                </span> {{ $t('account.software_show_files') }}
               </div>
 
               <uploadcare :public-key="uploadcarePublicKey"
@@ -195,7 +195,7 @@
             </ul>
 
             <!-- files blank state -->
-            <p v-if="localFiles.length == 0" class="lh-copy gray mt0">There are no files associated with this software yet.</p>
+            <p v-if="localFiles.length == 0" class="lh-copy gray mt0">{{ $t('account.software_show_files_blank') }}</p>
           </div>
 
           <!-- seats -->
