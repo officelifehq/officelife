@@ -41,7 +41,7 @@ class AdminSoftwareController extends Controller
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $softwares = $loggedCompany->softwares()->with('employees')->orderBy('id', 'desc')->paginate(10);
+        $softwares = $loggedCompany->softwares()->with('employees')->orderBy('id', 'desc')->get();
         $softwareInformation = AdminSoftwareViewHelper::index($softwares, $loggedCompany);
 
         return Inertia::render('Adminland/Software/Index', [
