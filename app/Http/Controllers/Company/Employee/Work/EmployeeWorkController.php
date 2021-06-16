@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use App\Helpers\PermissionHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -40,7 +41,7 @@ class EmployeeWorkController extends Controller
         }
 
         // information about what the logged employee can do
-        $permissions = EmployeeShowViewHelper::permissions($loggedEmployee, $employee);
+        $permissions = PermissionHelper::permissions($loggedEmployee, $employee);
 
         // worklogs
         $startOfWeek = Carbon::now()->setTimezone($loggedEmployee->timezone)->startOfWeek();

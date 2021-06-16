@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use App\Helpers\PermissionHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -40,7 +41,7 @@ class EmployeePerformanceController extends Controller
         }
 
         // information about the logged employee
-        $permissions = EmployeeShowViewHelper::permissions($loggedEmployee, $employee);
+        $permissions = PermissionHelper::permissions($loggedEmployee, $employee);
 
         // the latest one on ones
         $oneOnOnes = EmployeeShowViewHelper::oneOnOnes($employee, $permissions, $loggedEmployee);
