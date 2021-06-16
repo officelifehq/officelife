@@ -124,6 +124,6 @@ abstract class TestCase extends BaseTestCase
         $employee->employee_status_id = $status->id;
         $employee->save();
 
-        return $employee;
+        return $employee->refresh();
     }
 }

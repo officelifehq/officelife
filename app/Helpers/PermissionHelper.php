@@ -170,13 +170,13 @@ class PermissionHelper
         // can edit hired at information of the given employee
         $canEditHiredAt = $loggedEmployee->permission_level <= 200;
 
-        // can edit contact information of the given employee
-        $canEditContractInfoTab = $loggedEmployee->permission_level <= 200;
+        // can edit contract information of the given employee
         if ($employee->status) {
             $canEditContractInfoTab = $employee->status->type == EmployeeStatus::EXTERNAL;
         } else {
             $canEditContractInfoTab = false;
         }
+        $canEditContractInfoTab = $loggedEmployee->permission_level <= 200;
 
         return [
             'can_see_full_birthdate' => $canSeeFullBirthdate,
