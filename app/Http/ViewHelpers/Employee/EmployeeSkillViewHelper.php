@@ -30,7 +30,6 @@ class EmployeeSkillViewHelper
             ->select('id')
             ->pluck('id')
             ->toArray();
-        ;
 
         return $company->skills()
             ->select('id', 'name')
