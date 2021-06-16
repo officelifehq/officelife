@@ -1161,8 +1161,6 @@ class LogHelper
                 $sentence = trans('account.log_agenda_item_updated', [
                     'group_id' => $log->object->{'group_id'},
                     'group_name' => $log->object->{'group_name'},
-                    'employee_id' => $log->object->{'employee_id'},
-                    'employee_name' => $log->object->{'employee_name'},
                     'meeting_id' => $log->object->{'meeting_id'},
                 ]);
                 break;
@@ -1288,6 +1286,20 @@ class LogHelper
             case 'employee_joined_company':
                 $sentence = trans('account.log_employee_joined_company', [
                     'company_name' => $log->object->{'company_name'},
+                ]);
+                break;
+
+            case 'file_added_to_software':
+                $sentence = trans('account.log_file_added_to_software', [
+                    'software_name' => $log->object->{'software_name'},
+                    'name' => $log->object->{'name'},
+                ]);
+                break;
+
+            case 'software_file_destroyed':
+                $sentence = trans('account.log_software_file_destroyed', [
+                    'software_name' => $log->object->{'software_name'},
+                    'name' => $log->object->{'name'},
                 ]);
                 break;
 
