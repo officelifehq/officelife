@@ -320,6 +320,7 @@ return [
     'log_software_seat_given_to_employee' => 'Gave a license of the software called :software_name to :employee_name.',
     'log_software_seat_taken_from_employee' => 'Took the license of the software called :software_name back from :employee_name.',
     'log_software_seat_given_to_employees' => 'Gave a license of the software called :software_name to all employees in the company.',
+    'log_expense_destroyed' => 'Deleted the expense called :expense_title of :employee_name.',
     'log_file_added_to_software' => 'Uploaded a file called :name associated with the software called :software_name.',
     'log_software_file_destroyed' => 'Deleted the file called :name that was associated with the software called :software_name.',
     // employee logs
@@ -403,6 +404,7 @@ return [
     'employee_log_meeting_decision_destroyed' => 'Deleted a meeting decision about an agenda item in a meeting in the group called :group_name.',
     'employee_log_meeting_decision_updated' => 'Updated a meeting decision about an agenda item in a meeting in the group called :group_name.',
     'employee_log_add_guest_to_meeting' => 'Has been added in a meeting of the project called :project_name.',
+    'employee_log_expense_destroyed' => 'Deleted an expense called :expense_title.',
     // team logs
     'team_log_team_created' => 'Created the team.',
     'team_log_team_updated' => 'Changed the name from :old_name to :new_name.',
@@ -544,6 +546,7 @@ return [
     'expense_employees_create_label' => 'Add an employee by typing a name below',
     'expense_employees_assign_success' => 'The employee has been added to the list of authorized employees.',
     'expense_employees_unassign_success' => 'The employee has been removed from the list of authorized employees.',
+    'expense_destroy_success' => 'The expense has been deleted.',
     'general_title' => 'General settings',
     'general_information' => 'Account information',
     'general_name' => 'Company name',

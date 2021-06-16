@@ -10,6 +10,7 @@ use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Services\Company\Employee\Expense\DestroyExpense;
 use App\Http\ViewHelpers\Employee\EmployeeExpenseViewHelper;
 use App\Http\ViewHelpers\Dashboard\DashboardExpenseViewHelper;
 
@@ -78,6 +79,37 @@ class EmployeeExpenseController extends Controller
             ],
             'expense' => DashboardExpenseViewHelper::expense($expense, $loggedEmployee),
             'notifications' => NotificationHelper::getNotifications($loggedEmployee),
+        ]);
+    }
+
+    /**
+     * Display a single expense.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @param int $expenseId
+     * @return mixed
+     */
+    public function destroy(Request $request, int $companyId, int $employeeId, int $expenseId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $data = [
+            'company_id' => $loggedCompany->id,
+            'employee_id' => $employeeId,
+            'author_id' => $loggedEmployee->id,
+            'expense_id' => $expenseId,
+        ];
+
+        (new DestroyExpense)->execute($data);
+
+        return response()->json([
+            'url' => route(
+                'dashboard.me',
+                ['company' => $loggedCompany->id]
+            ),
         ]);
     }
 }

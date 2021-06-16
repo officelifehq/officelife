@@ -166,5 +166,12 @@ export default {
       default: null,
     },
   },
+
+  mounted() {
+    if (localStorage.success) {
+      this.flash(localStorage.success, 'success');
+      localStorage.removeItem('success');
+    }
+  },
 };
 </script>
