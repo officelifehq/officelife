@@ -26,15 +26,19 @@ class EmployeeSkillViewHelper
 
         $criteria = Str::of($criteria)->ascii()->lower();
 
-        $employeeSkills = $employee->skills;
+        $employeeSkills = $employee->skills()
+            ->select('id')
+            ->pluck('id')
+            ->toArray();
+        ;
 
         return $company->skills()
             ->select('id', 'name')
             ->where('name', 'LIKE', '%'.$criteria.'%')
+            ->whereNotIn('id', $employeeSkills)
             ->orderBy('name', 'asc')
             ->take(10)
             ->get()
-            ->diff($employeeSkills)
             ->map(function ($skill) {
                 return [
                     'id' => $skill->id,

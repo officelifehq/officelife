@@ -44,4 +44,33 @@ class EmployeeSkillViewHelperTest extends TestCase
         $collection = EmployeeSkillViewHelper::search($michael->company, $michael, 'z');
         $this->assertEquals(0, $collection->count());
     }
+
+    /** @test */
+    public function it_does_not_return_current_skills(): void
+    {
+        $michael = Employee::factory()->create();
+        $skill = Skill::factory()->create([
+            'company_id' => $michael->company_id,
+            'name' => 'javascript',
+        ]);
+
+        (new AttachEmployeeToSkill)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $michael->id,
+            'name' => 'java',
+        ]);
+
+        $collection = EmployeeSkillViewHelper::search($michael->company, $michael, 'ja');
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $skill->id,
+                    'name' => $skill->name,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
 }
