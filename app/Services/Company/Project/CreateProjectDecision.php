@@ -30,7 +30,7 @@ class CreateProjectDecision extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'required|integer|exists:projects,id',
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:65535',
             'decided_at' => 'nullable|date_format:Y-m-d',
             'deciders' => 'nullable|array',
         ];

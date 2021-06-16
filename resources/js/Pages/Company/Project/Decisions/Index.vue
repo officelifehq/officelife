@@ -170,7 +170,7 @@
           <ul class="list pl0 mv0 list-no-line-bottom">
             <li v-for="decision in localDecisions" :key="decision.id" :data-cy="'decision-' + decision.id" class="bb bb-gray pa3 relative">
               <!-- decision title -->
-              <p class="ma0 mb3 fw5">{{ decision.title }}</p>
+              <p class="ma0 mb3 fw5 lh-copy">{{ decision.title }}</p>
 
               <!-- date + decided by -->
               <div class="flex">
