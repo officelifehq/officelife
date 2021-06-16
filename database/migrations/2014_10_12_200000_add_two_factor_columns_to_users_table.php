@@ -21,14 +21,4 @@ class AddTwoFactorColumnsToUsersTable extends Migration
                     ->nullable();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down()
-    {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('two_factor_secret', 'two_factor_recovery_codes');
-        });
-    }
 }
