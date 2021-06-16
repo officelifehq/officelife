@@ -9,6 +9,7 @@ use App\Models\Company\ImportJob;
 use Illuminate\Support\Facades\Http;
 use App\Models\Company\ImportJobReport;
 use Illuminate\Support\Facades\Storage;
+use App\Exceptions\MalformedCSVException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
@@ -78,7 +79,7 @@ class ImportEmployeesFromCSVTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_file_not_exist(): void
+    public function it_fails_if_file_does_not_exist(): void
     {
         $michael = $this->createHR();
         $importJob = ImportJob::factory()->create([
@@ -111,6 +112,40 @@ class ImportEmployeesFromCSVTest extends TestCase
     }
 
     /** @test */
+    public function it_fails_if_csv_does_not_have_the_right_header(): void
+    {
+        $michael = $this->createHR();
+        $importJob = ImportJob::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $report = ImportJobReport::factory()->create([
+            'import_job_id' => $importJob->id,
+        ]);
+        $file = File::factory()->create([
+            'company_id' => $michael->company_id,
+            'cdn_url' => 'http://url.com/',
+            'name' => 'malformed.csv',
+        ]);
+
+        Storage::fake('local');
+
+        $body = file_get_contents(base_path('tests/Fixtures/Services/Adminland/Employee/Imports/malformed.csv'));
+        Http::fake([
+            'url.com/malformed.csv' => Http::response($body, 200),
+        ]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'import_job_id' => $importJob->id,
+            'file_id' => $file->id,
+        ];
+
+        $this->expectException(MalformedCSVException::class);
+        (new ImportEmployeesFromCSV($request))->handle();
+    }
+
+    /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = $this->createAdministrator();
@@ -125,7 +160,7 @@ class ImportEmployeesFromCSVTest extends TestCase
     }
 
     /** @test */
-    public function it_save_state_when_failing(): void
+    public function it_saves_state_when_failing(): void
     {
         $michael = $this->createEmployee();
         $importJob = ImportJob::factory()->create([
