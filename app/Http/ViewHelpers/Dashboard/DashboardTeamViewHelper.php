@@ -169,12 +169,12 @@ class DashboardTeamViewHelper
     }
 
     /**
-     * Creates an array containing all the information regarding the worklogs
+     * Creates an array containing all the information regarding the work logs
      * logged on the given day for a specific team.
      *
      * This array also contains an indicator telling how many team members have
-     * filled the worklogs for the day. The rules are as follow:
-     * - less than 20% of team members have filled the worklogs: red
+     * filled the work logs for the day. The rules are as follow:
+     * - less than 20% of team members have filled the work logs: red
      * - 20% -> 80%: yellow
      * - > 80%: green
      *
@@ -182,13 +182,9 @@ class DashboardTeamViewHelper
      * @param Carbon $date
      * @return array
      */
-    public static function worklogs(Team $team, Carbon $date): array
+    public static function worklogsForDate(Team $team, Carbon $date): array
     {
-        // remove employees that are locked
-        $employees = $team->employees;
-        $employees = $employees->filter(function ($employee) {
-            return ! $employee->locked;
-        });
+        $employees = $team->employees()->notLocked()->get();
 
         $numberOfEmployeesInTeam = $employees->count();
         $numberOfEmployeesWhoHaveLoggedWorklogs = count($team->worklogsForDate($date));
@@ -215,6 +211,30 @@ class DashboardTeamViewHelper
         ];
 
         return $data;
+    }
+
+    /**
+     * Get all the work logs for the last 7 days.
+     * By default, the view will display the following days:
+     * Last Fri/M/T/W/T/F.
+     *
+     * @param Team $team
+     * @param Carbon $startDate
+     * @return Collection
+     */
+    public static function worklogsForTheLast7Days(Team $team, Carbon $startDate): Collection
+    {
+        $dates = collect([]);
+        $lastFriday = $startDate->copy()->startOfWeek()->subDays(3);
+
+        $dates->push(self::worklogsForDate($team, $lastFriday));
+
+        for ($i = 0; $i < 5; $i++) {
+            $day = $startDate->copy()->startOfWeek()->addDays($i);
+            $dates->push(self::worklogsForDate($team, $day));
+        }
+
+        return $dates;
     }
 
     /**

@@ -120,10 +120,10 @@ class Team extends Model
     }
 
     /**
-     * Returns an array of worklogs for a given date.
+     * Returns an array of work logs of all the active team members in the
+     * given team on a given date.
      *
      * @param Carbon $date
-     *
      * @return Collection
      */
     public function worklogsForDate($date): Collection
@@ -134,17 +134,21 @@ class Team extends Model
             ->where([
                 ['worklogs.created_at', 'LIKE', $date->format('Y-m-d').'%'],
                 ['employee_team.team_id', '=', $this->id],
+                ['employees.locked', '=', false],
             ])
             ->select('worklogs.content', 'employees.id', 'employees.first_name', 'employees.email', 'employees.last_name', 'employees.avatar_file_id')
             ->get();
 
         foreach ($worklogs as $worklog) {
+            // gathering information about the employee
             $employee = new Employee();
             $employee->id = $worklog->id;
             $employee->email = $worklog->email;
             $employee->first_name = $worklog->first_name;
             $employee->last_name = $worklog->last_name;
             $employee->avatar_file_id = $worklog->avatar_file_id;
+
+            // updating on the fly each work log object
             $worklog->name = $employee->name;
             $worklog->avatar = ImageHelper::getAvatar($employee, 22);
         }

@@ -98,17 +98,6 @@ class DashboardTeamController extends Controller
             $requestedDate = Carbon::now();
         }
 
-        // building the collection containing the days with the worklogs
-        // by default, the view should display the following days
-        // Last Fri/M/T/W/T/F
-        $dates = collect([]);
-        $lastFriday = $requestedDate->copy()->startOfWeek()->subDays(3);
-        $dates->push(DashboardTeamViewHelper::worklogs($team, $lastFriday));
-        for ($i = 0; $i < 5; $i++) {
-            $day = $requestedDate->copy()->startOfWeek()->addDays($i);
-            $dates->push(DashboardTeamViewHelper::worklogs($team, $day));
-        }
-
         // upcoming birthdays
         $birthdays = DashboardTeamViewHelper::birthdays($team);
 
@@ -124,6 +113,9 @@ class DashboardTeamController extends Controller
         // upcoming new hires
         $newHires = DashboardTeamViewHelper::upcomingNewHires($team);
 
+        // work logs
+        $worklogs = DashboardTeamViewHelper::worklogsForTheLast7Days($team, $requestedDate);
+
         $hiringDateAnniversaries = DashboardTeamViewHelper::upcomingHiredDateAnniversaries($team);
 
         return Inertia::render('Dashboard/Team/Index', [
@@ -131,7 +123,7 @@ class DashboardTeamController extends Controller
             'employee' => DashboardViewHelper::information($employee, 'team'),
             'teams' => $teams,
             'currentTeam' => $team->id,
-            'worklogDates' => $dates,
+            'worklogDates' => $worklogs,
             'currentDate' => $requestedDate->format('Y-m-d'),
             'worklogEntries' => $team->worklogsForDate($requestedDate),
             'birthdays' => $birthdays,
