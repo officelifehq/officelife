@@ -598,6 +598,7 @@ return [
     'import_employees_show_title_started' => 'Import started on {date}…',
     'import_employees_show_title_uploaded' => 'You are about to import new employees',
     'import_employees_show_title_imported' => 'Entries you have imported on {date}',
+    'import_employees_show_title_failed' => 'This import has failed',
     'import_employees_show_title_number_entries' => 'Number of entries in the file',
     'import_employees_show_title_number_entries_errors' => 'Entries in errors',
     'import_employees_show_title_number_entries_import' => 'Entries we can import',

@@ -62,7 +62,7 @@
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="mt5">
-          <div class="pa3 bb bb-gray">
+          <div class="pa3">
             <!-- Title when import is waiting processing -->
             <h2 v-if="localReport.status === 'created'" class="tc normal mb4">
               {{ $t('account.import_employees_show_title_created') }}
@@ -91,6 +91,14 @@
               <help :url="$page.props.help_links.import_employees" :top="'1px'" />
             </h2>
 
+            <!-- Title when import is in error -->
+            <h2 v-else-if="localReport.status === 'failed'" class="tc normal mb4">
+              {{ $t('account.import_employees_show_title_failed') }}
+
+              <help :url="$page.props.help_links.import_employees" :top="'1px'" />
+            </h2>
+
+            <!-- Summary of the different import steps -->
             <div v-if="localReport.status !== 'created' && localReport.status !== 'started'" class="flex justify-around items-center mb4">
               <div class="">
                 <span class="db gray mb2 f6">
@@ -303,7 +311,8 @@ export default {
       if (this.$page.component === 'Adminland/Employee/Archives/Show'
         && this.loadingState === null
         && this.localReport.status !== 'imported'
-        && this.localReport.status !== 'uploaded') {
+        && this.localReport.status !== 'uploaded'
+        && this.localReport.status !== 'failed') {
         axios.get(route('account.employees.upload.archive.show', {
           company: this.$page.props.auth.company.id,
           archive: this.localReport.id,

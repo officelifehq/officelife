@@ -1,16 +1,16 @@
-First Name,Last Name,Email,Permission Level, Send email
-Eric,Ramzy,eric.ramzy,200,true
-Henri,Troyat,henri@troyat.com,100,false
-Cata,Strophe,,200,true
-Al,Berri,al@berri.com,200,true
-Regis,Alexis,regis@berri,200,true
-Al,Berri,al@berri.com,200,true
-Regis,Alexis,regis@berri,200,true
-Al,Berri,al@berri.com,200,true
-Regis,Alexis,regis@berri,200,true
-Al,Berri,al@berri.com,200,true
-Regis,Alexis,regis@berri,200,true
-Al,Berri,al@berri.com,200,true
-Regis,Alexis,regis@berri,200,true
-Al,Berri,al@berri.com,200,true
-Regis,Alexis,regis@berri,200,true
+First Name,Last Name,Email
+Eric,Ramzy,eric.ramzy
+Henri,Troyat,henri@troyat.com
+Cata,Strophe
+Al,Berri,al@berri.com
+Regis,Alexis,regis@berri
+Al,Berri,al@berri.com
+Regis,Alexis,regis@berri
+Al,Berri,al@berri.com
+Regis,Alexis,regis@berri
+Al,Berri,al@berri.com
+Regis,Alexis,regis@berri
+Al,Berri,al@berri.com
+Regis,Alexis,regis@berri
+Al,Berri,al@berri.com
+Regis,Alexis,regis@berri
