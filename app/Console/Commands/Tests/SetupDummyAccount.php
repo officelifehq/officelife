@@ -284,9 +284,9 @@ class SetupDummyAccount extends Command
         // grab the employee that was just created
         $this->michael = Employee::first();
 
-        $this->pronounHeHim = Pronoun::where('label', 'he/him')->first();
-        $this->pronounSheHer = Pronoun::where('label', 'she/her')->first();
-        $this->pronounTheyThem = Pronoun::where('label', 'they/them')->first();
+        $this->pronounHeHim = Pronoun::where('label', trans('account.pronoun_he_him'))->first();
+        $this->pronounSheHer = Pronoun::where('label', trans('account.pronoun_she_her'))->first();
+        $this->pronounTheyThem = Pronoun::where('label', trans('account.pronoun_they_them'))->first();
 
         $this->expenseCategoryMaintenanceAndRepairs = ExpenseCategory::where('name', trans('account.expense_category_default_maintenance_and_repairs'))->first();
         $this->expenseCategoryMealsAndEntertainment = ExpenseCategory::where('name', trans('account.expense_category_default_meals_and_entertainment'))->first();
