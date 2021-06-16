@@ -31,7 +31,7 @@ class DashboardMeExpenseController extends Controller
             'company_id' => $company->id,
             'expense_category_id' => $request->input('category'),
             'title' => $request->input('title'),
-            'amount' => $request->input('amount') * 100,
+            'amount' => MoneyHelper::parseInput($request->input('amount'), $request->input('currency')),
             'currency' => $request->input('currency'),
             'description' => $request->input('description'),
             'expensed_at' => Carbon::now()->format('Y-m-d'),

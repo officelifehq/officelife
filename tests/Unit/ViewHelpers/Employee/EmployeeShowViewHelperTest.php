@@ -41,6 +41,7 @@ class EmployeeShowViewHelperTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
+        $dwight->birthdate = Carbon::create(1975, 12, 22);
 
         // create a policy for this year
         $request = [
@@ -54,12 +55,12 @@ class EmployeeShowViewHelperTest extends TestCase
 
         (new CreateCompanyPTOPolicy)->execute($request);
 
-        $array = [
+        $permissions = [
             'can_see_complete_address' => true,
             'can_see_full_birthdate' => true,
         ];
 
-        $array = EmployeeShowViewHelper::informationAboutEmployee($dwight, $array, $michael);
+        $array = EmployeeShowViewHelper::informationAboutEmployee($dwight, $permissions, $michael);
 
         $this->assertArrayHasKey('id', $array);
         $this->assertArrayHasKey('first_name', $array);
@@ -82,6 +83,68 @@ class EmployeeShowViewHelperTest extends TestCase
         $this->assertArrayHasKey('user', $array);
         $this->assertArrayHasKey('status', $array);
         $this->assertArrayHasKey('url', $array);
+    }
+
+    /** @test */
+    public function it_calculates_the_age_of_the_employee(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 12, 21));
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $dwight->update([
+            'birthdate' => Carbon::create(1975, 12, 22),
+        ]);
+
+        // create a policy for this year
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'year' => 2018,
+            'default_amount_of_allowed_holidays' => 1,
+            'default_amount_of_sick_days' => 1,
+            'default_amount_of_pto_days' => 1,
+        ];
+
+        (new CreateCompanyPTOPolicy)->execute($request);
+
+        $permissions = [
+            'can_see_complete_address' => true,
+            'can_see_full_birthdate' => true,
+        ];
+
+        $array = EmployeeShowViewHelper::informationAboutEmployee($dwight, $permissions, $michael);
+
+        $this->assertEquals([
+            'date' => 'Dec 22, 1975',
+            'age' => 42,
+        ], $array['birthdate']);
+
+        // Test age calculation on the same year
+        Carbon::setTestNow(Carbon::create(2018, 12, 31));
+        $array = EmployeeShowViewHelper::informationAboutEmployee($dwight, $permissions, $michael);
+        $this->assertEquals([
+            'date' => 'Dec 22, 1975',
+            'age' => 43,
+        ], $array['birthdate']);
+
+        // Test age calculation on the birthday
+        Carbon::setTestNow(Carbon::create(2018, 12, 22));
+        $array = EmployeeShowViewHelper::informationAboutEmployee($dwight, $permissions, $michael);
+        $this->assertEquals([
+            'date' => 'Dec 22, 1975',
+            'age' => 43,
+        ], $array['birthdate']);
+
+        // Test age calculation on the birthday on another timezone
+        $michael->update([
+            'timezone' => 'America/Chicago',
+        ]);
+
+        $array = EmployeeShowViewHelper::informationAboutEmployee($dwight, $permissions, $michael);
+        $this->assertEquals([
+            'date' => 'Dec 22, 1975',
+            'age' => 42,
+        ], $array['birthdate']);
     }
 
     /** @test */

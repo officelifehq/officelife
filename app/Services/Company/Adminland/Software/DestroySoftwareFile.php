@@ -3,13 +3,15 @@
 namespace App\Services\Company\Adminland\Software;
 
 use Carbon\Carbon;
+use App\Models\Company\File;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Software;
 
-class DestroySoftware extends BaseService
+class DestroySoftwareFile extends BaseService
 {
     protected array $data;
+    protected File $file;
     protected Software $software;
 
     /**
@@ -23,11 +25,12 @@ class DestroySoftware extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'software_id' => 'required|integer|exists:softwares,id',
+            'file_id' => 'required|integer|exists:files,id',
         ];
     }
 
     /**
-     * Destroy a software.
+     * Destroy a file associated with the software.
      *
      * @param array $data
      */
@@ -35,8 +38,7 @@ class DestroySoftware extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->destroyFiles();
-        $this->destroy();
+        $this->destroyFile();
         $this->log();
     }
 
@@ -46,37 +48,35 @@ class DestroySoftware extends BaseService
 
         $this->author($this->data['author_id'])
             ->inCompany($this->data['company_id'])
-            ->asAtLeastHR()
+            ->asNormalUser()
             ->canExecuteService();
 
         $this->software = Software::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['software_id']);
+
+        $this->file = File::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['file_id']);
     }
 
-    private function destroy(): void
+    private function destroyFile(): void
     {
-        $this->software->delete();
-    }
-
-    private function destroyFiles(): void
-    {
-        $files = $this->software->files;
-        foreach ($files as $file) {
-            $file->delete();
-        }
+        /* @phpstan-ignore-next-line */
+        $this->software->files()->detach($this->data['file_id']);
+        $this->file->delete();
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'software_destroyed',
+            'action' => 'software_file_destroyed',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'software_id' => $this->software->id,
                 'software_name' => $this->software->name,
+                'name' => $this->file->name,
             ]),
         ])->onQueue('low');
     }

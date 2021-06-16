@@ -3,14 +3,16 @@
 namespace App\Services\Company\Adminland\Software;
 
 use Carbon\Carbon;
+use App\Models\Company\File;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Software;
 
-class DestroySoftware extends BaseService
+class AddFileToSoftware extends BaseService
 {
     protected array $data;
     protected Software $software;
+    protected File $file;
 
     /**
      * Get the validation rules that apply to the service.
@@ -23,21 +25,24 @@ class DestroySoftware extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'software_id' => 'required|integer|exists:softwares,id',
+            'file_id' => 'required|integer|exists:files,id',
         ];
     }
 
     /**
-     * Destroy a software.
+     * Add the given file to the software.
      *
      * @param array $data
+     * @return File
      */
-    public function execute(array $data): void
+    public function execute(array $data): File
     {
         $this->data = $data;
         $this->validate();
-        $this->destroyFiles();
-        $this->destroy();
+        $this->assign();
         $this->log();
+
+        return $this->file;
     }
 
     private function validate(): void
@@ -51,32 +56,31 @@ class DestroySoftware extends BaseService
 
         $this->software = Software::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['software_id']);
+
+        $this->file = File::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['file_id']);
     }
 
-    private function destroy(): void
+    private function assign(): void
     {
-        $this->software->delete();
-    }
-
-    private function destroyFiles(): void
-    {
-        $files = $this->software->files;
-        foreach ($files as $file) {
-            $file->delete();
-        }
+        /* @phpstan-ignore-next-line */
+        $this->software->files()->syncWithoutDetaching([
+            $this->data['file_id'],
+        ]);
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'software_destroyed',
+            'action' => 'file_added_to_software',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'software_id' => $this->software->id,
                 'software_name' => $this->software->name,
+                'name' => $this->file->name,
             ]),
         ])->onQueue('low');
     }

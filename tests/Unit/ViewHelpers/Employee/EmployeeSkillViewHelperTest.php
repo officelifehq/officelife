@@ -14,6 +14,14 @@ class EmployeeSkillViewHelperTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
+    public function it_handles_an_empty_search(): void
+    {
+        $michael = Employee::factory()->create();
+        $collection = EmployeeSkillViewHelper::search($michael->company, $michael, null);
+        $this->assertCount(0, $collection);
+    }
+
+    /** @test */
     public function it_searches_skills(): void
     {
         $michael = Employee::factory()->create();
@@ -30,7 +38,7 @@ class EmployeeSkillViewHelperTest extends TestCase
         ]);
 
         $collection = EmployeeSkillViewHelper::search($michael->company, $michael, 'p');
-        $this->assertEquals(1, $collection->count());
+        $this->assertCount(1, $collection);
         $this->assertEquals(
             [
                 0 => [
@@ -42,6 +50,35 @@ class EmployeeSkillViewHelperTest extends TestCase
         );
 
         $collection = EmployeeSkillViewHelper::search($michael->company, $michael, 'z');
-        $this->assertEquals(0, $collection->count());
+        $this->assertCount(0, $collection);
+    }
+
+    /** @test */
+    public function it_does_not_return_current_skills(): void
+    {
+        $michael = Employee::factory()->create();
+        $skill = Skill::factory()->create([
+            'company_id' => $michael->company_id,
+            'name' => 'javascript',
+        ]);
+
+        (new AttachEmployeeToSkill)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $michael->id,
+            'name' => 'java',
+        ]);
+
+        $collection = EmployeeSkillViewHelper::search($michael->company, $michael, 'ja');
+        $this->assertCount(1, $collection);
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $skill->id,
+                    'name' => $skill->name,
+                ],
+            ],
+            $collection->toArray()
+        );
     }
 }

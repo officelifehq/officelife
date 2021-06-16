@@ -6,7 +6,6 @@ use Throwable;
 use App\Services\BaseService;
 use App\Models\Company\ImportJob;
 use App\Services\QueuableService;
-use App\Jobs\AddEmployeeToCompany;
 use App\Services\DispatchableService;
 use App\Models\Company\ImportJobReport;
 

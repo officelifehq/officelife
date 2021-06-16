@@ -61,7 +61,7 @@ class Software extends Model
     ];
 
     /**
-     * Get the company record associated with the e-coffee.
+     * Get the company record associated with the software.
      *
      * @return BelongsTo
      */
@@ -71,12 +71,22 @@ class Software extends Model
     }
 
     /**
-     * Get the e-coffee match records associated with the e-coffee.
+     * Get the e-coffee match records associated with the software.
      *
      * @return BelongsToMany
      */
     public function employees()
     {
         return $this->belongsToMany(Employee::class)->withTimestamps();
+    }
+
+    /**
+     * Get the file entries associated with the software.
+     *
+     * @return BelongsToMany
+     */
+    public function files()
+    {
+        return $this->belongsToMany(File::class);
     }
 }

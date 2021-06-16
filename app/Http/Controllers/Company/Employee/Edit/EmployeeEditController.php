@@ -92,16 +92,18 @@ class EmployeeEditController extends Controller
 
         (new SetPersonalDetails)->execute($data);
 
-        $data = [
-            'company_id' => $companyId,
-            'author_id' => $loggedEmployee->id,
-            'employee_id' => $employeeId,
-            'year' => intval($request->input('year')),
-            'month' => intval($request->input('month')),
-            'day' => intval($request->input('day')),
-        ];
+        if ($request->input('year')) {
+            $data = [
+                'company_id' => $companyId,
+                'author_id' => $loggedEmployee->id,
+                'employee_id' => $employeeId,
+                'year' => intval($request->input('year')),
+                'month' => intval($request->input('month')),
+                'day' => intval($request->input('day')),
+            ];
 
-        (new SetBirthdate)->execute($data);
+            (new SetBirthdate)->execute($data);
+        }
 
         if ($request->input('hired_year')) {
             $data = [

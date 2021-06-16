@@ -12,12 +12,16 @@ class HeaderSearchViewHelper
      * Get all the employees matching a given criteria.
      *
      * @param Company $company
-     * @param string $criteria
+     * @param string|null $criteria
      * @return Collection
      */
-    public static function employees(Company $company, string $criteria): Collection
+    public static function employees(Company $company, ?string $criteria): Collection
     {
-        $employees = $company->employees()
+        if ($criteria === null) {
+            return collect();
+        }
+
+        return $company->employees()
             ->select('id', 'first_name', 'last_name', 'avatar_file_id')
             ->with('picture')
             ->notLocked()
@@ -28,44 +32,40 @@ class HeaderSearchViewHelper
             })
             ->orderBy('last_name', 'asc')
             ->take(10)
-            ->get();
-
-        $employeesCollection = collect([]);
-        foreach ($employees as $employee) {
-            $employeesCollection->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'avatar' => ImageHelper::getAvatar($employee),
-            ]);
-        }
-
-        return $employeesCollection;
+            ->get()
+            ->map(function ($employee) {
+                return [
+                    'id' => $employee->id,
+                    'name' => $employee->name,
+                    'avatar' => ImageHelper::getAvatar($employee),
+                ];
+            });
     }
 
     /**
      * Get all the teams matching a given criteria.
      *
      * @param Company $company
-     * @param string $criteria
+     * @param string|null $criteria
      * @return Collection
      */
-    public static function teams(Company $company, string $criteria): Collection
+    public static function teams(Company $company, ?string $criteria): Collection
     {
-        $teams = $company->teams()
+        if ($criteria === null) {
+            return collect();
+        }
+
+        return $company->teams()
             ->select('id', 'name')
             ->where('name', 'LIKE', '%'.$criteria.'%')
             ->orderBy('name', 'asc')
             ->take(10)
-            ->get();
-
-        $teamsCollection = collect([]);
-        foreach ($teams as $team) {
-            $teamsCollection->push([
-                'id' => $team->id,
-                'name' => $team->name,
-            ]);
-        }
-
-        return $teamsCollection;
+            ->get()
+            ->map(function ($team) {
+                return [
+                    'id' => $team->id,
+                    'name' => $team->name,
+                ];
+            });
     }
 }
