@@ -229,7 +229,7 @@
     </div>
 
     <div v-if="canDelete" class="actions pa3 tc f6">
-      <a class="c-delete pointer" @click.prevent="destroy()">Delete the expense</a>
+      <a class="c-delete pointer" @click.prevent="destroy()">{{ $t('dashboard.expense_delete') }}</a>
     </div>
   </div>
 </template>
