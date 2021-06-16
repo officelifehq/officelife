@@ -14,6 +14,14 @@ class EmployeeSkillViewHelperTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
+    public function it_handles_an_empty_search(): void
+    {
+        $michael = Employee::factory()->create();
+        $collection = EmployeeSkillViewHelper::search($michael->company, $michael, null);
+        $this->assertCount(0, $collection);
+    }
+
+    /** @test */
     public function it_searches_skills(): void
     {
         $michael = Employee::factory()->create();
@@ -30,7 +38,7 @@ class EmployeeSkillViewHelperTest extends TestCase
         ]);
 
         $collection = EmployeeSkillViewHelper::search($michael->company, $michael, 'p');
-        $this->assertEquals(1, $collection->count());
+        $this->assertCount(1, $collection);
         $this->assertEquals(
             [
                 0 => [
@@ -42,7 +50,7 @@ class EmployeeSkillViewHelperTest extends TestCase
         );
 
         $collection = EmployeeSkillViewHelper::search($michael->company, $michael, 'z');
-        $this->assertEquals(0, $collection->count());
+        $this->assertCount(0, $collection);
     }
 
     /** @test */
@@ -62,7 +70,7 @@ class EmployeeSkillViewHelperTest extends TestCase
         ]);
 
         $collection = EmployeeSkillViewHelper::search($michael->company, $michael, 'ja');
-        $this->assertEquals(1, $collection->count());
+        $this->assertCount(1, $collection);
         $this->assertEquals(
             [
                 0 => [
