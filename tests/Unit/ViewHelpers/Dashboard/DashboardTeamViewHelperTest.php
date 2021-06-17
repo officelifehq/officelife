@@ -229,7 +229,7 @@ class DashboardTeamViewHelperTest extends TestCase
             'created_at' => $date,
         ]);
 
-        $response = DashboardTeamViewHelper::worklogsForDate($team, $date);
+        $response = DashboardTeamViewHelper::worklogsForDate($team, $date, $dwight);
 
         $this->assertIsArray($response);
 
@@ -255,7 +255,7 @@ class DashboardTeamViewHelperTest extends TestCase
 
         $team->employees()->syncWithoutDetaching([$dwight->id]);
 
-        $collection = DashboardTeamViewHelper::worklogsForTheLast7Days($team, $date);
+        $collection = DashboardTeamViewHelper::worklogsForTheLast7Days($team, $date, $dwight);
         $this->assertEquals(6, count($collection));
     }
 
