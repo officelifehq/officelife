@@ -87,7 +87,7 @@ class DestroyWorklogTest extends TestCase
             return $job->auditLog['action'] === 'worklog_destroyed' &&
             $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'date' => $worklog->created_at,
+                    'date' => $worklog->created_at->format('Y-m-d'),
                 ]);
         });
     }

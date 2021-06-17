@@ -60,6 +60,7 @@ class EmployeeWorkViewHelper
         $array = [
             'days' => $daysCollection,
             'current_week' => $startOfWeek->copy()->format('Y-m-d'),
+            'id' => $worklog ? $worklog->id : null,
             'worklog_parsed_content' => $worklog ? StringHelper::parse($worklog->content) : null,
             'morale' => $morale && $loggedEmployee->id == $employee->id ? $morale->emoji : null,
         ];

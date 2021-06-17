@@ -195,6 +195,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 // worklogs
                 Route::get('worklogs/week/{week}/day/{day}', 'Company\\Employee\\Work\\EmployeeWorkController@worklogDay');
                 Route::get('worklogs/week/{week}/day', 'Company\\Employee\\Work\\EmployeeWorkController@worklogDay');
+                Route::delete('worklogs/{worklog}', 'Company\\Employee\\Work\\EmployeeWorkController@destroyWorkLog');
             });
 
             // performance tab

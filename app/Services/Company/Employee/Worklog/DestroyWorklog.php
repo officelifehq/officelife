@@ -55,7 +55,7 @@ class DestroyWorklog extends BaseService
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'date' => $worklog->created_at,
+                'date' => $worklog->created_at->format('Y-m-d'),
             ]),
         ])->onQueue('low');
 
@@ -66,7 +66,7 @@ class DestroyWorklog extends BaseService
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'date' => $worklog->created_at,
+                'date' => $worklog->created_at->format('Y-m-d'),
             ]),
         ])->onQueue('low');
 

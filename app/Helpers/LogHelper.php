@@ -1888,7 +1888,7 @@ class LogHelper
                 ]);
                 break;
 
-            case 'log_worklog_destroyed':
+            case 'worklog_destroyed':
                 $sentence = trans('account.employee_log_worklog_destroyed', [
                     'date' => $log->object->{'date'},
                 ]);
