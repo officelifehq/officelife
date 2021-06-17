@@ -38,7 +38,7 @@ class DestroyWorklog extends BaseService
         $this->author($data['author_id'])
             ->inCompany($data['company_id'])
             ->asAtLeastHR()
-            ->canBypassPermissionLevelIfEmployee($data['employee_id'])
+            ->canBypassPermissionLevelIfEmployeeOrManager($data['author_id'], $data['employee_id'])
             ->canExecuteService();
 
         $this->validateEmployeeBelongsToCompany($data);

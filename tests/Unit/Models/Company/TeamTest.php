@@ -116,12 +116,12 @@ class TeamTest extends TestCase
         $sales->employees()->syncWithoutDetaching([$manager->id]);
         $sales->employees()->syncWithoutDetaching([$employee->id]);
 
-        Worklog::factory()->create([
+        $worklogA = Worklog::factory()->create([
             'employee_id' => $manager->id,
             'created_at' => $date,
             'content' => 'date1',
         ]);
-        Worklog::factory()->create([
+        $worklogB = Worklog::factory()->create([
             'employee_id' => $employee->id,
             'created_at' => $date,
             'content' => 'date2',
@@ -138,7 +138,8 @@ class TeamTest extends TestCase
             [
                 0 => [
                     'content' => 'date1',
-                    'id' => $manager->id,
+                    'id' => $worklogA->id,
+                    'employee_id' => $manager->id,
                     'first_name' => $manager->first_name,
                     'email' => $manager->email,
                     'last_name' => $manager->last_name,
@@ -148,7 +149,8 @@ class TeamTest extends TestCase
                 ],
                 1 => [
                     'content' => 'date2',
-                    'id' => $employee->id,
+                    'id' => $worklogB->id,
+                    'employee_id' => $employee->id,
                     'first_name' => $employee->first_name,
                     'email' => $employee->email,
                     'last_name' => $employee->last_name,
@@ -165,7 +167,8 @@ class TeamTest extends TestCase
             [
                 0 => [
                     'content' => 'date1',
-                    'id' => $manager->id,
+                    'id' => $worklogA->id,
+                    'employee_id' => $manager->id,
                     'first_name' => $manager->first_name,
                     'email' => $manager->email,
                     'last_name' => $manager->last_name,
@@ -175,7 +178,8 @@ class TeamTest extends TestCase
                 ],
                 1 => [
                     'content' => 'date2',
-                    'id' => $employee->id,
+                    'id' => $worklogB->id,
+                    'employee_id' => $employee->id,
                     'first_name' => $employee->first_name,
                     'email' => $employee->email,
                     'last_name' => $employee->last_name,
