@@ -9,6 +9,7 @@ use App\Services\BaseService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use App\Exceptions\ConvertAmountException;
 use Illuminate\Http\Client\HttpClientException;
 use App\Exceptions\WrongCurrencyLayerApiKeyException;
 
@@ -36,13 +37,19 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
         $this->amountCurrency = $amountCurrency;
         $this->companyCurrency = $companyCurrency;
         $this->amountDate = $amountDate;
+        $this->rate = 0;
 
-        if ($this->companyCurrency == $this->amountCurrency) {
+        if ($this->companyCurrency === $this->amountCurrency) {
             return null;
         }
 
         $this->buildQuery();
         $this->getConversionRate();
+
+        if ($this->rate === 0.0) {
+            return null;
+        }
+
         $this->convert();
 
         return [
@@ -82,25 +89,36 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
             return;
         }
 
+        $response = null;
         try {
             $response = Http::get($this->query);
+            $response->throw();
 
             $currencies = $this->companyCurrency.$this->amountCurrency;
-            $this->rate = $response->json("quotes.{$currencies}");
-        } catch (HttpClientException $e) {
-            Log::error('Error calling currencylayer: '.$e);
-        } catch (ErrorException $e) {
-            Log::error('Error getting exchange rate: '.$e);
-        }
 
-        Cache::put($this->cachedKey(), $this->rate, Carbon::now()->addMinutes(60));
+            $lrate = $response->json("quotes.{$currencies}");
+            if ($lrate === null) {
+                throw new ConvertAmountException('Null rate');
+            }
+            $this->rate = $lrate;
+
+            Cache::put($this->cachedKey(), $this->rate, Carbon::now()->addMinutes(60));
+        } catch (HttpClientException $e) {
+            Log::error('Error calling currencylayer: '.$e, [
+                'query' => $this->query,
+                'response' => $response->body(),
+            ]);
+        } catch (ErrorException $e) {
+            Log::error('Error getting exchange rate: '.$e, [
+                'query' => $this->query,
+                'response' => $response->body(),
+            ]);
+        }
     }
 
     private function convert(): void
     {
-        if ($this->rate !== 0.0) {
-            $this->convertedAmount = $this->amount / $this->rate;
-        }
+        $this->convertedAmount = $this->amount / $this->rate;
     }
 
     /**

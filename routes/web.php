@@ -170,9 +170,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                     Route::get('', 'Company\\Employee\\Administration\\EmployeeAdministrationController@show')->name('employees.administration.show');
 
                     // expenses
-                    Route::resource('expenses', 'Company\\Employee\\Administration\\Expenses\\EmployeeExpenseController', ['as' => 'employee.administration'])->only([
-                        'index', 'show',
-                    ]);
+                    Route::get('expenses', 'Company\\Employee\\Administration\\Expenses\\EmployeeExpenseController@index')->name('employee.administration.expenses.index');
+                    Route::get('expenses/{expense}', 'Company\\Employee\\Administration\\Expenses\\EmployeeExpenseController@show')->name('employee.administration.expenses.show');
+                    Route::delete('expenses/{expense}', 'Company\\Employee\\Administration\\Expenses\\EmployeeExpenseController@destroy');
 
                     // timesheets
                     Route::get('timesheets', 'Company\\Employee\\Administration\\Timesheets\\EmployeeTimesheetController@index')->name('employee.timesheets.index');
@@ -454,10 +454,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::get('account/softwares/{software}/edit', 'Company\\Adminland\\AdminSoftwareController@edit')->name('software.edit');
             Route::put('account/softwares/{software}', 'Company\\Adminland\\AdminSoftwareController@update');
             Route::post('account/softwares/{software}/search', 'Company\\Adminland\\AdminSoftwareController@potentialEmployees');
+            Route::post('account/softwares/{software}/files', 'Company\\Adminland\\AdminSoftwareController@storeFile');
             Route::get('account/softwares/{software}/numberOfEmployeesWhoDontHaveSoftware', 'Company\\Adminland\\AdminSoftwareController@numberOfEmployeesWhoDontHaveSoftware');
             Route::post('account/softwares/{software}/attach', 'Company\\Adminland\\AdminSoftwareController@attach');
             Route::post('account/softwares/{software}/attachAll', 'Company\\Adminland\\AdminSoftwareController@attachAll');
             Route::delete('account/softwares/{software}/{employee}', 'Company\\Adminland\\AdminSoftwareController@detach');
+            Route::delete('account/softwares/{software}/files/{file}', 'Company\\Adminland\\AdminSoftwareController@destroyFile');
             Route::delete('account/softwares/{software}', 'Company\\Adminland\\AdminSoftwareController@destroy');
 
             // expenses

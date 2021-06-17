@@ -30,6 +30,12 @@
     border-bottom-right-radius: 10px;
   }
 }
+
+.files-list {
+  li:last-child {
+    border-bottom: 0;
+  }
+}
 </style>
 
 <template>
@@ -120,9 +126,81 @@
             <div>{{ software.order_number }}</div>
           </div>
 
+          <!-- files -->
+          <div class="pa3">
+            <div class="flex justify-between items-center mb1 fw5">
+              <div class="f6">
+                <span class="mr1">
+                  🗄
+                </span> {{ $t('account.software_show_files') }}
+              </div>
+
+              <uploadcare :public-key="uploadcarePublicKey"
+                          :tabs="'file'"
+                          :preview-step="false"
+                          @success="onSuccess"
+                          @error="onError"
+              >
+                <button class="btn">
+                  {{ $t('app.upload') }}
+                </button>
+              </uploadcare>
+            </div>
+
+            <!-- list of files -->
+            <ul v-if="localFiles.length > 0" class="list ma0 pa0 ba bb-gray files-list br3">
+              <li v-for="file in localFiles" :key="file.id" class="bb bb-gray di pa3 flex justify-between bb bb-gray">
+                <!-- filename -->
+                <span><a :href="file.download_url" :download="file.download_url">{{ file.filename }}</a>
+                  <ul class="f6 mt2 pa0 list">
+                    <li class="di mr2">{{ file.size }}</li>
+
+                    <!-- DELETE A FILE -->
+                    <li v-if="fileIdToDelete == file.id" class="di">
+                      {{ $t('app.sure') }}
+                      <a class="c-delete mr1 pointer" @click.prevent="destroyFile(file.id)">
+                        {{ $t('app.yes') }}
+                      </a>
+                      <a class="pointer" @click.prevent="fileIdToDelete = 0">
+                        {{ $t('app.no') }}
+                      </a>
+                    </li>
+                    <li v-else class="di">
+                      <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click.prevent="fileIdToDelete = file.id">
+                        {{ $t('app.delete') }}
+                      </a>
+                    </li>
+                  </ul>
+                </span>
+
+                <div class="">
+                  <!-- date -->
+                  <span class="db mb2 f6 gray">{{ file.created_at }}</span>
+
+                  <!-- uploader info -->
+                  <span>
+                    <small-name-and-avatar
+                      v-if="file.uploader.name"
+                      :name="file.uploader.name"
+                      :avatar="file.uploader.avatar"
+                      :class="'gray'"
+                      :size="'18px'"
+                      :top="'0px'"
+                      :margin-between-name-avatar="'25px'"
+                    />
+                    <span v-else>{{ file.uploader }}</span>
+                  </span>
+                </div>
+              </li>
+            </ul>
+
+            <!-- files blank state -->
+            <p v-if="localFiles.length == 0" class="lh-copy gray mt0">{{ $t('account.software_show_files_blank') }}</p>
+          </div>
+
           <!-- seats -->
           <div class="pa3">
-            <div class="flex justify-between mb1 fw5">
+            <div class="flex justify-between items-center mb1 fw5">
               <div class="f6">
                 <span class="mr1">
                   🪑
@@ -265,11 +343,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 import TextInput from '@/Shared/TextInput';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import LoadingButton from '@/Shared/LoadingButton';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import Uploadcare from 'uploadcare-vue/src/Uploadcare.vue';
 
 export default {
   components: {
@@ -278,6 +357,7 @@ export default {
     TextInput,
     'ball-pulse-loader': BallPulseLoader.component,
     LoadingButton,
+    Uploadcare,
   },
 
   props: {
@@ -297,6 +377,14 @@ export default {
       type: Array,
       default: null,
     },
+    files: {
+      type: Array,
+      default: null,
+    },
+    uploadcarePublicKey: {
+      type: String,
+      default: null,
+    },
   },
 
   data() {
@@ -304,6 +392,12 @@ export default {
       form: {
         searchTerm: null,
         employeeId: 0,
+        uuid: null,
+        name: null,
+        original_url: null,
+        cdn_url: null,
+        mime_type: null,
+        size: null,
         errors: [],
       },
       potentialEmployees: [],
@@ -318,7 +412,13 @@ export default {
       giveSeatToEveryOneMode: false,
       idToDelete: 0,
       deleteSoftware: false,
+      localFiles: null,
+      fileIdToDelete: 0,
     };
+  },
+
+  created() {
+    this.localFiles = this.files;
   },
 
   mounted() {
@@ -452,6 +552,45 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    onSuccess(file) {
+      this.form.uuid = file.uuid;
+      this.form.name = file.name;
+      this.form.original_url = file.originalUrl;
+      this.form.cdn_url = file.cdnUrl;
+      this.form.mime_type = file.mimeType;
+      this.form.size = file.size;
+
+      this.uploadFile();
+    },
+
+    onError() {},
+
+    uploadFile() {
+      axios.post(`/${this.$page.props.auth.company.id}/account/softwares/${this.software.id}/files`, this.form)
+        .then(response => {
+          this.localFiles.unshift(response.data.data);
+          this.flash(this.$t('project.file_upload_success'), 'success');
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    destroyFile(id) {
+      axios.delete(`/${this.$page.props.auth.company.id}/account/softwares/${this.software.id}/files/${id}`)
+        .then(response => {
+          this.flash(this.$t('project.file_deletion_success'), 'success');
+
+          this.idToDelete = 0;
+          id = this.localFiles.findIndex(x => x.id === id);
+          this.localFiles.splice(id, 1);
+        })
+        .catch(error => {
           this.form.errors = error.response.data;
         });
     },

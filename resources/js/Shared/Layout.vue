@@ -336,8 +336,8 @@ export default {
     },
 
     search: function () {
-      let text = this.form.searchTerm;
-      if (text === null || text === undefined) {
+      let text = _.trim(this.form.searchTerm);
+      if (text === null || text === undefined || text === '') {
         return;
       }
 

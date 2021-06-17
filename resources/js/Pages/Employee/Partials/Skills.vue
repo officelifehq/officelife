@@ -193,7 +193,7 @@ export default {
       function () {
         this.skillAlreadyDefined = false;
 
-        if (this.form.searchTerm !== '') {
+        if (this.form.searchTerm !== '' && this.form.searchTerm !== null) {
           if (this.localSkills.some(skill => skill.name === this.form.searchTerm)) {
             this.skillAlreadyDefined = true;
           }
