@@ -178,6 +178,15 @@ class PermissionHelper
         }
         $canEditContractInfoTab = $loggedEmployee->permission_level <= 200;
 
+        // can delete work log
+        $canDeleteWorkLog = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canDeleteWorkLog = true;
+        }
+        if ($loggedEmployeeIsManager) {
+            $canDeleteWorkLog = true;
+        }
+
         return [
             'can_see_full_birthdate' => $canSeeFullBirthdate,
             'can_see_expenses' => $canSeeExpenses,
@@ -204,6 +213,7 @@ class PermissionHelper
             'can_update_avatar' => $canUpdateAvatar,
             'can_edit_hired_at_information' => $canEditHiredAt,
             'can_edit_contract_information' => $canEditContractInfoTab,
+            'can_delete_worklog' => $canDeleteWorkLog,
         ];
     }
 }

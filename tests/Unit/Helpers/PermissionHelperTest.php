@@ -836,4 +836,42 @@ class PermissionHelperTest extends TestCase
         $permission = PermissionHelper::permissions($employee, $employee);
         $this->assertFalse($permission['can_edit_contract_information']);
     }
+
+    /** @test */
+    public function it_lets_the_employee_delete_worklog(): void
+    {
+        $administrator = $this->createAdministrator();
+        $hr = $this->createHR();
+        $manager = $this->createEmployee();
+        $employee = $this->createEmployee();
+        $anotherEmployee = $this->createEmployee();
+        $directReport = $this->createDirectReport($manager);
+
+        $permission = PermissionHelper::permissions($administrator, $administrator);
+        $this->assertTrue($permission['can_delete_worklog']);
+
+        $permission = PermissionHelper::permissions($administrator, $hr);
+        $this->assertTrue($permission['can_delete_worklog']);
+
+        $permission = PermissionHelper::permissions($administrator, $employee);
+        $this->assertTrue($permission['can_delete_worklog']);
+
+        $permission = PermissionHelper::permissions($hr, $hr);
+        $this->assertTrue($permission['can_delete_worklog']);
+
+        $permission = PermissionHelper::permissions($hr, $employee);
+        $this->assertTrue($permission['can_delete_worklog']);
+
+        $permission = PermissionHelper::permissions($employee, $employee);
+        $this->assertTrue($permission['can_delete_worklog']);
+
+        $permission = PermissionHelper::permissions($manager, $directReport);
+        $this->assertTrue($permission['can_delete_worklog']);
+
+        $permission = PermissionHelper::permissions($manager, $employee);
+        $this->assertFalse($permission['can_delete_worklog']);
+
+        $permission = PermissionHelper::permissions($employee, $anotherEmployee);
+        $this->assertFalse($permission['can_delete_worklog']);
+    }
 }

@@ -103,7 +103,7 @@ abstract class TestCase extends BaseTestCase
         $employee->permission_level = $pastPermission;
         $employee->save();
 
-        return $directReport;
+        return $directReport->refresh();
     }
 
     /**

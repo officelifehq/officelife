@@ -42,11 +42,11 @@ class DashboardTeamController extends Controller
         }
 
         $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
-        $teams = $employee->teams()->with('employees')->with('ships')->get();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $teams = $loggedEmployee->teams()->with('employees')->with('ships')->get();
 
         UpdateDashboardPreference::dispatch([
-            'employee_id' => $employee->id,
+            'employee_id' => $loggedEmployee->id,
             'company_id' => $company->id,
             'view' => 'team',
         ])->onQueue('low');
@@ -55,7 +55,7 @@ class DashboardTeamController extends Controller
         if ($teams->count() == 0) {
             return Inertia::render('Dashboard/Team/Partials/MyTeamEmptyState', [
                 'company' => $company,
-                'employee' => DashboardViewHelper::information($employee, 'team'),
+                'employee' => DashboardViewHelper::information($loggedEmployee, 'team'),
                 'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
                 'message' => trans('dashboard.blank_state'),
             ]);
@@ -78,7 +78,7 @@ class DashboardTeamController extends Controller
             if (! $exists) {
                 return Inertia::render('Dashboard/Team/Partials/MyTeamEmptyState', [
                     'company' => $company,
-                    'employee' => DashboardViewHelper::information($employee, 'team'),
+                    'employee' => DashboardViewHelper::information($loggedEmployee, 'team'),
                     'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
                     'message' => trans('dashboard.team_not_allowed'),
                 ]);
@@ -98,17 +98,6 @@ class DashboardTeamController extends Controller
             $requestedDate = Carbon::now();
         }
 
-        // building the collection containing the days with the worklogs
-        // by default, the view should display the following days
-        // Last Fri/M/T/W/T/F
-        $dates = collect([]);
-        $lastFriday = $requestedDate->copy()->startOfWeek()->subDays(3);
-        $dates->push(DashboardTeamViewHelper::worklogs($team, $lastFriday));
-        for ($i = 0; $i < 5; $i++) {
-            $day = $requestedDate->copy()->startOfWeek()->addDays($i);
-            $dates->push(DashboardTeamViewHelper::worklogs($team, $day));
-        }
-
         // upcoming birthdays
         $birthdays = DashboardTeamViewHelper::birthdays($team);
 
@@ -124,16 +113,19 @@ class DashboardTeamController extends Controller
         // upcoming new hires
         $newHires = DashboardTeamViewHelper::upcomingNewHires($team);
 
+        // work logs
+        $worklogs = DashboardTeamViewHelper::worklogsForTheLast7Days($team, $requestedDate, $loggedEmployee);
+
         $hiringDateAnniversaries = DashboardTeamViewHelper::upcomingHiredDateAnniversaries($team);
 
         return Inertia::render('Dashboard/Team/Index', [
             'company' => $company,
-            'employee' => DashboardViewHelper::information($employee, 'team'),
+            'employee' => DashboardViewHelper::information($loggedEmployee, 'team'),
             'teams' => $teams,
             'currentTeam' => $team->id,
-            'worklogDates' => $dates,
+            'worklogDates' => $worklogs,
             'currentDate' => $requestedDate->format('Y-m-d'),
-            'worklogEntries' => $team->worklogsForDate($requestedDate),
+            'worklogEntries' => $team->worklogsForDate($requestedDate, $loggedEmployee),
             'birthdays' => $birthdays,
             'workFromHomes' => $workFromHomes,
             'recentShips' => $ships,
@@ -155,13 +147,15 @@ class DashboardTeamController extends Controller
     public function worklogDetails(Request $request, int $companyId, int $teamId, $requestedDate): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         $requestedDate = Carbon::parse($requestedDate);
         $team = Team::where('company_id', $company->id)
             ->where('id', $teamId)
             ->firstOrFail();
 
         return response()->json([
-            'worklogEntries' => $team->worklogsForDate($requestedDate),
+            'worklogEntries' => $team->worklogsForDate($requestedDate, $loggedEmployee),
             'currentDate' => $requestedDate->format('Y-m-d'),
         ]);
     }

@@ -229,7 +229,7 @@ class DashboardTeamViewHelperTest extends TestCase
             'created_at' => $date,
         ]);
 
-        $response = DashboardTeamViewHelper::worklogs($team, $date);
+        $response = DashboardTeamViewHelper::worklogsForDate($team, $date, $dwight);
 
         $this->assertIsArray($response);
 
@@ -242,6 +242,21 @@ class DashboardTeamViewHelperTest extends TestCase
         $this->assertArrayHasKey('numberOfEmployeesWhoHaveLoggedWorklogs', $response);
 
         $this->assertEquals(7, count($response));
+    }
+
+    /** @test */
+    public function it_gets_the_list_of_all_the_worklogs_in_the_last_7_days(): void
+    {
+        $date = Carbon::now();
+        $team = Team::factory()->create([]);
+        $dwight = Employee::factory()->create([
+            'company_id' => $team->company_id,
+        ]);
+
+        $team->employees()->syncWithoutDetaching([$dwight->id]);
+
+        $collection = DashboardTeamViewHelper::worklogsForTheLast7Days($team, $date, $dwight);
+        $this->assertEquals(6, count($collection));
     }
 
     /** @test */
