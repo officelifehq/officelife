@@ -25,13 +25,15 @@
         <!-- Name of the task -->
         <li class="flex mb3">
           <div class="dib mr3 fw6 action-name">Task name:</div>
-          <action-text-input />
+          <action-text-input
+            :placeholders="'{{employee_name}}'"
+          />
         </li>
 
         <!-- Assignee -->
         <li class="flex">
           <div class="dib mr3 fw6 action-name">Assign the task to:</div>
-          <div>sdasfsad</div>
+          <action-assignee />
         </li>
       </ul>
     </div>
@@ -42,11 +44,13 @@
 import vClickOutside from 'v-click-outside';
 import DestroyAction from '@/Pages/Adminland/Flow/Partials/DestroyAction';
 import ActionTextInput from '@/Pages/Adminland/Flow/Partials/ActionTextInput';
+import ActionAssignee from '@/Pages/Adminland/Flow/Partials/ActionAssignee';
 
 export default {
   components: {
     DestroyAction,
     ActionTextInput,
+    ActionAssignee,
   },
 
   directives: {
