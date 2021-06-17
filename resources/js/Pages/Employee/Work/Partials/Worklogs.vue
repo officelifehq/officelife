@@ -188,8 +188,6 @@ export default {
     destroy(worklogId) {
       axios.delete(`${this.$page.props.auth.company.id}/employees/${this.employee.id}/work/worklogs/${worklogId}`)
         .then(response => {
-          //this.hideDeleteMode();
-
           this.localWorklog.worklog_parsed_content = null;
         })
         .catch(error => {
