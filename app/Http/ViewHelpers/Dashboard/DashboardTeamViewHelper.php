@@ -8,6 +8,7 @@ use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
 use App\Helpers\BirthdayHelper;
+use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use App\Helpers\WorkFromHomeHelper;
 
@@ -180,14 +181,15 @@ class DashboardTeamViewHelper
      *
      * @param Team $team
      * @param Carbon $date
+     * @param Employee $loggedEmployee
      * @return array
      */
-    public static function worklogsForDate(Team $team, Carbon $date): array
+    public static function worklogsForDate(Team $team, Carbon $date, Employee $loggedEmployee): array
     {
         $employees = $team->employees()->notLocked()->get();
 
         $numberOfEmployeesInTeam = $employees->count();
-        $numberOfEmployeesWhoHaveLoggedWorklogs = count($team->worklogsForDate($date));
+        $numberOfEmployeesWhoHaveLoggedWorklogs = count($team->worklogsForDate($date, $loggedEmployee));
         $percent = $numberOfEmployeesWhoHaveLoggedWorklogs * 100 / $numberOfEmployeesInTeam;
 
         $indicator = 'red';
@@ -220,18 +222,19 @@ class DashboardTeamViewHelper
      *
      * @param Team $team
      * @param Carbon $startDate
+     * @param Employee $loggedEmployee
      * @return Collection
      */
-    public static function worklogsForTheLast7Days(Team $team, Carbon $startDate): Collection
+    public static function worklogsForTheLast7Days(Team $team, Carbon $startDate, Employee $loggedEmployee): Collection
     {
         $dates = collect([]);
         $lastFriday = $startDate->copy()->startOfWeek()->subDays(3);
 
-        $dates->push(self::worklogsForDate($team, $lastFriday));
+        $dates->push(self::worklogsForDate($team, $lastFriday, $loggedEmployee));
 
         for ($i = 0; $i < 5; $i++) {
             $day = $startDate->copy()->startOfWeek()->addDays($i);
-            $dates->push(self::worklogsForDate($team, $day));
+            $dates->push(self::worklogsForDate($team, $day, $loggedEmployee));
         }
 
         return $dates;

@@ -4,6 +4,7 @@ namespace Tests\Unit\Models\Company;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use App\Models\Company\Project;
@@ -105,28 +106,85 @@ class TeamTest extends TestCase
     {
         $date = Carbon::now();
         $sales = Team::factory()->create([]);
-        $dwight = Employee::factory()->create([
+        $manager = Employee::factory()->create([
             'company_id' => $sales->company_id,
         ]);
-        $michael = Employee::factory()->create([
-            'company_id' => $sales->company_id,
-        ]);
+        $employee = $this->createDirectReport($manager);
+        $employee->permission_level = 300;
+        $employee->save();
 
-        $sales->employees()->syncWithoutDetaching([$dwight->id]);
-        $sales->employees()->syncWithoutDetaching([$michael->id]);
+        $sales->employees()->syncWithoutDetaching([$manager->id]);
+        $sales->employees()->syncWithoutDetaching([$employee->id]);
 
         Worklog::factory()->create([
-            'employee_id' => $dwight->id,
+            'employee_id' => $manager->id,
             'created_at' => $date,
+            'content' => 'date1',
         ]);
         Worklog::factory()->create([
-            'employee_id' => $michael->id,
+            'employee_id' => $employee->id,
             'created_at' => $date,
+            'content' => 'date2',
         ]);
+
+        $collection = $sales->worklogsForDate($date, $manager);
+
+        $this->assertCount(
+            2,
+            $collection
+        );
 
         $this->assertEquals(
-            2,
-            count($sales->worklogsForDate($date))
+            [
+                0 => [
+                    'content' => 'date1',
+                    'id' => $manager->id,
+                    'first_name' => $manager->first_name,
+                    'email' => $manager->email,
+                    'last_name' => $manager->last_name,
+                    'name' => $manager->name,
+                    'avatar' => ImageHelper::getAvatar($manager, 22),
+                    'can_delete_worklog' => true,
+                ],
+                1 => [
+                    'content' => 'date2',
+                    'id' => $employee->id,
+                    'first_name' => $employee->first_name,
+                    'email' => $employee->email,
+                    'last_name' => $employee->last_name,
+                    'name' => $employee->name,
+                    'avatar' => ImageHelper::getAvatar($employee, 22),
+                    'can_delete_worklog' => true,
+                ],
+            ],
+            $collection->toArray()
+        );
+
+        $collection = $sales->worklogsForDate($date, $employee);
+        $this->assertEquals(
+            [
+                0 => [
+                    'content' => 'date1',
+                    'id' => $manager->id,
+                    'first_name' => $manager->first_name,
+                    'email' => $manager->email,
+                    'last_name' => $manager->last_name,
+                    'name' => $manager->name,
+                    'avatar' => ImageHelper::getAvatar($manager, 22),
+                    'can_delete_worklog' => false,
+                ],
+                1 => [
+                    'content' => 'date2',
+                    'id' => $employee->id,
+                    'first_name' => $employee->first_name,
+                    'email' => $employee->email,
+                    'last_name' => $employee->last_name,
+                    'name' => $employee->name,
+                    'avatar' => ImageHelper::getAvatar($employee, 22),
+                    'can_delete_worklog' => true,
+                ],
+            ],
+            $collection->toArray()
         );
     }
 }

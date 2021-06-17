@@ -4,6 +4,7 @@ namespace App\Models\Company;
 
 use Carbon\Carbon;
 use App\Helpers\ImageHelper;
+use App\Helpers\PermissionHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -124,9 +125,10 @@ class Team extends Model
      * given team on a given date.
      *
      * @param Carbon $date
+     * @param Employee $loggedEmployee
      * @return Collection
      */
-    public function worklogsForDate($date): Collection
+    public function worklogsForDate(Carbon $date, Employee $loggedEmployee): Collection
     {
         $worklogs = DB::table('employees')
             ->join('worklogs', 'employees.id', '=', 'worklogs.employee_id')
@@ -139,6 +141,7 @@ class Team extends Model
             ->select('worklogs.content', 'employees.id', 'employees.first_name', 'employees.email', 'employees.last_name', 'employees.avatar_file_id')
             ->get();
 
+        $worklogCollection = collect();
         foreach ($worklogs as $worklog) {
             // gathering information about the employee
             $employee = new Employee();
@@ -148,11 +151,21 @@ class Team extends Model
             $employee->last_name = $worklog->last_name;
             $employee->avatar_file_id = $worklog->avatar_file_id;
 
-            // updating on the fly each work log object
-            $worklog->name = $employee->name;
-            $worklog->avatar = ImageHelper::getAvatar($employee, 22);
+            // does the current logged employee has the right to edit the worklog
+            $canDeleteWorklog = PermissionHelper::permissions($loggedEmployee, $employee)['can_delete_worklog'];
+
+            $worklogCollection->push([
+                'content' => $worklog->content,
+                'id' => $worklog->id,
+                'first_name' => $employee->first_name,
+                'email' => $employee->email,
+                'last_name' => $employee->last_name,
+                'name' => $employee->name,
+                'avatar' => ImageHelper::getAvatar($employee, 22),
+                'can_delete_worklog' => $canDeleteWorklog,
+            ]);
         }
 
-        return $worklogs;
+        return $worklogCollection;
     }
 }
