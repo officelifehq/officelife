@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Http;
 use App\Services\DispatchableService;
 use App\Models\Company\ImportJobReport;
 use Illuminate\Support\Facades\Storage;
+use App\Exceptions\MalformedCSVException;
 use Illuminate\Support\Facades\Validator;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
@@ -109,6 +110,8 @@ class ImportEmployeesFromCSV extends BaseService implements QueuableService
 
             Storage::disk('local')->put($filePath, $response->body());
 
+            $this->checkHeaderValidity($filePath);
+
             $reader = SimpleExcelReader::create(Storage::disk('local')->path($filePath))
                 ->trimHeaderRow()
                 ->headersToSnakeCase();
@@ -124,6 +127,32 @@ class ImportEmployeesFromCSV extends BaseService implements QueuableService
             if (Storage::disk('local')->exists($filePath)) {
                 Storage::disk('local')->delete($filePath);
             }
+        }
+    }
+
+    /**
+     * Make sure the headers in the file are valid.
+     *
+     * @param string $filePath
+     */
+    private function checkHeaderValidity(string $filePath): void
+    {
+        $actualHeadersInCsv = SimpleExcelReader::create(Storage::disk('local')->path($filePath))->getHeaders();
+
+        if (count($actualHeadersInCsv) != 3) {
+            throw new MalformedCSVException();
+        }
+
+        if (Str::lower($actualHeadersInCsv[0]) != 'first name') {
+            throw new MalformedCSVException();
+        }
+
+        if (Str::lower($actualHeadersInCsv[1]) != 'last name') {
+            throw new MalformedCSVException();
+        }
+
+        if (Str::lower($actualHeadersInCsv[2]) != 'email') {
+            throw new MalformedCSVException();
         }
     }
 
