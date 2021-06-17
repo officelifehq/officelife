@@ -14,6 +14,14 @@ class HeaderSearchViewHelperTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
+    public function it_handles_an_empty_employees_search(): void
+    {
+        $michael = Employee::factory()->create();
+        $collection = HeaderSearchViewHelper::employees($michael->company, null);
+        $this->assertCount(0, $collection);
+    }
+
+    /** @test */
     public function it_gets_a_collection_of_employees(): void
     {
         $michael = Employee::factory()->create([
@@ -79,6 +87,14 @@ class HeaderSearchViewHelperTest extends TestCase
             ],
             $collection->toArray()
         );
+    }
+
+    /** @test */
+    public function it_handles_an_empty_teams_search(): void
+    {
+        $michael = Employee::factory()->create();
+        $collection = HeaderSearchViewHelper::teams($michael->company, null);
+        $this->assertCount(0, $collection);
     }
 
     /** @test */

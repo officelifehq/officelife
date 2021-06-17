@@ -1,5 +1,6 @@
 <style lang="scss" scoped>
-.expense-summary {
+.expense-summary,
+.actions {
   background-color: #E9EDF2;
 }
 </style>
@@ -172,6 +173,7 @@
         </li>
       </ul>
     </div>
+
     <!-- message when this employee doesnt have a manager -->
     <div v-else class="pa3 bb bb-gray">
       <h3 class="fw5 f5">
@@ -184,7 +186,7 @@
     </div>
 
     <!-- Accountant information -->
-    <div v-if="expense.accountant.name" class="pa3">
+    <div v-if="expense.accountant.name" class="pa3 bb bb-gray">
       <h3 class="fw5 f5">
         <span class="mr2">
           🕵️‍♀️
@@ -225,6 +227,10 @@
         </li>
       </ul>
     </div>
+
+    <div v-if="canDelete" class="actions pa3 tc f6">
+      <a class="c-delete pointer" @click.prevent="destroy()">{{ $t('dashboard.expense_delete') }}</a>
+    </div>
   </div>
 </template>
 
@@ -241,7 +247,23 @@ export default {
       type: Object,
       default: null,
     },
+    canDelete: {
+      type: Boolean,
+      default: true,
+    },
   },
+
+  methods: {
+    destroy() {
+      axios.delete(`/${this.$page.props.auth.company.id}/employees/${this.expense.employee.id}/administration/expenses/${this.expense.id}`)
+        .then(response => {
+          localStorage.success = this.$t('account.expense_destroy_success');
+          this.$inertia.visit(response.data.url);
+        })
+        .catch(error => {
+        });
+    },
+  }
 };
 
 </script>

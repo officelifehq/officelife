@@ -8,6 +8,7 @@ use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use App\Helpers\PermissionHelper;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -47,7 +48,7 @@ class EmployeePresentationController extends Controller
         }
 
         // information about what the logged employee can do
-        $permissions = EmployeeShowViewHelper::permissions($loggedEmployee, $employee);
+        $permissions = PermissionHelper::permissions($loggedEmployee, $employee);
 
         // managers
         $managersOfEmployee = EmployeeShowViewHelper::managers($employee);

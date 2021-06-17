@@ -74,6 +74,7 @@ return [
     'expense_show_status_rejected_by_manager' => 'Rejected by manager',
     'expense_show_status_rejected_by_accounting' => 'Rejected by accounting',
     'expense_show_status_accepted' => 'Accepted',
+    'expense_delete' => 'Delete the expense',
     'accountant_awaiting_accounting_title' => 'Expenses that need accounting approval',
     'accountant_awaiting_manager_title' => 'Expenses that need manager approval',
     'accountant_employee' => 'Employee:',
