@@ -77,7 +77,7 @@
       </ul>
 
       <!-- Modal showing the search a specific employee -->
-      <div v-show="showSeachEmployeeModal" v-click-outside="toggleModals" class="popupmenu confirmation-menu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
+      <div v-show="showSeachEmployeeModal" class="popupmenu confirmation-menu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
         <form @submit.prevent="searchEmployee">
           <div class="mb3 relative">
             <p>{{ $t('account.flow_new_action_notification_search_employees') }}</p>
@@ -114,6 +114,8 @@
 </template>
 
 <script>
+import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
+
 export default {
   components: {
     'ball-pulse-loader': BallPulseLoader.component,
@@ -147,7 +149,25 @@ export default {
 
     save() {
       this.editMode = false;
-    }
+    },
+
+    searchEmployee: _.debounce(
+      function() {
+
+        if (this.form.searchTerm != '') {
+          this.processingSearch = true;
+
+          axios.post('/search/employees/', this.form)
+            .then(response => {
+              this.searchEmployees = response.data.data;
+              this.processingSearch = false;
+            })
+            .catch(error => {
+              this.form.errors = error.response.data;
+              this.processingSearch = false;
+            });
+        }
+      }, 500),
   }
 };
 

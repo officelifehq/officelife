@@ -42,10 +42,6 @@
                 <inertia-link :href="url.onboarding" class="f5 fw5 dib mb2">When an employee joins the company</inertia-link>
                 <span class="db gray f6">This lets you define an onboarding flow.</span>
               </li>
-              <li class="pa3">
-                <inertia-link class="f5 fw5 dib mb2">When an employee joins the company</inertia-link>
-                <span class="db gray f6">This lets you define an onboarding flow.</span>
-              </li>
             </ul>
 
             <p class="mt4 f6 gray">Actions to execute on an anniversary of a specific date</p>
@@ -73,7 +69,7 @@ export default {
       default: null,
     },
     url: {
-      type: Array,
+      type: Object,
       default: null,
     },
   },
