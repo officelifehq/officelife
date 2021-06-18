@@ -58,7 +58,7 @@
              @keydown.esc="sendEscKey"
              @keydown.enter="sendEnterKey"
       />
-      <span class="length absolute f7 br2">
+      <span v-if="maxlength" class="length absolute f7 br2">
         {{ charactersLeft }}
       </span>
     </div>
@@ -188,18 +188,21 @@ export default {
     },
 
     charactersLeft() {
+      var char = 0;
       if (this.proxyValue) {
-        var char = this.proxyValue.length;
-      } else {
-        var char = 0;
+        char = this.proxyValue.length;
       }
 
-      return this.maxlength - char + '/' + this.maxlength;
+      return `${this.maxlength - char} / ${this.maxlength}`;
     },
   },
 
   created() {
-    this.classes = this.defaultClass + ' counter';
+    this.classes = this.defaultClass;
+
+    if (this.maxlength) {
+      this.classes = this.classes + ' counter';
+    }
   },
 
   methods: {
