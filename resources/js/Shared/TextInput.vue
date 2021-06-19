@@ -18,6 +18,16 @@
   padding: 3px 4px;
 }
 
+.length {
+  top: 10px;
+  right: 10px;
+  background-color: #e5eeff;
+  padding: 3px 4px;
+}
+
+.counter {
+  padding-right: 64px;
+}
 </style>
 
 <template>
@@ -28,23 +38,31 @@
         {{ $t('app.optional') }}
       </span>
     </label>
-    <input :id="realId"
-           :ref="customRef"
-           v-model="proxyValue"
-           :class="defaultClass"
-           :required="required"
-           :type="type"
-           :name="name"
-           :autofocus="autofocus"
-           :step="step"
-           :max="max"
-           :min="min"
-           :placeholder="placeholder"
-           :data-cy="datacy"
-           v-bind="$attrs"
-           @keydown.esc="sendEscKey"
-           @keydown.enter="sendEnterKey"
-    />
+
+    <div class="relative">
+      <input :id="realId"
+             :ref="customRef"
+             v-model="proxyValue"
+             :class="classes"
+             :required="required"
+             :type="type"
+             :name="name"
+             :autofocus="autofocus"
+             :step="step"
+             :max="max"
+             :min="min"
+             :placeholder="placeholder"
+             :data-cy="datacy"
+             v-bind="$attrs"
+             :maxlength="maxlength"
+             @keydown.esc="sendEscKey"
+             @keydown.enter="sendEnterKey"
+      />
+      <span v-if="maxlength" class="length absolute f7 br2">
+        {{ charactersLeft }}
+      </span>
+    </div>
+
     <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
       <template v-if="!arrayError">
         {{ errors }}
@@ -136,7 +154,11 @@ export default {
     autofocus: {
       type: Boolean,
       default: false,
-    }
+    },
+    maxlength: {
+      type: Number,
+      default: null,
+    },
   },
 
   emits: [
@@ -164,6 +186,23 @@ export default {
     arrayError() {
       return _.isArray(this.errors);
     },
+
+    charactersLeft() {
+      var char = 0;
+      if (this.proxyValue) {
+        char = this.proxyValue.length;
+      }
+
+      return `${this.maxlength - char} / ${this.maxlength}`;
+    },
+  },
+
+  created() {
+    this.classes = this.defaultClass;
+
+    if (this.maxlength) {
+      this.classes = this.classes + ' counter';
+    }
   },
 
   methods: {
