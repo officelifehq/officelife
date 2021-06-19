@@ -93,6 +93,7 @@ class AdminSoftwareViewHelper
             'licensed_to_email_address' => $software->licensed_to_email_address,
             'purchase_amount' => $software->purchase_amount / 100,
             'currency' => $software->currency,
+            'order_number' => $software->order_number,
             'website' => $software->website,
             'purchased_date_year' => $software->purchased_at ? $software->purchased_at->year : null,
             'purchased_date_month' => $software->purchased_at ? $software->purchased_at->month : null,

@@ -280,6 +280,7 @@ export default {
         licensed_to_name: null,
         licensed_to_email_address: null,
         purchase_amount: null,
+        order_number: null,
         currency: null,
         website: null,
         purchased_date_year: null,
@@ -299,6 +300,7 @@ export default {
     this.form.licensed_to_email_address = this.software.licensed_to_email_address;
     this.form.purchase_amount = this.software.purchase_amount;
     this.form.currency = this.software.currency;
+    this.form.order_number = this.software.order_number;
     this.form.website = this.software.website;
     this.form.purchased_date_year = this.software.purchased_date_year;
     this.form.purchased_date_month = this.software.purchased_date_month;
