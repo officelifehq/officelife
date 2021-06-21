@@ -45,7 +45,7 @@
           <h2 class="tc normal mb4">
             {{ $t('account.work_from_home_title') }}
 
-            <help :url="$page.props.help_links.account_general_currency" :datacy="'help-icon-general'" :top="'2px'" />
+            <help :url="$page.props.help_links.work_from_home" :datacy="'help-icon-general'" :top="'2px'" />
           </h2>
 
           <div class="relative">
