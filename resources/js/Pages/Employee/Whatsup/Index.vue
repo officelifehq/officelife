@@ -94,13 +94,15 @@
         </div>
       </div>
 
-      <div>
-        <div>
-          <h3>WORK</h3>
+      <div class="mw7 center br3 mb5 bg-white box">
+        <div class="pa3">
+          <h3 class="mt0">
+            WORK
+          </h3>
 
           <!-- positions -->
           <p v-if="positions.length > 1">Employee has changed position this year.</p>
-          <ul>
+          <ul class="ma0 pl0">
             <li v-for="position in positions" :key="position.id" class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between position-item">
               <span>{{ position.position }}</span>
 
