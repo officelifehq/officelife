@@ -1295,7 +1295,7 @@ class LogHelper
                     'expense_title' => $log->object->{'expense_title'},
                 ]);
                 break;
-            
+
             case 'file_added_to_software':
                 $sentence = trans('account.log_file_added_to_software', [
                     'software_name' => $log->object->{'software_name'},
@@ -1307,6 +1307,35 @@ class LogHelper
                 $sentence = trans('account.log_software_file_destroyed', [
                     'software_name' => $log->object->{'software_name'},
                     'name' => $log->object->{'name'},
+                ]);
+                break;
+
+            case 'wiki_created':
+                $sentence = trans('account.log_wiki_created', [
+                    'wiki_id' => $log->object->{'wiki_id'},
+                    'wiki_title' => $log->object->{'wiki_title'},
+                ]);
+                break;
+
+            case 'wiki_destroyed':
+                $sentence = trans('account.log_wiki_destroyed', [
+                    'wiki_title' => $log->object->{'wiki_title'},
+                ]);
+                break;
+
+            case 'page_created':
+                $sentence = trans('account.log_page_created', [
+                    'wiki_id' => $log->object->{'wiki_id'},
+                    'wiki_title' => $log->object->{'wiki_title'},
+                    'page_id' => $log->object->{'page_id'},
+                    'page_title' => $log->object->{'page_title'},
+                ]);
+                break;
+
+            case 'page_destroyed':
+                $sentence = trans('account.log_page_destroyed', [
+                    'wiki_title' => $log->object->{'wiki_title'},
+                    'page_title' => $log->object->{'page_title'},
                 ]);
                 break;
 
