@@ -34,7 +34,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_account_manage_e_coffee') }}
+            {{ $t('app.breadcrumb_account_manage_work_from_home') }}
           </li>
         </ul>
       </div>
@@ -43,34 +43,34 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.ecoffee_title') }}
+            {{ $t('account.work_from_home_title') }}
 
-            <help :url="$page.props.help_links.ecoffee" :datacy="'help-icon-general'" :top="'2px'" />
+            <help :url="$page.props.help_links.work_from_home" :datacy="'help-icon-general'" :top="'2px'" />
           </h2>
 
           <div class="relative">
-            <img loading="lazy" src="/img/streamline-icon-workspace-imac-coffee-1@140x140.png" alt="add email symbol" class="absolute left-1 mr1" height="80"
+            <img loading="lazy" src="/img/streamline-icon-cat-house@140x140.png" alt="work from home symbol" class="absolute left-1 mr1" height="80"
                  width="80"
             />
 
             <div class="ml6">
-              <p class="lh-copy">{{ $t('account.ecoffee_desc') }}</p>
+              <p class="lh-copy">{{ $t('account.work_from_home_desc') }}</p>
 
-              <p v-if="localECoffee.enabled" data-cy="message-enable" class="status-active dib pa3 br3">
+              <p v-if="localWorkFromHome.enabled" data-cy="message-enable" class="status-active dib pa3 br3">
                 <span class="br3 f7 fw3 ph2 pv1 dib relative mr1 dot"></span>
-                {{ $t('account.ecoffee_enabled') }}
+                {{ $t('account.work_from_home_enabled') }}
               </p>
 
-              <p v-if="!localECoffee.enabled" data-cy="message-disable" class="status-inactive dib pa3 br3">
+              <p v-if="!localWorkFromHome.enabled" data-cy="message-disable" class="status-inactive dib pa3 br3">
                 <span class="br3 f7 fw3 ph2 pv1 dib relative mr1 dot"></span>
-                {{ $t('account.ecoffee_disabled') }}
+                {{ $t('account.work_from_home_disabled') }}
               </p>
 
               <form @submit.prevent="toggleProcess">
                 <errors :errors="form.errors" />
 
-                <loading-button v-if="!localECoffee.enabled" :class="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.enable')" :cypress-selector="'enable-ecoffee-process'" />
-                <loading-button v-if="localECoffee.enabled" :class="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.disable')" :cypress-selector="'disable-ecoffee-process'" />
+                <loading-button v-if="!localWorkFromHome.enabled" :class="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.enable')" :cypress-selector="'enable-ecoffee-process'" />
+                <loading-button v-else :class="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.disable')" :cypress-selector="'disable-ecoffee-process'" />
               </form>
             </div>
           </div>
@@ -99,7 +99,7 @@ export default {
       type: Array,
       default: null,
     },
-    ecoffee: {
+    process: {
       type: Object,
       default: null,
     },
@@ -108,7 +108,7 @@ export default {
   data() {
     return {
       loadingState: null,
-      localECoffee: null,
+      localWorkFromHome: null,
       form: {
         errors: [],
       },
@@ -116,17 +116,17 @@ export default {
   },
 
   created() {
-    this.localECoffee = this.ecoffee;
+    this.localWorkFromHome = this.process;
   },
 
   methods: {
     toggleProcess() {
       this.loadingState = 'loading';
 
-      axios.post(`${this.$page.props.auth.company.id}/account/ecoffee`, this.form)
+      axios.put(`${this.$page.props.auth.company.id}/account/workFromHome`, this.form)
         .then(response => {
           this.loadingState = null;
-          this.localECoffee = response.data.data;
+          this.localWorkFromHome = response.data.data;
         })
         .catch(error => {
           this.loadingState = null;

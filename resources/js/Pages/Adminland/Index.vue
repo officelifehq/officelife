@@ -114,8 +114,15 @@
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   ☕️
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/ecoffee'" data-cy="expenses-admin-link">
+                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/ecoffee'">
                   {{ $t('account.home_manage_ecoffee') }}
+                </inertia-link>
+              </div>
+              <div class="pa2 pl0 relative">
+                <span class="mr1">
+                  🏡
+                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/workFromHome'">
+                  {{ $t('account.home_manage_work_from_home') }}
                 </inertia-link>
               </div>
             </div>

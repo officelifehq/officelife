@@ -103,6 +103,7 @@ return [
     'breadcrumb_account_add_hardware' => 'Add item',
     'breadcrumb_account_show_hardware' => 'Show item',
     'breadcrumb_account_manage_e_coffee' => 'eCoffee management',
+    'breadcrumb_account_manage_work_from_home' => 'Work from home feature',
     'breadcrumb_employee_list' => 'All employees',
     'breadcrumb_employee_logs' => 'Logs',
     'breadcrumb_employee_edit' => 'Edit information',

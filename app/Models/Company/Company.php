@@ -28,6 +28,7 @@ class Company extends Model
         'has_dummy_data',
         'logo_file_id',
         'e_coffee_enabled',
+        'work_from_home_enabled',
         'founded_at',
         'code_to_join_company',
     ];
@@ -50,6 +51,7 @@ class Company extends Model
     protected $casts = [
         'has_dummy_data' => 'boolean',
         'e_coffee_enabled' => 'boolean',
+        'work_from_home_enabled' => 'boolean',
     ];
 
     /**

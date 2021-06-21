@@ -469,6 +469,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             // e-coffee
             Route::get('account/ecoffee', 'Company\\Adminland\\AdminECoffeeController@index');
             Route::post('account/ecoffee', 'Company\\Adminland\\AdminECoffeeController@store');
+
+            // work from home
+            Route::get('account/workFromHome', 'Company\\Adminland\\AdminWorkFromHomeController@index');
+            Route::put('account/workFromHome', 'Company\\Adminland\\AdminWorkFromHomeController@update');
         });
     });
 });

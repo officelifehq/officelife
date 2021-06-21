@@ -1084,6 +1084,10 @@ class LogHelper
                 $sentence = trans('account.log_toggle_e_coffee_process');
                 break;
 
+            case 'toggle_work_from_home_process':
+                $sentence = trans('account.log_toggle_work_from_home_process');
+                break;
+
             case 'group_created':
                 $sentence = trans('account.log_group_created', [
                     'group_id' => $log->object->{'group_id'},
@@ -1295,7 +1299,7 @@ class LogHelper
                     'expense_title' => $log->object->{'expense_title'},
                 ]);
                 break;
-            
+
             case 'file_added_to_software':
                 $sentence = trans('account.log_file_added_to_software', [
                     'software_name' => $log->object->{'software_name'},
