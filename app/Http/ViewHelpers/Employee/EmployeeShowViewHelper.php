@@ -208,6 +208,7 @@ class EmployeeShowViewHelper
         $workFromHomes = $employee->workFromHomes()->whereYear('date', (string) $currentYear)->count();
 
         return [
+            'feature_enabled' => $employee->company->work_from_home_enabled,
             'work_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, $now),
             'number_times_this_year' => $workFromHomes,
             'url' => route('employee.work.workfromhome', [

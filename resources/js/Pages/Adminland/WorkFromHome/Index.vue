@@ -43,7 +43,7 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.ecoffee_title') }}
+            {{ $t('account.work_from_home_title') }}
 
             <help :url="$page.props.help_links.account_general_currency" :datacy="'help-icon-general'" :top="'2px'" />
           </h2>
@@ -54,16 +54,16 @@
             />
 
             <div class="ml6">
-              <p class="lh-copy">{{ $t('account.ecoffee_desc') }}</p>
+              <p class="lh-copy">{{ $t('account.work_from_home_desc') }}</p>
 
               <p v-if="localWorkFromHome.enabled" data-cy="message-enable" class="status-active dib pa3 br3">
                 <span class="br3 f7 fw3 ph2 pv1 dib relative mr1 dot"></span>
-                {{ $t('account.ecoffee_enabled') }}
+                {{ $t('account.work_from_home_enabled') }}
               </p>
 
               <p v-if="!localWorkFromHome.enabled" data-cy="message-disable" class="status-inactive dib pa3 br3">
                 <span class="br3 f7 fw3 ph2 pv1 dib relative mr1 dot"></span>
-                {{ $t('account.ecoffee_disabled') }}
+                {{ $t('account.work_from_home_disabled') }}
               </p>
 
               <form @submit.prevent="toggleProcess">
@@ -99,7 +99,7 @@ export default {
       type: Array,
       default: null,
     },
-    ecoffee: {
+    process: {
       type: Object,
       default: null,
     },
@@ -116,7 +116,7 @@ export default {
   },
 
   created() {
-    this.localWorkFromHome = this.ecoffee;
+    this.localWorkFromHome = this.process;
   },
 
   methods: {

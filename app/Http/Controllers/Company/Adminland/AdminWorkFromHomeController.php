@@ -27,7 +27,7 @@ class AdminWorkFromHomeController extends Controller
 
         return Inertia::render('Adminland/WorkFromHome/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'ecoffee' => $details,
+            'process' => $details,
         ]);
     }
 

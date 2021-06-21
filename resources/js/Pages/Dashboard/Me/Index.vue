@@ -39,6 +39,7 @@
       />
 
       <work-from-home
+        v-if="workFromHome.feature_enabled"
         :work-from-home="workFromHome"
       />
 

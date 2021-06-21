@@ -476,6 +476,7 @@ class DashboardMeViewHelper
     public static function workFromHome(Employee $employee): ?array
     {
         return [
+            'feature_enabled' => $employee->company->work_from_home_enabled,
             'has_worked_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
         ];
     }

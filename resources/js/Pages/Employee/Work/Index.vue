@@ -68,6 +68,7 @@
           />
 
           <work-from-home
+            v-if="workFromHomes.feature_enabled"
             :employee="employee"
             :permissions="permissions"
             :statistics="workFromHomes"
