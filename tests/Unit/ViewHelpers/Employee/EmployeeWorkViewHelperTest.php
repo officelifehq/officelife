@@ -26,8 +26,6 @@ class EmployeeWorkViewHelperTest extends TestCase
         $startOfWeek = $date->copy()->startOfWeek();
 
         $michael = $this->createAdministrator();
-        $worklog = new Worklog();
-
         for ($i = 0; $i < 7; $i++) {
             $day = $startOfWeek->copy()->startOfWeek()->addDays($i);
 
