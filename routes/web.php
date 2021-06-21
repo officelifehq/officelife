@@ -91,6 +91,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::get('team', 'Company\\Dashboard\\Teams\\DashboardTeamController@index')->name('dashboard.team');
             Route::get('team/{team}', 'Company\\Dashboard\\Teams\\DashboardTeamController@index');
             Route::get('team/{team}/{date}', 'Company\\Dashboard\\Teams\\DashboardTeamController@worklogDetails');
+            Route::delete('team/{team}/{worklog}/{employee}', 'Company\\Dashboard\\Teams\\DashboardTeamController@destroyWorkLog');
 
             // manager tab
             Route::prefix('manager')->group(function () {
@@ -194,6 +195,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 // worklogs
                 Route::get('worklogs/week/{week}/day/{day}', 'Company\\Employee\\Work\\EmployeeWorkController@worklogDay');
                 Route::get('worklogs/week/{week}/day', 'Company\\Employee\\Work\\EmployeeWorkController@worklogDay');
+                Route::delete('worklogs/{worklog}', 'Company\\Employee\\Work\\EmployeeWorkController@destroyWorkLog');
             });
 
             // performance tab
@@ -469,6 +471,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             // e-coffee
             Route::get('account/ecoffee', 'Company\\Adminland\\AdminECoffeeController@index');
             Route::post('account/ecoffee', 'Company\\Adminland\\AdminECoffeeController@store');
+
+            // work from home
+            Route::get('account/workFromHome', 'Company\\Adminland\\AdminWorkFromHomeController@index');
+            Route::put('account/workFromHome', 'Company\\Adminland\\AdminWorkFromHomeController@update');
         });
     });
 });

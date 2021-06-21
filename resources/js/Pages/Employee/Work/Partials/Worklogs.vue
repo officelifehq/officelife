@@ -114,6 +114,9 @@
 
         <!-- content -->
         <div v-if="localWorklog.worklog_parsed_content" class="parsed-content pa3 w-70 center" v-html="localWorklog.worklog_parsed_content"></div>
+        <div v-if="localWorklog.worklog_parsed_content && permissions.can_delete_worklog" class="tc pb3">
+          <a class="f6 gray bb b--dotted bt-0 bl-0 br-0 pointer di c-delete" href="#" @click.prevent="destroy(localWorklog.id)">{{ $t('app.delete') }}</a>
+        </div>
 
         <!-- case of no content for the day -->
         <div v-if="!localWorklog.worklog_parsed_content" class="tc pa3">
@@ -181,6 +184,16 @@ export default {
           this.form.errors = error.response.data;
         });
     },
+
+    destroy(worklogId) {
+      axios.delete(`${this.$page.props.auth.company.id}/employees/${this.employee.id}/work/worklogs/${worklogId}`)
+        .then(response => {
+          this.localWorklog.worklog_parsed_content = null;
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+    }
   }
 };
 </script>

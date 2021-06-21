@@ -8,11 +8,13 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\PermissionHelper;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Http\ViewHelpers\Employee\EmployeeWorkViewHelper;
+use App\Services\Company\Employee\Worklog\DestroyWorklog;
 
 class EmployeeWorkController extends Controller
 {
@@ -46,7 +48,7 @@ class EmployeeWorkController extends Controller
         // worklogs
         $startOfWeek = Carbon::now()->setTimezone($loggedEmployee->timezone)->startOfWeek();
         $currentDay = Carbon::now()->setTimezone($loggedEmployee->timezone);
-        $worklogsCollection = EmployeeWorkViewHelper::worklog($employee, $loggedEmployee, $startOfWeek, $currentDay);
+        $worklogs = EmployeeWorkViewHelper::worklog($employee, $loggedEmployee, $startOfWeek, $currentDay);
         $weeks = EmployeeWorkViewHelper::weeks($loggedEmployee);
 
         // work from home
@@ -69,7 +71,7 @@ class EmployeeWorkController extends Controller
             'employee' => $employee,
             'permissions' => $permissions,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'worklog' => $worklogsCollection,
+            'worklog' => $worklogs,
             'weeks' => $weeks,
             'workFromHomes' => $workFromHomeStats,
             'ships' => $ships,
@@ -115,6 +117,33 @@ class EmployeeWorkController extends Controller
 
         return response()->json([
             'data' => $worklog,
+        ], 200);
+    }
+
+    /**
+     * Delete the worklog.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @param int $worklogId
+     * @return JsonResponse
+     */
+    public function destroyWorkLog(Request $request, int $companyId, int $employeeId, int $worklogId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $data = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'employee_id' => $employeeId,
+            'worklog_id' => $worklogId,
+        ];
+
+        (new DestroyWorklog)->execute($data);
+
+        return response()->json([
+            'data' => true,
         ], 200);
     }
 }

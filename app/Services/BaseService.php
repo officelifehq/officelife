@@ -140,6 +140,29 @@ abstract class BaseService
     }
 
     /**
+     * Sets the permission to bypass the minimum level requirement necessary to
+     * execute the service if the author who calls it is actually the employee
+     * or the manager.
+     *
+     * @param int $employeeId
+     * @return self
+     */
+    public function canBypassPermissionLevelIfEmployeeOrManager(int $managerId, int $employeeId): self
+    {
+        $manager = Employee::where('company_id', $this->companyId)
+            ->findOrFail($managerId);
+
+        $isManager = $manager->isManagerOf($employeeId);
+        $this->bypassRequiredPermissionLevel = $isManager;
+
+        if ($this->bypassRequiredPermissionLevel === false) {
+            $this->bypassRequiredPermissionLevel = ($this->authorId == $employeeId);
+        }
+
+        return $this;
+    }
+
+    /**
      * Get the validation rules that apply to the service.
      *
      * @return array

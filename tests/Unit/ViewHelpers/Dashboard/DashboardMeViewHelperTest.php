@@ -544,6 +544,7 @@ class DashboardMeViewHelperTest extends TestCase
 
         $this->assertEquals(
             [
+                'feature_enabled' => true,
                 'has_worked_from_home_today' => false,
             ],
             DashboardMeViewHelper::workFromHome($michael)
@@ -557,6 +558,7 @@ class DashboardMeViewHelperTest extends TestCase
 
         $this->assertEquals(
             [
+                'feature_enabled' => true,
                 'has_worked_from_home_today' => true,
             ],
             DashboardMeViewHelper::workFromHome($michael)

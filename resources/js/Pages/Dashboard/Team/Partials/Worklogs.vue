@@ -95,16 +95,36 @@
         </p>
 
         <!-- no worklogs yet -->
-        <div v-show="updatedWorklogEntries.length == 0" class="tc mt2">
-          😢 {{ $t('dashboard.team_worklog_blank') }}
+        <div v-if="localWorklogEntries.length === 0" class="tc mt2">
+          <span class="mr1">
+            😢
+          </span> {{ $t('dashboard.team_worklog_blank') }}
         </div>
 
         <!-- list of worklogs -->
-        <div v-for="worklogEntry in updatedWorklogEntries" :key="worklogEntry.id" class="worklog-entry bb-gray">
-          <small-name-and-avatar
-            :name="worklogEntry.name"
-            :avatar="worklogEntry.avatar"
-          />
+        <div v-for="worklogEntry in localWorklogEntries" :key="worklogEntry.id" class="worklog-entry bb-gray">
+          <!-- name + delete action (if allowed to) -->
+          <div class="flex justify-between">
+            <small-name-and-avatar
+              :name="worklogEntry.name"
+              :avatar="worklogEntry.avatar"
+            />
+
+            <span v-if="worklogEntry.can_delete_worklog && idToDelete !== worklogEntry.id" class="f6 gray bb b--dotted bt-0 bl-0 br-0 pointer di c-delete" @click="showDeleteMode(worklogEntry.id)">
+              {{ $t('app.delete') }}
+            </span>
+            <span v-if="idToDelete === worklogEntry.id" class="f6">
+              {{ $t('app.sure') }}
+              <a class="c-delete mr1 pointer" @click.prevent="destroy(worklogEntry.id, worklogEntry.employee_id)">
+                {{ $t('app.yes') }}
+              </a>
+              <a class="pointer" @click.prevent="hideDeleteMode()">
+                {{ $t('app.no') }}
+              </a>
+            </span>
+          </div>
+
+          <!-- content -->
           <div class="lh-copy content mt2 br3" v-html="worklogEntry.content">
           </div>
         </div>
@@ -152,9 +172,11 @@ export default {
 
   data() {
     return {
-      updatedWorklogEntries: null,
-      updatedCurrentDate: null,
+      localWorklogEntries: null,
+      localCurrentDate: null,
       currentWorklogDate: {},
+      deleteMode: false,
+      idToDelete: 0,
       form: {
         errors: [],
       },
@@ -162,7 +184,7 @@ export default {
   },
 
   created() {
-    this.updatedWorklogEntries = this.worklogEntries;
+    this.localWorklogEntries = this.worklogEntries;
     this.currentWorklogDate = this.worklogDates.filter(function (item) {
       return (item.status == 'current');
     })[0];
@@ -177,17 +199,40 @@ export default {
   },
 
   methods: {
+    showDeleteMode(id) {
+      this.deleteMode = true;
+      this.idToDelete = id;
+    },
+
+    hideDeleteMode() {
+      this.deleteMode = false;
+      this.idToDelete = 0;
+    },
+
     load(worklogDate) {
-      axios.get('/' + this.company.id + '/dashboard/team/' + this.currentTeam + '/' + worklogDate.friendlyDate)
+      axios.get(`/${this.company.id}/dashboard/team/${this.currentTeam}/${worklogDate.friendlyDate}`)
         .then(response => {
-          this.updatedWorklogEntries= response.data.worklogEntries;
-          this.updatedCurrentDate = response.data.currentDate;
+          this.localWorklogEntries= response.data.worklogEntries;
+          this.localCurrentDate = response.data.currentDate;
           this.currentWorklogDate = worklogDate;
         })
         .catch(error => {
           this.form.errors = error.response.data;
         });
     },
+
+    destroy(worklogId, employeeId) {
+      axios.delete(`/${this.company.id}/dashboard/team/${this.currentTeam}/${worklogId}/${employeeId}`)
+        .then(response => {
+          this.hideDeleteMode();
+
+          var id = this.localWorklogEntries.findIndex(x => x.id === worklogId);
+          this.localWorklogEntries.splice(id, 1);
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+    }
   }
 };
 </script>

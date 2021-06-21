@@ -1084,6 +1084,10 @@ class LogHelper
                 $sentence = trans('account.log_toggle_e_coffee_process');
                 break;
 
+            case 'toggle_work_from_home_process':
+                $sentence = trans('account.log_toggle_work_from_home_process');
+                break;
+
             case 'group_created':
                 $sentence = trans('account.log_group_created', [
                     'group_id' => $log->object->{'group_id'},
@@ -1336,6 +1340,12 @@ class LogHelper
                 $sentence = trans('account.log_page_destroyed', [
                     'wiki_title' => $log->object->{'wiki_title'},
                     'page_title' => $log->object->{'page_title'},
+                ]);
+                break;
+
+            case 'worklog_destroyed':
+                $sentence = trans('account.log_worklog_destroyed', [
+                    'date' => $log->object->{'date'},
                 ]);
                 break;
 
@@ -1896,7 +1906,7 @@ class LogHelper
                 break;
 
             case 'meeting_decision_updated':
-                $sentence = trans('account.employee_log_log_meeting_decision_updated', [
+                $sentence = trans('account.employee_log_meeting_decision_updated', [
                     'group_id' => $log->object->{'group_id'},
                     'group_name' => $log->object->{'group_name'},
                     'meeting_id' => $log->object->{'meeting_id'},
@@ -1904,10 +1914,16 @@ class LogHelper
                 break;
 
             case 'add_guest_to_meeting':
-                $sentence = trans('account.employee_log_log_add_guest_to_meeting', [
+                $sentence = trans('account.employee_log_add_guest_to_meeting', [
                     'group_id' => $log->object->{'group_id'},
                     'group_name' => $log->object->{'group_name'},
                     'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
+            case 'worklog_destroyed':
+                $sentence = trans('account.employee_log_worklog_destroyed', [
+                    'date' => $log->object->{'date'},
                 ]);
                 break;
 
