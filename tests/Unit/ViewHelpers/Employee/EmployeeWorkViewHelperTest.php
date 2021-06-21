@@ -26,10 +26,12 @@ class EmployeeWorkViewHelperTest extends TestCase
         $startOfWeek = $date->copy()->startOfWeek();
 
         $michael = $this->createAdministrator();
+        $worklog = new Worklog();
+
         for ($i = 0; $i < 7; $i++) {
             $day = $startOfWeek->copy()->startOfWeek()->addDays($i);
 
-            Worklog::factory()->create([
+            $worklog = Worklog::factory()->create([
                 'employee_id' => $michael->id,
                 'content' => 'test',
                 'created_at' => $day,
