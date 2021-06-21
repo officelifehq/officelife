@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Jobs\UpdateDashboardPreference;
 use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Services\Company\Employee\Worklog\DestroyWorklog;
 use App\Http\ViewHelpers\Dashboard\DashboardTeamViewHelper;
 
 class DashboardTeamController extends Controller
@@ -158,5 +159,33 @@ class DashboardTeamController extends Controller
             'worklogEntries' => $team->worklogsForDate($requestedDate, $loggedEmployee),
             'currentDate' => $requestedDate->format('Y-m-d'),
         ]);
+    }
+
+    /**
+     * Delete the worklog.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $teamId
+     * @param int $worklogId
+     * @param int $employeeId
+     * @return JsonResponse
+     */
+    public function destroyWorkLog(Request $request, int $companyId, int $teamId, int $worklogId, int $employeeId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $data = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'employee_id' => $employeeId,
+            'worklog_id' => $worklogId,
+        ];
+
+        (new DestroyWorklog)->execute($data);
+
+        return response()->json([
+            'data' => true,
+        ], 200);
     }
 }

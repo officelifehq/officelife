@@ -26,11 +26,12 @@ class EmployeeWorkViewHelperTest extends TestCase
         $startOfWeek = $date->copy()->startOfWeek();
 
         $michael = $this->createAdministrator();
+        $worklog = new Worklog();
 
         for ($i = 0; $i < 7; $i++) {
             $day = $startOfWeek->copy()->startOfWeek()->addDays($i);
 
-            Worklog::factory()->create([
+            $worklog = Worklog::factory()->create([
                 'employee_id' => $michael->id,
                 'content' => 'test',
                 'created_at' => $day,
@@ -41,7 +42,7 @@ class EmployeeWorkViewHelperTest extends TestCase
             ]);
         }
 
-        $array = EmployeeWorkViewHelper::worklog($michael, $michael, $startOfWeek, $date);
+        $array = EmployeeWorkViewHelper::worklog($michael, $michael, $startOfWeek, $date->copy()->addDays(6));
 
         $this->assertEquals(7, count($array['days']->toArray()));
 
@@ -49,6 +50,12 @@ class EmployeeWorkViewHelperTest extends TestCase
             '2018-01-01',
             $array['current_week']
         );
+
+        $this->assertEquals(
+            $worklog->id,
+            $array['id']
+        );
+
         $this->assertEquals(
             '<p>test</p>',
             $array['worklog_parsed_content']

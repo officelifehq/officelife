@@ -1314,6 +1314,12 @@ class LogHelper
                 ]);
                 break;
 
+            case 'worklog_destroyed':
+                $sentence = trans('account.log_worklog_destroyed', [
+                    'date' => $log->object->{'date'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
@@ -1871,7 +1877,7 @@ class LogHelper
                 break;
 
             case 'meeting_decision_updated':
-                $sentence = trans('account.employee_log_log_meeting_decision_updated', [
+                $sentence = trans('account.employee_log_meeting_decision_updated', [
                     'group_id' => $log->object->{'group_id'},
                     'group_name' => $log->object->{'group_name'},
                     'meeting_id' => $log->object->{'meeting_id'},
@@ -1879,10 +1885,16 @@ class LogHelper
                 break;
 
             case 'add_guest_to_meeting':
-                $sentence = trans('account.employee_log_log_add_guest_to_meeting', [
+                $sentence = trans('account.employee_log_add_guest_to_meeting', [
                     'group_id' => $log->object->{'group_id'},
                     'group_name' => $log->object->{'group_name'},
                     'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
+            case 'worklog_destroyed':
+                $sentence = trans('account.employee_log_worklog_destroyed', [
+                    'date' => $log->object->{'date'},
                 ]);
                 break;
 
