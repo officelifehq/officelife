@@ -284,15 +284,15 @@ class SetupDummyAccount extends Command
         // grab the employee that was just created
         $this->michael = Employee::first();
 
-        $this->pronounHeHim = Pronoun::where('label', 'he/him')->first();
-        $this->pronounSheHer = Pronoun::where('label', 'she/her')->first();
-        $this->pronounTheyThem = Pronoun::where('label', 'they/them')->first();
+        $this->pronounHeHim = Pronoun::where('label', trans('account.pronoun_he_him'))->first();
+        $this->pronounSheHer = Pronoun::where('label', trans('account.pronoun_she_her'))->first();
+        $this->pronounTheyThem = Pronoun::where('label', trans('account.pronoun_they_them'))->first();
 
-        $this->expenseCategoryMaintenanceAndRepairs = ExpenseCategory::where('name', 'Maintenance and repairs')->first();
-        $this->expenseCategoryMealsAndEntertainment = ExpenseCategory::where('name', 'Meals and entertainment')->first();
-        $this->expenseCategoryOfficeExpense = ExpenseCategory::where('name', 'Office expense')->first();
-        $this->expenseCategoryTravel = ExpenseCategory::where('name', 'Travel')->first();
-        $this->expenseCategoryMotorVehicleExpenses = ExpenseCategory::where('name', 'Motor vehicle expenses')->first();
+        $this->expenseCategoryMaintenanceAndRepairs = ExpenseCategory::where('name', trans('account.expense_category_default_maintenance_and_repairs'))->first();
+        $this->expenseCategoryMealsAndEntertainment = ExpenseCategory::where('name', trans('account.expense_category_default_meals_and_entertainment'))->first();
+        $this->expenseCategoryOfficeExpense = ExpenseCategory::where('name', trans('account.expense_category_default_office_expense'))->first();
+        $this->expenseCategoryTravel = ExpenseCategory::where('name', trans('account.expense_category_default_travel'))->first();
+        $this->expenseCategoryMotorVehicleExpenses = ExpenseCategory::where('name', trans('account.expense_category_default_motor_vehicle_expenses'))->first();
     }
 
     private function assignAccountantRole(): void
