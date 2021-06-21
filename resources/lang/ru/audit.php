@@ -1,4 +1,4 @@
 <?php
 return [
-    'title' => 'Audit logs',
+    'title' => 'Журналы аудита',
 ];

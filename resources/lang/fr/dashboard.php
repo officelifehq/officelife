@@ -216,4 +216,5 @@ return [
     'project_title' => 'Projets actifs dont vous faites partie',
     'welcome_title' => 'Bonjour {name} !',
     'welcome_message' => 'Voici un bref résumé de ce qui se passe pour vous et les équipes dont vous faites partie, et les actions que vous devez prendre.',
+    'expense_delete' => 'Supprimer la note de frais',
 ];
