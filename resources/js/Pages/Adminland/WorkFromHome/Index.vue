@@ -123,7 +123,7 @@ export default {
     toggleProcess() {
       this.loadingState = 'loading';
 
-      axios.post(`${this.$page.props.auth.company.id}/account/workFromHome`, this.form)
+      axios.put(`${this.$page.props.auth.company.id}/account/workFromHome`, this.form)
         .then(response => {
           this.loadingState = null;
           this.localWorkFromHome = response.data.data;

@@ -472,7 +472,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
             // work from home
             Route::get('account/workFromHome', 'Company\\Adminland\\AdminWorkFromHomeController@index');
-            Route::post('account/workFromHome', 'Company\\Adminland\\AdminWorkFromHomeController@store');
+            Route::put('account/workFromHome', 'Company\\Adminland\\AdminWorkFromHomeController@update');
         });
     });
 });

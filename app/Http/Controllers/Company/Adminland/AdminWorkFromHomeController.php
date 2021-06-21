@@ -38,7 +38,7 @@ class AdminWorkFromHomeController extends Controller
      * @param int $companyId
      * @return JsonResponse
      */
-    public function store(Request $request, int $companyId): JsonResponse
+    public function update(Request $request, int $companyId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $company = InstanceHelper::getLoggedCompany();
