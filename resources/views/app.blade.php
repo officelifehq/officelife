@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <base href="{{ url('/') }}/" />
   <link rel="stylesheet" href="{{ asset(mix('css/app.css')) }}">
-  <script src="{{ asset(mix('js/app.js')) }}" defer></script>
+  <script id="app-js" src="{{ asset(mix('js/app.js')) }}" defer></script>
   <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favicon.png') }}" />
   <title>@yield('title', config('app.name'))</title>
 
@@ -20,6 +20,10 @@
       'tracesSampleRate' => config('sentry.traces_sample_rate'),
     ]); !!}
   </script>
+  @endif
+
+  @if (config('officelife.fathom_api_key') && config('app.env') == 'production')
+    <script src="https://cdn.usefathom.com/script.js" data-site="{{ config('officelife.fathom_api_key') }}" defer></script>
   @endif
 
   @routes

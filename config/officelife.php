@@ -14,6 +14,39 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Demo mode
+    |--------------------------------------------------------------------------
+    |
+    | The demo mode puts OfficeLife in a mode that is used to showcase what's
+    | OfficeLife can do to people who don't know what it can do.
+    | This mode is used on demo.officelife.io.
+    |
+    */
+    'demo_mode' => env('DEMO_MODE', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enable signups
+    |--------------------------------------------------------------------------
+    |
+    | This setup enables new users to signup to this instance. If set to false,
+    | new users won't be able to signup.
+    |
+    */
+    'enable_signups' => env('ENABLE_SIGNUPS', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Email address of the system administrators of the instance
+    |--------------------------------------------------------------------------
+    |
+    | This defines the email address of the administrators.
+    |
+    */
+    'email_instance_administrator' => env('EMAIL_INSTANCE_ADMINISTRATOR'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Version of the application
     |--------------------------------------------------------------------------
     |
@@ -142,6 +175,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Analytics API key
+    |--------------------------------------------------------------------------
+    |
+    | We use Fathom for the analytics. https://usefathom.com
+    |
+    */
+    'fathom_api_key' => env('FATHOM_API_KEY', null),
+
+    /*
+    |--------------------------------------------------------------------------
     | URL of the documentation center
     |--------------------------------------------------------------------------
     |
@@ -166,6 +209,7 @@ return [
         'manager_expenses' => 'manage/employee-management.html#expenses',
         'accoutant_expenses' => 'manage/employee-management.html#expenses',
         'accountants' => 'manage/employee-management.html#expenses',
+        'worklogs' => 'communicate/worklogs.html#work-logs',
         'employee_hiring_date' => 'manage/employee-management.html#hiring-date',
         'employee_work_anniversaries' => 'manage/employee-management.html#work-anniversaries',
         'employee_statuses' => 'manage/employee-management.html#employee-statuses',
@@ -178,21 +222,24 @@ return [
         'import_employees' => 'manage/employee-management.html#importing-employees',
         'employee_morale' => 'manage/employee-management.html#employee-morale',
         'team_morale' => 'manage/team-management.html#team-morale',
-        'manager_rate_manager' => 'manage/overview.html',
-        'account_hardware_create' => 'introduction.html',
+        'manager_rate_manager' => 'grow/rate-your-manager.html',
+        'hardware' => 'operate/hardware.html',
+        'softwares' => 'operate/software.html',
         'team_recent_ship' => 'introduction.html',
         'team_recent_ship_create' => 'introduction.html',
-        'account_general_company_name' => 'introduction.html',
+        'account_general_company_name' => 'manage/company-management',
         'account_general_currency' => 'manage/company-management.html#currency',
         'account_general_logo' => 'manage/company-management.html#logo',
         'account_general_founded_date' => 'manage/company-management.html#defining-the-company-s-founded-date',
         'account_cancellation' => 'manage/company-management.html#account-cancellation',
-        'one_on_ones' => 'introduction.html',
+        'one_on_ones' => 'grow/one-on-ones.html#overview',
         'project' => 'operate/project-management.html#overview',
         'project_decisions' => 'operate/project-management.html#project-decisions',
         'project_messages' => 'operate/project-management.html#project-messages',
         'project_tasks' => 'operate/project-management.html#project-tasks',
         'project_files' => 'operate/project-management.html#project-files',
         'ecoffee' => 'grow/e-coffee.html#overview',
+        'questions' => 'communicate/get-to-know-your-colleagues.html',
+        'time_tracking' => 'operate/time-tracking.html',
     ],
 ];

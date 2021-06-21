@@ -1,7 +1,8 @@
 <style lang="scss" scoped>
 .error-explanation {
-  background-color: #fde0de;
-  border-color: rgb(226, 171, 167);
+  background-color: #fff5f5;
+  border-color: #fc8181;
+  color: #c53030;
 }
 
 .error {
@@ -17,35 +18,58 @@
   padding: 3px 4px;
 }
 
+.length {
+  top: 10px;
+  right: 10px;
+  background-color: #e5eeff;
+  padding: 3px 4px;
+}
+
+.counter {
+  padding-right: 64px;
+}
 </style>
 
 <template>
   <div :class="extraClassUpperDiv">
-    <label v-if="label" class="db fw4 lh-copy f6" :for="id">
+    <label v-if="label" class="db fw4 lh-copy f6" :for="realId">
       {{ label }}
       <span v-if="!required" class="optional-badge f7">
         {{ $t('app.optional') }}
       </span>
     </label>
-    <input :id="realId"
-           :ref="customRef"
-           v-bind="$attrs"
-           v-model="proxyValue"
-           class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
-           :required="required"
-           :type="type"
-           :name="name"
-           :autofocus="autofocus"
-           :step="step"
-           :max="max"
-           :min="min"
-           :placeholder="placeholder"
-           :data-cy="datacy"
-           @keydown.esc="sendEscKey"
-           @keydown.enter="sendEnterKey"
-    />
+
+    <div class="relative">
+      <input :id="realId"
+             :ref="customRef"
+             v-model="proxyValue"
+             :class="classes"
+             :required="required"
+             :type="type"
+             :name="name"
+             :autofocus="autofocus"
+             :step="step"
+             :max="max"
+             :min="min"
+             :placeholder="placeholder"
+             :data-cy="datacy"
+             v-bind="$attrs"
+             :maxlength="maxlength"
+             @keydown.esc="sendEscKey"
+             @keydown.enter="sendEnterKey"
+      />
+      <span v-if="maxlength" class="length absolute f7 br2">
+        {{ charactersLeft }}
+      </span>
+    </div>
+
     <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
-      {{ errors }}
+      <template v-if="!arrayError">
+        {{ errors }}
+      </template>
+      <div v-for="error in errors" v-else :key="error.id">
+        {{ error }}
+      </div>
     </div>
     <p v-if="help" class="f7 mb3 lh-copy">
       {{ help }}
@@ -88,7 +112,7 @@ export default {
       default: 'input',
     },
     errors: {
-      type: String,
+      type: [String, Array],
       default: '',
     },
     datacy: {
@@ -111,6 +135,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    defaultClass: {
+      type: String,
+      default: 'br2 f5 w-100 ba b--black-40 pa2 outline-0'
+    },
     extraClassUpperDiv: {
       type: String,
       default: 'mb3',
@@ -126,18 +154,16 @@ export default {
     autofocus: {
       type: Boolean,
       default: false,
-    }
+    },
+    maxlength: {
+      type: Number,
+      default: null,
+    },
   },
 
   emits: [
     'esc-key-pressed', 'update:modelValue'
   ],
-
-  data() {
-    return {
-      localErrors: '',
-    };
-  },
 
   computed: {
     proxyValue: {
@@ -154,18 +180,29 @@ export default {
     },
 
     hasError() {
-      return this.localErrors.length > 0 && this.required;
-    }
-  },
+      return this.errors.length > 0 && this.required;
+    },
 
-  watch: {
-    errors(value) {
-      this.localErrors = value;
+    arrayError() {
+      return _.isArray(this.errors);
+    },
+
+    charactersLeft() {
+      var char = 0;
+      if (this.proxyValue) {
+        char = this.proxyValue.length;
+      }
+
+      return `${this.maxlength - char} / ${this.maxlength}`;
     },
   },
 
-  mounted() {
-    this.localErrors = this.errors;
+  created() {
+    this.classes = this.defaultClass;
+
+    if (this.maxlength) {
+      this.classes = this.classes + ' counter';
+    }
   },
 
   methods: {

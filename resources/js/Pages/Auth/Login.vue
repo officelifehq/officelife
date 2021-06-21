@@ -3,82 +3,106 @@
   width: 102px;
   top: -78px;
 }
+
+.demo-mode {
+  box-shadow: 0 0 0 1px #e3e8ee;
+  background-color: #f6fafc;
+}
 </style>
 
 <template>
-  <div class="ph2 ph0-ns">
-    <div class="cf mt6 mw6 center br3 mb4 bg-white box pa3">
-      <div class="w-100 relative">
-        <img loading="lazy" class="logo absolute left-0 right-0 mr-auto ml-auto" alt="officelife logo" srcset="/img/logo.png,
-                                          /img/logo-2x.png 2x"
-        />
+  <authentication-card>
+    <template #logo>
+      <authentication-card-logo />
 
-        <h2 class="fw5 tc pt5">
-          {{ $t('auth.login_salute') }}
-        </h2>
-        <p class="tc mb4">🥳 {{ $t('auth.login_title') }}</p>
-      </div>
-      <div class="">
-        <!-- Form Errors -->
-        <errors :errors="errors" :class="'mb3'" />
+      <h2 class="fw5 tc pt5">
+        {{ $t('auth.login_salute') }}
+      </h2>
+      <p class="tc mb4">🥳 {{ $t('auth.login_title') }}</p>
+    </template>
 
-        <form @submit.prevent="submit">
-          <text-input v-model="form.email"
-                      :name="'email'"
-                      :errors="$page.props.errors.email"
-                      :label="$t('auth.login_email')"
-                      :required="true"
-                      :type="'email'"
-                      :autofocus="true"
-          />
-          <text-input v-model="form.password"
-                      :name="'password'"
-                      :errors="$page.props.errors.password"
-                      type="password"
-                      :label="$t('auth.login_password')"
-                      :required="true"
-          />
-
-          <!-- Actions -->
-          <div class="flex-ns justify-between">
-            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.login_cta')" />
-          </div>
-        </form>
-      </div>
+    <div v-if="$page.props.demo_mode" class="demo-mode pa3 mb3">
+      <p>{{ $t('app.demo_mode_login') }}</p>
+      <p class="pl3 mt0 mb2">{{ $t('app.demo_mode_email') }}: <span class="fw6">admin@admin.com</span></p>
+      <p class="pl3 ma0">{{ $t('app.demo_mode_password') }}: <span class="fw6">admin123</span></p>
     </div>
-    <div class="tc">
-      <p class="f6">{{ $t('auth.login_no_account') }} <inertia-link :href="registerUrl">{{ $t('auth.login_register') }}</inertia-link></p>
-    </div>
-  </div>
+
+    <!-- Form Errors -->
+    <errors :errors="form.errors" :class="'mb3'" />
+
+    <form @submit.prevent="submit">
+      <text-input v-model="form.email"
+                  :name="'email'"
+                  :label="$t('auth.login_email')"
+                  :required="true"
+                  :type="'email'"
+                  :autofocus="true"
+      />
+      <text-input v-model="form.password"
+                  :name="'password'"
+                  type="password"
+                  :label="$t('auth.login_password')"
+                  :required="true"
+      />
+
+      <!-- Actions -->
+      <div class="flex-ns justify-between">
+        <loading-button :class="'add mb2'" :state="form.processing" :text="$t('auth.login_cta')" />
+      </div>
+    </form>
+
+    <template #footer>
+      <languages />
+
+      <inertia-link v-if="canResetPassword && !$page.props.demo_mode" :href="route('password.request')" class="f6">
+        {{ $t('passwords.forgot_password_link') }}
+      </inertia-link>
+      <p v-if="$page.props.jetstream.enableSignups" class="f6">
+        {{ $t('auth.login_no_account') }}
+        <inertia-link :href="route('register')">{{ $t('auth.login_register') }}</inertia-link>
+      </p>
+    </template>
+  </authentication-card>
 </template>
 
 <script>
+import AuthenticationCard from '@/Shared/Layout/AuthenticationCard';
+import AuthenticationCardLogo from '@/Shared/Layout/AuthenticationCardLogo';
 import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
+import { useForm } from '@inertiajs/inertia-vue3';
+import Languages from './Partials/Languages';
 
 export default {
   components: {
+    AuthenticationCard,
+    AuthenticationCardLogo,
     TextInput,
     Errors,
     LoadingButton,
+    Languages,
   },
 
   props: {
-    registerUrl: {
+    canResetPassword: {
+      type: Boolean,
+      default: false,
+    },
+    status: {
       type: String,
-      default: null,
+      default: '',
     },
   },
 
   data() {
     return {
-      form: {
-        email: null,
-        password: null,
-      },
+      form: useForm({
+        email: '',
+        password: '',
+        remember: true
+      }),
       errors: [],
-      loadingState: '',
       errorTemplate: Error,
     };
   },
@@ -89,16 +113,18 @@ export default {
 
   methods: {
     submit() {
-      this.loadingState = 'loading';
-
-      axios.post(this.route('login.attempt'), _.assign({}, this.form, { remember: true}))
-        .then(response => {
-          this.loadingState = null;
-          this.$inertia.visit(response.data.redirect);
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.errors = error.response.data;
+      this.form
+        .transform(data => ({
+          ... data,
+          remember: this.form.remember ? 'on' : ''
+        }))
+        .post(this.route('login'), {
+          onFinish: () => {
+            this.form.reset('password');
+          },
+          onError: (error) => {
+            this.errors = error.response.data;
+          }
         });
     },
   }

@@ -1,34 +1,28 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Redirect;
 
-Route::get('/', 'Auth\\LoginController@showLoginForm')->name('default');
-
-// @see vendor/laravel/ui/src/AuthRouteMethods.php
-Auth::routes([
-    'login' => false,
-    'register' => false,
-    'verify' => true,
-]);
-
-// auth
-Route::get('signup', 'Auth\\RegisterController@index')->name('signup');
-Route::post('signup', 'Auth\\RegisterController@store')->name('signup.attempt');
-Route::get('login', 'Auth\\LoginController@showLoginForm')->name('login');
-Route::post('login', 'Auth\\LoginController@login')->name('login.attempt');
+Route::get('/', function () {
+    return Redirect::route('login');
+})->name('default');
 
 Route::get('invite/employee/{link}', 'Auth\\UserInvitationController@check');
 Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join')->name('invitation.join');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('home', 'HomeController@index')->name('home');
+    Route::get('companies', 'HomeController@list')->name('companies');
     Route::post('search/employees', 'HeaderSearchController@employees');
     Route::post('search/teams', 'HeaderSearchController@teams');
 
     Route::post('help', 'HelpController@toggle');
+    Route::post('locale', 'User\\LocaleController@update');
 
-    Route::resource('company', 'Company\\CompanyController')->only(['create', 'store']);
+    Route::get('company/create', 'Company\\CompanyController@create');
+    Route::post('company/store', 'Company\\CompanyController@store')->name('company.store');
+    Route::get('company/join', 'Company\\CompanyController@join');
+    Route::post('company/join', 'Company\\CompanyController@actuallyJoin')->name('company.join');
 
     // only available if user is in the right account
     Route::middleware(['company'])->prefix('{company}')->group(function () {
@@ -181,9 +175,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                     Route::get('', 'Company\\Employee\\Administration\\EmployeeAdministrationController@show')->name('employees.administration.show');
 
                     // expenses
-                    Route::resource('expenses', 'Company\\Employee\\Administration\\Expenses\\EmployeeExpenseController', ['as' => 'employee.administration'])->only([
-                        'index', 'show',
-                    ]);
+                    Route::get('expenses', 'Company\\Employee\\Administration\\Expenses\\EmployeeExpenseController@index')->name('employee.administration.expenses.index');
+                    Route::get('expenses/{expense}', 'Company\\Employee\\Administration\\Expenses\\EmployeeExpenseController@show')->name('employee.administration.expenses.show');
+                    Route::delete('expenses/{expense}', 'Company\\Employee\\Administration\\Expenses\\EmployeeExpenseController@destroy');
 
                     // timesheets
                     Route::get('timesheets', 'Company\\Employee\\Administration\\Timesheets\\EmployeeTimesheetController@index')->name('employee.timesheets.index');
@@ -421,6 +415,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('account/employees/{employee}/unlock', 'Company\\Adminland\\AdminEmployeeController@unlockAccount');
             Route::get('account/employees/{employee}/permissions', 'Company\\Adminland\\AdminEmployeePermissionController@show')->name('account.employees.permission');
             Route::post('account/employees/{employee}/permissions', 'Company\\Adminland\\AdminEmployeePermissionController@store');
+            Route::get('account/employees/{employee}/invite', 'Company\\Adminland\\AdminEmployeeController@invite')->name('account.employees.invite');
+            Route::post('account/employees/{employee}/invite', 'Company\\Adminland\\AdminEmployeeController@sendInvite');
 
             // team management
             Route::resource('account/teams', 'Company\\Adminland\\AdminTeamController', ['as' => 'account_teams']);
@@ -452,6 +448,22 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::get('account/hardware/lent', 'Company\\Adminland\\AdminHardwareController@lent');
             Route::post('account/hardware/search', 'Company\\Adminland\\AdminHardwareController@search');
             Route::resource('account/hardware', 'Company\\Adminland\\AdminHardwareController');
+
+            // software
+            Route::get('account/softwares', 'Company\\Adminland\\AdminSoftwareController@index')->name('software.index');
+            Route::get('account/softwares/create', 'Company\\Adminland\\AdminSoftwareController@create')->name('software.create');
+            Route::post('account/softwares', 'Company\\Adminland\\AdminSoftwareController@store')->name('software.store');
+            Route::get('account/softwares/{software}', 'Company\\Adminland\\AdminSoftwareController@show')->name('software.show');
+            Route::get('account/softwares/{software}/edit', 'Company\\Adminland\\AdminSoftwareController@edit')->name('software.edit');
+            Route::put('account/softwares/{software}', 'Company\\Adminland\\AdminSoftwareController@update');
+            Route::post('account/softwares/{software}/search', 'Company\\Adminland\\AdminSoftwareController@potentialEmployees');
+            Route::post('account/softwares/{software}/files', 'Company\\Adminland\\AdminSoftwareController@storeFile');
+            Route::get('account/softwares/{software}/numberOfEmployeesWhoDontHaveSoftware', 'Company\\Adminland\\AdminSoftwareController@numberOfEmployeesWhoDontHaveSoftware');
+            Route::post('account/softwares/{software}/attach', 'Company\\Adminland\\AdminSoftwareController@attach');
+            Route::post('account/softwares/{software}/attachAll', 'Company\\Adminland\\AdminSoftwareController@attachAll');
+            Route::delete('account/softwares/{software}/{employee}', 'Company\\Adminland\\AdminSoftwareController@detach');
+            Route::delete('account/softwares/{software}/files/{file}', 'Company\\Adminland\\AdminSoftwareController@destroyFile');
+            Route::delete('account/softwares/{software}', 'Company\\Adminland\\AdminSoftwareController@destroy');
 
             // expenses
             Route::resource('account/expenses', 'Company\\Adminland\\AdminExpenseController', ['as' => 'account'])->except(['show']);

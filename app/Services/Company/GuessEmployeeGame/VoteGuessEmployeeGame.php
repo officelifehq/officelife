@@ -61,7 +61,7 @@ class VoteGuessEmployeeGame extends BaseService
     private function vote(): void
     {
         $found = false;
-        if ($this->game->employee_to_find_id == $this->data['choice_id']) {
+        if ($this->game->employee_to_find_id === $this->data['choice_id']) {
             $found = true;
         }
 

@@ -4,16 +4,17 @@
 
 <template>
   <div class="di">
-    <button name="save" type="submit" :data-cy="cypressSelector" :disabled="state == 'loading'"
-            v-bind="$attrs"
+    <button name="save" type="submit" :data-cy="cypressSelector" :disabled="loading"
+            v-bind="$attrs" :class="defaultClass"
             @click="$emit('click')"
     >
-      <ball-pulse-loader v-if="state == 'loading'" color="#fff" />
-      <span v-if="state != 'loading'">
+      <ball-pulse-loader v-show="loading" color="#fff" />
+      <span v-show="!state">
         <span v-if="emoji" class="mr2">
           {{ emoji }}
         </span>
         {{ text }}
+        <slot></slot>
       </span>
     </button>
   </div>
@@ -35,8 +36,12 @@ export default {
       default: '',
     },
     state: {
+      type: [String, Boolean],
+      default: false,
+    },
+    defaultClass: {
       type: String,
-      default: '',
+      default: 'btn w-auto-ns w-100 pv2 ph3'
     },
     emoji: {
       type: String,
@@ -48,8 +53,12 @@ export default {
     },
   },
 
-  emits: [
-    'click'
-  ]
+  emits: ['click'],
+
+  computed: {
+    loading() {
+      return typeof this.state === 'string' ? this.state === 'loading' : this.state;
+    }
+  }
 };
 </script>

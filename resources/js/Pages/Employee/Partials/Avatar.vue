@@ -9,18 +9,38 @@
     width: 100%;
     height: auto;
   }
+
+  &:hover {
+    .change-avatar {
+      display: block;
+    }
+  }
+}
+
+.change-avatar {
+  box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.17);
+  opacity: 0.8;
+  top: 10px;
+  width: calc(100% - 20px);
 }
 </style>
 
 <template>
-  <div class="db center mb4 avatar">
+  <div v-if="permissions.can_update_avatar" class="db center mb4 avatar pointer relative">
     <uploadcare :public-key="uploadcarePublicKey"
                 :tabs="'file'"
                 @success="onSuccess"
                 @error="onError"
     >
       <the-avatar :avatar="localAvatar" :size="300" />
+
+      <div class="change-avatar absolute bg-white pa3 tc dn">
+        Change avatar
+      </div>
     </uploadcare>
+  </div>
+  <div v-else class="db center mb4 avatar">
+    <the-avatar :avatar="localAvatar" :size="300" />
   </div>
 </template>
 

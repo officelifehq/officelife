@@ -29,6 +29,7 @@ class Company extends Model
         'logo_file_id',
         'e_coffee_enabled',
         'founded_at',
+        'code_to_join_company',
     ];
 
     /**
@@ -258,6 +259,16 @@ class Company extends Model
     public function groups()
     {
         return $this->hasMany(Group::class);
+    }
+
+    /**
+     * Get all softwares in the company.
+     *
+     * @return HasMany
+     */
+    public function softwares()
+    {
+        return $this->hasMany(Software::class);
     }
 
     /**

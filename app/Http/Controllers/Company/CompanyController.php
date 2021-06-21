@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
+use App\Services\Company\Adminland\Company\JoinCompany;
 use App\Services\Company\Adminland\Company\CreateCompany;
 
 class CompanyController extends Controller
@@ -39,5 +40,37 @@ class CompanyController extends Controller
         ]);
 
         return redirect($company->id.'/welcome');
+    }
+
+    /**
+     * Show the Join company screen.
+     *
+     * @param Request $request
+     * @return \Illuminate\Routing\Redirector|RedirectResponse
+     */
+    public function join(Request $request)
+    {
+        return Inertia::render('Home/JoinCompany');
+    }
+
+    /**
+     * Join the company.
+     *
+     * @param Request $request
+     */
+    public function actuallyJoin(Request $request)
+    {
+        $company = (new JoinCompany)->execute([
+            'user_id' => Auth::user()->id,
+            'code' => $request->input('code'),
+        ]);
+
+        return response()->json([
+            'data' => [
+                'url' => route('dashboard', [
+                    'company' => $company->id,
+                ]),
+            ],
+        ], 201);
     }
 }

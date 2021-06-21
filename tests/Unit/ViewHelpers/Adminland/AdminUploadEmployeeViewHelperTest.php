@@ -45,7 +45,6 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                     'status' => 'created',
-                    'status_translated' => 'created',
                     'number_of_entries' => 2,
                     'import_started_at' => null,
                     'import_ended_at' => null,
@@ -58,10 +57,9 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
                         'url' => null,
                     ],
                     'status' => 'imported',
-                    'status_translated' => 'imported',
                     'number_of_entries' => 0,
-                    'import_started_at' => 'Feb 20, 2021 12:12',
-                    'import_ended_at' => 'Feb 20, 2021 12:12',
+                    'import_started_at' => 'Feb 20, 2021 12:12 PM',
+                    'import_ended_at' => 'Feb 20, 2021 12:12 PM',
                     'url' => env('APP_URL').'/'.$michael->company_id.'/account/employees/upload/archives/'.$importJobA->id,
                 ],
             ],
@@ -121,17 +119,17 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            'Feb 20, 2021 12:12',
+            'Feb 20, 2021 12:12 PM',
             $array['import_started_at']
         );
 
         $this->assertEquals(
-            'Feb 20, 2021 12:12',
+            'Feb 20, 2021 12:12 PM',
             $array['import_ended_at']
         );
 
         $this->assertEquals(
-            'Feb 20, 2021 12:12',
+            'Feb 20, 2021 12:12 PM',
             $array['import_ended_at']
         );
 

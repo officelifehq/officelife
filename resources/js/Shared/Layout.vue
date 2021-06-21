@@ -43,6 +43,14 @@ nav {
       }
     }
   }
+
+  &.demo-mode {
+    background-color: #fff9cb;
+  }
+
+  &.beta-mode {
+    background-color: #fff9cb;
+  }
 }
 
 .ball-pulse {
@@ -55,11 +63,20 @@ nav {
 <template>
   <div>
     <div class="dn db-m db-l">
+      <!-- DEMO MODE -->
+      <nav v-if="$page.props.demo_mode" class="bb b--white-10 tc pa3 demo-mode">
+        <span class="mr1">
+          ⚠️
+        </span> {{ $t('app.demo_mode_desc') }} <a href="">{{ $t('app.demo_mode_read_more') }}</a>
+      </nav>
+
       <nav class="flex justify-between bb b--white-10">
         <div class="flex-grow pa2 flex items-center">
           <inertia-link href="/home" class="mr3 no-underline pa2 bb-0">
             <img loading="lazy" src="/img/logo.png" height="30" width="30" alt="logo" />
           </inertia-link>
+
+          <!-- MENU -->
           <div v-if="!noMenu">
             <inertia-link v-if="$page.props.auth.employee.display_welcome_message" :href="'/' + $page.props.auth.company.id + '/welcome'" data-cy="header-desktop-welcome-tab" class="mr1 no-underline pa2 bb-0 special">
               <span class="mr1">👋</span> {{ $t('app.header_welcome') }}
@@ -74,13 +91,14 @@ nav {
               <span class="mr1">🔍</span> {{ $t('app.header_find') }}
             </a>
             <inertia-link v-if="$page.props.auth.company && $page.props.auth.employee.permission_level <= 200" :href="'/' + $page.props.auth.company.id + '/account'" data-cy="header-adminland-link" class="no-underline pa2 bb-0 special">
-              <span class="mr1">👮‍♂️</span> Adminland
+              <span class="mr1">👮‍♂️</span> {{ $t('app.header_adminland') }}
             </inertia-link>
           </div>
         </div>
         <div class="flex-grow pa2 flex items-center">
           <notifications-component :notifications="notifications" />
-          <user-menu />
+
+          <user-menu :show-help-on-page="showHelpOnPage" />
         </div>
       </nav>
     </div>
@@ -193,23 +211,19 @@ nav {
 
     <div :class="[ modalFind ? 'bg-modal-find' : '' ]" @click.prevent="modalFind = false"></div>
 
-    <slot></slot>
-
-    <!-- toggle help -->
-    <div v-if="showHelpOnPage">
-      <div v-if="$page.props.auth.user.show_help" class="tc mv3">
-        <span class="pointer" data-cy="layout-hide-help" @click="toggleHelp()">
-          {{ $t('app.hide_help') }}
-        </span>
-      </div>
-      <div v-else class="tc mv3">
-        <span class="pointer" data-cy="layout-show-help" @click="toggleHelp()">
-          {{ $t('app.show_help') }}
-        </span>
-      </div>
-    </div>
+    <main>
+      <slot></slot>
+    </main>
 
     <toaster />
+
+    <div class="mt5 mb4 cf mw6 center tc f7">
+      <span class="mr1">
+        🎡
+      </span> Welcome to OfficeLife beta! <a href="https://github.com/officelifehq/officelife/discussions/944" class="mr2">Contact us to send feedback</a> <span class="mr1">
+        🎉
+      </span><a href="https://twitter.com/hashtag/officelifefeatures?f=live">What's new</a>
+    </div>
   </div>
 </template>
 
@@ -322,8 +336,8 @@ export default {
     },
 
     search: function () {
-      let text = this.form.searchTerm;
-      if (text === null || text === undefined) {
+      let text = _.trim(this.form.searchTerm);
+      if (text === null || text === undefined || text === '') {
         return;
       }
 
@@ -345,17 +359,6 @@ export default {
       this.employees = data.employees;
       this.teams = data.teams;
     },
-
-    toggleHelp() {
-      axios.post('/help')
-        .then(response => {
-          this.$page.props.auth.user.show_help = response.data.data;
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = error.response.data;
-        });
-    }
   },
 };
 </script>

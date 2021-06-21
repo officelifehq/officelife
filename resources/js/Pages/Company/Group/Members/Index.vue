@@ -140,7 +140,7 @@
                   </span>
                 </span>
                 <span v-if="member.position && member.role" class="db f7 gray">{{ $t('project.members_index_position_with_role', { role: member.position.title }) }}</span>
-                <span v-if="member.position && !member.role" class="db f7 gray">{{ $t('project.members_index_position', { role: member.position.title }) }}</span>
+                <span v-if="member.position && !member.role" class="db f7 gray">{{ member.position.title }}</span>
               </div>
 
               <!-- actions -->

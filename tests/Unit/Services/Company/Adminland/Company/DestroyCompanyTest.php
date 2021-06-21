@@ -5,6 +5,7 @@ namespace Tests\Unit\Services\Company\Adminland\Company;
 use Tests\TestCase;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
@@ -12,6 +13,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\Company\RenameCompany;
 use App\Services\Company\Adminland\Company\DestroyCompany;
+use App\Mail\Company\SendAccountCancellationToAdministratorMail;
 
 class DestroyCompanyTest extends TestCase
 {
@@ -69,6 +71,8 @@ class DestroyCompanyTest extends TestCase
     private function executeService(Employee $michael, Company $company): void
     {
         Queue::fake();
+        Mail::fake();
+        config(['officelife.email_instance_administrator' => 'toto@toto.com']);
 
         $request = [
             'company_id' => $company->id,
@@ -80,5 +84,9 @@ class DestroyCompanyTest extends TestCase
         $this->assertDatabaseMissing('companies', [
             'id' => $company->id,
         ]);
+
+        Mail::assertQueued(SendAccountCancellationToAdministratorMail::class, function ($mail) use ($company) {
+            return $mail->company->id === $company->id;
+        });
     }
 }

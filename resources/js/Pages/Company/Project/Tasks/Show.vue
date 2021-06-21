@@ -258,7 +258,7 @@ input[type=checkbox] {
                 {{ $t('project.members_index_position_with_role', { role: localTask.author.position }) }}
               </span>
               <span v-if="localTask.author.position && !localTask.author.role" class="db f7 gray">
-                {{ $t('project.members_index_position', { role: localTask.author.position }) }}
+                {{ localTask.author.position }}
               </span>
             </div>
           </div>

@@ -28,6 +28,7 @@ jobs:
     name: Build assets
     outputs:
       version: ${{ steps.version.outputs.version }}
+      release: ${{ steps.version.outputs.release }}
 
     strategy:
       fail-fast: false
@@ -59,7 +60,7 @@ jobs:
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
       - name: Cache composer files
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2.1.6
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ env.php-version }}-${{ hashFiles('**/composer.lock') }}
@@ -80,7 +81,7 @@ jobs:
         id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Cache yarn files
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2.1.6
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
@@ -105,9 +106,11 @@ jobs:
             exit -1
           fi
 
-      - name: Get version or revision
+      - name: Get version
         id: version
-        run: echo "::set-output name=version::$(git describe --abbrev=0 --tags --exact-match $GITHUB_SHA 2>/dev/null || git log --pretty="%h" -n1 $GITHUB_SHA)"
+        run: |
+          echo "::set-output name=version::$(git describe --abbrev=0 --tags | sed 's/^v//')"
+          echo "::set-output name=release::$(git describe --abbrev=0 --tags --exact-match $GITHUB_SHA 2>/dev/null || git log --pretty="%h" -n1 $GITHUB_SHA)"
 
       - name: Prepare environment
         run: |
@@ -142,7 +145,7 @@ jobs:
   ######################
   deploy:
     runs-on: ubuntu-latest
-    name: Deploy
+    name: Deploy fortrabbit
     needs: build
     if: github.event_name != 'pull_request'
 
@@ -154,7 +157,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: webfactory/ssh-agent@v0.5.2
+      - uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
@@ -174,8 +177,73 @@ jobs:
 
       - name: Create release files
         run: |
-          echo ${{ needs.build.outputs.version }} > config/.release
+          echo ${{ needs.build.outputs.version }} > config/.version
+          echo ${{ needs.build.outputs.release }} > config/.release
           echo $GITHUB_SHA > config/.commit
+
+      - name: Update .htaccess
+        run: cp -f scripts/.htaccess_production public/.htaccess
+
+      - name: Commit everything
+        run: |
+          git add -A --force public config
+          git commit -m "Build $($CURRENT_DATE_TIME)"
+        env:
+          CURRENT_DATE_TIME: "date +%Y-%m-%d:%H-%M"
+
+      - name: Deploy
+        run: |
+          git remote add deploy $REPO_URL
+          git push deploy main:master --force
+        env:
+          # This avoids a failure when the client does not know the SSH Host already
+          GIT_SSH_COMMAND: "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+          REPO_URL: ${{ secrets.REPO_URL }}
+
+
+  ######################
+  # Deploy on demo
+  ######################
+  demo:
+    runs-on: ubuntu-latest
+    name: Deploy demo
+    needs: build
+    if: github.event_name != 'pull_request'
+
+    environment: demo
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Download assets
+        uses: actions/download-artifact@v2
+        with:
+          name: assets
+          path: public
+
+      - name: Configure Git
+        run: |
+          git config user.email $GIT_EMAIL
+          git config user.name $GIT_USERNAME
+        env:
+          GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+
+      - name: Create release files
+        run: |
+          echo ${{ needs.build.outputs.version }} > config/.version
+          echo ${{ needs.build.outputs.release }} > config/.release
+          echo $GITHUB_SHA > config/.commit
+
+      - name: Update .htaccess
+        run: cp -f scripts/.htaccess_production public/.htaccess
 
       - name: Commit everything
         run: |
@@ -230,5 +298,5 @@ jobs:
         with:
           environment: ${{ secrets.SENTRY_ENVIRONMENT }}
           sourcemaps: public/js/app.js public/js/app.js.map
-          version: ${{ needs.build.outputs.version }}
+          version: ${{ needs.build.outputs.release }}
           url_prefix: ~/js

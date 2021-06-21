@@ -1153,11 +1153,7 @@ class LogHelper
 
             case 'agenda_item_created':
                 $sentence = trans('account.log_agenda_item_created', [
-                    'group_id' => $log->object->{'group_id'},
                     'group_name' => $log->object->{'group_name'},
-                    'employee_id' => $log->object->{'employee_id'},
-                    'employee_name' => $log->object->{'employee_name'},
-                    'meeting_id' => $log->object->{'meeting_id'},
                 ]);
                 break;
 
@@ -1165,8 +1161,6 @@ class LogHelper
                 $sentence = trans('account.log_agenda_item_updated', [
                     'group_id' => $log->object->{'group_id'},
                     'group_name' => $log->object->{'group_name'},
-                    'employee_id' => $log->object->{'employee_id'},
-                    'employee_name' => $log->object->{'employee_name'},
                     'meeting_id' => $log->object->{'meeting_id'},
                 ]);
                 break;
@@ -1240,6 +1234,79 @@ class LogHelper
                     'group_id' => $log->object->{'group_id'},
                     'group_name' => $log->object->{'group_name'},
                     'group_mission' => $log->object->{'group_mission'},
+                ]);
+                break;
+
+            case 'software_created':
+                $sentence = trans('account.log_software_created', [
+                    'software_id' => $log->object->{'software_id'},
+                    'software_name' => $log->object->{'software_name'},
+                ]);
+                break;
+
+            case 'software_updated':
+                $sentence = trans('account.log_software_updated', [
+                    'software_id' => $log->object->{'software_id'},
+                    'software_name' => $log->object->{'software_name'},
+                ]);
+                break;
+
+            case 'software_destroyed':
+                $sentence = trans('account.log_software_destroyed', [
+                    'software_id' => $log->object->{'software_id'},
+                    'software_name' => $log->object->{'software_name'},
+                ]);
+                break;
+
+            case 'software_seat_given_to_employee':
+                $sentence = trans('account.log_software_seat_given_to_employee', [
+                    'software_id' => $log->object->{'software_id'},
+                    'software_name' => $log->object->{'software_name'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                ]);
+                break;
+
+            case 'software_seat_taken_from_employee':
+                $sentence = trans('account.log_software_seat_taken_from_employee', [
+                    'software_id' => $log->object->{'software_id'},
+                    'software_name' => $log->object->{'software_name'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                ]);
+                break;
+
+            case 'software_seat_given_to_employees':
+                $sentence = trans('account.log_software_seat_given_to_employees', [
+                    'software_id' => $log->object->{'software_id'},
+                    'software_name' => $log->object->{'software_name'},
+                ]);
+                break;
+
+            case 'employee_joined_company':
+                $sentence = trans('account.log_employee_joined_company', [
+                    'company_name' => $log->object->{'company_name'},
+                ]);
+                break;
+
+            case 'expense_destroyed':
+                $sentence = trans('account.log_expense_destroyed', [
+                    'employee_name' => $log->object->{'employee_name'},
+                    'expense_title' => $log->object->{'expense_title'},
+                ]);
+                break;
+
+            case 'file_added_to_software':
+                $sentence = trans('account.log_file_added_to_software', [
+                    'software_name' => $log->object->{'software_name'},
+                    'name' => $log->object->{'name'},
+                ]);
+                break;
+
+            case 'software_file_destroyed':
+                $sentence = trans('account.log_software_file_destroyed', [
+                    'software_name' => $log->object->{'software_name'},
+                    'name' => $log->object->{'name'},
                 ]);
                 break;
 
@@ -1812,6 +1879,12 @@ class LogHelper
                     'group_id' => $log->object->{'group_id'},
                     'group_name' => $log->object->{'group_name'},
                     'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
+            case 'expense_destroyed':
+                $sentence = trans('account.employee_log_expense_destroyed', [
+                    'expense_title' => $log->object->{'expense_title'},
                 ]);
                 break;
 

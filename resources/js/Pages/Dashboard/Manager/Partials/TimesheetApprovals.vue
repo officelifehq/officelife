@@ -40,7 +40,7 @@
           <img loading="lazy" src="/img/streamline-icon-employee-checklist-6@140x140.png" width="90" alt="meeting" class="absolute-ns di-ns dn top-1 left-1" />
 
           <p class="pl6-ns pl3 pb3 pt4 pr3 ma0">
-            {{ $t('dashboard.manager_timesheet_summary_count', { count: timesheetsStats.totalNumberOfTimesheetsToValidate}) }}
+            {{ $tc('dashboard.manager_timesheet_summary_count', timesheetsStats.totalNumberOfTimesheetsToValidate, { count: timesheetsStats.totalNumberOfTimesheetsToValidate}) }}
           </p>
 
           <!-- avatars -->

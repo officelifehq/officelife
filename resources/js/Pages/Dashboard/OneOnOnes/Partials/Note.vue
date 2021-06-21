@@ -38,7 +38,7 @@
       <li v-for="note in localNotes" :key="note.id" :data-cy="'note-' + note.id" class="relative mb2 ml3" @mouseover="showHoverOnNote(note.id)"
           @mouseleave="hideHoverOnNote()"
       >
-        <span v-if="noteToEdit != note.id">
+        <span v-if="noteToEdit != note.id" class="lh-copy">
           {{ note.note }}
         </span>
 

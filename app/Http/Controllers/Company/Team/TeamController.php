@@ -73,8 +73,7 @@ class TeamController extends Controller
         });
 
         // most recent member
-        $mostRecentMember = trans('team.most_recent_team_member', [
-            'count' => $teamMembers->count(),
+        $mostRecentMember = trans_choice('team.most_recent_team_member', $teamMembers->count(), [
             'link' => ($teamMembers->count() > 0) ? $teamMembers->take(1)->first()['name'] : '',
         ]);
 

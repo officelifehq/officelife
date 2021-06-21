@@ -50,7 +50,7 @@ class AdminGeneralViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            'Jan 01, 2018 00:00',
+            'Jan 01, 2018 12:00 AM',
             $response['creation_date']
         );
 
@@ -72,6 +72,10 @@ class AdminGeneralViewHelperTest extends TestCase
         $this->assertEquals(
             2020,
             $response['founded_at']
+        );
+
+        $this->assertNotNull(
+            $response['invitation_code']
         );
 
         $response['administrators']->sortBy('id');

@@ -25,7 +25,7 @@ class QuestionFactory extends Factory
         return [
             'company_id' => Company::factory(),
             'title' => $this->faker->sentence(),
-            'active' => true,
+            'active' => false,
         ];
     }
 }

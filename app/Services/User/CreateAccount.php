@@ -4,11 +4,18 @@ namespace App\Services\User;
 
 use App\Models\User\User;
 use Illuminate\Support\Str;
+use App\Helpers\LocaleHelper;
 use App\Services\BaseService;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Fortify\Contracts\CreatesNewUsers;
 
-class CreateAccount extends BaseService
+class CreateAccount extends BaseService implements CreatesNewUsers
 {
+    use PasswordValidationRules;
+
+    private User $user;
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -17,13 +24,34 @@ class CreateAccount extends BaseService
     public function rules(): array
     {
         return [
-            'email' => 'required|unique:users,email|email|max:255',
-            'password' => 'required|alpha_dash|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique(User::class),
+            ],
+            'password' => $this->passwordRules(),
             'first_name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
             'middle_name' => 'nullable|string|max:255',
             'nickname' => 'nullable|string|max:255',
+            'locale' => [
+                'nullable',
+                'string',
+                Rule::in(config('lang-detector.languages')),
+            ],
         ];
+    }
+
+    /**
+     * Validate and create a newly registered user.
+     *
+     * @param  array  $input
+     * @return User
+     */
+    public function create(array $input): User
+    {
+        return $this->execute($input);
     }
 
     /**
@@ -37,23 +65,30 @@ class CreateAccount extends BaseService
     {
         $this->validateRules($data);
 
-        $user = $this->createUser($data);
+        $this->createUser($data);
 
-        return $user;
+        if (! config('mail.verify') || User::count() == 1) {
+            // if it's the first user, we can skip the email verification
+            $this->user->markEmailAsVerified();
+        }
+
+        return $this->user;
     }
 
     /**
      * Create the user.
      *
      * @param array $data
-     *
-     * @return User
      */
-    private function createUser(array $data): User
+    private function createUser(array $data): void
     {
         $uuid = Str::uuid()->toString();
+        $locale = $this->valueOrNull($data, 'locale');
+        if (! $locale) {
+            $locale = LocaleHelper::getLocale();
+        }
 
-        $user = User::create([
+        $this->user = User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'first_name' => $this->valueOrNull($data, 'first_name'),
@@ -61,8 +96,7 @@ class CreateAccount extends BaseService
             'middle_name' => $this->valueOrNull($data, 'middle_name'),
             'nickname' => $this->valueOrNull($data, 'nickname'),
             'uuid' => $uuid,
+            'locale' => $locale,
         ]);
-
-        return $user;
     }
 }

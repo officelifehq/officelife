@@ -3,14 +3,15 @@
 namespace Tests\Unit\Services\Company\Group;
 
 use Tests\TestCase;
+use App\Jobs\ServiceQueue;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Group;
 use App\Models\Company\Employee;
-use App\Jobs\AttachEmployeeToGroup;
 use Illuminate\Support\Facades\Queue;
 use App\Services\Company\Group\CreateGroup;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Project\CreateProject;
+use App\Services\Company\Group\AddEmployeeToGroup;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CreateGroupTest extends TestCase
@@ -97,7 +98,10 @@ class CreateGroupTest extends TestCase
         });
 
         if ($employees) {
-            Queue::assertPushed(AttachEmployeeToGroup::class, 2);
+            Queue::assertPushed(ServiceQueue::class, function ($service) {
+                return $service instanceof ServiceQueue
+                    && $service->service instanceof AddEmployeeToGroup;
+            });
         }
     }
 }

@@ -17,11 +17,13 @@
 
 <template>
   <div :class="question ? 'mb5' : ''">
-    <template v-if="question">
+    <template v-if="localQuestion">
       <div class="cf mw7 center mb2 fw5">
         <span class="mr1">
           🎓
         </span> {{ $t('dashboard.question_title') }}
+
+        <help :url="$page.props.help_links.questions" />
       </div>
 
       <!-- employee hasnt already answered -->
@@ -146,6 +148,7 @@ import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextArea from '@/Shared/TextArea';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
@@ -153,6 +156,7 @@ export default {
     LoadingButton,
     TextArea,
     SmallNameAndAvatar,
+    Help,
   },
 
   props: {

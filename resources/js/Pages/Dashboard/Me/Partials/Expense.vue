@@ -40,7 +40,7 @@
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box pa3 relative">
-      <img loading="lazy" src="/img/dashboard/question_expense.png" alt="a group taking a selfie" class="absolute-ns di-ns dn right-1" :class="addMode ? 'dn' : 'di-ns'" />
+      <img loading="lazy" src="/img/dashboard/question_expense.png" alt="a group taking a selfie" class="absolute-ns right-1" :class="addMode ? 'dn' : 'di-ns'" />
 
       <p v-if="!addMode" class="lh-copy measure">{{ $t('dashboard.expense_show_description') }}</p>
 

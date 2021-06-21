@@ -47,7 +47,7 @@
           <img loading="lazy" src="/img/streamline-icon-employee-checklist-6@140x140.png" width="90" alt="meeting" class="absolute-ns di-ns dn top-1 left-1" />
 
           <p v-if="data.number_of_timesheets > 0" class="pl6-ns pl3 pb2 pt4 pr3 ma0 lh-copy">
-            {{ $t('dashboard.hr_timesheet_summary_count', { count: data.number_of_timesheets}) }}
+            {{ $tc('dashboard.hr_timesheet_summary_count', data.number_of_timesheet, { count: data.number_of_timesheets}) }}
           </p>
           <p v-else class="pl6-ns pl3 pb4 pt4 pr3 mb2">
             {{ $t('dashboard.hr_timesheet_summary_blank') }}

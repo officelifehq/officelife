@@ -15,47 +15,46 @@
 </style>
 
 <template>
-  <layout :no-menu="true" :notifications="notifications">
-    <div class="ph2 ph0-ns">
-      <div class="cf mt4 mw7 center br3 mb3 bg-white box">
-        <div class="pa3 tc">
-          <h2 class="fw4 mb3">
-            {{ $t('auth.confirmation_title') }}
-          </h2>
+  <authentication-card>
+    <div class="pa3 tc">
+      <h2 class="fw4 mb3">
+        {{ $t('auth.confirmation_title') }}
+      </h2>
 
-          <img loading="lazy" src="/img/streamline-icon-email-send-3@140x140.png" width="140" height="140" alt="meeting"
-               class="mb4"
-          />
+      <img loading="lazy" src="/img/streamline-icon-email-send-3@140x140.png" width="140" height="140" alt="meeting"
+           class="mb4"
+      />
 
-          <p>
-            {{ $t('auth.confirmation_check') }}
-          </p>
-          <p>
-            {{ $t('auth.confirmation_request_another') }}
-          </p>
+      <p>
+        {{ $t('auth.confirmation_check') }}
+      </p>
+      <p>
+        {{ $t('auth.confirmation_request_another') }}
+      </p>
 
-          <form class="di" @submit.prevent="submit">
-            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.confirmation_request_another_button')" />
-          </form>
-        </div>
-      </div>
+      <form class="di" @submit.prevent="submit">
+        <loading-button :class="'add mb2'" :state="form.processing">
+          {{ $t('auth.confirmation_request_another_button') }}
+        </loading-button>
+      </form>
     </div>
-  </layout>
+  </authentication-card>
 </template>
 
 <script>
+import AuthenticationCard from '@/Shared/Layout/AuthenticationCard';
 import LoadingButton from '@/Shared/LoadingButton';
-import Layout from '@/Shared/Layout';
+import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
   components: {
+    AuthenticationCard,
     LoadingButton,
-    Layout,
   },
 
   data() {
     return {
-      loadingState: '',
+      form: useForm(),
       resend: false,
     };
   },
@@ -69,22 +68,19 @@ export default {
 
   methods: {
     submit() {
-      this.loadingState = 'loading';
-
-      axios.post(this.route('verification.resend'))
-        .then(response => {
-          this.loadingState = null;
+      this.form.post(this.route('verification.send'), {
+        onFinish: () => {
           this.resend = true;
           this.flash(this.$t('auth.confirmation_fresh'), 'success');
-        })
-        .catch(error => {
-          this.loadingState = null;
+        },
+        onError: (error) => {
           if (typeof error.response.data === 'object') {
             this.form.errors = error.response.data;
           } else {
             this.form.errors = [this.$t('app.error_try_again')];
           }
-        });
+        }
+      });
     },
   }
 };

@@ -4,6 +4,7 @@ namespace App\Http\ViewHelpers\Adminland;
 
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
+use App\Models\Company\EmployeeStatus;
 
 class AdminEmployeeStatusViewHelper
 {
@@ -16,20 +17,26 @@ class AdminEmployeeStatusViewHelper
      */
     public static function index(Company $company): Collection
     {
-        $employeeStatuses = $company->employeeStatuses()
+        return $company->employeeStatuses()
             ->orderBy('name', 'asc')
-            ->get();
+            ->get()
+            ->map(function ($status) {
+                return self::show($status);
+            });
+    }
 
-        $statusesCollection = collect([]);
-        foreach ($employeeStatuses as $status) {
-            $statusesCollection->push([
-                'id' => $status->id,
-                'name' => $status->name,
-                'type' => $status->type,
-                'type_translated' => trans('account.employee_statuses_'.$status->type),
-            ]);
-        }
-
-        return $statusesCollection;
+    /**
+     * Get information about one employee status.
+     *
+     * @param EmployeeStatus $employeeStatus
+     * @return array
+     */
+    public static function show(EmployeeStatus $employeeStatus): array
+    {
+        return [
+            'id' => $employeeStatus->id,
+            'name' => $employeeStatus->name,
+            'type' => $employeeStatus->type,
+        ];
     }
 }

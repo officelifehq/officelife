@@ -27,7 +27,7 @@
       <div class="flex items-center justify-center">
         <avatar v-for="member in group.members" :key="member.id" :avatar="member.avatar" :size="32" :class="'br-100 small-avatar'" />
         <!-- <div v-if="group.other_members_counter > 0" class="pl2 f7 more-members relative gray">
-          {{ $t('project.menu_other_member', { count: project.other_members_counter }) }}
+          {{ $tc('project.menu_other_member', project.other_members_counter, { count: project.other_members_counter }) }}
         </div> -->
       </div>
     </div>

@@ -56,7 +56,8 @@ class DestroyProjectFile extends BaseService
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
 
-        $this->file = File::findOrFail($this->data['file_id']);
+        $this->file = File::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['file_id']);
     }
 
     private function destroyFile(): void

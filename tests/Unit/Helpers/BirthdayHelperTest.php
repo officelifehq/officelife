@@ -53,4 +53,75 @@ class BirthdayHelperTest extends TestCase
         $this->assertTrue(BirthdayHelper::isBirthdayInRange($date, $min, $max));
         $this->assertFalse(BirthdayHelper::isBirthdayInRange($date, $min->addMonth(), $max->addMonth()));
     }
+
+    /** @test */
+    public function it_calculates_the_age_prior_to_the_birthday(): void
+    {
+        Carbon::setTestNow(Carbon::create(2020, 1, 1));
+
+        $date = Carbon::create(1990, 5, 1);
+
+        $this->assertEquals(29, BirthdayHelper::age($date));
+        $this->assertEquals(29, BirthdayHelper::age($date, 'UTC'));
+        $this->assertEquals(29, BirthdayHelper::age($date, 'Europe/Paris'));
+        $this->assertEquals(29, BirthdayHelper::age($date, 'America/Chicago'));
+    }
+
+    /** @test */
+    public function it_calculates_the_age_on_birthday_for_local_time(): void
+    {
+        Carbon::setTestNow(Carbon::create(2020, 4, 30, 23, 0, 0));
+
+        $date = Carbon::create(1990, 5, 1);
+
+        $this->assertEquals(29, BirthdayHelper::age($date));
+        $this->assertEquals(29, BirthdayHelper::age($date, 'UTC'));
+
+        // It's already 2020-05-01 for Paris
+        $this->assertEquals(30, BirthdayHelper::age($date, 'Europe/Paris'));
+
+        // It's still 2020-04-30 for Chicago
+        $this->assertEquals(29, BirthdayHelper::age($date, 'America/Chicago'));
+    }
+
+    /** @test */
+    public function it_calculates_the_age_on_birthday(): void
+    {
+        Carbon::setTestNow(Carbon::create(2020, 5, 1));
+
+        $date = Carbon::create(1990, 5, 1);
+
+        $this->assertEquals(30, BirthdayHelper::age($date));
+        $this->assertEquals(30, BirthdayHelper::age($date, 'UTC'));
+        $this->assertEquals(30, BirthdayHelper::age($date, 'Europe/Paris'));
+
+        // It's still 2020-04-30 for Chicago
+        $this->assertEquals(29, BirthdayHelper::age($date, 'America/Chicago'));
+    }
+
+    /** @test */
+    public function it_calculates_the_age_on_birthday_later(): void
+    {
+        Carbon::setTestNow(Carbon::create(2020, 5, 1, 21, 0, 0));
+
+        $date = Carbon::create(1990, 5, 1);
+
+        $this->assertEquals(30, BirthdayHelper::age($date));
+        $this->assertEquals(30, BirthdayHelper::age($date, 'UTC'));
+        $this->assertEquals(30, BirthdayHelper::age($date, 'Europe/Paris'));
+        $this->assertEquals(30, BirthdayHelper::age($date, 'America/Chicago'));
+    }
+
+    /** @test */
+    public function it_calculates_the_age_the_day_after(): void
+    {
+        Carbon::setTestNow(Carbon::create(2020, 5, 2));
+
+        $date = Carbon::create(1990, 5, 1);
+
+        $this->assertEquals(30, BirthdayHelper::age($date));
+        $this->assertEquals(30, BirthdayHelper::age($date, 'UTC'));
+        $this->assertEquals(30, BirthdayHelper::age($date, 'Europe/Paris'));
+        $this->assertEquals(30, BirthdayHelper::age($date, 'America/Chicago'));
+    }
 }

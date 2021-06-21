@@ -9,6 +9,7 @@ use App\Helpers\ImageHelper;
 use App\Helpers\MoneyHelper;
 use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
+use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
@@ -16,7 +17,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\WorkFromHomeHelper;
 use App\Models\Company\ECoffeeMatch;
-use App\Models\Company\EmployeeStatus;
 
 class EmployeeShowViewHelper
 {
@@ -51,13 +51,13 @@ class EmployeeShowViewHelper
             'holidays' => $employee->getHolidaysInformation(),
             'birthdate' => (! $employee->birthdate) ? null :
                 ($permissions['can_see_full_birthdate'] ? [
-                    'date' => DateHelper::formatDate($employee->birthdate, $loggedEmployee->timezone),
-                    'age' => Carbon::now()->year - $employee->birthdate->year,
+                    'date' => DateHelper::formatDate($employee->birthdate),
+                    'age' => BirthdayHelper::age($employee->birthdate, $loggedEmployee->timezone),
                 ] : [
                     'date' => DateHelper::formatMonthAndDay($employee->birthdate),
                 ]),
             'hired_at' => (! $employee->hired_at) ? null : [
-                'full' => DateHelper::formatDate($employee->hired_at, $loggedEmployee->timezone),
+                'full' => DateHelper::formatDate($employee->hired_at),
                 'year' => $employee->hired_at->year,
                 'month' => $employee->hired_at->month,
                 'day' => $employee->hired_at->day,
@@ -65,7 +65,7 @@ class EmployeeShowViewHelper
             ],
             'contract_renewed_at' => (! $employee->contract_renewed_at) ? null :
                 ($permissions['can_see_contract_renewal_date'] ? [
-                    'date' => DateHelper::formatDate($employee->contract_renewed_at, $loggedEmployee->timezone),
+                    'date' => DateHelper::formatDate($employee->contract_renewed_at),
                 ] : null),
             'contract_rate' => (! $rate) ? null :
                 ($permissions['can_see_contract_renewal_date'] ? [
@@ -125,207 +125,6 @@ class EmployeeShowViewHelper
                     'employee' => $employee,
                 ]),
             ],
-        ];
-    }
-
-    /**
-     * Information about what the logged employee can see on the page of the
-     * given employee.
-     *
-     * @param Employee $loggedEmployee
-     * @param Employee $employee
-     * @return array
-     */
-    public static function permissions(Employee $loggedEmployee, Employee $employee): array
-    {
-        $loggedEmployeeIsManager = $loggedEmployee->isManagerOf($employee->id);
-
-        // can the logged employee see the complete birthdate of the employee
-        $canSeeFullBirthdate = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canSeeFullBirthdate = true;
-        }
-
-        // can the logged employee manage expenses
-        $canSeeExpenses = $loggedEmployee->can_manage_expenses;
-        if ($loggedEmployee->id == $employee->id) {
-            $canSeeExpenses = true;
-        }
-        if ($loggedEmployeeIsManager) {
-            $canSeeExpenses = true;
-        }
-
-        // can the logged employee see the work from home history?
-        $canSeeWorkFromHomeHistory = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canSeeWorkFromHomeHistory = true;
-        }
-
-        // can the logged employee see the work log home history?
-        $canSeeWorkLogHistory = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canSeeWorkLogHistory = true;
-        }
-
-        // can the logged employee manage hierarchy?
-        $canManageHierarchy = $loggedEmployee->permission_level <= 200;
-
-        // can manage position?
-        $canManagePosition = $loggedEmployee->permission_level <= 200;
-
-        // can manage teams?
-        $canManageTeam = $loggedEmployee->permission_level <= 200;
-
-        // can manage pronouns?
-        $canManagePronouns = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canManagePronouns = true;
-        }
-
-        // can manage status?
-        $canManageStatus = $loggedEmployee->permission_level <= 200;
-
-        // can manage skills?
-        $canManageSkills = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canManageSkills = true;
-        }
-
-        // can manage description?
-        $canManageDescription = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canManageDescription = true;
-        }
-
-        // can edit profile?
-        $canEditProfile = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canEditProfile = true;
-        }
-
-        // can delete profile?
-        $canDeleteProfile = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canDeleteProfile = false;
-        }
-
-        // can see audit log?
-        $canSeeAuditLog = $loggedEmployee->permission_level <= 200;
-
-        // can see complete address?
-        $canSeeCompleteAddress = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canSeeCompleteAddress = true;
-        }
-
-        // can see one on one with manager
-        $canSeeOneOnOneWithManager = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canSeeOneOnOneWithManager = true;
-        }
-        if ($loggedEmployeeIsManager) {
-            $canSeeOneOnOneWithManager = true;
-        }
-
-        // can see performance tab?
-        $canSeePerformanceTab = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canSeePerformanceTab = true;
-        }
-        if ($loggedEmployeeIsManager) {
-            $canSeePerformanceTab = true;
-        }
-
-        // can see administration tab?
-        $canSeeAdministrationTab = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canSeeAdministrationTab = true;
-        }
-        if ($loggedEmployeeIsManager) {
-            $canSeeAdministrationTab = true;
-        }
-
-        // can see hardware
-        $canSeeHardware = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canSeeHardware = true;
-        }
-
-        // can see contract renewal date for external employees
-        $canSeeContractRenewalDate = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canSeeContractRenewalDate = true;
-        }
-        if ($loggedEmployeeIsManager) {
-            $canSeeContractRenewalDate = true;
-        }
-        if ($employee->status) {
-            if ($employee->status->type == EmployeeStatus::INTERNAL) {
-                $canSeeContractRenewalDate = false;
-            }
-        } else {
-            $canSeeContractRenewalDate = false;
-        }
-
-        // can see timesheets
-        $canSeeTimesheets = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canSeeTimesheets = true;
-        }
-        if ($loggedEmployeeIsManager) {
-            $canSeeTimesheets = true;
-        }
-
-        // can update avatar
-        $canUpdateAvatar = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canUpdateAvatar = true;
-        }
-
-        // can edit hired at information
-        $canEditHiredAt = $loggedEmployee->permission_level <= 200;
-
-        // can edit contact information
-        $canEditContractInfoTab = $loggedEmployee->permission_level <= 200;
-        if ($employee->status) {
-            $canEditContractInfoTab = $employee->status->type == EmployeeStatus::EXTERNAL;
-        }
-
-        // can view the what's up page
-        $canViewWhatsUp = $loggedEmployee->permission_level <= 200;
-        if ($loggedEmployee->id == $employee->id) {
-            $canViewWhatsUp = true;
-        }
-        if ($loggedEmployeeIsManager) {
-            $canViewWhatsUp = true;
-        }
-
-        return [
-            'can_see_full_birthdate' => $canSeeFullBirthdate,
-            'can_manage_hierarchy' => $canManageHierarchy,
-            'can_manage_position' => $canManagePosition,
-            'can_manage_pronouns' => $canManagePronouns,
-            'can_manage_status' => $canManageStatus,
-            'can_manage_teams' => $canManageTeam,
-            'can_manage_skills' => $canManageSkills,
-            'can_manage_description' => $canManageDescription,
-            'can_see_expenses' => $canSeeExpenses,
-            'can_see_work_from_home_history' => $canSeeWorkFromHomeHistory,
-            'can_see_work_log_history' => $canSeeWorkLogHistory,
-            'can_see_hardware' => $canSeeHardware,
-            'can_edit_profile' => $canEditProfile,
-            'can_delete_profile' => $canDeleteProfile,
-            'can_see_audit_log' => $canSeeAuditLog,
-            'can_see_complete_address' => $canSeeCompleteAddress,
-            'can_see_performance_tab' => $canSeePerformanceTab,
-            'can_see_administration_tab' => $canSeeAdministrationTab,
-            'can_see_one_on_one_with_manager' => $canSeeOneOnOneWithManager,
-            'can_see_contract_renewal_date' => $canSeeContractRenewalDate,
-            'can_see_timesheets' => $canSeeTimesheets,
-            'can_update_avatar' => $canUpdateAvatar,
-            'can_edit_hired_at_information' => $canEditHiredAt,
-            'can_edit_contract_information' => $canEditContractInfoTab,
-            'can_view_whats_up' => $canViewWhatsUp,
         ];
     }
 
@@ -906,5 +705,27 @@ class EmployeeShowViewHelper
         }
 
         return $positionCollection;
+    }
+
+    /**
+     * Array containing information about the software associated with the
+     * employee.
+     *
+     * @param Employee $employee
+     * @param array $permissions
+     * @return Collection|null
+     */
+    public static function softwares(Employee $employee, array $permissions): ?Collection
+    {
+        if (! $permissions['can_see_software']) {
+            return null;
+        }
+
+        return $employee->softwares->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'name' => $item->name,
+            ];
+        });
     }
 }

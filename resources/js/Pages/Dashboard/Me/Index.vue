@@ -55,11 +55,6 @@
         :question="question"
       />
 
-      <task
-        :employee="employee"
-        :tasks="tasks"
-      />
-
       <expense
         :employee="employee"
         :categories="categories"
@@ -76,7 +71,6 @@ import Worklogs from '@/Pages/Dashboard/Me/Partials/Worklogs';
 import Morale from '@/Pages/Dashboard/Me/Partials/Morale';
 import WorkFromHome from '@/Pages/Dashboard/Me/Partials/WorkFromHome';
 import Question from '@/Pages/Dashboard/Me/Partials/Question';
-import Task from '@/Pages/Dashboard/Me/Partials/Task';
 import Expense from '@/Pages/Dashboard/Me/Partials/Expense';
 import RateYourManager from '@/Pages/Dashboard/Me/Partials/RateYourManager';
 import OneOnOneWithManager from '@/Pages/Dashboard/Me/Partials/OneOnOneWithManager';
@@ -92,7 +86,6 @@ export default {
     Worklogs,
     Morale,
     Question,
-    Task,
     Expense,
     WorkFromHome,
     RateYourManager,
@@ -172,6 +165,13 @@ export default {
       type: Object,
       default: null,
     },
+  },
+
+  mounted() {
+    if (localStorage.success) {
+      this.flash(localStorage.success, 'success');
+      localStorage.removeItem('success');
+    }
   },
 };
 </script>

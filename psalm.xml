@@ -103,5 +103,12 @@
         <!-- Personal fixes -->
         <UndefinedMagicPropertyFetch errorLevel="suppress" />
         <InvalidPropertyAssignmentValue errorLevel="suppress" />
+
+        <UnsafeInstantiation>
+            <errorLevel type="suppress">
+                <file name="app/Services/DispatchableService.php" />
+            </errorLevel>
+        </UnsafeInstantiation>
+
     </issueHandlers>
 </psalm>

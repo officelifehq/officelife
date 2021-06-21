@@ -16,9 +16,7 @@
         <p class="lh-copy">{{ $t('welcome.thanks') }}</p>
         <p class="lh-copy">{{ $t('welcome.admin_line_1') }}</p>
         <p class="lh-copy mb4">{{ $t('welcome.admin_line_2') }}</p>
-        <p class="mb4 tc"><a href="" class="btn"><span class="mr1">🙉</span> {{ $t('welcome.admin_guide_cta') }}</a></p>
-        <p class="lh-copy">{{ $t('welcome.admin_line_3') }}</p>
-        <p class="lh-copy">{{ $t('welcome.admin_line_4') }}</p>
+        <p class="mb4 tc"><a :href="url" class="btn"><span class="mr1">🙉</span> {{ $t('welcome.admin_guide_cta') }}</a></p>
       </div>
     </div>
   </layout>
@@ -35,6 +33,10 @@ export default {
   props: {
     employee: {
       type: Object,
+      default: null,
+    },
+    url: {
+      type: String,
       default: null,
     },
     notifications: {

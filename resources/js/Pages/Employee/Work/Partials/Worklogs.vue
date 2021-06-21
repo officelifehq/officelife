@@ -74,6 +74,8 @@
       <span class="mr1">
         🔨
       </span> {{ $t('employee.worklog_title') }}
+
+      <help :url="$page.props.help_links.worklogs" />
     </span>
 
     <!-- LIST OF WORKLOGS -->
@@ -115,7 +117,7 @@
 
         <!-- case of no content for the day -->
         <div v-if="!localWorklog.worklog_parsed_content" class="tc pa3">
-          {{ $t('employee.worklog_blank') }} 😭
+          {{ $t('employee.worklog_blank') }}
         </div>
       </div>
     </div>
@@ -123,7 +125,13 @@
 </template>
 
 <script>
+import Help from '@/Shared/Help';
+
 export default {
+  components: {
+    Help,
+  },
+
   props: {
     permissions: {
       type: Object,

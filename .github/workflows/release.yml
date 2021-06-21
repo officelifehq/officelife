@@ -85,7 +85,7 @@ jobs:
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
       - name: Cache composer files
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2.1.6
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ env.php-version }}-${{ hashFiles('**/composer.lock') }}
@@ -103,7 +103,7 @@ jobs:
         id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Cache yarn files
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2.1.6
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
@@ -123,7 +123,7 @@ jobs:
       - name: Sign package
         run: |
           sha512sum '${{ steps.package.outputs.package }}' > '${{ steps.package.outputs.package }}.sha512'
-          for f in '${{ steps.package.outputs.package }}{,.sha512}'; do
+          for f in ${{ steps.package.outputs.package }}{,.sha512}; do
             echo "Signing '$f'..."
             echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode=loopback --local-user $GPG_FINGERPRINT --sign --armor --detach-sig --output "$f.asc" "$f"
             echo -e "\nSigned with key fingerprint $GPG_FINGERPRINT" >> "$f.asc"
@@ -134,7 +134,7 @@ jobs:
 
       - name: Publish package
         run: |
-          for f in '${{ steps.package.outputs.package }}{,.asc,.sha512,.sha512.asc}'; do
+          for f in ${{ steps.package.outputs.package }}{,.asc,.sha512,.sha512.asc}; do
             echo "Uploading release file '$f'..."
             gh release upload 'v${{ needs.semantic.outputs.new_release_version }}' "$f" --clobber
           done

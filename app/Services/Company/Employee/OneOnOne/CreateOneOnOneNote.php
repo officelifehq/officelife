@@ -29,7 +29,7 @@ class CreateOneOnOneNote extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'one_on_one_entry_id' => 'required|integer|exists:one_on_one_entries,id',
-            'note' => 'required|string|max:255',
+            'note' => 'required|string|max:65535',
         ];
     }
 

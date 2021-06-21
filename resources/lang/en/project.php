@@ -1,14 +1,10 @@
 <?php
-
 return [
-    'menu_other_member' => '+ {count} others',
-
+    'menu_other_member' => '+ {count} other|+ {count} others',
     'project_title_lead' => 'Project lead',
-
     'index_title' => 'All the projects in the company',
     'index_cta' => 'Create a project',
     'index_blank_title' => 'Start a project now to move things forward!',
-
     'menu_summary' => 'Project summary',
     'menu_messages' => 'Messages',
     'menu_tasks' => 'Tasks',
@@ -17,7 +13,6 @@ return [
     'menu_finance' => 'Finance',
     'menu_files' => 'Files',
     'menu_members_icons' => 'Project members',
-
     'summary_cta_start_project' => 'Start project',
     'summary_cta_pause_project' => 'Pause',
     'summary_cta_unpause_project' => 'Continue',
@@ -47,11 +42,15 @@ return [
     'summary_project_latest_update_late' => 'The project is late',
     'summary_project_latest_update_cta' => 'Update status',
     'summary_project_latest_update_written' => 'Written by {name} on {date}',
-
+    'summary_project_status_edit_title' => 'How is the project doing?',
+    'summary_project_status_edit_on_track' => 'On track',
+    'summary_project_status_edit_at_risk' => 'At risk',
+    'summary_project_status_edit_late' => 'Late',
+    'summary_project_status_edit_status' => 'Project status',
+    'summary_project_status_edit_description' => 'Add more details',
     'delete_title' => 'Delete the project',
     'delete_success' => 'The project has been successfully deleted.',
     'delete_description' => 'Deleting a project deletes all the data associated with it (messages, tasks, files, etc). Members who are part of this project won’t be deleted from the system.',
-
     'create_title' => 'Create a new project',
     'create_input_name' => 'Name of the project',
     'create_input_name_help' => 'The name of the project should be concise and self-explanatory.',
@@ -59,15 +58,15 @@ return [
     'create_input_summary' => 'Project summary',
     'create_input_summary_help' => 'A one-liner, if possible, that describes what the project does.',
     'create_input_project_lead' => 'Who will lead this project?',
-
+    'create_input_add_project_code' => 'Add project code',
+    'create_input_add_summary' => 'Add summary',
+    'create_input_add_project_lead' => 'Add a project lead',
     'edit_title' => 'Edit the project information',
     'edit_description' => 'Project description',
     'edit_input_description_help' => 'Everything we need to know about this project, in details.',
     'edit_success' => 'The project has been successfully edited.',
-
     'members_index_role' => 'In the project since {date}',
     'members_index_position_with_role' => 'Also, {role} in the company.',
-    'members_index_position' => '{role}',
     'members_index_add_cta' => 'Add a new member',
     'members_index_add_title' => 'Add a member to the project',
     'members_index_add_select_title' => 'Select an employee',
@@ -75,25 +74,23 @@ return [
     'members_index_add_role' => 'Do you want to specify a role for this new member? You don’t have to, but it can be useful for others to understand his/her role.',
     'members_index_add_role_no_role' => 'No role',
     'members_index_add_role_create_new_one' => 'Or create a new role',
-    'members_index_count' => 'This project has {count} members.',
+    'members_index_count' => 'This project has {count} member.|This project has {count} members.',
     'members_index_blank' => 'Projects are more fun when employees are working on them.',
     'members_index_blank_role' => 'No role created yet',
     'members_index_add_success' => 'The member has been added.',
     'members_index_remove_success' => 'The member has been removed.',
-
     'decision_index_cta' => 'Log a new decision',
     'decision_index_add_decision' => 'What’s the decision?',
     'decision_index_add_decision_help' => 'Everyone in the company will be able to read this decision.',
     'decision_index_add_decider' => 'Who made the decision?',
     'decision_index_add_decider_additional' => 'Add an additional decider',
-    'decision_index_date' => 'Decided on',
+    'decision_index_date' => 'Decided on {decided_at}',
     'decision_index_decider' => 'Decided by',
     'decision_index_delete' => 'Delete decision',
     'decision_index_blank' => 'Keeping a log of decisions is beneficial to improve communication between members and stakeholders of the project, and employees of the company in general.',
     'decision_index_add_success' => 'The decision has been recorded.',
     'decision_index_destroy_success' => 'The decision has been forgotten.',
     'decision_index_title' => 'Decisions in the project',
-
     'message_title' => 'Messages',
     'message_blank' => 'Messages are essential to make announcements, give feedback, ask questions and have a central point of documentation in the project.',
     'message_cta' => 'Write a message',
@@ -108,10 +105,9 @@ return [
     'message_create_title' => 'Add a new message',
     'message_create_title_message' => 'Title of the message',
     'message_create_title_message_help' => 'Keep it informative and to the point.',
-    'message_create_title_content' =>'Content of the message',
+    'message_create_title_content' => 'Content of the message',
     'message_create_title_content_help' => 'Everyone in the company will be able to read this message.',
     'message_edit_title_message' => 'Edit message',
-
     'task_title' => 'All the tasks in this project',
     'task_default_task_list' => 'General list',
     'task_list_cta' => 'Create a task list',
@@ -139,7 +135,6 @@ return [
     'task_show_added_by' => 'Added by',
     'task_show_created_on' => 'Created on',
     'task_show_action_log' => 'Log time',
-
     'file_title' => 'All the files in the project',
     'file_blank_state' => 'Upload a file here to keep information forever!',
     'file_upload_success' => 'The file has been uploaded.',

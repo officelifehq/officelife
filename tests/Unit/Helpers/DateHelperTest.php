@@ -41,7 +41,7 @@ class DateHelperTest extends TestCase
         $date = Carbon::createFromFormat('Y-m-d H:i:s', '1978-10-01 17:56:03');
 
         $this->assertEquals(
-            'Oct 01, 1978 17:56',
+            'Oct 01, 1978 05:56 PM',
             DateHelper::formatShortDateWithTime($date)
         );
     }
@@ -52,7 +52,7 @@ class DateHelperTest extends TestCase
         $date = Carbon::createFromFormat('Y-m-d H:i:s', '1978-10-01 17:56:03');
 
         $this->assertEquals(
-            'Oct 02, 1978 01:56',
+            'Oct 02, 1978 01:56 AM',
             DateHelper::formatShortDateWithTime($date, 'Australia/Perth')
         );
     }

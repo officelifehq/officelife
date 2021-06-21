@@ -6,7 +6,6 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Adminland\Company\DestroyCompany;
@@ -30,10 +29,14 @@ class AdminCancelAccountController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     * @return JsonResponse
+     * @return mixed
      */
-    public function destroy(Request $request, int $companyId): JsonResponse
+    public function destroy(Request $request, int $companyId)
     {
+        if (config('officelife.demo_mode')) {
+            return redirect()->route('home');
+        }
+
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
