@@ -95,8 +95,10 @@
         </p>
 
         <!-- no worklogs yet -->
-        <div v-show="localWorklogEntries.length == 0" class="tc mt2">
-          😢 {{ $t('dashboard.team_worklog_blank') }}
+        <div v-if="localWorklogEntries.length === 0" class="tc mt2">
+          <span class="mr1">
+            😢
+          </span> {{ $t('dashboard.team_worklog_blank') }}
         </div>
 
         <!-- list of worklogs -->
@@ -108,10 +110,10 @@
               :avatar="worklogEntry.avatar"
             />
 
-            <span v-if="worklogEntry.can_delete_worklog && idToDelete != worklogEntry.id" class="f6 gray bb b--dotted bt-0 bl-0 br-0 pointer di c-delete" @click="showDeleteMode(worklogEntry.id)">
+            <span v-if="worklogEntry.can_delete_worklog && idToDelete !== worklogEntry.id" class="f6 gray bb b--dotted bt-0 bl-0 br-0 pointer di c-delete" @click="showDeleteMode(worklogEntry.id)">
               {{ $t('app.delete') }}
             </span>
-            <span v-if="idToDelete == worklogEntry.id" class="f6">
+            <span v-if="idToDelete === worklogEntry.id" class="f6">
               {{ $t('app.sure') }}
               <a class="c-delete mr1 pointer" @click.prevent="destroy(worklogEntry.id, worklogEntry.employee_id)">
                 {{ $t('app.yes') }}

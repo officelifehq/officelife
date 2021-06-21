@@ -155,7 +155,7 @@ abstract class BaseService
         $isManager = $manager->isManagerOf($employeeId);
         $this->bypassRequiredPermissionLevel = $isManager;
 
-        if ($this->bypassRequiredPermissionLevel == false) {
+        if ($this->bypassRequiredPermissionLevel === false) {
             $this->bypassRequiredPermissionLevel = ($this->authorId == $employeeId);
         }
 

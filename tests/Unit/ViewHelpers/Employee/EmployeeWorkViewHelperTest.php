@@ -31,7 +31,7 @@ class EmployeeWorkViewHelperTest extends TestCase
         for ($i = 0; $i < 7; $i++) {
             $day = $startOfWeek->copy()->startOfWeek()->addDays($i);
 
-            $worklog = Worklog::factory()->create([
+            Worklog::factory()->create([
                 'employee_id' => $michael->id,
                 'content' => 'test',
                 'created_at' => $day,
