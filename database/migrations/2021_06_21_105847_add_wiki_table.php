@@ -34,7 +34,7 @@ class AddWikiTable extends Migration
         Schema::create('page_revisions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('page_id');
-            $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('employee_id')->nullable();
             $table->string('employee_name');
             $table->text('content');
             $table->timestamps();
