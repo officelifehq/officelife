@@ -4,6 +4,7 @@ return [
     'menu_projects' => 'Projects',
     'menu_groups' => 'Groups',
     'menu_hr' => 'Human Resources',
+    'menu_kb' => 'Knowledge base',
     'stat_number_of_employees' => 'number of employees',
     'stat_number_of_teams' => 'number of teams',
     'stat_founded_at' => 'founded',

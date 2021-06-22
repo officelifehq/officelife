@@ -153,6 +153,8 @@ return [
     'breadcrumb_group_detail' => 'Detail of a group',
     'breadcrumb_group_delete' => 'Delete the group',
     'breadcrumb_group_edit' => 'Edit the group',
+    'breadcrumb_kb_list' => 'Knowledge base',
+    'breadcrumb_kb_create' => 'Create a wiki',
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',
     'header_find' => 'Find',

@@ -319,6 +319,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::delete('{project}/files/{file}', 'Company\\Company\\Project\\ProjectFilesController@destroy');
             });
 
+            // Groups
             Route::prefix('groups')->group(function () {
                 Route::get('', 'Company\\Company\\Group\\GroupController@index');
                 Route::get('create', 'Company\\Company\\Group\\GroupController@create')->name('groups.new');
@@ -358,6 +359,20 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
             Route::prefix('hr')->group(function () {
                 Route::get('', 'Company\\Company\\HR\\CompanyHRController@index');
+            });
+
+            // Knowledge base
+            Route::prefix('kb')->group(function () {
+                // Wikis
+                Route::get('', 'Company\\Company\\KB\\KnowledgeBaseController@index')->name('wikis.index');
+                Route::get('create', 'Company\\Company\\KB\\KnowledgeBaseController@create')->name('wikis.new');
+                Route::post('', 'Company\\Company\\KB\\KnowledgeBaseController@store');
+                Route::get('{wiki}', 'Company\\Company\\KB\\KnowledgeBaseController@show')->name('wikis.show');
+                Route::delete('{wiki}', 'Company\\Company\\KB\\KnowledgeBaseController@destroy')->name('wikis.destroy');
+
+                // Pages
+                Route::get('{wiki}/pages/{page}', 'Company\\Company\\KB\\PagesController@show')->name('pages.show');
+                Route::get('{wiki}/pages/create', 'Company\\Company\\KB\\PagesController@create')->name('pages.new');
             });
         });
 
