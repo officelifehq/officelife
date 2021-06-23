@@ -25,6 +25,8 @@ class KnowledgeBaseShowViewHelper
             $pagesCollection->push([
                 'id' => $page->id,
                 'title' => $page->title,
+                'first_revision' => $page->getOriginalAuthor(),
+                'last_revision' => $page->getMostRecentAuthor(),
                 'url' => route('pages.show', [
                     'company' => $company,
                     'wiki' => $wiki,

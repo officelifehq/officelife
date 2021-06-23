@@ -48,7 +48,7 @@
                       {{ page.title }}
                     </inertia-link>
 
-                    <p class="ma0 gray f6">{{ page.content }}</p>
+                    <p class="ma0 gray f6">{{ page.first_revision.name }}</p>
                   </div>
                 </li>
               </ul>
