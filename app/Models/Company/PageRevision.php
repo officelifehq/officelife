@@ -3,11 +3,10 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Page extends Model
+class PageRevision extends Model
 {
     use HasFactory;
 
@@ -17,7 +16,9 @@ class Page extends Model
      * @var array
      */
     protected $fillable = [
-        'wiki_id',
+        'page_id',
+        'employee_id',
+        'employee_name',
         'title',
         'content',
     ];
@@ -27,18 +28,18 @@ class Page extends Model
      *
      * @return BelongsTo
      */
-    public function wiki()
+    public function page()
     {
-        return $this->belongsTo(Wiki::class);
+        return $this->belongsTo(Page::class);
     }
 
     /**
-     * Get the page revision records associated with the page.
+     * Get the employee record associated with the page.
      *
-     * @return HasMany
+     * @return BelongsTo
      */
-    public function revisions()
+    public function employee()
     {
-        return $this->hasMany(PageRevision::class);
+        return $this->belongsTo(Employee::class);
     }
 }

@@ -36,6 +36,7 @@ class AddWikiTable extends Migration
             $table->unsignedBigInteger('page_id');
             $table->unsignedBigInteger('employee_id')->nullable();
             $table->string('employee_name');
+            $table->string('title');
             $table->text('content');
             $table->timestamps();
             $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');

@@ -44,7 +44,7 @@
                   </svg>
 
                   <div class="mb2 relative">
-                    <inertia-link :href="page.url" class="f4 db mb2">
+                    <inertia-link :href="page.url" class="f4 dib mb2">
                       {{ page.title }}
                     </inertia-link>
 
