@@ -3,7 +3,6 @@
 namespace Tests\Unit\ViewHelpers\Company\KB;
 
 use Tests\TestCase;
-use Illuminate\Support\Str;
 use App\Models\Company\Page;
 use App\Models\Company\Wiki;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -41,7 +40,6 @@ class KnowledgeBaseShowViewHelperTest extends TestCase
                 0 => [
                     'id' => $wiki->id,
                     'title' => $wiki->title,
-                    'content' => Str::limit($wiki->content, 20),
                     'url' => env('APP_URL').'/'.$michael->company_id. '/company/kb/'.$wiki->id.'/pages/'.$page->id,
                 ],
             ],

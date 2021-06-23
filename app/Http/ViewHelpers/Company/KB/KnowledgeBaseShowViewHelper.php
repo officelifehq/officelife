@@ -2,7 +2,6 @@
 
 namespace App\Http\ViewHelpers\Company\KB;
 
-use Illuminate\Support\Str;
 use App\Models\Company\Wiki;
 use App\Models\Company\Company;
 
@@ -24,9 +23,8 @@ class KnowledgeBaseShowViewHelper
         $pagesCollection = collect([]);
         foreach ($pages as $page) {
             $pagesCollection->push([
-                'id' => $wiki->id,
-                'title' => $wiki->title,
-                'content' => Str::limit($wiki->content, 20),
+                'id' => $page->id,
+                'title' => $page->title,
                 'url' => route('pages.show', [
                     'company' => $company,
                     'wiki' => $wiki,
