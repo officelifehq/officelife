@@ -657,4 +657,12 @@ return [
     'import_employees_show_title_created' => 'Votre import est sur le point de démarrer…',
     'import_employees_status_importing' => 'en cours d’importation',
     'import_employees_status_started' => 'démarré',
+    'software_show_files_blank' => 'Il n’y a pas encore de fichiers associés à ce logiciel.',
+    'software_show_files' => 'Fichiers',
+    'import_employees_show_title_failed' => 'L’importation a échoué',
+    'expense_destroy_success' => 'La note de frais a été supprimée.',
+    'employee_log_expense_destroyed' => 'Suppression de la note de frais appelée :expense_title.',
+    'log_software_file_destroyed' => 'Suppression du fichier appelé :name qui était associé au logiciel appelé :software_name.',
+    'log_file_added_to_software' => 'Téléversé un fichier appelé :name associé au logiciel appelé :software_name.',
+    'log_expense_destroyed' => 'Suppression de la note de frais appelée :expense_title de :employee_name.',
 ];
