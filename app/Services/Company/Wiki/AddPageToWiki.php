@@ -66,6 +66,7 @@ class AddPageToWiki extends BaseService
             'wiki_id' => $this->data['wiki_id'],
             'title' => $this->data['title'],
             'content' => $this->data['content'],
+            'pageviews_counter' => 0,
         ]);
     }
 
