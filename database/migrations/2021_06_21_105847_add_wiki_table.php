@@ -27,6 +27,7 @@ class AddWikiTable extends Migration
             $table->unsignedBigInteger('wiki_id')->nullable();
             $table->string('title');
             $table->text('content');
+            $table->integer('pageviews_counter');
             $table->timestamps();
             $table->foreign('wiki_id')->references('id')->on('wikis')->onDelete('cascade');
         });
@@ -38,6 +39,16 @@ class AddWikiTable extends Migration
             $table->string('employee_name');
             $table->string('title');
             $table->text('content');
+            $table->timestamps();
+            $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('set null');
+        });
+
+        Schema::create('pageviews', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('page_id');
+            $table->unsignedBigInteger('employee_id')->nullable();
+            $table->string('employee_name');
             $table->timestamps();
             $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('set null');

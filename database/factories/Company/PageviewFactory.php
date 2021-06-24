@@ -3,17 +3,18 @@
 namespace Database\Factories\Company;
 
 use App\Models\Company\Page;
-use App\Models\Company\Wiki;
+use App\Models\Company\Employee;
+use App\Models\Company\Pageview;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PageFactory extends Factory
+class PageviewFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Page::class;
+    protected $model = Pageview::class;
 
     /**
      * Define the model's default state.
@@ -23,10 +24,9 @@ class PageFactory extends Factory
     public function definition()
     {
         return [
-            'wiki_id' => Wiki::factory(),
-            'title' => $this->faker->text(100),
-            'content' => $this->faker->text(),
-            'pageviews_counter' => 0,
+            'page_id' => Page::factory(),
+            'employee_id' => Employee::factory(),
+            'employee_name' => $this->faker->name(),
         ];
     }
 }

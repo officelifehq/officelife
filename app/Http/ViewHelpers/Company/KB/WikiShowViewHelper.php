@@ -5,7 +5,7 @@ namespace App\Http\ViewHelpers\Company\KB;
 use App\Models\Company\Wiki;
 use App\Models\Company\Company;
 
-class KnowledgeBaseShowViewHelper
+class WikiShowViewHelper
 {
     /**
      * Get the detail of a wiki.

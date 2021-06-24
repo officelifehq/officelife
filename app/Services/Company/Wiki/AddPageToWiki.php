@@ -41,6 +41,7 @@ class AddPageToWiki extends BaseService
         $this->data = $data;
         $this->validate();
         $this->createPage();
+        $this->createPageRevision();
         $this->log();
 
         return $this->page;
@@ -65,6 +66,16 @@ class AddPageToWiki extends BaseService
             'wiki_id' => $this->data['wiki_id'],
             'title' => $this->data['title'],
             'content' => $this->data['content'],
+        ]);
+    }
+
+    private function createPageRevision(): void
+    {
+        (new CreatePageRevision)->execute([
+            'company_id' => $this->data['company_id'],
+            'author_id' => $this->data['author_id'],
+            'wiki_id' => $this->data['wiki_id'],
+            'page_id' => $this->page->id,
         ]);
     }
 

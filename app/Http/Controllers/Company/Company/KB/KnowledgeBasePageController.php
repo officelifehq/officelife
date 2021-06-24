@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Company\KB;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Company\Page;
 use App\Models\Company\Wiki;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
@@ -12,9 +13,10 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Wiki\AddPageToWiki;
 use App\Http\ViewHelpers\Company\CompanyViewHelper;
+use App\Http\ViewHelpers\Company\KB\WikiViewHelper;
+use App\Http\ViewHelpers\Company\KB\PageShowViewHelper;
+use App\Http\ViewHelpers\Company\KB\WikiShowViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\KB\KnowledgeBaseViewHelper;
-use App\Http\ViewHelpers\Company\KB\KnowledgeBaseShowViewHelper;
 
 class KnowledgeBasePageController extends Controller
 {
@@ -33,7 +35,7 @@ class KnowledgeBasePageController extends Controller
         return Inertia::render('Company/KB/Index', [
             'statistics' => $statistics,
             'tab' => 'kb',
-            'wikis' => KnowledgeBaseViewHelper::index($company),
+            'wikis' => WikiViewHelper::index($company),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -58,7 +60,7 @@ class KnowledgeBasePageController extends Controller
         }
 
         return Inertia::render('Company/KB/Page/Create', [
-            'wiki' => KnowledgeBaseShowViewHelper::show($wiki, $loggedCompany),
+            'wiki' => WikiShowViewHelper::show($wiki, $loggedCompany),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -103,9 +105,10 @@ class KnowledgeBasePageController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $wikiId
-     * @return Response
+     * @param int $pageId
+     * @return mixed
      */
-    public function show(Request $request, int $companyId, int $wikiId): Response
+    public function show(Request $request, int $companyId, int $wikiId, int $pageId)
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
@@ -116,8 +119,15 @@ class KnowledgeBasePageController extends Controller
             return redirect('home');
         }
 
-        return Inertia::render('Company/KB/Show', [
-            'wiki' => KnowledgeBaseShowViewHelper::show($wiki, $loggedCompany),
+        try {
+            $page = Page::where('wiki_id', $wiki->id)
+                ->findOrFail($pageId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        return Inertia::render('Company/KB/Page/Show', [
+            'page' => PageShowViewHelper::show($page),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

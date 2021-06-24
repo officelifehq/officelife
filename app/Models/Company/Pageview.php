@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class PageRevision extends Model
+class Pageview extends Model
 {
     use HasFactory;
 
@@ -19,12 +19,10 @@ class PageRevision extends Model
         'page_id',
         'employee_id',
         'employee_name',
-        'title',
-        'content',
     ];
 
     /**
-     * Get the page record associated with the page revision.
+     * Get the page record associated with the pageview.
      *
      * @return BelongsTo
      */
@@ -34,7 +32,7 @@ class PageRevision extends Model
     }
 
     /**
-     * Get the employee record associated with the page revision.
+     * Get the employee record associated with the pageview.
      *
      * @return BelongsTo
      */

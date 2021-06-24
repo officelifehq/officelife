@@ -105,6 +105,7 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/company/kb`, this.form)
         .then(response => {
+          localStorage.success = this.$t('kb.create_success');
           this.$inertia.visit(response.data.data.url);
         })
         .catch(error => {

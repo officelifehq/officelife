@@ -3,6 +3,7 @@
 namespace App\Models\Company;
 
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +22,7 @@ class Page extends Model
         'wiki_id',
         'title',
         'content',
+        'pageviews_counter',
     ];
 
     /**
@@ -44,26 +46,48 @@ class Page extends Model
     }
 
     /**
+     * Get the pageview records associated with the page.
+     *
+     * @return HasMany
+     */
+    public function pageviews()
+    {
+        return $this->hasMany(Pageview::class);
+    }
+
+    /**
      * Get the author (employee) who initially wrote the page.
      * If the author doesn't exist in the system anymore, we simply use the
      * name that was saved in the table instead.
      *
+     * @param int $imageSize
      * @return array|null
      */
-    public function getOriginalAuthor(): ?array
+    public function getOriginalAuthor(int $imageSize = null): ?array
     {
         $firstRevision = $this->revisions()->with('employee')->first();
+        $employee = $firstRevision->employee;
 
         if (! $firstRevision) {
             return null;
         }
 
-        $name = $firstRevision->employee ?
-            $firstRevision->employee_name :
-            $firstRevision->employee->name;
+        $name = $employee ?
+            $employee->name :
+            $firstRevision->employee_name;
+
+        $image = $employee && $imageSize ?
+            ImageHelper::getAvatar($employee, $imageSize) :
+            null;
 
         return [
+            'id' => $employee ? $employee->id : null,
             'name' => $name,
+            'avatar' => $image,
+            'url' => $employee ? route('employees.show', [
+                'company' => $employee->company_id,
+                'employee' => $employee,
+            ]) : null,
             'created_at' => DateHelper::formatDate($firstRevision->created_at),
         ];
     }
@@ -71,22 +95,34 @@ class Page extends Model
     /**
      * Get the most recent editor (employee) of the page.
      *
+     * @param int $imageSize
      * @return array|null
      */
-    public function getMostRecentAuthor(): ?array
+    public function getMostRecentAuthor(int $imageSize = null): ?array
     {
         $lastRevision = $this->revisions()->with('employee')->orderByDesc('id')->first();
+        $employee = $lastRevision->employee;
 
         if (! $lastRevision) {
             return null;
         }
 
-        $name = $lastRevision->employee ?
-            $lastRevision->employee_name :
-            $lastRevision->employee->name;
+        $name = $employee ?
+            $employee->name :
+            $lastRevision->employee_name;
+
+        $image = $employee && $imageSize ?
+            ImageHelper::getAvatar($employee, $imageSize) :
+            null;
 
         return [
+            'id' => $employee ? $employee->id : null,
             'name' => $name,
+            'avatar' => $image,
+            'url' => $employee ? route('employees.show', [
+                'company' => $employee->company_id,
+                'employee' => $employee,
+            ]) : null,
             'created_at' => DateHelper::formatDate($lastRevision->created_at),
         ];
     }

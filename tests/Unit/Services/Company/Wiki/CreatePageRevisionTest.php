@@ -5,46 +5,55 @@ namespace Tests\Unit\Services\Company\Wiki;
 use Tests\TestCase;
 use App\Models\Company\Page;
 use App\Models\Company\Wiki;
-use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
+use App\Models\Company\PageRevision;
 use Illuminate\Support\Facades\Queue;
-use App\Services\Company\Wiki\AddPageToWiki;
 use Illuminate\Validation\ValidationException;
+use App\Services\Company\Wiki\CreatePageRevision;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class AddPageToWikiTest extends TestCase
+class CreatePageRevisionTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_adds_a_page_to_a_wiki_as_administrator(): void
+    public function it_creates_a_page_revision_as_administrator(): void
     {
         $michael = $this->createAdministrator();
         $wiki = Wiki::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $wiki);
+        $page = Page::factory()->create([
+            'wiki_id' => $wiki->id,
+        ]);
+        $this->executeService($michael, $wiki, $page);
     }
 
     /** @test */
-    public function it_adds_a_page_to_a_wiki_as_hr(): void
+    public function it_creates_a_page_revision_as_hr(): void
     {
         $michael = $this->createHR();
         $wiki = Wiki::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $wiki);
+        $page = Page::factory()->create([
+            'wiki_id' => $wiki->id,
+        ]);
+        $this->executeService($michael, $wiki, $page);
     }
 
     /** @test */
-    public function it_adds_a_page_to_a_wiki_as_normal_user(): void
+    public function it_creates_a_page_revision_as_normal_user(): void
     {
         $michael = $this->createEmployee();
         $wiki = Wiki::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $wiki);
+        $page = Page::factory()->create([
+            'wiki_id' => $wiki->id,
+        ]);
+        $this->executeService($michael, $wiki, $page);
     }
 
     /** @test */
@@ -55,20 +64,36 @@ class AddPageToWikiTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new AddPageToWiki)->execute($request);
+        (new CreatePageRevision)->execute($request);
     }
 
     /** @test */
     public function it_fails_if_the_wiki_is_not_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $wiki = Wiki::factory()->create([]);
+        $wiki = Wiki::factory()->create();
+        $page = Page::factory()->create([
+            'wiki_id' => $wiki->id,
+        ]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $wiki);
+        $this->executeService($michael, $wiki, $page);
     }
 
-    private function executeService(Employee $michael, Wiki $wiki): void
+    /** @test */
+    public function it_fails_if_the_page_is_not_in_the_wiki(): void
+    {
+        $michael = $this->createAdministrator();
+        $wiki = Wiki::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $page = Page::factory()->create([]);
+
+        $this->expectException(ModelNotFoundException::class);
+        $this->executeService($michael, $wiki, $page);
+    }
+
+    private function executeService(Employee $michael, Wiki $wiki, Page $page): void
     {
         Queue::fake();
 
@@ -76,18 +101,10 @@ class AddPageToWikiTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'wiki_id' => $wiki->id,
-            'title' => 'title',
-            'content' => 'content',
+            'page_id' => $page->id,
         ];
 
-        $page = (new AddPageToWiki)->execute($request);
-
-        $this->assertDatabaseHas('pages', [
-            'id' => $page->id,
-            'wiki_id' => $page->wiki_id,
-            'title' => $page->title,
-            'content' => $page->content,
-        ]);
+        $pageRevision = (new CreatePageRevision)->execute($request);
 
         $this->assertDatabaseHas('page_revisions', [
             'id' => $page->id,
@@ -99,19 +116,8 @@ class AddPageToWikiTest extends TestCase
         ]);
 
         $this->assertInstanceOf(
-            Page::class,
-            $page
+            PageRevision::class,
+            $pageRevision
         );
-
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $wiki, $page) {
-            return $job->auditLog['action'] === 'page_created' &&
-                $job->auditLog['author_id'] === $michael->id &&
-                $job->auditLog['objects'] === json_encode([
-                    'wiki_id' => $wiki->id,
-                    'wiki_title' => $wiki->title,
-                    'page_id' => $page->id,
-                    'page_title' => $page->title,
-                ]);
-        });
     }
 }

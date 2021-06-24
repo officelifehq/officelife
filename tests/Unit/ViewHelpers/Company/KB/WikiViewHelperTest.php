@@ -7,10 +7,10 @@ use Illuminate\Support\Str;
 use App\Models\Company\Page;
 use App\Models\Company\Wiki;
 use Illuminate\Support\Facades\DB;
+use App\Http\ViewHelpers\Company\KB\WikiViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\KB\KnowledgeBaseViewHelper;
 
-class KnowledgeBaseViewHelperTest extends TestCase
+class WikiViewHelperTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -25,7 +25,7 @@ class KnowledgeBaseViewHelperTest extends TestCase
             'wiki_id' => $wiki->id,
         ]);
 
-        $array = KnowledgeBaseViewHelper::index($michael->company);
+        $array = WikiViewHelper::index($michael->company);
         $this->assertEquals(1, count($array['data']));
 
         $this->assertEquals(
@@ -69,7 +69,7 @@ class KnowledgeBaseViewHelperTest extends TestCase
             ->orderBy('pages.updated_at', 'desc')
             ->paginate(10);
 
-        $array = KnowledgeBaseViewHelper::pages($pages, $michael->company);
+        $array = WikiViewHelper::pages($pages, $michael->company);
 
         $this->assertEquals(1, count($array['data']));
 

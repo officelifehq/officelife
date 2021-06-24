@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Project;
+namespace Tests\Unit\Services\Company\Wiki;
 
 use Tests\TestCase;
 use App\Models\Company\Page;

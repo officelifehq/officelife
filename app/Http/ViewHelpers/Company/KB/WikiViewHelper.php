@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use App\Models\Company\Company;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class KnowledgeBaseViewHelper
+class WikiViewHelper
 {
     /**
      * Get all the wikis in the company.

@@ -5,10 +5,10 @@ namespace Tests\Unit\ViewHelpers\Company\KB;
 use Tests\TestCase;
 use App\Models\Company\Page;
 use App\Models\Company\Wiki;
+use App\Http\ViewHelpers\Company\KB\WikiShowViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\KB\KnowledgeBaseShowViewHelper;
 
-class KnowledgeBaseShowViewHelperTest extends TestCase
+class WikiShowViewHelperTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -23,7 +23,7 @@ class KnowledgeBaseShowViewHelperTest extends TestCase
             'wiki_id' => $wiki->id,
         ]);
 
-        $array = KnowledgeBaseShowViewHelper::show($wiki, $michael->company);
+        $array = WikiShowViewHelper::show($wiki, $michael->company);
 
         $this->assertEquals(
             $wiki->id,

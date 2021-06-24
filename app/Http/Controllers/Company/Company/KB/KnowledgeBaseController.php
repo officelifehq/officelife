@@ -12,9 +12,9 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Wiki\CreateWiki;
 use App\Http\ViewHelpers\Company\CompanyViewHelper;
+use App\Http\ViewHelpers\Company\KB\WikiViewHelper;
+use App\Http\ViewHelpers\Company\KB\WikiShowViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\KB\KnowledgeBaseViewHelper;
-use App\Http\ViewHelpers\Company\KB\KnowledgeBaseShowViewHelper;
 
 class KnowledgeBaseController extends Controller
 {
@@ -33,7 +33,7 @@ class KnowledgeBaseController extends Controller
         return Inertia::render('Company/KB/Index', [
             'statistics' => $statistics,
             'tab' => 'kb',
-            'wikis' => KnowledgeBaseViewHelper::index($company),
+            'wikis' => WikiViewHelper::index($company),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -102,7 +102,7 @@ class KnowledgeBaseController extends Controller
         }
 
         return Inertia::render('Company/KB/Show', [
-            'wiki' => KnowledgeBaseShowViewHelper::show($wiki, $loggedCompany),
+            'wiki' => WikiShowViewHelper::show($wiki, $loggedCompany),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

@@ -17,7 +17,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/company/kb/' + wiki.id">{{ wiki.title }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_kb_create') }}
+            {{ $t('app.breadcrumb_page_create') }}
           </li>
         </ul>
       </div>

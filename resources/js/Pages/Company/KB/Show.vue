@@ -6,6 +6,11 @@
 .page-item:not(:first-child) {
   padding-top: 0;
 }
+
+.folder-icon {
+  width: 26px;
+  top: 6px;
+}
 </style>
 
 <template>
@@ -18,7 +23,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/kb'">{{ $t('app.breadcrumb_wiki_list') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/kb'">{{ $t('app.breadcrumb_kb_list') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_wiki_detail') }}
@@ -27,8 +32,11 @@
       </div>
 
       <!-- BODY -->
-      <div class="mw7 center br3 mb5 relative z-1">
-        <h2 class="tc normal mb2 lh-copy">
+      <div class="mw8 center br3 mb5 relative z-1">
+        <h2 class="normal mb2 lh-copy relative f3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="folder-icon relative mr1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" />
+          </svg>
           {{ wiki.title }}
         </h2>
 
@@ -48,7 +56,10 @@
                       {{ page.title }}
                     </inertia-link>
 
-                    <p class="ma0 gray f6">{{ page.first_revision.name }}</p>
+                    <ul class="ma0 gray f7 pl0 list">
+                      <li class="di mr2">{{ $t('kb.show_written_by', {name: page.first_revision.name, date: page.first_revision.created_at}) }}</li>
+                      <li class="di"><span class="mr1">•</span> {{ $t('kb.show_edited_by', {name: page.last_revision.name, date: page.last_revision.created_at}) }}</li>
+                    </ul>
                   </div>
                 </li>
               </ul>
