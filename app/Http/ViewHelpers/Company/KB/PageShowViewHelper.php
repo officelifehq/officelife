@@ -27,6 +27,11 @@ class PageShowViewHelper
             'number_of_revisions' => $numberOfRevisions,
             'original_author' => $originalAuthor,
             'most_recent_author' => $mostRecentAuthor,
+            'url_edit' => route('pages.edit', [
+                'company' => $page->wiki->company,
+                'wiki' => $page->wiki,
+                'page' => $page,
+            ]),
             'wiki' => [
                 'id' => $page->wiki_id,
             ],

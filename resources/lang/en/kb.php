@@ -21,4 +21,7 @@ return [
     'page_create_input_title' => 'Title of the page',
     'page_create_input_title_help' => 'Give a relevant name so your co-workers can understand it easily',
     'page_create_input_content' => 'Content of the page',
+
+    'page_edit_title' => 'Edit page',
+    'page_edit_success' => 'The page has been edited.',
 ];

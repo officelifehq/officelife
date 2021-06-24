@@ -78,7 +78,7 @@
 
             <div class="f7">
               <ul class="ma0 pl0 list">
-                <li class="di"><a class="bb b--dotted bt-0 bl-0 br-0 pointer mr3">{{ $t('app.edit') }}</a></li>
+                <li class="di"><inertia-link :href="page.url_edit" class="bb b--dotted bt-0 bl-0 br-0 pointer mr3">{{ $t('app.edit') }}</inertia-link></li>
                 <li v-if="!showDeleteMode" class="di"><a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click="showDeleteMode = true">{{ $t('app.delete') }}</a></li>
                 <li v-else class="di">
                   {{ $t('app.sure') }}
@@ -131,6 +131,13 @@ export default {
     return {
       showDeleteMode: false,
     };
+  },
+
+  mounted() {
+    if (localStorage.success) {
+      this.flash(localStorage.success, 'success');
+      localStorage.removeItem('success');
+    }
   },
 
   methods: {
