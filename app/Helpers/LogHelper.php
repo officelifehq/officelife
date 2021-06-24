@@ -1336,6 +1336,15 @@ class LogHelper
                 ]);
                 break;
 
+            case 'page_updated':
+                $sentence = trans('account.log_page_updated', [
+                        'wiki_id' => $log->object->{'wiki_id'},
+                        'wiki_title' => $log->object->{'wiki_title'},
+                        'page_id' => $log->object->{'page_id'},
+                        'page_title' => $log->object->{'page_title'},
+                    ]);
+                break;
+
             case 'page_destroyed':
                 $sentence = trans('account.log_page_destroyed', [
                     'wiki_title' => $log->object->{'wiki_title'},

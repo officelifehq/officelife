@@ -329,6 +329,7 @@ return [
     'log_wiki_created' => 'Created the wiki called :wiki_title.',
     'log_wiki_destroyed' => 'Deleted the wiki called :wiki_title.',
     'log_page_added_to_wiki' => 'Added a page called :page_title to the wiki called :wiki_title.',
+    'log_page_updated' => 'Updated the page called :page_title in the wiki called :wiki_title.',
     'log_page_destroyed' => 'Deleted a page called :page_title in the wiki called :wiki_title.',
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
