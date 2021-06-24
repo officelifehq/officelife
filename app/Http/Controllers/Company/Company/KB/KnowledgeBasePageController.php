@@ -50,9 +50,9 @@ class KnowledgeBasePageController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $wikiId
-     * @return Response
+     * @return mixed
      */
-    public function create(Request $request, int $companyId, int $wikiId): Response
+    public function create(Request $request, int $companyId, int $wikiId)
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
