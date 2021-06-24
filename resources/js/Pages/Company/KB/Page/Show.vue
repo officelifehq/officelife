@@ -57,27 +57,49 @@
           </h2>
 
           <!-- written by information  -->
-          <div class="relative flex justify-center mb4">
+          <div class="relative flex justify-center items-center mb4">
             <!-- original author -->
             <div class="flex items-center mr4">
               <avatar :avatar="page.original_author.avatar" :url="page.original_author.url" :size="25" :class="'br-100 avatar mr2'" />
               <div class="gray f7">
-                <p class="mt0 mr0 ml0 mb1">Written by {{ page.original_author.name }}</p>
-                <p class="ma0">on {{ page.original_author.created_at }}</p>
+                <p class="mt0 mr0 ml0 mb1">{{ $t('kb.page_show_written_by', {name: page.original_author.name}) }}</p>
+                <p class="ma0">{{ $t('kb.page_show_on', {date: page.original_author.created_at}) }}</p>
               </div>
             </div>
 
             <!-- most recent author -->
-            <div class="flex items-center">
+            <div class="flex items-center mr4">
               <avatar :avatar="page.most_recent_author.avatar" :url="page.most_recent_author.url" :size="25" :class="'br-100 avatar mr2'" />
               <div class="gray f7">
-                <p class="mt0 mr0 ml0 mb1">Last edited by {{ page.most_recent_author.name }}</p>
-                <p class="ma0">on {{ page.most_recent_author.created_at }}</p>
+                <p class="mt0 mr0 ml0 mb1">{{ $t('kb.page_show_edited_by', {name: page.most_recent_author.name}) }}</p>
+                <p class="ma0">{{ $t('kb.page_show_on', {date: page.most_recent_author.created_at}) }}</p>
               </div>
+            </div>
+
+            <div class="f7">
+              <ul class="ma0 pl0 list">
+                <li class="di"><a class="bb b--dotted bt-0 bl-0 br-0 pointer mr3">{{ $t('app.edit') }}</a></li>
+                <li v-if="!showDeleteMode" class="di"><a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click="showDeleteMode = true">{{ $t('app.delete') }}</a></li>
+                <li v-else class="di">
+                  {{ $t('app.sure') }}
+                  <a class="c-delete mr1 pointer" @click.prevent="destroy()">
+                    {{ $t('app.yes') }}
+                  </a>
+                  <a class="pointer" @click.prevent="showDeleteMode = false">
+                    {{ $t('app.no') }}
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
 
-          <div class="parsed-content" v-html="page.content"></div>
+          <!-- parsed content of the page -->
+          <div class="parsed-content mb3" v-html="page.content"></div>
+
+          <!-- stats -->
+          <div class="f7 gray">
+            {{ page.pageviews_counter }} views
+          </div>
         </div>
       </div>
     </div>
@@ -107,10 +129,21 @@ export default {
 
   data() {
     return {
+      showDeleteMode: false,
     };
   },
 
   methods: {
+    destroy(id) {
+      axios.delete(`/${this.$page.props.auth.company.id}/company/kb/${this.page.wiki.id}/pages/${this.page.id}`)
+        .then(response => {
+          localStorage.success = this.$t('kb.page_destroyed_success');
+          this.$inertia.visit(response.data.data.url);
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+    },
   }
 };
 

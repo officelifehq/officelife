@@ -12,6 +12,11 @@ return [
     'show_written_by' => 'Written by {name} on {date}',
     'show_edited_by' => 'Last edited by {name} on {date}',
 
+    'page_show_written_by' => 'Written by {name}',
+    'page_show_edited_by' => 'Last edited by {name}',
+    'page_show_on' => 'on {date}',
+    'page_destroyed_success' => 'The page has been deleted.',
+
     'page_create_title' => 'Add a new page',
     'page_create_input_title' => 'Title of the page',
     'page_create_input_title_help' => 'Give a relevant name so your co-workers can understand it easily',

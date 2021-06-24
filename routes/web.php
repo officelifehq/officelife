@@ -374,6 +374,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('{wiki}/pages/create', 'Company\\Company\\KB\\KnowledgeBasePageController@create')->name('pages.new');
                 Route::post('{wiki}/pages', 'Company\\Company\\KB\\KnowledgeBasePageController@store');
                 Route::get('{wiki}/pages/{page}', 'Company\\Company\\KB\\KnowledgeBasePageController@show')->name('pages.show');
+                Route::delete('{wiki}/pages/{page}', 'Company\\Company\\KB\\KnowledgeBasePageController@destroy');
             });
         });
 

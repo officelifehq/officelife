@@ -107,7 +107,6 @@ class CreatePageRevisionTest extends TestCase
         $pageRevision = (new CreatePageRevision)->execute($request);
 
         $this->assertDatabaseHas('page_revisions', [
-            'id' => $page->id,
             'page_id' => $page->id,
             'employee_id' => $michael->id,
             'employee_name' => $michael->name,

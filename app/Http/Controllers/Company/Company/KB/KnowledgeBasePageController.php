@@ -11,6 +11,7 @@ use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Services\Company\Wiki\DestroyPage;
 use App\Services\Company\Wiki\AddPageToWiki;
 use App\Http\ViewHelpers\Company\CompanyViewHelper;
 use App\Http\ViewHelpers\Company\KB\WikiViewHelper;
@@ -138,5 +139,38 @@ class KnowledgeBasePageController extends Controller
             'page' => PageShowViewHelper::show($page),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
+    }
+
+    /**
+     * Delete the page.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $wikiId
+     * @param int $pageId
+     * @return JsonResponse
+     */
+    public function destroy(Request $request, int $companyId, int $wikiId, int $pageId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        $data = [
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'wiki_id' => $wikiId,
+            'page_id' => $pageId,
+        ];
+
+        (new DestroyPage)->execute($data);
+
+        return response()->json([
+            'data' => [
+                'url' => route('wikis.show', [
+                    'company' => $loggedCompany,
+                    'wiki' => $wikiId,
+                ]),
+            ],
+        ], 200);
     }
 }
