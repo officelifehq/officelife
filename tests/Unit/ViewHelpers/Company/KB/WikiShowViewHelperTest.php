@@ -38,8 +38,10 @@ class WikiShowViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 0 => [
-                    'id' => $wiki->id,
-                    'title' => $wiki->title,
+                    'id' => $page->id,
+                    'title' => $page->title,
+                    'first_revision' => null,
+                    'last_revision' => null,
                     'url' => env('APP_URL').'/'.$michael->company_id. '/company/kb/'.$wiki->id.'/pages/'.$page->id,
                 ],
             ],

@@ -21,6 +21,7 @@ class PageShowViewHelper
 
         return [
             'id' => $page->id,
+            'pageviews_counter' => $page->pageviews_counter,
             'title' => $page->title,
             'content' => StringHelper::parse($page->content),
             'number_of_revisions' => $numberOfRevisions,

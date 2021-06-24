@@ -66,11 +66,11 @@ class Page extends Model
     public function getOriginalAuthor(int $imageSize = null): ?array
     {
         $firstRevision = $this->revisions()->with('employee')->first();
-        $employee = $firstRevision->employee;
-
         if (! $firstRevision) {
             return null;
         }
+
+        $employee = $firstRevision->employee;
 
         $name = $employee ?
             $employee->name :
@@ -101,11 +101,11 @@ class Page extends Model
     public function getMostRecentAuthor(int $imageSize = null): ?array
     {
         $lastRevision = $this->revisions()->with('employee')->orderByDesc('id')->first();
-        $employee = $lastRevision->employee;
-
         if (! $lastRevision) {
             return null;
         }
+
+        $employee = $lastRevision->employee;
 
         $name = $employee ?
             $employee->name :

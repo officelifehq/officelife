@@ -16,6 +16,7 @@ use App\Http\ViewHelpers\Company\CompanyViewHelper;
 use App\Http\ViewHelpers\Company\KB\WikiViewHelper;
 use App\Http\ViewHelpers\Company\KB\PageShowViewHelper;
 use App\Http\ViewHelpers\Company\KB\WikiShowViewHelper;
+use App\Services\Company\Wiki\IncrementPageViewForPage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class KnowledgeBasePageController extends Controller
@@ -111,6 +112,7 @@ class KnowledgeBasePageController extends Controller
     public function show(Request $request, int $companyId, int $wikiId, int $pageId)
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         try {
             $wiki = Wiki::where('company_id', $loggedCompany->id)
@@ -125,6 +127,12 @@ class KnowledgeBasePageController extends Controller
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
+
+        (new IncrementPageViewForPage)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'page_id' => $page->id,
+        ]);
 
         return Inertia::render('Company/KB/Page/Show', [
             'page' => PageShowViewHelper::show($page),
