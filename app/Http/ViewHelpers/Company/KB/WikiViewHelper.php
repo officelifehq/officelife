@@ -4,7 +4,6 @@ namespace App\Http\ViewHelpers\Company\KB;
 
 use Illuminate\Support\Str;
 use App\Models\Company\Company;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class WikiViewHelper
 {
@@ -60,11 +59,11 @@ class WikiViewHelper
     /**
      * Get all the pages in the company sorted by latest edited at.
      *
-     * @param LengthAwarePaginator $pages
+     * @param mixed $pages
      * @param Company $company
      * @return array
      */
-    public static function pages(LengthAwarePaginator $pages, Company $company): array
+    public static function pages($pages, Company $company): array
     {
         $pagesCollection = collect([]);
         foreach ($pages as $page) {
