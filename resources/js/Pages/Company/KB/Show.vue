@@ -83,8 +83,9 @@
             </inertia-link>
 
             <ul class="list pl0 f7">
-              <li v-if="!showDeleteMode" class="di"><a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click="showDeleteMode = true">{{ $t('kb.index_delete') }}</a></li>
-              <li v-else class="di">
+              <li class="mb2"><inertia-link :href="wiki.urls.edit" class="bb b--dotted bt-0 bl-0 br-0 pointer">{{ $t('app.edit') }}</inertia-link></li>
+              <li v-if="!showDeleteMode"><a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click="showDeleteMode = true">{{ $t('kb.index_delete') }}</a></li>
+              <li v-else>
                 {{ $t('app.sure') }}
                 <a class="c-delete mr1 pointer" @click.prevent="destroy()">
                   {{ $t('app.yes') }}

@@ -368,6 +368,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('create', 'Company\\Company\\KB\\KnowledgeBaseController@create')->name('wikis.new');
                 Route::post('', 'Company\\Company\\KB\\KnowledgeBaseController@store');
                 Route::get('{wiki}', 'Company\\Company\\KB\\KnowledgeBaseController@show')->name('wikis.show');
+                Route::get('{wiki}/edit', 'Company\\Company\\KB\\KnowledgeBaseController@edit')->name('wikis.edit');
+                Route::put('{wiki}', 'Company\\Company\\KB\\KnowledgeBaseController@update');
                 Route::delete('{wiki}', 'Company\\Company\\KB\\KnowledgeBaseController@destroy')->name('wikis.destroy');
 
                 // Pages

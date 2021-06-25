@@ -14,10 +14,10 @@
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/kb/'">{{ $t('app.breadcrumb_kb_list') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/kb/' + wiki.id">{{ wiki.title }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_kb_create') }}
+            {{ $t('app.breadcrumb_kb_edit') }}
           </li>
         </ul>
       </div>
@@ -26,12 +26,12 @@
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <div class="pa3 measure center">
           <h2 class="tc normal mb4 lh-copy">
-            {{ $t('kb.create_title') }}
+            {{ $t('kb.edit_title') }}
 
             <help :url="$page.props.help_links.team_recent_ship_create" :top="'1px'" />
           </h2>
 
-          <form @submit.prevent="submit">
+          <form @submit.prevent="update()">
             <errors :errors="form.errors" />
 
             <!-- Title -->
@@ -51,11 +51,11 @@
             <div class="mb4 mt5">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.props.auth.company.id + '/company/kb/'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/company/kb/' + wiki.id" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.create')" :cypress-selector="'submit-create-project-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.update')" />
               </div>
             </div>
           </form>
@@ -82,6 +82,10 @@ export default {
   },
 
   props: {
+    wiki: {
+      type: Array,
+      default: null,
+    },
     notifications: {
       type: Array,
       default: null,
@@ -99,13 +103,17 @@ export default {
     };
   },
 
+  mounted() {
+    this.form.title = this.wiki.title;
+  },
+
   methods: {
-    submit() {
+    update() {
       this.loadingState = 'loading';
 
-      axios.post(`/${this.$page.props.auth.company.id}/company/kb`, this.form)
+      axios.put(`/${this.$page.props.auth.company.id}/company/kb/${this.wiki.id}`, this.form)
         .then(response => {
-          localStorage.success = this.$t('kb.create_success');
+          localStorage.success = this.$t('kb.show_edit_success');
           this.$inertia.visit(response.data.data.url);
         })
         .catch(error => {

@@ -44,7 +44,7 @@ class WikiShowViewHelper
                     'company' => $company,
                     'wiki' => $wiki,
                 ]),
-                'delete' => route('wikis.destroy', [
+                'edit' => route('wikis.edit', [
                     'company' => $company,
                     'wiki' => $wiki,
                 ]),

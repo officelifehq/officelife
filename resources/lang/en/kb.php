@@ -15,6 +15,9 @@ return [
     'show_cta' => 'Add a new page',
     'show_destroyed_success' => 'The wiki has been deleted.',
     'show_blank_state' => 'Add a page in this wiki to start documenting.',
+    'show_edit_success' => 'The wiki has been updated.',
+
+    'edit_title' => 'Edit wiki',
 
     'page_show_written_by' => 'Written by {name}',
     'page_show_edited_by' => 'Last edited by {name}',

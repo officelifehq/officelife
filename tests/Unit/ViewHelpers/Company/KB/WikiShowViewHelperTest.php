@@ -51,7 +51,7 @@ class WikiShowViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 'create' => env('APP_URL').'/'.$michael->company_id. '/company/kb/'.$wiki->id.'/pages/create',
-                'delete' => env('APP_URL').'/'.$michael->company_id. '/company/kb/'.$wiki->id,
+                'edit' => env('APP_URL').'/'.$michael->company_id. '/company/kb/'.$wiki->id.'/edit',
             ],
             $array['urls']
         );

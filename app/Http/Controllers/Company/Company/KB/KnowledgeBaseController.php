@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Wiki\CreateWiki;
+use App\Services\Company\Wiki\UpdateWiki;
 use App\Services\Company\Wiki\DestroyWiki;
 use App\Http\ViewHelpers\Company\CompanyViewHelper;
 use App\Http\ViewHelpers\Company\KB\WikiViewHelper;
@@ -106,6 +107,63 @@ class KnowledgeBaseController extends Controller
             'wiki' => WikiShowViewHelper::show($wiki, $loggedCompany),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
+    }
+
+    /**
+     * Show the Update wiki page.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $wikiId
+     * @return Response
+     */
+    public function edit(Request $request, int $companyId, int $wikiId): Response
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        try {
+            $wiki = Wiki::where('company_id', $loggedCompany->id)
+                ->findOrFail($wikiId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        return Inertia::render('Company/KB/Edit', [
+            'wiki' => WikiShowViewHelper::show($wiki, $loggedCompany),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Update the wiki.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $wikiId
+     * @return JsonResponse
+     */
+    public function update(Request $request, int $companyId, int $wikiId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        $data = [
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'wiki_id' => $wikiId,
+            'title' => $request->input('title'),
+        ];
+
+        (new UpdateWiki)->execute($data);
+
+        return response()->json([
+            'data' => [
+                'url' => route('wikis.show', [
+                    'company' => $loggedCompany,
+                    'wiki' => $wikiId,
+                ]),
+            ],
+        ], 200);
     }
 
     /**

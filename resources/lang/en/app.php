@@ -154,6 +154,7 @@ return [
     'breadcrumb_group_delete' => 'Delete the group',
     'breadcrumb_group_edit' => 'Edit the group',
     'breadcrumb_kb_list' => 'Knowledge base',
+    'breadcrumb_kb_edit' => 'Edit a wiki',
     'breadcrumb_wiki_detail' => 'Detail of a wiki',
     'breadcrumb_kb_create' => 'Create a wiki',
     'breadcrumb_page_create' => 'Add a new page',
