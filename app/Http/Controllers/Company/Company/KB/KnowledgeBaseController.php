@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Wiki\CreateWiki;
+use App\Services\Company\Wiki\DestroyWiki;
 use App\Http\ViewHelpers\Company\CompanyViewHelper;
 use App\Http\ViewHelpers\Company\KB\WikiViewHelper;
 use App\Http\ViewHelpers\Company\KB\WikiShowViewHelper;
@@ -105,5 +106,35 @@ class KnowledgeBaseController extends Controller
             'wiki' => WikiShowViewHelper::show($wiki, $loggedCompany),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
+    }
+
+    /**
+     * Delete the wiki.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $wikiId
+     * @return JsonResponse
+     */
+    public function destroy(Request $request, int $companyId, int $wikiId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        $data = [
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'wiki_id' => $wikiId,
+        ];
+
+        (new DestroyWiki)->execute($data);
+
+        return response()->json([
+            'data' => [
+                'url' => route('wikis.index', [
+                    'company' => $loggedCompany,
+                ]),
+            ],
+        ], 200);
     }
 }

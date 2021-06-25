@@ -64,21 +64,35 @@
                 </li>
               </ul>
             </div>
+
+            <!-- blank state -->
+            <div v-else class="br3 bg-white box z-1 pa4 tc">
+              <img loading="lazy" src="/img/streamline-icon-app-content@140x140.png" alt="" height="140"
+                   width="140"
+              />
+              <p class="mb3">
+                <span class="db mb4">{{ $t('kb.show_blank_state') }}</span>
+              </p>
+            </div>
           </div>
 
           <!-- RIGHT COLUMN -->
           <div class="fl w-30-l w-100 pl4-l">
-            <inertia-link :href="wiki.urls.create" class="employee-name db">
-              + add page
+            <inertia-link :href="wiki.urls.create" class="btn relative dib-l db right-0">
+              {{ $t('kb.show_cta') }}
             </inertia-link>
-            <div class="mb2 fw5 relative">
-              <span class="mr1">
-                💹
-              </span> {{ $t('group.summary_stat') }}
-            </div>
 
-            <ul class="list pl0">
-              <li class="pl2"><inertia-link :href="wiki.urls.delete" class="f6 gray c-delete">{{ $t('group.summary_delete') }}</inertia-link></li>
+            <ul class="list pl0 f7">
+              <li v-if="!showDeleteMode" class="di"><a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click="showDeleteMode = true">{{ $t('kb.index_delete') }}</a></li>
+              <li v-else class="di">
+                {{ $t('app.sure') }}
+                <a class="c-delete mr1 pointer" @click.prevent="destroy()">
+                  {{ $t('app.yes') }}
+                </a>
+                <a class="pointer" @click.prevent="showDeleteMode = false">
+                  {{ $t('app.no') }}
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -106,12 +120,31 @@ export default {
     },
   },
 
+  data() {
+    return {
+      showDeleteMode: false,
+    };
+  },
+
   mounted() {
     if (localStorage.success) {
       this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
+
+  methods: {
+    destroy() {
+      axios.delete(`/${this.$page.props.auth.company.id}/company/kb/${this.wiki.id}`)
+        .then(response => {
+          localStorage.success = this.$t('kb.show_destroyed_success');
+          this.$inertia.visit(response.data.data.url);
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+    },
+  }
 };
 
 </script>

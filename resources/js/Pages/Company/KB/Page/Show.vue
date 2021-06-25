@@ -141,7 +141,7 @@ export default {
   },
 
   methods: {
-    destroy(id) {
+    destroy() {
       axios.delete(`/${this.$page.props.auth.company.id}/company/kb/${this.page.wiki.id}/pages/${this.page.id}`)
         .then(response => {
           localStorage.success = this.$t('kb.page_destroyed_success');

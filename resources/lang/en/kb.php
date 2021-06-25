@@ -8,9 +8,13 @@ return [
     'index_title' => 'All the wikis in the company',
     'index_cta' => 'Create a wiki',
     'index_number_pages' => '{count} pages',
+    'index_delete' => 'Delete wiki',
 
     'show_written_by' => 'Written by {name} on {date}',
     'show_edited_by' => 'Last edited by {name} on {date}',
+    'show_cta' => 'Add a new page',
+    'show_destroyed_success' => 'The wiki has been deleted.',
+    'show_blank_state' => 'Add a page in this wiki to start documenting.',
 
     'page_show_written_by' => 'Written by {name}',
     'page_show_edited_by' => 'Last edited by {name}',
