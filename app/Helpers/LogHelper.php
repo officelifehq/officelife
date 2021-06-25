@@ -1321,6 +1321,12 @@ class LogHelper
                 ]);
                 break;
 
+            case 'wiki_updated':
+                $sentence = trans('account.log_wiki_updated', [
+                    'wiki_title' => $log->object->{'wiki_title'},
+                ]);
+                break;
+
             case 'wiki_destroyed':
                 $sentence = trans('account.log_wiki_destroyed', [
                     'wiki_title' => $log->object->{'wiki_title'},
