@@ -150,9 +150,9 @@ class KnowledgeBasePageController extends Controller
      * @param int $companyId
      * @param int $wikiId
      * @param int $pageId
-     * @return Response
+     * @return mixed
      */
-    public function edit(Request $request, int $companyId, int $wikiId, int $pageId): Response
+    public function edit(Request $request, int $companyId, int $wikiId, int $pageId)
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
