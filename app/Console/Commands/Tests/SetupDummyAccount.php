@@ -21,8 +21,10 @@ use App\Services\User\CreateAccount;
 use App\Models\Company\ProjectStatus;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
+use App\Services\Company\Wiki\CreateWiki;
 use App\Services\Company\Team\SetTeamLead;
 use App\Services\Company\Group\CreateGroup;
+use App\Services\Company\Wiki\AddPageToWiki;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
@@ -220,6 +222,7 @@ class SetupDummyAccount extends Command
         $this->setECoffeeProcess();
         $this->addGroups();
         $this->addPreviousPositionsHistory();
+        $this->addWikis();
         $this->addSecondaryBlankAccount();
         $this->validateUserAccounts();
         $this->stop();
@@ -2182,6 +2185,8 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
 
     private function addPreviousPositionsHistory(): void
     {
+        $this->info('☐ Add previous positions history');
+
         foreach ($this->employees as $employee) {
             $position = Position::inRandomOrder()->first();
 
@@ -2204,6 +2209,156 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                 'position_id' => $position->id,
                 'started_at' => $started,
                 'ended_at' => $ended,
+            ]);
+        }
+    }
+
+    private function addWikis(): void
+    {
+        $this->info('☐ Add wikis and pages');
+
+        $wikiNames = collect([
+            'HR',
+            'Development',
+            'Product',
+            'Finance',
+            'Warehouse',
+        ]);
+
+        foreach ($wikiNames as $name) {
+            $wiki = (new CreateWiki)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->michael->id,
+                'title' => $name,
+            ]);
+
+            (new AddPageToWiki)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->michael->id,
+                'wiki_id' => $wiki->id,
+                'title' => 'Party planning committee',
+                'content' => "
+Historical members of the Party Planning Committee include former regular members Pam Beesly|Pam, Phyllis Vance|Phyllis (former chair), and Angela Martin|Angela (former chair). Other non-permanent members have once included Meredith Palmer|Meredith, Kelly Kapoor|Kelly, Karen Filippelli|Karen, Ryan Howard|Ryan, Holly Flax|Holly, and Oscar Martinez|Oscar. Jim Halpert|Jim and Dwight Schrute|Dwight were also temporary heads to prevent the chair from gaining too much power.
+
+## Pre-history parties
+These parties were planned prior to the beginning of the Office documentary.
+
+### A Pizza of Your Own Party
+
+* In a [http://www.hulu.com/watch/63883/the-office-party-planning-committee#s-p2-sr-i1 deleted scene] from `New Boss`, Michael Scott|Michael describes to Charles Miner the first party planned by the committee, which was a celebration of the release of the film ''A League of Their Own'' on Laserdisc. According to [http://www.imdb.com/title/tt0106055/laserdisc IMDB], the release of that film on Laserdisc occurred in 1993, making the committee 17 years old as of 2010. The celebration consisted of employees of the office making their own pizzas. (Gabe and Erin independently used the same idea for their ''Glee'' Viewing Party|viewing party.)
+
+### The '80s Party
+
+* In `The Alliance`, Michael Scott|Michael mentions a previous party; The '80s Party, which the office newsletter called `a success.`
+
+## Angela Martin era parties
+For the first four seasons, Angela Martin runs the Party Planning Committee.
+
+### Meredith's Birthday Party
+File:PartyPlanningCommittee1.jpg|thumb|left|250px|Angela, Pam, and Phyllis
+
+* In `The Alliance`, the Party Planning Committee (Angela, Pam, and Phyllis) plan Meredith's surprise birthday party.
+
+### 05 05 05
+
+* In `The Dundies`, Jan mentions that Michael had a luau on May 5, 2005 for no reason. Michael refuted her vehemently, saying that it was `05 05 05` and `happens once every billion years.`
+
+### Halloween Party
+
+* In `Halloween`, the planned office Halloween party is a flop because Devon invites most of the office to Poor Richard's. The only attendees of the party are Michael Scott|Michael, Dwight Schrute|Dwight, Creed Bratton|Creed, and Angela.
+
+### Christmas Party 2005
+
+* In `Christmas Party`, the Party Planning Committee (Angela, Pam, Phyllis, Meredith, and new member Ryan) plan the office Christmas party. Michael gives Ryan all the credit, which infuriates Angela.
+
+### Michael's Birthday Party
+
+* The Party Planning Committee is credited for planning Michael's Birthday|Michael's birthday party, although Dwight assumes control of all planning duties exclaiming `This is the most important day of the year!`
+
+### Christmas Party 2006
+
+* In `A Benihana Christmas`, the Party Planning Committee (Angela, Pam, Phyllis, Meredith, and new member Karen) plan the office Christmas party. Pam and Karen break off from the Party Planning Committee to plan their own competing party as the newly dubbed The Committee to Plan Parties|Committee to Plan Parties.
+
+### Luau Party
+
+* In `Back From Vacation`, the Party Planning Committee (Angela, Pam, Phyllis, Meredith, and Karen) are ordered to throw a luau-themed party with only three hours' notice.
+
+### Oscar's Welcome Back Party
+
+* In `The Return`, the Party Planning Committee (Angela, Pam, Phyllis, Meredith, Karen, and new member Oscar) plan Oscar's `Welcome Back` party. When Dwight returns from STAPLES Michael tells him that the party is for him.
+
+### Phyllis's Bridal Shower
+
+* In `Ben Franklin`, Angela (presumably with the assistance of the Party Planning Committee) decorates the conference room for Phyllis's bridal shower.
+
+### Dunder Mifflin Infinity Launch Party
+
+* In `Launch Party`, the Party Planning Committee (Angela, Phyllis, Meredith, and an unnamed member, presumably Pam) plan the Dunder Mifflin Infinity launch party.
+
+### Creed's Birthday/Birthday Month Party
+
+* In `Survivor Man`, Michael leaves Jim Halpert|Jim in charge of the office. Jim attempts to merge Creed's, Oscar's, Meredith's, and Toby Flenderson|Toby's (even though his birthday was 3 months ago) birthday parties into just one party. The slew of requests, including peach cobbler for Creed, devil's food cake for Meredith, and Fudgie the Whale and mushroom caps for Andy Bernard|Andy make this party increasingly difficult for Angela to plan. The combined party concept doesn't go over well with the office workers, and in the end, they just celebrate Creed's birthday.
+
+## Phyllis Vance era parties
+While it is unclear if there was an official change in the leadership of the Party Planning Committee, Phyllis Vance becomes the source of party planning authority and the de facto, if not formal leader.
+
+### Toby's Goodbye Party
+
+* In `Goodbye, Toby`, Phyllis is given the task of planning Toby's goodbye party after Angela rejects Michael's demands as impossibly unrealistic. The party is a smashing success, which makes Angela even more upset.
+
+### Weight Loss Party
+
+* In `Weight Loss`, Phyllis has solidified control of the Party Planning Committee thanks to her knowledge of Angela and Dwight's secret affair. She tries to buy a cake for Stanley's birthday party to celebrate the success of the weight loss initiative, but Michael insists that it consist only of fruit. Phyllis secretly organizes a party with cheesecake but is found out.
+
+### Baby Shower
+
+* In `Baby Shower`, Phyllis organizes Jan's baby shower. Phyllis relishes her new role, although Michael is disappointed with the sparse party decorations and food.
+
+### Christmas Party 2008
+
+* In `Moroccan Christmas`, Phyllis organizes a Morocco-themed Christmas party. Phyllis orders Angela around to the point where Angela finally refuses to go along, confident that Phyllis is too meek to carry through on her threat. Her gambit backfires, however, when Phyllis reveals Angela and Dwight's affair to everyone in the office.
+
+## Jim & Dwight era parties
+Michael puts Jim and Dwight in charge of the Party Planning Committee because there was `too much drama.` Michael believes that consolidating power into a single head was too dangerous, so the committee chairmanship is now shared.
+
+### Kelly's Missed Birthday
+
+* In `Lecture Circuit Part 1|Lecture Circuit Parts 1 & 2`, Jim and Dwight forget Kelly's birthday and attempt to throw her a party the next day. It features sagging balloons held up with masking tape, a cake reading `Happy Birthday Kelley [sic]` and an `It is your birthday.` sign. They offer her the choice of watching TV for an hour or napping for an hour and Kelly gleefully decides to take a nap. Dwight wakes her up by banging two trash can lids together, and orders her to make up the time lost while she was napping.
+
+### Michael's 15th Anniversary Party
+
+* In `New Boss`, Jim, Dwight, and Pam meet with Michael to plan his 15th Anniversary Party. New Corporate Vice President Charles Miner shuts down the Party Planning Committee as a waste of time and money.
+
+### Christmas Party 2009
+
+* In `Secret Santa`, Jim and Dwight (resuming their duties as the Party Planning Committee) try to get the office in the Christmas spirit, but the uncertain future of Dunder Mifflin Paper Company|Dunder Mifflin puts a damper on the festivities. Jim's decision to let Phyllis Vance|Phyllis be Santa Claus infuriates Michael Scott|Michael.
+
+## Second Angela Martin era parties
+
+### Secretary's Day 2010
+
+* In `Secretary's Day`, Andy thanks Angela for organizing the Secretary's Day party. Angela's return to the Party Planning Committee is not explained.
+
+### Nellie's Welcome Party 2012
+
+* Angela, Pam, Oscar and Phyllis work together to plan a terrible party for their new boss Nellie.
+
+## Other notes
+
+* In `Conflict Resolution`, it is revealed that Phyllis tried to get off the Party Planning Committee.
+
+* Mentioned in the deleted scenes of `Launch Party`, Mentioned Characters#Denise Dimm|Denise Dimm is identified as the head of the Dunder Mifflin Buffalo|Buffalo branch's Party Planning Committee.
+
+* In `Branch Wars`, Andy Bernard|Andy explains that his goal is to get into the office's most exclusive club - The Finer Things Club, with the Party Planning Committee as his backup and Scrantonicity|Kevin's band as his safety.
+
+* In `Launch Party` Phyllis tries new techniques to deal with difficult people (e.g. Angela) off of Google while the Party Planning Committee is planning the Launch Party.
+
+*  In `The New Boss`, Michael uses the code name PPC for the Party Planning Committee in an attempt to prevent Charles Miner from finding out about it.
+
+*  In `Classy Christmas`, Pam mentions that, as office administrator, she is basically being paid to be the head of the Party Planning Committee.
+
+*  Greg Daniels encouraged the actors to improvise mundane party planning chatter.<ref name=`officeladies_michaelsbirthday`>Kinsey, Angela and Jenna Fischer. 2020. [https://officeladies.com/episodes/2020/04/22/episode-25-michaels-birthday Episode 25: Michael's Birthday], Office Ladies podcast, April 22, 2020.</ref>
+                ",
             ]);
         }
     }

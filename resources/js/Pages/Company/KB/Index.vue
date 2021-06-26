@@ -67,12 +67,12 @@
 
         <!-- blank state -->
         <div v-else class="tc">
-          <img loading="lazy" src="/img/streamline-icon-projector-pie-chart@140x140.png" alt="project symbol" height="140"
+          <img loading="lazy" src="/img/streamline-icon-content-ideas@140x140.png" alt="wiki symbol" height="140"
                width="140"
           />
           <p class="mb3">
-            <span class="db mb4">{{ $t('group.index_blank_title') }}</span>
-            <inertia-link :href="wikis.url_create" class="btn dib">{{ $t('group.index_cta') }}</inertia-link>
+            <span class="db mb4">{{ $t('kb.index_blank_title') }}</span>
+            <inertia-link :href="wikis.url_create" class="btn dib">{{ $t('kb.index_cta') }}</inertia-link>
           </p>
         </div>
       </div>

@@ -9,6 +9,7 @@ return [
     'index_cta' => 'Create a wiki',
     'index_number_pages' => '{count} pages',
     'index_delete' => 'Delete wiki',
+    'index_blank_title' => 'Wikis lets you centralize all the information in one place.',
 
     'show_written_by' => 'Written by {name} on {date}',
     'show_edited_by' => 'Last edited by {name} on {date}',
