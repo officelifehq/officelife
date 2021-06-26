@@ -62,12 +62,12 @@ class AdminExpenseViewHelper
      * Search all employees matching a given criteria.
      *
      * @param Company $company
-     * @param string $criteria
+     * @param string|null $criteria
      * @return Collection
      */
-    public static function search(Company $company, string $criteria): Collection
+    public static function search(Company $company, ?string $criteria): Collection
     {
-        $employees = $company->employees()
+        return $company->employees()
             ->select('id', 'first_name', 'last_name', 'avatar_file_id')
             ->notLocked()
             ->where(function ($query) use ($criteria) {
@@ -78,16 +78,12 @@ class AdminExpenseViewHelper
             ->where('can_manage_expenses', false)
             ->orderBy('last_name', 'asc')
             ->take(10)
-            ->get();
-
-        $employeesCollection = collect([]);
-        foreach ($employees as $employee) {
-            $employeesCollection->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-            ]);
-        }
-
-        return $employeesCollection;
+            ->get()
+            ->map(function ($employee) {
+                return [
+                    'id' => $employee->id,
+                    'name' => $employee->name,
+                ];
+            });
     }
 }

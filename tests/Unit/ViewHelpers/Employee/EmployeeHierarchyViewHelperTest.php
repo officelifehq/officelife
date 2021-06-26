@@ -41,9 +41,9 @@ class EmployeeHierarchyViewHelperTest extends TestCase
         ]);
         // the following should not be included in the search results
         Employee::factory()->create([
-            'first_name' => 'ale',
-            'last_name' => 'ble',
-            'email' => 'ale@ble',
+            'first_name' => 'cle',
+            'last_name' => 'dle',
+            'email' => 'cle@dle',
             'locked' => true,
             'company_id' => $michael->company_id,
         ]);
