@@ -1,6 +1,3 @@
-<style lang="scss" scoped>
-</style>
-
 <template>
   <layout title="Home" :notifications="notifications">
     <div class="ph2 ph0-ns">
