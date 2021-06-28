@@ -92,6 +92,7 @@ class ProjectTasksController extends Controller
             'project' => ProjectViewHelper::info($projectTask->project),
             'task' => ProjectTasksViewHelper::taskDetails($projectTask, $company, $employee),
             'members' => ProjectTasksViewHelper::members($project),
+            'lists' => ProjectTasksViewHelper::taskLists($project),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -174,6 +175,7 @@ class ProjectTasksController extends Controller
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
             'project_task_id' => $taskId,
+            'project_task_list_id' => $request->input('task_list_id'),
             'title' => $request->input('title'),
             'description' => $request->input('description'),
         ];

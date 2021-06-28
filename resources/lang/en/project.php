@@ -133,6 +133,7 @@ return [
     'task_show_no_list' => 'No list',
     'task_show_fetching_info' => 'Fetching information',
     'task_show_added_by' => 'Added by',
+    'task_show_no_time_tracking' => 'There are no time tracking entries yet.',
     'task_show_created_on' => 'Created on',
     'task_show_action_log' => 'Log time',
     'file_title' => 'All the files in the project',
