@@ -8082,16 +8082,16 @@
         },
         {
             "name": "uploadcare/uploadcare-php",
-            "version": "v3.0.3",
+            "version": "v3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/uploadcare/uploadcare-php.git",
-                "reference": "b4ee92e8f6cbaa6fa27d5c3d12b5b7a9336a857a"
+                "reference": "8cc9bb88b05ec1c3b716d56294cc3a9edaa95f5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/uploadcare/uploadcare-php/zipball/b4ee92e8f6cbaa6fa27d5c3d12b5b7a9336a857a",
-                "reference": "b4ee92e8f6cbaa6fa27d5c3d12b5b7a9336a857a",
+                "url": "https://api.github.com/repos/uploadcare/uploadcare-php/zipball/8cc9bb88b05ec1c3b716d56294cc3a9edaa95f5c",
+                "reference": "8cc9bb88b05ec1c3b716d56294cc3a9edaa95f5c",
                 "shasum": ""
             },
             "require": {
@@ -8099,15 +8099,16 @@
                 "ext-json": "*",
                 "guzzlehttp/guzzle": "^6.5||^7",
                 "guzzlehttp/psr7": "^1.6",
-                "php": ">=5.6",
+                "php": ">=7.1 || >=8.0",
                 "symfony/polyfill-uuid": "^1.17"
             },
             "require-dev": {
+                "fakerphp/faker": "^1.9",
                 "friendsofphp/php-cs-fixer": "^2.16",
-                "fzaninotto/faker": "^1.9",
-                "phpunit/phpunit": "^5.7||^7",
+                "phpunit/phpunit": "^5.7||^7||^9",
                 "symfony/dotenv": "^3.4",
-                "symfony/var-dumper": "^3.4"
+                "symfony/var-dumper": "^3.4||^5",
+                "vimeo/psalm": "^4.7"
             },
             "type": "library",
             "autoload": {
@@ -8138,9 +8139,9 @@
             "support": {
                 "email": "help@uploadcare.com",
                 "issues": "https://github.com/uploadcare/uploadcare-php/issues",
-                "source": "https://github.com/uploadcare/uploadcare-php/tree/v3.0.3"
+                "source": "https://github.com/uploadcare/uploadcare-php/tree/v3.1.1"
             },
-            "time": "2021-01-29T03:19:51+00:00"
+            "time": "2021-06-21T11:13:59+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
