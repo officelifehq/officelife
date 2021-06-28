@@ -13,10 +13,9 @@ use App\Models\Company\ProjectMemberActivity;
 class UpdateProjectTask extends BaseService
 {
     protected array $data;
-
     protected Project $project;
-
     protected ProjectTask $projectTask;
+    protected ProjectTaskList $projectTaskList;
 
     /**
      * Get the validation rules that apply to the service.
