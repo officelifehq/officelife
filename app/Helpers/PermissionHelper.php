@@ -178,6 +178,14 @@ class PermissionHelper
         }
         $canEditContractInfoTab = $loggedEmployee->permission_level <= 200;
 
+        // can see the Edit contract info tab when editing the employee
+        $canSeeEditContractInformationTab = false;
+        if ($employee->status) {
+            if ($employee->status->type == EmployeeStatus::EXTERNAL && $canEditContractInfoTab) {
+                $canSeeEditContractInformationTab = true;
+            }
+        }
+
         // can delete work log
         $canDeleteWorkLog = $loggedEmployee->permission_level <= 200;
         if ($loggedEmployee->id == $employee->id) {
@@ -212,6 +220,7 @@ class PermissionHelper
             'can_see_timesheets' => $canSeeTimesheets,
             'can_update_avatar' => $canUpdateAvatar,
             'can_edit_hired_at_information' => $canEditHiredAt,
+            'can_see_edit_contract_information_tab' => $canSeeEditContractInformationTab,
             'can_edit_contract_information' => $canEditContractInfoTab,
             'can_delete_worklog' => $canDeleteWorkLog,
         ];
