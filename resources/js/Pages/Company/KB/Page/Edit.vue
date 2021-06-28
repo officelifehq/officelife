@@ -25,7 +25,7 @@
           <h2 class="tc normal mb4 lh-copy">
             {{ $t('kb.page_edit_title') }}
 
-            <help :url="$page.props.help_links.team_recent_ship_create" :top="'1px'" />
+            <help :url="$page.props.help_links.wiki" :top="'1px'" />
           </h2>
 
           <form @submit.prevent="submit">
