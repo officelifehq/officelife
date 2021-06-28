@@ -5,7 +5,7 @@ namespace Tests\Unit\Jobs\Invoicing;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Company;
-use App\Models\Company\CompanyUsageHistory;
+use App\Models\Company\CompanyDailyUsageHistory;
 use App\Jobs\Invoicing\CreateMonthlyInvoiceForCompany;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -18,17 +18,17 @@ class CreateMonthlyInvoiceForCompanyTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $company = Company::factory()->create();
-        CompanyUsageHistory::factory()->create([
+        CompanyDailyUsageHistory::factory()->create([
             'company_id' => $company->id,
             'number_of_active_employees' => 3,
             'created_at' => '2018-01-01 00:00:00',
         ]);
-        $usageB = CompanyUsageHistory::factory()->create([
+        $usageB = CompanyDailyUsageHistory::factory()->create([
             'company_id' => $company->id,
             'number_of_active_employees' => 30,
             'created_at' => '2018-01-28 00:00:00',
         ]);
-        CompanyUsageHistory::factory()->create([
+        CompanyDailyUsageHistory::factory()->create([
             'company_id' => $company->id,
             'number_of_active_employees' => 10,
             'created_at' => '2018-01-30 00:00:00',

@@ -8,9 +8,9 @@ use App\Models\Company\Company;
 use App\Models\Company\CompanyInvoice;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Models\Company\CompanyUsageHistory;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Models\Company\CompanyDailyUsageHistory;
 
 class CreateMonthlyInvoiceForCompany implements ShouldQueue
 {
@@ -37,7 +37,7 @@ class CreateMonthlyInvoiceForCompany implements ShouldQueue
      */
     public function handle(): void
     {
-        $usage = CompanyUsageHistory::where('company_id', $this->company->id)
+        $usage = CompanyDailyUsageHistory::where('company_id', $this->company->id)
             ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
             ->orderBy('number_of_active_employees', 'desc')
             ->first();

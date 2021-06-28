@@ -18,7 +18,7 @@ class CompanyUsageHistoryDetails extends Model
      * @var array
      */
     protected $fillable = [
-        'company_usage_history_id',
+        'company_daily_usage_history_id',
         'employee_name',
         'employee_email',
     ];
@@ -31,6 +31,6 @@ class CompanyUsageHistoryDetails extends Model
      */
     public function companyUsageHistory()
     {
-        return $this->belongsTo(CompanyUsageHistory::class);
+        return $this->belongsTo(CompanyDailyUsageHistory::class);
     }
 }

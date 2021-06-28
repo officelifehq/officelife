@@ -14,7 +14,7 @@ class CreateCompanyUsageHistoryTable extends Migration
         // necessary for SQLlite
         Schema::enableForeignKeyConstraints();
 
-        Schema::create('company_usage_history', function (Blueprint $table) {
+        Schema::create('company_daily_usage_history', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->integer('number_of_active_employees');
@@ -24,23 +24,23 @@ class CreateCompanyUsageHistoryTable extends Migration
 
         Schema::create('company_usage_history_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_usage_history_id');
+            $table->unsignedBigInteger('company_daily_usage_history_id');
             $table->string('employee_name');
             $table->string('employee_email');
             $table->timestamps();
-            $table->foreign('company_usage_history_id')->references('id')->on('company_usage_history')->onDelete('cascade');
+            $table->foreign('company_daily_usage_history_id')->references('id')->on('company_daily_usage_history')->onDelete('cascade');
         });
 
         Schema::create('company_invoices', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('company_usage_history_id');
+            $table->unsignedBigInteger('company_daily_usage_history_id');
             $table->boolean('sent_to_payment_processor')->default(false);
             $table->boolean('receipt_sent_to_customer')->default(false);
             $table->string('email_address_invoice_sent_to')->nullable();
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->foreign('company_usage_history_id')->references('id')->on('company_usage_history')->onDelete('cascade');
+            $table->foreign('company_daily_usage_history_id')->references('id')->on('company_daily_usage_history')->onDelete('cascade');
         });
     }
 }

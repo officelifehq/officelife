@@ -267,7 +267,7 @@ class Company extends Model
      */
     public function usageHistory()
     {
-        return $this->hasMany(CompanyUsageHistory::class);
+        return $this->hasMany(CompanyDailyUsageHistory::class);
     }
 
     /**

@@ -3,17 +3,17 @@
 namespace Database\Factories\Company;
 
 use App\Models\Company\Company;
-use App\Models\Company\CompanyUsageHistory;
+use App\Models\Company\CompanyDailyUsageHistory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CompanyUsageHistoryFactory extends Factory
+class CompanyDailyUsageHistoryFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = CompanyUsageHistory::class;
+    protected $model = CompanyDailyUsageHistory::class;
 
     /**
      * Define the model's default state.

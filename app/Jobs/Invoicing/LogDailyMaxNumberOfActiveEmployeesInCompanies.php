@@ -7,9 +7,9 @@ use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Models\Company\CompanyUsageHistory;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Models\Company\CompanyDailyUsageHistory;
 use App\Models\Company\CompanyUsageHistoryDetails;
 
 class LogDailyMaxNumberOfActiveEmployeesInCompanies implements ShouldQueue
@@ -40,7 +40,7 @@ class LogDailyMaxNumberOfActiveEmployeesInCompanies implements ShouldQueue
         ])
         ->chunk(100, function ($companies) {
             foreach ($companies as $company) {
-                $usage = CompanyUsageHistory::create([
+                $usage = CompanyDailyUsageHistory::create([
                     'company_id' => $company->id,
                     'number_of_active_employees' => $company->max_employees,
                 ]);

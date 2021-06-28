@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class CompanyUsageHistory extends Model
+class CompanyDailyUsageHistory extends Model
 {
     use HasFactory;
 
-    protected $table = 'company_usage_history';
+    protected $table = 'company_daily_usage_history';
 
     /**
      * The attributes that are mass assignable.
@@ -42,6 +42,6 @@ class CompanyUsageHistory extends Model
      */
     public function details()
     {
-        return $this->hasMany(CompanyUsageHistoryDetails::class, 'company_usage_history_id', 'id');
+        return $this->hasMany(CompanyUsageHistoryDetails::class, 'company_daily_usage_history_id', 'id');
     }
 }

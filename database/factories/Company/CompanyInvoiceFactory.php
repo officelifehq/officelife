@@ -4,7 +4,7 @@ namespace Database\Factories\Company;
 
 use App\Models\Company\Company;
 use App\Models\Company\CompanyInvoice;
-use App\Models\Company\CompanyUsageHistory;
+use App\Models\Company\CompanyDailyUsageHistory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CompanyInvoiceFactory extends Factory
@@ -25,7 +25,7 @@ class CompanyInvoiceFactory extends Factory
     {
         return [
             'company_id' => Company::factory(),
-            'company_usage_history_id' => CompanyUsageHistory::factory(),
+            'company_usage_history_id' => CompanyDailyUsageHistory::factory(),
             'sent_to_payment_processor' => false,
             'receipt_sent_to_customer' => false,
             'email_address_invoice_sent_to' => $this->faker->email,

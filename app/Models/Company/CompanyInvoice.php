@@ -53,6 +53,6 @@ class CompanyInvoice extends Model
      */
     public function companyUsageHistory()
     {
-        return $this->belongsTo(CompanyUsageHistory::class, 'company_usage_history_id');
+        return $this->belongsTo(CompanyDailyUsageHistory::class, 'company_usage_history_id');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\CompanyUsageHistory;
+use App\Models\Company\CompanyDailyUsageHistory;
 use App\Models\Company\CompanyUsageHistoryDetails;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,7 +23,7 @@ class CompanyUsageHistoryDetailsFactory extends Factory
     public function definition()
     {
         return [
-            'company_usage_history_id' => CompanyUsageHistory::factory(),
+            'company_usage_history_id' => CompanyDailyUsageHistory::factory(),
             'employee_name' => $this->faker->name,
             'employee_email' => $this->faker->email,
         ];
