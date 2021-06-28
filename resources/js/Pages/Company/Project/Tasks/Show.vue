@@ -169,15 +169,22 @@ input[type=checkbox] {
                               :label="$t('project.task_edit_assignee')"
                               :placeholder="$t('app.choose_value')"
                               :required="false"
-                              :datacy="'country_selector'"
                   />
                 </div>
 
                 <!-- part of list -->
                 <div class="fl w-50 pa3 bg-gray stat-right-corner">
-                  <p class="mt0 mb2 f7">{{ $t('project.task_show_part_of_list') }}</p>
-                  <p v-if="task.list.name" class="ma0">{{ task.list.name }}</p>
-                  <p v-else class="ma0">{{ $t('project.task_show_no_list') }}</p>
+                  <p v-if="lists.length == 0" class="ma0">{{ $t('project.task_show_no_list') }}</p>
+                  <div v-else>
+                    <select-box :ref="'list'"
+                                v-model="form.task_list_id"
+                                :options="lists"
+                                :errors="$page.props.errors.task_list_id"
+                                :label="$t('project.task_show_part_of_list')"
+                                :placeholder="$t('app.choose_value')"
+                                :required="false"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -219,7 +226,7 @@ input[type=checkbox] {
 
           <!-- no time tracking entries - blank state -->
           <div v-if="displayTimeTrackingEntriesMode && timeTrackingEntries.length == 0" class="ba br3 bb-gray bg-white pa3">
-            There are no time tracking entries yet.
+            {{ $t('project.task_show_no_time_tracking') }}
           </div>
         </div>
 
@@ -352,6 +359,10 @@ export default {
       default: null,
     },
     members: {
+      type: Array,
+      default: null,
+    },
+    lists: {
       type: Array,
       default: null,
     },

@@ -292,4 +292,23 @@ class ProjectTasksViewHelper
 
         return $timeTrackingCollection;
     }
+
+    /**
+     * Get all the task lists in the project.
+     *
+     * @param Project $project
+     * @return Collection|null
+     */
+    public static function taskLists(Project $project): ?Collection
+    {
+        return $project->lists()
+            ->orderBy('id', 'asc')
+            ->get()
+            ->map(function ($list) {
+                return [
+                    'value' => $list->id,
+                    'label' => $list->title,
+                ];
+            });
+    }
 }

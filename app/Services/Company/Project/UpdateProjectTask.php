@@ -7,15 +7,15 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectTask;
+use App\Models\Company\ProjectTaskList;
 use App\Models\Company\ProjectMemberActivity;
 
 class UpdateProjectTask extends BaseService
 {
     protected array $data;
-
     protected Project $project;
-
     protected ProjectTask $projectTask;
+    protected ProjectTaskList $projectTaskList;
 
     /**
      * Get the validation rules that apply to the service.
@@ -29,6 +29,7 @@ class UpdateProjectTask extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'nullable|integer|exists:projects,id',
             'project_task_id' => 'nullable|integer|exists:project_tasks,id',
+            'project_task_list_id' => 'nullable|integer|exists:project_task_lists,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:65535',
         ];
@@ -65,12 +66,18 @@ class UpdateProjectTask extends BaseService
 
         $this->projectTask = ProjectTask::where('project_id', $this->project->id)
             ->findOrFail($this->data['project_task_id']);
+
+        if (! is_null($this->valueOrNull($this->data, 'project_task_list_id'))) {
+            $this->projectTaskList = ProjectTaskList::where('project_id', $this->data['project_id'])
+                ->findOrFail($this->data['project_task_list_id']);
+        }
     }
 
     private function update(): void
     {
         $this->projectTask->title = $this->data['title'];
         $this->projectTask->description = $this->valueOrNull($this->data, 'description');
+        $this->projectTask->project_task_list_id = $this->valueOrNull($this->data, 'project_task_list_id');
         $this->projectTask->save();
     }
 
