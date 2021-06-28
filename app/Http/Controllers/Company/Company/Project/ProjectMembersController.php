@@ -28,7 +28,7 @@ class ProjectMembersController extends Controller
      * @param int $companyId
      * @param int $projectId
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function index(Request $request, int $companyId, int $projectId)
     {
@@ -56,6 +56,7 @@ class ProjectMembersController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse
      */
     public function search(Request $request, int $companyId, int $projectId): JsonResponse
@@ -83,6 +84,7 @@ class ProjectMembersController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $projectId): JsonResponse
@@ -126,6 +128,7 @@ class ProjectMembersController extends Controller
      * @param int $companyId
      * @param int $projectId
      * @param int $employeeId
+     *
      * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $projectId, int $employeeId): JsonResponse

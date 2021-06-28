@@ -34,7 +34,7 @@ class ProjectTasksController extends Controller
      * @param int $companyId
      * @param int $projectId
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function index(Request $request, int $companyId, int $projectId)
     {
@@ -64,7 +64,7 @@ class ProjectTasksController extends Controller
      * @param int $projectId
      * @param int $taskId
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function show(Request $request, int $companyId, int $projectId, int $taskId)
     {
@@ -103,6 +103,7 @@ class ProjectTasksController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $projectId): JsonResponse
@@ -163,6 +164,7 @@ class ProjectTasksController extends Controller
      * @param int $companyId
      * @param int $projectId
      * @param int $taskId
+     *
      * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $projectId, int $taskId): JsonResponse
@@ -228,6 +230,7 @@ class ProjectTasksController extends Controller
      * @param int $companyId
      * @param int $projectId
      * @param int $projectTaskId
+     *
      * @return JsonResponse
      */
     public function toggle(Request $request, int $companyId, int $projectId, int $projectTaskId): JsonResponse
@@ -256,6 +259,7 @@ class ProjectTasksController extends Controller
      * @param int $companyId
      * @param int $projectId
      * @param int $taskId
+     *
      * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $projectId, int $taskId): JsonResponse
@@ -284,6 +288,7 @@ class ProjectTasksController extends Controller
      * @param int $companyId
      * @param int $projectId
      * @param int $taskId
+     *
      * @return JsonResponse
      */
     public function timeTrackingEntries(Request $request, int $companyId, int $projectId, int $taskId): JsonResponse
@@ -317,6 +322,7 @@ class ProjectTasksController extends Controller
      * @param int $companyId
      * @param int $projectId
      * @param int $taskId
+     *
      * @return JsonResponse
      */
     public function logTime(Request $request, int $companyId, int $projectId, int $taskId): JsonResponse

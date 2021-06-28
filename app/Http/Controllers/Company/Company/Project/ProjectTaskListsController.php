@@ -20,6 +20,7 @@ class ProjectTaskListsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $projectId): JsonResponse
@@ -49,6 +50,7 @@ class ProjectTaskListsController extends Controller
      * @param int $companyId
      * @param int $projectId
      * @param int $projectTaskListId
+     *
      * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $projectId, int $projectTaskListId): JsonResponse
@@ -79,6 +81,7 @@ class ProjectTaskListsController extends Controller
      * @param int $companyId
      * @param int $projectId
      * @param int $projectTaskListId
+     *
      * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $projectId, int $projectTaskListId): JsonResponse
