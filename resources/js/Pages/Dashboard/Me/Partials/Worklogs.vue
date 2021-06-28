@@ -4,6 +4,8 @@
       <span class="mr1">
         🔨
       </span> {{ $t('dashboard.worklog_title') }}
+
+      <help :url="$page.props.help_links.worklogs" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box pa3">
@@ -65,12 +67,14 @@
 import LoadingButton from '@/Shared/LoadingButton';
 import TextArea from '@/Shared/TextArea';
 import Errors from '@/Shared/Errors';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
     LoadingButton,
     Errors,
     TextArea,
+    Help,
   },
 
   props: {

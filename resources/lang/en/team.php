@@ -1,17 +1,12 @@
 <?php
-
 return [
     'new_title' => 'Create team',
     'new_name' => 'Name',
-
     'index_count' => '{count} member|{count} members',
-
     'count_team_members' => '{count} team member|{count} team members',
     'count_team_news' => '{count} news|{count} news',
-    'most_recent_team_member' => 'This team has :count members, the newest being :link.',
-
+    'most_recent_team_member' => 'This team has :count member, the newest being :link.|This team has :count members, the newest being :link.',
     'team_list_blank' => 'Teams are a great way for groups of people in your company to work together in Officelife. Teams can be added in your Adminland.',
-
     'news_write' => 'Write a news',
     'news_view_all' => 'View all news',
     'news_blank' => 'No one has written a news on this team yet 😢',
@@ -26,7 +21,6 @@ return [
     'team_news_edit' => 'Update a news',
     'team_news_update_success' => 'The news has been updated',
     'team_news_destroy_success' => 'The news has been deleted',
-
     'members_enable_manage_mode' => 'Add/remove members',
     'members_disable_manage_mode' => 'Exit editing',
     'members_add_input' => 'Add someone to the team',
@@ -35,20 +29,17 @@ return [
     'members_remove' => 'Remove from team',
     'members_blank' => 'There are no members in this team yet 😱',
     'members_no_results' => 'No results found',
-
     'description_title' => 'Describe the team to give interesting insights about what it does',
     'description_help' => 'Everyone in the company will be able to read this description.',
     'description_cta' => 'Add a description to explain what the team is responsible for',
     'description_blank' => 'No one in the team has set a description yet.',
     'description_success' => 'The description has been set.',
-
     'team_lead_label' => 'Team lead',
     'team_lead_blank' => 'This team does not have a lead.',
     'team_lead_cta' => 'Assign someone as the team lead',
     'team_lead_added' => 'The team has now a new team lead.',
     'team_lead_removed' => 'The team lead has been removed.',
     'team_lead_remove_confirmation' => 'Remove team lead',
-
     'useful_link_title' => 'Links',
     'useful_link_cta' => 'Add a new link',
     'useful_link_edit' => 'Edit current links',
@@ -61,7 +52,6 @@ return [
     'useful_link_form_url' => 'External URL',
     'useful_link_form_email' => 'Email address',
     'useful_link_form_slack' => 'Slack channel',
-
     'recent_ship_title' => 'Accomplishments',
     'recent_ship_list_blank' => 'This team hasn’t made any accomplishments for now.',
     'recent_ship_list_cta' => 'What have you shipped?',
@@ -76,9 +66,7 @@ return [
     'recent_ship_show_date' => 'Written on {date} in {team}',
     'recent_ship_show_members' => 'Made possible by',
     'recent_ship_deletion_success' => 'The entry has been deleted.',
-
     'morale_title' => 'Morale of the team members',
     'morale_on_average' => 'On average',
-
     'hires_next_week_title' => 'New hires in the next 7 days',
 ];

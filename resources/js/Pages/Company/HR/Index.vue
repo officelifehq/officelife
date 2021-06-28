@@ -34,21 +34,17 @@
       <tab :tab="tab" />
 
       <div class="cf mw9 center">
-        <div class="fl w-third-l w-100">
+        <div class="fl w-50-l w-100">
           <e-coffees
             v-if="eCoffees"
             :e-coffees="eCoffees"
           />
         </div>
 
-        <div class="fl w-third-l w-100 pl4-l">
+        <div class="fl w-50-l w-100 pl4-l">
           <genders
             :genders="genders"
           />
-        </div>
-
-        <div class="fl w-third-l w-100 pl4-l">
-          3
         </div>
       </div>
     </div>

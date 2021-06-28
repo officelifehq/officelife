@@ -114,4 +114,16 @@ return [
 
     'password_timeout' => 10800,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Password complexity enforcement
+    |--------------------------------------------------------------------------
+    |
+    | Make the password complex, and requires: uppercase, numeric and special
+    | character.
+    |
+    */
+
+    'complex_password' => env('COMPLEX_PASSWORD', true),
+
 ];

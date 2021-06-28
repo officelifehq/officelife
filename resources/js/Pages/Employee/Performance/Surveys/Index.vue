@@ -52,7 +52,7 @@
           <div>
             <p class="mt0 f3 mb2">{{ surveys.number_of_unique_participants }}</p>
             <p class="mt0 f6 gray">{{ $t('employee.survey_index_direct_reports') }}</p>
-          </div>{{ $t('') }}
+          </div>
           <div>
             <p class="mt0 f3 mb2">{{ surveys.average_response_rate }}%</p>
             <p class="mt0 f6 gray">{{ $t('employee.survey_index_completion_rate') }}</p>

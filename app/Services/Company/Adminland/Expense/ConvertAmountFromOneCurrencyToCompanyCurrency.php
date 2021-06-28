@@ -4,12 +4,13 @@ namespace App\Services\Company\Adminland\Expense;
 
 use Carbon\Carbon;
 use ErrorException;
-use Money\Currency;
 use Illuminate\Support\Str;
 use App\Services\BaseService;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\ClientException;
+use App\Exceptions\ConvertAmountException;
+use Illuminate\Http\Client\HttpClientException;
 use App\Exceptions\WrongCurrencyLayerApiKeyException;
 
 class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
@@ -21,7 +22,6 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
     private Carbon $amountDate;
     private float $rate;
     private string $query;
-    private ?GuzzleClient $client;
 
     /**
      * Converts an amount from one currency to another, at the rate
@@ -31,20 +31,25 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
      * This allows us to reduce the number of queries if multiple conversions
      * have to be made in a short period of time.
      */
-    public function execute(int $amount, string $amountCurrency, string $companyCurrency, Carbon $amountDate, GuzzleClient $client = null): ?array
+    public function execute(int $amount, string $amountCurrency, string $companyCurrency, Carbon $amountDate): ?array
     {
-        $this->client = $client;
         $this->amount = $amount;
         $this->amountCurrency = $amountCurrency;
         $this->companyCurrency = $companyCurrency;
         $this->amountDate = $amountDate;
+        $this->rate = 0;
 
-        if ($this->companyCurrency == $this->amountCurrency) {
+        if ($this->companyCurrency === $this->amountCurrency) {
             return null;
         }
 
         $this->buildQuery();
         $this->getConversionRate();
+
+        if ($this->rate === 0.0) {
+            return null;
+        }
+
         $this->convert();
 
         return [
@@ -61,7 +66,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
             throw new WrongCurrencyLayerApiKeyException();
         }
 
-        if (config('officelife.currency_layer_plan') == 'free') {
+        if (config('officelife.currency_layer_plan') === 'free') {
             $uri = config('officelife.currency_layer_url_free_plan');
         } else {
             $uri = config('officelife.currency_layer_url_paid_plan');
@@ -81,31 +86,34 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
     {
         if (Cache::has($this->cachedKey())) {
             $this->rate = Cache::get($this->cachedKey());
-
             return;
         }
 
-        // this is merely for the unit test to work
-        if (is_null($this->client)) {
-            $this->client = new GuzzleClient();
-        }
-
+        $response = null;
         try {
-            $response = $this->client->request('GET', $this->query);
-        } catch (ClientException $e) {
-            throw new \Exception('Can’t access Currency Layer api');
-        }
+            $response = Http::get($this->query);
+            $response->throw();
 
-        $response = json_decode($response->getBody());
-
-        try {
             $currencies = $this->companyCurrency.$this->amountCurrency;
-            $this->rate = $response->quotes->{$currencies};
-        } catch (ErrorException $e) {
-            throw new \Exception('Can’t get the proper exchange rate');
-        }
 
-        Cache::put($this->cachedKey(), $this->rate, now()->addMinutes(60));
+            $lrate = $response->json("quotes.{$currencies}");
+            if ($lrate === null) {
+                throw new ConvertAmountException('Null rate');
+            }
+            $this->rate = $lrate;
+
+            Cache::put($this->cachedKey(), $this->rate, Carbon::now()->addMinutes(60));
+        } catch (HttpClientException $e) {
+            Log::error('Error calling currencylayer: '.$e, [
+                'query' => $this->query,
+                'response' => $response->body(),
+            ]);
+        } catch (ErrorException $e) {
+            Log::error('Error getting exchange rate: '.$e, [
+                'query' => $this->query,
+                'response' => $response->body(),
+            ]);
+        }
     }
 
     private function convert(): void

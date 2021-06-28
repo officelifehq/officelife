@@ -24,7 +24,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id">{{ project.name }}</inertia-link>
           </li>
           <li class="di">
-            Edit status
+            {{ $t('app.breadcrumb_project_status_edit') }}
           </li>
         </ul>
       </div>
@@ -33,9 +33,9 @@
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <div class="pa3 measure center">
           <h2 class="tc normal mb4 lh-copy">
-            How is the project doing?
+            {{ $t('project.summary_project_status_edit_title') }}
 
-            <help :url="$page.props.help_links.team_recent_ship_create" :top="'1px'" />
+            <help :url="$page.props.help_links.project" :top="'1px'" />
           </h2>
 
           <form @submit.prevent="submit">
@@ -50,7 +50,7 @@
                 <label for="status_on_track" class="pointer mb0">
                   <span class="mr1">
                     😇
-                  </span> On track
+                  </span> {{ $t('project.summary_project_status_edit_on_track') }}
                 </label>
               </span>
               <span class="btn mr3-ns mb0-ns mb2 dib-l db rate-risk" data-cy="project-status-at-risk">
@@ -60,7 +60,7 @@
                 <label for="status_at_risk" class="pointer mb0">
                   <span class="mr1">
                     🥴
-                  </span> At risk
+                  </span> {{ $t('project.summary_project_status_edit_at_risk') }}
                 </label>
               </span>
               <span class="btn mr3-ns mb0-ns mb2 dib-l db rate-late" data-cy="project-status-late">
@@ -70,7 +70,7 @@
                 <label for="status_late" class="pointer mb0">
                   <span class="mr1">
                     🙀
-                  </span> Late
+                  </span> {{ $t('project.summary_project_status_edit_late') }}
                 </label>
               </span>
             </div>
@@ -81,19 +81,16 @@
                         :name="'title'"
                         :datacy="'status-title-input'"
                         :errors="$page.props.errors.title"
-                        :label="'Project status'"
-                        :placeholder="'It’s going well'"
-                        :help="$t('project.status_input_title_help')"
+                        :label="$t('project.summary_project_status_edit_status')"
                         :required="true"
             />
 
             <!-- Description -->
             <text-area v-model="form.description"
-                       :label="$t('project.create_input_summary')"
+                       :label="$t('project.summary_project_status_edit_description')"
                        :required="true"
                        :datacy="'textarea-description'"
                        :rows="10"
-                       :help="$t('project.create_input_summary_help')"
             />
 
             <!-- Actions -->

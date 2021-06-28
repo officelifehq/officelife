@@ -47,6 +47,7 @@ input[type=radio] {
                         :label="$t('account.company_news_new_title')"
                         :help="$t('account.company_news_new_title_help')"
                         :required="true"
+                        :maxlength="191"
             />
 
             <!-- Content -->

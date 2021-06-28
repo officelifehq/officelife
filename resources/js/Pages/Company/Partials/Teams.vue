@@ -21,7 +21,7 @@
     <div class="br3 bg-white box z-1 relative">
       <!-- general stats -->
       <div class="pa3 bb bb-gray">
-        <p class="ma0">{{ $t('company.teams_total', { count: statistics.number_of_teams }) }}</p>
+        <p class="ma0">{{ $tc('company.teams_total', statistics.number_of_teams, { count: statistics.number_of_teams }) }}</p>
       </div>
 
       <!-- random teams -->
@@ -36,7 +36,7 @@
             </div>
 
             <div v-if="team.total_remaining_employees > 0" class="pl2 f7 more-members di relative gray">
-              {{ $t('company.total_remaining_employees', { count: team.total_remaining_employees }) }}
+              {{ $tc('company.total_remaining_employees', team.total_remaining_employees, { count: team.total_remaining_employees }) }}
             </div>
           </div>
         </div>

@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use App\Helpers\PermissionHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -33,6 +34,7 @@ class EmployeeAdministrationController extends Controller
                 ->with('user')
                 ->with('status')
                 ->with('hardware')
+                ->with('softwares')
                 ->with('expenses')
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
@@ -40,10 +42,13 @@ class EmployeeAdministrationController extends Controller
         }
 
         // information about what the logged employee can do
-        $permissions = EmployeeShowViewHelper::permissions($loggedEmployee, $employee);
+        $permissions = PermissionHelper::permissions($loggedEmployee, $employee);
 
         // hardware
         $hardware = EmployeeShowViewHelper::hardware($employee, $permissions);
+
+        // softwares
+        $softwares = EmployeeShowViewHelper::softwares($employee, $permissions);
 
         // all expenses of this employee
         $expenses = EmployeeShowViewHelper::expenses($employee, $permissions, $loggedEmployee);
@@ -61,6 +66,7 @@ class EmployeeAdministrationController extends Controller
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'hardware' => $hardware,
             'expenses' => $expenses,
+            'softwares' => $softwares,
             'timesheets' => $timesheets,
         ]);
     }

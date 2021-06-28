@@ -15,32 +15,34 @@ class EmployeeSkillViewHelper
      *
      * @param Company $company
      * @param Employee $employee
-     * @param string $criteria
+     * @param string|null $criteria
      * @return Collection
      */
-    public static function search(Company $company, Employee $employee, string $criteria): Collection
+    public static function search(Company $company, Employee $employee, ?string $criteria): Collection
     {
-        $criteria = Str::of($criteria)->ascii()->lower();
-
-        $potentialSkills = $company->skills()
-            ->select('id', 'name')
-            ->where('name', 'LIKE', '%'.$criteria.'%')
-            ->orderBy('name', 'asc')
-            ->take(10)
-            ->get();
-
-        $employeeSkills = $employee->skills;
-
-        $potentialSkills = $potentialSkills->diff($employeeSkills);
-
-        $skillsCollection = collect([]);
-        foreach ($potentialSkills as $skill) {
-            $skillsCollection->push([
-                'id' => $skill->id,
-                'name' => $skill->name,
-            ]);
+        if ($criteria === null) {
+            return collect();
         }
 
-        return $skillsCollection;
+        $criteria = Str::of($criteria)->ascii()->lower();
+
+        $employeeSkills = $employee->skills()
+            ->select('id')
+            ->pluck('id')
+            ->toArray();
+
+        return $company->skills()
+            ->select('id', 'name')
+            ->where('name', 'LIKE', '%'.$criteria.'%')
+            ->whereNotIn('id', $employeeSkills)
+            ->orderBy('name', 'asc')
+            ->take(10)
+            ->get()
+            ->map(function ($skill) {
+                return [
+                    'id' => $skill->id,
+                    'name' => $skill->name,
+                ];
+            });
     }
 }

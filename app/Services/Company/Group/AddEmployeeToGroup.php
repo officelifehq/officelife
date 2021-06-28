@@ -8,9 +8,13 @@ use App\Models\Company\Group;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Services\QueuableService;
+use App\Services\DispatchableService;
 
-class AddEmployeeToGroup extends BaseService
+class AddEmployeeToGroup extends BaseService implements QueuableService
 {
+    use DispatchableService;
+
     private array $data;
 
     private Employee $employee;
@@ -35,17 +39,24 @@ class AddEmployeeToGroup extends BaseService
 
     /**
      * Add an employee to a group.
+     */
+    public function handle(): void
+    {
+        $this->validate();
+
+        $this->attachEmployee();
+        $this->log();
+    }
+
+    /**
+     * Add an employee to a group.
      *
-     * @param array $data
      * @return Employee
      */
     public function execute(array $data): Employee
     {
         $this->data = $data;
-        $this->validate();
-
-        $this->attachEmployee();
-        $this->log();
+        $this->handle();
 
         return $this->employee;
     }

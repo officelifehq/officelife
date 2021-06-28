@@ -8,8 +8,11 @@
 
 <template>
   <div>
-    <div v-if="dataerror || exception" class="border-red ba br3 pa3" v-bind="$attrs">
+    <div v-if="dataerror || exception || $page.props.flash.message" class="border-red ba br3 pa3 mb3" v-bind="$attrs">
       <p class="mv0 fw6">{{ $t('app.error_title') }}</p>
+      <p v-if="$page.props.flash.message" class="mb0">
+        {{ $page.props.flash.message }}
+      </p>
       <template v-if="dataerror">
         <p v-if="flatten[0] != 'The given data was invalid.'" class="mb0">
           {{ flatten[0] }}

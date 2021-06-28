@@ -94,7 +94,7 @@ class AdminExpenseController extends Controller
                 'id' => $category->id,
                 'name' => $category->name,
             ],
-        ], 201);
+        ], 200);
     }
 
     /**
@@ -196,6 +196,6 @@ class AdminExpenseController extends Controller
             'data' => [
                 'id' => $employee->id,
             ],
-        ], 201);
+        ], 200);
     }
 }

@@ -372,4 +372,37 @@ class ProjectTasksViewHelperTest extends TestCase
             $collection->toArray()
         );
     }
+
+    /** @test */
+    public function it_gets_a_collection_of_task_lists(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $michael = $this->createAdministrator();
+        $project = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $projectTaskListA = ProjectTaskList::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $projectTaskListB = ProjectTaskList::factory()->create([
+            'project_id' => $project->id,
+        ]);
+
+        $collection = ProjectTasksViewHelper::taskLists($project);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'value' => $projectTaskListA->id,
+                    'label' => $projectTaskListA->title,
+                ],
+                1 => [
+                    'value' => $projectTaskListB->id,
+                    'label' => $projectTaskListB->title,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
 }

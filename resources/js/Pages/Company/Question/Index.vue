@@ -29,6 +29,8 @@
         <div class="pa3 mt3">
           <h2 class="tc normal mb4">
             {{ $t('company.questions_title') }}
+
+            <help :url="$page.props.help_links.questions" :top="'1px'" />
           </h2>
 
           <!-- LIST OF QUESTIONS -->
@@ -57,10 +59,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
     Layout,
+    Help,
   },
 
   props: {

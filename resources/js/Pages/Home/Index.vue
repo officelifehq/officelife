@@ -51,7 +51,7 @@
           </inertia-link>
         </div>
         <div class="fl w-100 w-25-m w-50-l">
-          <inertia-link href="/company/create">
+          <inertia-link href="/company/join">
             <div class="pa3-l">
               <div class="br3 mb3 bg-white box pa3 tc relative home-box">
                 <h3>{{ $t('home.join_company') }}</h3>

@@ -63,6 +63,10 @@ class Setup extends Command
                 $this->artisan('✓ Cache configuraton', 'config:cache'); // @codeCoverageIgnore
             }
 
+            if (config('trustedproxy.cloudflare')) {
+                $this->artisan('✓ Refresh cloudflare proxies cache', 'cloudflare:reload');
+            }
+
             $this->line('Officelife '.config('officelife.app_version').' is set up, enjoy.');
         }
     }

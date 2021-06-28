@@ -8,6 +8,7 @@ use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
 use App\Helpers\BirthdayHelper;
+use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use App\Helpers\WorkFromHomeHelper;
 
@@ -169,29 +170,26 @@ class DashboardTeamViewHelper
     }
 
     /**
-     * Creates an array containing all the information regarding the worklogs
+     * Creates an array containing all the information regarding the work logs
      * logged on the given day for a specific team.
      *
      * This array also contains an indicator telling how many team members have
-     * filled the worklogs for the day. The rules are as follow:
-     * - less than 20% of team members have filled the worklogs: red
+     * filled the work logs for the day. The rules are as follow:
+     * - less than 20% of team members have filled the work logs: red
      * - 20% -> 80%: yellow
      * - > 80%: green
      *
      * @param Team $team
      * @param Carbon $date
+     * @param Employee $loggedEmployee
      * @return array
      */
-    public static function worklogs(Team $team, Carbon $date): array
+    public static function worklogsForDate(Team $team, Carbon $date, Employee $loggedEmployee): array
     {
-        // remove employees that are locked
-        $employees = $team->employees;
-        $employees = $employees->filter(function ($employee) {
-            return ! $employee->locked;
-        });
+        $employees = $team->employees()->notLocked()->get();
 
         $numberOfEmployeesInTeam = $employees->count();
-        $numberOfEmployeesWhoHaveLoggedWorklogs = count($team->worklogsForDate($date));
+        $numberOfEmployeesWhoHaveLoggedWorklogs = count($team->worklogsForDate($date, $loggedEmployee));
         $percent = $numberOfEmployeesWhoHaveLoggedWorklogs * 100 / $numberOfEmployeesInTeam;
 
         $indicator = 'red';
@@ -215,6 +213,31 @@ class DashboardTeamViewHelper
         ];
 
         return $data;
+    }
+
+    /**
+     * Get all the work logs for the last 7 days.
+     * By default, the view will display the following days:
+     * Last Fri/M/T/W/T/F.
+     *
+     * @param Team $team
+     * @param Carbon $startDate
+     * @param Employee $loggedEmployee
+     * @return Collection
+     */
+    public static function worklogsForTheLast7Days(Team $team, Carbon $startDate, Employee $loggedEmployee): Collection
+    {
+        $dates = collect([]);
+        $lastFriday = $startDate->copy()->startOfWeek()->subDays(3);
+
+        $dates->push(self::worklogsForDate($team, $lastFriday, $loggedEmployee));
+
+        for ($i = 0; $i < 5; $i++) {
+            $day = $startDate->copy()->startOfWeek()->addDays($i);
+            $dates->push(self::worklogsForDate($team, $day, $loggedEmployee));
+        }
+
+        return $dates;
     }
 
     /**

@@ -10,7 +10,6 @@ use App\Models\Company\ImportJob;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\View;
 use App\Services\Company\Adminland\File\UploadFile;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Adminland\AdminUploadEmployeeViewHelper;
@@ -128,10 +127,14 @@ class AdminUploadEmployeeController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        ImportJob::where('company_id', $loggedCompany->id)
+        $importJob = ImportJob::where('company_id', $loggedCompany->id)
             ->findOrFail($jobId);
 
-        (new ImportEmployeesFromTemporaryTable)->execute([
+        $importJob->update([
+            'status' => ImportJob::IMPORTING,
+        ]);
+
+        ImportEmployeesFromTemporaryTable::dispatch([
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'import_job_id' => $jobId,

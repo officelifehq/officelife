@@ -9,6 +9,7 @@ use App\Helpers\InstanceHelper;
 use App\Helpers\TimezoneHelper;
 use App\Models\Company\Country;
 use App\Models\Company\Employee;
+use App\Helpers\PermissionHelper;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -16,7 +17,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Place\CreatePlace;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeEditViewHelper;
-use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Http\ViewHelpers\Employee\EmployeeEditContractViewHelper;
@@ -62,7 +62,7 @@ class EmployeeEditController extends Controller
         return Inertia::render('Employee/Edit', [
             'employee' => EmployeeEditViewHelper::show($employee),
             'timezones' => TimezoneHelper::getListOfTimezones(),
-            'permissions' => EmployeeShowViewHelper::permissions($loggedEmployee, $employee),
+            'permissions' => PermissionHelper::permissions($loggedEmployee, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -92,16 +92,18 @@ class EmployeeEditController extends Controller
 
         (new SetPersonalDetails)->execute($data);
 
-        $data = [
-            'company_id' => $companyId,
-            'author_id' => $loggedEmployee->id,
-            'employee_id' => $employeeId,
-            'year' => intval($request->input('year')),
-            'month' => intval($request->input('month')),
-            'day' => intval($request->input('day')),
-        ];
+        if ($request->input('year')) {
+            $data = [
+                'company_id' => $companyId,
+                'author_id' => $loggedEmployee->id,
+                'employee_id' => $employeeId,
+                'year' => intval($request->input('year')),
+                'month' => intval($request->input('month')),
+                'day' => intval($request->input('day')),
+            ];
 
-        (new SetBirthdate)->execute($data);
+            (new SetBirthdate)->execute($data);
+        }
 
         if ($request->input('hired_year')) {
             $data = [
@@ -181,7 +183,7 @@ class EmployeeEditController extends Controller
         return Inertia::render('Employee/Edit/Address', [
             'employee' => $employee->toObject(),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'permissions' => EmployeeShowViewHelper::permissions($loggedEmployee, $employee),
+            'permissions' => PermissionHelper::permissions($loggedEmployee, $employee),
             'countries' => $countriesCollection,
         ]);
     }
@@ -250,7 +252,7 @@ class EmployeeEditController extends Controller
 
         return Inertia::render('Employee/Edit/Contract', [
             'employee' => EmployeeEditContractViewHelper::employeeInformation($employee),
-            'permissions' => EmployeeShowViewHelper::permissions($loggedEmployee, $employee),
+            'permissions' => PermissionHelper::permissions($loggedEmployee, $employee),
             'rates' => EmployeeEditContractViewHelper::rates($employee, $loggedCompany),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);

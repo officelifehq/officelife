@@ -17,17 +17,17 @@
 
         <!-- company name  -->
         <h2 class="ma0 fw4 f3">
-          {{ $page.props.auth.company.name }} <a href="https://dundermifflin.com" class="ml3-ns di-ns db mb0-ns mb2 f6 fw4 no-underline gray bb-0">https://dundermifflin.com</a>
+          {{ $page.props.auth.company.name }}
         </h2>
       </div>
 
       <div class="flex pa0-ns pa3">
         <div>
-          <p class="ttu f7 gray mb1 mt0 mr5">number of employees</p>
+          <p class="ttu f7 gray mb1 mt0 mr5">{{ $t('company.stat_number_of_employees') }}</p>
           <p class="mt0 mb0">{{ statistics.number_of_employees }}</p>
         </div>
         <div>
-          <p class="ttu f7 gray mb1 mt0 mr5">number of teams</p>
+          <p class="ttu f7 gray mb1 mt0 mr5">{{ $t('company.stat_number_of_teams') }}</p>
           <p class="mt0 mb0">{{ statistics.number_of_teams }}</p>
         </div>
         <div v-if="statistics.founded_at" class="">

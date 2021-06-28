@@ -57,6 +57,9 @@ class AdminGeneralViewHelper
         // founded date
         $foundedDate = $company->founded_at ? $company->founded_at->year : null;
 
+        // code to invite employees
+        $invitationCode = $company->code_to_join_company;
+
         return [
             'id' => $company->id,
             'name' => $name,
@@ -67,6 +70,7 @@ class AdminGeneralViewHelper
             'logo' => $logo,
             'uploadcare_public_key' => config('officelife.uploadcare_public_key'),
             'founded_at' => $foundedDate,
+            'invitation_code' => $invitationCode,
         ];
     }
 

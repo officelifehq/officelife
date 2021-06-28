@@ -4,6 +4,8 @@ namespace App\Services\Company\Adminland\Company;
 
 use App\Services\BaseService;
 use App\Models\Company\Company;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Company\SendAccountCancellationToAdministratorMail;
 
 class DestroyCompany extends BaseService
 {
@@ -52,6 +54,11 @@ class DestroyCompany extends BaseService
 
     private function destroy(): void
     {
+        if (config('officelife.email_instance_administrator')) {
+            Mail::to(config('officelife.email_instance_administrator'))
+                ->queue(new SendAccountCancellationToAdministratorMail($this->company));
+        }
+
         $this->company->delete();
     }
 }

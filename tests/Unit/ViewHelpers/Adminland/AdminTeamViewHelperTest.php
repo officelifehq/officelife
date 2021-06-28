@@ -80,7 +80,7 @@ class AdminTeamViewHelperTest extends ApiTestCase
                     'avatar' => ImageHelper::getAvatar($auditLogA->author, 35),
                     'url' => env('APP_URL').'/'.$auditLogA->author->company_id.'/employees/'.$auditLogA->author->id,
                 ],
-                'localized_audited_at' => 'Jan 12, 2020 00:00',
+                'localized_audited_at' => 'Jan 12, 2020 12:00 AM',
                 'audited_at' => $auditLogA->audited_at,
             ],
             $collection[0]

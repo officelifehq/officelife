@@ -8,7 +8,6 @@ use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Jobs\AttachEmployeeToShip;
 
 class CreateShip extends BaseService
 {

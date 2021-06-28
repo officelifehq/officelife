@@ -40,7 +40,7 @@ input[type=radio] {
             <p>{{ $t('account.import_employees_import_description') }}</p>
             <div class="box-shadow-gray br3 pa3 f6">
               <p class="mt0 mb2">{{ $t('account.import_employees_import_note') }}</p>
-              <a href="">{{ $t('account.import_employees_import_instructions') }}</a>
+              <a href="https://docs.officelife.io/documentation/manage/employee-management.html#importing-employees" target="_blank">{{ $t('account.import_employees_import_instructions') }}</a>
             </div>
           </div>
 
@@ -59,8 +59,15 @@ input[type=radio] {
               </uploadcare>
             </div>
 
+            <!-- disable actions if instance is in demo mode -->
+            <div v-if="$page.props.demo_mode" class="cf pa3 tc">
+              <span class="mr1">
+                ⚠️
+              </span> {{ $t('app.demo_mode_deactivated') }}
+            </div>
+
             <!-- Actions -->
-            <div class="cf pa3">
+            <div v-if="!$page.props.demo_mode" class="cf pa3">
               <div class="flex-ns justify-between">
                 <div>
                   <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employees'" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">

@@ -18,11 +18,8 @@ use App\Models\Company\ExpenseCategory;
 class CreateExpense extends BaseService
 {
     private Expense $expense;
-
     private Employee $employee;
-
     private array $data;
-
     private Collection $managers;
 
     /**
@@ -38,7 +35,7 @@ class CreateExpense extends BaseService
             'employee_id' => 'required|integer|exists:employees,id',
             'expense_category_id' => 'nullable|integer|exists:expense_categories,id',
             'title' => 'required|string|max:255',
-            'amount' => 'required|integer|min:1',
+            'amount' => 'nullable|numeric|gt:0',
             'currency' => 'required|string|max:255',
             'description' => 'nullable|string|max:65535',
             'expensed_at' => 'required|date',
@@ -124,8 +121,7 @@ class CreateExpense extends BaseService
             ])->onQueue('low');
         }
 
-        ConvertExpense::dispatch($this->expense)
-            ->onQueue('low');
+        ConvertExpense::dispatch($this->expense);
     }
 
     /**

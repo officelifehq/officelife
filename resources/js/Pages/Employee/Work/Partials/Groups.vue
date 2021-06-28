@@ -26,7 +26,7 @@
 
     <div class="mb4 bg-white box cf">
       <!-- list of groups -->
-      <ul class="list pl0 ma0">
+      <ul v-if="groups.length > 0" class="list pl0 ma0">
         <li v-for="group in groups" :key="group.id" class="w-100 pa3 mr3 flex justify-between items-center bb bb-gray groups-list">
           <div>
             <p class="ma0 lh-copy relative">
@@ -48,6 +48,11 @@
           </span>
         </li>
       </ul>
+
+      <!-- blank state -->
+      <div v-if="groups.length == 0" class="pa3">
+        <p class="mb0 mt0 lh-copy f6">{{ $t('employee.groups_blank') }}</p>
+      </div>
     </div>
   </div>
 </template>

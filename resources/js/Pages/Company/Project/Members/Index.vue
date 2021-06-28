@@ -81,7 +81,7 @@
           <div class="fl w-80-l w-100 pl4-l">
             <div v-if="!showModal" class="flex-ns justify-between items-center mb2">
               <span class="mb2 mb0-ns db di-ns">
-                {{ $t('project.members_index_count', { count: localMembers.length }) }}
+                {{ $tc('project.members_index_count', localMembers.length, { count: localMembers.length }) }}
               </span>
               <a href="#" class="btn dib-l db mb3 mb0-ns" data-cy="member-add-button" @click.prevent="displayAddModal()">{{ $t('project.members_index_add_cta') }}</a>
             </div>
@@ -198,7 +198,7 @@
                       </span>
                     </span>
                     <span v-if="member.position && member.role" class="db f7 gray">{{ $t('project.members_index_position_with_role', { role: member.position.title }) }}</span>
-                    <span v-if="member.position && !member.role" class="db f7 gray">{{ $t('project.members_index_position', { role: member.position.title }) }}</span>
+                    <span v-if="member.position && !member.role" class="db f7 gray">{{ member.position.title }}</span>
                   </div>
 
                   <!-- actions -->

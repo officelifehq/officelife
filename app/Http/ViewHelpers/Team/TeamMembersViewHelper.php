@@ -21,7 +21,7 @@ class TeamMembersViewHelper
     public static function searchPotentialTeamMembers(Company $company, Team $team, string $criteria): Collection
     {
         $potentialEmployees = $company->employees()
-            ->select('id', 'first_name', 'last_name')
+            ->select('id', 'first_name', 'last_name', 'email')
             ->notLocked()
             ->where(function ($query) use ($criteria) {
                 $query->where('first_name', 'LIKE', '%'.$criteria.'%')

@@ -3,12 +3,11 @@
 namespace App\Http\ViewHelpers\Adminland;
 
 use App\Models\Company\Company;
-use Illuminate\Support\Collection;
 
 class AdminECoffeeViewHelper
 {
     /**
-     * Collection containing all the information about the expense categories
+     * Get the information about the ecoffee process
      * used in the company.
      *
      * @param Company $company

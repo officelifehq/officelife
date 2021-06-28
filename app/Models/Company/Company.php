@@ -28,7 +28,9 @@ class Company extends Model
         'has_dummy_data',
         'logo_file_id',
         'e_coffee_enabled',
+        'work_from_home_enabled',
         'founded_at',
+        'code_to_join_company',
     ];
 
     /**
@@ -49,6 +51,7 @@ class Company extends Model
     protected $casts = [
         'has_dummy_data' => 'boolean',
         'e_coffee_enabled' => 'boolean',
+        'work_from_home_enabled' => 'boolean',
     ];
 
     /**
@@ -278,6 +281,16 @@ class Company extends Model
     public function invoices()
     {
         return $this->hasMany(CompanyInvoice::class);
+    }
+
+    /**
+     * Get all softwares in the company.
+     *
+     * @return HasMany
+     */
+    public function softwares()
+    {
+        return $this->hasMany(Software::class);
     }
 
     /**

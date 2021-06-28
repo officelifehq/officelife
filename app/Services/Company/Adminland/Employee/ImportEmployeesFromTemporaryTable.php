@@ -2,16 +2,23 @@
 
 namespace App\Services\Company\Adminland\Employee;
 
+use Throwable;
 use App\Services\BaseService;
 use App\Models\Company\ImportJob;
-use App\Jobs\AddEmployeeToCompany;
+use App\Services\QueuableService;
+use App\Services\DispatchableService;
 use App\Models\Company\ImportJobReport;
 
-class ImportEmployeesFromTemporaryTable extends BaseService
+class ImportEmployeesFromTemporaryTable extends BaseService implements QueuableService
 {
+    use DispatchableService;
+
     private array $data;
 
-    private ImportJob $job;
+    /**
+     * @var ImportJob|null
+     */
+    private ?ImportJob $importJob = null;
 
     /**
      * Get the validation rules that apply to the service.
@@ -30,13 +37,11 @@ class ImportEmployeesFromTemporaryTable extends BaseService
     /**
      * Take all employees that were put in the temporary table during the CSV
      * import, and import them as employees in the company.
-     *
-     * @param array $data
      */
-    public function execute(array $data): void
+    public function handle(): void
     {
-        $this->data = $data;
         $this->validate();
+
         $this->import();
         $this->markAsMigrated();
     }
@@ -50,7 +55,7 @@ class ImportEmployeesFromTemporaryTable extends BaseService
             ->asAtLeastHR()
             ->canExecuteService();
 
-        $this->job = ImportJob::where('company_id', $this->data['company_id'])
+        $this->importJob = ImportJob::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['import_job_id']);
     }
 
@@ -59,7 +64,7 @@ class ImportEmployeesFromTemporaryTable extends BaseService
      */
     private function import(): void
     {
-        ImportJobReport::where('import_job_id', $this->data['import_job_id'])
+        $this->importJob->reports()
             ->where('skipped_during_upload', false)
             ->chunk(100, function ($reports) {
                 $reports->each(function (ImportJobReport $report) {
@@ -71,14 +76,33 @@ class ImportEmployeesFromTemporaryTable extends BaseService
                         'last_name' => $report->employee_last_name,
                         'permission_level' => 300,
                         'send_invitation' => false,
-                    ])->onQueue('low');
+                    ]);
                 });
             });
     }
 
     private function markAsMigrated(): void
     {
-        $this->job->status = ImportJob::IMPORTED;
-        $this->job->save();
+        $this->importJob->update([
+            'status' => ImportJob::IMPORTED,
+        ]);
+    }
+
+    /**
+     * Handle a job failure.
+     *
+     * @param  \Throwable  $exception
+     */
+    public function failed(Throwable $exception): void
+    {
+        if ($this->importJob === null) {
+            $this->importJob = ImportJob::where('company_id', $this->data['company_id'])
+                ->find($this->data['import_job_id']);
+        }
+        if ($this->importJob !== null) {
+            $this->importJob->update([
+                'status' => ImportJob::FAILED,
+            ]);
+        }
     }
 }

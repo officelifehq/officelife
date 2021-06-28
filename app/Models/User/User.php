@@ -8,14 +8,16 @@ use App\Models\Company\Employee;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {
-    use Notifiable, LogsActivity, HasFactory, HasApiTokens;
+    use Notifiable, LogsActivity, HasFactory, HasApiTokens, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -31,6 +33,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'nickname',
         'uuid',
         'show_help',
+        'locale',
     ];
 
     /**
@@ -125,5 +128,15 @@ class User extends Authenticatable implements MustVerifyEmail
         if (config('mail.verify') && self::count() > 1) {
             SendVerifyEmail::dispatch($this);
         }
+    }
+
+    /**
+     * Get the preferred locale of the entity.
+     *
+     * @return string|null
+     */
+    public function preferredLocale()
+    {
+        return $this->locale;
     }
 }
