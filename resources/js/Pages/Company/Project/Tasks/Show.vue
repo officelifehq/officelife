@@ -175,14 +175,16 @@ input[type=checkbox] {
                 <!-- part of list -->
                 <div class="fl w-50 pa3 bg-gray stat-right-corner">
                   <p v-if="lists.length == 0" class="ma0">{{ $t('project.task_show_no_list') }}</p>
-                  <select-box :ref="'list'"
-                              v-model="form.task_list_id"
-                              :options="lists"
-                              :errors="$page.props.errors.task_list_id"
-                              :label="$t('project.task_show_part_of_list')"
-                              :placeholder="$t('app.choose_value')"
-                              :required="false"
-                  />
+                  <div v-else>
+                    <select-box :ref="'list'"
+                                v-model="form.task_list_id"
+                                :options="lists"
+                                :errors="$page.props.errors.task_list_id"
+                                :label="$t('project.task_show_part_of_list')"
+                                :placeholder="$t('app.choose_value')"
+                                :required="false"
+                    />
+                  </div>
                 </div>
               </div>
 
