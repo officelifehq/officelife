@@ -17,6 +17,7 @@ return [
     'home_general_settings' => 'General settings',
     'home_manage_ecoffee' => 'Manage eCoffee process',
     'home_manage_work_from_home' => 'Manage work from home',
+    'home_account_usage' => 'Account usage & billing',
     'home_cancel_account' => 'Cancel this account',
     'home_manage_software' => 'Manage software',
     'employees_title' => 'Manage the employees in {company}',
