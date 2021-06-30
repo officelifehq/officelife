@@ -27,6 +27,7 @@ class GroupController extends Controller
      *
      * @param Request $request
      * @param int $companyId
+     *
      * @return Response
      */
     public function index(Request $request, int $companyId): Response
@@ -48,6 +49,8 @@ class GroupController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $groupId
+     *
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function show(Request $request, int $companyId, int $groupId)
     {
@@ -74,6 +77,7 @@ class GroupController extends Controller
      *
      * @param Request $request
      * @param int $companyId
+     *
      * @return Response
      */
     public function create(Request $request, int $companyId): Response
@@ -88,6 +92,7 @@ class GroupController extends Controller
      *
      * @param Request $request
      * @param int $companyId
+     *
      * @return JsonResponse
      */
     public function search(Request $request, int $companyId): JsonResponse
@@ -146,6 +151,7 @@ class GroupController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $groupId
+     *
      * @return Response
      */
     public function delete(Request $request, int $companyId, int $groupId): Response
@@ -191,6 +197,8 @@ class GroupController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $groupId
+     *
+     *  @return \Illuminate\Http\RedirectResponse|Response
      */
     public function edit(Request $request, int $companyId, int $groupId)
     {

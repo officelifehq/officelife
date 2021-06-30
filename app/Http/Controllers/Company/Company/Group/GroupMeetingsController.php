@@ -36,6 +36,8 @@ class GroupMeetingsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $groupId
+     *
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function index(Request $request, int $companyId, int $groupId)
     {
@@ -68,6 +70,8 @@ class GroupMeetingsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $groupId
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function create(Request $request, int $companyId, int $groupId)
     {
@@ -101,6 +105,8 @@ class GroupMeetingsController extends Controller
      * @param int $companyId
      * @param int $groupId
      * @param int $meetingId
+     *
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function show(Request $request, int $companyId, int $groupId, int $meetingId)
     {
@@ -139,6 +145,8 @@ class GroupMeetingsController extends Controller
      * @param int $companyId
      * @param int $groupId
      * @param int $meetingId
+     *
+     * @return JsonResponse
      */
     public function toggleParticipant(Request $request, int $companyId, int $groupId, int $meetingId)
     {
@@ -165,6 +173,7 @@ class GroupMeetingsController extends Controller
      * @param int $companyId
      * @param int $groupId
      * @param int $meetingId
+     *
      * @return JsonResponse
      */
     public function search(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
@@ -203,6 +212,8 @@ class GroupMeetingsController extends Controller
      * @param int $companyId
      * @param int $groupId
      * @param int $meetingId
+     *
+     * @return JsonResponse
      */
     public function addParticipant(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
@@ -235,6 +246,8 @@ class GroupMeetingsController extends Controller
      * @param int $companyId
      * @param int $groupId
      * @param int $meetingId
+     *
+     * @return JsonResponse
      */
     public function removeParticipant(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
@@ -261,6 +274,8 @@ class GroupMeetingsController extends Controller
      * @param int $companyId
      * @param int $groupId
      * @param int $meetingId
+     *
+     * @return JsonResponse
      */
     public function setDate(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
@@ -289,6 +304,8 @@ class GroupMeetingsController extends Controller
      * @param int $companyId
      * @param int $groupId
      * @param int $meetingId
+     *
+     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
@@ -314,6 +331,7 @@ class GroupMeetingsController extends Controller
      * @param int $companyId
      * @param int $groupId
      * @param int $meetingId
+     *
      * @return JsonResponse
      */
     public function createAgendaItem(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
@@ -358,6 +376,7 @@ class GroupMeetingsController extends Controller
      * @param int $groupId
      * @param int $meetingId
      * @param int $agendaItemId
+     *
      * @return JsonResponse
      */
     public function updateAgendaItem(Request $request, int $companyId, int $groupId, int $meetingId, int $agendaItemId): JsonResponse
@@ -429,6 +448,7 @@ class GroupMeetingsController extends Controller
      * @param int $companyId
      * @param int $groupId
      * @param int $meetingId
+     *
      * @return JsonResponse
      */
     public function getPresenters(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
@@ -462,6 +482,7 @@ class GroupMeetingsController extends Controller
      * @param int $groupId
      * @param int $meetingId
      * @param int $agendaItemId
+     *
      * @return JsonResponse
      */
     public function createDecision(Request $request, int $companyId, int $groupId, int $meetingId, int $agendaItemId): JsonResponse
@@ -495,6 +516,7 @@ class GroupMeetingsController extends Controller
      * @param int $meetingId
      * @param int $agendaItemId
      * @param int $decisionId
+     *
      * @return JsonResponse
      */
     public function destroyDecision(Request $request, int $companyId, int $groupId, int $meetingId, int $agendaItemId, int $decisionId): JsonResponse
