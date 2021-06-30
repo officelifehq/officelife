@@ -94,6 +94,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Enable payment in the instance
+    |--------------------------------------------------------------------------
+    |
+    | This is used to bill the customers of the OfficeLife instance.
+    | You most likely don't need to touch this variable if you self-host.
+    |
+    */
+    'enable_paid_plan' => env('ENABLE_PAID_PLAN', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Mapbox API key
     |--------------------------------------------------------------------------
     |

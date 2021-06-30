@@ -23,10 +23,12 @@ use App\Models\Company\ImportJob;
 use App\Models\Company\Timesheet;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\DirectReport;
+use App\Models\Company\CompanyInvoice;
 use App\Models\Company\ConsultantRate;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Models\Company\CompanyPTOPolicy;
+use App\Models\Company\CompanyDailyUsageHistory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CompanyTest extends TestCase
@@ -251,6 +253,28 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->groups()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_company_usage_history(): void
+    {
+        $company = Company::factory()->create();
+        CompanyDailyUsageHistory::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->usageHistory()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_company_invoices(): void
+    {
+        $company = Company::factory()->create();
+        CompanyInvoice::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->invoices()->exists());
     }
 
     /** @test */
