@@ -29,7 +29,7 @@ class CompanyInvoiceFactory extends Factory
                 return CompanyDailyUsageHistory::factory()->create([
                     'company_id' => $attributes['company_id'],
                 ]);
-            }),
+            },
             'sent_to_customer' => false,
             'customer_has_paid' => false,
             'email_address_invoice_sent_to' => $this->faker->email,

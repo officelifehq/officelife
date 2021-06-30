@@ -39,8 +39,6 @@ class Kernel extends ConsoleKernel
         $schedule->job(new StartRateYourManagerProcess())->lastDayOfMonth('01:00');
         $schedule->job(new StopRateYourManagerProcess())->hourly();
 
-        $schedule->command('timeoff:calculate '.Carbon::today()->format('Y-m-d'))->daily();
-
         $schedule->job(new LogDailyMaxNumberOfActiveEmployeesInCompanies())->dailyAt($midnight);
         $schedule->job(new CreateMonthlyInvoiceForCompanies())->lastDayOfMonth('22:00');
 
