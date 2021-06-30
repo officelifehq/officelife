@@ -42,6 +42,6 @@ class CompanyDailyUsageHistory extends Model
      */
     public function details()
     {
-        return $this->hasMany(CompanyUsageHistoryDetails::class, 'company_daily_usage_history_id', 'id');
+        return $this->hasMany(CompanyUsageHistoryDetails::class, 'usage_history_id', 'id');
     }
 }

@@ -50,7 +50,7 @@ class LogDailyMaxNumberOfActiveEmployeesInCompanies implements ShouldQueue
                     ->chunk(100, function ($employees) use ($usage) {
                         foreach ($employees as $employee) {
                             CompanyUsageHistoryDetails::create([
-                                'company_daily_usage_history_id' => $usage->id,
+                                'usage_history_id' => $usage->id,
                                 'employee_name' => $employee->name,
                                 'employee_email' => $employee->email,
                             ]);

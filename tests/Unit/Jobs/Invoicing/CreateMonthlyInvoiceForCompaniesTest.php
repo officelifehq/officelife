@@ -38,7 +38,7 @@ class CreateMonthlyInvoiceForCompaniesTest extends TestCase
 
         $this->assertDatabaseHas('company_invoices', [
             'company_id' => $company->id,
-            'company_daily_usage_history_id' => $usageB->id,
+            'usage_history_id' => $usageB->id,
         ]);
 
         $companyB = Company::factory()->create();
