@@ -42,7 +42,7 @@ class SkillController extends Controller
      * @param int $companyId
      * @param int $skillId
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function show(Request $request, int $companyId, int $skillId)
     {
@@ -71,6 +71,7 @@ class SkillController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $skillId
+     *
      * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $skillId): JsonResponse
@@ -97,6 +98,7 @@ class SkillController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $skillId
+     *
      * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $skillId): JsonResponse
