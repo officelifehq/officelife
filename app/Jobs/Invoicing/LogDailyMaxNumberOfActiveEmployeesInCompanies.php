@@ -17,13 +17,6 @@ class LogDailyMaxNumberOfActiveEmployeesInCompanies implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * Create a new job instance.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Record the number of active employee for all the companies in the
      * instance.
      */
