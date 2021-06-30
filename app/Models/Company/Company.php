@@ -264,6 +264,26 @@ class Company extends Model
     }
 
     /**
+     * Get all company usage history records in the company.
+     *
+     * @return HasMany
+     */
+    public function usageHistory()
+    {
+        return $this->hasMany(CompanyDailyUsageHistory::class);
+    }
+
+    /**
+     * Get all company invoice records in the company.
+     *
+     * @return HasMany
+     */
+    public function invoices()
+    {
+        return $this->hasMany(CompanyInvoice::class);
+    }
+
+    /**
      * Get all softwares in the company.
      *
      * @return HasMany
