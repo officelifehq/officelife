@@ -37,6 +37,7 @@ class ProjectController extends Controller
      *
      * @param Request $request
      * @param int $companyId
+     *
      * @return Response
      */
     public function index(Request $request, int $companyId): Response
@@ -58,6 +59,7 @@ class ProjectController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return Response
      */
     public function show(Request $request, int $companyId, int $projectId): Response
@@ -81,6 +83,7 @@ class ProjectController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse
      */
     public function start(Request $request, int $companyId, int $projectId): JsonResponse
@@ -107,6 +110,7 @@ class ProjectController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse
      */
     public function pause(Request $request, int $companyId, int $projectId): JsonResponse
@@ -133,6 +137,7 @@ class ProjectController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse
      */
     public function close(Request $request, int $companyId, int $projectId): JsonResponse
@@ -159,6 +164,7 @@ class ProjectController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return Response
      */
     public function edit(Request $request, int $companyId, int $projectId): Response
@@ -177,6 +183,7 @@ class ProjectController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $projectId): JsonResponse
@@ -218,6 +225,7 @@ class ProjectController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse
      */
     public function description(Request $request, int $companyId, int $projectId): JsonResponse
@@ -249,7 +257,7 @@ class ProjectController extends Controller
      * @param int $companyId
      * @param int $projectId
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function delete(Request $request, int $companyId, int $projectId)
     {
@@ -276,6 +284,7 @@ class ProjectController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $projectId): JsonResponse
@@ -307,6 +316,7 @@ class ProjectController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse
      */
     public function assign(Request $request, int $companyId, int $projectId): JsonResponse
@@ -351,6 +361,7 @@ class ProjectController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse
      */
     public function clear(Request $request, int $companyId, int $projectId): JsonResponse
@@ -381,6 +392,7 @@ class ProjectController extends Controller
      *
      * @param Request $request
      * @param int $companyId
+     *
      * @return Response
      */
     public function create(Request $request, int $companyId): Response
@@ -395,6 +407,7 @@ class ProjectController extends Controller
      *
      * @param Request $request
      * @param int $companyId
+     *
      * @return JsonResponse
      */
     public function search(Request $request, int $companyId): JsonResponse
@@ -412,6 +425,7 @@ class ProjectController extends Controller
      *
      * @param Request $request
      * @param int $companyId
+     *
      * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
@@ -454,6 +468,7 @@ class ProjectController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse
      */
     public function createLink(Request $request, int $companyId, int $projectId): JsonResponse
@@ -489,6 +504,7 @@ class ProjectController extends Controller
      * @param int $companyId
      * @param int $projectId
      * @param int $linkId
+     *
      * @return JsonResponse
      */
     public function destroyLink(Request $request, int $companyId, int $projectId, int $linkId): JsonResponse
@@ -517,7 +533,7 @@ class ProjectController extends Controller
      * @param int $companyId
      * @param int $projectId
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function createStatus(Request $request, int $companyId, int $projectId)
     {
@@ -547,6 +563,8 @@ class ProjectController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
+     * @return JsonResponse
      */
     public function postStatus(Request $request, int $companyId, int $projectId)
     {

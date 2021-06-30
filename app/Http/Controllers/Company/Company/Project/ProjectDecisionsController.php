@@ -28,6 +28,8 @@ class ProjectDecisionsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function index(Request $request, int $companyId, int $projectId)
     {
@@ -58,6 +60,7 @@ class ProjectDecisionsController extends Controller
      * @param int $companyId
      * @param int $projectId
      * @param int $decisionId
+     *
      * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $projectId, int $decisionId): JsonResponse
@@ -84,6 +87,7 @@ class ProjectDecisionsController extends Controller
      *
      * @param Request $request
      * @param int $companyId
+     *
      * @return JsonResponse
      */
     public function search(Request $request, int $companyId): JsonResponse
@@ -102,6 +106,7 @@ class ProjectDecisionsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $projectId): JsonResponse
