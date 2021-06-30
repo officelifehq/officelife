@@ -153,6 +153,7 @@ return [
     'breadcrumb_group_detail' => 'Detail of a group',
     'breadcrumb_group_delete' => 'Delete the group',
     'breadcrumb_group_edit' => 'Edit the group',
+    'breadcrumb_account_manage_invoices' => 'View invoices',
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',
     'header_find' => 'Find',

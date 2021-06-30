@@ -3,10 +3,9 @@
 namespace App\Http\ViewHelpers\Adminland;
 
 use App\Helpers\DateHelper;
-use App\Helpers\ImageHelper;
-use App\Models\Company\File;
 use App\Models\Company\Company;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
+use App\Models\Company\CompanyInvoice;
 
 class AdminBillingViewHelper
 {
@@ -14,57 +13,45 @@ class AdminBillingViewHelper
      * Get all the information about the account usage.
      *
      * @param Company $company
-     * @return array|null
+     * @return Collection|null
      */
-    public static function index(Company $company): ?array
+    public static function index(Company $company): ?Collection
     {
-        $accountUsageCollection = collect();
-        $usages = $company->
-        $administrators = $company->employees()
-            ->notLocked()
-            ->where('permission_level', 100)
-            ->orderBy('id', 'asc')
-            ->get();
+        return $company->invoices()
+            ->with('companyUsageHistory')
+            ->latest()
+            ->get()
+            ->map(function ($invoice) use ($company) {
+                return [
+                    'id' => $invoice->id,
+                    'number_of_active_employees' => $invoice->companyUsageHistory->number_of_active_employees,
+                    'month' => DateHelper::formatMonthAndYear($invoice->created_at),
+                    'url' => route('invoices.show', [
+                        'company' => $company,
+                        'invoice' => $invoice->id,
+                    ]),
+                ];
+            });
+    }
 
-        foreach ($administrators as $employee) {
-            $administratorsCollection->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'avatar' => ImageHelper::getAvatar($employee, 22),
-                'url_view' => route('employees.show', [
-                    'company' => $company,
-                    'employee' => $employee,
-                ]),
-            ]);
-        }
+    public static function show(CompanyInvoice $invoice): ?array
+    {
+        $companyUsageHistory = $invoice->companyUsageHistory;
 
-        // creation date of the account
-        $creationDate = DateHelper::formatShortDateWithTime($company->created_at, $loggedEmployee->timezone);
-
-        // total file sizes
-        $totalSize = DB::table('files')->where('company_id', $company->id)
-            ->sum('size');
-
-        // logo
-        $logo = $company->logo ? ImageHelper::getImage($company->logo, 300, 300) : null;
-
-        // founded date
-        $foundedDate = $company->founded_at ? $company->founded_at->year : null;
-
-        // code to invite employees
-        $invitationCode = $company->code_to_join_company;
+        $details = $companyUsageHistory->details()->get()
+            ->map(function ($detail) {
+                return [
+                    'id' => $detail->id,
+                    'employee_name' => $detail->employee_name,
+                    'employee_email' => $detail->employee_email,
+                ];
+            });
 
         return [
-            'id' => $company->id,
-            'name' => $name,
-            'administrators' => $administratorsCollection,
-            'creation_date' => $creationDate,
-            'currency' => $company->currency,
-            'total_size' => round($totalSize / 1000, 4),
-            'logo' => $logo,
-            'uploadcare_public_key' => config('officelife.uploadcare_public_key'),
-            'founded_at' => $foundedDate,
-            'invitation_code' => $invitationCode,
+            'month' => DateHelper::formatMonthAndYear($invoice->created_at),
+            'day_with_max_employees' => DateHelper::formatDate($companyUsageHistory->created_at),
+            'number_of_active_employees' => $companyUsageHistory->number_of_active_employees,
+            'details' => $details,
         ];
     }
 }

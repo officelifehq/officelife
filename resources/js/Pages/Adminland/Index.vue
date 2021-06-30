@@ -152,7 +152,7 @@
                 <div class="pa2 pl0 relative">
                   <span class="mr1">
                     💸
-                  </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/cancel'" data-cy="audit-cancel-link">
+                  </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/billing'">
                     {{ $t('account.home_account_usage') }}
                   </inertia-link>
                 </div>

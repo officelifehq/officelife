@@ -23,6 +23,7 @@ class CompanyInvoice extends Model
         'sent_to_customer',
         'customer_has_paid',
         'email_address_invoice_sent_to',
+        'created_at',
     ];
 
     /**
