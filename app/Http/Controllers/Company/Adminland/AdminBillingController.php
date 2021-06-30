@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
-use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
@@ -18,10 +17,14 @@ class AdminBillingController extends Controller
      * Show the Invoices & billing page.
      *
      * @param Request $request
-     * @return Response
+     * @return mixed
      */
-    public function index(Request $request): Response
+    public function index(Request $request)
     {
+        if (! config('officelife.enable_paid_plan')) {
+            return redirect('home');
+        }
+
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
         return Inertia::render('Adminland/Billing/Index', [
@@ -40,6 +43,10 @@ class AdminBillingController extends Controller
      */
     public function show(Request $request, int $companyId, int $invoiceId)
     {
+        if (! config('officelife.enable_paid_plan')) {
+            return redirect('home');
+        }
+
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
         try {
