@@ -36,9 +36,9 @@ class AdminBillingController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $invoiceId
-     * @return Response
+     * @return mixed
      */
-    public function show(Request $request, int $companyId, int $invoiceId): Response
+    public function show(Request $request, int $companyId, int $invoiceId)
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
