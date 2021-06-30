@@ -697,12 +697,9 @@ class Employee extends Model
      */
     public function getListOfManagers(): Collection
     {
-        $managersCollection = collect([]);
-        foreach ($this->managers()->orderBy('id')->get() as $directReport) {
-            $managersCollection->push($directReport->manager);
-        }
-
-        return $managersCollection;
+        return $this->managers()->orderBy('id')->get()->map(function ($directReport) {
+            return $directReport->manager;
+        });
     }
 
     /**
@@ -712,12 +709,9 @@ class Employee extends Model
      */
     public function getListOfDirectReports(): Collection
     {
-        $directReportCollection = collect([]);
-        foreach ($this->directReports()->get() as $directReport) {
-            $directReportCollection->push($directReport->directReport);
-        }
-
-        return $directReportCollection;
+        return $this->directReports()->get()->map(function ($directReport) {
+            return $directReport->directReport;
+        });
     }
 
     /**

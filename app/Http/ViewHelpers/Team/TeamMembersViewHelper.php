@@ -15,12 +15,16 @@ class TeamMembersViewHelper
      *
      * @param Company $company
      * @param Team $team
-     * @param string $criteria
+     * @param string|null $criteria
      * @return Collection
      */
-    public static function searchPotentialTeamMembers(Company $company, Team $team, string $criteria): Collection
+    public static function searchPotentialTeamMembers(Company $company, Team $team, ?string $criteria): Collection
     {
-        $potentialEmployees = $company->employees()
+        $employeesInTeam = $team->employees()
+            ->select('id')
+            ->pluck('id');
+
+        return $company->employees()
             ->select('id', 'first_name', 'last_name', 'email')
             ->notLocked()
             ->where(function ($query) use ($criteria) {
@@ -28,25 +32,16 @@ class TeamMembersViewHelper
                     ->orWhere('last_name', 'LIKE', '%'.$criteria.'%')
                     ->orWhere('email', 'LIKE', '%'.$criteria.'%');
             })
+            ->whereNotIn('id', $employeesInTeam)
             ->orderBy('last_name', 'asc')
             ->take(10)
-            ->get();
-
-        $employeesInTeam = $team->employees()
-            ->select('id', 'first_name', 'last_name')
-            ->get();
-
-        $potentialEmployees = $potentialEmployees->diff($employeesInTeam);
-
-        $employeesCollection = collect([]);
-        foreach ($potentialEmployees as $employee) {
-            $employeesCollection->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-            ]);
-        }
-
-        return $employeesCollection;
+            ->get()
+            ->map(function ($employee) {
+                return [
+                    'id' => $employee->id,
+                    'name' => $employee->name,
+                ];
+            });
     }
 
     /**
