@@ -48,7 +48,7 @@ class CreateMonthlyInvoiceForCompany implements ShouldQueue
 
         CompanyInvoice::create([
             'company_id' => $this->company->id,
-            'company_usage_history_id' => $usage->id,
+            'company_daily_usage_history_id' => $usage->id,
         ]);
     }
 }

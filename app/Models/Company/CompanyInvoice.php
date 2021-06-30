@@ -19,9 +19,9 @@ class CompanyInvoice extends Model
      */
     protected $fillable = [
         'company_id',
-        'company_usage_history_id',
-        'sent_to_payment_processor',
-        'receipt_sent_to_customer',
+        'company_daily_usage_history_id',
+        'sent_to_customer',
+        'customer_has_paid',
         'email_address_invoice_sent_to',
     ];
 
@@ -31,8 +31,8 @@ class CompanyInvoice extends Model
      * @var array
      */
     protected $casts = [
-        'sent_to_payment_processor' => 'boolean',
-        'receipt_sent_to_customer' => 'boolean',
+        'sent_to_customer' => 'boolean',
+        'customer_has_paid' => 'boolean',
     ];
 
     /**
@@ -53,6 +53,6 @@ class CompanyInvoice extends Model
      */
     public function companyUsageHistory()
     {
-        return $this->belongsTo(CompanyDailyUsageHistory::class, 'company_usage_history_id');
+        return $this->belongsTo(CompanyDailyUsageHistory::class, 'company_daily_usage_history_id');
     }
 }

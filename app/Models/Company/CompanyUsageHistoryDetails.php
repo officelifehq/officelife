@@ -31,6 +31,6 @@ class CompanyUsageHistoryDetails extends Model
      */
     public function companyUsageHistory()
     {
-        return $this->belongsTo(CompanyDailyUsageHistory::class);
+        return $this->belongsTo(CompanyDailyUsageHistory::class, 'company_daily_usage_history_id');
     }
 }

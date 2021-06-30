@@ -33,12 +33,12 @@ class LogDailyMaxNumberOfActiveEmployeesInCompaniesTest extends TestCase
 
         LogDailyMaxNumberOfActiveEmployeesInCompanies::dispatch();
 
-        $this->assertDatabaseHas('company_usage_history', [
+        $this->assertDatabaseHas('company_daily_usage_history', [
             'company_id' => $companyA->id,
             'number_of_active_employees' => 3,
         ]);
 
-        $this->assertDatabaseHas('company_usage_history', [
+        $this->assertDatabaseHas('company_daily_usage_history', [
             'company_id' => $companyB->id,
             'number_of_active_employees' => 0,
         ]);
@@ -55,7 +55,7 @@ class LogDailyMaxNumberOfActiveEmployeesInCompaniesTest extends TestCase
         config(['officelife.enable_paid_plan' => false]);
         LogDailyMaxNumberOfActiveEmployeesInCompanies::dispatch();
 
-        $this->assertDatabaseMissing('company_usage_history', [
+        $this->assertDatabaseMissing('company_daily_usage_history', [
             'number_of_active_employees' => 3,
         ]);
     }

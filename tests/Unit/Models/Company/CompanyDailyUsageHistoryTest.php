@@ -23,7 +23,7 @@ class CompanyDailyUsageHistoryTest extends TestCase
     {
         $usage = CompanyDailyUsageHistory::factory()->create([]);
         CompanyUsageHistoryDetails::factory()->count(2)->create([
-            'company_usage_history_id' => $usage->id,
+            'company_daily_usage_history_id' => $usage->id,
         ]);
 
         $this->assertTrue($usage->details()->exists());

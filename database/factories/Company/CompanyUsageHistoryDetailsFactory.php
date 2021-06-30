@@ -23,7 +23,7 @@ class CompanyUsageHistoryDetailsFactory extends Factory
     public function definition()
     {
         return [
-            'company_usage_history_id' => CompanyDailyUsageHistory::factory(),
+            'company_daily_usage_history_id' => CompanyDailyUsageHistory::factory(),
             'employee_name' => $this->faker->name,
             'employee_email' => $this->faker->email,
         ];
