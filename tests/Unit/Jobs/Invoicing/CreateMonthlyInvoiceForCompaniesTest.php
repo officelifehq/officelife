@@ -17,6 +17,7 @@ class CreateMonthlyInvoiceForCompaniesTest extends TestCase
     public function it_creates_the_monthly_invoice_for_a_company(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        config(['queue.connections.sync.driver' => 'sync']);
         $company = Company::factory()->create();
         CompanyDailyUsageHistory::factory()->create([
             'company_id' => $company->id,

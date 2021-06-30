@@ -33,25 +33,22 @@ class CreateMonthlyInvoiceForCompanies implements ShouldQueue
             return;
         }
 
-        Company::chunk(
-            100,
-            function ($companies) {
-                foreach ($companies as $company) {
-                    $usage = CompanyDailyUsageHistory::where('company_id', $company->id)
-                        ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-                        ->orderBy('number_of_active_employees', 'desc')
-                        ->first();
+        Company::chunk(100, function ($companies) {
+            foreach ($companies as $company) {
+                $usage = CompanyDailyUsageHistory::where('company_id', $company->id)
+                    ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                    ->orderBy('number_of_active_employees', 'desc')
+                    ->first();
 
-                    if (! $usage) {
-                        continue;
-                    }
-
-                    CompanyInvoice::create([
-                        'company_id' => $company->id,
-                        'usage_history_id' => $usage->id,
-                    ]);
+                if (! $usage) {
+                    continue;
                 }
+
+                CompanyInvoice::create([
+                    'company_id' => $company->id,
+                    'usage_history_id' => $usage->id,
+                ]);
             }
-        );
+        });
     }
 }
