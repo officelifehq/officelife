@@ -36,16 +36,20 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            All your invoices
+            {{ $t('account.billing_index_title') }}
 
             <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
           </h2>
 
           <!-- LIST OF INVOICES -->
           <ul v-if="invoices.length != 0" class="list pl0 mv0 center ba br2 bb-gray">
-            <li v-for="invoice in invoices" :key="invoice.id" class="invoice-item pv3 ph2 bb bb-gray bb-gray-hover flex justify-between">
-              <span>{{ invoice.month }} - {{ invoice.number_of_active_employees }} employees maximum</span>
-              <inertia-link :href="invoice.url" class="f6">{{ $t('app.view') }}</inertia-link>
+            <li v-for="invoice in invoices" :key="invoice.id" class="invoice-item pv3 ph2 bb bb-gray bb-gray-hover flex items-center justify-between">
+              <div>
+                <span class="fw5 db mb1">{{ invoice.month }}</span>
+                <span class="gray f6">{{ $t('account.billing_index_month', {number: invoice.number_of_active_employees}) }}</span>
+              </div>
+
+              <inertia-link :href="invoice.url" class="f6 mr2 dib">{{ $t('app.view') }}</inertia-link>
             </li>
           </ul>
 
