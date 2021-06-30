@@ -33,10 +33,13 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            ...
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_account_manage_invoices') }}
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/billing'">{{ $t('app.breadcrumb_account_manage_invoices') }}</inertia-link>
+          </li>
+          <li class="di">
+            {{ $t('app.breadcrumb_account_show_invoices') }}
           </li>
         </ul>
       </div>
@@ -50,13 +53,11 @@
             <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
           </h2>
 
-          <div class="note flex mb4 pa3 br3">
+          <div class="note flex mb4 pa3 br3 items-center">
             <svg class="mr2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <p class="lh-copy ma0">
-              In June 2021, the day with the most active employees in the company was {{ invoice.day_with_max_employees }}, with {{ invoice.number_of_active_employees }} employees. This is what we'll use to bill your account.
-            </p>
+            <p class="lh-copy ma0">{{ $t('account.billing_show_description', {month: invoice.month, max_employees: invoice.day_with_max_employees, number_active_employees: invoice.number_of_active_employees }) }}</p>
           </div>
 
           <!-- LIST OF DETAILS -->

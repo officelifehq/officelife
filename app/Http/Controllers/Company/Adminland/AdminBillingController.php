@@ -43,7 +43,7 @@ class AdminBillingController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
         try {
-            $invoice = CompanyInvoice::where('company_id', $companyId)
+            $invoice = CompanyInvoice::where('company_id', $loggedCompany->id)
                 ->findOrFail($invoiceId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');

@@ -154,6 +154,7 @@ return [
     'breadcrumb_group_delete' => 'Delete the group',
     'breadcrumb_group_edit' => 'Edit the group',
     'breadcrumb_account_manage_invoices' => 'View invoices',
+    'breadcrumb_account_show_invoices' => 'View invoice details',
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',
     'header_find' => 'Find',

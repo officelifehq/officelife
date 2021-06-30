@@ -676,4 +676,5 @@ return [
     'software_delete' => 'The software has been deleted.',
     'software_edit_title' => 'Edit software',
     'billing_show_title' => 'Invoice details for {date}',
+    'billing_show_description' => 'In {month}, the day with the most active employees in the company was {max_employees}, with {number_active_employees} employees. This is what we will use to bill your account.',
 ];
