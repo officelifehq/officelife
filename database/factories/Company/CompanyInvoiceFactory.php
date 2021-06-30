@@ -25,7 +25,7 @@ class CompanyInvoiceFactory extends Factory
     {
         return [
             'company_id' => Company::factory(),
-            'company_daily_usage_history_id' => CompanyDailyUsageHistory::factory(),
+            'usage_history_id' => CompanyDailyUsageHistory::factory(),
             'sent_to_customer' => false,
             'customer_has_paid' => false,
             'email_address_invoice_sent_to' => $this->faker->email,

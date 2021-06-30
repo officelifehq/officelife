@@ -19,7 +19,7 @@ class CompanyInvoice extends Model
      */
     protected $fillable = [
         'company_id',
-        'company_daily_usage_history_id',
+        'usage_history_id',
         'sent_to_customer',
         'customer_has_paid',
         'email_address_invoice_sent_to',
@@ -53,6 +53,6 @@ class CompanyInvoice extends Model
      */
     public function companyUsageHistory()
     {
-        return $this->belongsTo(CompanyDailyUsageHistory::class, 'company_daily_usage_history_id');
+        return $this->belongsTo(CompanyDailyUsageHistory::class, 'usage_history_id');
     }
 }
