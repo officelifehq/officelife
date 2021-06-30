@@ -17,13 +17,6 @@ class CreateMonthlyInvoiceForCompanies implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * Create a new job instance.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Create the monthly invoice for the company, based on the usage in the
      * account.
      */
