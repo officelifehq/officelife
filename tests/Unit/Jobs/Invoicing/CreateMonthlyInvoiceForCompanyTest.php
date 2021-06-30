@@ -6,10 +6,10 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Company;
 use App\Models\Company\CompanyDailyUsageHistory;
-use App\Jobs\Invoicing\CreateMonthlyInvoiceForCompany;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Jobs\Invoicing\CreateMonthlyInvoiceForCompanies;
 
-class CreateMonthlyInvoiceForCompanyTest extends TestCase
+class CreateMonthlyInvoiceForCompaniesTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -34,7 +34,7 @@ class CreateMonthlyInvoiceForCompanyTest extends TestCase
             'created_at' => '2018-01-30 00:00:00',
         ]);
 
-        CreateMonthlyInvoiceForCompany::dispatch($company);
+        CreateMonthlyInvoiceForCompanies::dispatch();
 
         $this->assertDatabaseHas('company_invoices', [
             'company_id' => $company->id,
@@ -42,7 +42,7 @@ class CreateMonthlyInvoiceForCompanyTest extends TestCase
         ]);
 
         $companyB = Company::factory()->create();
-        CreateMonthlyInvoiceForCompany::dispatch($companyB);
+        CreateMonthlyInvoiceForCompanies::dispatch();
 
         $this->assertDatabaseMissing('company_invoices', [
             'company_id' => $companyB->id,

@@ -9,6 +9,7 @@ use App\Jobs\LogMissedWorklogEntry;
 use App\Jobs\StopRateYourManagerProcess;
 use App\Jobs\StartRateYourManagerProcess;
 use Illuminate\Console\Scheduling\Schedule;
+use App\Jobs\Invoicing\CreateMonthlyInvoiceForCompanies;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Jobs\Invoicing\LogDailyMaxNumberOfActiveEmployeesInCompanies;
 
@@ -41,6 +42,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('timeoff:calculate '.Carbon::today()->format('Y-m-d'))->daily();
 
         $schedule->job(new LogDailyMaxNumberOfActiveEmployeesInCompanies())->dailyAt($midnight);
+        $schedule->job(new CreateMonthlyInvoiceForCompanies())->lastDayOfMonth('22:00');
+
         // disabled until PTOs will be finally implemented
         //$schedule->command('timeoff:calculate '.Carbon::today()->format('Y-m-d'))->daily();
 
