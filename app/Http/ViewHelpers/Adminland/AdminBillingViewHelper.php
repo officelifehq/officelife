@@ -34,6 +34,12 @@ class AdminBillingViewHelper
             });
     }
 
+    /**
+     * Get the invoice information.
+     *
+     * @param CompanyInvoice $invoice
+     * @return array|null
+     */
     public static function show(CompanyInvoice $invoice): ?array
     {
         $companyUsageHistory = $invoice->companyUsageHistory;
