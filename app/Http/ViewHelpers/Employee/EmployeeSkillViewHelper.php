@@ -28,8 +28,7 @@ class EmployeeSkillViewHelper
 
         $employeeSkills = $employee->skills()
             ->select('id')
-            ->pluck('id')
-            ->toArray();
+            ->pluck('id');
 
         return $company->skills()
             ->select('id', 'name')

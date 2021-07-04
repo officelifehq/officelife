@@ -132,16 +132,15 @@ class AdminSoftwareViewHelper
      *
      * @param Software $software
      * @param Company $company
-     * @param string $criteria
+     * @param string|null $criteria
      * @return Collection
      */
-    public static function getPotentialEmployees(Software $software, Company $company, string $criteria): Collection
+    public static function getPotentialEmployees(Software $software, Company $company, ?string $criteria): Collection
     {
         // get list of employees who have the software
         $employees = $software->employees()
             ->select('id')
-            ->pluck('id')
-            ->toArray();
+            ->pluck('id');
 
         $potentialEmployees = $company->employees()
             ->select('id', 'first_name', 'last_name', 'avatar_file_id')

@@ -319,6 +319,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::delete('{project}/files/{file}', 'Company\\Company\\Project\\ProjectFilesController@destroy');
             });
 
+            // Groups
             Route::prefix('groups')->group(function () {
                 Route::get('', 'Company\\Company\\Group\\GroupController@index');
                 Route::get('create', 'Company\\Company\\Group\\GroupController@create')->name('groups.new');
@@ -358,6 +359,26 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
             Route::prefix('hr')->group(function () {
                 Route::get('', 'Company\\Company\\HR\\CompanyHRController@index');
+            });
+
+            // Knowledge base
+            Route::prefix('kb')->group(function () {
+                // Wikis
+                Route::get('', 'Company\\Company\\KB\\KnowledgeBaseController@index')->name('wikis.index');
+                Route::get('create', 'Company\\Company\\KB\\KnowledgeBaseController@create')->name('wikis.new');
+                Route::post('', 'Company\\Company\\KB\\KnowledgeBaseController@store');
+                Route::get('{wiki}', 'Company\\Company\\KB\\KnowledgeBaseController@show')->name('wikis.show');
+                Route::get('{wiki}/edit', 'Company\\Company\\KB\\KnowledgeBaseController@edit')->name('wikis.edit');
+                Route::put('{wiki}', 'Company\\Company\\KB\\KnowledgeBaseController@update');
+                Route::delete('{wiki}', 'Company\\Company\\KB\\KnowledgeBaseController@destroy')->name('wikis.destroy');
+
+                // Pages
+                Route::get('{wiki}/pages/create', 'Company\\Company\\KB\\KnowledgeBasePageController@create')->name('pages.new');
+                Route::post('{wiki}/pages', 'Company\\Company\\KB\\KnowledgeBasePageController@store');
+                Route::get('{wiki}/pages/{page}', 'Company\\Company\\KB\\KnowledgeBasePageController@show')->name('pages.show');
+                Route::get('{wiki}/pages/{page}/edit', 'Company\\Company\\KB\\KnowledgeBasePageController@edit')->name('pages.edit');
+                Route::put('{wiki}/pages/{page}', 'Company\\Company\\KB\\KnowledgeBasePageController@update');
+                Route::delete('{wiki}/pages/{page}', 'Company\\Company\\KB\\KnowledgeBasePageController@destroy');
             });
         });
 

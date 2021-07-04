@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Models\Company\File;
 use App\Models\Company\Flow;
 use App\Models\Company\Team;
+use App\Models\Company\Wiki;
 use App\Models\Company\Group;
 use App\Models\Company\Skill;
 use App\Models\Company\Company;
@@ -286,6 +287,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->softwares()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_wikis(): void
+    {
+        $company = Company::factory()->create();
+        Wiki::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->wikis()->exists());
     }
 
     /** @test */

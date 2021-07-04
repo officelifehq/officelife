@@ -38,9 +38,7 @@ class DashboardHRTimesheetViewHelper
         $listOfEmployeesWithManagers = DB::table('direct_reports')
             ->where('company_id', $company->id)
             ->select('employee_id')
-            ->get()
-            ->pluck('employee_id')
-            ->toArray();
+            ->pluck('employee_id');
 
         $timesheetsWithUniqueEmployees = $timesheets->unique('employee_id');
         $timesheetsWithUniqueEmployees = $timesheetsWithUniqueEmployees->whereNotIn('employee_id', $listOfEmployeesWithManagers);

@@ -294,6 +294,16 @@ class Company extends Model
     }
 
     /**
+     * Get all wikis written in the company.
+     *
+     * @return HasMany
+     */
+    public function wikis()
+    {
+        return $this->hasMany(Wiki::class);
+    }
+
+    /**
      * Get the logo associated with the company.
      *
      * @return HasOne

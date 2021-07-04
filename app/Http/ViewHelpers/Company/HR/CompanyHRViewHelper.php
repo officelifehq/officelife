@@ -30,9 +30,7 @@ class CompanyHRViewHelper
         $allMatchesInCompany = DB::table('e_coffees')
             ->where('company_id', $company->id)
             ->select('id')
-            ->get()
-            ->pluck('id')
-            ->toArray();
+            ->pluck('id');
 
         // list all matches for each ecoffee sessions
         $eCoffeeMatchesParticipated = DB::table('e_coffee_matches')

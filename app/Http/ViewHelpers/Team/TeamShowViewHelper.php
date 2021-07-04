@@ -126,16 +126,12 @@ class TeamShowViewHelper
      * Search all potential leads for the team.
      *
      * @param Company $company
-     * @param string $criteria
+     * @param string|null $criteria
      * @return Collection
      */
-    public static function searchPotentialLead(Company $company, string $criteria = null): Collection
+    public static function searchPotentialLead(Company $company, ?string $criteria): Collection
     {
-        if (is_null($criteria)) {
-            $criteria = '';
-        }
-
-        $potentialEmployees = $company->employees()
+        return $company->employees()
             ->select('id', 'first_name', 'last_name', 'email')
             ->notLocked()
             ->where(function ($query) use ($criteria) {
@@ -145,17 +141,13 @@ class TeamShowViewHelper
             })
             ->orderBy('last_name', 'asc')
             ->take(10)
-            ->get();
-
-        $employeesCollection = collect([]);
-        foreach ($potentialEmployees as $employee) {
-            $employeesCollection->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-            ]);
-        }
-
-        return $employeesCollection;
+            ->get()
+            ->map(function ($employee) {
+                return [
+                    'id' => $employee->id,
+                    'name' => $employee->name,
+                ];
+            });
     }
 
     /**
