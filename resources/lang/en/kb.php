@@ -7,7 +7,7 @@ return [
 
     'index_title' => 'All the wikis in the company',
     'index_cta' => 'Create a wiki',
-    'index_number_pages' => '{count} pages',
+    'index_number_pages' => '{count} page|{count} pages',
     'index_delete' => 'Delete wiki',
     'index_blank_title' => 'Wikis lets you centralize all the information in one place.',
 
