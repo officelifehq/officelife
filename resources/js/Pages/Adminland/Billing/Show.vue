@@ -50,7 +50,7 @@
           <h2 class="tc normal mb4">
             {{ $t('account.billing_show_title', {date: invoice.month}) }}
 
-            <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
+            <help :url="$page.props.help_links.billing" :top="'1px'" />
           </h2>
 
           <div class="note flex mb4 pa3 br3 items-center">

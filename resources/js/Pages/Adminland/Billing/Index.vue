@@ -38,7 +38,7 @@
           <h2 class="tc normal mb4">
             {{ $t('account.billing_index_title') }}
 
-            <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
+            <help :url="$page.props.help_links.billing" :top="'1px'" />
           </h2>
 
           <!-- LIST OF INVOICES -->
