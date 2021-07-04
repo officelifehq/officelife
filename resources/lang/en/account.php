@@ -326,6 +326,12 @@ return [
     'log_expense_destroyed' => 'Deleted the expense called :expense_title of :employee_name.',
     'log_file_added_to_software' => 'Uploaded a file called :name associated with the software called :software_name.',
     'log_software_file_destroyed' => 'Deleted the file called :name that was associated with the software called :software_name.',
+    'log_wiki_created' => 'Created the wiki called :wiki_title.',
+    'log_wiki_updated' => 'Updated the wiki called :wiki_title.',
+    'log_wiki_destroyed' => 'Deleted the wiki called :wiki_title.',
+    'log_page_added_to_wiki' => 'Added a page called :page_title to the wiki called :wiki_title.',
+    'log_page_updated' => 'Updated the page called :page_title in the wiki called :wiki_title.',
+    'log_page_destroyed' => 'Deleted a page called :page_title in the wiki called :wiki_title.',
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',

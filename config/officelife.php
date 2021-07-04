@@ -252,5 +252,6 @@ return [
         'ecoffee' => 'grow/e-coffee.html#overview',
         'questions' => 'communicate/get-to-know-your-colleagues.html',
         'time_tracking' => 'operate/time-tracking.html',
+        'wiki' => 'communicate/wiki.html',
     ],
 ];
