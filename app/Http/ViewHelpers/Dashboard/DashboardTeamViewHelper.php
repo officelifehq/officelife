@@ -254,7 +254,7 @@ class DashboardTeamViewHelper
         $nextSunday = $now->copy()->addWeek()->endOfWeek(Carbon::SUNDAY)->format('Y-m-d');
 
         $employees = $team->employees()
-            ->where('locked', false)
+            ->notLocked()
             ->whereBetween('hired_at', [$currentDay, $nextSunday])
             ->get();
 

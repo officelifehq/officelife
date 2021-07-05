@@ -86,7 +86,7 @@ class CreateGuessEmployeeGame extends BaseService
             ->first();
 
         $twoOtherEmployees = $this->employee->company->employees()
-            ->where('locked', false)
+            ->notLocked()
             ->where('id', '!=', $employeeToFind->id)
             ->where('id', '!=', $this->employee->id)
             ->where('pronoun_id', $employeeToFind->pronoun_id)

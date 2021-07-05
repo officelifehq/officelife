@@ -110,7 +110,7 @@ class CompanyHRViewHelper
         $pronouns = Pronoun::addSelect([
                 'number_of_employees' => Employee::selectRaw('count(*)')
                     ->whereColumn('pronoun_id', 'pronouns.id')
-                    ->where('locked', false)
+                    ->notLocked()
                     ->where('company_id', $company->id),
             ])->get();
 

@@ -66,7 +66,7 @@ class AdminEmployeeController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
         $employees = $company->employees()
-            ->where('locked', false)
+            ->notLocked()
             ->orderBy('last_name', 'asc')
             ->get();
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Group;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
@@ -17,14 +18,18 @@ class GroupMembersViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_employees(): void
     {
+        Carbon::setTestNow(Carbon::create(2019, 1, 1, 0, 0, 0));
         $michael = $this->createAdministrator();
-        $jim = $this->createAnotherEmployee($michael);
+
         $group = Group::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $group->employees()->attach([
             $michael->id,
         ]);
+
+        Carbon::setTestNow(Carbon::create(2018, 1, 1, 0, 0, 0));
+        $jim = $this->createAnotherEmployee($michael);
         $group->employees()->attach([
             $jim->id,
         ]);
