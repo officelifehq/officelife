@@ -79,6 +79,16 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     }
 
     /**
+     * Get the user tokens for external login providers.
+     *
+     * @return HasMany
+     */
+    public function tokens()
+    {
+        return $this->hasMany(UserToken::class);
+    }
+
+    /**
      * Get the name of the user.
      *
      * @param string $value

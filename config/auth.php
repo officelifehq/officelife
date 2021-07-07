@@ -126,4 +126,15 @@ return [
 
     'complex_password' => env('COMPLEX_PASSWORD', true),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Socialite providers
+    |--------------------------------------------------------------------------
+    |
+    | List of available socialite providers.
+    |
+    */
+
+    'socialite_providers' => env('SOCIALITE_PROVIDERS', true),
+
 ];
