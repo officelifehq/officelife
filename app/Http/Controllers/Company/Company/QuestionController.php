@@ -41,7 +41,8 @@ class QuestionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $questionId
-     * @return mixed
+     *
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function show(Request $request, int $companyId, int $questionId)
     {
@@ -75,7 +76,8 @@ class QuestionController extends Controller
      * @param  int $companyId
      * @param  int $questionId
      * @param  int $teamId
-     * @return mixed
+     *
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function team(Request $request, int $companyId, int $questionId, int $teamId)
     {
