@@ -288,43 +288,39 @@ class TeamShowViewHelper
     public static function newHiresNextWeek(Team $team, Company $company): Collection
     {
         $now = Carbon::now();
-        $employees = $team->employees()
-            ->where('locked', false)
+        return $team->employees()
+            ->notLocked()
             ->whereNotNull('hired_at')
             ->whereDate('hired_at', '>=', $now->copy()->addWeek()->startOfWeek(Carbon::MONDAY))
             ->whereDate('hired_at', '<=', $now->copy()->addWeek()->endOfWeek(Carbon::SUNDAY))
             ->with('position')
             ->orderBy('hired_at', 'asc')
-            ->get();
+            ->get()
+            ->map(function ($employee) use ($company) {
+                $date = $employee->hired_at;
+                $position = $employee->position;
 
-        $newHiresCollection = collect([]);
-        foreach ($employees as $employee) {
-            $date = $employee->hired_at;
-            $position = $employee->position;
+                if ($position) {
+                    $dateString = trans('dashboard.team_upcoming_hires_with_position', [
+                        'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                        'position' => $position->title,
+                    ]);
+                } else {
+                    $dateString = trans('dashboard.team_upcoming_hires', [
+                        'date' => DateHelper::formatDayAndMonthInParenthesis($date),
+                    ]);
+                }
 
-            if ($position) {
-                $dateString = trans('dashboard.team_upcoming_hires_with_position', [
-                    'date' => DateHelper::formatDayAndMonthInParenthesis($date),
-                    'position' => $position->title,
-                ]);
-            } else {
-                $dateString = trans('dashboard.team_upcoming_hires', [
-                    'date' => DateHelper::formatDayAndMonthInParenthesis($date),
-                ]);
-            }
-
-            $newHiresCollection->push([
-                'id' => $employee->id,
-                'url' => route('employees.show', [
-                    'company' => $company,
-                    'employee' => $employee->id,
-                ]),
-                'name' => $employee->name,
-                'avatar' => ImageHelper::getAvatar($employee, 35),
-                'hired_at' => $dateString,
-            ]);
-        }
-
-        return $newHiresCollection;
+                return [
+                    'id' => $employee->id,
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $employee->id,
+                    ]),
+                    'name' => $employee->name,
+                    'avatar' => ImageHelper::getAvatar($employee, 35),
+                    'hired_at' => $dateString,
+                ];
+            });
     }
 }

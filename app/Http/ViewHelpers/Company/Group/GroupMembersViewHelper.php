@@ -18,31 +18,27 @@ class GroupMembersViewHelper
      */
     public static function members(Group $group): Collection
     {
-        $members = $group->employees()
-            ->where('locked', false)
+        return $group->employees()
+            ->notLocked()
             ->with('position')
             ->orderBy('pivot_created_at', 'desc')
-            ->get();
-
-        $membersCollection = collect([]);
-        foreach ($members as $member) {
-            $membersCollection->push([
-                'id' => $member->id,
-                'name' => $member->name,
-                'avatar' => ImageHelper::getAvatar($member),
-                'added_at' => DateHelper::formatDate($member->pivot->created_at),
-                'position' => (! $member->position) ? null : [
-                    'id' => $member->position->id,
-                    'title' => $member->position->title,
-                ],
-                'url' => route('employees.show', [
-                    'company' => $group->company_id,
-                    'employee' => $member,
-                ]),
-            ]);
-        }
-
-        return $membersCollection;
+            ->get()
+            ->map(function ($member) use ($group) {
+                return [
+                    'id' => $member->id,
+                    'name' => $member->name,
+                    'avatar' => ImageHelper::getAvatar($member),
+                    'added_at' => DateHelper::formatDate($member->pivot->created_at),
+                    'position' => (! $member->position) ? null : [
+                        'id' => $member->position->id,
+                        'title' => $member->position->title,
+                    ],
+                    'url' => route('employees.show', [
+                        'company' => $group->company_id,
+                        'employee' => $member,
+                    ]),
+                ];
+            });
     }
 
     /**
