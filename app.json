@@ -34,6 +34,11 @@
       "value": "",
       "required": true
     },
+    "DB_CONNECTION": {
+      "description": "Database connection to use.",
+      "value": "pgsql",
+      "required": true
+    },
     "APP_ENV": {
       "description": "Set to 'production' by default, or set it to 'local' if you want to install the app as a development version.",
       "value": "production",
