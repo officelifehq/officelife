@@ -44,6 +44,13 @@ class SocialiteCallbackController extends Controller
      */
     public function callback(Request $request, string $driver)
     {
+        if (($error = $request->input('error')) != '') {
+            return back()->withErrors([
+                'error' => $error,
+                'error_description' => $request->input('error_description')
+            ]);
+        }
+
         $this->checkProvider($driver);
 
         $socialite = Socialite::driver($driver)->user();
