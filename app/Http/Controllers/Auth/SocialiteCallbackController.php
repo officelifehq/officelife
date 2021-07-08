@@ -11,6 +11,8 @@ use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Services\User\CreateAccount;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\One\User as OAuth1User;
@@ -27,11 +29,13 @@ class SocialiteCallbackController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function redirect(Request $request, string $driver)
+    public function redirect(Request $request, string $driver): RedirectResponse
     {
         $this->checkProvider($driver);
 
-        return Socialite::driver($driver)->redirect();
+        $redirect = Socialite::driver($driver)->redirect();
+
+        return Redirect::guest($redirect->getTargetUrl());
     }
 
     /**
@@ -42,13 +46,14 @@ class SocialiteCallbackController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function callback(Request $request, string $driver)
+    public function callback(Request $request, string $driver): RedirectResponse
     {
         if (($error = $request->input('error')) != '') {
-            return back()->withErrors([
-                'error' => $error,
-                'error_description' => $request->input('error_description')
-            ]);
+            return Redirect::intended(route('home'))
+                ->withErrors([
+                    'error' => $error,
+                    'error_description' => $request->input('error_description'),
+                ]);
         }
 
         $this->checkProvider($driver);
@@ -88,7 +93,7 @@ class SocialiteCallbackController extends Controller
 
         Auth::login($user, true);
 
-        return redirect()->route('home');
+        return Redirect::intended(route('home'));
     }
 
     /**
