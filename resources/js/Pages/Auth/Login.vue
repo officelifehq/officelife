@@ -8,6 +8,17 @@
   box-shadow: 0 0 0 1px #e3e8ee;
   background-color: #f6fafc;
 }
+
+.auth-provider {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.w-43 {
+  width: 43%;
+}
+
 </style>
 
 <template>
@@ -51,6 +62,28 @@
       </div>
     </form>
 
+
+    <div v-if="providers.length > 0" class="db">
+      <div class="b--black-10 bb mt2"></div>
+      <p class="f4">
+        {{ $t('auth.login_with') }}
+      </p>
+    </div>
+    <div v-for="provider in providers" :key="provider" class="di">
+      <a class="dib ph1 btn w-43 mb2 pv2 mh3 f6"
+         :href="route('login.provider', { driver: provider })"
+         :disabled="providerState === provider" @click.prevent="open(provider)"
+      >
+        <img :src="`/img/auth/${provider}.svg`" alt="" class="auth-provider" />
+        <template v-if="providersName[provider]">
+          {{ providersName[provider] }}
+        </template>
+        <template v-else>
+          {{ $t(`auth.login_provider_${provider}`) }}
+        </template>
+      </a>
+    </div>
+
     <template #footer>
       <languages />
 
@@ -93,6 +126,14 @@ export default {
       type: String,
       default: '',
     },
+    providers: {
+      type: Array,
+      default: () => [],
+    },
+    providersName: {
+      type: Object,
+      default: () => {},
+    }
   },
 
   data() {
@@ -104,11 +145,15 @@ export default {
       }),
       errors: [],
       errorTemplate: Error,
+      providerState: [],
     };
   },
 
   mounted() {
     document.title = 'Login';
+    if (this.$attrs.errors.error_description) {
+      this.form.errors = this.$attrs.errors.error_description;
+    }
   },
 
   methods: {
@@ -126,6 +171,16 @@ export default {
             this.errors = error.response.data;
           }
         });
+    },
+
+    open(provider) {
+      this.providerState[provider] = 'loading';
+
+      const url = this.route('login.provider', { driver: provider });
+
+      location.href = `${url}?redirect=${location.href}`;
+
+      return false;
     },
   }
 };

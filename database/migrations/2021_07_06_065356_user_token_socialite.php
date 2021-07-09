@@ -14,13 +14,14 @@ class UserTokenSocialite extends Migration
         Schema::create('user_tokens', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('driver_id');
+            $table->string('driver_id', 256);
             $table->string('driver', 50);
-            $table->string('format', 5);
-            $table->string('token', 250);
-            $table->string('token_secret', 1024)->nullable();
-            $table->string('refresh_token', 1024)->nullable();
-            $table->datetime('expires_in')->nullable();
+            $table->char('format', 6);
+            $table->string('email', 1024);
+            $table->string('token', 2048);
+            $table->string('token_secret', 2048)->nullable();
+            $table->string('refresh_token', 2048)->nullable();
+            $table->unsignedBigInteger('expires_in')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

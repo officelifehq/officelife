@@ -128,13 +128,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Socialite providers
+    | Login providers
     |--------------------------------------------------------------------------
     |
-    | List of available socialite providers.
+    | List of available login providers, coma separated. This use socialite
+    | packages.
+    |
+    | Supported: azure, github, linkedin, saml2, twitter.
     |
     */
 
-    'socialite_providers' => env('SOCIALITE_PROVIDERS', true),
+    'login_providers' => preg_split('/\s*,\s*/', env('LOGIN_PROVIDERS')),
 
 ];

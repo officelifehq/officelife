@@ -41,4 +41,10 @@ return [
     'invitation_unlogged_choice_account' => 'Create an account',
     'invitation_unlogged_choice_login' => 'Sign in to your account',
     'change_language' => 'Change language:',
+    'login_with' => 'Login with:',
+    'login_provider_azure' => 'Azure Active Directory',
+    'login_provider_github' => 'GitHub',
+    'login_provider_linkedin' => 'LinkedIn',
+    'login_provider_saml2' => 'Saml2 provider',
+    'login_provider_twitter' => 'Twitter',
 ];

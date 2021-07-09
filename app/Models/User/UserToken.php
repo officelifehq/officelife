@@ -42,7 +42,6 @@ class UserToken extends Model
      * @var array
      */
     protected $casts = [
-        'expires_in' => 'datetime',
     ];
 
     /**

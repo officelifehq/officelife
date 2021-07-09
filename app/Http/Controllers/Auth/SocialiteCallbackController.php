@@ -18,24 +18,28 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\One\User as OAuth1User;
 use Laravel\Socialite\Two\User as OAuth2User;
 use Laravel\Socialite\Contracts\User as SocialiteUser;
+use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
 class SocialiteCallbackController extends Controller
 {
     /**
-     * Handle socalite redirect.
+     * Handle socalite login.
      *
      * @param Request $request
      * @param string $driver
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function redirect(Request $request, string $driver): RedirectResponse
+    public function login(Request $request, string $driver): SymfonyRedirectResponse
     {
         $this->checkProvider($driver);
 
-        $redirect = Socialite::driver($driver)->redirect();
+        $redirect = $request->input('redirect');
+        if ($redirect && Str::of($redirect)->contains($request->getHost())) {
+            Redirect::setIntendedUrl($redirect);
+        }
 
-        return Redirect::guest($redirect->getTargetUrl());
+        return Socialite::driver($driver)->redirect();
     }
 
     /**
@@ -60,34 +64,16 @@ class SocialiteCallbackController extends Controller
 
         $socialite = Socialite::driver($driver)->user();
 
-        $driverId = $socialite->getId();
-
         if ($userToken = UserToken::where([
-            'driver_id' => $driverId,
+            'driver_id' => $driverId = $socialite->getId(),
             'driver' => $driver,
         ])->first()) {
+            // Association already exist
             $user = $userToken->user;
         } else {
+            // New association: create user or add token to existing user
             $user = tap($this->getUser($socialite), function ($user) use ($driver, $driverId, $socialite) {
-                $token = [
-                    'driver' => $driver,
-                    'driver_id' => $driverId,
-                    'user_id' => $user->id,
-                ];
-                if ($socialite instanceof OAuth1User) {
-                    $token['token'] = $socialite->token;
-                    $token['token_secret'] = $socialite->tokenSecret;
-                    $token['format'] = 'oauth1';
-                } elseif ($socialite instanceof OAuth2User) {
-                    $token['token'] = $socialite->token;
-                    $token['refresh_token'] = $socialite->refreshToken;
-                    $token['expires_in'] = $socialite->expiresIn;
-                    $token['format'] = 'oauth2';
-                } else {
-                    throw new \Exception('authentication format not supported');
-                }
-
-                UserToken::create($token);
+                $this->createUserToken($user, $driver, $driverId, $socialite);
             });
         }
 
@@ -109,11 +95,11 @@ class SocialiteCallbackController extends Controller
         }
 
         // User doesn't exist
-        $name = Str::of($socialite->getName())->split('/[\s]+/');
+        $name = Str::of($socialite->getName())->split('/[\s]+/', 2);
         $data = [
             'email' => $socialite->getEmail(),
-            'first_name' => count($name) >= 0 ? $name[0] : '',
-            'last_name' => count($name) > 0 ? $name[1] : '',
+            'first_name' => count($name) > 0 ? $name[0] : '',
+            'last_name' => count($name) > 1 ? $name[1] : '',
             'nickname' => $socialite->getNickname(),
         ];
 
@@ -126,12 +112,45 @@ class SocialiteCallbackController extends Controller
     }
 
     /**
+     * Create the user token register.
+     *
+     * @param User $user
+     * @param string $driver
+     * @param string $driverId
+     * @param SocialiteUser $socialite
+     * @return UserToken
+     */
+    private function createUserToken(User $user, string $driver, string $driverId, SocialiteUser $socialite): UserToken
+    {
+        $token = [
+            'driver' => $driver,
+            'driver_id' => $driverId,
+            'user_id' => $user->id,
+            'email' => $socialite->getEmail(),
+        ];
+        if ($socialite instanceof OAuth1User) {
+            $token['token'] = $socialite->token;
+            $token['token_secret'] = $socialite->tokenSecret;
+            $token['format'] = 'oauth1';
+        } elseif ($socialite instanceof OAuth2User) {
+            $token['token'] = $socialite->token;
+            $token['refresh_token'] = $socialite->refreshToken;
+            $token['expires_in'] = $socialite->expiresIn;
+            $token['format'] = 'oauth2';
+        } else {
+            throw new \Exception('authentication format not supported');
+        }
+
+        return UserToken::create($token);
+    }
+
+    /**
      * Check the driver is activated.
      */
     private function checkProvider(string $driver)
     {
         Validator::validate(['driver' => $driver], [
-            'driver' => Rule::in(config('auth.socialite_providers')),
+            'driver' => Rule::in(config('auth.login_providers')),
         ]);
     }
 }
