@@ -59,6 +59,12 @@ return [
         'redirect' => env('GITHUB_REDIRECT_URI', '/auth/github/callback'),
     ],
 
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI', '/auth/google/callback'),
+    ],
+
     'linkedin' => [
         'client_id' => env('LINKEDIN_CLIENT_ID'),
         'client_secret' => env('LINKEDIN_CLIENT_SECRET'),
@@ -72,6 +78,12 @@ return [
         'entityid' => env('SAML2_ENTITY_ID'),
         'certificate' => env('SAML2_CERTIFICATE'),
         'sp_acs' => env('SAML2_REDIRECT_URI', '/auth/saml2/callback'),
+    ],
+
+    'slack' => [
+        'client_id' => env('SLACK_CLIENT_ID'),
+        'client_secret' => env('SLACK_CLIENT_SECRET'),
+        'redirect' => env('SLACK_REDIRECT_URI', '/auth/slack/callback'),
     ],
 
     'twitter' => [

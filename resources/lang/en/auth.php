@@ -44,7 +44,9 @@ return [
     'login_with' => 'Login with:',
     'login_provider_azure' => 'Azure Active Directory',
     'login_provider_github' => 'GitHub',
+    'login_provider_google' => 'Google',
     'login_provider_linkedin' => 'LinkedIn',
     'login_provider_saml2' => 'Saml2 provider',
+    'login_provider_slack' => 'Slack',
     'login_provider_twitter' => 'Twitter',
 ];
