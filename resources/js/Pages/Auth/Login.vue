@@ -10,9 +10,10 @@
 }
 
 .auth-provider {
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
+  width: 15px;
+  height: 15px;
+  margin-right: 8px;
+  top: 2px;
 }
 
 .w-43 {
@@ -70,11 +71,11 @@
       </p>
     </div>
     <div v-for="provider in providers" :key="provider" class="di">
-      <a class="dib ph1 btn w-43 mb2 pv2 mh3 f6"
+      <a class="dib ph1 btn w-43 mb2 pv2 mh3 f6 relative"
          :href="route('login.provider', { driver: provider })"
          :disabled="providerState === provider" @click.prevent="open(provider)"
       >
-        <img :src="`/img/auth/${provider}.svg`" alt="" class="auth-provider" />
+        <img :src="`/img/auth/${provider}.svg`" alt="" class="auth-provider relative" />
         <template v-if="providersName[provider]">
           {{ providersName[provider] }}
         </template>
