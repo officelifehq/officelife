@@ -134,7 +134,7 @@ export default {
     },
     providersName: {
       type: Object,
-      default: () => {},
+      default: () => {{}},
     }
   },
 

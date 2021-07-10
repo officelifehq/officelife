@@ -89,9 +89,7 @@ class SocialiteCallbackController extends Controller
 
             return Redirect::intended(route('home'));
         } catch (ValidationException $e) {
-            $redirect = Redirect::intended(route('default'));
-            throw $e->redirectTo($redirect->getTargetUrl());
-            // throw $e;
+            throw $e->redirectTo(Redirect::intended(route('default'))->getTargetUrl());
         }
     }
 
