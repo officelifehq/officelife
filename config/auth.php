@@ -134,10 +134,10 @@ return [
     | List of available login providers, coma separated. This use socialite
     | packages.
     |
-    | Supported: azure, github, linkedin, saml2, twitter.
+    | Supported: azure, github, google, linkedin, monica, saml2, slack, twitter.
     |
     */
 
-    'login_providers' => preg_split('/\s*,\s*/', env('LOGIN_PROVIDERS')),
+    'login_providers' => preg_split('/\s*,\s*/', env('LOGIN_PROVIDERS'), -1, PREG_SPLIT_NO_EMPTY),
 
 ];

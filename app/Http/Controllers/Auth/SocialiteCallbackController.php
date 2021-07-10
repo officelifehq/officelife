@@ -7,16 +7,15 @@ use App\Models\User\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\User\UserToken;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Services\User\CreateAccount;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\One\User as OAuth1User;
 use Laravel\Socialite\Two\User as OAuth2User;
+use Illuminate\Validation\ValidationException;
 use Laravel\Socialite\Contracts\User as SocialiteUser;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
@@ -35,7 +34,7 @@ class SocialiteCallbackController extends Controller
         $this->checkProvider($driver);
 
         $redirect = $request->input('redirect');
-        if ($redirect && Str::of($redirect)->contains($request->getHost())) {
+        if ($redirect && Str::of($redirect)->startsWith($request->getSchemeAndHttpHost())) {
             Redirect::setIntendedUrl($redirect);
         }
 
@@ -52,34 +51,48 @@ class SocialiteCallbackController extends Controller
      */
     public function callback(Request $request, string $driver): RedirectResponse
     {
-        if (($error = $request->input('error')) != '') {
-            return Redirect::intended(route('home'))
-                ->withErrors([
-                    'error' => $error,
-                    'error_description' => $request->input('error_description'),
+        try {
+            if ($request->input('error') != '') {
+                throw ValidationException::withMessages([
+                    $request->input('error_description'),
                 ]);
+            }
+
+            $this->checkProvider($driver);
+
+            $socialite = Socialite::driver($driver)->user();
+
+            if ($userToken = UserToken::where([
+                'driver_id' => $driverId = $socialite->getId(),
+                'driver' => $driver,
+            ])->first()) {
+                // Association already exist
+
+                $userToken['token'] = $socialite->token;
+                $userToken->save();
+
+                $user = $userToken->user;
+
+                if (($userId = Auth::id()) && $userId !== $user->id) {
+                    throw ValidationException::withMessages([
+                        trans('auth.provider_already_used'),
+                    ]);
+                }
+            } else {
+                // New association: create user or add token to existing user
+                $user = tap($this->getUser($socialite), function ($user) use ($driver, $driverId, $socialite) {
+                    $this->createUserToken($user, $driver, $driverId, $socialite);
+                });
+            }
+
+            Auth::login($user, true);
+
+            return Redirect::intended(route('home'));
+        } catch (ValidationException $e) {
+            $redirect = Redirect::intended(route('default'));
+            throw $e->redirectTo($redirect->getTargetUrl());
+            // throw $e;
         }
-
-        $this->checkProvider($driver);
-
-        $socialite = Socialite::driver($driver)->user();
-
-        if ($userToken = UserToken::where([
-            'driver_id' => $driverId = $socialite->getId(),
-            'driver' => $driver,
-        ])->first()) {
-            // Association already exist
-            $user = $userToken->user;
-        } else {
-            // New association: create user or add token to existing user
-            $user = tap($this->getUser($socialite), function ($user) use ($driver, $driverId, $socialite) {
-                $this->createUserToken($user, $driver, $driverId, $socialite);
-            });
-        }
-
-        Auth::login($user, true);
-
-        return Redirect::intended(route('home'));
     }
 
     /**
@@ -145,12 +158,14 @@ class SocialiteCallbackController extends Controller
     }
 
     /**
-     * Check the driver is activated.
+     * Check if the driver is activated.
+     *
+     * @param string $driver
      */
-    private function checkProvider(string $driver)
+    private function checkProvider(string $driver): void
     {
-        Validator::validate(['driver' => $driver], [
-            'driver' => Rule::in(config('auth.login_providers')),
-        ]);
+        if (! in_array($driver, config('auth.login_providers'))) {
+            throw ValidationException::withMessages(['This provider does not exist']);
+        }
     }
 }

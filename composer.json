@@ -32,6 +32,7 @@
         "sentry/sentry-laravel": "^2.3",
         "socialiteproviders/github": "^4.1",
         "socialiteproviders/google": "^4.1",
+        "socialiteproviders/laravelpassport": "^4.1",
         "socialiteproviders/linkedin": "^4.1",
         "socialiteproviders/microsoft-azure": "^4.2",
         "socialiteproviders/saml2": "^4.0",

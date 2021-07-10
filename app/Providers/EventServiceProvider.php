@@ -27,6 +27,7 @@ class EventServiceProvider extends ServiceProvider
             'SocialiteProviders\\Azure\\AzureExtendSocialite@handle',
             'SocialiteProviders\\GitHub\\GitHubExtendSocialite@handle',
             'SocialiteProviders\\Google\\GoogleExtendSocialite@handle',
+            'App\\Providers\\Auth\\MonicaExtendSocialite@handle',
             'SocialiteProviders\\LinkedIn\\LinkedInExtendSocialite@handle',
             'SocialiteProviders\\Slack\\SlackExtendSocialite@handle',
             'SocialiteProviders\\Saml2\\Saml2ExtendSocialite@handle',

@@ -39,6 +39,7 @@
     </div>
 
     <!-- Form Errors -->
+    <errors :errors="$attrs.errorBags.default" :class="'mb3'" />
     <errors :errors="form.errors" :class="'mb3'" />
 
     <form @submit.prevent="submit">
@@ -151,9 +152,6 @@ export default {
 
   mounted() {
     document.title = 'Login';
-    if (this.$attrs.errors.error_description) {
-      this.form.errors = this.$attrs.errors.error_description;
-    }
   },
 
   methods: {
@@ -168,7 +166,7 @@ export default {
             this.form.reset('password');
           },
           onError: (error) => {
-            this.errors = error.response.data;
+            this.form.errors = error.response.data;
           }
         });
     },
