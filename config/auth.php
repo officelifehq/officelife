@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 return [
 
     /*
@@ -138,6 +140,6 @@ return [
     |
     */
 
-    'login_providers' => preg_split('/\s*,\s*/', env('LOGIN_PROVIDERS'), -1, PREG_SPLIT_NO_EMPTY),
+    'login_providers' => Str::of(env('LOGIN_PROVIDERS'))->split('/\s*,\s*/', -1, PREG_SPLIT_NO_EMPTY),
 
 ];

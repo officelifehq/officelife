@@ -42,7 +42,7 @@ return [
     'invitation_unlogged_choice_login' => 'Sign in to your account',
     'change_language' => 'Change language:',
     'login_with' => 'Login with:',
-    'login_provider_azure' => 'Azure Active Directory',
+    'login_provider_azure' => 'Microsoft',
     'login_provider_github' => 'GitHub',
     'login_provider_google' => 'Google',
     'login_provider_linkedin' => 'LinkedIn',

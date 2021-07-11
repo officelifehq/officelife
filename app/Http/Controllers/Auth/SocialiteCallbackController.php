@@ -60,30 +60,7 @@ class SocialiteCallbackController extends Controller
 
             $this->checkProvider($driver);
 
-            $socialite = Socialite::driver($driver)->user();
-
-            if ($userToken = UserToken::where([
-                'driver_id' => $driverId = $socialite->getId(),
-                'driver' => $driver,
-            ])->first()) {
-                // Association already exist
-
-                $userToken['token'] = $socialite->token;
-                $userToken->save();
-
-                $user = $userToken->user;
-
-                if (($userId = Auth::id()) && $userId !== $user->id) {
-                    throw ValidationException::withMessages([
-                        trans('auth.provider_already_used'),
-                    ]);
-                }
-            } else {
-                // New association: create user or add token to existing user
-                $user = tap($this->getUser($socialite), function ($user) use ($driver, $driverId, $socialite) {
-                    $this->createUserToken($user, $driver, $driverId, $socialite);
-                });
-            }
+            $user = $this->authenticateUser($driver, Socialite::driver($driver)->user());
 
             Auth::login($user, true);
 
@@ -91,6 +68,39 @@ class SocialiteCallbackController extends Controller
         } catch (ValidationException $e) {
             throw $e->redirectTo(Redirect::intended(route('default'))->getTargetUrl());
         }
+    }
+
+    /**
+     * Authenticate the user.
+     *
+     * @param string $driver
+     * @param \Laravel\Socialite\Contracts\User  $socialite
+     *
+     * @return User
+     */
+    private function authenticateUser(string $driver, $socialite): User
+    {
+        if ($userToken = UserToken::where([
+            'driver_id' => $driverId = $socialite->getId(),
+            'driver' => $driver,
+        ])->first()) {
+            // Association already exist
+
+            $user = $userToken->user;
+
+            if (($userId = Auth::id()) && $userId !== $user->id) {
+                throw ValidationException::withMessages([
+                    trans('auth.provider_already_used'),
+                ]);
+            }
+        } else {
+            // New association: create user or add token to existing user
+            $user = tap($this->getUser($socialite), function ($user) use ($driver, $driverId, $socialite) {
+                $this->createUserToken($user, $driver, $driverId, $socialite);
+            });
+        }
+
+        return $user;
     }
 
     /**
@@ -162,7 +172,7 @@ class SocialiteCallbackController extends Controller
      */
     private function checkProvider(string $driver): void
     {
-        if (! in_array($driver, config('auth.login_providers'))) {
+        if (! config('auth.login_providers')->contains($driver)) {
             throw ValidationException::withMessages(['This provider does not exist']);
         }
     }
