@@ -73,8 +73,7 @@
     </div>
     <div v-for="provider in providers" :key="provider" class="di">
       <a class="dib ph1 btn w-43 mb2 pv2 mh3 f6 relative"
-         :href="route('login.provider', { driver: provider })"
-         :disabled="providerState === provider" @click.prevent="open(provider)"
+         :href="route('login.provider', { driver: provider })" @click.prevent="open(provider)"
       >
         <img :src="`/img/auth/${provider}.svg`" alt="" class="auth-provider relative" />
         <template v-if="providersName[provider]">
@@ -134,7 +133,7 @@ export default {
     },
     providersName: {
       type: Object,
-      default: () => {{}},
+      default: () => {return {};},
     }
   },
 
@@ -147,7 +146,6 @@ export default {
       }),
       errors: [],
       errorTemplate: Error,
-      providerState: [],
     };
   },
 
@@ -173,13 +171,9 @@ export default {
     },
 
     open(provider) {
-      this.providerState[provider] = 'loading';
-
       const url = this.route('login.provider', { driver: provider });
 
       location.href = `${url}?redirect=${location.href}`;
-
-      return false;
     },
   }
 };

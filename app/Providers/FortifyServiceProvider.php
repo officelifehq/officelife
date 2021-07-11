@@ -2,16 +2,15 @@
 
 namespace App\Providers;
 
-use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
 use App\Services\User\CreateAccount;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use App\Services\User\ResetUserPassword;
 use Illuminate\Cache\RateLimiting\Limit;
 use App\Services\User\UpdateUserPassword;
 use Illuminate\Support\Facades\RateLimiter;
+use App\Http\Controllers\Auth\LoginController;
 use App\Services\User\UpdateUserProfileInformation;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -29,13 +28,8 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Fortify::loginView(function () {
-            return Inertia::render('Auth/Login', [
-                'canResetPassword' => Route::has('password.request'),
-                'status' => session('status'),
-                'providers' => config('auth.login_providers'),
-                'providersName' => ['saml2' => config('services.saml2.name')],
-            ]);
+        Fortify::loginView(function ($request) {
+            return app()->call(LoginController::class, [$request]);
         });
 
         Fortify::createUsersUsing(CreateAccount::class);
