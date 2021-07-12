@@ -5,6 +5,7 @@ namespace Tests\Unit\Controllers\Auth;
 use Tests\TestCase;
 use App\Models\User\User;
 use Tests\Helpers\GuzzleMock;
+use App\Models\User\UserToken;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\GithubProvider;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -127,6 +128,39 @@ class SocialiteCallbackControllerTest extends TestCase
         $this->mockSocialite($mock->getClient());
 
         $user = User::factory()->create(['email' => 'dwigth@dundermifflin.com']);
+
+        session()->put('state', 'state');
+
+        $response = $this->get('/auth/test/callback?code=thecode&state=state');
+
+        $mock->assertResponses();
+
+        $response->assertStatus(302);
+        $response->assertRedirect(config('app.url'));
+
+        $this->assertDatabaseMissing('user_tokens', [
+            'user_id' => $user->id,
+        ]);
+    }
+
+    /** @test */
+    public function it_wont_associate_token_if_another_user_already_connected(): void
+    {
+        $mock = $this->getMock();
+        $this->mockSocialite($mock->getClient());
+
+        $user1 = User::factory()->create();
+        UserToken::factory()->create([
+            'driver_id' => 12345,
+            'driver' => 'test',
+            'user_id' => $user1->id,
+            'email' => 'dwigth@dundermifflin.com',
+            'format' => 'oauth2',
+            'token' => 'token',
+        ]);
+
+        $user = User::factory()->create();
+        $this->actingAs($user);
 
         session()->put('state', 'state');
 
