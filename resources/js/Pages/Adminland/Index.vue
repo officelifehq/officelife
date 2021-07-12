@@ -149,7 +149,7 @@
                 </div>
               </div>
               <div class="ph3 relative">
-                <div class="pa2 pl0 relative">
+                <div v-if="paidPlanEnabled" class="pa2 pl0 relative">
                   <span class="mr1">
                     💸
                   </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/billing'">
@@ -184,6 +184,10 @@ export default {
     notifications: {
       type: Array,
       default: null,
+    },
+    paidPlanEnabled: {
+      type: Boolean,
+      default: false,
     },
   },
 };
