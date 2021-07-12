@@ -56,7 +56,7 @@
           <!-- BLANK STATE -->
           <div v-show="invoices.length == 0" class="pa3 mt5">
             <p class="tc measure center mb4 lh-copy">
-              {{ $t('account.employee_statuses_blank') }}
+              {{ $t('account.billing_show_blank') }}
             </p>
             <img loading="lazy" class="db center mb4" alt="add a position symbol" srcset="/img/company/account/blank-position-1x.png,
                                           /img/company/account/blank-position-2x.png 2x"
