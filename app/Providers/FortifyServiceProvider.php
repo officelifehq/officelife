@@ -29,7 +29,7 @@ class FortifyServiceProvider extends ServiceProvider
     public function boot()
     {
         Fortify::loginView(function ($request) {
-            return app()->call(LoginController::class, [$request]);
+            return app()->call(LoginController::class, ['request' => $request]);
         });
 
         Fortify::createUsersUsing(CreateAccount::class);

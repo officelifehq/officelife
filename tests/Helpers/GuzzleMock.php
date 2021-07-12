@@ -10,9 +10,9 @@ use GuzzleHttp\Handler\MockHandler;
 
 class GuzzleMock extends Assert
 {
-    private $container = [];
+    private array $container = [];
 
-    private $responses = [];
+    private array $responses = [];
 
     private Client $client;
 
