@@ -64,7 +64,7 @@ class CreateJobOpening extends BaseService
         $this->position = Position::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['position_id']);
 
-        $this->employee = Employee::where('company_id', $this->data['company_id'])
+        $this->sponsor = Employee::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['sponsored_by_employee_id']);
     }
 
