@@ -12,7 +12,6 @@ use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\JobOpening\CreateJobOpening;
 
 class CreateJobOpeningTest extends TestCase
@@ -59,7 +58,7 @@ class CreateJobOpeningTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new CreatePosition)->execute($request);
+        (new CreateJobOpening)->execute($request);
     }
 
     /** @test */
