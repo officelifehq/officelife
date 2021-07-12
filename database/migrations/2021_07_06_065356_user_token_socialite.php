@@ -17,7 +17,7 @@ class UserTokenSocialite extends Migration
             $table->string('driver_id', 256);
             $table->string('driver', 50);
             $table->char('format', 6);
-            $table->string('email', 1024);
+            $table->string('email', 1024)->nullable();
             $table->string('token', 2048);
             $table->string('token_secret', 2048)->nullable();
             $table->string('refresh_token', 2048)->nullable();

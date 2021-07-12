@@ -19,6 +19,7 @@ class UserToken extends Model
         'user_id',
         'driver',
         'driver_id',
+        'email',
         'format',
         'token',
         'token_secret',

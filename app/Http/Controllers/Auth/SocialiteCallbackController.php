@@ -172,7 +172,7 @@ class SocialiteCallbackController extends Controller
      */
     private function checkProvider(string $driver): void
     {
-        if (! config('auth.login_providers')->contains($driver)) {
+        if (! collect(config('auth.login_providers'))->contains($driver)) {
             throw ValidationException::withMessages(['This provider does not exist']);
         }
     }
