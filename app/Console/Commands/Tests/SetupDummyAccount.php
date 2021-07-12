@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Company\ECoffeeMatch;
 use App\Services\User\CreateAccount;
 use App\Models\Company\ProjectStatus;
+use App\Models\Company\CompanyInvoice;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Services\Company\Wiki\CreateWiki;
@@ -33,9 +34,11 @@ use App\Services\Company\Project\StartProject;
 use App\Services\Company\Team\Ship\CreateShip;
 use App\Models\Company\EmployeePositionHistory;
 use App\Services\Company\Project\CreateProject;
+use App\Models\Company\CompanyDailyUsageHistory;
 use App\Services\Company\Group\CreateAgendaItem;
 use App\Services\Company\Group\UpdateMeetingDate;
 use Symfony\Component\Console\Helper\ProgressBar;
+use App\Models\Company\CompanyUsageHistoryDetails;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Employee\Morale\LogMorale;
 use App\Services\Company\Project\CreateProjectLink;
@@ -222,6 +225,7 @@ class SetupDummyAccount extends Command
         $this->setECoffeeProcess();
         $this->addGroups();
         $this->addPreviousPositionsHistory();
+        $this->addBillingAndInvoices();
         $this->addWikis();
         $this->addSecondaryBlankAccount();
         $this->validateUserAccounts();
@@ -2210,6 +2214,52 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                 'started_at' => $started,
                 'ended_at' => $ended,
             ]);
+        }
+    }
+
+    private function addBillingAndInvoices(): void
+    {
+        $this->info('☐ Add past invoices');
+
+        $maxNumberEmployees = Employee::count();
+
+        $oneYearAgo = Carbon::now()->subYear();
+        while (! $oneYearAgo->isSameMonth(Carbon::now())) {
+            $randomNumberOfEmployees = Employee::inRandomOrder()->limit(rand(1, $maxNumberEmployees))->get();
+
+            $usage = CompanyDailyUsageHistory::create([
+                'company_id' => $this->company->id,
+                'number_of_active_employees' => $randomNumberOfEmployees->count(),
+                'created_at' => $oneYearAgo->format('Y-m-d'),
+            ]);
+
+            foreach ($randomNumberOfEmployees as $employee) {
+                CompanyUsageHistoryDetails::create([
+                    'usage_history_id' => $usage->id,
+                    'employee_name' => $employee->name,
+                    'employee_email' => $employee->email,
+                ]);
+            }
+
+            // if the day is the end of month, create invoice
+            if ($oneYearAgo->isSameDay($oneYearAgo->copy()->endOfMonth())) {
+                // get highest usage of the month
+                $usage = CompanyDailyUsageHistory::where('company_id', $this->company->id)
+                    ->whereBetween('created_at', [
+                        $oneYearAgo->copy()->startOfMonth(),
+                        $oneYearAgo->copy()->endOfMonth(),
+                    ])
+                    ->orderBy('number_of_active_employees', 'desc')
+                    ->first();
+
+                CompanyInvoice::create([
+                    'company_id' => $this->company->id,
+                    'usage_history_id' => $usage->id,
+                    'created_at' => $oneYearAgo->format('Y-m-d'),
+                ]);
+            }
+
+            $oneYearAgo = $oneYearAgo->copy()->addDay();
         }
     }
 

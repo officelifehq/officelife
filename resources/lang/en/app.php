@@ -153,6 +153,8 @@ return [
     'breadcrumb_group_detail' => 'Detail of a group',
     'breadcrumb_group_delete' => 'Delete the group',
     'breadcrumb_group_edit' => 'Edit the group',
+    'breadcrumb_account_manage_invoices' => 'View invoices',
+    'breadcrumb_account_show_invoices' => 'View invoice details',
     'breadcrumb_kb_list' => 'Knowledge base',
     'breadcrumb_kb_edit' => 'Edit a wiki',
     'breadcrumb_wiki_detail' => 'Detail of a wiki',

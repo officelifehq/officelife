@@ -252,6 +252,7 @@ return [
         'ecoffee' => 'grow/e-coffee.html#overview',
         'questions' => 'communicate/get-to-know-your-colleagues.html',
         'time_tracking' => 'operate/time-tracking.html',
+        'billing' => 'manage/company-management.html#account-billing',
         'wiki' => 'communicate/wiki.html',
     ],
 ];

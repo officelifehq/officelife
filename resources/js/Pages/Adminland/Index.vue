@@ -132,7 +132,7 @@
           <div v-show="$page.props.auth.employee.permission_level < 200">
             <p v-html="$t('account.home_role_owner')"></p>
             <div class="options flex pl0 mb0">
-              <div class="ph3 mr4">
+              <div class="ph3">
                 <div class="pa2 pl0 relative">
                   <span class="mr1">
                     ⚙️
@@ -149,11 +149,20 @@
                 </div>
               </div>
               <div class="ph3 relative">
-                <span class="mr1">
-                  🗑
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/cancel'" data-cy="audit-cancel-link">
-                  {{ $t('account.home_cancel_account') }}
-                </inertia-link>
+                <div v-if="paidPlanEnabled" class="pa2 pl0 relative">
+                  <span class="mr1">
+                    💸
+                  </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/billing'">
+                    {{ $t('account.home_account_usage') }}
+                  </inertia-link>
+                </div>
+                <div class="pa2 pl0 relative">
+                  <span class="mr1">
+                    🗑
+                  </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/cancel'" data-cy="audit-cancel-link">
+                    {{ $t('account.home_cancel_account') }}
+                  </inertia-link>
+                </div>
               </div>
             </div>
           </div>
@@ -175,6 +184,10 @@ export default {
     notifications: {
       type: Array,
       default: null,
+    },
+    paidPlanEnabled: {
+      type: Boolean,
+      default: false,
     },
   },
 };

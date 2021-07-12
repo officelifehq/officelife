@@ -21,6 +21,7 @@ class AdminlandController extends Controller
     public function index(Request $request, int $companyId): Response
     {
         return Inertia::render('Adminland/Index', [
+            'paidPlanEnabled' => config('officelife.enable_paid_plan'),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

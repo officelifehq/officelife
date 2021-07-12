@@ -403,6 +403,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
             Route::get('account/cancel', 'Company\\Adminland\\AdminCancelAccountController@index');
             Route::delete('account/cancel', 'Company\\Adminland\\AdminCancelAccountController@destroy');
+
+            Route::get('account/billing', 'Company\\Adminland\\AdminBillingController@index');
+            Route::get('account/billing/{invoice}', 'Company\\Adminland\\AdminBillingController@show')->name('invoices.show');
         });
 
         // only available to hr role or administrator
