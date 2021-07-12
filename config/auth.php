@@ -133,7 +133,7 @@ return [
     | Login providers
     |--------------------------------------------------------------------------
     |
-    | List of available login providers, coma separated. This use socialite
+    | List of available login providers, coma separated. This uses socialite
     | packages.
     |
     | Supported: azure, github, google, linkedin, monica, saml2, slack, twitter.

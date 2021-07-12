@@ -39,14 +39,6 @@ class UserToken extends Model
     ];
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-    ];
-
-    /**
      * Get the user record associated with the company.
      *
      * @return BelongsTo
