@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Company;
 
+use Illuminate\Support\Str;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
@@ -26,9 +27,6 @@ class JobOpeningFactory extends Factory
     {
         return [
             'company_id' => Company::factory(),
-            'title' => $this->faker->text(100),
-
-            'company_id' => Company::factory(),
             'position_id' => function (array $attributes) {
                 return Position::factory()->create([
                     'company_id' => $attributes['company_id'],
@@ -44,6 +42,9 @@ class JobOpeningFactory extends Factory
             'reference_number' => $this->faker->numberBetween(1, 100),
             'title' => $this->faker->text(100),
             'description' => $this->faker->text(300),
+            'slug' => function (array $attributes) {
+                return Str::slug($attributes['title'], '-');
+            },
             'activated_at' => $this->faker->dateTimeThisCentury(),
         ];
     }

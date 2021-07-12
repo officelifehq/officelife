@@ -20,6 +20,7 @@ class CreateJobOpeningsTable extends Migration
             $table->boolean('fulfilled')->default(false);
             $table->string('reference_number')->nullable();
             $table->string('title');
+            $table->string('slug');
             $table->text('description');
             $table->datetime('activated_at')->nullable();
             $table->timestamps();
