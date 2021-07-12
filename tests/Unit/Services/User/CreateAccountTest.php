@@ -37,7 +37,7 @@ class CreateAccountTest extends TestCase
     public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
-            'email' => 'dwight@dundermifflin.com',
+            'email' => 'dwight.dundermifflin.com',
         ];
 
         $this->expectException(ValidationException::class);

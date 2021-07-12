@@ -3,9 +3,9 @@
 namespace App\Providers;
 
 use App\Events\FileDeleted;
-use Illuminate\Support\Facades\Event;
 use App\Listeners\DeleteFileInStorage;
 use Illuminate\Auth\Events\Registered;
+use SocialiteProviders\Manager\SocialiteWasCalled;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -22,6 +22,16 @@ class EventServiceProvider extends ServiceProvider
         ],
         FileDeleted::class => [
             DeleteFileInStorage::class,
+        ],
+        SocialiteWasCalled::class => [
+            'SocialiteProviders\\Azure\\AzureExtendSocialite@handle',
+            'SocialiteProviders\\GitHub\\GitHubExtendSocialite@handle',
+            'SocialiteProviders\\Google\\GoogleExtendSocialite@handle',
+            'App\\Providers\\Auth\\MonicaExtendSocialite@handle',
+            'SocialiteProviders\\LinkedIn\\LinkedInExtendSocialite@handle',
+            'SocialiteProviders\\Slack\\SlackExtendSocialite@handle',
+            'SocialiteProviders\\Saml2\\Saml2ExtendSocialite@handle',
+            'SocialiteProviders\\Twitter\\TwitterExtendSocialite@handle',
         ],
     ];
 

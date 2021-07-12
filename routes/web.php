@@ -10,6 +10,10 @@ Route::get('/', function () {
 Route::get('invite/employee/{link}', 'Auth\\UserInvitationController@check');
 Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join')->name('invitation.join');
 
+Route::get('auth/{driver}', 'Auth\SocialiteCallbackController@login')->name('login.provider');
+Route::get('auth/{driver}/callback', 'Auth\SocialiteCallbackController@callback');
+Route::post('auth/{driver}/callback', 'Auth\SocialiteCallbackController@callback');
+
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('home', 'HomeController@index')->name('home');
     Route::get('companies', 'HomeController@list')->name('companies');
