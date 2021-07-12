@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Inertia\Inertia;
 use App\Helpers\LocaleHelper;
-use Illuminate\Support\Facades\Session;
 
 /**
  * Used by Jetstream to share data.
@@ -39,8 +38,8 @@ class ShareInertiaData
                     'two_factor_enabled' => ! is_null($request->user()->two_factor_secret),
                 ];
             },
-            'errorBags' => function () {
-                return collect(optional(Session::get('errors'))->getBags() ?: [])->mapWithKeys(function ($bag, $key) {
+            'errorBags' => function () use ($request) {
+                return collect(optional($request->session()->get('errors'))->getBags() ?: [])->mapWithKeys(function ($bag, $key) {
                     return [$key => $bag->messages()];
                 })->all();
             },

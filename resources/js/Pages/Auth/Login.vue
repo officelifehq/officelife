@@ -8,6 +8,18 @@
   box-shadow: 0 0 0 1px #e3e8ee;
   background-color: #f6fafc;
 }
+
+.auth-provider {
+  width: 15px;
+  height: 15px;
+  margin-right: 8px;
+  top: 2px;
+}
+
+.w-43 {
+  width: 43%;
+}
+
 </style>
 
 <template>
@@ -28,6 +40,7 @@
     </div>
 
     <!-- Form Errors -->
+    <errors :errors="$attrs.errorBags.default" :class="'mb3'" />
     <errors :errors="form.errors" :class="'mb3'" />
 
     <form @submit.prevent="submit">
@@ -50,6 +63,27 @@
         <loading-button :class="'add mb2'" :state="form.processing" :text="$t('auth.login_cta')" />
       </div>
     </form>
+
+
+    <div v-if="providers.length > 0" class="db">
+      <div class="b--black-10 bb mt2"></div>
+      <p class="f4">
+        {{ $t('auth.login_with') }}
+      </p>
+    </div>
+    <div v-for="provider in providers" :key="provider" class="di">
+      <a class="dib ph1 btn w-43 mb2 pv2 mh3 f6 relative"
+         :href="route('login.provider', { driver: provider })" @click.prevent="open(provider)"
+      >
+        <img :src="`/img/auth/${provider}.svg`" alt="" class="auth-provider relative" />
+        <template v-if="providersName[provider]">
+          {{ providersName[provider] }}
+        </template>
+        <template v-else>
+          {{ $t(`auth.login_provider_${provider}`) }}
+        </template>
+      </a>
+    </div>
 
     <template #footer>
       <languages />
@@ -93,6 +127,14 @@ export default {
       type: String,
       default: '',
     },
+    providers: {
+      type: Array,
+      default: () => [],
+    },
+    providersName: {
+      type: Object,
+      default: () => {return {};},
+    }
   },
 
   data() {
@@ -123,9 +165,15 @@ export default {
             this.form.reset('password');
           },
           onError: (error) => {
-            this.errors = error.response.data;
+            this.form.errors = error.response.data;
           }
         });
+    },
+
+    open(provider) {
+      const url = this.route('login.provider', { driver: provider });
+
+      location.href = `${url}?redirect=${location.href}`;
     },
   }
 };
