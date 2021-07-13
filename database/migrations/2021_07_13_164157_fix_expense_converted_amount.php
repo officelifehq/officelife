@@ -14,12 +14,6 @@ class FixExpenseConvertedAmount extends Migration
      */
     public function up()
     {
-        /** @var $connection \Illuminate\Database\Connection */
-        $connection = DB::connection();
-        if ($connection->getDriverName() === 'sqlite') {
-            return;
-        }
-
         Expense::whereNotNull('converted_amount')
             ->chunk(100, function ($expenses) {
                 foreach ($expenses as $expense) {
@@ -28,9 +22,13 @@ class FixExpenseConvertedAmount extends Migration
                 }
             });
 
-        Schema::table('expenses', function (Blueprint $table) {
-            $table->unsignedBigInteger('amount')->change();
-            $table->unsignedBigInteger('converted_amount')->change();
-        });
+        /** @var \Illuminate\Database\Connection $connection */
+        $connection = DB::connection();
+        if ($connection->getDriverName() !== 'sqlite') {
+            Schema::table('expenses', function (Blueprint $table) {
+                $table->unsignedBigInteger('amount')->change();
+                $table->unsignedBigInteger('converted_amount')->change();
+            });
+        }
     }
 }
