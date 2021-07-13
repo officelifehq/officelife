@@ -45,7 +45,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
         $this->assertEquals(
             [
                 'exchange_rate' => 0.847968,
-                'converted_amount' => 11792.897845201705,
+                'converted_amount' => 1179290,
                 'converted_to_currency' => 'USD',
                 'converted_at' => '2018-01-01 00:00:00',
             ],
