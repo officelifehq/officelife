@@ -2,6 +2,7 @@
 
 use App\Helpers\MoneyHelper;
 use App\Models\Company\Expense;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,6 +14,12 @@ class FixExpenseConvertedAmount extends Migration
      */
     public function up()
     {
+        /** @var $connection \Illuminate\Database\Connection */
+        $connection = DB::connection();
+        if ($connection->getDriverName() === 'sqlite') {
+            return;
+        }
+
         Expense::whereNotNull('converted_amount')
             ->chunk(100, function ($expenses) {
                 foreach ($expenses as $expense) {
