@@ -3,6 +3,7 @@
 namespace Tests\Unit\Services\Company\Adminland\JobOpening;
 
 use Tests\TestCase;
+use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
@@ -25,6 +26,9 @@ class CreateJobOpeningTest extends TestCase
         $position = Position::factory()->create([
             'company_id' => $michael->company_id,
         ]);
+        $team = Team::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
         $this->executeService($michael, $michael, $position, $team);
     }
 
@@ -33,6 +37,9 @@ class CreateJobOpeningTest extends TestCase
     {
         $michael = $this->createHR();
         $position = Position::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $michael, $position, $team);
@@ -45,6 +52,9 @@ class CreateJobOpeningTest extends TestCase
 
         $michael = $this->createEmployee();
         $position = Position::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $michael, $position, $team);
@@ -66,6 +76,9 @@ class CreateJobOpeningTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $position = Position::factory()->create([]);
+        $team = Team::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $michael, $position, $team);
@@ -75,7 +88,10 @@ class CreateJobOpeningTest extends TestCase
     public function it_fails_if_team_is_not_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $position = Position::factory()->create([]);
+        $position = Position::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $team = Team::factory()->create();
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $michael, $position, $team);
@@ -90,6 +106,7 @@ class CreateJobOpeningTest extends TestCase
             'author_id' => $author->id,
             'position_id' => $position->id,
             'sponsored_by_employee_id' => $sponsor->id,
+            'team_id' => $team->id,
             'title' => 'Assistant to the regional manager',
             'description' => 'Awesome job',
             'reference_number' => '123',
