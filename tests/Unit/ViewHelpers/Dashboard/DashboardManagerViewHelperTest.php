@@ -207,7 +207,6 @@ class DashboardManagerViewHelperTest extends TestCase
         ]);
 
         $collection = DashboardManagerViewHelper::contractRenewals($michael, $michael->directReports);
-        dump($collection);
 
         $this->assertEquals(
             [
