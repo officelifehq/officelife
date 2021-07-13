@@ -33,3 +33,4 @@ parameters:
         - message: '#Cannot access property \$[a-zA-Z0-9_]+ on array.#'
           path: 'app/Helpers/NotificationHelper.php'
         - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory::[a-zA-Z0-9\\_]+\(\)\.#'
+        - '#Parameter \#1 \$amount of static method App\\Helpers\\MoneyHelper::format\(\) expects int\, float given\.#'

@@ -15,7 +15,7 @@ class EmployeeSurveysViewHelper
     /**
      * Get all the Rate your manager surveys about this manager.
      *
-     * @var Employee
+     * @param Employee $employee
      * @return array|null
      */
     public static function rateYourManagerSurveys(Employee $employee): ?array
@@ -103,7 +103,7 @@ class EmployeeSurveysViewHelper
     /**
      * Get information about the given survey.
      *
-     * @var int
+     * @param int $surveyId
      * @return array|null
      */
     public static function informationAboutSurvey(int $surveyId): ?array

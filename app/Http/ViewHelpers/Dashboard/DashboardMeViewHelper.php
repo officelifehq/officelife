@@ -138,7 +138,7 @@ class DashboardMeViewHelper
     /**
      * Get all the in progress expenses for this employee.
      *
-     * @var Employee
+     * @param Employee $employee
      * @return Collection|null
      */
     public static function expenses(Employee $employee): ?Collection
@@ -179,7 +179,7 @@ class DashboardMeViewHelper
      * Get all the Rate Your Manager survey answers that need to be answered, if
      * they exist.
      *
-     * @var Employee
+     * @param Employee $employee
      * @return Collection|null
      */
     public static function rateYourManagerAnswers(Employee $employee): ?Collection

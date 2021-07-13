@@ -12,7 +12,7 @@ class EmployeePerformanceViewHelper
     /**
      * Get the latest Rate your manager surveys about this manager.
      *
-     * @var Employee
+     * @param Employee $employee
      * @return array|null
      */
     public static function latestRateYourManagerSurveys(Employee $employee): ?array

@@ -1,19 +1,20 @@
 <?php
 
-$finder = Symfony\Component\Finder\Finder::create()
+$finder = PhpCsFixer\Finder::create()
     ->notPath('vendor')
     ->notPath('bootstrap')
     ->notPath('storage')
+    ->notPath('node_modules')
     ->in(__DIR__)
     ->name('*.php')
     ->notName('*.blade.php')
     ->ignoreVCS(true);
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRules([
         '@PSR2' => true,
         'array_syntax' => ['syntax' => 'short'],
-        'ordered_imports' => ['sortAlgorithm' => 'length'],
+        'ordered_imports' => ['sort_algorithm' => 'length'],
         'single_quote' => true,
         'phpdoc_summary' => true,
         'phpdoc_add_missing_param_annotation' => true,
@@ -22,7 +23,7 @@ return PhpCsFixer\Config::create()
         'no_trailing_comma_in_list_call' => false,
         'no_whitespace_in_blank_line' => true,
         'no_whitespace_before_comma_in_array' => true,
-        'trailing_comma_in_multiline_array' => true,
+        'trailing_comma_in_multiline' => true,
         'function_typehint_space' => true,
         'phpdoc_order' => true,
         'phpdoc_no_empty_return' => true,
