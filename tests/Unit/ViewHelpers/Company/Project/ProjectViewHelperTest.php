@@ -207,9 +207,8 @@ class ProjectViewHelperTest extends TestCase
         );
 
         // employee is part of the project and is the project lead
-        $project->update([
-            'project_lead_id' => $michael->id,
-        ]);
+        $project->project_lead_id = $michael->id;
+        $project->save();
         $project->refresh();
         $array = ProjectViewHelper::permissions($project, $michael);
         $this->assertEquals(

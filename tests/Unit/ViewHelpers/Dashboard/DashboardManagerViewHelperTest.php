@@ -189,10 +189,9 @@ class DashboardManagerViewHelperTest extends TestCase
             'type' => EmployeeStatus::EXTERNAL,
         ]);
 
-        $dwight->update([
-            'employee_status_id' => $status->id,
-            'contract_renewed_at' => Carbon::now()->addMonths(1),
-        ]);
+        $dwight->employee_status_id = $status->id;
+        $dwight->contract_renewed_at = Carbon::now()->addMonths(1);
+        $dwight->save();
 
         (new AssignManager)->execute([
             'company_id' => $michael->company_id,
@@ -208,6 +207,7 @@ class DashboardManagerViewHelperTest extends TestCase
         ]);
 
         $collection = DashboardManagerViewHelper::contractRenewals($michael, $michael->directReports);
+        dump($collection);
 
         $this->assertEquals(
             [

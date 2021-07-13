@@ -44,9 +44,8 @@ class CompanyQuestionViewHelperTest extends TestCase
             count($response->toArray())
         );
 
-        $question->update([
-            'active' => true,
-        ]);
+        $question->active = true;
+        $question->save();
 
         // the response now contains the question with no answer but is active
         $response = CompanyQuestionViewHelper::questions($michael->company);
