@@ -17,7 +17,7 @@ abstract class TestCase extends BaseTestCase
      * permission.
      *
      * @param Employee $employee
-     * @param string   $permissionLevel
+     * @param int   $permissionLevel
      * @param string   $route
      * @param int  $statusCode
      */

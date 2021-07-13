@@ -169,11 +169,12 @@ class DashboardTimesheetViewHelperTest extends TestCase
         $this->assertEmpty($array);
 
         // change the timesheet to approved BUT without an existing approver
-        $timesheet->status = Timesheet::APPROVED;
-        $timesheet->approver_id = null;
-        $timesheet->approved_at = $date;
-        $timesheet->approver_name = 'Henri Troyat';
-        $timesheet->save();
+        $timesheet->update([
+            'status' => Timesheet::APPROVED,
+            'approver_id' => null,
+            'approved_at' => $date,
+            'approver_name' => 'Henri Troyat',
+        ]);
         $timesheet->refresh();
 
         $array = DashboardTimesheetViewHelper::approverInformation($timesheet, $michael);
@@ -187,10 +188,11 @@ class DashboardTimesheetViewHelperTest extends TestCase
         );
 
         // change the timesheet to approved BUT with an existing approver
-        $timesheet->status = Timesheet::APPROVED;
-        $timesheet->approver_id = $michael->id;
-        $timesheet->approved_at = $date;
-        $timesheet->save();
+        $timesheet->update([
+            'status' => Timesheet::APPROVED,
+            'approver_id' => $michael->id,
+            'approved_at' => $date,
+        ]);
         $timesheet->refresh();
 
         $array = DashboardTimesheetViewHelper::approverInformation($timesheet, $michael);

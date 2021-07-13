@@ -12,7 +12,7 @@
 .env
 .env.cypress.local
 .phpunit.result.cache
-.php_cs.cache
+.php-cs-fixer.cache
 Homestead.json
 Homestead.yaml
 npm-debug.log

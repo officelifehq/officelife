@@ -68,7 +68,7 @@ class RenameCompany extends BaseService
     /**
      * Add an audit log entry for this action.
      *
-     * @var string
+     * @param string $oldName
      */
     private function log(string $oldName): void
     {

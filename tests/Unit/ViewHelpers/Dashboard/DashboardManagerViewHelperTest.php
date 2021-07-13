@@ -189,9 +189,10 @@ class DashboardManagerViewHelperTest extends TestCase
             'type' => EmployeeStatus::EXTERNAL,
         ]);
 
-        $dwight->employee_status_id = $status->id;
-        $dwight->contract_renewed_at = Carbon::now()->addMonths(1);
-        $dwight->save();
+        $dwight->update([
+            'employee_status_id' => $status->id,
+            'contract_renewed_at' => Carbon::now()->addMonths(1),
+        ]);
 
         (new AssignManager)->execute([
             'company_id' => $michael->company_id,

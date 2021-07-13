@@ -23,7 +23,7 @@ class UpdateDashboardPreference implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @var array $preference
+     * @param array $preference
      */
     public function __construct(array $preference)
     {
