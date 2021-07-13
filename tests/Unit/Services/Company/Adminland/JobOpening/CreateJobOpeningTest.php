@@ -25,7 +25,7 @@ class CreateJobOpeningTest extends TestCase
         $position = Position::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $michael, $position);
+        $this->executeService($michael, $michael, $position, $team);
     }
 
     /** @test */
@@ -35,7 +35,7 @@ class CreateJobOpeningTest extends TestCase
         $position = Position::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $michael, $position);
+        $this->executeService($michael, $michael, $position, $team);
     }
 
     /** @test */
@@ -47,7 +47,7 @@ class CreateJobOpeningTest extends TestCase
         $position = Position::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $michael, $position);
+        $this->executeService($michael, $michael, $position, $team);
     }
 
     /** @test */
@@ -68,10 +68,20 @@ class CreateJobOpeningTest extends TestCase
         $position = Position::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $michael, $position);
+        $this->executeService($michael, $michael, $position, $team);
     }
 
-    private function executeService(Employee $author, Employee $sponsor, Position $position): void
+    /** @test */
+    public function it_fails_if_team_is_not_in_the_company(): void
+    {
+        $michael = $this->createAdministrator();
+        $position = Position::factory()->create([]);
+
+        $this->expectException(ModelNotFoundException::class);
+        $this->executeService($michael, $michael, $position, $team);
+    }
+
+    private function executeService(Employee $author, Employee $sponsor, Position $position, Team $team): void
     {
         Queue::fake();
 
@@ -93,7 +103,6 @@ class CreateJobOpeningTest extends TestCase
             'position_id' => $position->id,
             'title' => 'Assistant to the regional manager',
             'description' => 'Awesome job',
-            'slug' => 'assistant-to-the-regional-manager',
             'reference_number' => '123',
         ]);
 

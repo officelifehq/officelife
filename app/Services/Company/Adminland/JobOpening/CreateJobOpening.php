@@ -4,6 +4,7 @@ namespace App\Services\Company\Adminland\JobOpening;
 
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
@@ -16,6 +17,7 @@ class CreateJobOpening extends BaseService
     protected Position $position;
     protected JobOpening $jobOpening;
     protected Employee $sponsor;
+    protected Team $team;
 
     /**
      * Get the validation rules that apply to the service.
@@ -29,6 +31,7 @@ class CreateJobOpening extends BaseService
             'position_id' => 'required|integer|exists:positions,id',
             'author_id' => 'required|integer|exists:employees,id',
             'sponsored_by_employee_id' => 'required|integer|exists:employees,id',
+            'team_id' => 'nullable|integer|exists:teams,id',
             'title' => 'required|string|max:255',
             'reference_number' => 'nullable|string|max:255',
             'description' => 'required|string|max:65535',
@@ -66,6 +69,9 @@ class CreateJobOpening extends BaseService
 
         $this->sponsor = Employee::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['sponsored_by_employee_id']);
+
+        $this->team = Team::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['team_id']);
     }
 
     private function create(): void
@@ -74,11 +80,17 @@ class CreateJobOpening extends BaseService
             'company_id' => $this->data['company_id'],
             'position_id' => $this->data['position_id'],
             'sponsored_by_employee_id' => $this->data['sponsored_by_employee_id'],
+            'team_id' => $this->valueOrNull($this->data, 'team_id'),
             'title' => $this->data['title'],
             'description' => $this->data['description'],
             'reference_number' => $this->valueOrNull($this->data, 'reference_number'),
-            'slug' => Str::slug($this->data['title'], '-'),
+            'slug' => $this->slug(),
         ]);
+    }
+
+    private function slug(): string
+    {
+        return Str::slug($this->data['title'], '-').'-'.(string) Str::uuid();
     }
 
     private function log(): void
