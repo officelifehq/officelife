@@ -120,6 +120,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('timesheets/{timesheet}', 'Company\\Dashboard\\HR\\DashboardHRTimesheetController@show')->name('dashboard.hr.timesheet.show');
                 Route::post('timesheets/{timesheet}/approve', 'Company\\Dashboard\\HR\\DashboardHRTimesheetController@approve');
                 Route::post('timesheets/{timesheet}/reject', 'Company\\Dashboard\\HR\\DashboardHRTimesheetController@reject');
+
+                // job openings
+                Route::get('job-openings', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@index')->name('dashboard.hr.openings.index');
+                Route::get('job-openings/create', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@create')->name('dashboard.hr.openings.create');
             });
         });
 

@@ -16,6 +16,7 @@ class CreateJobOpeningsTable extends Migration
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('position_id');
             $table->unsignedBigInteger('sponsored_by_employee_id')->nullable();
+            $table->unsignedBigInteger('team_id')->nullable();
             $table->boolean('active')->default(false);
             $table->boolean('fulfilled')->default(false);
             $table->string('reference_number')->nullable();
@@ -27,6 +28,7 @@ class CreateJobOpeningsTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
             $table->foreign('sponsored_by_employee_id')->references('id')->on('employees')->onDelete('set null');
+            $table->foreign('team_id')->references('id')->on('teams')->onDelete('set null');
         });
     }
 }

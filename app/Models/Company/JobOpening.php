@@ -26,6 +26,7 @@ class JobOpening extends Model
         'company_id',
         'position_id',
         'sponsored_by_employee_id',
+        'team_id',
         'active',
         'fulfilled',
         'reference_number',
@@ -81,5 +82,15 @@ class JobOpening extends Model
     public function sponsor()
     {
         return $this->belongsTo(Employee::class, 'sponsored_by_employee_id');
+    }
+
+    /**
+     * Get the team record associated with the job opening.
+     *
+     * @return BelongsTo
+     */
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
     }
 }
