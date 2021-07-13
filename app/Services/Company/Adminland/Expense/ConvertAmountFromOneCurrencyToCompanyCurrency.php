@@ -5,6 +5,7 @@ namespace App\Services\Company\Adminland\Expense;
 use Carbon\Carbon;
 use ErrorException;
 use Illuminate\Support\Str;
+use App\Helpers\MoneyHelper;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
@@ -118,7 +119,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
 
     private function convert(): void
     {
-        $this->convertedAmount = $this->amount / $this->rate;
+        $this->convertedAmount = MoneyHelper::parseInput((string) ($this->amount / $this->rate), $this->companyCurrency);
     }
 
     /**

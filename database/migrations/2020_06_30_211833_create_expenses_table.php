@@ -22,9 +22,9 @@ class CreateExpensesTable extends Migration
             $table->unsignedBigInteger('expense_category_id')->nullable();
             $table->string('status')->default('created');
             $table->string('title');
-            $table->integer('amount');
+            $table->unsignedBigInteger('amount');
             $table->string('currency');
-            $table->double('converted_amount')->nullable();
+            $table->unsignedBigInteger('converted_amount')->nullable();
             $table->string('converted_to_currency')->nullable();
             $table->datetime('converted_at')->nullable();
             $table->double('exchange_rate')->nullable();
