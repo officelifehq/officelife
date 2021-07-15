@@ -280,7 +280,6 @@ return [
     'log_project_task_destroyed' => 'Deleted a task called :title in the project called :project_name.',
     'log_project_task_list_destroyed' => 'Deleted a task list called :title in the project called :project_name.',
     'log_project_task_assigned_to_assignee' => 'Assigned the task called :project_task_title in the project called :project_name to :assignee_name.',
-    'log_project_task_udpated' => 'Updated the task called :project_task_title in the project called :project_name.',
     'log_project_task_list_udpated' => 'Updated the task called :project_task_list_title in the project called :project_name.',
     'log_time_tracking_entry_created' => 'Added a time tracking entry for the week :week_number for :employee_name.',
     'log_employee_contract_renewed_at_set' => 'Set the contract renewal date of :employee_name to :contract_renewed_at.',
@@ -603,4 +602,5 @@ return [
     'cancel_account_company_subscription' => 'If you are a subscriber, your subscription will be immediately cancelled.',
     'cancel_account_data_lost_forever' => 'This process is irreversible. You will lose all the data associated with this company, forever.',
     'cancel_cta' => 'Cancel the account',
+    'billing_show_blank' => 'Etter en måneds aktivitet på kontoen din, finner du fakturaene dine her.',
 ];
