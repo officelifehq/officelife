@@ -214,6 +214,14 @@ export default {
     };
   },
 
+  mounted() {
+    if (localStorage.success) {
+      this.flash(localStorage.success, 'success');
+
+      localStorage.removeItem('success');
+    }
+  },
+
   created() {
     if (this.hardware) {
       this.populateData(this.hardware);

@@ -121,6 +121,16 @@ class Team extends Model
     }
 
     /**
+     * Get the job opening records associated with the team.
+     *
+     * @return HasMany
+     */
+    public function jobOpenings()
+    {
+        return $this->hasMany(JobOpening::class);
+    }
+
+    /**
      * Returns an array of work logs of all the active team members in the
      * given team on a given date.
      *

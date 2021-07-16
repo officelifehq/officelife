@@ -582,6 +582,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the job openings associated with the employee as sponsor.
+     *
+     * @return HasMany
+     */
+    public function jobOpeningsAsSponsor()
+    {
+        return $this->hasMany(JobOpening::class, 'sponsored_by_employee_id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query

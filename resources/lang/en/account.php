@@ -333,6 +333,8 @@ return [
     'log_page_added_to_wiki' => 'Added a page called :page_title to the wiki called :wiki_title.',
     'log_page_updated' => 'Updated the page called :page_title in the wiki called :wiki_title.',
     'log_page_destroyed' => 'Deleted a page called :page_title in the wiki called :wiki_title.',
+    'log_job_opening_created' => 'Created a new job opening called :job_opening_title',
+    'log_job_opening_destroyed' => 'Deleted a job opening called :job_opening_title',
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',
