@@ -24,7 +24,7 @@
 </style>
 
 <template>
-  <div class="mb4">
+  <div v-if="eCoffees.active_session" class="mb4">
     <span class="db fw5 mb2 relative">
       <span class="mr1">
         ☕️
