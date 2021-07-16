@@ -139,4 +139,5 @@ return [
     'create_input_add_project_lead' => 'Ajouter un chef de projet',
     'create_input_add_summary' => 'Ajouter un résumé',
     'create_input_add_project_code' => 'Ajouter le code du projet',
+    'task_show_no_time_tracking' => 'Il n’y a pas encore d’entrées de suivi du temps.',
 ];

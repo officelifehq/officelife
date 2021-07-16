@@ -17,7 +17,7 @@ return [
     'short_month_day' => 'MMM Y',
     'long_month_day' => 'MMMM Do',
     'day_month_parenthesis' => 'dddd (MMM Do)',
-    'date' => 'M d, Y',
+    'date' => 'МММ ДД, ГГГГ',
     'full_month' => 'F',
     'full_date' => 'dddd, MMM Do Y',
     'day' => 'dddd',
