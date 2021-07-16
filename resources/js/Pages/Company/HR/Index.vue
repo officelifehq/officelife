@@ -70,6 +70,7 @@ export default {
     Layout,
     eCoffees,
     Genders,
+    Positions,
     Tab,
     HeaderComponent,
   },

@@ -7,7 +7,11 @@
 	span {
 		display: block;
 	}
+}
 
+.position-item:last-child {
+  margin-bottom: 0;
+  border-bottom: 0;
 }
 
 .bar {
@@ -28,23 +32,18 @@
     <span class="db fw5 mb2 relative">
       <span class="mr1">
         💂‍♀
-      </span> Positions in the company
+      </span> {{ $t('company.hr_positions_title') }}
     </span>
 
-    <div class="br3 bg-white box z-1 pa3 relative">
-      <div v-for="position in positions" :key="position.id" class="mb3">
-        <div class="flex justify-between mb2">
+    <div class="br3 bg-white box z-1 relative">
+      <div v-for="position in positions" :key="position.id" class="relative position-item pa3 bb bb-gray bb-gray-hover">
+        <div class="flex justify-between">
           <span class="fw5">
             {{ position.title }}
           </span>
-          <span class="gray f6">
-            {{ position.percent }}%
-          </span>
-        </div>
-        <div class="progress-bar mb2">
-          <span class="bar">
-            <span class="progress" :style="'width: ' + position.percent + '%;'"></span>
-          </span>
+          <inertia-link :href="position.url" class="gray f6">
+            {{ $tc('company.hr_positions_stat', position.number_of_employees, {number: position.number_of_employees}) }} ({{ position.percent }}%)
+          </inertia-link>
         </div>
       </div>
     </div>

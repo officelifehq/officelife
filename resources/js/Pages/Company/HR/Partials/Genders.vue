@@ -21,6 +21,10 @@
   color: #fff;
   padding: 5px;
 }
+
+.gender-item:last-child {
+  margin-bottom: 0;
+}
 </style>
 
 <template>
@@ -33,7 +37,7 @@
 
     <div class="br3 bg-white box z-1 pa3 relative">
       <!-- genders -->
-      <div v-for="gender in genders" :key="gender.id" class="mb3">
+      <div v-for="gender in genders" :key="gender.id" class="gender-item mb3">
         <div class="flex justify-between mb2">
           <span class="fw5">
             {{ gender.label }}

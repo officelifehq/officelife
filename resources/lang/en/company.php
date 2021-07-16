@@ -72,4 +72,6 @@ return [
     'news_index_blank' => 'No company news have been written yet.',
     'news_view_all' => 'View all company news',
     'hr_genders_title' => 'Genders in the company',
+    'hr_positions_title' => 'Positions in the company',
+    'hr_positions_stat' => '{number} employee|{number} employees',
 ];
