@@ -71,4 +71,5 @@ return [
     'news_index_title' => 'All the company news',
     'news_index_blank' => 'No company news have been written yet.',
     'news_view_all' => 'View all company news',
+    'hr_genders_title' => 'Genders in the company',
 ];

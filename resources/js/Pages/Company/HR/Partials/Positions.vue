@@ -27,24 +27,23 @@
   <div class="mb4">
     <span class="db fw5 mb2 relative">
       <span class="mr1">
-        👫
-      </span> {{ $t('company.hr_genders_title') }}
+        💂‍♀
+      </span> Positions in the company
     </span>
 
     <div class="br3 bg-white box z-1 pa3 relative">
-      <!-- genders -->
-      <div v-for="gender in genders" :key="gender.id" class="mb3">
+      <div v-for="position in positions" :key="position.id" class="mb3">
         <div class="flex justify-between mb2">
           <span class="fw5">
-            {{ gender.label }}
+            {{ position.title }}
           </span>
           <span class="gray f6">
-            {{ gender.percent }}%
+            {{ position.percent }}%
           </span>
         </div>
         <div class="progress-bar mb2">
           <span class="bar">
-            <span class="progress" :style="'width: ' + gender.percent + '%;'"></span>
+            <span class="progress" :style="'width: ' + position.percent + '%;'"></span>
           </span>
         </div>
       </div>
@@ -56,7 +55,7 @@
 
 export default {
   props: {
-    genders: {
+    positions: {
       type: Object,
       default: null,
     },
