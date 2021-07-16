@@ -8,6 +8,7 @@ use App\Models\User\Pronoun;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Employee;
+use App\Models\Company\Position;
 use App\Models\Company\ECoffeeMatch;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Company\HR\CompanyHRViewHelper;
@@ -144,6 +145,49 @@ class CompanyHRViewHelperTest extends TestCase
                     'label' => 'No gender',
                     'number_of_employees' => 0,
                     'percent' => 0,
+                ],
+            ],
+            $array
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_stats_about_the_positions(): void
+    {
+        $company = Company::factory()->create();
+
+        $positionA = Position::factory()->create([
+            'title' => 'dev',
+        ]);
+        $positionB = Position::factory()->create([
+            'title' => 'ceo',
+        ]);
+        Employee::factory()->count(2)->create([
+            'company_id' => $company->id,
+            'position_id' => $positionA->id,
+        ]);
+        Employee::factory()->create([
+            'company_id' => $company->id,
+            'position_id' => $positionB->id,
+        ]);
+
+        $array = CompanyHRViewHelper::positions($company);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $positionA->id,
+                    'title' => 'dev',
+                    'number_of_employees' => 2,
+                    'percent' => 67,
+                    'url' => env('APP_URL') . '/' . $company->id . '/company/hr/positions/'.$positionA->id,
+                ],
+                1 => [
+                    'id' => $positionB->id,
+                    'title' => 'ceo',
+                    'number_of_employees' => 1,
+                    'percent' => 33,
+                    'url' => env('APP_URL') . '/' . $company->id . '/company/hr/positions/' . $positionB->id,
                 ],
             ],
             $array

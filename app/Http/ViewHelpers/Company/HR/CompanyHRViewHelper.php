@@ -6,6 +6,7 @@ use App\Models\User\Pronoun;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Employee;
+use App\Models\Company\Position;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -118,8 +119,8 @@ class CompanyHRViewHelper
             return $pronoun->number_of_employees != 0;
         });
 
-        $totalNumberOfEmployees = $company->employees()->count();
-        $totalNumberOfEmployeesWithoutPronoun = $company->employees()->whereNull('pronoun_id')->count();
+        $totalNumberOfEmployees = $company->employees()->notLocked()->count();
+        $totalNumberOfEmployeesWithoutPronoun = $company->employees()->notLocked()->whereNull('pronoun_id')->count();
 
         $pronounCollection = collect();
 
@@ -142,5 +143,43 @@ class CompanyHRViewHelper
         }
 
         return $pronounCollection->sortByDesc('percent')->values()->all();
+    }
+
+    /**
+     * Get the statistics about all the positions in the company.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function positions(Company $company): array
+    {
+        $positions = Position::addSelect([
+            'number_of_employees' => Employee::selectRaw('count(*)')
+                ->whereColumn('position_id', 'positions.id')
+                ->notLocked()
+                ->where('company_id', $company->id),
+        ])->get();
+
+        $positions = $positions->filter(function ($position) {
+            return $position->number_of_employees != 0;
+        });
+
+        $totalNumberOfEmployees = $company->employees()->notLocked()->count();
+
+        $positionsCollection = collect();
+        foreach ($positions as $position) {
+            $positionsCollection->push([
+                'id' => $position->id,
+                'title' => $position->title,
+                'number_of_employees' => (int) $position->number_of_employees,
+                'percent' => (int) round($position->number_of_employees * 100 / $totalNumberOfEmployees, 0),
+                'url' => route('hr.positions.show', [
+                    'company' => $company->id,
+                    'position' => $position->id,
+                ]),
+            ]);
+        }
+
+        return $positionsCollection->sortByDesc('number_of_employees')->values()->all();
     }
 }

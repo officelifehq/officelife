@@ -361,8 +361,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('{group}/meetings/{meeting}/presenters', 'Company\\Company\\Group\\GroupMeetingsController@getPresenters');
             });
 
+            // HR tab
             Route::prefix('hr')->group(function () {
                 Route::get('', 'Company\\Company\\HR\\CompanyHRController@index');
+
+                // position
+                Route::get('positions/{position}', 'Company\\Company\\HR\\CompanyHRPositionController@show')->name('hr.positions.show');
             });
 
             // Knowledge base

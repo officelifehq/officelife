@@ -7,7 +7,11 @@
 	span {
 		display: block;
 	}
+}
 
+.position-item:last-child {
+  margin-bottom: 0;
+  border-bottom: 0;
 }
 
 .bar {
@@ -21,35 +25,25 @@
   color: #fff;
   padding: 5px;
 }
-
-.gender-item:last-child {
-  margin-bottom: 0;
-}
 </style>
 
 <template>
   <div class="mb4">
     <span class="db fw5 mb2 relative">
       <span class="mr1">
-        👫
-      </span> {{ $t('company.hr_genders_title') }}
+        💂‍♀
+      </span> {{ $t('company.hr_positions_title') }}
     </span>
 
-    <div class="br3 bg-white box z-1 pa3 relative">
-      <!-- genders -->
-      <div v-for="gender in genders" :key="gender.id" class="gender-item mb3">
-        <div class="flex justify-between mb2">
+    <div class="br3 bg-white box z-1 relative">
+      <div v-for="position in positions" :key="position.id" class="relative position-item pa3 bb bb-gray bb-gray-hover">
+        <div class="flex justify-between">
           <span class="fw5">
-            {{ gender.label }}
+            {{ position.title }}
           </span>
-          <span class="gray f6">
-            {{ gender.percent }}%
-          </span>
-        </div>
-        <div class="progress-bar mb2">
-          <span class="bar">
-            <span class="progress" :style="'width: ' + gender.percent + '%;'"></span>
-          </span>
+          <inertia-link :href="position.url" class="gray f6">
+            {{ $tc('company.hr_positions_stat', position.number_of_employees, {number: position.number_of_employees}) }} ({{ position.percent }}%)
+          </inertia-link>
         </div>
       </div>
     </div>
@@ -60,7 +54,7 @@
 
 export default {
   props: {
-    genders: {
+    positions: {
       type: Object,
       default: null,
     },
