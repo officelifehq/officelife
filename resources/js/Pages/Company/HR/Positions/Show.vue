@@ -52,10 +52,10 @@
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/hr'">Human resources</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/hr'">{{ $t('app.breadcrumb_hr') }}</inertia-link>
           </li>
           <li class="di">
-            Detail of a position
+            {{ $t('app.breadcrumb_hr_position') }}
           </li>
         </ul>
       </div>
@@ -70,8 +70,8 @@
         <div class="fl w-50-l w-100">
           <span class="db fw5 mb2 relative">
             <span class="mr1">
-              ☕️
-            </span> {{ $t('company.hr_e_coffees_title') }}
+              👬
+            </span> {{ $t('company.hr_positions_show_employees') }}
           </span>
 
           <div class="br3 bg-white box z-1 pa3 relative">
@@ -98,8 +98,8 @@
         <div class="fl w-50-l w-100 pl4-l">
           <span class="db fw5 mb2 relative">
             <span class="mr1">
-              ☕️
-            </span> {{ $t('company.hr_e_coffees_title') }}
+              👩‍🦰
+            </span> {{ $t('company.hr_positions_show_gender') }}
           </span>
 
           <div class="br3 bg-white box z-1 pa3 relative">

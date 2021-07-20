@@ -74,4 +74,6 @@ return [
     'hr_genders_title' => 'Genders in the company',
     'hr_positions_title' => 'Positions in the company',
     'hr_positions_stat' => '{number} employee|{number} employees',
+    'hr_positions_show_employees' => 'Employees with this position',
+    'hr_positions_show_gender' => 'Ratio of pronouns for this position',
 ];

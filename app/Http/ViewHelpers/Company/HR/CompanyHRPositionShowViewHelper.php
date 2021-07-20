@@ -68,20 +68,19 @@ class CompanyHRPositionShowViewHelper
             ->values()
             ->all();
 
-        $pronouns = Pronoun::addSelect([
-            'number_of_employees' => Employee::selectRaw('count(*)')
-                ->whereColumn('pronoun_id', 'pronouns.id')
-                ->notLocked()
-                ->where('company_id', $company->id),
-        ])->whereIn('id', $uniqueIdsOfPronouns)->get();
+        $pronouns = Pronoun::whereIn('id', $uniqueIdsOfPronouns)->get();
 
         $pronounsCollection = collect([]);
         foreach ($pronouns as $pronoun) {
+            $employeesWithGivenPronoun = $employeesCollection->filter(function ($employee) use ($pronoun) {
+                return $employee['pronoun_id'] === $pronoun->id;
+            });
+
             $pronounsCollection->push([
                 'id' => $pronoun->id,
                 'label' => trans($pronoun->translation_key),
-                'number_of_employees' => (int) $pronoun->number_of_employees,
-                'percent' => (int) round($pronoun->number_of_employees * 100 / $employees->count(), 0),
+                'number_of_employees' => (int) $employeesWithGivenPronoun->count(),
+                'percent' => (int) round($employeesWithGivenPronoun->count() * 100 / $employees->count(), 0),
             ]);
         }
 

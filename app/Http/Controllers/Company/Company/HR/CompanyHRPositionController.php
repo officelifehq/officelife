@@ -7,6 +7,7 @@ use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
+use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -32,6 +33,14 @@ class CompanyHRPositionController extends Controller
             $position = Position::where('company_id', $company->id)
                 ->findOrFail($positionId);
         } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $employeesCount = Employee::where('company_id', $company->id)
+            ->where('position_id', $position->id)
+            ->count();
+
+        if ($employeesCount <= 0) {
             return redirect('home');
         }
 
