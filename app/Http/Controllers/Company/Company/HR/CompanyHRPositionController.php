@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Company\Company\HR;
 
 use Inertia\Inertia;
-use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
@@ -22,9 +21,9 @@ class CompanyHRPositionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $positionId
-     * @return Response
+     * @return mixed
      */
-    public function show(Request $request, int $companyId, int $positionId): Response
+    public function show(Request $request, int $companyId, int $positionId)
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
