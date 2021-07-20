@@ -54,8 +54,8 @@ class CompanyHRPositionShowViewHelperTest extends TestCase
             [
                 'id' => $michael->pronoun->id,
                 'label' => trans($michael->pronoun->translation_key),
-                'number_of_employees' => 0,
-                'percent' => 0,
+                'number_of_employees' => 1,
+                'percent' => 50,
             ],
             $array['pronouns']->toArray()[0]
         );

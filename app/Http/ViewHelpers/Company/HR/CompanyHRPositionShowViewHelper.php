@@ -78,7 +78,7 @@ class CompanyHRPositionShowViewHelper
         $pronounsCollection = collect([]);
         foreach ($pronouns as $pronoun) {
             $employeesWithGivenPronoun = $employeesCollection->filter(function ($employee) use ($pronoun) {
-                return $employee['pronoun_id'] === $pronoun->id;
+                return $employee['pronoun_id'] == $pronoun->id;
             });
 
             $pronounsCollection->push([
