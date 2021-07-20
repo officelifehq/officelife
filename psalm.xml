@@ -20,7 +20,7 @@
 
         <NonInvariantDocblockPropertyType errorLevel="info" />
 
-        <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
+        <!-- level 3 issues - slightly lazy code writing, but probably low false-negatives -->
 
         <DeprecatedMethod errorLevel="info" />
 
@@ -109,6 +109,8 @@
                 <file name="app/Services/DispatchableService.php" />
             </errorLevel>
         </UnsafeInstantiation>
+
+        <UndefinedPropertyAssignment errorLevel="suppress" />
 
     </issueHandlers>
 </psalm>
