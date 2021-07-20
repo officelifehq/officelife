@@ -47,7 +47,7 @@
           />
         </div>
 
-        <div class="fl w-50-l w-100 pl4-l">
+        <div v-if="positions.length > 0" class="fl w-50-l w-100 pl4-l">
           <positions
             :positions="positions"
           />
