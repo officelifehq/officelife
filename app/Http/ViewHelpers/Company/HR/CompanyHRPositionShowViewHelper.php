@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Company\HR;
 
+use ErrorException;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\User\Pronoun;
@@ -41,17 +42,21 @@ class CompanyHRPositionShowViewHelper
             }
 
             // get the 'started at' date
-            $startedAt = $employee->positionHistoryEntries()
-                ->whereNull('ended_at')
-                ->orderBy('id', 'desc')
-                ->first()
-                ->started_at;
+            try {
+                $startedAt = $employee->positionHistoryEntries()
+                    ->whereNull('ended_at')
+                    ->orderBy('id', 'desc')
+                    ->first()
+                    ->started_at;
+            } catch (ErrorException $e) {
+                $startedAt = null;
+            }
 
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
                 'avatar' => ImageHelper::getAvatar($employee, 30),
-                'started_at' => DateHelper::formatDate($startedAt),
+                'started_at' => $startedAt ? DateHelper::formatDate($startedAt) : null,
                 'pronoun_id' => $employee->pronoun_id,
                 'teams' => $teamsCollection,
                 'url' => route('employees.show', [
