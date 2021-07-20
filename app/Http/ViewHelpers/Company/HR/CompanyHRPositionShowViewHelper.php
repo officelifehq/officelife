@@ -79,7 +79,7 @@ class CompanyHRPositionShowViewHelper
             $pronounsCollection->push([
                 'id' => $pronoun->id,
                 'label' => trans($pronoun->translation_key),
-                'number_of_employees' => (int) $employeesWithGivenPronoun->count(),
+                'number_of_employees' => $employeesWithGivenPronoun->count(),
                 'percent' => (int) round($employeesWithGivenPronoun->count() * 100 / $employees->count(), 0),
             ]);
         }
