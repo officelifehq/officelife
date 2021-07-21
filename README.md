@@ -1,3 +1,24 @@
+<h1 align="center">
+	<img
+		width="300"
+		alt="OfficeLife"
+		src="docs/img/officelife.svg">
+</h1>
+
+<h3 align="center">
+    All-in-one software to manage the employee lifecycle
+</h3>
+
+<p align="center">
+	<strong>
+		<a href="https://officelife.io/">Website</a>
+		•
+		<a href="https://docs.officelife.io">Docs</a>
+		•
+		<a href="https://demo.officelife.io/">Demo</a>
+	</strong>
+</p>
+
 <div align="center">
 
 [![Build and test](https://img.shields.io/github/workflow/status/officelifehq/officelife/Build%20and%20test/master)](https://github.com/officelifehq/officelife/actions?query=workflow%3A%22Build+and+test%22)
@@ -6,11 +27,6 @@
 [![License](https://img.shields.io/github/license/officelifehq/officelife)](https://opensource.org/licenses/BSD-3-Clause)
 
 </div>
-
-<a href="https://officelife.io">
-    <img src="docs/img/officelife.svg"
-        alt="OfficeLife logo" title="OfficeLife" height="275" width="275" align="right"/>
-</a>
 
 ## What is OfficeLife
 
