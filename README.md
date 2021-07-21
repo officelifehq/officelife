@@ -7,11 +7,10 @@
 
 </div>
 
-<div align="center">
-
-  ![Logo](docs/img/logo.png)
-
-</div>
+<a href="https://officelife.io">
+    <img src="docs/img/officelife.svg"
+        alt="OfficeLife logo" title="OfficeLife" height="175" width="175" align="right"/>
+</a>
 
 ## What is OfficeLife
 
