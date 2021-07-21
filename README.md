@@ -9,7 +9,7 @@
 
 <a href="https://officelife.io">
     <img src="docs/img/officelife.svg"
-        alt="OfficeLife logo" title="OfficeLife" height="175" width="175" align="right"/>
+        alt="OfficeLife logo" title="OfficeLife" height="275" width="275" align="right"/>
 </a>
 
 ## What is OfficeLife
@@ -19,6 +19,32 @@ If a company wants to have a complete 360 view of what’s happening inside its 
 Not only buying and configuring all those software is a time-consuming process, but it also costs a lot of money - especially for smaller companies with a limited budget. Moreover, most of the SAAS out there have a let's-call-us-and-talk-for-an-hour-before-you-can-see-what-the-pricing-will-look-like-for-you policy, which most people hate and that we refuse to follow.
 
 OfficeLife is born to offer a solution to these problems.
+
+OfficeLife has the following features:
+
+* Applicant tracking system (coming soon)
+* Onboarding / offboarding (coming soon)
+* Employee management
+* Team management
+* Company management
+* Time tracking
+* PTOs (ie holidays and time offs) (coming soon)
+* Expenses management
+* Hardware and software licenses
+* Project management
+* Work logs
+* Recent ships
+* Team and company news
+* Get to know your colleagues
+* Wikis
+* Employee and team morale
+* One on Ones
+* Rate your manager
+* Skills
+* Objectives Key Results (OKR) (coming soon)
+* e-Coffees
+
+<img src="docs/img/company.png" alt="OfficeLife company" title="OfficeLife" />
 
 To have more information about the project, check the documentation: https://docs.officelife.io/documentation/introduction.html#what-is-officelife
 
