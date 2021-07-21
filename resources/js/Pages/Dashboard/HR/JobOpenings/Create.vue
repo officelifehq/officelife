@@ -44,45 +44,46 @@ input[type=radio] {
 
         <div class="cf pa3">
           <form @submit.prevent="submit">
-            <div class="fl w-two-thirds-l w-100 ph2-ns ph0">
-              <div v-if="form.errors" class="pa3">
-                <errors :errors="form.errors" />
+            <div class="cf">
+              <div class="fl w-two-thirds-l w-100 ph2-ns ph0">
+                <div v-if="form.errors.length > 0" class="pa3">
+                  <errors :errors="form.errors" />
+                </div>
+
+                <!-- job position -->
+                <select-box :id="'position'"
+                            v-model="form.position"
+                            :options="positions"
+                            :name="'position'"
+                            :errors="$page.props.errors.position"
+                            :placeholder="'Select a position'"
+                            :required="true"
+                            :label="'What position is this job opening for?'"
+                />
+
+                <!-- Name -->
+                <text-input :id="'name'"
+                            v-model="form.name"
+                            :name="'name'"
+                            :errors="$page.props.errors.name"
+                            :label="'Public name of the job opening'"
+                            :help="'This is the job title that people will see.'"
+                            :required="true"
+                            :autofocus="true"
+                />
+
+                <!-- Description -->
+                <text-area v-model="form.product_key"
+                           :label="'Complete job description'"
+                           :required="true"
+                           :rows="10"
+                />
               </div>
 
-              <!-- job position -->
-              <select-box :id="'position'"
-                          v-model="form.position"
-                          :options="positions"
-                          :name="'position'"
-                          :errors="$page.props.errors.position"
-                          :placeholder="$t('account.hardware_create_lend_name')"
-                          :required="true"
-                          :datacy="'employee-selector'"
-                          :label="'What position is this job opening for?'"
-              />
-
-              <!-- Name -->
-              <text-input :id="'name'"
-                          v-model="form.name"
-                          :name="'name'"
-                          :errors="$page.props.errors.name"
-                          :label="'Public name of the job opening'"
-                          :help="'This is the job title that people will see.'"
-                          :required="true"
-                          :autofocus="true"
-              />
-
-              <!-- Description -->
-              <text-area v-model="form.product_key"
-                         :label="$t('account.software_new_product_key')"
-                         :datacy="'news-content-textarea'"
-                         :required="true"
-                         :rows="10"
-              />
-            </div>
-
-            <div class="fl w-third-l w-100">
-              sdfasdf
+              <!-- right column -->
+              <div class="fl w-third-l w-100">
+                sdfasdf
+              </div>
             </div>
 
             <!-- Actions -->

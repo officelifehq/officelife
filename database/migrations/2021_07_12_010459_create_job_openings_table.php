@@ -15,7 +15,6 @@ class CreateJobOpeningsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('position_id');
-            $table->unsignedBigInteger('sponsored_by_employee_id')->nullable();
             $table->unsignedBigInteger('team_id')->nullable();
             $table->boolean('active')->default(false);
             $table->boolean('fulfilled')->default(false);
@@ -27,8 +26,15 @@ class CreateJobOpeningsTable extends Migration
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
-            $table->foreign('sponsored_by_employee_id')->references('id')->on('employees')->onDelete('set null');
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('set null');
+        });
+
+        Schema::create('job_opening_sponsor', function (Blueprint $table) {
+            $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('job_opening_id');
+            $table->timestamps();
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('job_opening_id')->references('id')->on('job_openings')->onDelete('cascade');
         });
     }
 }

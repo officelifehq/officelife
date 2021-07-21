@@ -5,7 +5,6 @@ namespace Database\Factories\Company;
 use Illuminate\Support\Str;
 use App\Models\Company\Team;
 use App\Models\Company\Company;
-use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\JobOpening;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -30,11 +29,6 @@ class JobOpeningFactory extends Factory
             'company_id' => Company::factory(),
             'position_id' => function (array $attributes) {
                 return Position::factory()->create([
-                    'company_id' => $attributes['company_id'],
-                ]);
-            },
-            'sponsored_by_employee_id' => function (array $attributes) {
-                return Employee::factory()->create([
                     'company_id' => $attributes['company_id'],
                 ]);
             },

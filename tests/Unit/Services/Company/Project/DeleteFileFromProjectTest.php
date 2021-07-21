@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Project\DestroyProjectFile;
-use App\Services\Company\Project\AddEmployeeToProject;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -75,7 +74,7 @@ class DeleteFileFromProjectTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new AddEmployeeToProject)->execute($request);
+        (new DestroyProjectFile)->execute($request);
     }
 
     /** @test */

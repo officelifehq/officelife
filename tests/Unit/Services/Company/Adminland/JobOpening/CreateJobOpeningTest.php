@@ -105,7 +105,7 @@ class CreateJobOpeningTest extends TestCase
             'company_id' => $author->company_id,
             'author_id' => $author->id,
             'position_id' => $position->id,
-            'sponsored_by_employee_id' => $sponsor->id,
+            'sponsors' => [$sponsor->id],
             'team_id' => $team->id,
             'title' => 'Assistant to the regional manager',
             'description' => 'Awesome job',
@@ -121,6 +121,11 @@ class CreateJobOpeningTest extends TestCase
             'title' => 'Assistant to the regional manager',
             'description' => 'Awesome job',
             'reference_number' => '123',
+        ]);
+
+        $this->assertDatabaseHas('job_opening_sponsor', [
+            'job_opening_id' => $jobOpening->id,
+            'employee_id' => $sponsor->id,
         ]);
 
         $this->assertInstanceOf(

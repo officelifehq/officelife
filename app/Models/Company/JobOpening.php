@@ -5,6 +5,7 @@ namespace App\Models\Company;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class JobOpening extends Model
 {
@@ -25,7 +26,6 @@ class JobOpening extends Model
     protected $fillable = [
         'company_id',
         'position_id',
-        'sponsored_by_employee_id',
         'team_id',
         'active',
         'fulfilled',
@@ -75,13 +75,13 @@ class JobOpening extends Model
     }
 
     /**
-     * Get the employee record associated with the job opening.
+     * Get the employee records associated with the job opening.
      *
-     * @return BelongsTo
+     * @return BelongsToMany
      */
-    public function sponsor()
+    public function sponsors()
     {
-        return $this->belongsTo(Employee::class, 'sponsored_by_employee_id');
+        return $this->belongsToMany(Employee::class, 'job_opening_sponsor')->withTimestamps();
     }
 
     /**

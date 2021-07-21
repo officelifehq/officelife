@@ -10,13 +10,13 @@ use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\JobOpening;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CreateJobOpening extends BaseService
 {
     protected array $data;
     protected Position $position;
     protected JobOpening $jobOpening;
-    protected Employee $sponsor;
     protected Team $team;
 
     /**
@@ -30,7 +30,7 @@ class CreateJobOpening extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'position_id' => 'required|integer|exists:positions,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'sponsored_by_employee_id' => 'required|integer|exists:employees,id',
+            'sponsors' => 'required|array',
             'team_id' => 'nullable|integer|exists:teams,id',
             'title' => 'required|string|max:255',
             'reference_number' => 'nullable|string|max:255',
@@ -50,6 +50,7 @@ class CreateJobOpening extends BaseService
 
         $this->validate();
         $this->create();
+        $this->associateSponsors();
         $this->log();
 
         return $this->jobOpening;
@@ -67,9 +68,6 @@ class CreateJobOpening extends BaseService
         $this->position = Position::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['position_id']);
 
-        $this->sponsor = Employee::where('company_id', $this->data['company_id'])
-            ->findOrFail($this->data['sponsored_by_employee_id']);
-
         $this->team = Team::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['team_id']);
     }
@@ -79,13 +77,32 @@ class CreateJobOpening extends BaseService
         $this->jobOpening = JobOpening::create([
             'company_id' => $this->data['company_id'],
             'position_id' => $this->data['position_id'],
-            'sponsored_by_employee_id' => $this->data['sponsored_by_employee_id'],
             'team_id' => $this->valueOrNull($this->data, 'team_id'),
             'title' => $this->data['title'],
             'description' => $this->data['description'],
             'reference_number' => $this->valueOrNull($this->data, 'reference_number'),
             'slug' => $this->slug(),
         ]);
+    }
+
+    private function associateSponsors(): void
+    {
+        if (! $this->data['sponsors']) {
+            return;
+        }
+
+        foreach ($this->data['sponsors'] as &$id) {
+            try {
+                $sponsor = Employee::where('company_id', $this->data['company_id'])
+                    ->findOrFail($id);
+            } catch (ModelNotFoundException $e) {
+                continue;
+            }
+
+            $this->jobOpening->sponsors()->syncWithoutDetaching([
+                $sponsor->id,
+            ]);
+        }
     }
 
     private function slug(): string

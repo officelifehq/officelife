@@ -572,9 +572,9 @@ class EmployeeTest extends TestCase
     public function it_has_many_job_openings_as_sponsor(): void
     {
         $dwight = Employee::factory()->create();
-        JobOpening::factory()->count(2)->create([
-            'sponsored_by_employee_id' => $dwight->id,
-        ]);
+        $opening = JobOpening::factory()->create();
+
+        $dwight->jobOpeningsAsSponsor()->sync([$opening->id]);
 
         $this->assertTrue($dwight->jobOpeningsAsSponsor()->exists());
     }
