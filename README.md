@@ -1,15 +1,30 @@
+<h1 align="center">
+	<img
+		width="300"
+		alt="OfficeLife"
+		src="docs/img/officelife.svg">
+</h1>
+
+<h3 align="center">
+    All-in-one software to manage the employee lifecycle
+</h3>
+
+<p align="center">
+	<strong>
+		<a href="https://officelife.io/">Website</a>
+		•
+		<a href="https://docs.officelife.io">Docs</a>
+		•
+		<a href="https://demo.officelife.io/">Demo</a>
+	</strong>
+</p>
+
 <div align="center">
 
 [![Build and test](https://img.shields.io/github/workflow/status/officelifehq/officelife/Build%20and%20test/master)](https://github.com/officelifehq/officelife/actions?query=workflow%3A%22Build+and+test%22)
 [![Lines of Code](https://img.shields.io/tokei/lines/github/officelifehq/officelife)](https://sonarcloud.io/dashboard?id=officelife)
 [![Code coverage](https://img.shields.io/sonar/coverage/officelife?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/project/activity?custom_metrics=coverage&amp;graph=custom&amp;id=officelife)
 [![License](https://img.shields.io/github/license/officelifehq/officelife)](https://opensource.org/licenses/BSD-3-Clause)
-
-</div>
-
-<div align="center">
-
-  ![Logo](docs/img/logo.png)
 
 </div>
 
@@ -20,6 +35,34 @@ If a company wants to have a complete 360 view of what’s happening inside its 
 Not only buying and configuring all those software is a time-consuming process, but it also costs a lot of money - especially for smaller companies with a limited budget. Moreover, most of the SAAS out there have a let's-call-us-and-talk-for-an-hour-before-you-can-see-what-the-pricing-will-look-like-for-you policy, which most people hate and that we refuse to follow.
 
 OfficeLife is born to offer a solution to these problems.
+
+OfficeLife has the following features:
+
+* Applicant tracking system (coming soon)
+* Onboarding / offboarding (coming soon)
+* Employee management
+* Team management
+* Company management
+* Time tracking
+* PTOs (ie holidays and time offs) (coming soon)
+* Expenses management
+* Hardware and software licenses
+* Project management
+* Work logs
+* Recent ships
+* Team and company news
+* Get to know your colleagues
+* Wikis
+* Employee and team morale
+* One on Ones
+* Rate your manager
+* Skills
+* Objectives Key Results (OKR) (coming soon)
+* e-Coffees
+
+<img src="docs/img/company.png" alt="OfficeLife company" title="OfficeLife" />
+
+<img src="docs/img/profile.png" alt="OfficeLife company" title="OfficeLife" />
 
 To have more information about the project, check the documentation: https://docs.officelife.io/documentation/introduction.html#what-is-officelife
 
