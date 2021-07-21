@@ -34,6 +34,7 @@ class Timesheet extends Model
         'status',
         'approved_at',
         'approver_id',
+        'approver_name',
     ];
 
     /**

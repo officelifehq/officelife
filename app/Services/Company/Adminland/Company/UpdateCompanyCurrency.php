@@ -68,7 +68,7 @@ class UpdateCompanyCurrency extends BaseService
     /**
      * Add an audit log entry for this action.
      *
-     * @var string
+     * @param string $oldCurrency*
      */
     private function log(string $oldCurrency): void
     {

@@ -62,6 +62,7 @@ class Employee extends Model
         'default_dashboard_view',
         'can_manage_expenses',
         'display_welcome_message',
+        'contract_renewed_at',
     ];
 
     /**

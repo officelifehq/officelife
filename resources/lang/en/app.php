@@ -162,6 +162,8 @@ return [
     'breadcrumb_page_create' => 'Add a new page',
     'breadcrumb_page_list' => 'All the pages in the wiki',
     'breadcrumb_page_detail' => 'Page detail',
+    'breadcrumb_hr' => 'Human resources',
+    'breadcrumb_hr_position' => 'Detail of a position',
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',
     'header_find' => 'Find',
