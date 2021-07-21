@@ -62,6 +62,8 @@ OfficeLife has the following features:
 
 <img src="docs/img/company.png" alt="OfficeLife company" title="OfficeLife" />
 
+<img src="docs/img/profile.png" alt="OfficeLife company" title="OfficeLife" />
+
 To have more information about the project, check the documentation: https://docs.officelife.io/documentation/introduction.html#what-is-officelife
 
 ## Requirements for hosting the software
