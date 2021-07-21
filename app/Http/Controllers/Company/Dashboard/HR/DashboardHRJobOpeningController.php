@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRTimesheetViewHelper;
+use App\Http\ViewHelpers\Dashboard\HR\DashboardHRJobOpeningsViewHelper;
 
 class DashboardHRJobOpeningController extends Controller
 {
@@ -61,7 +62,10 @@ class DashboardHRJobOpeningController extends Controller
             return redirect('home');
         }
 
-        return Inertia::render('Dashboard/HR/JobOpening/Create', [
+        $positions = DashboardHRJobOpeningsViewHelper::positions($company);
+
+        return Inertia::render('Dashboard/HR/JobOpenings/Create', [
+            'positions' => $positions,
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }

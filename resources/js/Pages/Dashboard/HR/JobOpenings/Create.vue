@@ -36,59 +36,52 @@ input[type=radio] {
 
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
-        <div class="">
-          <h2 class="pa3 mt5 center tc normal mb2">
-            {{ $t('account.software_new_title', { name: $page.props.auth.company.name}) }}
+        <h2 class="pa3 mt5 center tc normal mb2">
+          {{ $t('account.software_new_title', { name: $page.props.auth.company.name}) }}
 
-            <help :url="$page.props.help_links.softwares" :top="'1px'" />
-          </h2>
+          <help :url="$page.props.help_links.softwares" :top="'1px'" />
+        </h2>
 
+        <div class="cf pa3">
           <form @submit.prevent="submit">
-            <div class="fl w-third-ns w-100 ph2-ns ph0">
+            <div class="fl w-two-thirds-l w-100 ph2-ns ph0">
               <div v-if="form.errors" class="pa3">
                 <errors :errors="form.errors" />
               </div>
 
-              <!-- Basic information -->
-              <div class="cf pa3 bb bb-gray pb4">
-                <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                  <strong>{{ $t('account.software_new_basic_information') }}</strong>
-                </div>
-                <div class="fl-ns w-two-thirds-ns w-100">
-                  <!-- Name -->
-                  <text-input :id="'name'"
-                              v-model="form.name"
-                              :name="'name'"
-                              :errors="$page.props.errors.name"
-                              :label="$t('account.software_new_name')"
-                              :required="true"
-                              :autofocus="true"
-                  />
+              <!-- job position -->
+              <select-box :id="'position'"
+                          v-model="form.position"
+                          :options="positions"
+                          :name="'position'"
+                          :errors="$page.props.errors.position"
+                          :placeholder="$t('account.hardware_create_lend_name')"
+                          :required="true"
+                          :datacy="'employee-selector'"
+                          :label="'What position is this job opening for?'"
+              />
 
-                  <!-- Product key -->
-                  <text-area v-model="form.product_key"
-                             :label="$t('account.software_new_product_key')"
-                             :datacy="'news-content-textarea'"
-                             :required="true"
-                             :rows="10"
-                  />
+              <!-- Name -->
+              <text-input :id="'name'"
+                          v-model="form.name"
+                          :name="'name'"
+                          :errors="$page.props.errors.name"
+                          :label="'Public name of the job opening'"
+                          :help="'This is the job title that people will see.'"
+                          :required="true"
+                          :autofocus="true"
+              />
 
-                  <!-- Seats -->
-                  <text-input :id="'seats'"
-                              v-model="form.seats"
-                              :name="'seats'"
-                              :type="'number'"
-                              :min="0"
-                              :max="100000"
-                              :errors="$page.props.errors.seats"
-                              :label="$t('account.software_new_seats')"
-                              :required="true"
-                  />
-                </div>
-              </div>
+              <!-- Description -->
+              <text-area v-model="form.product_key"
+                         :label="$t('account.software_new_product_key')"
+                         :datacy="'news-content-textarea'"
+                         :required="true"
+                         :rows="10"
+              />
             </div>
 
-            <div class="fl w-two-thirds-ns w-100">
+            <div class="fl w-third-l w-100">
               sdfasdf
             </div>
 
@@ -117,6 +110,7 @@ import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
 import TextArea from '@/Shared/TextArea';
 import Help from '@/Shared/Help';
+import SelectBox from '@/Shared/Select';
 
 export default {
   components: {
@@ -126,6 +120,7 @@ export default {
     LoadingButton,
     TextArea,
     Help,
+    SelectBox,
   },
 
   props: {
@@ -133,7 +128,7 @@ export default {
       type: Array,
       default: null,
     },
-    currencies: {
+    positions: {
       type: Object,
       default: null,
     },
