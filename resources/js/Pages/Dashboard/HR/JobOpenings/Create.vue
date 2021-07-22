@@ -37,18 +37,18 @@ input[type=radio] {
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/softwares'">{{ $t('app.breadcrumb_account_manage_softwares') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr'">{{ $t('app.breadcrumb_hr') }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_account_add_software') }}
+            {{ $t('app.breadcrumb_hr_job_openings_create') }}
           </li>
         </ul>
       </div>
 
       <!-- BODY -->
-      <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
-        <h2 class="pa3 mt5 center tc normal mb2">
-          Create a new job opening
+      <div class="mw7 center br3 mb5 bg-white box relative z-1">
+        <h2 class="pa3 mt2 center tc normal mb2">
+          {{ $t('dashboard.job_opening_new_title') }}
 
           <help :url="$page.props.help_links.softwares" :top="'1px'" />
         </h2>
@@ -62,7 +62,7 @@ input[type=radio] {
             <!-- position -->
             <div class="cf pa3 bb bb-gray">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                <strong>Position</strong>
+                <strong>{{ $t('dashboard.job_opening_new_position') }}</strong>
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
                 <!-- job position -->
@@ -71,10 +71,10 @@ input[type=radio] {
                             :options="positions"
                             :name="'position'"
                             :errors="$page.props.errors.position"
-                            :placeholder="'Select a position'"
+                            :placeholder="$t('dashboard.job_opening_new_position_dropdown_placeholder')"
                             :required="true"
                             :extra-class-upper-div="'mb0'"
-                            :label="'What position is this job opening for?'"
+                            :label="$t('dashboard.job_opening_new_position_title')"
                 />
               </div>
             </div>
@@ -82,17 +82,17 @@ input[type=radio] {
             <!-- sponsors -->
             <div class="cf pa3 bb bb-gray">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                <strong>Sponsors</strong>
+                <strong>{{ $t('dashboard.job_opening_new_sponsors') }}</strong>
                 <p class="f7 silver lh-copy">
-                  A sponsor is responsible for the new hire.
+                  {{ $t('dashboard.job_opening_new_sponsors_help') }}
                 </p>
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
                 <!-- cta to add a sponsor -->
-                <p v-if="!showSponsors && sponsors.length == 0" class="pointer" @click.prevent="showSponsors = true"><span class="ba br-100 plus-button">+</span> Add sponsors</p>
+                <p v-if="!showSponsors && sponsors.length == 0" class="pointer" @click.prevent="showSponsors = true"><span class="ba br-100 plus-button">+</span> {{ $t('dashboard.job_opening_new_sponsors_cta') }}</p>
 
                 <!-- cta to add another sponsor -->
-                <p v-if="!showSponsors && sponsors.length > 0" class="pointer ma0" @click.prevent="showSponsors = true"><span class="ba br-100 plus-button">+</span> Add additional sponsors</p>
+                <p v-if="!showSponsors && sponsors.length > 0" class="pointer ma0" @click.prevent="showSponsors = true"><span class="ba br-100 plus-button">+</span> {{ $t('dashboard.job_opening_new_sponsors_other_cta') }}</p>
 
                 <!-- search sponsor form -->
                 <div v-if="showSponsors == true">
@@ -101,7 +101,7 @@ input[type=radio] {
                                 v-model="form.searchTerm"
                                 :name="'name'"
                                 :errors="$page.props.errors.name"
-                                :label="'Find a sponsor by typing a name'"
+                                :label="$t('dashboard.job_opening_new_sponsor_dropdown')"
                                 :placeholder="$t('group.create_members_help')"
                                 :required="true"
                                 @keyup="search"
@@ -148,7 +148,7 @@ input[type=radio] {
             <!-- team -->
             <div class="cf pa3 bb bb-gray">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                <strong>Team</strong>
+                <strong>{{ $t('dashboard.job_opening_new_team') }}</strong>
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
                 <!-- job position -->
@@ -157,10 +157,10 @@ input[type=radio] {
                             :options="teams"
                             :name="'team'"
                             :errors="$page.props.errors.team"
-                            :placeholder="'Select a team'"
+                            :placeholder="$t('dashboard.job_opening_new_team_placeholder')"
                             :required="false"
                             :extra-class-upper-div="'mb0'"
-                            :label="'Which team is this job opening for?'"
+                            :label="$t('dashboard.job_opening_new_team_dropdown')"
                 />
               </div>
             </div>
@@ -168,7 +168,7 @@ input[type=radio] {
             <!-- title & description -->
             <div class="cf pa3 bb bb-gray">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                <strong>Job opening details</strong>
+                <strong>{{ $t('dashboard.job_opening_new_job_details') }}</strong>
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
                 <!-- Name -->
@@ -176,8 +176,8 @@ input[type=radio] {
                             v-model="form.title"
                             :name="'title'"
                             :errors="$page.props.errors.title"
-                            :label="'Public name of the job opening'"
-                            :help="'This is the job title that people will see.'"
+                            :label="$t('dashboard.job_opening_new_details_title')"
+                            :help="$t('dashboard.job_opening_new_title_help')"
                             :required="true"
                             :autofocus="true"
                 />
@@ -187,14 +187,14 @@ input[type=radio] {
                             v-model="form.reference_number"
                             :name="'reference_number'"
                             :errors="$page.props.errors.reference_number"
-                            :label="'Reference number, if needed'"
-                            :help="'This will be displayed on the public version as well.'"
+                            :label="$t('dashboard.job_opening_new_reference_number')"
+                            :help="$t('dashboard.job_opening_new_reference_number_help')"
                             :required="false"
                 />
 
                 <!-- Description -->
                 <text-area v-model="form.description"
-                           :label="'Complete job description'"
+                           :label="$t('dashboard.job_opening_new_description')"
                            :required="true"
                            :rows="10"
                 />
@@ -205,7 +205,7 @@ input[type=radio] {
             <div class="pa3">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.props.auth.company.id + '/account/softwares'" class="btn dib tc w-auto-ns w-100">
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr'" class="btn dib tc w-auto-ns w-100">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
@@ -287,7 +287,7 @@ export default {
 
       axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings`, this.form)
         .then(response => {
-          localStorage.success = this.$t('dashboard.job_opening_create_success');
+          localStorage.success = this.$t('dashboard.job_opening_new_success');
           this.$inertia.visit(response.data.data);
         })
         .catch(error => {
