@@ -68,8 +68,10 @@ class CreateJobOpening extends BaseService
         $this->position = Position::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['position_id']);
 
-        $this->team = Team::where('company_id', $this->data['company_id'])
-            ->findOrFail($this->data['team_id']);
+        if ($this->data['team_id']) {
+            $this->team = Team::where('company_id', $this->data['company_id'])
+                ->findOrFail($this->data['team_id']);
+        }
     }
 
     private function create(): void

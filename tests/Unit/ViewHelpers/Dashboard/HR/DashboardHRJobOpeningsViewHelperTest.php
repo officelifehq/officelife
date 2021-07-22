@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Dashboard\HR;
 
 use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Models\Company\Team;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
@@ -75,6 +76,42 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $collection = DashboardHRJobOpeningsViewHelper::potentialSponsors($michael->company, 'roger');
         $this->assertEquals(
             [],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_teams(): void
+    {
+        $company = Company::factory()->create();
+
+        $teamA = Team::factory()->create([
+            'company_id' => $company->id,
+            'name' => 'A',
+        ]);
+        $teamB = Team::factory()->create([
+            'company_id' => $company->id,
+            'name' => 'B',
+        ]);
+
+        $collection = DashboardHRJobOpeningsViewHelper::teams($company);
+
+        $this->assertEquals(
+            2,
+            $collection->count()
+        );
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'value' => $teamA->id,
+                    'label' => 'A',
+                ],
+                1 => [
+                    'value' => $teamB->id,
+                    'label' => 'B',
+                ],
+            ],
             $collection->toArray()
         );
     }

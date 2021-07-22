@@ -61,4 +61,25 @@ class DashboardHRJobOpeningsViewHelper
 
         return $potentialEmployeesCollection;
     }
+
+    /**
+     * Get all the teams in the company.
+     *
+     * @param Company $company
+     * @return Collection|null
+     */
+    public static function teams(Company $company): ?Collection
+    {
+        $teams = $company->teams()->orderBy('name')->get();
+
+        $teamsCollection = collect();
+        foreach ($teams as $team) {
+            $teamsCollection->push([
+                'value' => $team->id,
+                'label' => $team->name,
+            ]);
+        }
+
+        return $teamsCollection;
+    }
 }

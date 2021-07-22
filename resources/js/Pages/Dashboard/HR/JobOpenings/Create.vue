@@ -89,10 +89,10 @@ input[type=radio] {
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
                 <!-- cta to add a sponsor -->
-                <p v-if="!showSponsors && form.sponsors.length == 0" class="pointer" @click.prevent="showSponsors = true"><span class="ba br-100 plus-button">+</span> Add sponsors</p>
+                <p v-if="!showSponsors && sponsors.length == 0" class="pointer" @click.prevent="showSponsors = true"><span class="ba br-100 plus-button">+</span> Add sponsors</p>
 
                 <!-- cta to add another sponsor -->
-                <p v-if="!showSponsors && form.sponsors.length > 0" class="pointer ma0" @click.prevent="showSponsors = true"><span class="ba br-100 plus-button">+</span> Add additional sponsors</p>
+                <p v-if="!showSponsors && sponsors.length > 0" class="pointer ma0" @click.prevent="showSponsors = true"><span class="ba br-100 plus-button">+</span> Add additional sponsors</p>
 
                 <!-- search sponsor form -->
                 <div v-if="showSponsors == true">
@@ -128,8 +128,8 @@ input[type=radio] {
                 </div>
 
                 <!-- list of existing sponsors -->
-                <div v-show="form.sponsors.length > 0" class="ba bb-gray mb3 mt3">
-                  <div v-for="employee in form.sponsors" :key="employee.id" class="pa2 db bb-gray bb">
+                <div v-show="sponsors.length > 0" class="ba bb-gray mb3 mt3">
+                  <div v-for="employee in sponsors" :key="employee.id" class="pa2 db bb-gray bb">
                     <span class="pl3 db relative sponsor">
                       <avatar :avatar="employee.avatar" :size="23" :class="'avatar absolute br-100'" />
 
@@ -148,19 +148,19 @@ input[type=radio] {
             <!-- team -->
             <div class="cf pa3 bb bb-gray">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                <strong>Position</strong>
+                <strong>Team</strong>
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
                 <!-- job position -->
-                <select-box :id="'position'"
-                            v-model="form.position"
-                            :options="positions"
-                            :name="'position'"
-                            :errors="$page.props.errors.position"
-                            :placeholder="'Select a position'"
-                            :required="true"
+                <select-box :id="'team'"
+                            v-model="form.teamId"
+                            :options="teams"
+                            :name="'team'"
+                            :errors="$page.props.errors.team"
+                            :placeholder="'Select a team'"
+                            :required="false"
                             :extra-class-upper-div="'mb0'"
-                            :label="'What position is this job opening for?'"
+                            :label="'Which team is this job opening for?'"
                 />
               </div>
             </div>
@@ -172,10 +172,10 @@ input[type=radio] {
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
                 <!-- Name -->
-                <text-input :id="'name'"
-                            v-model="form.name"
-                            :name="'name'"
-                            :errors="$page.props.errors.name"
+                <text-input :id="'title'"
+                            v-model="form.title"
+                            :name="'title'"
+                            :errors="$page.props.errors.title"
                             :label="'Public name of the job opening'"
                             :help="'This is the job title that people will see.'"
                             :required="true"
@@ -193,7 +193,7 @@ input[type=radio] {
                 />
 
                 <!-- Description -->
-                <text-area v-model="form.product_key"
+                <text-area v-model="form.description"
                            :label="'Complete job description'"
                            :required="true"
                            :rows="10"
@@ -253,18 +253,27 @@ export default {
       type: Object,
       default: null,
     },
+    teams: {
+      type: Object,
+      default: null,
+    },
   },
 
   data() {
     return {
       form: {
-        name: null,
+        title: null,
+        reference_number: null,
+        description: null,
         reference_number: null,
         searchTerm: null,
-        sponsors: [],
+        position: null,
+        sponsorsId: [],
+        teamId: null,
         errors: [],
       },
       loadingState: '',
+      sponsors: [],
       processingSearch: false,
       potentialSponsors: [],
       showSponsors: false,
@@ -276,9 +285,9 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(`${this.$page.props.auth.company.id}/account/softwares`, this.form)
+      axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings`, this.form)
         .then(response => {
-          localStorage.success = this.$t('account.software_new_success');
+          localStorage.success = this.$t('dashboard.job_opening_create_success');
           this.$inertia.visit(response.data.data);
         })
         .catch(error => {
@@ -295,7 +304,7 @@ export default {
 
           axios.post(`/${this.$page.props.auth.company.id}/dashboard/hr/job-openings/sponsors`, this.form)
             .then(response => {
-              this.potentialSponsors = _.filter(response.data.data, employee => _.every(this.form.sponsors, e => employee.id !== e.id));
+              this.potentialSponsors = _.filter(response.data.data, employee => _.every(this.sponsors, e => employee.id !== e.id));
               this.processingSearch = false;
             })
             .catch(error => {
@@ -309,10 +318,11 @@ export default {
       }, 500),
 
     add(sponsor) {
-      var id = this.form.sponsors.findIndex(x => x.id === sponsor.id);
+      var id = this.sponsors.findIndex(x => x.id === sponsor.id);
 
       if (id == -1) {
-        this.form.sponsors.push(sponsor);
+        this.sponsors.push(sponsor);
+        this.form.sponsorsId.push(sponsor.id);
         this.potentialSponsors = [];
         this.showSponsors = false;
         this.form.searchTerm = null;
@@ -320,8 +330,11 @@ export default {
     },
 
     detach(sponsor) {
-      var id = this.form.sponsors.findIndex(member => member.id === sponsor.id);
-      this.form.sponsors.splice(id, 1);
+      var id = this.sponsors.findIndex(member => member.id === sponsor.id);
+      this.sponsors.splice(id, 1);
+
+      var id = this.form.sponsorsId.findIndex(member => member.id === sponsor.id);
+      this.form.sponsorsId.splice(id, 1);
     }
   }
 };
