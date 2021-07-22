@@ -3,7 +3,9 @@
 namespace Tests\Unit\ViewHelpers\Dashboard\HR;
 
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
+use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRJobOpeningsViewHelper;
@@ -44,6 +46,35 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                     'label' => 'Boyfriend',
                 ],
             ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_potential_new_members(): void
+    {
+        $michael = $this->createAdministrator();
+        $jim = $this->createAnotherEmployee($michael);
+        $jean = Employee::factory()->create([
+            'first_name' => 'jean',
+            'company_id' => $michael->company_id,
+        ]);
+
+        $collection = DashboardHRJobOpeningsViewHelper::potentialSponsors($michael->company, 'je');
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $jean->id,
+                    'name' => $jean->name,
+                    'avatar' => ImageHelper::getAvatar($jean, 64),
+                ],
+            ],
+            $collection->toArray()
+        );
+
+        $collection = DashboardHRJobOpeningsViewHelper::potentialSponsors($michael->company, 'roger');
+        $this->assertEquals(
+            [],
             $collection->toArray()
         );
     }

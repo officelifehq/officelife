@@ -1,15 +1,26 @@
-<style scoped>
+<style lang="scss" scoped>
 input[type=checkbox] {
   top: 5px;
 }
+
 input[type=radio] {
   top: -2px;
 }
+
 .plus-button {
   padding: 2px 7px 4px;
   margin-right: 4px;
   border-color: #60995c;
   color: #60995c;
+}
+
+.sponsor {
+  padding-left: 34px;
+
+  .avatar {
+    top: -2px;
+    left: 2px;
+  }
 }
 </style>
 
@@ -37,19 +48,23 @@ input[type=radio] {
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <h2 class="pa3 mt5 center tc normal mb2">
-          {{ $t('account.software_new_title', { name: $page.props.auth.company.name}) }}
+          Create a new job opening
 
           <help :url="$page.props.help_links.softwares" :top="'1px'" />
         </h2>
 
-        <div class="cf pa3">
+        <div class="cf">
           <form @submit.prevent="submit">
-            <div class="cf">
-              <div class="fl w-two-thirds-l w-100 ph2-ns ph0">
-                <div v-if="form.errors.length > 0" class="pa3">
-                  <errors :errors="form.errors" />
-                </div>
+            <div v-if="form.errors.length > 0" class="pa3">
+              <errors :errors="form.errors" />
+            </div>
 
+            <!-- position -->
+            <div class="cf pa3 bb bb-gray">
+              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
+                <strong>Position</strong>
+              </div>
+              <div class="fl-ns w-two-thirds-ns w-100">
                 <!-- job position -->
                 <select-box :id="'position'"
                             v-model="form.position"
@@ -58,9 +73,104 @@ input[type=radio] {
                             :errors="$page.props.errors.position"
                             :placeholder="'Select a position'"
                             :required="true"
+                            :extra-class-upper-div="'mb0'"
                             :label="'What position is this job opening for?'"
                 />
+              </div>
+            </div>
 
+            <!-- sponsors -->
+            <div class="cf pa3 bb bb-gray">
+              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
+                <strong>Sponsors</strong>
+                <p class="f7 silver lh-copy">
+                  A sponsor is responsible for the new hire.
+                </p>
+              </div>
+              <div class="fl-ns w-two-thirds-ns w-100">
+                <!-- cta to add a sponsor -->
+                <p v-if="!showSponsors && form.sponsors.length == 0" class="pointer" @click.prevent="showSponsors = true"><span class="ba br-100 plus-button">+</span> Add sponsors</p>
+
+                <!-- cta to add another sponsor -->
+                <p v-if="!showSponsors && form.sponsors.length > 0" class="pointer ma0" @click.prevent="showSponsors = true"><span class="ba br-100 plus-button">+</span> Add additional sponsors</p>
+
+                <!-- search sponsor form -->
+                <div v-if="showSponsors == true">
+                  <form class="relative" @submit.prevent="search">
+                    <text-input :id="'name'"
+                                v-model="form.searchTerm"
+                                :name="'name'"
+                                :errors="$page.props.errors.name"
+                                :label="'Find a sponsor by typing a name'"
+                                :placeholder="$t('group.create_members_help')"
+                                :required="true"
+                                @keyup="search"
+                                @input="search"
+                                @esc-key-pressed="showSponsors = false"
+                    />
+                    <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
+                  </form>
+
+                  <!-- search results -->
+                  <ul v-show="potentialSponsors.length > 0" class="list pl0 ba bb-gray bb-gray-hover">
+                    <li v-for="employee in potentialSponsors" :key="employee.id" class="relative pa2 bb bb-gray">
+                      {{ employee.name }}
+                      <a href="" class="fr f6" @click.prevent="add(employee)">{{ $t('app.add') }}</a>
+                    </li>
+                  </ul>
+
+                  <!-- no results found -->
+                  <ul v-show="potentialSponsors.length == 0 && form.searchTerm" class="list pl0 ba bb-gray bb-gray-hover">
+                    <li class="relative pa2 bb bb-gray">
+                      {{ $t('team.members_no_results') }}
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- list of existing sponsors -->
+                <div v-show="form.sponsors.length > 0" class="ba bb-gray mb3 mt3">
+                  <div v-for="employee in form.sponsors" :key="employee.id" class="pa2 db bb-gray bb">
+                    <span class="pl3 db relative sponsor">
+                      <avatar :avatar="employee.avatar" :size="23" :class="'avatar absolute br-100'" />
+
+                      {{ employee.name }}
+
+                      <!-- remove -->
+                      <a href="#" class="db f7 mt1 c-delete dib fr" @click.prevent="detach(employee)">
+                        {{ $t('app.remove') }}
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- team -->
+            <div class="cf pa3 bb bb-gray">
+              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
+                <strong>Position</strong>
+              </div>
+              <div class="fl-ns w-two-thirds-ns w-100">
+                <!-- job position -->
+                <select-box :id="'position'"
+                            v-model="form.position"
+                            :options="positions"
+                            :name="'position'"
+                            :errors="$page.props.errors.position"
+                            :placeholder="'Select a position'"
+                            :required="true"
+                            :extra-class-upper-div="'mb0'"
+                            :label="'What position is this job opening for?'"
+                />
+              </div>
+            </div>
+
+            <!-- title & description -->
+            <div class="cf pa3 bb bb-gray">
+              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
+                <strong>Job opening details</strong>
+              </div>
+              <div class="fl-ns w-two-thirds-ns w-100">
                 <!-- Name -->
                 <text-input :id="'name'"
                             v-model="form.name"
@@ -72,17 +182,22 @@ input[type=radio] {
                             :autofocus="true"
                 />
 
+                <!-- Reference number -->
+                <text-input :id="'reference_number'"
+                            v-model="form.reference_number"
+                            :name="'reference_number'"
+                            :errors="$page.props.errors.reference_number"
+                            :label="'Reference number, if needed'"
+                            :help="'This will be displayed on the public version as well.'"
+                            :required="false"
+                />
+
                 <!-- Description -->
                 <text-area v-model="form.product_key"
                            :label="'Complete job description'"
                            :required="true"
                            :rows="10"
                 />
-              </div>
-
-              <!-- right column -->
-              <div class="fl w-third-l w-100">
-                sdfasdf
               </div>
             </div>
 
@@ -112,6 +227,9 @@ import Layout from '@/Shared/Layout';
 import TextArea from '@/Shared/TextArea';
 import Help from '@/Shared/Help';
 import SelectBox from '@/Shared/Select';
+import Avatar from '@/Shared/Avatar';
+import 'vue-loaders/dist/vue-loaders.css';
+import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
   components: {
@@ -120,8 +238,10 @@ export default {
     Errors,
     LoadingButton,
     TextArea,
+    Avatar,
     Help,
     SelectBox,
+    'ball-pulse-loader': BallPulseLoader.component,
   },
 
   props: {
@@ -139,21 +259,16 @@ export default {
     return {
       form: {
         name: null,
-        product_key: null,
-        seats: null,
-        licensed_to_name: null,
-        licensed_to_email_address: null,
-        purchase_amount: null,
-        currency: null,
-        website: null,
-        purchased_date_year: null,
-        purchased_date_month: null,
-        purchased_date_day: null,
+        reference_number: null,
+        searchTerm: null,
+        sponsors: [],
         errors: [],
       },
       loadingState: '',
-      showPurchaseInformation: false,
-      showPurchaseDateInformation: false,
+      processingSearch: false,
+      potentialSponsors: [],
+      showSponsors: false,
+      errorTemplate: Error,
     };
   },
 
@@ -171,6 +286,43 @@ export default {
           this.form.errors = error.response.data;
         });
     },
+
+    search: _.debounce(
+      function() {
+
+        if (this.form.searchTerm != '') {
+          this.processingSearch = true;
+
+          axios.post(`/${this.$page.props.auth.company.id}/dashboard/hr/job-openings/sponsors`, this.form)
+            .then(response => {
+              this.potentialSponsors = _.filter(response.data.data, employee => _.every(this.form.sponsors, e => employee.id !== e.id));
+              this.processingSearch = false;
+            })
+            .catch(error => {
+              console.log(error);
+              this.form.errors = error.response.data;
+              this.processingSearch = false;
+            });
+        } else {
+          this.potentialSponsors = [];
+        }
+      }, 500),
+
+    add(sponsor) {
+      var id = this.form.sponsors.findIndex(x => x.id === sponsor.id);
+
+      if (id == -1) {
+        this.form.sponsors.push(sponsor);
+        this.potentialSponsors = [];
+        this.showSponsors = false;
+        this.form.searchTerm = null;
+      }
+    },
+
+    detach(sponsor) {
+      var id = this.form.sponsors.findIndex(member => member.id === sponsor.id);
+      this.form.sponsors.splice(id, 1);
+    }
   }
 };
 
