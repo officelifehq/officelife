@@ -1,8 +1,6 @@
 <style lang="scss" scoped>
 .company-logo {
-  width: 45px;
-  padding: 4px;
-  margin: 10px;
+  width: 70px;
 }
 </style>
 
