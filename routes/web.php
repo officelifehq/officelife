@@ -123,7 +123,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
                 // job openings
                 Route::get('job-openings', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@index')->name('dashboard.hr.openings.index');
+                Route::get('job-openings/fulfilled', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@index')->name('dashboard.hr.openings.index.fulfilled');
                 Route::get('job-openings/create', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@create')->name('dashboard.hr.openings.create');
+                Route::get('job-openings/{job-opening}', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@show')->name('dashboard.hr.openings.show');
                 Route::post('job-openings', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@store');
                 Route::post('job-openings/sponsors', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@sponsors');
             });

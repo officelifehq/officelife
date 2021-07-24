@@ -8,6 +8,7 @@ use App\Models\Company\Team;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
+use App\Models\Company\JobOpening;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRJobOpeningsViewHelper;
 
@@ -113,6 +114,60 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                 ],
             ],
             $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_open_job_openings(): void
+    {
+        $company = Company::factory()->create();
+
+        $jobOpeningA = JobOpening::factory()->create([
+            'company_id' => $company->id,
+            'team_id' => null,
+        ]);
+        $jobOpeningB = JobOpening::factory()->create([
+            'company_id' => $company->id,
+        ]);
+        JobOpening::factory()->create([
+            'company_id' => $company->id,
+            'fulfilled' => true,
+        ]);
+
+        $array = DashboardHRJobOpeningsViewHelper::openJobOpenings($company);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $jobOpeningA->id,
+                    'title' => $jobOpeningA->title,
+                    'reference_number' => $jobOpeningA->reference_number,
+                    'active' => $jobOpeningA->active,
+                    'team' => null,
+                    'url' => env('APP_URL').'/'. $company->id.'/dashboard/hr/job-openings/'.$jobOpeningA->id,
+                ],
+                1 => [
+                    'id' => $jobOpeningB->id,
+                    'title' => $jobOpeningB->title,
+                    'reference_number' => $jobOpeningB->reference_number,
+                    'active' => $jobOpeningB->active,
+                    'team' => [
+                        'id' => $jobOpeningB->team->id,
+                        'name' => $jobOpeningB->team->name,
+                        'url' => env('APP_URL') . '/' . $company->id . '/teams/' . $jobOpeningB->team->id,
+                    ],
+                    'url' => env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpeningB->id,
+                ],
+            ],
+            $array['open_job_openings']->toArray()
+        );
+
+        $this->assertEquals(
+            [
+                'count' => 1,
+                'url' => env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/fulfilled',
+            ],
+            $array['fulfilled_job_openings']
         );
     }
 }

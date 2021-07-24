@@ -33,6 +33,7 @@ class JobOpening extends Model
         'slug',
         'title',
         'description',
+        'created_at',
     ];
 
     /**

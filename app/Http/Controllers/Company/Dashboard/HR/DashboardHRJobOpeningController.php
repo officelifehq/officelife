@@ -10,7 +10,6 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Adminland\JobOpening\CreateJobOpening;
-use App\Http\ViewHelpers\Dashboard\HR\DashboardHRTimesheetViewHelper;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRJobOpeningsViewHelper;
 
 class DashboardHRJobOpeningController extends Controller
@@ -30,14 +29,11 @@ class DashboardHRJobOpeningController extends Controller
             return redirect('home');
         }
 
-        $employees = DashboardHRTimesheetViewHelper::timesheetApprovalsForEmployeesWithoutManagers($company);
+        $openJobOpenings = DashboardHRJobOpeningsViewHelper::openJobOpenings($company);
 
-        return Inertia::render('Dashboard/HR/Timesheets/Index', [
-            'employee' => [
-                'id' => $employee->id,
-            ],
+        return Inertia::render('Dashboard/HR/JobOpenings/Index', [
             'notifications' => NotificationHelper::getNotifications($employee),
-            'employees' => $employees,
+            'jobOpenings' => $openJobOpenings,
         ]);
     }
 

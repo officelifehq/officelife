@@ -82,4 +82,56 @@ class DashboardHRJobOpeningsViewHelper
 
         return $teamsCollection;
     }
+
+    /**
+     * Get all the open job openings in the company.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function openJobOpenings(Company $company): array
+    {
+        $openJobOpenings = $company->jobOpenings()
+            ->with('team')
+            ->with('position')
+            ->with('sponsors')
+            ->where('fulfilled', false)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $jobOpeningsCollection = collect();
+        foreach ($openJobOpenings as $jobOpening) {
+            $team = $jobOpening->team;
+
+            $jobOpeningsCollection->push([
+                'id' => $jobOpening->id,
+                'title' => $jobOpening->title,
+                'reference_number' => $jobOpening->reference_number,
+                'active' => $jobOpening->active,
+                'team' => $team ? [
+                    'id' => $team->id,
+                    'name' => $team->name,
+                    'url' => route('team.show', [
+                        'company' => $company,
+                        'team' => $team,
+                    ]), ] : null,
+                'url' => route('dashboard.hr.openings.show', [
+                    'company' => $company,
+                    'job-opening' => $jobOpening,
+                ]),
+            ]);
+        }
+
+        $countFulfilledJobOpenings = $company->jobOpenings()->where('fulfilled', true)->count();
+
+        return [
+            'open_job_openings' => $jobOpeningsCollection,
+            'fulfilled_job_openings' => [
+                'count' => $countFulfilledJobOpenings,
+                'url' => route('dashboard.hr.openings.index.fulfilled', [
+                    'company' => $company,
+                ]),
+            ],
+        ];
+    }
 }
