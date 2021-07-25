@@ -265,7 +265,6 @@ export default {
         title: null,
         reference_number: null,
         description: null,
-        reference_number: null,
         searchTerm: null,
         position: null,
         sponsorsId: [],
