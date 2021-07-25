@@ -169,5 +169,10 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             ],
             $array['fulfilled_job_openings']
         );
+
+        $this->assertEquals(
+            env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/create',
+            $array['url_create']
+        );
     }
 }

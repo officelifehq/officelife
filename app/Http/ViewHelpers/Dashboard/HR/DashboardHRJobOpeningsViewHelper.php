@@ -125,6 +125,9 @@ class DashboardHRJobOpeningsViewHelper
         $countFulfilledJobOpenings = $company->jobOpenings()->where('fulfilled', true)->count();
 
         return [
+            'url_create' => route('dashboard.hr.openings.create', [
+                'company' => $company,
+            ]),
             'open_job_openings' => $jobOpeningsCollection,
             'fulfilled_job_openings' => [
                 'count' => $countFulfilledJobOpenings,

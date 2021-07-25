@@ -115,9 +115,19 @@
 
           <!-- RIGHT COLUMN -->
           <div class="fl w-80-l w-100 pl4-l">
+            <!-- cta -->
+            <p class="mt0 db fw5 mb2 flex justify-between items-center">
+              <span>
+                {{ $t('dashboard.job_opening_index_title') }}
+
+                <help :url="$page.props.help_links.project_messages" :top="'3px'" />
+              </span>
+              <inertia-link :href="jobOpenings.url_create" class="btn f5">{{ $t('dashboard.job_opening_index_cta') }}</inertia-link>
+            </p>
+
             <div class="bg-white box mb4">
               <!-- list of job opening -->
-              <ul class="list ma0 pl0">
+              <ul v-if="jobOpenings.open_job_openings.length > 0" class="list ma0 pl0">
                 <li v-for="jobOpening in jobOpenings.open_job_openings" :key="jobOpening.id" class="pa3 job-opening-item bb bb-gray bb-gray-hover flex items-center">
                   <!-- status -->
                   <span :class="jobOpening.active ? 'active' : 'inactive'" class="pv1 ph2 br3 gray mr3">
@@ -135,6 +145,17 @@
                   </div>
                 </li>
               </ul>
+
+              <!-- blank state -->
+              <div v-else>
+                <p class="tc measure center mb4 lh-copy">
+                  {{ $t('dashboard.job_opening_index_blank') }}
+                </p>
+
+                <img loading="lazy" src="/img/streamline-icon-nomad-freelance-2-5@140x140.png" alt="add email symbol" class="db center mb4" height="80"
+                     width="80"
+                />
+              </div>
             </div>
           </div>
         </div>

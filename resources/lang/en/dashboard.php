@@ -238,4 +238,7 @@ return [
     'job_opening_new_success' => 'The job opening has been created.',
     'job_opening_index_sidebar_open' => '{count} open job opening|{count} open job openings',
     'job_opening_index_sidebar_fulfilled' => '{count} fulfilled job opening|{count} fulfilled job openings',
+    'job_opening_index_blank' => 'There are no open job openings at this time.',
+    'job_opening_index_cta' => 'Create a job opening',
+    'job_opening_index_title' => 'All the open job openings',
 ];
