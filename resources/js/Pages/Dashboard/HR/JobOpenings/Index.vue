@@ -50,6 +50,24 @@
     }
   }
 }
+
+.dot {
+  height: 11px;
+  width: 11px;
+  top: 3px;
+}
+
+.active {
+  .dot {
+    background-color: #56bb76;
+  }
+}
+
+.inactive {
+  .dot {
+    background-color: #c8d7cd;
+  }
+}
 </style>
 
 <template>
@@ -65,7 +83,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects'">{{ $t('app.breadcrumb_hr') }}</inertia-link>
           </li>
           <li class="di">
-            All the job openings
+            {{ $t('app.breadcrumb_hr_job_openings_active') }}
           </li>
         </ul>
       </div>
@@ -81,14 +99,14 @@
                   <svg class="relative mr2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  <span class="relative">{{ jobOpenings.open_job_openings.length }} open job opening</span>
+                  <span class="relative">{{ $tc('dashboard.job_opening_index_sidebar_open', jobOpenings.open_job_openings.length, {count: jobOpenings.open_job_openings.length}) }}</span>
                 </li>
-                <li class="pa2 relative">
+                <li class="pa2 br3 relative f6">
                   <svg class="relative mr2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" />
                   </svg>
                   <span class="relative">
-                    <inertia-link :href="jobOpenings.fulfilled_job_openings.url">{{ jobOpenings.fulfilled_job_openings.count }} job</inertia-link>
+                    <inertia-link :href="jobOpenings.fulfilled_job_openings.url">{{ $tc('dashboard.job_opening_index_sidebar_fulfilled', jobOpenings.fulfilled_job_openings.count, {count: jobOpenings.fulfilled_job_openings.count}) }}</inertia-link>
                   </span>
                 </li>
               </ul>
@@ -98,14 +116,23 @@
           <!-- RIGHT COLUMN -->
           <div class="fl w-80-l w-100 pl4-l">
             <div class="bg-white box mb4">
+              <!-- list of job opening -->
               <ul class="list ma0 pl0">
-                <li v-for="jobOpening in jobOpenings.open_job_openings" :key="jobOpening.id" class="pa3 job-opening-item bb bb-gray bb-gray-hover">
-                  <div class="mb2 db">
-                    <inertia-link :href="jobOpening.url" class="mr2">{{ jobOpening.title }}</inertia-link>
-                    <span class="reference-number f7 code fw4">{{ jobOpening.reference_number }}</span>
-                  </div>
+                <li v-for="jobOpening in jobOpenings.open_job_openings" :key="jobOpening.id" class="pa3 job-opening-item bb bb-gray bb-gray-hover flex items-center">
+                  <!-- status -->
+                  <span :class="jobOpening.active ? 'active' : 'inactive'" class="pv1 ph2 br3 gray mr3">
+                    <span class="dib dot br-100 relative">&nbsp;</span>
+                  </span>
 
-                  <p v-if="jobOpening.team" class="ma0 f7 gray">Needed in <inertia-link :href="jobOpening.team.url">{{ jobOpening.team.name }}</inertia-link></p>
+                  <!-- title and ref number -->
+                  <div>
+                    <div class="mb2 db">
+                      <inertia-link :href="jobOpening.url" class="mr2">{{ jobOpening.title }}</inertia-link>
+                      <span class="reference-number f7 code fw4">{{ jobOpening.reference_number }}</span>
+                    </div>
+
+                    <p v-if="jobOpening.team" class="ma0 f7 gray">For <inertia-link :href="jobOpening.team.url">{{ jobOpening.team.name }}</inertia-link></p>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -130,7 +157,7 @@ export default {
       default: null,
     },
     jobOpenings: {
-      type: Array,
+      type: Object,
       default: null,
     },
   },

@@ -236,5 +236,6 @@ return [
     'job_opening_new_reference_number_help' => 'This will be displayed on the public version as well.',
     'job_opening_new_description' => 'Complete job description',
     'job_opening_new_success' => 'The job opening has been created.',
-
+    'job_opening_index_sidebar_open' => '{count} open job opening|{count} open job openings',
+    'job_opening_index_sidebar_fulfilled' => '{count} fulfilled job opening|{count} fulfilled job openings',
 ];
