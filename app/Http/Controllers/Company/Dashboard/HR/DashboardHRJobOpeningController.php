@@ -113,8 +113,10 @@ class DashboardHRJobOpeningController extends Controller
 
         return response()->json([
             'data' => [
-                'enabled' => $company->e_coffee_enabled,
+                'url' => route('dashboard.hr.openings.index', [
+                    'company' => $company,
+                ]),
             ],
-        ], 200);
+        ], 201);
     }
 }

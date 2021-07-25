@@ -287,7 +287,7 @@ export default {
       axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings`, this.form)
         .then(response => {
           localStorage.success = this.$t('dashboard.job_opening_new_success');
-          this.$inertia.visit(response.data.data);
+          this.$inertia.visit(response.data.data.url);
         })
         .catch(error => {
           this.loadingState = null;

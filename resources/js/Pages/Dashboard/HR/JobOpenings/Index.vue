@@ -136,9 +136,9 @@
 
                   <!-- title and ref number -->
                   <div>
-                    <div class="mb2 db">
+                    <div :class="jobOpening.team ? 'mb2': ''" class="db">
                       <inertia-link :href="jobOpening.url" class="mr2">{{ jobOpening.title }}</inertia-link>
-                      <span class="reference-number f7 code fw4">{{ jobOpening.reference_number }}</span>
+                      <span v-if="jobOpening.reference_number" class="reference-number f7 code fw4">{{ jobOpening.reference_number }}</span>
                     </div>
 
                     <p v-if="jobOpening.team" class="ma0 f7 gray">For <inertia-link :href="jobOpening.team.url">{{ jobOpening.team.name }}</inertia-link></p>
