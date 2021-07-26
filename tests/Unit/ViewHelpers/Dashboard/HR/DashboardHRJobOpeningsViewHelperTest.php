@@ -175,4 +175,72 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             $array['url_create']
         );
     }
+
+    /** @test */
+    public function it_gets_the_detail_of_a_job_opening(): void
+    {
+        $company = Company::factory()->create();
+
+        $jobOpening = JobOpening::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $michael = Employee::factory()->create();
+        $jobOpening->sponsors()->syncWithoutDetaching([$michael->id]);
+
+        $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
+
+        $this->assertCount(
+            7,
+            $array
+        );
+
+        $this->assertEquals(
+            $jobOpening->title,
+            $array['title']
+        );
+        $this->assertEquals(
+            $jobOpening->description,
+            $array['description']
+        );
+        $this->assertEquals(
+            $jobOpening->slug,
+            $array['slug']
+        );
+        $this->assertEquals(
+            $jobOpening->active,
+            $array['active']
+        );
+        $this->assertEquals(
+            [
+                'id' => $jobOpening->position->id,
+                'title' => $jobOpening->position->title,
+                'url' => env('APP_URL') . '/' . $company->id . '/company/hr/positions/' . $jobOpening->position->id,
+            ],
+            $array['position']
+        );
+        $this->assertEquals(
+            [
+                'id' => $jobOpening->team->id,
+                'name' => $jobOpening->team->name,
+                'url' => env('APP_URL') . '/' . $company->id . '/teams/' . $jobOpening->team->id,
+            ],
+            $array['team']
+        );
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $michael->id,
+                    'name' => $michael->name,
+                    'avatar' => ImageHelper::getAvatar($michael, 30),
+                    'position' => [
+                        'id' => $michael->position->id,
+                        'title' => $michael->position->title,
+                    ],
+                    'url' => env('APP_URL') . '/' . $company->id . '/employees/' . $michael->id,
+                ],
+            ],
+            $array['sponsors']->toArray()
+        );
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\ViewHelpers\Dashboard\HR;
 
 use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
+use App\Models\Company\JobOpening;
 use Illuminate\Support\Collection;
 
 class DashboardHRJobOpeningsViewHelper
@@ -135,6 +136,61 @@ class DashboardHRJobOpeningsViewHelper
                     'company' => $company,
                 ]),
             ],
+        ];
+    }
+
+    /**
+     * Get all the details about a specific job opening.
+     *
+     * @param Company $company
+     * @param JobOpening $jobOpening
+     * @return array
+     */
+    public static function show(Company $company, JobOpening $jobOpening): array
+    {
+        $team = $jobOpening->team;
+        $position = $jobOpening->position;
+
+        $sponsors = $jobOpening->sponsors;
+        $sponsorsCollection = collect();
+        foreach ($sponsors as $sponsor) {
+            $sponsorsCollection->push([
+                'id' => $sponsor->id,
+                'name' => $sponsor->name,
+                'avatar' => ImageHelper::getAvatar($sponsor, 30),
+                'position' => (! $sponsor->position) ? null : [
+                    'id' => $sponsor->position->id,
+                    'title' => $sponsor->position->title,
+                ],
+                'url' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $sponsor,
+                ]),
+            ]);
+        }
+
+        return [
+            'title' => $jobOpening->title,
+            'description' => $jobOpening->description,
+            'slug' => $jobOpening->slug,
+            'active' => $jobOpening->active,
+            'position' => [
+                'id' => $position->id,
+                'title' => $position->title,
+                'url' => route('hr.positions.show', [
+                    'company' => $company,
+                    'position' => $position,
+                ]),
+            ],
+            'sponsors' => $sponsorsCollection,
+            'team' => $team ? [
+                'id' => $team->id,
+                'name' => $team->name,
+                'url' => route('team.show', [
+                    'company' => $company,
+                    'team' => $team,
+                ]),
+            ] : null,
         ];
     }
 }

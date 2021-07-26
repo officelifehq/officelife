@@ -80,7 +80,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects'">{{ $t('app.breadcrumb_hr') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr'">{{ $t('app.breadcrumb_hr') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_hr_job_openings_active') }}
