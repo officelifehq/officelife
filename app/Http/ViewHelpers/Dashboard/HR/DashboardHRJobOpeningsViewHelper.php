@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Dashboard\HR;
 
+use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
 use App\Models\Company\JobOpening;
@@ -174,6 +175,7 @@ class DashboardHRJobOpeningsViewHelper
             'description' => $jobOpening->description,
             'slug' => $jobOpening->slug,
             'active' => $jobOpening->active,
+            'activated_at' => $jobOpening->activated_at ? DateHelper::formatDate($jobOpening->activated_at) : null,
             'position' => [
                 'id' => $position->id,
                 'title' => $position->title,
@@ -186,6 +188,7 @@ class DashboardHRJobOpeningsViewHelper
             'team' => $team ? [
                 'id' => $team->id,
                 'name' => $team->name,
+                'count' => $team->employees()->count(),
                 'url' => route('team.show', [
                     'company' => $company,
                     'team' => $team,

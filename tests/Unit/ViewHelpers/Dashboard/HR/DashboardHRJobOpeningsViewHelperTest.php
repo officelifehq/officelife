@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard\HR;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
@@ -179,10 +180,13 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
     /** @test */
     public function it_gets_the_detail_of_a_job_opening(): void
     {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
         $company = Company::factory()->create();
 
         $jobOpening = JobOpening::factory()->create([
             'company_id' => $company->id,
+            'activated_at' => Carbon::now(),
         ]);
 
         $michael = Employee::factory()->create();
@@ -191,7 +195,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
 
         $this->assertCount(
-            7,
+            8,
             $array
         );
 
@@ -212,6 +216,10 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             $array['active']
         );
         $this->assertEquals(
+            'Jan 01, 2018',
+            $array['activated_at']
+        );
+        $this->assertEquals(
             [
                 'id' => $jobOpening->position->id,
                 'title' => $jobOpening->position->title,
@@ -223,6 +231,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             [
                 'id' => $jobOpening->team->id,
                 'name' => $jobOpening->team->name,
+                'count' => 0,
                 'url' => env('APP_URL') . '/' . $company->id . '/teams/' . $jobOpening->team->id,
             ],
             $array['team']

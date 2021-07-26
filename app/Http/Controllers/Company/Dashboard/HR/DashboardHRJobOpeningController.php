@@ -7,8 +7,10 @@ use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;
+use App\Models\Company\JobOpening;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\JobOpening\CreateJobOpening;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRJobOpeningsViewHelper;
 
@@ -118,5 +120,41 @@ class DashboardHRJobOpeningController extends Controller
                 ]),
             ],
         ], 201);
+    }
+
+    /**
+     * Show the detail of a job opening.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @return mixed
+     */
+    public function show(Request $request, int $companyId, int $jobOpeningId): mixed
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        // is this person HR?
+        if ($employee->permission_level > config('officelife.permission_level.hr')) {
+            return redirect('home');
+        }
+
+        try {
+            $jobOpening = JobOpening::where('company_id', $company->ideal)
+                ->with('team')
+                ->with('position')
+                ->with('sponsors')
+                ->findOrFail($jobOpeningId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('dashboard.hr.openings.index');
+        }
+
+        $jobOpening = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
+
+        return Inertia::render('Dashboard/HR/JobOpenings/Show', [
+            'notifications' => NotificationHelper::getNotifications($employee),
+            'jobOpening' => $jobOpening,
+        ]);
     }
 }
