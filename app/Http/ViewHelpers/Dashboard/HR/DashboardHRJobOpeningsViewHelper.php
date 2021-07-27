@@ -158,7 +158,7 @@ class DashboardHRJobOpeningsViewHelper
             $sponsorsCollection->push([
                 'id' => $sponsor->id,
                 'name' => $sponsor->name,
-                'avatar' => ImageHelper::getAvatar($sponsor, 30),
+                'avatar' => ImageHelper::getAvatar($sponsor, 35),
                 'position' => (! $sponsor->position) ? null : [
                     'id' => $sponsor->position->id,
                     'title' => $sponsor->position->title,
@@ -188,12 +188,16 @@ class DashboardHRJobOpeningsViewHelper
             'team' => $team ? [
                 'id' => $team->id,
                 'name' => $team->name,
-                'count' => $team->employees()->count(),
+                'count' => $team->employees()->notLocked()->count(),
                 'url' => route('team.show', [
                     'company' => $company,
                     'team' => $team,
                 ]),
             ] : null,
+            'url_edit' => route('dashboard.hr.openings.edit', [
+                'company' => $company,
+                'jobOpening' => $jobOpening,
+            ]),
         ];
     }
 }

@@ -195,7 +195,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
 
         $this->assertCount(
-            8,
+            9,
             $array
         );
 
@@ -220,6 +220,10 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             $array['activated_at']
         );
         $this->assertEquals(
+            env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->id.'/edit',
+            $array['url_edit']
+        );
+        $this->assertEquals(
             [
                 'id' => $jobOpening->position->id,
                 'title' => $jobOpening->position->title,
@@ -241,7 +245,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael, 30),
+                    'avatar' => ImageHelper::getAvatar($michael, 35),
                     'position' => [
                         'id' => $michael->position->id,
                         'title' => $michael->position->title,

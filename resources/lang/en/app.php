@@ -166,6 +166,7 @@ return [
     'breadcrumb_hr_position' => 'Detail of a position',
     'breadcrumb_hr_job_openings_create' => 'Detail of a position',
     'breadcrumb_hr_job_openings_active' => 'All the job openings',
+    'breadcrumb_job_opening_detail' => 'Detail of a job opening',
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',
     'header_find' => 'Find',

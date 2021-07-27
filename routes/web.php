@@ -126,8 +126,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('job-openings/fulfilled', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@index')->name('dashboard.hr.openings.index.fulfilled');
                 Route::get('job-openings/create', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@create')->name('dashboard.hr.openings.create');
                 Route::get('job-openings/{jobOpening}', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@show')->name('dashboard.hr.openings.show');
+                Route::get('job-openings/{jobOpening}/edit', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@edit')->name('dashboard.hr.openings.edit');
+                Route::get('job-openings/{jobOpening}/delete', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@destroy')->name('dashboard.hr.openings.destroy');
                 Route::post('job-openings', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@store');
                 Route::post('job-openings/sponsors', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@sponsors');
+
+                // candidates
+                Route::get('job-openings/{jobOpening}/candidates/{candidate}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@show')->name('dashboard.hr.candidates.show');
             });
         });
 

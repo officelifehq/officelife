@@ -1,12 +1,38 @@
 <style lang="scss" scoped>
 .avatar {
-  left: 1px;
-  top: 2px;
   width: 35px;
 }
 
+.name {
+  padding-left: 44px;
+}
+
+.candidate-item:first-child:hover {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.candidate-item:last-child {
+  border-bottom: 0;
+
+  &:hover {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+}
+
+.reference-number {
+  padding: 2px 6px;
+  border-radius: 6px;
+  top: -4px;
+  background-color: #ddf4ff;
+  color: #0969da;
+}
+
 .icon {
-  width: 20px;
+  color: #6a73a4;
+  width: 15px;
+  top: 2px;
 }
 
 .url-icon {
@@ -49,7 +75,10 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings'">{{ $t('app.breadcrumb_job_opening_list') }}</inertia-link>
+            ...
+          </li>
+          <li class="di">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings'">{{ $t('app.breadcrumb_hr_job_openings_active') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_job_opening_detail') }}
@@ -60,67 +89,92 @@
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
         <div class="mb4">
-          <h2 class="mr2 di mt0 mb0 fw4">
-            Senior Product Manager
+          <h2 class="mr2 mt0 mb2 fw4">
+            {{ jobOpening.title }}
+
+            <span v-if="jobOpening.reference_number" class="reference-number f7 code fw4">
+              {{ jobOpening.reference_number }}
+            </span>
           </h2>
 
-          <span class="fw4 f6 relative">
-            <a href="https://app.copy/" class="mr1">Public link</a>
-
-            <svg xmlns="http://www.w3.org/2000/svg" class="url-icon gray relative" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd" />
-            </svg>
-          </span>
+          <ul class="ma0 pl0 list f7 gray">
+            <li v-if="jobOpening.activated_at" class="di mr3">
+              Active since {{ jobOpening.activated_at }}
+            </li>
+            <li class="di mr3">
+              <a class="" href="#">View public version</a>
+            </li>
+            <li class="di mr3">
+              <inertia-link :href="jobOpening.url_create">{{ $t('app.edit') }}</inertia-link>
+            </li>
+            <li class="di">
+              <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" href="#">{{ $t('app.delete') }}</a>
+            </li>
+          </ul>
         </div>
 
         <div class="flex items-center mb4">
           <!-- team -->
-          <div class="flex items-start mr4">
-            <svg class="icon mr2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-            </svg>
+          <div v-if="jobOpening.team" class="mr5">
+            <div class="db relative mb2">
+              <svg class="icon mr1 relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+              </svg>
+              <span class="f7 gray">
+                Associated team
+              </span>
+            </div>
 
-            <div>
+            <div class="db">
               <span class="db mb0">
-                Human resources
+                <inertia-link :href="jobOpening.team.url">{{ jobOpening.team.name }}</inertia-link>
               </span>
               <span class="fw3 gray f7">
-                34 team members
+                {{ jobOpening.team.count }} team members
               </span>
             </div>
           </div>
 
           <!-- sponsors -->
-          <div class="flex items-start mr4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon mr2" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
-            </svg>
+          <div v-if="jobOpening.sponsors" class="mr5">
+            <div class="db relative mb2">
+              <svg class="icon mr1 relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
+              </svg>
+              <span class="f7 gray">
+                Sponsors
+              </span>
+            </div>
 
             <div class="flex items-start">
-              <div class="mr3">
-                <span class="db ma0">
-                  Michael Scott
-                </span>
-                <span class="fw3 gray f7">
-                  Lead developer
-                </span>
-              </div>
-              <div class="mr3">
-                <span class="db mb1">
-                  Human resources
-                </span>
-                <span class="fw3 gray f7">
-                  34 team members
-                </span>
+              <div v-for="sponsor in jobOpening.sponsors" :key="sponsor.id" class="mr3 relative">
+                <avatar :avatar="sponsor.avatar" :size="35" :class="'br-100 absolute avatar'" />
+
+                <div class="name">
+                  <span class="db ma0">
+                    <inertia-link :href="sponsor.url">{{ sponsor.name }}</inertia-link>
+                  </span>
+                  <span v-if="sponsor.position" class="fw3 gray f7">
+                    {{ sponsor.position.title }}
+                  </span>
+                  <span v-else class="fw3 gray f7">
+                    {{ $t('app.no_position_defined') }}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- page views -->
-          <div class="flex items-start">
-            <svg class="icon mr2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-            </svg>
+          <div class="">
+            <div class="db relative mb2">
+              <svg class="icon mr1 relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
+              </svg>
+              <span class="f7 gray">
+                Traffic
+              </span>
+            </div>
 
             <div>
               <span class="db mb1">
@@ -167,7 +221,19 @@
           <!-- RIGHT COLUMN -->
           <div class="fl w-80-l w-100 pl4-l">
             <div class="bg-white box">
-              safdfs
+              <ul class="ma0 pl0 list">
+                <li class="pa3 candidate-item bb bb-gray bb-gray-hover"><inertia-link :href="''">Tom Yorke</inertia-link></li>
+                <li class="pa3 candidate-item bb bb-gray bb-gray-hover"><inertia-link :href="''">Tom Yorke</inertia-link></li>
+                <li class="pa3 candidate-item bb bb-gray bb-gray-hover"><inertia-link :href="''">Tom Yorke</inertia-link></li>
+              </ul>
+
+              <p class="tc measure center mb4 lh-copy">
+                There are no candidates for now.
+              </p>
+
+              <img loading="lazy" src="/img/streamline-icon-detective-1-5@140x140.png" alt="add email symbol" class="db center mb4" height="120"
+                   width="120"
+              />
             </div>
           </div>
         </div>
@@ -178,10 +244,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Avatar,
   },
 
   props: {
