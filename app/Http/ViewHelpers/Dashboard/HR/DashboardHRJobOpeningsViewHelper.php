@@ -119,7 +119,7 @@ class DashboardHRJobOpeningsViewHelper
                     ]), ] : null,
                 'url' => route('dashboard.hr.openings.show', [
                     'company' => $company,
-                    'job-opening' => $jobOpening,
+                    'jobOpening' => $jobOpening,
                 ]),
             ]);
         }

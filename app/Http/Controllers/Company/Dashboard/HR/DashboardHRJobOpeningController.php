@@ -141,7 +141,7 @@ class DashboardHRJobOpeningController extends Controller
         }
 
         try {
-            $jobOpening = JobOpening::where('company_id', $company->ideal)
+            $jobOpening = JobOpening::where('company_id', $company->id)
                 ->with('team')
                 ->with('position')
                 ->with('sponsors')
