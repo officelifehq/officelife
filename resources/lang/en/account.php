@@ -698,4 +698,9 @@ return [
     'recruitment_index_new_success' => 'The template has been created.',
     'recruitment_index_no_stages' => 'No stages yet',
     'recruitment_index_blank' => 'Templates let you define different recruiting strategies.',
+    'recruitment_show_then' => 'Then',
+    'recruitment_show_add_stage_cta' => 'Add a stage',
+    'recruitment_show_delete_success' => 'The stage has been deleted.',
+    'recruitment_show_new_success' => 'The stage has been added.',
+    'recruitment_show_update_success' => 'The stage has been updated.',
 ];

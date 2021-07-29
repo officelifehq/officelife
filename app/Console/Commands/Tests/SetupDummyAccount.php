@@ -77,6 +77,7 @@ use App\Services\Company\Employee\Timesheet\CreateOrGetTimesheet;
 use App\Services\Company\Employee\Contract\SetContractRenewalDate;
 use App\Services\Company\Employee\Pronoun\AssignPronounToEmployee;
 use App\Services\Company\Employee\ECoffee\MatchEmployeesForECoffee;
+use App\Services\Company\Adminland\JobOpening\CreateRecruitingStage;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
 use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneActionItem;
 use App\Services\Company\Employee\Position\AssignPositionToEmployee;
@@ -87,6 +88,7 @@ use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneTalkingPoint;
 use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
 use App\Services\Company\Employee\OneOnOne\MarkOneOnOneEntryAsHappened;
 use App\Services\Company\Adminland\Expense\AllowEmployeeToManageExpenses;
+use App\Services\Company\Adminland\JobOpening\CreateRecruitingStageTemplate;
 use App\Services\Company\Employee\WorkFromHome\UpdateWorkFromHomeInformation;
 use App\Services\Company\Employee\EmployeeStatus\AssignEmployeeStatusToEmployee;
 
@@ -227,6 +229,7 @@ class SetupDummyAccount extends Command
         $this->addPreviousPositionsHistory();
         $this->addBillingAndInvoices();
         $this->addWikis();
+        $this->addRecruitingStages();
         $this->addSecondaryBlankAccount();
         $this->validateUserAccounts();
         $this->stop();
@@ -2410,6 +2413,43 @@ Michael puts Jim and Dwight in charge of the Party Planning Committee because th
 *  Greg Daniels encouraged the actors to improvise mundane party planning chatter.<ref name=`officeladies_michaelsbirthday`>Kinsey, Angela and Jenna Fischer. 2020. [https://officeladies.com/episodes/2020/04/22/episode-25-michaels-birthday Episode 25: Michael's Birthday], Office Ladies podcast, April 22, 2020.</ref>
                 ",
             ]);
+        }
+    }
+
+    private function addRecruitingStages(): void
+    {
+        $this->info('☐ Add recruiting stages');
+
+        $templates = collect([
+            'Engineering flow',
+            'Sales',
+            'Marketing with a lot of experience',
+        ]);
+
+        $stages = collect([
+            'Screening call',
+            'Technical interview',
+            'Interview with SM, PO',
+            'Reference check',
+            'Behavorial interview',
+        ]);
+
+        foreach ($templates as $template) {
+            $template = (new CreateRecruitingStageTemplate)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->michael->id,
+                'name' => $template,
+            ]);
+
+            $randomStages = $stages->shuffle()->take(rand(3, 6));
+            foreach ($randomStages as $stage) {
+                $stage = (new CreateRecruitingStage)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'recruiting_stage_template_id' => $template->id,
+                    'name' => $stage,
+                ]);
+            }
         }
     }
 

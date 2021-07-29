@@ -153,7 +153,7 @@ class DestroyRecruitingStageTest extends TestCase
             'position' => 3,
         ]);
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $template, $stage) {
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $stage) {
             return $job->auditLog['action'] === 'recruiting_stage_destroyed' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([

@@ -88,9 +88,11 @@
             <li v-for="template in localTemplates" :key="template.id" class="pv3 ph2 bb bb-gray bb-gray-hover template-item">
               <span class="mb2 db"><inertia-link :href="template.url">{{ template.name }}</inertia-link></span>
 
-              <ul v-if="template.stages.length > 0" class="pl0 ma0 list f7 gray stage-list">
-                <li v-for="stage in template.stages" :key="stage.id" class="di">{{ stage.name }}</li>
-              </ul>
+              <div v-if="template.stages">
+                <ul v-if="template.stages.length > 0" class="pl0 ma0 list f7 gray stage-list">
+                  <li v-for="stage in template.stages" :key="stage.id" class="di">{{ stage.name }}</li>
+                </ul>
+              </div>
 
               <span v-else class="f7 gray">{{ $t('account.recruitment_index_no_stages') }}</span>
             </li>
