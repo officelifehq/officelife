@@ -51,6 +51,8 @@
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
             {{ $t('account.recruitment_index') }}
+
+            <help :url="$page.props.help_links.recruitment_template" :top="'2px'" />
           </h2>
 
           <p class="relative adminland-headline">
@@ -118,6 +120,7 @@ import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
@@ -125,6 +128,7 @@ export default {
     TextInput,
     Errors,
     LoadingButton,
+    Help,
   },
 
   props: {
