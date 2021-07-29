@@ -254,5 +254,6 @@ return [
         'time_tracking' => 'operate/time-tracking.html',
         'billing' => 'manage/company-management.html#account-billing',
         'wiki' => 'communicate/wiki.html',
+        'recruitment_template' => 'recruit/applicant-tracking-system.html#the-recruiting-stages-and-templates',
     ],
 ];

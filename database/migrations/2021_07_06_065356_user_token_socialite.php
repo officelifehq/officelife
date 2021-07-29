@@ -11,6 +11,9 @@ class UserTokenSocialite extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('user_tokens', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
