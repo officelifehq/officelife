@@ -304,6 +304,16 @@ class Company extends Model
     }
 
     /**
+     * Get all recruiting stage templates in the company.
+     *
+     * @return HasMany
+     */
+    public function recruitingStageTemplates()
+    {
+        return $this->hasMany(RecruitingStageTemplate::class);
+    }
+
+    /**
      * Get the logo associated with the company.
      *
      * @return HasOne

@@ -1364,6 +1364,40 @@ class LogHelper
                 ]);
                 break;
 
+            case 'recruiting_stage_created':
+                $sentence = trans('account.log_recruiting_stage_created', [
+                    'recruiting_stage_id' => $log->object->{'recruiting_stage_id'},
+                    'recruiting_stage_name' => $log->object->{'recruiting_stage_name'},
+                ]);
+                break;
+
+            case 'recruiting_stage_updated':
+                $sentence = trans('account.log_recruiting_stage_updated', [
+                    'recruiting_stage_id' => $log->object->{'recruiting_stage_id'},
+                    'recruiting_stage_name' => $log->object->{'recruiting_stage_name'},
+                ]);
+                break;
+
+            case 'recruiting_stage_destroyed':
+                $sentence = trans('account.log_recruiting_stage_destroyed', [
+                    'recruiting_stage_name' => $log->object->{'recruiting_stage_name'},
+                ]);
+                break;
+
+            case 'recruiting_stage_template_created':
+                $sentence = trans('account.log_recruiting_stage_template_created', [
+                    'recruiting_stage_template_id' => $log->object->{'recruiting_stage_template_id'},
+                    'recruiting_stage_template_name' => $log->object->{'recruiting_stage_template_name'},
+                ]);
+                break;
+
+            case 'recruiting_stage_template_updated':
+                $sentence = trans('account.log_recruiting_stage_template_updated', [
+                    'recruiting_stage_template_id' => $log->object->{'recruiting_stage_template_id'},
+                    'recruiting_stage_template_name' => $log->object->{'recruiting_stage_template_name'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;

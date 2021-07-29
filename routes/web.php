@@ -507,6 +507,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             // work from home
             Route::get('account/workFromHome', 'Company\\Adminland\\AdminWorkFromHomeController@index');
             Route::put('account/workFromHome', 'Company\\Adminland\\AdminWorkFromHomeController@update');
+
+            // recruiting stage templates
+            Route::get('account/recruitment', 'Company\\Adminland\\AdminRecruitmentController@index');
+            Route::post('account/recruitment', 'Company\\Adminland\\AdminRecruitmentController@store');
+            Route::get('account/recruitment/{template}', 'Company\\Adminland\\AdminRecruitmentController@show')->name('recruitment.show');
         });
     });
 });

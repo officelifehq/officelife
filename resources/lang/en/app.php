@@ -164,6 +164,7 @@ return [
     'breadcrumb_page_detail' => 'Page detail',
     'breadcrumb_hr' => 'Human resources',
     'breadcrumb_hr_position' => 'Detail of a position',
+    'breadcrumb_account_manage_recruitment' => 'Recruitment processes',
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',
     'header_find' => 'Find',

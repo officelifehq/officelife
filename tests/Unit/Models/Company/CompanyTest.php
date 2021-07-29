@@ -29,6 +29,7 @@ use App\Models\Company\ConsultantRate;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Models\Company\CompanyPTOPolicy;
+use App\Models\Company\RecruitingStageTemplate;
 use App\Models\Company\CompanyDailyUsageHistory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -298,6 +299,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->wikis()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_recruiting_stage_templates(): void
+    {
+        $company = Company::factory()->create();
+        RecruitingStageTemplate::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->recruitingStageTemplates()->exists());
     }
 
     /** @test */

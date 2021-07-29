@@ -76,6 +76,13 @@
                   {{ $t('account.home_company_news') }}
                 </inertia-link>
               </div>
+              <div class="pa2 pl0 relative">
+                <span class="mr1">
+                  🥷
+                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/recruitment'" data-cy="news-admin-link">
+                  {{ $t('account.home_manage_recruitment') }}
+                </inertia-link>
+              </div>
             </div>
             <div class="ph3">
               <!-- <div class="pa2 pl0 relative">
