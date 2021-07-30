@@ -59,6 +59,10 @@ class AdminGeneralViewHelperTest extends TestCase
             $response['currency']
         );
 
+        $this->assertNull(
+            $response['location']
+        );
+
         $this->assertEquals(
             0.492,
             $response['total_size']

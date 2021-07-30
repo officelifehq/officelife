@@ -408,6 +408,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('account/general/currency', 'Company\\Adminland\\AdminGeneralController@currency');
             Route::post('account/general/logo', 'Company\\Adminland\\AdminGeneralController@logo');
             Route::post('account/general/date', 'Company\\Adminland\\AdminGeneralController@date');
+            Route::post('account/general/location', 'Company\\Adminland\\AdminGeneralController@location');
 
             Route::get('account/cancel', 'Company\\Adminland\\AdminCancelAccountController@index');
             Route::delete('account/cancel', 'Company\\Adminland\\AdminCancelAccountController@destroy');
