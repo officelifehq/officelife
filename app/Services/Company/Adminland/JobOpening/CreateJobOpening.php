@@ -10,6 +10,7 @@ use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\JobOpening;
+use App\Models\Company\RecruitingStageTemplate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CreateJobOpening extends BaseService
@@ -32,6 +33,7 @@ class CreateJobOpening extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'sponsors' => 'required|array',
             'team_id' => 'nullable|integer|exists:teams,id',
+            'recruiting_stage_template_id' => 'required|integer|exists:recruiting_stage_templates,id',
             'title' => 'required|string|max:255',
             'reference_number' => 'nullable|string|max:255',
             'description' => 'required|string|max:65535',
@@ -68,6 +70,9 @@ class CreateJobOpening extends BaseService
         $this->position = Position::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['position_id']);
 
+        RecruitingStageTemplate::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['recruiting_stage_template_id']);
+
         if ($this->data['team_id']) {
             $this->team = Team::where('company_id', $this->data['company_id'])
                 ->findOrFail($this->data['team_id']);
@@ -79,6 +84,7 @@ class CreateJobOpening extends BaseService
         $this->jobOpening = JobOpening::create([
             'company_id' => $this->data['company_id'],
             'position_id' => $this->data['position_id'],
+            'recruiting_stage_template_id' => $this->data['recruiting_stage_template_id'],
             'team_id' => $this->valueOrNull($this->data, 'team_id'),
             'title' => $this->data['title'],
             'description' => $this->data['description'],

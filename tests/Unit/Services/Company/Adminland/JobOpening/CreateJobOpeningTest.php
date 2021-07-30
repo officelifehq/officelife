@@ -10,6 +10,7 @@ use App\Models\Company\Position;
 use App\Models\Company\JobOpening;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
+use App\Models\Company\RecruitingStageTemplate;
 use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -26,10 +27,13 @@ class CreateJobOpeningTest extends TestCase
         $position = Position::factory()->create([
             'company_id' => $michael->company_id,
         ]);
+        $template = RecruitingStageTemplate::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $michael, $position, $team);
+        $this->executeService($michael, $michael, $position, $template, $team);
     }
 
     /** @test */
@@ -39,10 +43,13 @@ class CreateJobOpeningTest extends TestCase
         $position = Position::factory()->create([
             'company_id' => $michael->company_id,
         ]);
+        $template = RecruitingStageTemplate::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $michael, $position, $team);
+        $this->executeService($michael, $michael, $position, $template, $team);
     }
 
     /** @test */
@@ -54,10 +61,13 @@ class CreateJobOpeningTest extends TestCase
         $position = Position::factory()->create([
             'company_id' => $michael->company_id,
         ]);
+        $template = RecruitingStageTemplate::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $michael, $position, $team);
+        $this->executeService($michael, $michael, $position, $template, $team);
     }
 
     /** @test */
@@ -76,12 +86,15 @@ class CreateJobOpeningTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $position = Position::factory()->create([]);
+        $template = RecruitingStageTemplate::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $michael, $position, $team);
+        $this->executeService($michael, $michael, $position, $template, $team);
     }
 
     /** @test */
@@ -91,13 +104,31 @@ class CreateJobOpeningTest extends TestCase
         $position = Position::factory()->create([
             'company_id' => $michael->company_id,
         ]);
+        $template = RecruitingStageTemplate::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
         $team = Team::factory()->create();
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $michael, $position, $team);
+        $this->executeService($michael, $michael, $position, $template, $team);
     }
 
-    private function executeService(Employee $author, Employee $sponsor, Position $position, Team $team): void
+    /** @test */
+    public function it_fails_if_template_is_not_in_the_company(): void
+    {
+        $michael = $this->createAdministrator();
+        $position = Position::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $template = RecruitingStageTemplate::factory()->create();
+        $team = Team::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $this->expectException(ModelNotFoundException::class);
+        $this->executeService($michael, $michael, $position, $template, $team);
+    }
+
+    private function executeService(Employee $author, Employee $sponsor, Position $position, RecruitingStageTemplate $template, Team $team): void
     {
         Queue::fake();
 
@@ -107,6 +138,7 @@ class CreateJobOpeningTest extends TestCase
             'position_id' => $position->id,
             'sponsors' => [$sponsor->id],
             'team_id' => $team->id,
+            'recruiting_stage_template_id' => $template->id,
             'title' => 'Assistant to the regional manager',
             'description' => 'Awesome job',
             'reference_number' => '123',
@@ -118,6 +150,7 @@ class CreateJobOpeningTest extends TestCase
             'id' => $jobOpening->id,
             'company_id' => $author->company_id,
             'position_id' => $position->id,
+            'recruiting_stage_template_id' => $template->id,
             'title' => 'Assistant to the regional manager',
             'description' => 'Awesome job',
             'reference_number' => '123',

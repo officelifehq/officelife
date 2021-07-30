@@ -10,6 +10,7 @@ use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\JobOpening;
+use App\Models\Company\RecruitingStageTemplate;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRJobOpeningsViewHelper;
 
@@ -46,6 +47,42 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                 ],
                 1 => [
                     'value' => $positionB->id,
+                    'label' => 'Boyfriend',
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_recruiting_templates(): void
+    {
+        $company = Company::factory()->create();
+
+        $templateA = RecruitingStageTemplate::factory()->create([
+            'company_id' => $company->id,
+            'name' => 'Avenger',
+        ]);
+        $templateB = RecruitingStageTemplate::factory()->create([
+            'company_id' => $company->id,
+            'name' => 'Boyfriend',
+        ]);
+
+        $collection = DashboardHRJobOpeningsViewHelper::templates($company);
+
+        $this->assertEquals(
+            2,
+            $collection->count()
+        );
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'value' => $templateA->id,
+                    'label' => 'Avenger',
+                ],
+                1 => [
+                    'value' => $templateB->id,
                     'label' => 'Boyfriend',
                 ],
             ],

@@ -11,10 +11,14 @@ class CreateJobOpeningsTable extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('job_openings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('position_id');
+            $table->unsignedBigInteger('recruiting_stage_template_id')->nullable();
             $table->unsignedBigInteger('team_id')->nullable();
             $table->boolean('active')->default(false);
             $table->boolean('fulfilled')->default(false);
@@ -26,6 +30,7 @@ class CreateJobOpeningsTable extends Migration
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
+            $table->foreign('recruiting_stage_template_id')->references('id')->on('recruiting_stage_templates')->onDelete('set null');
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('set null');
         });
 

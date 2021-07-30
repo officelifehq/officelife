@@ -32,6 +32,27 @@ class DashboardHRJobOpeningsViewHelper
     }
 
     /**
+     * Get all the recruiting templates in the company.
+     *
+     * @param Company $company
+     * @return Collection|null
+     */
+    public static function templates(Company $company): ?Collection
+    {
+        $templates = $company->recruitingStageTemplates()->orderBy('name')->get();
+
+        $templatesCollection = collect();
+        foreach ($templates as $template) {
+            $templatesCollection->push([
+                'value' => $template->id,
+                'label' => $template->name,
+            ]);
+        }
+
+        return $templatesCollection;
+    }
+
+    /**
      * Get all the potential sponsors in the company.
      *
      * @param Company $company

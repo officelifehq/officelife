@@ -27,6 +27,7 @@ class JobOpening extends Model
         'company_id',
         'position_id',
         'team_id',
+        'recruiting_stage_template_id',
         'active',
         'fulfilled',
         'reference_number',
@@ -93,5 +94,15 @@ class JobOpening extends Model
     public function team()
     {
         return $this->belongsTo(Team::class, 'team_id');
+    }
+
+    /**
+     * Get the recruiting stage template record associated with the job opening.
+     *
+     * @return BelongsTo
+     */
+    public function template()
+    {
+        return $this->belongsTo(RecruitingStageTemplate::class, 'recruiting_stage_template_id');
     }
 }

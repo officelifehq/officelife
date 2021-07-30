@@ -7,6 +7,7 @@ use App\Models\Company\Team;
 use App\Models\Company\Company;
 use App\Models\Company\Position;
 use App\Models\Company\JobOpening;
+use App\Models\Company\RecruitingStageTemplate;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class JobOpeningFactory extends Factory
@@ -34,6 +35,11 @@ class JobOpeningFactory extends Factory
             },
             'team_id' => function (array $attributes) {
                 return Team::factory()->create([
+                    'company_id' => $attributes['company_id'],
+                ]);
+            },
+            'recruiting_stage_template_id' => function (array $attributes) {
+                return RecruitingStageTemplate::factory()->create([
                     'company_id' => $attributes['company_id'],
                 ]);
             },

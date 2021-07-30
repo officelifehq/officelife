@@ -40,4 +40,11 @@ class JobOpeningTest extends TestCase
         $jobOpening = JobOpening::factory()->create([]);
         $this->assertTrue($jobOpening->team()->exists());
     }
+
+    /** @test */
+    public function it_belongs_to_a_recruiting_stage_template(): void
+    {
+        $jobOpening = JobOpening::factory()->create([]);
+        $this->assertTrue($jobOpening->template()->exists());
+    }
 }

@@ -49,4 +49,14 @@ class RecruitingStageTemplate extends Model
     {
         return $this->hasMany(RecruitingStage::class)->orderBy('position', 'asc');
     }
+
+    /**
+     * Get the job openings associated with the recruiting stage template.
+     *
+     * @return HasMany
+     */
+    public function jobOpenings()
+    {
+        return $this->hasMany(JobOpening::class);
+    }
 }
