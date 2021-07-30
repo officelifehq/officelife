@@ -4,6 +4,7 @@ namespace App\Http\ViewHelpers\Dashboard\HR;
 
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
+use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use App\Models\Company\JobOpening;
 use Illuminate\Support\Collection;
@@ -172,6 +173,7 @@ class DashboardHRJobOpeningsViewHelper
     {
         $team = $jobOpening->team;
         $position = $jobOpening->position;
+        $stages = $jobOpening->template->stages;
 
         $sponsors = $jobOpening->sponsors;
         $sponsorsCollection = collect();
@@ -192,14 +194,17 @@ class DashboardHRJobOpeningsViewHelper
         }
 
         return [
+            'id' => $jobOpening->id,
             'title' => $jobOpening->title,
-            'description' => $jobOpening->description,
+            'description' => StringHelper::parse($jobOpening->description),
             'slug' => $jobOpening->slug,
+            'reference_number' => $jobOpening->reference_number,
             'active' => $jobOpening->active,
             'activated_at' => $jobOpening->activated_at ? DateHelper::formatDate($jobOpening->activated_at) : null,
             'position' => [
                 'id' => $position->id,
                 'title' => $position->title,
+                'count_employees' => $position->employees()->notLocked()->count(),
                 'url' => route('hr.positions.show', [
                     'company' => $company,
                     'position' => $position,

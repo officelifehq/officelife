@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
+use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
@@ -232,21 +233,29 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
 
         $this->assertCount(
-            9,
+            11,
             $array
         );
 
+        $this->assertEquals(
+            $jobOpening->id,
+            $array['id']
+        );
         $this->assertEquals(
             $jobOpening->title,
             $array['title']
         );
         $this->assertEquals(
-            $jobOpening->description,
+            StringHelper::parse($jobOpening->description),
             $array['description']
         );
         $this->assertEquals(
             $jobOpening->slug,
             $array['slug']
+        );
+        $this->assertEquals(
+            $jobOpening->reference_number,
+            $array['reference_number']
         );
         $this->assertEquals(
             $jobOpening->active,
@@ -264,6 +273,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             [
                 'id' => $jobOpening->position->id,
                 'title' => $jobOpening->position->title,
+                'count_employees' => 0,
                 'url' => env('APP_URL') . '/' . $company->id . '/company/hr/positions/' . $jobOpening->position->id,
             ],
             $array['position']

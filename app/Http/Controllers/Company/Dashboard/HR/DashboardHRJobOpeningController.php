@@ -12,6 +12,7 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\JobOpening\CreateJobOpening;
+use App\Services\Company\Adminland\JobOpening\DestroyJobOpening;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRJobOpeningsViewHelper;
 
 class DashboardHRJobOpeningController extends Controller
@@ -147,7 +148,10 @@ class DashboardHRJobOpeningController extends Controller
             $jobOpening = JobOpening::where('company_id', $company->id)
                 ->with('team')
                 ->with('position')
+                ->with('position.employees')
                 ->with('sponsors')
+                ->with('template')
+                ->with('template.stages')
                 ->findOrFail($jobOpeningId);
         } catch (ModelNotFoundException $e) {
             return redirect('dashboard.hr.openings.index');
@@ -159,5 +163,35 @@ class DashboardHRJobOpeningController extends Controller
             'notifications' => NotificationHelper::getNotifications($employee),
             'jobOpening' => $jobOpening,
         ]);
+    }
+
+    /**
+     * Delete the job .
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @return JsonResponse
+     */
+    public function destroy(Request $request, int $companyId, int $jobOpeningId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        $data = [
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'job_opening_id' => $jobOpeningId,
+        ];
+
+        (new DestroyJobOpening)->execute($data);
+
+        return response()->json([
+            'data' => [
+                'url' => route('dashboard.hr.openings.index', [
+                    'company' => $loggedCompany,
+                ]),
+            ],
+        ], 201);
     }
 }

@@ -245,4 +245,5 @@ return [
     'job_opening_index_blank' => 'There are no open job openings at this time.',
     'job_opening_index_cta' => 'Create a job opening',
     'job_opening_index_title' => 'All the open job openings',
+    'job_opening_show_delete_success' => 'The job opening has been deleted',
 ];

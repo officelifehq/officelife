@@ -14,6 +14,12 @@ Route::get('auth/{driver}', 'Auth\SocialiteCallbackController@login')->name('log
 Route::get('auth/{driver}/callback', 'Auth\SocialiteCallbackController@callback');
 Route::post('auth/{driver}/callback', 'Auth\SocialiteCallbackController@callback');
 
+// jobs public section
+Route::prefix('jobs')->group(function () {
+    Route::get('', 'Jobs\\JobsController@index')->name('jobs');
+});
+
+// logged app
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('home', 'HomeController@index')->name('home');
     Route::get('companies', 'HomeController@list')->name('companies');
@@ -127,7 +133,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('job-openings/create', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@create')->name('dashboard.hr.openings.create');
                 Route::get('job-openings/{jobOpening}', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@show')->name('dashboard.hr.openings.show');
                 Route::get('job-openings/{jobOpening}/edit', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@edit')->name('dashboard.hr.openings.edit');
-                Route::get('job-openings/{jobOpening}/delete', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@destroy')->name('dashboard.hr.openings.destroy');
+                Route::delete('job-openings/{jobOpening}', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@destroy');
                 Route::post('job-openings', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@store');
                 Route::post('job-openings/sponsors', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@sponsors');
 
