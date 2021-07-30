@@ -15,6 +15,7 @@ use App\Services\Company\Adminland\Company\RenameCompany;
 use App\Http\ViewHelpers\Adminland\AdminGeneralViewHelper;
 use App\Services\Company\Adminland\Company\UpdateCompanyLogo;
 use App\Services\Company\Adminland\Company\UpdateCompanyCurrency;
+use App\Services\Company\Adminland\Company\UpdateCompanyLocation;
 use App\Services\Company\Adminland\Company\UpdateCompanyFoundedDate;
 
 class AdminGeneralController extends Controller
@@ -140,6 +141,29 @@ class AdminGeneralController extends Controller
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'year' => $request->input('year'),
+        ]);
+
+        return response()->json([
+            'data' => true,
+        ], 200);
+    }
+
+    /**
+     * Update the company’s location.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @return JsonResponse
+     */
+    public function location(Request $request, int $companyId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        (new UpdateCompanyLocation)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'location' => $request->input('location'),
         ]);
 
         return response()->json([

@@ -1,3 +1,27 @@
+# [0.4.0](https://github.com/officelifehq/officelife/compare/v0.3.0...v0.4.0) (2021-07-30)
+
+
+### Features
+
+* add concept of wiki ([#1129](https://github.com/officelifehq/officelife/issues/1129)) ([b7a711e](https://github.com/officelifehq/officelife/commit/b7a711ed04d44ee38c28c5314c05fe14da186157))
+* add external login providers ([#1174](https://github.com/officelifehq/officelife/issues/1174)) ([e92d516](https://github.com/officelifehq/officelife/commit/e92d5167d3c0a27551178fc1d6dcdc6126c8f327))
+* change task list when editing a task in a project ([#1140](https://github.com/officelifehq/officelife/issues/1140)) ([ce01914](https://github.com/officelifehq/officelife/commit/ce01914fcdfb6d98c081ffbcdbfe5e7a3baf491c))
+* display account usage in adminland ([#1158](https://github.com/officelifehq/officelife/issues/1158)) ([032ac33](https://github.com/officelifehq/officelife/commit/032ac334ff9f0001e70b9d2323390c140a24b121))
+* display stats about positions in the company ([#1193](https://github.com/officelifehq/officelife/issues/1193)) ([3a30f1f](https://github.com/officelifehq/officelife/commit/3a30f1fc32e4fb50e365df54fda7810a093e12ea))
+* force https when using production env ([#1161](https://github.com/officelifehq/officelife/issues/1161)) ([dcfe7e6](https://github.com/officelifehq/officelife/commit/dcfe7e6fcff5f0fe22c1ae631fa23f648c5baaa7))
+* manage recruiting stages ([#1221](https://github.com/officelifehq/officelife/issues/1221)) ([571522c](https://github.com/officelifehq/officelife/commit/571522c1b3b77da6d751a1861e832ca4270e16bc))
+* record daily account usage for each account ([#855](https://github.com/officelifehq/officelife/issues/855)) ([07901c2](https://github.com/officelifehq/officelife/commit/07901c2d2a98e044c91b1b57172e7d03fce36bf7))
+
+
+### Bug Fixes
+
+* fix blank state message on billing screen ([#1187](https://github.com/officelifehq/officelife/issues/1187)) ([f1c777b](https://github.com/officelifehq/officelife/commit/f1c777b0ae88a66c69e3ccc1756eb52b63a2452e))
+* fix convertamount format ([#1191](https://github.com/officelifehq/officelife/issues/1191)) ([841cd29](https://github.com/officelifehq/officelife/commit/841cd2988b7a8a288dddbfbf5e4dcfbe4536332c))
+* fix heroku configuration file ([#1173](https://github.com/officelifehq/officelife/issues/1173)) ([09994e4](https://github.com/officelifehq/officelife/commit/09994e4029b6e98d1546f121c475c66804ed5d1e))
+* fix hr page not showing because of empty ecoffee session ([#1192](https://github.com/officelifehq/officelife/issues/1192)) ([6bd8cd0](https://github.com/officelifehq/officelife/commit/6bd8cd0d9f4eae07ca94da8bd7bdebacaf896ed4))
+* fix permissions to edit employee contract info ([#1141](https://github.com/officelifehq/officelife/issues/1141)) ([1f9435c](https://github.com/officelifehq/officelife/commit/1f9435ca14363f9fcc577f8b2a6afc92d9e41d97))
+* fix search function to accept null criteria as empty query string ([#1138](https://github.com/officelifehq/officelife/issues/1138)) ([bae676b](https://github.com/officelifehq/officelife/commit/bae676b9d4c2812c75d0a8cb694dce80c3dbd603))
+
 # [0.3.0](https://github.com/officelifehq/officelife/compare/v0.2.0...v0.3.0) (2021-06-24)
 
 
