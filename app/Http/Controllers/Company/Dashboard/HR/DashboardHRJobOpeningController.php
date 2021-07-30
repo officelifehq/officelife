@@ -57,11 +57,13 @@ class DashboardHRJobOpeningController extends Controller
         }
 
         $positions = DashboardHRJobOpeningsViewHelper::positions($company);
+        $templates = DashboardHRJobOpeningsViewHelper::templates($company);
         $teams = DashboardHRJobOpeningsViewHelper::teams($company);
 
         return Inertia::render('Dashboard/HR/JobOpenings/Create', [
             'positions' => $positions,
             'teams' => $teams,
+            'templates' => $templates,
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }
@@ -104,6 +106,7 @@ class DashboardHRJobOpeningController extends Controller
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'position_id' => $request->input('position'),
+            'recruiting_stage_template_id' => $request->input('recruitingStageTemplateId'),
             'sponsors' => $request->input('sponsorsId'),
             'team_id' => $request->input('teamId'),
             'title' => $request->input('title'),

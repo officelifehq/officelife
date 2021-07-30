@@ -65,7 +65,6 @@ input[type=radio] {
                 <strong>{{ $t('dashboard.job_opening_new_position') }}</strong>
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
-                <!-- job position -->
                 <select-box :id="'position'"
                             v-model="form.position"
                             :options="positions"
@@ -75,6 +74,28 @@ input[type=radio] {
                             :required="true"
                             :extra-class-upper-div="'mb0'"
                             :label="$t('dashboard.job_opening_new_position_title')"
+                />
+              </div>
+            </div>
+
+            <!-- recruiting stage templates -->
+            <div class="cf pa3 bb bb-gray">
+              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
+                <strong>{{ $t('dashboard.job_opening_new_recruiting_stage_templates') }}</strong>
+                <p class="f7 silver lh-copy">
+                  {{ $t('dashboard.job_opening_new_recruiting_stage_templates_help') }}
+                </p>
+              </div>
+              <div class="fl-ns w-two-thirds-ns w-100">
+                <select-box :id="'template'"
+                            v-model="form.recruitingStageTemplateId"
+                            :options="templates"
+                            :name="'recruitingStageTemplateId'"
+                            :errors="$page.props.errors.recruitingStageTemplateId"
+                            :placeholder="$t('dashboard.job_opening_template_dropdown_placeholder')"
+                            :required="true"
+                            :extra-class-upper-div="'mb0'"
+                            :label="$t('dashboard.job_opening_template_title')"
                 />
               </div>
             </div>
@@ -151,7 +172,6 @@ input[type=radio] {
                 <strong>{{ $t('dashboard.job_opening_new_team') }}</strong>
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
-                <!-- job position -->
                 <select-box :id="'team'"
                             v-model="form.teamId"
                             :options="teams"
@@ -209,6 +229,7 @@ input[type=radio] {
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
+                <p v-if="form.sponsorsId.length == 0" class="ma0 f5"><span class="mr1">⚠️</span> Please select at least one sponsor</p>
                 <loading-button :class="'btn add w-auto-ns w-100'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-hardware-button'" />
               </div>
             </div>
@@ -257,6 +278,10 @@ export default {
       type: Object,
       default: null,
     },
+    templates: {
+      type: Object,
+      default: null,
+    },
   },
 
   data() {
@@ -268,6 +293,7 @@ export default {
         searchTerm: null,
         position: null,
         sponsorsId: [],
+        recruitingStageTemplateId: null,
         teamId: null,
         errors: [],
       },
@@ -282,6 +308,10 @@ export default {
 
   methods: {
     submit() {
+      if (this.form.sponsorsId.length === 0) {
+        return;
+      }
+
       this.loadingState = 'loading';
 
       axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings`, this.form)

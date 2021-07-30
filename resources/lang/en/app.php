@@ -164,7 +164,7 @@ return [
     'breadcrumb_page_detail' => 'Page detail',
     'breadcrumb_hr' => 'Human resources',
     'breadcrumb_hr_position' => 'Detail of a position',
-    'breadcrumb_hr_job_openings_create' => 'Detail of a position',
+    'breadcrumb_hr_job_openings_create' => 'Create a job opening',
     'breadcrumb_hr_job_openings_active' => 'All the job openings',
     'breadcrumb_job_opening_detail' => 'Detail of a job opening',
     'breadcrumb_account_manage_recruitment' => 'Recruitment processes',
