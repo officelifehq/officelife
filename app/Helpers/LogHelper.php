@@ -1398,6 +1398,12 @@ class LogHelper
                 ]);
                 break;
 
+            case 'company_location_updated':
+                $sentence = trans('account.log_company_location_updated', [
+                    'location' => $log->object->{'location'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;

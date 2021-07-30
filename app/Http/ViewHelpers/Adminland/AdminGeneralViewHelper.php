@@ -66,6 +66,7 @@ class AdminGeneralViewHelper
             'administrators' => $administratorsCollection,
             'creation_date' => $creationDate,
             'currency' => $company->currency,
+            'location' => $company->location,
             'total_size' => round($totalSize / 1000, 4),
             'logo' => $logo,
             'uploadcare_public_key' => config('officelife.uploadcare_public_key'),

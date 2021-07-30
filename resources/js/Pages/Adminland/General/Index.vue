@@ -41,6 +41,11 @@
             :information="information"
           />
 
+          <!-- company location -->
+          <location
+            :information="information"
+          />
+
           <!-- Currency -->
           <currency
             :information="information"
@@ -62,6 +67,7 @@ import Layout from '@/Shared/Layout';
 import Name from '@/Pages/Adminland/General/Partials/Name';
 import Currency from '@/Pages/Adminland/General/Partials/Currency';
 import Stat from '@/Pages/Adminland/General/Partials/Stat';
+import Location from '@/Pages/Adminland/General/Partials/Location';
 import Logo from '@/Pages/Adminland/General/Partials/Logo';
 import FoundedDate from '@/Pages/Adminland/General/Partials/FoundedDate';
 
@@ -69,6 +75,7 @@ export default {
   components: {
     Layout,
     Name,
+    Location,
     Currency,
     Stat,
     Logo,
