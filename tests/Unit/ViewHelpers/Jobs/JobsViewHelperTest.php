@@ -53,6 +53,7 @@ class JobsViewHelperTest extends TestCase
                     'location' => $otherCompany->location,
                     'logo' => null,
                     'count' => 3,
+                    'url' => env('APP_URL').'/jobs/'.$otherCompany->slug,
                 ],
                 1 => [
                     'id' => $company->id,
@@ -60,6 +61,7 @@ class JobsViewHelperTest extends TestCase
                     'location' => $company->location,
                     'logo' => null,
                     'count' => 4,
+                    'url' => env('APP_URL').'/jobs/'.$company->slug,
                 ],
             ],
             $array

@@ -32,6 +32,9 @@ class JobsViewHelper
                 'location' => $jobOpening->company->location,
                 'logo' => $jobOpening->company->logo ? ImageHelper::getImage($jobOpening->company->logo, 300, 300) : null,
                 'count' => $jobOpening->company->jobOpenings()->count(),
+                'url' => route('jobs.company.index', [
+                    'company' => $jobOpening->company->slug,
+                ]),
             ]);
         }
 

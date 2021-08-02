@@ -36,10 +36,10 @@ class JobsCompanyViewHelper
         }
 
         $company = [
-            'id' => (int) $jobOpening->company_id,
-            'name' => $jobOpening->company->name,
-            'location' => $jobOpening->company->location,
-            'logo' => $jobOpening->company->logo ? ImageHelper::getImage($jobOpening->company->logo, 300, 300) : null,
+            'id' => $company->id,
+            'name' => $company->name,
+            'location' => $company->location,
+            'logo' => $company->logo ? ImageHelper::getImage($company->logo, 300, 300) : null,
         ];
 
         return [

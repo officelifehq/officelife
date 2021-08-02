@@ -11,7 +11,7 @@ img {
       <div v-for="company in companies" :key="company.id" class="flex">
         <img :src="company.logo" :alt="company.name" />
         <div>
-          <h3>{{ company.name }}</h3>
+          <inertia-link :href="company.url">{{ company.name }}</inertia-link>
           <ul class="list pl0 ma0">
             <li class="di mr2">{{ company.location }}</li>
             <li class="di">{{ company.count }}</li>
