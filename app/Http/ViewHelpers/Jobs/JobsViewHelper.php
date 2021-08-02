@@ -3,9 +3,10 @@
 namespace App\Http\ViewHelpers\Jobs;
 
 use App\Helpers\ImageHelper;
+use App\Models\Company\Company;
 use App\Models\Company\JobOpening;
 
-class JobsIndexViewHelper
+class JobsViewHelper
 {
     /**
      * Get all the companies in the instance.

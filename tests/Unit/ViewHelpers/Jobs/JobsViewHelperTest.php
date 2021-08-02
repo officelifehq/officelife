@@ -5,10 +5,10 @@ namespace Tests\Unit\ViewHelpers\Jobs;
 use Tests\TestCase;
 use App\Models\Company\Company;
 use App\Models\Company\JobOpening;
-use App\Http\ViewHelpers\Jobs\JobsIndexViewHelper;
+use App\Http\ViewHelpers\Jobs\JobsViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class JobsIndexViewHelperTest extends TestCase
+class JobsViewHelperTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -43,7 +43,7 @@ class JobsIndexViewHelperTest extends TestCase
             'active' => false,
         ]);
 
-        $array = JobsIndexViewHelper::index();
+        $array = JobsViewHelper::index();
 
         $this->assertEquals(
             [

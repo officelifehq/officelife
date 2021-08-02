@@ -17,7 +17,9 @@ Route::post('auth/{driver}/callback', 'Auth\SocialiteCallbackController@callback
 // jobs public section
 Route::prefix('jobs')->group(function () {
     Route::get('', 'Jobs\\JobsController@index')->name('jobs');
-    Route::get('{company}', 'Jobs\\JobsController@show')->name('jobs.company.show');
+    Route::get('{company}/jobs', 'Jobs\\JobsCompanyController@index')->name('jobs.company.index');
+    Route::get('{company}/jobs/{job}', 'Jobs\\JobsCompanyController@show')->name('jobs.company.show');
+    Route::post('{company}/jobs/{job}', 'Jobs\\JobsCompanyController@store');
 });
 
 // logged app
