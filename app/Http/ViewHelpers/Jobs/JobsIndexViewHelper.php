@@ -2,25 +2,38 @@
 
 namespace App\Http\ViewHelpers\Jobs;
 
-use App\Models\Company\Page;
+use App\Helpers\ImageHelper;
+use App\Models\Company\JobOpening;
 
 class JobsIndexViewHelper
 {
     /**
      * Get all the companies in the instance.
      *
-     * @param Page $page
      * @return array
      */
-    public static function show(Page $page): array
+    public static function index(): array
     {
-        return [
-            'id' => $page->id,
-            'title' => $page->title,
-            'content' => $page->content,
-            'wiki' => [
-                'id' => $page->wiki_id,
-            ],
-        ];
+        // for sure we can find a simpler way to get all the open job openings
+        // for each company in only one query
+        $companyWithJobOpenings = JobOpening::where('fulfilled', false)
+            ->where('active', true)
+            ->with('company')
+            ->get()
+            ->unique('company_id')
+            ->values();
+
+        $companiesCollection = collect();
+        foreach ($companyWithJobOpenings as $jobOpening) {
+            $companiesCollection->push([
+                'id' => (int) $jobOpening->company_id,
+                'name' => $jobOpening->company->name,
+                'location' => $jobOpening->company->location,
+                'logo' => $jobOpening->company->logo ? ImageHelper::getImage($jobOpening->company->logo, 300, 300) : null,
+                'count' => $jobOpening->company->jobOpenings()->count(),
+            ]);
+        }
+
+        return $companiesCollection->sortBy('name')->values()->all();
     }
 }
