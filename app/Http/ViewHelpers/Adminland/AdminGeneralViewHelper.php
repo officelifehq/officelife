@@ -63,6 +63,7 @@ class AdminGeneralViewHelper
         return [
             'id' => $company->id,
             'name' => $name,
+            'slug' => $company->slug,
             'administrators' => $administratorsCollection,
             'creation_date' => $creationDate,
             'currency' => $company->currency,
