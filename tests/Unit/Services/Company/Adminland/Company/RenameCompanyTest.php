@@ -61,14 +61,14 @@ class RenameCompanyTest extends TestCase
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
-            'name' => 'Pyramid',
+            'name' => 'Dunder Mifflin 2',
         ];
 
         $company = (new RenameCompany)->execute($request);
 
         $this->assertDatabaseHas('companies', [
             'id' => $company->id,
-            'name' => 'Pyramid',
+            'name' => 'Dunder Mifflin 2',
         ]);
 
         $this->assertInstanceOf(
@@ -76,12 +76,17 @@ class RenameCompanyTest extends TestCase
             $company
         );
 
+        $this->assertEquals(
+            'dunder-mifflin-2',
+            $company->refresh()->slug
+        );
+
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $oldName) {
             return $job->auditLog['action'] === 'company_renamed' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'old_name' => $oldName,
-                    'new_name' => 'Pyramid',
+                    'new_name' => 'Dunder Mifflin 2',
                 ]);
         });
     }
