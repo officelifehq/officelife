@@ -45,6 +45,7 @@ class CreateCompany extends BaseService
         $this->createUniqueInvitationCodeForCompany();
         $this->addFirstEmployee();
         $this->provisionDefaultAccountData();
+        $this->generateSlug();
         $this->logAccountAudit();
 
         return $this->company;
@@ -102,6 +103,13 @@ class CreateCompany extends BaseService
     private function provisionDefaultAccountData(): void
     {
         ProvisionDefaultAccountData::dispatch($this->employee);
+    }
+
+    private function generateSlug(): void
+    {
+        (new UpdateCompanySlug)->execute([
+            'company_id' => $this->company->id,
+        ]);
     }
 
     private function logAccountAudit(): void

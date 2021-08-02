@@ -25,6 +25,7 @@ class Company extends Model
     protected $fillable = [
         'name',
         'currency',
+        'slug',
         'location',
         'has_dummy_data',
         'logo_file_id',

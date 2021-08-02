@@ -50,18 +50,24 @@ class RenameCompany extends BaseService
 
         $this->rename();
 
+        $this->generateSlug();
+
         $this->log($oldName);
 
         return $this->company;
     }
 
-    /**
-     * Rename the company.
-     */
     private function rename(): void
     {
         Company::where('id', $this->company->id)->update([
             'name' => $this->data['name'],
+        ]);
+    }
+
+    private function generateSlug(): void
+    {
+        (new UpdateCompanySlug)->execute([
+            'company_id' => $this->company->id,
         ]);
     }
 

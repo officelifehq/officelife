@@ -23,6 +23,7 @@ class CompanyFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
+            'slug' => 'company-name',
             'currency' => 'USD',
             'code_to_join_company' => 'USD',
         ];
