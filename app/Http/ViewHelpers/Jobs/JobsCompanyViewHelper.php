@@ -32,6 +32,10 @@ class JobsCompanyViewHelper
                 'team' => $jobOpening->team ? [
                     'name' => $jobOpening->team->name,
                 ] : null,
+                'url' => route('jobs.company.show', [
+                    'company' => $jobOpening->company->slug,
+                    'job' => $jobOpening->slug,
+                ]),
             ]);
         }
 

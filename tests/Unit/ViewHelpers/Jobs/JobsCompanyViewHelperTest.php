@@ -48,6 +48,7 @@ class JobsCompanyViewHelperTest extends TestCase
                     'team' => [
                         'name' => $team->name,
                     ],
+                    'url' => env('APP_URL') . '/jobs/' . $company->slug . '/jobs/' . $opening->slug,
                 ],
             ],
             $array['job_openings']->toArray()
