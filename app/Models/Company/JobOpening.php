@@ -32,6 +32,7 @@ class JobOpening extends Model
         'active',
         'fulfilled',
         'reference_number',
+        'page_views',
         'slug',
         'title',
         'description',

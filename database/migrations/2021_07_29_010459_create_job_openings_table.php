@@ -26,6 +26,7 @@ class CreateJobOpeningsTable extends Migration
             $table->string('title');
             $table->string('slug');
             $table->text('description');
+            $table->unsignedBigInteger('page_views');
             $table->datetime('activated_at')->nullable();
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

@@ -35,7 +35,7 @@ class JobsCompanyController extends Controller
     }
 
     /**
-     * Shows all the jobs openings in the given company.
+     * Shows the details of the job opening.
      *
      * @param Request $request
      * @param string $slug
@@ -56,6 +56,10 @@ class JobsCompanyController extends Controller
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('jobs');
+        }
+
+        if ($request->query('ignore') == false) {
+            $opening->increment('page_views');
         }
 
         $data = JobsCompanyViewHelper::show($company, $opening);
