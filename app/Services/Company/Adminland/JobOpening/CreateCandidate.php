@@ -26,7 +26,7 @@ class CreateCandidate extends BaseService
             'email' => 'required|string|max:255',
             'url' => 'nullable|string|max:500',
             'desired_salary' => 'required|integer',
-            'notes' => 'required|string|max:65535',
+            'notes' => 'nullable|string|max:65535',
         ];
     }
 
