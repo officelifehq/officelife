@@ -21,11 +21,12 @@ class CreateCandidate extends BaseService
     public function rules(): array
     {
         return [
+            'company_id' => 'required|integer|exists:companies,id',
             'job_opening_id' => 'required|integer|exists:job_openings,id',
             'name' => 'required|string|max:255',
             'email' => 'required|string|max:255',
             'url' => 'nullable|string|max:500',
-            'desired_salary' => 'required|integer',
+            'desired_salary' => 'nullable|integer',
             'notes' => 'nullable|string|max:65535',
         ];
     }
@@ -50,12 +51,14 @@ class CreateCandidate extends BaseService
     {
         $this->validateRules($this->data);
 
-        $this->jobOpening = JobOpening::findOrFail($this->data['job_opening_id']);
+        $this->jobOpening = JobOpening::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['job_opening_id']);
     }
 
     private function create(): void
     {
         $this->candidate = Candidate::create([
+            'company_id' => $this->data['job_opening_id'],
             'job_opening_id' => $this->data['job_opening_id'],
             'name' => $this->data['name'],
             'email' => $this->data['email'],

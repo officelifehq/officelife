@@ -20,6 +20,7 @@ use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
 use App\Models\Company\Software;
+use App\Models\Company\Candidate;
 use App\Models\Company\ImportJob;
 use App\Models\Company\Timesheet;
 use App\Models\Company\JobOpening;
@@ -333,6 +334,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->jobOpenings()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_candidates(): void
+    {
+        $company = Company::factory()->create();
+        Candidate::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->candidates()->exists());
     }
 
     /** @test */

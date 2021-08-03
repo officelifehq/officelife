@@ -44,6 +44,7 @@ class CreateJobOpeningsTable extends Migration
 
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('job_opening_id');
             $table->string('name');
             $table->string('email');
@@ -52,7 +53,16 @@ class CreateJobOpeningsTable extends Migration
             $table->text('notes')->nullable();
             $table->uuid('uuid');
             $table->timestamps();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('job_opening_id')->references('id')->on('job_openings')->onDelete('cascade');
+        });
+
+        Schema::create('candidate_file', function (Blueprint $table) {
+            $table->unsignedBigInteger('file_id');
+            $table->unsignedBigInteger('candidate_id');
+            $table->timestamps();
+            $table->foreign('file_id')->references('id')->on('files')->onDelete('cascade');
+            $table->foreign('candidate_id')->references('id')->on('candidates')->onDelete('cascade');
         });
     }
 }

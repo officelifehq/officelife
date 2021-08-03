@@ -34,6 +34,7 @@ class CreateCandidateTest extends TestCase
     private function executeService(JobOpening $jobOpening): void
     {
         $request = [
+            'company_id' => $jobOpening->company_id,
             'job_opening_id' => $jobOpening->id,
             'name' => 'Regis',
             'email' => 'regis@gmail.com',

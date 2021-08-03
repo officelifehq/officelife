@@ -4,6 +4,7 @@ namespace Database\Factories\Company;
 
 use App\Models\Company\Company;
 use App\Models\Company\Candidate;
+use App\Models\Company\JobOpening;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CandidateFactory extends Factory
@@ -23,7 +24,12 @@ class CandidateFactory extends Factory
     public function definition()
     {
         return [
-            'job_opening_id' => Company::factory(),
+            'company_id' => Company::factory(),
+            'job_opening_id' => function (array $attributes) {
+                return JobOpening::factory()->create([
+                    'company_id' => $attributes['company_id'],
+                ]);
+            },
             'name' => $this->faker->name(),
             'email' => $this->faker->email(),
             'uuid' => $this->faker->uuid,
