@@ -4,6 +4,7 @@ namespace Tests\Unit\Models\Company;
 
 use Tests\TestCase;
 use App\Models\Company\Employee;
+use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -46,5 +47,16 @@ class JobOpeningTest extends TestCase
     {
         $jobOpening = JobOpening::factory()->create([]);
         $this->assertTrue($jobOpening->template()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_candidates(): void
+    {
+        $jobOpening = JobOpening::factory()->create([]);
+        Candidate::factory()->count(2)->create([
+            'job_opening_id' => $jobOpening->id,
+        ]);
+
+        $this->assertTrue($jobOpening->candidates()->exists());
     }
 }

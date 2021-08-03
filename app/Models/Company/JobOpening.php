@@ -105,4 +105,14 @@ class JobOpening extends Model
     {
         return $this->belongsTo(RecruitingStageTemplate::class, 'recruiting_stage_template_id');
     }
+
+    /**
+     * Get the candidate records associated with the job opening.
+     *
+     * @return HasMany
+     */
+    public function candidates()
+    {
+        return $this->hasMany(Candidate::class, 'job_opening_id');
+    }
 }

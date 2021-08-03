@@ -41,5 +41,18 @@ class CreateJobOpeningsTable extends Migration
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->foreign('job_opening_id')->references('id')->on('job_openings')->onDelete('cascade');
         });
+
+        Schema::create('candidates', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('job_opening_id');
+            $table->string('name');
+            $table->string('email');
+            $table->string('url', 500)->nullable();
+            $table->unsignedBigInteger('desired_salary')->nullable();
+            $table->text('notes')->nullable();
+            $table->uuid('uuid');
+            $table->timestamps();
+            $table->foreign('job_opening_id')->references('id')->on('job_openings')->onDelete('cascade');
+        });
     }
 }
