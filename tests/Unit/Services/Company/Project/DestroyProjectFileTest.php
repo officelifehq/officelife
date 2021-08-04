@@ -14,7 +14,7 @@ use App\Services\Company\Project\DestroyProjectFile;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class DeleteFileFromProjectTest extends TestCase
+class DestroyProjectFileTest extends TestCase
 {
     use DatabaseTransactions;
 

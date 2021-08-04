@@ -3,6 +3,15 @@ img {
   max-height: 100px;
   max-width: 100px;
 }
+
+.files-list:last-child {
+  border-bottom: 0;
+}
+
+.warning {
+  box-shadow: 0 0 0 1px #e3e8ee;
+  background-color: #fdf0ec;
+}
 </style>
 
 <template>
@@ -39,6 +48,51 @@ img {
             {{ $t('app.upload') }}
           </button>
         </uploadcare>
+
+        <div class="bg-white box">
+          <!-- list of files -->
+          <ul v-if="localFiles.length > 0" class="list ma0 pa0">
+            <li v-for="file in localFiles" :key="file.id" class="files-list di pa3 flex justify-between bb bb-gray">
+              <!-- filename -->
+              <a :href="file.download_url" :download="file.download_url">{{ file.filename }}</a>
+              <ul class="f6 mt2 pa0 list">
+                <li class="di mr2">{{ file.size }}</li>
+
+                <!-- DELETE A FILE -->
+                <li v-if="idToDelete == file.id" class="di">
+                  {{ $t('app.sure') }}
+                  <a class="c-delete mr1 pointer" @click.prevent="destroy(file.id)">
+                    {{ $t('app.yes') }}
+                  </a>
+                  <a class="pointer" @click.prevent="idToDelete = 0">
+                    {{ $t('app.no') }}
+                  </a>
+                </li>
+                <li v-else class="di">
+                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click.prevent="idToDelete = file.id">
+                    {{ $t('app.delete') }}
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+          <!-- blank state -->
+          <div v-else class="tc pa3">
+            <img loading="lazy" src="/img/streamline-icon-content-filter@140x140.png" alt="file symbol to upload" height="140"
+                 width="140"
+            />
+            <p class="mb3">
+              <span class="db mb4">{{ $t('project.file_blank_state') }}</span>
+            </p>
+          </div>
+        </div>
+
+        <div v-if="showWarningMessage" class="warning pa3 br3 mb4 mt3">
+          <p class="ma0 f6">
+            <span class="mr1">⚠️</span> Please upload at least one document.
+          </p>
+        </div>
 
         <!-- Actions -->
         <div class="mv4">
@@ -85,6 +139,7 @@ export default {
 
   data() {
     return {
+      localFiles: [],
       form: {
         uuid: null,
         name: null,
@@ -95,6 +150,8 @@ export default {
         errors: [],
       },
       loadingState: '',
+      idToDelete: 0,
+      showWarningMessage: false,
       errorTemplate: Error,
     };
   },
@@ -117,13 +174,32 @@ export default {
     uploadFile() {
       axios.post(`jobs/${this.data.company.slug}/jobs/${this.data.job_opening.slug}/apply/${this.candidate.slug}/cv`, this.form)
         .then(response => {
-
+          this.localFiles.unshift(response.data.data);
+          this.showWarningMessage = false;
         })
         .catch(error => {
           this.loadingState = null;
           this.form.errors = error.response.data;
         });
     },
+
+    destroy(id) {
+      axios.delete(`jobs/${this.data.company.slug}/jobs/${this.data.job_opening.slug}/apply/${this.candidate.slug}/cv/${id}`)
+        .then(response => {
+          this.idToDelete = 0;
+          id = this.localFiles.findIndex(x => x.id === id);
+          this.localFiles.splice(id, 1);
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+    },
+
+    submit() {
+      if (this.localFiles.length == 0) {
+        this.showWarningMessage = true;
+      }
+    }
   }
 };
 </script>

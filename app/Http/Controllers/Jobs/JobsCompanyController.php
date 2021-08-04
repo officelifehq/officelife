@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Jobs;
 
 use Inertia\Inertia;
+use App\Helpers\FileHelper;
+use App\Models\Company\File;
 use Illuminate\Http\Request;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
@@ -15,6 +17,7 @@ use App\Http\ViewHelpers\Jobs\JobsCompanyViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\JobOpening\CreateCandidate;
 use App\Services\Company\Adminland\JobOpening\AddFileToCandidate;
+use App\Services\Company\Adminland\JobOpening\DestroyCandidateFile;
 
 class JobsCompanyController extends Controller
 {
@@ -247,6 +250,63 @@ class JobsCompanyController extends Controller
         ]);
 
         (new AddFileToCandidate)->execute([
+            'company_id' => $company->id,
+            'candidate_id' => $candidate->id,
+            'file_id' => $file->id,
+        ]);
+
+        return response()->json([
+            'data' => [
+                'id' => $file->id,
+                'size' => FileHelper::getSize($file->size),
+                'filename' => $file->name,
+                'download_url' => $file->cdn_url,
+            ],
+        ], 200);
+    }
+
+    /**
+     * Destroy a document.
+     *
+     * @param Request $request
+     * @param string $slug
+     * @param string $jobOpeningSlug
+     * @param string $candidateSlug
+     * @param string $fileId
+     * @return JsonResponse|null
+     */
+    public function destroyCv(Request $request, string $slug, string $jobOpeningSlug, string $candidateSlug, string $fileId): ?JsonResponse
+    {
+        try {
+            $company = Company::where('slug', $slug)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
+
+        try {
+            $opening = JobOpening::where('slug', $jobOpeningSlug)
+                ->where('company_id', $company->id)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
+
+        try {
+            $candidate = Candidate::where('uuid', $candidateSlug)
+                ->where('company_id', $company->id)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
+
+        try {
+            $file = File::where('company_id', $company->id)
+                ->findOrFail($fileId);
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
+
+        (new DestroyCandidateFile)->execute([
             'company_id' => $company->id,
             'candidate_id' => $candidate->id,
             'file_id' => $file->id,
