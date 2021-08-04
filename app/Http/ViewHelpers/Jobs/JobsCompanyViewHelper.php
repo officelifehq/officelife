@@ -75,6 +75,9 @@ class JobsCompanyViewHelper
             'name' => $company->name,
             'location' => $company->location,
             'logo' => $company->logo ? ImageHelper::getImage($company->logo, 300, 300) : null,
+            'url' => route('jobs.company.index', [
+                'company' => $company->slug,
+            ]),
         ];
 
         return [
@@ -113,6 +116,10 @@ class JobsCompanyViewHelper
         return [
             'company' => $companyArray,
             'job_opening' => $jobOpeningArray,
+            'url_all' => route('jobs', []),
+            'url_company' => route('jobs.company.index', [
+                'company' => $company->slug,
+            ]),
             'url_back' => route('jobs.company.show', [
                 'company' => $company->slug,
                 'job' => $jobOpening->slug,

@@ -197,6 +197,15 @@ export default {
       if (this.localFiles.length == 0) {
         this.showWarningMessage = true;
       }
+
+      axios.post(`jobs/${this.data.company.slug}/jobs/${this.data.job_opening.slug}/apply/${this.candidate.slug}`, this.form)
+        .then(response => {
+          this.$inertia.visit(response.data.url);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
     },
 
     destroy() {

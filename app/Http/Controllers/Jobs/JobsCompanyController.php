@@ -402,10 +402,55 @@ class JobsCompanyController extends Controller
         $candidate->save();
 
         return response()->json([
-            'url' => route('jobs.company.show', [
+            'url' => route('jobs.company.success', [
                 'company' => $company->slug,
                 'job' => $opening->slug,
+                'candidate' => $candidate->uuid,
             ]),
         ], 200);
+    }
+
+    /**
+     * Shows Success page.
+     *
+     * @param Request $request
+     * @param string $slug
+     * @param string $jobOpeningSlug
+     * @param string $candidateSlug
+     * @return mixed
+     */
+    public function success(Request $request, string $slug, string $jobOpeningSlug, string $candidateSlug)
+    {
+        try {
+            $company = Company::where('slug', $slug)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return redirect('jobs');
+        }
+
+        try {
+            $opening = JobOpening::where('slug', $jobOpeningSlug)
+                ->where('company_id', $company->id)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return redirect('jobs');
+        }
+
+        try {
+            $candidate = Candidate::where('uuid', $candidateSlug)
+                ->where('company_id', $company->id)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return redirect('jobs');
+        }
+
+        $data = JobsCompanyViewHelper::apply($company, $opening);
+
+        return Inertia::render('Jobs/Company/Success', [
+            'data' => $data,
+            'candidate' => [
+                'id' => $candidate->id,
+                'slug' => $candidate->uuid,
+            ],
+        ]);
     }
 }

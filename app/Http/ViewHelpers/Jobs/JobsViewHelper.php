@@ -26,14 +26,20 @@ class JobsViewHelper
 
         $companiesCollection = collect();
         foreach ($companyWithJobOpenings as $jobOpening) {
+            $company = $jobOpening->company;
+            $openJobOpenings = $company->jobOpenings()
+                ->where('active', true)
+                ->where('fulfilled', false)
+                ->count();
+
             $companiesCollection->push([
                 'id' => (int) $jobOpening->company_id,
-                'name' => $jobOpening->company->name,
-                'location' => $jobOpening->company->location,
-                'logo' => $jobOpening->company->logo ? ImageHelper::getImage($jobOpening->company->logo, 300, 300) : null,
-                'count' => $jobOpening->company->jobOpenings()->count(),
+                'name' => $company->name,
+                'location' => $company->location,
+                'logo' => $company->logo ? ImageHelper::getImage($company->logo, 300, 300) : null,
+                'count' => $openJobOpenings,
                 'url' => route('jobs.company.index', [
-                    'company' => $jobOpening->company->slug,
+                    'company' => $company->slug,
                 ]),
             ]);
         }

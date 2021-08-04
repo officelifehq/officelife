@@ -78,6 +78,7 @@ class JobsCompanyViewHelperTest extends TestCase
                 'name' => $company->name,
                 'location' => $company->location,
                 'logo' => null,
+                'url' => env('APP_URL') . '/jobs/' . $company->slug,
             ],
             $array['company']
         );
@@ -137,6 +138,16 @@ class JobsCompanyViewHelperTest extends TestCase
                 'slug' => $opening->slug,
             ],
             $array['job_opening']
+        );
+
+        $this->assertEquals(
+            env('APP_URL') . '/jobs',
+            $array['url_all']
+        );
+
+        $this->assertEquals(
+            env('APP_URL') . '/jobs/' . $company->slug,
+            $array['url_company']
         );
 
         $this->assertEquals(
