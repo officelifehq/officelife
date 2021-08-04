@@ -14,7 +14,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            ...
+            …
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/administration/expenses'">{{ $t('app.breadcrumb_employee_expenses') }}</inertia-link>

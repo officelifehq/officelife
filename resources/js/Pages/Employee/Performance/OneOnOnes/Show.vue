@@ -48,7 +48,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            ...
+            …
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/performance/oneonones'" data-cy="view-all-one-on-ones">{{ $t('app.breadcrumb_employee_one_on_ones') }}</inertia-link>
