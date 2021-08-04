@@ -110,7 +110,7 @@
               Active since {{ jobOpening.activated_at }}
             </li>
             <li class="di mr3">
-              <a class="" href="#">View public version</a>
+              <a :href="jobOpening.url_public_view" target="_blank">View public version</a>
             </li>
             <li class="di mr3">
               <inertia-link :href="jobOpening.url_create">{{ $t('app.edit') }}</inertia-link>

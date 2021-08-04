@@ -30,7 +30,17 @@ class Candidate extends Model
         'uuid',
         'url',
         'desired_salary',
+        'completed',
         'notes',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'completed' => 'boolean',
     ];
 
     /**

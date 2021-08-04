@@ -220,6 +220,10 @@ class DashboardHRJobOpeningsViewHelper
                     'team' => $team,
                 ]),
             ] : null,
+            'url_public_view' => route('jobs.company.show.incognito', [
+                'company' => $company->slug,
+                'job' => $jobOpening->slug,
+            ]),
             'url_edit' => route('dashboard.hr.openings.edit', [
                 'company' => $company,
                 'jobOpening' => $jobOpening,

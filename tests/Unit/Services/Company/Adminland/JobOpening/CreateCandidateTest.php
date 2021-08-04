@@ -38,7 +38,7 @@ class CreateCandidateTest extends TestCase
             'job_opening_id' => $jobOpening->id,
             'name' => 'Regis',
             'email' => 'regis@gmail.com',
-            'desired_salary' => 10000,
+            'desired_salary' => '10000',
         ];
 
         $candidate = (new CreateCandidate)->execute($request);
@@ -48,7 +48,7 @@ class CreateCandidateTest extends TestCase
             'job_opening_id' => $jobOpening->id,
             'name' => 'Regis',
             'email' => 'regis@gmail.com',
-            'desired_salary' => 10000,
+            'desired_salary' => '10000',
             'url' => null,
         ]);
 

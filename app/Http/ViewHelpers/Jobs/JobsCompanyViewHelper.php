@@ -60,7 +60,7 @@ class JobsCompanyViewHelper
      */
     public static function show(Company $company, JobOpening $jobOpening)
     {
-        $jobOpening = [
+        $jobOpeningArray = [
             'id' => $jobOpening->id,
             'reference_number' => $jobOpening->reference_number,
             'title' => $jobOpening->title,
@@ -70,7 +70,7 @@ class JobsCompanyViewHelper
             ] : null,
         ];
 
-        $company = [
+        $companyArray = [
             'id' => $company->id,
             'name' => $company->name,
             'location' => $company->location,
@@ -78,8 +78,45 @@ class JobsCompanyViewHelper
         ];
 
         return [
-            'company' => $company,
-            'job_opening' => $jobOpening,
+            'company' => $companyArray,
+            'job_opening' => $jobOpeningArray,
+            'url_apply' => route('jobs.company.apply', [
+                'company' => $company->slug,
+                'job' => $jobOpening->slug,
+            ]),
+        ];
+    }
+
+    /**
+     * Get the information about a job opening for the Apply page.
+     *
+     * @param Company $company
+     * @param JobOpening $jobOpening
+     */
+    public static function apply(Company $company, JobOpening $jobOpening)
+    {
+        $jobOpeningArray = [
+            'id' => $jobOpening->id,
+            'reference_number' => $jobOpening->reference_number,
+            'title' => $jobOpening->title,
+            'slug' => $jobOpening->slug,
+        ];
+
+        $companyArray = [
+            'id' => $company->id,
+            'name' => $company->name,
+            'slug' => $company->slug,
+            'location' => $company->location,
+            'logo' => $company->logo ? ImageHelper::getImage($company->logo, 300, 300) : null,
+        ];
+
+        return [
+            'company' => $companyArray,
+            'job_opening' => $jobOpeningArray,
+            'url_back' => route('jobs.company.show', [
+                'company' => $company->slug,
+                'job' => $jobOpening->slug,
+            ]),
         ];
     }
 }

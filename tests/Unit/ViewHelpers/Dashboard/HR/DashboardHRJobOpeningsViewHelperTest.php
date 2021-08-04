@@ -233,7 +233,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
 
         $this->assertCount(
-            11,
+            12,
             $array
         );
 
@@ -264,6 +264,10 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $this->assertEquals(
             'Jan 01, 2018',
             $array['activated_at']
+        );
+        $this->assertEquals(
+            env('APP_URL') . '/jobs/' . $company->slug . '/jobs/' . $jobOpening->slug.'?ignore=true',
+            $array['url_public_view']
         );
         $this->assertEquals(
             env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->id.'/edit',

@@ -342,6 +342,7 @@ return [
     'log_recruiting_stage_template_created' => 'Created a recruiting stage template called :recruiting_stage_template_name.',
     'log_recruiting_stage_template_updated' => 'Updated the recruiting stage template called :recruiting_stage_name.',
     'log_company_location_updated' => 'Updated the location of the company to :location.',
+    'log_job_opening_toggled' => 'Toggled the job opening called :job_opening_name.',
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',

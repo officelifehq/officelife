@@ -1417,6 +1417,13 @@ class LogHelper
                 ]);
                 break;
 
+            case 'job_opening_toggled':
+                $sentence = trans('account.log_job_opening_toggled', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_name' => $log->object->{'job_opening_name'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;

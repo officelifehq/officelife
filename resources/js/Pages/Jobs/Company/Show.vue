@@ -24,6 +24,8 @@ img {
       <p>{{ data.job_opening.team.name }}</p>
 
       <div class="parsed-content" v-html="data.job_opening.description"></div>
+
+      <inertia-link :href="data.url_apply">Apply now</inertia-link>
     </div>
   </div>
 </template>

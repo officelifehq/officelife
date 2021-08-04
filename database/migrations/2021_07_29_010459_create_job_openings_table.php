@@ -26,7 +26,7 @@ class CreateJobOpeningsTable extends Migration
             $table->string('title');
             $table->string('slug');
             $table->text('description');
-            $table->unsignedBigInteger('page_views');
+            $table->unsignedBigInteger('page_views')->default(0);
             $table->datetime('activated_at')->nullable();
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
@@ -50,9 +50,10 @@ class CreateJobOpeningsTable extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('url', 500)->nullable();
-            $table->unsignedBigInteger('desired_salary')->nullable();
+            $table->string('desired_salary')->nullable();
             $table->text('notes')->nullable();
             $table->uuid('uuid');
+            $table->boolean('completed')->default(false);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('job_opening_id')->references('id')->on('job_openings')->onDelete('cascade');
