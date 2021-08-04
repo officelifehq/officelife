@@ -11,7 +11,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class DestroyCandidateFileTest extends TestCase
+class DestroyCandidateFileDuringApplicationProcessTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -39,7 +39,7 @@ class DestroyCandidateFileTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new DestroyCandidateFile)->execute($request);
+        (new DestroyCandidateFileDuringApplicationProcess)->execute($request);
     }
 
     /** @test */
@@ -68,7 +68,7 @@ class DestroyCandidateFileTest extends TestCase
             'file_id' => $file->id,
         ];
 
-        (new DestroyCandidateFile)->execute($request);
+        (new DestroyCandidateFileDuringApplicationProcess)->execute($request);
 
         $this->assertDatabaseMissing('candidate_file', [
             'candidate_id' => $candidate->id,

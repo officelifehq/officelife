@@ -24,7 +24,9 @@ Route::prefix('jobs')->group(function () {
     Route::post('{company}/jobs/{job}', 'Jobs\\JobsCompanyController@store');
     Route::get('{company}/jobs/{job}/apply/{candidate}/cv', 'Jobs\\JobsCompanyController@cv')->name('jobs.company.cv');
     Route::post('{company}/jobs/{job}/apply/{candidate}/cv', 'Jobs\\JobsCompanyController@storeCv');
+    Route::post('{company}/jobs/{job}/apply/{candidate}', 'Jobs\\JobsCompanyController@finalizeApplication');
     Route::delete('{company}/jobs/{job}/apply/{candidate}/cv/{file}', 'Jobs\\JobsCompanyController@destroyCv');
+    Route::delete('{company}/jobs/{job}/apply/{candidate}', 'Jobs\\JobsCompanyController@destroy');
 });
 
 // logged app

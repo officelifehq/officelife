@@ -61,7 +61,7 @@ img {
                 <!-- DELETE A FILE -->
                 <li v-if="idToDelete == file.id" class="di">
                   {{ $t('app.sure') }}
-                  <a class="c-delete mr1 pointer" @click.prevent="destroy(file.id)">
+                  <a class="c-delete mr1 pointer" @click.prevent="destroyFile(file.id)">
                     {{ $t('app.yes') }}
                   </a>
                   <a class="pointer" @click.prevent="idToDelete = 0">
@@ -97,11 +97,9 @@ img {
         <!-- Actions -->
         <div class="mv4">
           <div class="flex-ns justify-between">
-            <div>
-              <inertia-link :href="data.url_dismiss" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
-                Dismiss your application
-              </inertia-link>
-            </div>
+            <a href="#" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="destroy()">
+              Dismiss your application
+            </a>
             <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'Submit your application'" />
           </div>
         </div>
@@ -183,7 +181,7 @@ export default {
         });
     },
 
-    destroy(id) {
+    destroyFile(id) {
       axios.delete(`jobs/${this.data.company.slug}/jobs/${this.data.job_opening.slug}/apply/${this.candidate.slug}/cv/${id}`)
         .then(response => {
           this.idToDelete = 0;
@@ -199,6 +197,16 @@ export default {
       if (this.localFiles.length == 0) {
         this.showWarningMessage = true;
       }
+    },
+
+    destroy() {
+      axios.delete(`jobs/${this.data.company.slug}/jobs/${this.data.job_opening.slug}/apply/${this.candidate.slug}`)
+        .then(response => {
+          this.$inertia.visit(response.data.url);
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
     }
   }
 };

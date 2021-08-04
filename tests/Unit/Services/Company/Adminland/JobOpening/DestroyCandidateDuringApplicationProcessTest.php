@@ -7,9 +7,9 @@ use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\JobOpening\DestroyCandidate;
+use App\Services\Company\Adminland\JobOpening\DestroyCandidateDuringApplicationProcess;
 
-class DestroyCandidateTest extends TestCase
+class DestroyCandidateDuringApplicationProcessTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -32,7 +32,7 @@ class DestroyCandidateTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new DestroyCandidate)->execute($request);
+        (new DestroyCandidateDuringApplicationProcess)->execute($request);
     }
 
     private function executeService(Candidate $candidate, JobOpening $opening): void
@@ -43,7 +43,7 @@ class DestroyCandidateTest extends TestCase
             'candidate_id' => $candidate->id,
         ];
 
-        (new DestroyCandidate)->execute($request);
+        (new DestroyCandidateDuringApplicationProcess)->execute($request);
 
         $this->assertDatabaseMissing('candidates', [
             'id' => $candidate->id,

@@ -58,7 +58,7 @@ class CreateCandidate extends BaseService
     private function create(): void
     {
         $this->candidate = Candidate::create([
-            'company_id' => $this->data['job_opening_id'],
+            'company_id' => $this->data['company_id'],
             'job_opening_id' => $this->data['job_opening_id'],
             'name' => $this->data['name'],
             'email' => $this->data['email'],

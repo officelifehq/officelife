@@ -6,7 +6,7 @@ use App\Services\BaseService;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 
-class DestroyCandidate extends BaseService
+class DestroyCandidateDuringApplicationProcess extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -37,6 +37,10 @@ class DestroyCandidate extends BaseService
 
         $candidate = Candidate::where('job_opening_id', $data['job_opening_id'])
             ->findOrFail($data['candidate_id']);
+
+        foreach ($candidate->files as $file) {
+            $file->delete();
+        }
 
         $candidate->delete();
 

@@ -6,7 +6,7 @@ use App\Models\Company\File;
 use App\Services\BaseService;
 use App\Models\Company\Candidate;
 
-class DestroyCandidateFile extends BaseService
+class DestroyCandidateFileDuringApplicationProcess extends BaseService
 {
     protected array $data;
     protected Candidate $candidate;

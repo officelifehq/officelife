@@ -41,6 +41,7 @@ img {
         <text-input :id="'email'"
                     v-model="form.email"
                     :name="'email'"
+                    :type="'email'"
                     :errors="$page.props.errors.email"
                     :label="'Your email address'"
                     :help="'We will use this email address for any follow ups.'"

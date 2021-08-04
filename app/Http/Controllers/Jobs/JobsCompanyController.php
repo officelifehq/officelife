@@ -17,7 +17,8 @@ use App\Http\ViewHelpers\Jobs\JobsCompanyViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\JobOpening\CreateCandidate;
 use App\Services\Company\Adminland\JobOpening\AddFileToCandidate;
-use App\Services\Company\Adminland\JobOpening\DestroyCandidateFile;
+use App\Services\Company\Adminland\JobOpening\DestroyCandidateDuringApplicationProcess;
+use App\Services\Company\Adminland\JobOpening\DestroyCandidateFileDuringApplicationProcess;
 
 class JobsCompanyController extends Controller
 {
@@ -306,7 +307,7 @@ class JobsCompanyController extends Controller
             return null;
         }
 
-        (new DestroyCandidateFile)->execute([
+        (new DestroyCandidateFileDuringApplicationProcess)->execute([
             'company_id' => $company->id,
             'candidate_id' => $candidate->id,
             'file_id' => $file->id,
@@ -314,6 +315,97 @@ class JobsCompanyController extends Controller
 
         return response()->json([
             'data' => true,
+        ], 200);
+    }
+
+    /**
+     * Destroy the candidate during the application process.
+     *
+     * @param Request $request
+     * @param string $slug
+     * @param string $jobOpeningSlug
+     * @param string $candidateSlug
+     * @return JsonResponse|null
+     */
+    public function destroy(Request $request, string $slug, string $jobOpeningSlug, string $candidateSlug): ?JsonResponse
+    {
+        try {
+            $company = Company::where('slug', $slug)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
+
+        try {
+            $opening = JobOpening::where('slug', $jobOpeningSlug)
+                ->where('company_id', $company->id)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
+
+        try {
+            $candidate = Candidate::where('uuid', $candidateSlug)
+                ->where('company_id', $company->id)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
+
+        (new DestroyCandidateDuringApplicationProcess)->execute([
+            'company_id' => $company->id,
+            'job_opening_id' => $opening->id,
+            'candidate_id' => $candidate->id,
+        ]);
+
+        return response()->json([
+            'url' => route('jobs.company.show', [
+                'company' => $company->slug,
+                'job' => $opening->slug,
+            ]),
+        ], 200);
+    }
+
+    /**
+     * Finalize the application process.
+     *
+     * @param Request $request
+     * @param string $slug
+     * @param string $jobOpeningSlug
+     * @param string $candidateSlug
+     * @return JsonResponse|null
+     */
+    public function finalizeApplication(Request $request, string $slug, string $jobOpeningSlug, string $candidateSlug): ?JsonResponse
+    {
+        try {
+            $company = Company::where('slug', $slug)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
+
+        try {
+            $opening = JobOpening::where('slug', $jobOpeningSlug)
+                ->where('company_id', $company->id)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
+
+        try {
+            $candidate = Candidate::where('uuid', $candidateSlug)
+                ->where('company_id', $company->id)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
+
+        $candidate->completed = true;
+        $candidate->save();
+
+        return response()->json([
+            'url' => route('jobs.company.show', [
+                'company' => $company->slug,
+                'job' => $opening->slug,
+            ]),
         ], 200);
     }
 }
