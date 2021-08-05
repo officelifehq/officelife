@@ -10,6 +10,7 @@ use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\JobOpening;
+use App\Models\Company\JobOpeningStage;
 use App\Models\Company\RecruitingStageTemplate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -123,7 +124,10 @@ class CreateJobOpening extends BaseService
     {
         $stages = $this->jobOpening->template->stages()->get();
         foreach ($stages as $stage) {
-            $this->jobOpening->stages()->syncWithoutDetaching([$stage->id]);
+            JobOpeningStage::create([
+                'job_opening_id' => $this->jobOpening->id,
+                'recruiting_stage_id' => $stage->id,
+            ]);
         }
     }
 

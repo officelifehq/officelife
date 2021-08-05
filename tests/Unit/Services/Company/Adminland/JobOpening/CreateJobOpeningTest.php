@@ -172,11 +172,11 @@ class CreateJobOpeningTest extends TestCase
             'employee_id' => $sponsor->id,
         ]);
 
-        $this->assertDatabaseHas('job_opening_recruiting_stage', [
+        $this->assertDatabaseHas('job_opening_stages', [
             'job_opening_id' => $jobOpening->id,
             'recruiting_stage_id' => $stage1->id,
         ]);
-        $this->assertDatabaseHas('job_opening_recruiting_stage', [
+        $this->assertDatabaseHas('job_opening_stages', [
             'job_opening_id' => $jobOpening->id,
             'recruiting_stage_id' => $stage2->id,
         ]);
