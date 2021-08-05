@@ -5,7 +5,6 @@ namespace App\Models\Company;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class CandidateStage extends Model
 {
@@ -33,7 +32,7 @@ class CandidateStage extends Model
     protected $fillable = [
         'candidate_id',
         'decider_id',
-        'job_opening_recruiting_stage_id',
+        'job_opening_stage_id',
         'name',
         'decided_name',
         'decided_at',
@@ -59,12 +58,12 @@ class CandidateStage extends Model
     }
 
     /**
-     * Get the file entries associated with the candidate.
+     * Get the employee associated with the candidate stage.
      *
-     * @return BelongsToMany
+     * @return BelongsTo
      */
-    public function files()
+    public function decider()
     {
-        return $this->belongsToMany(File::class);
+        return $this->belongsTo(Employee::class);
     }
 }
