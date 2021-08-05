@@ -7,16 +7,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Candidate extends Model
+class CandidateStage extends Model
 {
     use HasFactory;
+
+    /**
+     * Possible status of a candidate stage.
+     */
+    const STATUS_TO_SORT = 'to_sort';
+    const STATUS_REJECTED = 'rejected';
+    const STATUS_PASSED = 'passed';
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'candidates';
+    protected $table = 'candidate_stages';
 
     /**
      * The attributes that are mass assignable.
@@ -24,34 +31,31 @@ class Candidate extends Model
      * @var array
      */
     protected $fillable = [
-        'company_id',
-        'job_opening_id',
+        'candidate_id',
+        'decider_id',
+        'job_opening_recruiting_stage_id',
         'name',
-        'email',
-        'uuid',
-        'url',
-        'desired_salary',
-        'application_completed',
-        'notes',
+        'decided_name',
+        'decided_at',
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be mutated to dates.
      *
      * @var array
      */
-    protected $casts = [
-        'application_completed' => 'boolean',
+    protected $dates = [
+        'decided_at',
     ];
 
     /**
-     * Get the company record associated with the candidate.
+     * Get the candidate associated with the candidate stage.
      *
      * @return BelongsTo
      */
-    public function company()
+    public function candidate()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Candidate::class);
     }
 
     /**
@@ -62,15 +66,5 @@ class Candidate extends Model
     public function files()
     {
         return $this->belongsToMany(File::class);
-    }
-
-    /**
-     * Get the job opening associated with the candidate.
-     *
-     * @return BelongsTo
-     */
-    public function jobOpening()
-    {
-        return $this->belongsTo(JobOpening::class);
     }
 }

@@ -9,6 +9,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\JobOpening;
 use Illuminate\Support\Facades\Queue;
+use App\Models\Company\RecruitingStage;
 use Illuminate\Validation\ValidationException;
 use App\Models\Company\RecruitingStageTemplate;
 use App\Exceptions\NotEnoughPermissionException;
@@ -132,6 +133,16 @@ class CreateJobOpeningTest extends TestCase
     {
         Queue::fake();
 
+        // create job recruiting stages for the template
+        $stage1 = RecruitingStage::factory()->create([
+            'recruiting_stage_template_id' => $template->id,
+            'name' => 'interview',
+        ]);
+        $stage2 = RecruitingStage::factory()->create([
+            'recruiting_stage_template_id' => $template->id,
+            'name' => 'hire',
+        ]);
+
         $request = [
             'company_id' => $author->company_id,
             'author_id' => $author->id,
@@ -159,6 +170,15 @@ class CreateJobOpeningTest extends TestCase
         $this->assertDatabaseHas('job_opening_sponsor', [
             'job_opening_id' => $jobOpening->id,
             'employee_id' => $sponsor->id,
+        ]);
+
+        $this->assertDatabaseHas('job_opening_recruiting_stage', [
+            'job_opening_id' => $jobOpening->id,
+            'recruiting_stage_id' => $stage1->id,
+        ]);
+        $this->assertDatabaseHas('job_opening_recruiting_stage', [
+            'job_opening_id' => $jobOpening->id,
+            'recruiting_stage_id' => $stage2->id,
         ]);
 
         $this->assertInstanceOf(

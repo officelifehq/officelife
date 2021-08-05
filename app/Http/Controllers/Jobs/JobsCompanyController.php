@@ -398,7 +398,7 @@ class JobsCompanyController extends Controller
             return null;
         }
 
-        $candidate->completed = true;
+        $candidate->application_completed = true;
         $candidate->save();
 
         return response()->json([

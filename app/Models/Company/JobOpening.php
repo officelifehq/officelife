@@ -117,4 +117,14 @@ class JobOpening extends Model
     {
         return $this->hasMany(Candidate::class, 'job_opening_id');
     }
+
+    /**
+     * Get the recruiting stage records associated with the job opening.
+     *
+     * @return HasMany
+     */
+    public function stages()
+    {
+        return $this->hasMany(JobOpeningStage::class);
+    }
 }

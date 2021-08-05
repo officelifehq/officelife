@@ -28,4 +28,11 @@ class CandidateTest extends TestCase
 
         $this->assertTrue($candidate->files()->exists());
     }
+
+    /** @test */
+    public function it_belongs_to_a_job_opening(): void
+    {
+        $candidate = Candidate::factory()->create();
+        $this->assertTrue($candidate->jobOpening()->exists());
+    }
 }

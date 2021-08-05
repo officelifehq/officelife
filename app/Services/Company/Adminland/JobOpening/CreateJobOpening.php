@@ -53,6 +53,7 @@ class CreateJobOpening extends BaseService
         $this->validate();
         $this->create();
         $this->associateSponsors();
+        $this->createRecruitingStageEntries();
         $this->log();
 
         return $this->jobOpening;
@@ -116,6 +117,14 @@ class CreateJobOpening extends BaseService
     private function slug(): string
     {
         return Str::slug($this->data['title'], '-').'-'.(string) Str::uuid();
+    }
+
+    private function createRecruitingStageEntries(): void
+    {
+        $stages = $this->jobOpening->template->stages()->get();
+        foreach ($stages as $stage) {
+            $this->jobOpening->stages()->syncWithoutDetaching([$stage->id]);
+        }
     }
 
     private function log(): void
