@@ -79,7 +79,7 @@ class CreateJobOpeningsTable extends Migration
         Schema::create('candidate_stages', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('candidate_id');
-            $table->unsignedBigInteger('decider_id');
+            $table->unsignedBigInteger('decider_id')->nullable();
             $table->unsignedBigInteger('job_opening_stage_id');
             $table->string('status');
             $table->string('decider_name')->nullable();
