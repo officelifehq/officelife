@@ -31,7 +31,9 @@ class Candidate extends Model
         'uuid',
         'url',
         'desired_salary',
+        'highest_reached_stage_id',
         'application_completed',
+        'rejected',
         'notes',
     ];
 
@@ -42,6 +44,7 @@ class Candidate extends Model
      */
     protected $casts = [
         'application_completed' => 'boolean',
+        'rejected' => 'boolean',
     ];
 
     /**
@@ -72,5 +75,19 @@ class Candidate extends Model
     public function jobOpening()
     {
         return $this->belongsTo(JobOpening::class);
+    }
+
+    /**
+     * Get the current recruiting stage the candidate is at.
+     *
+     * @return JobOpeningStage|null
+     */
+    public function getCurrentJobOpeningRecruitingStage(): ?JobOpeningStage
+    {
+        if (! $this->highest_reached_stage_id) {
+            return null;
+        }
+
+        return JobOpeningStage::find($this->highest_reached_stage_id);
     }
 }

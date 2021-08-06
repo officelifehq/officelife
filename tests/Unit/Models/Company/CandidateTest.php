@@ -5,6 +5,7 @@ namespace Tests\Unit\Models\Company;
 use Tests\TestCase;
 use App\Models\Company\File;
 use App\Models\Company\Candidate;
+use App\Models\Company\JobOpeningStage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CandidateTest extends TestCase
@@ -34,5 +35,22 @@ class CandidateTest extends TestCase
     {
         $candidate = Candidate::factory()->create();
         $this->assertTrue($candidate->jobOpening()->exists());
+    }
+
+    /** @test */
+    public function it_gets_the_current_job_opening_stage(): void
+    {
+        $candidate = Candidate::factory()->create();
+
+        $this->assertNull($candidate->getCurrentJobOpeningRecruitingStage());
+
+        $stage = JobOpeningStage::factory()->create();
+        $candidate->highest_reached_stage_id = $stage->id;
+        $candidate->save();
+
+        $this->assertEquals(
+            $stage->id,
+            $candidate->getCurrentJobOpeningRecruitingStage()->id
+        );
     }
 }
