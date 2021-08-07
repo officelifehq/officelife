@@ -20,6 +20,7 @@ class CreateJobOpeningsTable extends Migration
             $table->unsignedBigInteger('position_id');
             $table->unsignedBigInteger('recruiting_stage_template_id')->nullable();
             $table->unsignedBigInteger('team_id')->nullable();
+            $table->unsignedBigInteger('fulfilled_by_candidate_id')->nullable();
             $table->boolean('active')->default(false);
             $table->boolean('fulfilled')->default(false);
             $table->string('reference_number')->nullable();
@@ -33,6 +34,7 @@ class CreateJobOpeningsTable extends Migration
             $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
             $table->foreign('recruiting_stage_template_id')->references('id')->on('recruiting_stage_templates')->onDelete('set null');
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('set null');
+            $table->foreign('fulfilled_by_candidate_id')->references('id')->on('candidates')->onDelete('set null');
         });
 
         Schema::create('job_opening_sponsor', function (Blueprint $table) {
@@ -110,7 +112,6 @@ class CreateJobOpeningsTable extends Migration
             $table->unsignedBigInteger('job_opening_id');
             $table->string('participant_name')->nullable();
             $table->boolean('has_participated')->default(false);
-            $table->boolean('')->default(false);
             $table->timestamps();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('set null');
             $table->foreign('job_opening_id')->references('id')->on('job_openings')->onDelete('cascade');

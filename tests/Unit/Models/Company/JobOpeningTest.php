@@ -70,4 +70,13 @@ class JobOpeningTest extends TestCase
         ]);
         $this->assertTrue($jobOpening->stages()->exists());
     }
+
+    /** @test */
+    public function it_belongs_to_a_candidate(): void
+    {
+        $jobOpening = JobOpening::factory()->create([
+            'fulfilled_by_candidate_id' => Candidate::factory(),
+        ]);
+        $this->assertTrue($jobOpening->candidateWhoWonTheJob()->exists());
+    }
 }

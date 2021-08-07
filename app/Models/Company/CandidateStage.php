@@ -13,7 +13,7 @@ class CandidateStage extends Model
     /**
      * Possible status of a candidate stage.
      */
-    const STATUS_TO_SORT = 'to_sort';
+    const STATUS_PENDING = 'pending';
     const STATUS_REJECTED = 'rejected';
     const STATUS_PASSED = 'passed';
 

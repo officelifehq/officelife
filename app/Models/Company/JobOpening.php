@@ -27,8 +27,9 @@ class JobOpening extends Model
     protected $fillable = [
         'company_id',
         'position_id',
-        'team_id',
         'recruiting_stage_template_id',
+        'team_id',
+        'fulfilled_by_candidate_id',
         'active',
         'fulfilled',
         'reference_number',
@@ -126,5 +127,15 @@ class JobOpening extends Model
     public function stages()
     {
         return $this->hasMany(JobOpeningStage::class);
+    }
+
+    /**
+     * Get the candidate records associated with the job opening.
+     *
+     * @return BelongsTo
+     */
+    public function candidateWhoWonTheJob()
+    {
+        return $this->belongsTo(Candidate::class, 'fulfilled_by_candidate_id');
     }
 }

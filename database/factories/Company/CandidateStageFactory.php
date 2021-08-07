@@ -28,7 +28,7 @@ class CandidateStageFactory extends Factory
             'candidate_id' => Candidate::factory(),
             'decider_id' => Employee::factory(),
             'job_opening_stage_id' => JobOpeningStage::factory(),
-            'status' => CandidateStage::STATUS_TO_SORT,
+            'status' => CandidateStage::STATUS_PENDING,
             'decider_name' => $this->faker->name,
             'decided_at' => $this->faker->dateTimeBetween(),
         ];

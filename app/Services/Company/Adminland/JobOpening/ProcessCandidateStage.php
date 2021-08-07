@@ -82,28 +82,52 @@ class ProcessCandidateStage extends BaseService
 
     private function goToNextStage(): void
     {
-        $existingStages = $this->jobOpening->stages()
-            ->orderBy('recruiting_stage_id', 'asc')
-            ->get();
-
-        $currentStage = $this->candidate->getCurrentJobOpeningRecruitingStage();
+        $currentJobOpeningStageForCandidate = $this->candidate->getCurrentJobOpeningRecruitingStage();
 
         // if stage exists, mark stage as passed
-        if ($currentStage) {
+        if ($currentJobOpeningStageForCandidate) {
             try {
                 $candidateStage = CandidateStage::where('candidate_id', $this->candidate->id)
-                    ->where('job_opening_stage_id', $currentStage->id)
+                    ->where('job_opening_stage_id', $currentJobOpeningStageForCandidate->id)
                     ->firstOrFail();
 
-                $candidateStage->status = CandidateStage::STATUS_PASSED;
-                $candidateStage->decider_id = $this->author->id;
-                $candidateStage->decider_name = $this->author->name;
-                $candidateStage->decided_at = Carbon::now();
-                $candidateStage->save();
+                $this->updateCurrentCandidateStage($candidateStage, CandidateStage::STATUS_PASSED);
             } catch (ModelNotFoundException $e) {
             }
         }
+
         // check which stage is the next one
+        $allJobOpeningStages = $this->jobOpening->stages()
+            ->orderBy('recruiting_stage_id', 'asc')
+            ->get();
+
+        // if the candidate was already in a stage, we have to find the
+        // next stage
+        if ($currentJobOpeningStageForCandidate) {
+            $remainingStages = $allJobOpeningStages->filter(function ($stage) use ($currentJobOpeningStageForCandidate) {
+                return $stage->id > $currentJobOpeningStageForCandidate->id;
+            });
+
+            // if there is no other stage, there is nothing to do
+            // if there is another stage, we should create a new CandidateStage
+            // entry for the candidate
+            if ($remainingStages->count() != 0) {
+                CandidateStage::create([
+                    'candidate_id' => $this->candidate->id,
+                    'job_opening_stage_id' => $this->jobOpening->id,
+                    'status' => CandidateStage::STATUS_PENDING,
+                ]);
+            }
+        }
+    }
+
+    private function updateCurrentCandidateStage(CandidateStage $stage, string $status): void
+    {
+        $stage->status = $status;
+        $stage->decider_id = $this->author->id;
+        $stage->decider_name = $this->author->name;
+        $stage->decided_at = Carbon::now();
+        $stage->save();
     }
 
     private function markAsRejected(): void
