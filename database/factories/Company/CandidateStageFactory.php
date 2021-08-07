@@ -5,7 +5,6 @@ namespace Database\Factories\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
 use App\Models\Company\CandidateStage;
-use App\Models\Company\JobOpeningStage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CandidateStageFactory extends Factory
@@ -27,7 +26,7 @@ class CandidateStageFactory extends Factory
         return [
             'candidate_id' => Candidate::factory(),
             'decider_id' => Employee::factory(),
-            'job_opening_stage_id' => JobOpeningStage::factory(),
+            'stage_position' => 1,
             'status' => CandidateStage::STATUS_PENDING,
             'decider_name' => $this->faker->name,
             'decided_at' => $this->faker->dateTimeBetween(),

@@ -9,7 +9,6 @@ use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company\CandidateStage;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProcessCandidateStage extends BaseService
 {
@@ -48,6 +47,7 @@ class ProcessCandidateStage extends BaseService
         $this->data = $data;
 
         $this->validate();
+
         if ($this->data['accepted']) {
             $this->goToNextStage();
         } else {
@@ -82,43 +82,37 @@ class ProcessCandidateStage extends BaseService
 
     private function goToNextStage(): void
     {
-        $currentJobOpeningStageForCandidate = $this->candidate->getCurrentJobOpeningRecruitingStage();
+        // how many stages does the job opening have?
+        $jobOpeningStages = $this->jobOpening->template()->stages()->get();
 
-        // if stage exists, mark stage as passed
-        if ($currentJobOpeningStageForCandidate) {
-            try {
-                $candidateStage = CandidateStage::where('candidate_id', $this->candidate->id)
-                    ->where('job_opening_stage_id', $currentJobOpeningStageForCandidate->id)
-                    ->firstOrFail();
+        // is the candidate already in the recruiting process?
+        $candidateStage = $this->candidate->stages()->orderBy('stage_position', 'desc')->first();
 
-                $this->updateCurrentCandidateStage($candidateStage, CandidateStage::STATUS_PASSED);
-            } catch (ModelNotFoundException $e) {
-            }
-        }
+        if ($candidateStage) {
+            $this->updateCurrentCandidateStage($candidateStage, CandidateStage::STATUS_PASSED);
 
-        // check which stage is the next one
-        $allJobOpeningStages = $this->jobOpening->stages()
-            ->orderBy('recruiting_stage_id', 'asc')
-            ->get();
-
-        // if the candidate was already in a stage, we have to find the
-        // next stage
-        if ($currentJobOpeningStageForCandidate) {
-            $remainingStages = $allJobOpeningStages->filter(function ($stage) use ($currentJobOpeningStageForCandidate) {
-                return $stage->id > $currentJobOpeningStageForCandidate->id;
+            $remainingStages = $jobOpeningStages->filter(function ($stage) use ($candidateStage) {
+                return $stage->position > $candidateStage->stage_position;
             });
 
-            // if there is no other stage, there is nothing to do
-            // if there is another stage, we should create a new CandidateStage
-            // entry for the candidate
-            if ($remainingStages->count() != 0) {
-                CandidateStage::create([
-                    'candidate_id' => $this->candidate->id,
-                    'job_opening_stage_id' => $this->jobOpening->id,
-                    'status' => CandidateStage::STATUS_PENDING,
-                ]);
+            if ($remainingStages->count() == 0) {
+                $newPosition = $remainingStages->first()->position;
+                $this->createCandidateStage($newPosition);
+            } else {
+                $newPosition = 0;
             }
+        } else {
+            $this->createCandidateStage(1);
         }
+    }
+
+    private function createCandidateStage($position): void
+    {
+        CandidateStage::create([
+            'candidate_id' => $this->candidate->id,
+            'stage_position' => $position,
+            'status' => CandidateStage::STATUS_PENDING,
+        ]);
     }
 
     private function updateCurrentCandidateStage(CandidateStage $stage, string $status): void
@@ -132,5 +126,14 @@ class ProcessCandidateStage extends BaseService
 
     private function markAsRejected(): void
     {
+        // is the candidate already in the recruiting process?
+        $candidateStage = $this->candidate->stages()->orderBy('stage_position', 'desc')->first();
+
+        if ($candidateStage) {
+            $this->updateCurrentCandidateStage($candidateStage, CandidateStage::STATUS_REJECTED);
+        }
+
+        $this->candidate->rejected = true;
+        $this->candidate->save();
     }
 }

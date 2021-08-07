@@ -6,7 +6,6 @@ use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
-use App\Models\Company\JobOpeningStage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class JobOpeningTest extends TestCase
@@ -59,16 +58,6 @@ class JobOpeningTest extends TestCase
         ]);
 
         $this->assertTrue($jobOpening->candidates()->exists());
-    }
-
-    /** @test */
-    public function it_has_many_stages(): void
-    {
-        $jobOpening = JobOpening::factory()->create([]);
-        JobOpeningStage::factory()->count(2)->create([
-            'job_opening_id' => $jobOpening->id,
-        ]);
-        $this->assertTrue($jobOpening->stages()->exists());
     }
 
     /** @test */

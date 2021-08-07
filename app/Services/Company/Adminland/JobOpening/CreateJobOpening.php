@@ -10,7 +10,6 @@ use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\JobOpening;
-use App\Models\Company\JobOpeningStage;
 use App\Models\Company\RecruitingStageTemplate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -54,7 +53,6 @@ class CreateJobOpening extends BaseService
         $this->validate();
         $this->create();
         $this->associateSponsors();
-        $this->createRecruitingStageEntries();
         $this->log();
 
         return $this->jobOpening;
@@ -118,17 +116,6 @@ class CreateJobOpening extends BaseService
     private function slug(): string
     {
         return Str::slug($this->data['title'], '-').'-'.(string) Str::uuid();
-    }
-
-    private function createRecruitingStageEntries(): void
-    {
-        $stages = $this->jobOpening->template->stages()->get();
-        foreach ($stages as $stage) {
-            JobOpeningStage::create([
-                'job_opening_id' => $this->jobOpening->id,
-                'recruiting_stage_id' => $stage->id,
-            ]);
-        }
     }
 
     private function log(): void

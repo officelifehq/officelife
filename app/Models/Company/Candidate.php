@@ -78,16 +78,12 @@ class Candidate extends Model
     }
 
     /**
-     * Get the current recruiting stage the candidate is at.
+     * Get the job opening associated with the candidate.
      *
-     * @return JobOpeningStage|null
+     * @return HasMany
      */
-    public function getCurrentJobOpeningRecruitingStage(): ?JobOpeningStage
+    public function stages()
     {
-        if (! $this->highest_reached_stage_id) {
-            return null;
-        }
-
-        return JobOpeningStage::find($this->highest_reached_stage_id);
+        return $this->hasMany(CandidateStage::class);
     }
 }
