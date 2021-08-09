@@ -32,7 +32,8 @@ class CandidateStage extends Model
     protected $fillable = [
         'candidate_id',
         'decider_id',
-        'job_opening_stage_id',
+        'stage_position',
+        'status',
         'name',
         'decided_name',
         'decided_at',

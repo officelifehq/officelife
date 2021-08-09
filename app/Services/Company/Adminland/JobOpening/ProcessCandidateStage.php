@@ -3,6 +3,7 @@
 namespace App\Services\Company\Adminland\JobOpening;
 
 use Carbon\Carbon;
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
@@ -50,8 +51,10 @@ class ProcessCandidateStage extends BaseService
 
         if ($this->data['accepted']) {
             $this->goToNextStage();
+            $this->log(CandidateStage::STATUS_PASSED);
         } else {
             $this->markAsRejected();
+            $this->log(CandidateStage::STATUS_REJECTED);
         }
 
         return $this->candidate;
@@ -64,8 +67,9 @@ class ProcessCandidateStage extends BaseService
         $this->jobOpening = JobOpening::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['job_opening_id']);
 
-        $this->candidate = JobOpening::where('company_id', $this->data['company_id'])
-            ->findOrFail($this->data['job_opening_id']);
+        $this->candidate = Candidate::where('company_id', $this->data['company_id'])
+            ->where('job_opening_id', $this->data['job_opening_id'])
+            ->findOrFail($this->data['candidate_id']);
 
         // check if the author is a sponsor
         $isSponsor = DB::table('job_opening_sponsor')
@@ -76,14 +80,14 @@ class ProcessCandidateStage extends BaseService
         if (! $isSponsor) {
             $this->author = Employee::where('company_id', $this->data['company_id'])
                 ->where('permission_level', '<=', config('officelife.permission_level.hr'))
-                ->firstOrFail();
+                ->findOrFail($this->data['author_id']);
         }
     }
 
     private function goToNextStage(): void
     {
         // how many stages does the job opening have?
-        $jobOpeningStages = $this->jobOpening->template()->stages()->get();
+        $jobOpeningStages = $this->jobOpening->template->stages()->get();
 
         // is the candidate already in the recruiting process?
         $candidateStage = $this->candidate->stages()->orderBy('stage_position', 'desc')->first();
@@ -95,7 +99,7 @@ class ProcessCandidateStage extends BaseService
                 return $stage->position > $candidateStage->stage_position;
             });
 
-            if ($remainingStages->count() == 0) {
+            if ($remainingStages->count() > 0) {
                 $newPosition = $remainingStages->first()->position;
                 $this->createCandidateStage($newPosition);
             } else {
@@ -135,5 +139,22 @@ class ProcessCandidateStage extends BaseService
 
         $this->candidate->rejected = true;
         $this->candidate->save();
+    }
+
+    private function log(string $status): void
+    {
+        LogAccountAudit::dispatch([
+            'company_id' => $this->data['company_id'],
+            'action' => 'candidate_stage_'.$status,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'job_opening_id' => $this->jobOpening->id,
+                'job_opening_title' => $this->jobOpening->title,
+                'candidate_id' => $this->candidate->id,
+                'candidate_name' => $this->candidate->name,
+            ]),
+        ])->onQueue('low');
     }
 }

@@ -1420,7 +1420,25 @@ class LogHelper
             case 'job_opening_toggled':
                 $sentence = trans('account.log_job_opening_toggled', [
                     'job_opening_id' => $log->object->{'job_opening_id'},
-                    'job_opening_name' => $log->object->{'job_opening_name'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                ]);
+                break;
+
+            case 'candidate_stage_passed':
+                $sentence = trans('account.log_candidate_stage_passed', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
+                ]);
+                break;
+
+            case 'candidate_stage_rejected':
+                $sentence = trans('account.log_candidate_stage_rejected', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
                 ]);
                 break;
 

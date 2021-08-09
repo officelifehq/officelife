@@ -12,7 +12,6 @@ class UpdateRecruitingStage extends BaseService
 {
     protected array $data;
     protected RecruitingStage $recruitingStage;
-    private RecruitingStageTemplate $template;
     protected int $startPosition;
     protected int $endPosition;
 

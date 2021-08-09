@@ -20,7 +20,6 @@ class CreateJobOpeningsTable extends Migration
             $table->unsignedBigInteger('position_id');
             $table->unsignedBigInteger('recruiting_stage_template_id')->nullable();
             $table->unsignedBigInteger('team_id')->nullable();
-            $table->unsignedBigInteger('fulfilled_by_candidate_id')->nullable();
             $table->boolean('active')->default(false);
             $table->boolean('fulfilled')->default(false);
             $table->string('reference_number')->nullable();
@@ -34,7 +33,6 @@ class CreateJobOpeningsTable extends Migration
             $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
             $table->foreign('recruiting_stage_template_id')->references('id')->on('recruiting_stage_templates')->onDelete('set null');
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('set null');
-            $table->foreign('fulfilled_by_candidate_id')->references('id')->on('candidates')->onDelete('set null');
         });
 
         Schema::create('job_opening_sponsor', function (Blueprint $table) {
@@ -62,6 +60,11 @@ class CreateJobOpeningsTable extends Migration
             $table->foreign('job_opening_id')->references('id')->on('job_openings')->onDelete('cascade');
         });
 
+        Schema::table('job_openings', function (Blueprint $table) {
+            $table->unsignedBigInteger('fulfilled_by_candidate_id')->after('team_id')->nullable();
+            $table->foreign('fulfilled_by_candidate_id')->references('id')->on('candidates')->onDelete('set null');
+        });
+
         Schema::create('candidate_file', function (Blueprint $table) {
             $table->unsignedBigInteger('file_id');
             $table->unsignedBigInteger('candidate_id');
@@ -85,12 +88,10 @@ class CreateJobOpeningsTable extends Migration
 
         Schema::create('candidate_stage_notes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('job_opening_stage_id');
             $table->unsignedBigInteger('author_id')->nullable();
             $table->text('note');
             $table->string('author_name')->nullable();
             $table->timestamps();
-            $table->foreign('job_opening_stage_id')->references('id')->on('job_opening_stages')->onDelete('cascade');
             $table->foreign('author_id')->references('id')->on('employees')->onDelete('set null');
         });
 

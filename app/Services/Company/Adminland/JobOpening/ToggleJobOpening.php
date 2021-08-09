@@ -71,7 +71,7 @@ class ToggleJobOpening extends BaseService
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'job_opening_id' => $this->opening->id,
-                'job_opening_name' => $this->opening->name,
+                'job_opening_title' => $this->opening->title,
             ]),
         ])->onQueue('low');
     }
