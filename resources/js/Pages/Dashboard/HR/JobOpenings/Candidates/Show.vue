@@ -25,15 +25,24 @@
 .sidebar {
   svg {
     width: 20px;
-    top: 3px;
+    top: 7px;
     color: #9da3ae;
+
+    &.rejected {
+      color: #ea5757;
+    }
+
+    &.passed {
+      color: #3ebf46;
+    }
   }
 
   span {
     top: -2px;
   }
 
-  .active {
+  li.active,
+  li:hover {
     background-color: #e5e7ea;
 
     svg {
@@ -76,21 +85,21 @@
             <!-- name + summary -->
             <div class="">
               <h2 class="mt0 mb2 relative fw4">
-                Regis Freyd
+                {{ candidate.name }}
               </h2>
 
               <ul class="list pa0 ma0 f7 gray">
                 <li class="di mr3">
-                  Applied Dec 23, 2018
+                  Applied {{ candidate.created_at }}
                 </li>
-                <li class="di mr3">email address</li>
+                <li class="di mr3">{{ candidate.email }}</li>
                 <li class="di">telephone number</li>
               </ul>
             </div>
           </div>
 
           <div class="bg-gray pa3 f7 box-bottom">
-            <p class="ma0">Job opening: <inertia-link>Financier</inertia-link></p>
+            <p class="ma0">Job opening: <inertia-link :href="jobOpening.url">{{ jobOpening.title }}</inertia-link></p>
           </div>
         </div>
 
@@ -119,22 +128,30 @@
           <div class="fl w-20-l w-100">
             <!-- sidebar -->
             <ul class="list ma0 pl0 sidebar">
-              <!-- selected candidates -->
-              <li class="pa2 br3 relative f6">
-                <span class="mb2 db f7 gray fw5">Stage 1</span>
-                <span class="relative">Selected</span>
-              </li>
+              <li v-for="stage in candidate.stages" :key="stage.id" class="pa2 br3 relative f6 flex items-start mb2">
+                <!-- passed -->
+                <svg v-if="stage.status == 'passed'" :class="stage.status" xmlns="http://www.w3.org/2000/svg" class="relative mr2" viewBox="0 0 20 20"
+                     fill="currentColor"
+                >
+                  <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
 
-              <!-- to sort candidates -->
-              <li class="pa2 active br3 relative f6">
-                <span class="mb2 db f7 gray fw5">Stage 1</span>
-                <span class="relative">To sort</span>
-              </li>
+                <!-- rejected -->
+                <svg v-if="stage.status == 'rejected'" :class="stage.status" xmlns="http://www.w3.org/2000/svg" class="relative mr2" viewBox="0 0 20 20"
+                     fill="currentColor"
+                >
+                  <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd" />
+                </svg>
 
-              <!-- rejected candidates -->
-              <li class="pa2 br3 relative f6">
-                <span class="mb2 db f7 gray fw5">Stage 1</span>
-                <span class="relative">Rejected</span>
+                <!-- pending -->
+                <svg v-if="stage.status == 'pending'" xmlns="http://www.w3.org/2000/svg" class="relative mr2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                </svg>
+
+                <div class="">
+                  <span class="mb2 db f7 gray fw5">Stage {{ stage.position }}</span>
+                  <span class="relative">{{ stage.name }}</span>
+                </div>
               </li>
             </ul>
           </div>
@@ -144,10 +161,18 @@
             <div class="bg-white box">
               <!-- actions -->
               <div class="pa3 bb bb-gray">
-                <ul class="list ma0 pl0">
-                  <li class="di mr1"><loading-button :class="'btn w-auto-ns w-100 pv2 ph3 mr2 mb0-ns mb2'" :state="loadingPauseState" :text="'Reject'" @click="pause()" /></li>
-                  <li class="di"><loading-button :class="'btn w-auto-ns w-100 pv2 ph3 mr2 mb0-ns mb2'" :state="loadingPauseState" :text="'Qualifies for next stage'" @click="pause()" /></li>
-                </ul>
+                <div class="tc">
+                  <img loading="lazy" src="/img/streamline-icon-gavel@100x100.png" width="100" height="100" alt="meeting"
+                       class="mb3"
+                  />
+                </div>
+                <p class="mt0 mb3 f4 tc">
+                  Do you consider this candidate to be qualified for the next stage?
+                </p>
+                <div class="list ma0 pl0 tc">
+                  <loading-button :class="'btn w-auto-ns w-100 pv2 ph3 mb0-ns mb2 mr3 destroy'" :state="loadingStateReject" :text="'Reject'" @click="reject()" />
+                  <loading-button :class="'btn w-auto-ns w-100 pv2 ph3 mb0-ns mb2 add'" :state="loadingStateAccept" :text="'Qualifies for next stage'" @click="accept()" />
+                </div>
               </div>
 
               <div class="pa3 bb bb-gray">
@@ -216,16 +241,20 @@ export default {
       type: Object,
       default: null,
     },
+    candidate: {
+      type: Object,
+      default: null,
+    },
   },
 
   data() {
     return {
       form: {
-        title: null,
-        content: null,
+        accepted: true,
         errors: [],
       },
-      loadingState: '',
+      loadingStateReject: '',
+      loadingStateAccept: '',
     };
   },
 
@@ -238,6 +267,38 @@ export default {
       localStorage.removeItem('success');
     }
   },
+
+  methods: {
+    accept() {
+      this.loadingStateAccept = 'loading';
+      this.form.accepted = true;
+
+      axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpening.id}/candidates/${this.candidate.id}`, this.form)
+        .then(response => {
+          //localStorage.success = this.$t('dashboard.job_opening_new_success');
+          //this.$inertia.visit(response.data.data.url);
+        })
+        .catch(error => {
+          this.loadingStateAccept = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    reject() {
+      this.loadingStateReject = 'loading';
+      this.form.accepted = false;
+
+      axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpening.id}/candidates/${this.candidate.id}`, this.form)
+        .then(response => {
+          // localStorage.success = this.$t('dashboard.job_opening_new_success');
+          // this.$inertia.visit(response.data.data.url);
+        })
+        .catch(error => {
+          this.loadingStateReject = null;
+          this.form.errors = error.response.data;
+        });
+    },
+  }
 };
 
 </script>

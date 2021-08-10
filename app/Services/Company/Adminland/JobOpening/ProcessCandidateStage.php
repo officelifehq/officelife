@@ -105,10 +105,13 @@ class ProcessCandidateStage extends BaseService
             if ($remainingStages->count() > 0) {
                 $newPosition = $remainingStages->first()->position;
                 $this->createCandidateStage($newPosition);
-            } else {
-                $newPosition = 0;
             }
         } else {
+            // there is no current stage, that means the candidate just
+            // got selected
+            $this->candidate->sorted = true;
+            $this->candidate->save();
+
             $this->createCandidateStage(1);
         }
     }
@@ -138,6 +141,8 @@ class ProcessCandidateStage extends BaseService
 
         if ($candidateStage) {
             $this->updateCurrentCandidateStage($candidateStage, CandidateStage::STATUS_REJECTED);
+        } else {
+            $this->candidate->sorted = true;
         }
 
         $this->candidate->rejected = true;
