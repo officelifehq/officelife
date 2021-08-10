@@ -9170,9 +9170,9 @@ vue-i18n@^9.0.0:
     "@vue/devtools-api" "^6.0.0-beta.7"
 
 vue-loader@^16.1.2:
-  version "16.4.0"
-  resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-16.4.0.tgz#79cf923ef00cc396f593b2e7963904640f41cf10"
-  integrity sha512-oySoEgEedGw0jz2czEOdb6sycQ2PPyzUmF8Yclj1NTpoTVHGCYCQaGf+jsvxhdDVfhOnDLjkRzT2fLpGOrVPjg==
+  version "16.5.0"
+  resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-16.5.0.tgz#09c4e0712466899e34b99a686524f19165fb2892"
+  integrity sha512-WXh+7AgFxGTgb5QAkQtFeUcHNIEq3PGVQ8WskY5ZiFbWBkOwcCPRs4w/2tVyTbh2q6TVRlO3xfvIukUtjsu62A==
   dependencies:
     chalk "^4.1.0"
     hash-sum "^2.0.0"
