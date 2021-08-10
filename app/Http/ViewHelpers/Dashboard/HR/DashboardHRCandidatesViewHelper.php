@@ -97,13 +97,13 @@ class DashboardHRCandidatesViewHelper
             // has the candidate reached this stage?
             $candidateStage = $candidateStages->filter(function ($candidateStage) use ($stage) {
                 return $candidateStage->stage_position == $stage->position;
-            });
+            })->first();
 
             $stagesCollection->push([
                 'id' => $stage->id,
                 'name' => $stage->name,
                 'position' => $stage->position,
-                'status' => $candidateStage->count() > 0 ? $candidateStage->status : CandidateStage::STATUS_PENDING,
+                'status' => $candidateStage ? $candidateStage->status : CandidateStage::STATUS_PENDING,
             ]);
         }
 

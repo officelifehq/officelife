@@ -47,6 +47,14 @@
 
     svg {
       color: #6c727f;
+
+      &.rejected {
+        color: #ea5757;
+      }
+
+      &.passed {
+        color: #3ebf46;
+      }
     }
 
     span {
