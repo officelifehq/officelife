@@ -17,6 +17,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0",
         "inertiajs/inertia-laravel": "^0",
+        "itsgoingd/clockwork": "^5.1",
         "laravel/fortify": "^1.7",
         "laravel/framework": "^8.0",
         "laravel/helpers": "^1.1",
@@ -45,7 +46,6 @@
         "vluzrmos/language-detector": "^2.3"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.2",
         "beyondcode/laravel-dump-server": "^1.0",
         "brianium/paratest": "^6.2",
         "fakerphp/faker": "^1.10",
