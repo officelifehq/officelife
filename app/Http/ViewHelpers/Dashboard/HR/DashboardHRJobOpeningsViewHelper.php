@@ -193,6 +193,37 @@ class DashboardHRJobOpeningsViewHelper
             ]);
         }
 
+        $candidatesToSort = $jobOpening->candidates()
+            ->where('application_completed', true)
+            ->where('rejected', false)
+            ->where('sorted', false)
+            ->get();
+
+        $candidatesCollection = collect();
+        foreach ($candidatesToSort as $candidate) {
+            $candidatesCollection->push([
+                'id' => $candidate->id,
+                'name' => $candidate->name,
+                'received_at' => DateHelper::formatDate($candidate->created_at),
+                'url' => route('dashboard.hr.candidates.show', [
+                    'company' => $company,
+                    'jobOpening' => $jobOpening,
+                    'candidate' => $candidate,
+                ]),
+            ]);
+        }
+
+        $rejectedCandidates = $jobOpening->candidates()
+            ->where('application_completed', true)
+            ->where('rejected', true)
+            ->count();
+
+        $selectedCandidates = $jobOpening->candidates()
+            ->where('application_completed', true)
+            ->where('sorted', true)
+            ->where('rejected', false)
+            ->count();
+
         return [
             'id' => $jobOpening->id,
             'title' => $jobOpening->title,
@@ -201,6 +232,7 @@ class DashboardHRJobOpeningsViewHelper
             'reference_number' => $jobOpening->reference_number,
             'active' => $jobOpening->active,
             'activated_at' => $jobOpening->activated_at ? DateHelper::formatDate($jobOpening->activated_at) : null,
+            'page_views' => $jobOpening->page_views,
             'position' => [
                 'id' => $position->id,
                 'title' => $position->title,
@@ -211,6 +243,11 @@ class DashboardHRJobOpeningsViewHelper
                 ]),
             ],
             'sponsors' => $sponsorsCollection,
+            'candidates' => [
+                'to_sort' => $candidatesCollection,
+                'rejected_count' => $rejectedCandidates,
+                'selected_count' => $selectedCandidates,
+            ],
             'team' => $team ? [
                 'id' => $team->id,
                 'name' => $team->name,

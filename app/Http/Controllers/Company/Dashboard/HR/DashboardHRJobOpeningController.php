@@ -162,6 +162,7 @@ class DashboardHRJobOpeningController extends Controller
         return Inertia::render('Dashboard/HR/JobOpenings/Show', [
             'notifications' => NotificationHelper::getNotifications($employee),
             'jobOpening' => $jobOpening,
+            'tab' => 'to_sort',
         ]);
     }
 

@@ -11,11 +11,9 @@ use Illuminate\Support\Facades\Queue;
 use App\Models\Company\CandidateStage;
 use App\Models\Company\RecruitingStage;
 use Illuminate\Validation\ValidationException;
-use App\Models\Company\RecruitingStageTemplate;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\JobOpening\ProcessCandidateStage;
-use App\Services\Company\Adminland\JobOpening\UpdateRecruitingStage;
 
 class ProcessCandidateStageTest extends TestCase
 {
@@ -502,6 +500,7 @@ class ProcessCandidateStageTest extends TestCase
         ]);
     }
 
+    /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
@@ -509,82 +508,66 @@ class ProcessCandidateStageTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new UpdateRecruitingStage)->execute($request);
+        (new ProcessCandidateStage)->execute($request);
     }
 
+    /** @test */
     public function it_fails_if_job_opening_doesnt_belong_to_company(): void
     {
         $this->expectException(ModelNotFoundException::class);
 
         $michael = $this->createAdministrator();
-        $template = RecruitingStageTemplate::factory()->create();
-        $stage = RecruitingStage::factory()->create([
-            'recruiting_stage_template_id' => $template->id,
+        $opening = JobOpening::factory()->create();
+        RecruitingStage::factory()->create([
+            'recruiting_stage_template_id' => $opening->recruiting_stage_template_id,
             'position' => 1,
         ]);
-        $this->executeService($michael, $template, $stage);
+        RecruitingStage::factory()->create([
+            'recruiting_stage_template_id' => $opening->recruiting_stage_template_id,
+            'position' => 2,
+        ]);
+        $candidate = Candidate::factory()->create([
+            'company_id' => $michael->company_id,
+            'job_opening_id' => $opening->id,
+        ]);
+
+        (new ProcessCandidateStage)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'job_opening_id' => $opening->id,
+            'candidate_id' => $candidate->id,
+            'accepted' => true,
+        ]);
     }
 
+    /** @test */
     public function it_fails_if_candidate_doesnt_belong_to_company(): void
     {
         $this->expectException(ModelNotFoundException::class);
 
         $michael = $this->createAdministrator();
-        $template = RecruitingStageTemplate::factory()->create([
+        $opening = JobOpening::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $stage = RecruitingStage::factory()->create([
+        RecruitingStage::factory()->create([
+            'recruiting_stage_template_id' => $opening->recruiting_stage_template_id,
             'position' => 1,
         ]);
-        $this->executeService($michael, $template, $stage);
-    }
+        RecruitingStage::factory()->create([
+            'recruiting_stage_template_id' => $opening->recruiting_stage_template_id,
+            'position' => 2,
+        ]);
+        $candidate = Candidate::factory()->create([
+            'job_opening_id' => $opening->id,
+        ]);
 
-    private function executeService(
-        Employee $michael,
-        JobOpening $opening,
-        Candidate $candidate,
-        int $position,
-        bool $accepted
-    ): void
-    {
-        Queue::fake();
-
-        $request = [
+        (new ProcessCandidateStage)->execute([
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'job_opening_id' => $opening->id,
             'candidate_id' => $candidate->id,
-            'accepted' => $accepted,
-        ];
-
-        $stage = (new ProcessCandidateStage)->execute($request);
-
-        if ($accepted) {
-            $this->assertDatabaseHas('candidate_stages', [
-                'candidate_id' => $candidate->id,
-                'status' => CandidateStage::STATUS_PASSED,
-                'stage_position' => $position,
-            ]);
-
-            $this->assertDatabaseHas('candidate_stages', [
-                'candidate_id' => $candidate->id,
-                'status' => CandidateStage::STATUS_PASSED,
-                'stage_position' => $position + 1,
-            ]);
-        }
-
-        if (! $accepted) {
-            $this->assertDatabaseHas('candidate_stages', [
-                'candidate_id' => $candidate->id,
-                'status' => CandidateStage::STATUS_REJECTED,
-                'stage_position' => 1,
-            ]);
-        }
-
-        $this->assertInstanceOf(
-            RecruitingStage::class,
-            $stage
-        );
+            'accepted' => true,
+        ]);
     }
 
     private function checkLog(Employee $author, JobOpening $opening, Candidate $candidate, string $status): void

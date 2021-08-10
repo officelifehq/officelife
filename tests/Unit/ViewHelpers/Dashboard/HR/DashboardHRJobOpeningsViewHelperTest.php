@@ -10,6 +10,7 @@ use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
+use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 use App\Models\Company\RecruitingStageTemplate;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -221,7 +222,6 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
         $company = Company::factory()->create();
-
         $jobOpening = JobOpening::factory()->create([
             'company_id' => $company->id,
             'activated_at' => Carbon::now(),
@@ -230,10 +230,28 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $michael = Employee::factory()->create();
         $jobOpening->sponsors()->syncWithoutDetaching([$michael->id]);
 
+        $candidate = Candidate::factory()->create([
+            'company_id' => $michael->company_id,
+            'job_opening_id' => $jobOpening->id,
+            'application_completed' => true,
+        ]);
+        Candidate::factory()->create([
+            'company_id' => $michael->company_id,
+            'job_opening_id' => $jobOpening->id,
+            'application_completed' => true,
+            'rejected' => true,
+        ]);
+        Candidate::factory()->create([
+            'company_id' => $michael->company_id,
+            'job_opening_id' => $jobOpening->id,
+            'application_completed' => true,
+            'sorted' => true,
+        ]);
+
         $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
 
         $this->assertCount(
-            12,
+            14,
             $array
         );
 
@@ -272,6 +290,25 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $this->assertEquals(
             env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->id.'/edit',
             $array['url_edit']
+        );
+        $this->assertEquals(
+            1,
+            $array['candidates']['rejected_count']
+        );
+        $this->assertEquals(
+            1,
+            $array['candidates']['selected_count']
+        );
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $candidate->id,
+                    'name' => $candidate->name,
+                    'received_at' => 'Jan 01, 2018',
+                    'url' => env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->position->id.'/candidates/' . $candidate->id,
+                ],
+            ],
+            $array['candidates']['to_sort']->toArray()
         );
         $this->assertEquals(
             [

@@ -110,7 +110,7 @@
               Active since {{ jobOpening.activated_at }}
             </li>
             <li class="di mr3">
-              <a :href="jobOpening.url_public_view" target="_blank">View public version</a>
+              <a :href="jobOpening.url_public_view" target="_blank">{{ $t('dashboard.job_opening_show_view_public_version') }}</a>
             </li>
             <li class="di mr3">
               <inertia-link :href="jobOpening.url_create">{{ $t('app.edit') }}</inertia-link>
@@ -143,7 +143,7 @@
                 <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
               </svg>
               <span class="f7 gray">
-                Associated position
+                {{ $t('dashboard.job_opening_show_position') }}
               </span>
             </div>
 
@@ -152,7 +152,7 @@
                 <inertia-link :href="jobOpening.position.url">{{ jobOpening.position.title }}</inertia-link>
               </span>
               <span class="fw3 gray f7">
-                {{ jobOpening.position.count_employees }} employees with this title
+                {{ $tc('dashboard.job_opening_show_position_count', jobOpening.position.count_employees, {count: jobOpening.position.count_employees} ) }}
               </span>
             </div>
           </div>
@@ -164,7 +164,7 @@
                 <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
               </svg>
               <span class="f7 gray">
-                Associated team
+                {{ $t('dashboard.job_opening_show_team') }}
               </span>
             </div>
 
@@ -173,7 +173,7 @@
                 <inertia-link :href="jobOpening.team.url">{{ jobOpening.team.name }}</inertia-link>
               </span>
               <span class="fw3 gray f7">
-                {{ jobOpening.team.count }} team members
+                {{ $tc('dashboard.job_opening_show_team_count', jobOpening.team.count, {count: jobOpening.team.count} ) }}
               </span>
             </div>
           </div>
@@ -185,7 +185,7 @@
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
               </svg>
               <span class="f7 gray">
-                Sponsors
+                {{ $t('dashboard.job_opening_show_sponsor') }}
               </span>
             </div>
 
@@ -215,92 +215,64 @@
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
               </svg>
               <span class="f7 gray">
-                Traffic
+                {{ $t('dashboard.job_opening_show_traffic') }}
               </span>
             </div>
 
             <div>
               <span class="db mb1">
-                432
+                {{ jobOpening.page_views }}
               </span>
               <span class="fw3 gray f7">
-                page views
+                {{ $t('dashboard.job_opening_show_traffic_help') }}
               </span>
             </div>
           </div>
         </div>
-
 
         <!-- menu -->
         <div class="center br3 mb5 tc">
           <div class="cf dib btn-group">
             <inertia-link :href="''" class="f6 fl ph3 pv2 dib pointer no-underline">
-              Rejected candidates
+              {{ $t('dashboard.job_opening_show_tab_rejected', {count: jobOpening.candidates.rejected_count}) }}
+            </inertia-link>
+            <inertia-link :href="''" :class="{ 'selected': tab === 'to_sort'}" class="f6 fl ph3 pv2 dib pointer no-underline">
+              {{ $t('dashboard.job_opening_show_tab_to_sort', {count: jobOpening.candidates.to_sort.length}) }}
             </inertia-link>
             <inertia-link :href="''" class="f6 fl ph3 pv2 dib pointer no-underline">
-              Candidates to sort
-            </inertia-link>
-            <inertia-link :href="''" class="f6 fl ph3 pv2 dib pointer no-underline">
-              Selected candidates
+              {{ $t('dashboard.job_opening_show_tab_selected', {count: jobOpening.candidates.selected_count}) }}
             </inertia-link>
           </div>
         </div>
+      </div>
 
-        <div class="cf center">
-          <!-- LEFT COLUMN -->
-          <div class="fl w-20-l w-100">
-            <!-- sidebar -->
-            <ul class="list ma0 pl0 sidebar">
-              <!-- selected candidates -->
-              <li class="pa2 br3 relative f6">
-                <svg class="relative mr2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                </svg>
-                <span class="relative">Selected</span>
-              </li>
+      <div class="mw7 center br3 mb5 relative z-1">
+        <div class="bg-white box">
+          <ul v-if="jobOpening.candidates.to_sort.length > 0" class="ma0 pl0 list">
+            <li v-for="candidate in jobOpening.candidates.to_sort" :key="candidate.id" class="pa3 candidate-item bb bb-gray bb-gray-hover relative flex justify-between">
+              <div>
+                <span class="dib relative mr2 br-100 dot"></span>
+                <inertia-link :href="candidate.url">{{ candidate.name }}</inertia-link>
+              </div>
 
-              <!-- to sort candidates -->
-              <li class="pa2 active br3 relative f6">
-                <svg class="relative mr2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                <span class="relative">To sort</span>
-              </li>
+              <span class="f7 gray">{{ candidate.received_at }}</span>
+            </li>
+            <li class="pa3 candidate-item bb bb-gray bb-gray-hover">
+              <inertia-link :href="''" class="mb2 dib">Tom Yorke</inertia-link>
+              <div class="db f7 gray">
+                Rejected by Regis Freyd on Dec 19, 2010
+              </div>
+            </li>
+          </ul>
 
-              <!-- rejected candidates -->
-              <li class="pa2 br3 relative f6">
-                <svg class="relative mr2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd" />
-                </svg>
-                <span class="relative">Rejected</span>
-              </li>
-            </ul>
-          </div>
+          <div v-else>
+            <p class="tc measure center mb4 lh-copy">
+              There are no candidates for now.
+            </p>
 
-          <!-- RIGHT COLUMN -->
-          <div class="fl w-80-l w-100 pl4-l">
-            <div class="bg-white box">
-              <ul class="ma0 pl0 list">
-                <li class="pa3 candidate-item bb bb-gray bb-gray-hover relative">
-                  <span class="dib relative mr2 br-100 dot"></span>
-                  <inertia-link :href="''">Tom Yorke</inertia-link>
-                </li>
-                <li class="pa3 candidate-item bb bb-gray bb-gray-hover">
-                  <inertia-link :href="''" class="mb2 dib">Tom Yorke</inertia-link>
-                  <div class="db f7 gray">
-                    Rejected by Regis Freyd on Dec 19, 2010
-                  </div>
-                </li>
-              </ul>
-
-              <p class="tc measure center mb4 lh-copy">
-                There are no candidates for now.
-              </p>
-
-              <img loading="lazy" src="/img/streamline-icon-detective-1-5@140x140.png" alt="add email symbol" class="db center mb4" height="120"
-                   width="120"
-              />
-            </div>
+            <img loading="lazy" src="/img/streamline-icon-detective-1-5@140x140.png" alt="add email symbol" class="db center mb4" height="120"
+                 width="120"
+            />
           </div>
         </div>
       </div>
@@ -326,6 +298,10 @@ export default {
     jobOpening: {
       type: Object,
       default: null,
+    },
+    tab: {
+      type: String,
+      default: 'to_sort',
     },
   },
 

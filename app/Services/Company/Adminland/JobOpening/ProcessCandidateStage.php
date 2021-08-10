@@ -77,6 +77,9 @@ class ProcessCandidateStage extends BaseService
             ->where('job_opening_id', $this->data['job_opening_id'])
             ->exists();
 
+        $this->author = Employee::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['author_id']);
+
         if (! $isSponsor) {
             $this->author = Employee::where('company_id', $this->data['company_id'])
                 ->where('permission_level', '<=', config('officelife.permission_level.hr'))

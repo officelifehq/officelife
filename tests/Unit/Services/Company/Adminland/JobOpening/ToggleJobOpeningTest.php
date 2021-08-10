@@ -91,7 +91,7 @@ class ToggleJobOpeningTest extends TestCase
                 $job->auditLog['author_id'] === $author->id &&
                 $job->auditLog['objects'] === json_encode([
                     'job_opening_id' => $opening->id,
-                    'job_opening_title' => $opening->name,
+                    'job_opening_title' => $opening->title,
                 ]);
         });
     }

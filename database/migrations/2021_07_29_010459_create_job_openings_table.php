@@ -54,6 +54,7 @@ class CreateJobOpeningsTable extends Migration
             $table->text('notes')->nullable();
             $table->uuid('uuid');
             $table->boolean('application_completed')->default(false);
+            $table->boolean('sorted')->default(false);
             $table->boolean('rejected')->default(false);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
