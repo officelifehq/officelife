@@ -118,4 +118,78 @@ class DashboardHRCandidatesViewHelper
             'stages' => $stagesCollection,
         ];
     }
+
+    /**
+     * Get the information about a candidate.
+     *
+     * @param Company $company
+     * @param Candidate $candidate
+     * @param CandidateStage $stage
+     * @return array|null
+     */
+    public static function stage(Company $company, Candidate $candidate, CandidateStage $stage): ?array
+    {
+        $otherJobOpeningsCollection = collect();
+        foreach ($otherJobOpenings as $otherJobOpening) {
+            $otherJobOpeningsCollection->push([
+                'id' => $otherJobOpening->id,
+                'title' => $otherJobOpening->title,
+                'slug' => $otherJobOpening->slug,
+                'reference_number' => $otherJobOpening->reference_number,
+                'active' => $otherJobOpening->active,
+                'fulfilled' => $otherJobOpening->fulfilled,
+            ]);
+        }
+
+        // stages reached by the candidate
+        $candidateStages = $candidate->stages()->get();
+
+        // all the stages of the job opening
+        $stages = $jobOpening->template->stages()->get();
+        $stagesCollection = collect();
+
+        // add the first initial stage
+        $status = CandidateStage::STATUS_PENDING;
+
+        if ($candidateStages->count() > 0) {
+            $status = CandidateStage::STATUS_PASSED;
+        }
+
+        if ($candidateStages->count() == 0 && $candidate->rejected) {
+            $status = CandidateStage::STATUS_REJECTED;
+        }
+
+        $stagesCollection->push([
+            'id' => 0,
+            'name' => 'Initial selection',
+            'position' => 0,
+            'status' => $status,
+        ]);
+
+        // now add the other stages that are defined for this job opening
+        foreach ($stages as $stage) {
+            // has the candidate reached this stage?
+            $candidateStage = $candidateStages->filter(function ($candidateStage) use ($stage) {
+                return $candidateStage->stage_position == $stage->position;
+            })->first();
+
+            $stagesCollection->push([
+                'id' => $stage->id,
+                'name' => $stage->name,
+                'position' => $stage->position,
+                'status' => $candidateStage ? $candidateStage->status : CandidateStage::STATUS_PENDING,
+            ]);
+        }
+
+        return [
+            'id' => $candidate->id,
+            'name' => $candidate->name,
+            'email' => $candidate->email,
+            'sorted' => $candidate->sorted,
+            'rejected' => $candidate->rejected,
+            'created_at' => DateHelper::formatDate($candidate->created_at),
+            'other_job_openings' => $otherJobOpeningsCollection,
+            'stages' => $stagesCollection,
+        ];
+    }
 }

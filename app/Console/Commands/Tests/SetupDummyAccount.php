@@ -2474,7 +2474,7 @@ Michael puts Jim and Dwight in charge of the Party Planning Committee because th
 
                 // get random sponsors
                 $sponsors = $this->employees
-                    ->take(rand(1, 3))
+                    ->take(rand(1, 2))
                     ->pluck('id')
                     ->toArray();
 
