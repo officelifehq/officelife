@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use App\Services\BaseService;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
+use App\Models\Company\CandidateStage;
 
 class CreateCandidate extends BaseService
 {
@@ -43,6 +44,7 @@ class CreateCandidate extends BaseService
 
         $this->validate();
         $this->create();
+        $this->createCandidateStages();
 
         return $this->candidate;
     }
@@ -67,5 +69,18 @@ class CreateCandidate extends BaseService
             'notes' => $this->valueOrNull($this->data, 'notes'),
             'uuid' => Str::uuid()->toString(),
         ]);
+    }
+
+    private function createCandidateStages(): void
+    {
+        $jobOpeningStages = $this->jobOpening->template->stages()->get();
+
+        foreach ($jobOpeningStages as $jobOpeningStage) {
+            CandidateStage::create([
+                'candidate_id' => $this->candidate->id,
+                'stage_position' => $jobOpeningStage->position,
+                'status' => CandidateStage::STATUS_PENDING,
+            ]);
+        }
     }
 }

@@ -5,6 +5,8 @@ namespace Tests\Unit\Services\Company\Adminland\JobOpening;
 use Tests\TestCase;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
+use App\Models\Company\CandidateStage;
+use App\Models\Company\RecruitingStage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\JobOpening\CreateCandidate;
@@ -33,6 +35,15 @@ class CreateCandidateTest extends TestCase
 
     private function executeService(JobOpening $jobOpening): void
     {
+        RecruitingStage::factory()->create([
+            'recruiting_stage_template_id' => $jobOpening->template->id,
+            'position' => 1,
+        ]);
+        RecruitingStage::factory()->create([
+            'recruiting_stage_template_id' => $jobOpening->template->id,
+            'position' => 2,
+        ]);
+
         $request = [
             'company_id' => $jobOpening->company_id,
             'job_opening_id' => $jobOpening->id,
@@ -50,6 +61,18 @@ class CreateCandidateTest extends TestCase
             'email' => 'regis@gmail.com',
             'desired_salary' => '10000',
             'url' => null,
+        ]);
+
+        $this->assertDatabaseHas('candidate_stages', [
+            'candidate_id' => $candidate->id,
+            'stage_position' => 1,
+            'status' => CandidateStage::STATUS_PENDING,
+        ]);
+
+        $this->assertDatabaseHas('candidate_stages', [
+            'candidate_id' => $candidate->id,
+            'stage_position' => 2,
+            'status' => CandidateStage::STATUS_PENDING,
         ]);
 
         $this->assertInstanceOf(

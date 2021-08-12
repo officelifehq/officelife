@@ -40,38 +40,12 @@ class ProcessCandidateStageTest extends TestCase
             'company_id' => $michael->company_id,
             'job_opening_id' => $opening->id,
         ]);
-
-        (new ProcessCandidateStage)->execute([
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'job_opening_id' => $opening->id,
+        $candidateStage = CandidateStage::factory()->create([
             'candidate_id' => $candidate->id,
-            'accepted' => true,
-        ]);
-
-        $this->assertDatabaseHas('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_PENDING,
             'stage_position' => 1,
         ]);
-
-        (new ProcessCandidateStage)->execute([
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'job_opening_id' => $opening->id,
+        CandidateStage::factory()->create([
             'candidate_id' => $candidate->id,
-            'accepted' => true,
-        ]);
-
-        $this->assertDatabaseHas('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_PASSED,
-            'stage_position' => 1,
-        ]);
-
-        $this->assertDatabaseHas('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_PENDING,
             'stage_position' => 2,
         ]);
 
@@ -80,18 +54,15 @@ class ProcessCandidateStageTest extends TestCase
             'author_id' => $michael->id,
             'job_opening_id' => $opening->id,
             'candidate_id' => $candidate->id,
+            'candidate_stage_id' => $candidateStage->id,
             'accepted' => true,
         ]);
 
         $this->assertDatabaseHas('candidate_stages', [
+            'id' => $candidateStage->id,
             'candidate_id' => $candidate->id,
             'status' => CandidateStage::STATUS_PASSED,
-            'stage_position' => 2,
-        ]);
-
-        $this->assertDatabaseMissing('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'stage_position' => 3,
+            'stage_position' => 1,
         ]);
 
         $this->checkLog($michael, $opening, $candidate, CandidateStage::STATUS_PASSED);
@@ -118,34 +89,8 @@ class ProcessCandidateStageTest extends TestCase
             'company_id' => $michael->company_id,
             'job_opening_id' => $opening->id,
         ]);
-
-        (new ProcessCandidateStage)->execute([
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'job_opening_id' => $opening->id,
+        $candidateStage = CandidateStage::factory()->create([
             'candidate_id' => $candidate->id,
-            'accepted' => false,
-        ]);
-
-        $this->assertDatabaseMissing('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_REJECTED,
-            'stage_position' => 1,
-            'decider_id' => $michael->id,
-            'decider_name' => $michael->name,
-        ]);
-
-        (new ProcessCandidateStage)->execute([
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'job_opening_id' => $opening->id,
-            'candidate_id' => $candidate->id,
-            'accepted' => true,
-        ]);
-
-        $this->assertDatabaseHas('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_PENDING,
             'stage_position' => 1,
         ]);
 
@@ -154,15 +99,15 @@ class ProcessCandidateStageTest extends TestCase
             'author_id' => $michael->id,
             'job_opening_id' => $opening->id,
             'candidate_id' => $candidate->id,
+            'candidate_stage_id' => $candidateStage->id,
             'accepted' => false,
         ]);
 
         $this->assertDatabaseHas('candidate_stages', [
+            'id' => $candidateStage->id,
             'candidate_id' => $candidate->id,
             'status' => CandidateStage::STATUS_REJECTED,
             'stage_position' => 1,
-            'decider_id' => $michael->id,
-            'decider_name' => $michael->name,
         ]);
 
         $this->checkLog($michael, $opening, $candidate, CandidateStage::STATUS_REJECTED);
@@ -189,38 +134,12 @@ class ProcessCandidateStageTest extends TestCase
             'company_id' => $michael->company_id,
             'job_opening_id' => $opening->id,
         ]);
-
-        (new ProcessCandidateStage)->execute([
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'job_opening_id' => $opening->id,
+        $candidateStage = CandidateStage::factory()->create([
             'candidate_id' => $candidate->id,
-            'accepted' => true,
-        ]);
-
-        $this->assertDatabaseHas('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_PENDING,
             'stage_position' => 1,
         ]);
-
-        (new ProcessCandidateStage)->execute([
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'job_opening_id' => $opening->id,
+        CandidateStage::factory()->create([
             'candidate_id' => $candidate->id,
-            'accepted' => true,
-        ]);
-
-        $this->assertDatabaseHas('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_PASSED,
-            'stage_position' => 1,
-        ]);
-
-        $this->assertDatabaseHas('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_PENDING,
             'stage_position' => 2,
         ]);
 
@@ -229,18 +148,15 @@ class ProcessCandidateStageTest extends TestCase
             'author_id' => $michael->id,
             'job_opening_id' => $opening->id,
             'candidate_id' => $candidate->id,
+            'candidate_stage_id' => $candidateStage->id,
             'accepted' => true,
         ]);
 
         $this->assertDatabaseHas('candidate_stages', [
+            'id' => $candidateStage->id,
             'candidate_id' => $candidate->id,
             'status' => CandidateStage::STATUS_PASSED,
-            'stage_position' => 2,
-        ]);
-
-        $this->assertDatabaseMissing('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'stage_position' => 3,
+            'stage_position' => 1,
         ]);
 
         $this->checkLog($michael, $opening, $candidate, CandidateStage::STATUS_PASSED);
@@ -267,34 +183,8 @@ class ProcessCandidateStageTest extends TestCase
             'company_id' => $michael->company_id,
             'job_opening_id' => $opening->id,
         ]);
-
-        (new ProcessCandidateStage)->execute([
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'job_opening_id' => $opening->id,
+        $candidateStage = CandidateStage::factory()->create([
             'candidate_id' => $candidate->id,
-            'accepted' => false,
-        ]);
-
-        $this->assertDatabaseMissing('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_REJECTED,
-            'stage_position' => 1,
-            'decider_id' => $michael->id,
-            'decider_name' => $michael->name,
-        ]);
-
-        (new ProcessCandidateStage)->execute([
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'job_opening_id' => $opening->id,
-            'candidate_id' => $candidate->id,
-            'accepted' => true,
-        ]);
-
-        $this->assertDatabaseHas('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_PENDING,
             'stage_position' => 1,
         ]);
 
@@ -303,15 +193,15 @@ class ProcessCandidateStageTest extends TestCase
             'author_id' => $michael->id,
             'job_opening_id' => $opening->id,
             'candidate_id' => $candidate->id,
+            'candidate_stage_id' => $candidateStage->id,
             'accepted' => false,
         ]);
 
         $this->assertDatabaseHas('candidate_stages', [
+            'id' => $candidateStage->id,
             'candidate_id' => $candidate->id,
             'status' => CandidateStage::STATUS_REJECTED,
             'stage_position' => 1,
-            'decider_id' => $michael->id,
-            'decider_name' => $michael->name,
         ]);
 
         $this->checkLog($michael, $opening, $candidate, CandidateStage::STATUS_REJECTED);
@@ -339,38 +229,12 @@ class ProcessCandidateStageTest extends TestCase
             'company_id' => $michael->company_id,
             'job_opening_id' => $opening->id,
         ]);
-
-        (new ProcessCandidateStage)->execute([
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'job_opening_id' => $opening->id,
+        $candidateStage = CandidateStage::factory()->create([
             'candidate_id' => $candidate->id,
-            'accepted' => true,
-        ]);
-
-        $this->assertDatabaseHas('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_PENDING,
             'stage_position' => 1,
         ]);
-
-        (new ProcessCandidateStage)->execute([
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'job_opening_id' => $opening->id,
+        CandidateStage::factory()->create([
             'candidate_id' => $candidate->id,
-            'accepted' => true,
-        ]);
-
-        $this->assertDatabaseHas('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_PASSED,
-            'stage_position' => 1,
-        ]);
-
-        $this->assertDatabaseHas('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_PENDING,
             'stage_position' => 2,
         ]);
 
@@ -379,18 +243,15 @@ class ProcessCandidateStageTest extends TestCase
             'author_id' => $michael->id,
             'job_opening_id' => $opening->id,
             'candidate_id' => $candidate->id,
+            'candidate_stage_id' => $candidateStage->id,
             'accepted' => true,
         ]);
 
         $this->assertDatabaseHas('candidate_stages', [
+            'id' => $candidateStage->id,
             'candidate_id' => $candidate->id,
             'status' => CandidateStage::STATUS_PASSED,
-            'stage_position' => 2,
-        ]);
-
-        $this->assertDatabaseMissing('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'stage_position' => 3,
+            'stage_position' => 1,
         ]);
 
         $this->checkLog($michael, $opening, $candidate, CandidateStage::STATUS_PASSED);
@@ -418,34 +279,8 @@ class ProcessCandidateStageTest extends TestCase
             'company_id' => $michael->company_id,
             'job_opening_id' => $opening->id,
         ]);
-
-        (new ProcessCandidateStage)->execute([
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'job_opening_id' => $opening->id,
+        $candidateStage = CandidateStage::factory()->create([
             'candidate_id' => $candidate->id,
-            'accepted' => false,
-        ]);
-
-        $this->assertDatabaseMissing('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_REJECTED,
-            'stage_position' => 1,
-            'decider_id' => $michael->id,
-            'decider_name' => $michael->name,
-        ]);
-
-        (new ProcessCandidateStage)->execute([
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'job_opening_id' => $opening->id,
-            'candidate_id' => $candidate->id,
-            'accepted' => true,
-        ]);
-
-        $this->assertDatabaseHas('candidate_stages', [
-            'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_PENDING,
             'stage_position' => 1,
         ]);
 
@@ -454,15 +289,15 @@ class ProcessCandidateStageTest extends TestCase
             'author_id' => $michael->id,
             'job_opening_id' => $opening->id,
             'candidate_id' => $candidate->id,
+            'candidate_stage_id' => $candidateStage->id,
             'accepted' => false,
         ]);
 
         $this->assertDatabaseHas('candidate_stages', [
+            'id' => $candidateStage->id,
             'candidate_id' => $candidate->id,
             'status' => CandidateStage::STATUS_REJECTED,
             'stage_position' => 1,
-            'decider_id' => $michael->id,
-            'decider_name' => $michael->name,
         ]);
 
         $this->checkLog($michael, $opening, $candidate, CandidateStage::STATUS_REJECTED);
@@ -489,6 +324,10 @@ class ProcessCandidateStageTest extends TestCase
             'company_id' => $michael->company_id,
             'job_opening_id' => $opening->id,
         ]);
+        $candidateStage = CandidateStage::factory()->create([
+            'candidate_id' => $candidate->id,
+            'stage_position' => 1,
+        ]);
 
         $this->expectException(ModelNotFoundException::class);
         (new ProcessCandidateStage)->execute([
@@ -496,6 +335,7 @@ class ProcessCandidateStageTest extends TestCase
             'author_id' => $michael->id,
             'job_opening_id' => $opening->id,
             'candidate_id' => $candidate->id,
+            'candidate_stage_id' => $candidateStage->id,
             'accepted' => false,
         ]);
     }
@@ -530,12 +370,17 @@ class ProcessCandidateStageTest extends TestCase
             'company_id' => $michael->company_id,
             'job_opening_id' => $opening->id,
         ]);
+        $candidateStage = CandidateStage::factory()->create([
+            'candidate_id' => $candidate->id,
+            'stage_position' => 1,
+        ]);
 
         (new ProcessCandidateStage)->execute([
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'job_opening_id' => $opening->id,
             'candidate_id' => $candidate->id,
+            'candidate_stage_id' => $candidateStage->id,
             'accepted' => true,
         ]);
     }
@@ -560,12 +405,17 @@ class ProcessCandidateStageTest extends TestCase
         $candidate = Candidate::factory()->create([
             'job_opening_id' => $opening->id,
         ]);
+        $candidateStage = CandidateStage::factory()->create([
+            'candidate_id' => $candidate->id,
+            'stage_position' => 1,
+        ]);
 
         (new ProcessCandidateStage)->execute([
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'job_opening_id' => $opening->id,
             'candidate_id' => $candidate->id,
+            'candidate_stage_id' => $candidateStage->id,
             'accepted' => true,
         ]);
     }

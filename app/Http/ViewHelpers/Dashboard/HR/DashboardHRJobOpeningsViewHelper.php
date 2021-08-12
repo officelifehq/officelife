@@ -8,6 +8,7 @@ use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use App\Models\Company\JobOpening;
 use Illuminate\Support\Collection;
+use App\Models\Company\CandidateStage;
 
 class DashboardHRJobOpeningsViewHelper
 {
@@ -193,35 +194,40 @@ class DashboardHRJobOpeningsViewHelper
             ]);
         }
 
-        $candidatesToSort = $jobOpening->candidates()
-            ->where('application_completed', true)
+        $allCandidates = $jobOpening->candidates()
             ->where('rejected', false)
-            ->where('sorted', false)
-            ->get();
+            ->with('stages')->get();
 
+        $candidatesSelectedCount = 0;
         $candidatesCollection = collect();
-        foreach ($candidatesToSort as $candidate) {
-            $candidatesCollection->push([
-                'id' => $candidate->id,
-                'name' => $candidate->name,
-                'received_at' => DateHelper::formatDate($candidate->created_at),
-                'url' => route('dashboard.hr.candidates.show', [
-                    'company' => $company,
-                    'jobOpening' => $jobOpening,
-                    'candidate' => $candidate,
-                ]),
-            ]);
+        foreach ($allCandidates as $candidate) {
+            $needsToBeSorted = true;
+            $candidateStages = $candidate->stages;
+            foreach ($candidateStages as $candidateStage) {
+                if ($candidateStage->status != CandidateStage::STATUS_PENDING) {
+                    $needsToBeSorted = false;
+                }
+            }
+
+            if ($needsToBeSorted) {
+                $candidatesCollection->push([
+                    'id' => $candidate->id,
+                    'name' => $candidate->name,
+                    'received_at' => DateHelper::formatDate($candidate->created_at),
+                    'url' => route('dashboard.hr.candidates.show', [
+                        'company' => $company,
+                        'jobOpening' => $jobOpening,
+                        'candidate' => $candidate,
+                    ]),
+                ]);
+            } else {
+                $candidatesSelectedCount = $candidatesSelectedCount + 1;
+            }
         }
 
         $rejectedCandidates = $jobOpening->candidates()
             ->where('application_completed', true)
             ->where('rejected', true)
-            ->count();
-
-        $selectedCandidates = $jobOpening->candidates()
-            ->where('application_completed', true)
-            ->where('sorted', true)
-            ->where('rejected', false)
             ->count();
 
         return [
@@ -246,7 +252,7 @@ class DashboardHRJobOpeningsViewHelper
             'candidates' => [
                 'to_sort' => $candidatesCollection,
                 'rejected_count' => $rejectedCandidates,
-                'selected_count' => $selectedCandidates,
+                'selected_count' => $candidatesSelectedCount,
             ],
             'team' => $team ? [
                 'id' => $team->id,

@@ -257,4 +257,8 @@ return [
     'job_opening_show_tab_rejected' => 'Rejected candidates ({count})',
     'job_opening_show_tab_to_sort' => 'Candidates to sort ({count})',
     'job_opening_show_tab_selected' => 'Selected candidates ({count})',
+    'job_opening_stage_rejected' => 'The candidate has been rejected.',
+    'job_opening_stage_passed' => 'The candidate has reached the next stage.',
+    'job_opening_stage_decision_passed' => 'Passed',
+    'job_opening_stage_decision_rejected' => 'Rejected',
 ];

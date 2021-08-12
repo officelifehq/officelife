@@ -16,6 +16,7 @@ class ProcessCandidateStage extends BaseService
     protected array $data;
     protected JobOpening $jobOpening;
     protected Candidate $candidate;
+    protected CandidateStage $candidateStage;
 
     /**
      * Get the validation rules that apply to the service.
@@ -29,6 +30,7 @@ class ProcessCandidateStage extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'job_opening_id' => 'required|integer|exists:job_openings,id',
             'candidate_id' => 'required|integer|exists:candidates,id',
+            'candidate_stage_id' => 'required|integer|exists:candidate_stages,id',
             'accepted' => 'required|boolean',
         ];
     }
@@ -41,9 +43,9 @@ class ProcessCandidateStage extends BaseService
      * --> If it fails, the candidate is marked as rejected.
      *
      * @param array $data
-     * @return Candidate
+     * @return CandidateStage
      */
-    public function execute(array $data): Candidate
+    public function execute(array $data): CandidateStage
     {
         $this->data = $data;
 
@@ -57,7 +59,7 @@ class ProcessCandidateStage extends BaseService
             $this->log(CandidateStage::STATUS_REJECTED);
         }
 
-        return $this->candidate;
+        return $this->candidateStage;
     }
 
     private function validate(): void
@@ -70,6 +72,9 @@ class ProcessCandidateStage extends BaseService
         $this->candidate = Candidate::where('company_id', $this->data['company_id'])
             ->where('job_opening_id', $this->data['job_opening_id'])
             ->findOrFail($this->data['candidate_id']);
+
+        $this->candidateStage = CandidateStage::where('candidate_id', $this->data['candidate_id'])
+            ->findOrFail($this->data['candidate_stage_id']);
 
         // check if the author is a sponsor
         $isSponsor = DB::table('job_opening_sponsor')
@@ -89,62 +94,32 @@ class ProcessCandidateStage extends BaseService
 
     private function goToNextStage(): void
     {
+        $this->updateCurrentCandidateStage(CandidateStage::STATUS_PASSED);
+
         // how many stages does the job opening have?
-        $jobOpeningStages = $this->jobOpening->template->stages()->get();
+        $highestJobOpeningStage = $this->jobOpening->template
+            ->stages()
+            ->max('position');
 
-        // is the candidate already in the recruiting process?
-        $candidateStage = $this->candidate->stages()->orderBy('stage_position', 'desc')->first();
-
-        if ($candidateStage) {
-            $this->updateCurrentCandidateStage($candidateStage, CandidateStage::STATUS_PASSED);
-
-            $remainingStages = $jobOpeningStages->filter(function ($stage) use ($candidateStage) {
-                return $stage->position > $candidateStage->stage_position;
-            });
-
-            if ($remainingStages->count() > 0) {
-                $newPosition = $remainingStages->first()->position;
-                $this->createCandidateStage($newPosition);
-            }
-        } else {
-            // there is no current stage, that means the candidate just
-            // got selected
-            $this->candidate->sorted = true;
-            $this->candidate->save();
-
-            $this->createCandidateStage(1);
+        if ($highestJobOpeningStage !== $this->candidateStage->stage_position) {
+            $this->candidateStage = CandidateStage::where('candidate_id', $this->candidate->id)
+                ->where('stage_position', $this->candidateStage->stage_position + 1)
+                ->first();
         }
     }
 
-    private function createCandidateStage($position): void
+    private function updateCurrentCandidateStage(string $status): void
     {
-        CandidateStage::create([
-            'candidate_id' => $this->candidate->id,
-            'stage_position' => $position,
-            'status' => CandidateStage::STATUS_PENDING,
-        ]);
-    }
-
-    private function updateCurrentCandidateStage(CandidateStage $stage, string $status): void
-    {
-        $stage->status = $status;
-        $stage->decider_id = $this->author->id;
-        $stage->decider_name = $this->author->name;
-        $stage->decided_at = Carbon::now();
-        $stage->save();
+        $this->candidateStage->status = $status;
+        $this->candidateStage->decider_id = $this->author->id;
+        $this->candidateStage->decider_name = $this->author->name;
+        $this->candidateStage->decided_at = Carbon::now();
+        $this->candidateStage->save();
     }
 
     private function markAsRejected(): void
     {
-        // is the candidate already in the recruiting process?
-        $candidateStage = $this->candidate->stages()->orderBy('stage_position', 'desc')->first();
-
-        if ($candidateStage) {
-            $this->updateCurrentCandidateStage($candidateStage, CandidateStage::STATUS_REJECTED);
-        } else {
-            $this->candidate->sorted = true;
-        }
-
+        $this->updateCurrentCandidateStage(CandidateStage::STATUS_REJECTED);
         $this->candidate->rejected = true;
         $this->candidate->save();
     }

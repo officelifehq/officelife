@@ -33,7 +33,6 @@ class Candidate extends Model
         'desired_salary',
         'highest_reached_stage_id',
         'application_completed',
-        'sorted',
         'rejected',
         'notes',
     ];
@@ -45,7 +44,6 @@ class Candidate extends Model
      */
     protected $casts = [
         'application_completed' => 'boolean',
-        'sorted' => 'boolean',
         'rejected' => 'boolean',
     ];
 
