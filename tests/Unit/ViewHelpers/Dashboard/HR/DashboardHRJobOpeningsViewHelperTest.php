@@ -245,7 +245,6 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             'company_id' => $michael->company_id,
             'job_opening_id' => $jobOpening->id,
             'application_completed' => true,
-            'sorted' => true,
         ]);
 
         $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);

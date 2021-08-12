@@ -36,7 +36,7 @@ class CandidateStageNote extends Model
      */
     public function candidateStage()
     {
-        return $this->belongsTo(candidateStage::class);
+        return $this->belongsTo(CandidateStage::class);
     }
 
     /**

@@ -19,7 +19,6 @@ class DashboardHRCandidatesViewHelper
      *
      * @param Company $company
      * @param JobOpening $jobOpening
-     * @param Candidate $candidate
      * @return array|null
      */
     public static function jobOpening(Company $company, JobOpening $jobOpening): ?array
@@ -50,7 +49,7 @@ class DashboardHRCandidatesViewHelper
     public static function candidate(Company $company, JobOpening $jobOpening, Candidate $candidate): ?array
     {
         // stages reached by the candidate
-        $candidateStages = $candidate->stages()->get();
+        $candidateStages = $candidate->stages;
 
         // all the stages of the job opening
         $stages = $jobOpening->template->stages()->get();
@@ -121,8 +120,6 @@ class DashboardHRCandidatesViewHelper
     /**
      * Get the information about a candidate.
      *
-     * @param Company $company
-     * @param Candidate $candidate
      * @param CandidateStage $stage
      * @return array|null
      */
@@ -163,7 +160,8 @@ class DashboardHRCandidatesViewHelper
 
     /**
      * Determine the highest stage reached by the candidate.
-     * @param  Candidate
+     *
+     * @param Candidate $candidate
      * @return CandidateStage
      */
     public static function determineHighestStage(Candidate $candidate): CandidateStage
