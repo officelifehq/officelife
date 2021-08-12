@@ -1442,6 +1442,16 @@ class LogHelper
                 ]);
                 break;
 
+            case 'candidate_stage_note_created':
+                $sentence = trans('account.log_candidate_stage_note_created', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'job_opening_reference_number' => $log->object->{'job_opening_reference_number'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;

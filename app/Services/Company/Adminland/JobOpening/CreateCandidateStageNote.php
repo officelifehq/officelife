@@ -5,15 +5,20 @@ namespace App\Services\Company\Adminland\JobOpening;
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use App\Models\Company\Employee;
+use App\Models\Company\Candidate;
+use App\Models\Company\JobOpening;
+use Illuminate\Support\Facades\DB;
+use App\Models\Company\CandidateStage;
 use App\Models\Company\RecruitingStage;
-use App\Models\Company\RecruitingStageTemplate;
+use App\Models\Company\CandidateStageNote;
 
 class CreateCandidateStageNote extends BaseService
 {
     protected array $data;
-    protected RecruitingStage $recruitingStage;
-    protected int $startPosition;
-    protected int $endPosition;
+    protected JobOpening $jobOpening;
+    protected Candidate $candidate;
+    protected CandidateStage $candidateStage;
 
     /**
      * Get the validation rules that apply to the service.
@@ -25,6 +30,8 @@ class CreateCandidateStageNote extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
+            'job_opening_id' => 'required|integer|exists:job_openings,id',
+            'candidate_id' => 'required|integer|exists:candidates,id',
             'candidate_stage_id' => 'required|integer|exists:candidate_stages,id',
             'note' => 'required|string|max:65535',
         ];
@@ -40,7 +47,7 @@ class CreateCandidateStageNote extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->update();
+        $this->create();
         $this->log();
 
         return $this->recruitingStage;
@@ -50,50 +57,62 @@ class CreateCandidateStageNote extends BaseService
     {
         $this->validateRules($this->data);
 
-        $this->author($this->data['author_id'])
-            ->inCompany($this->data['company_id'])
-            ->asAtLeastHR()
-            ->canExecuteService();
+        $this->jobOpening = JobOpening::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['job_opening_id']);
 
-        $this->template = RecruitingStageTemplate::where('company_id', $this->data['company_id'])
-            ->findOrFail($this->data['recruiting_stage_template_id']);
+        $this->candidate = Candidate::where('company_id', $this->data['company_id'])
+            ->where('job_opening_id', $this->data['job_opening_id'])
+            ->findOrFail($this->data['candidate_id']);
 
-        $this->recruitingStage = RecruitingStage::where('recruiting_stage_template_id', $this->data['recruiting_stage_template_id'])
-            ->findOrFail($this->data['recruiting_stage_id']);
+        $this->candidateStage = CandidateStage::where('candidate_id', $this->data['candidate_id'])
+            ->findOrFail($this->data['candidate_stage_id']);
+
+        // check if the author is a sponsor
+        $isSponsor = DB::table('job_opening_sponsor')
+            ->where('employee_id', $this->data['author_id'])
+            ->where('job_opening_id', $this->data['job_opening_id'])
+            ->exists();
+
+        // check if the author is a participant to the recruiting process
+        $isSponsor = DB::table('candidate_stage_participants')
+            ->where('employee_id', $this->data['author_id'])
+            ->where('candidate_stage_id', $this->data['candidate_stage_id'])
+            ->exists();
+
+        $this->author = Employee::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['author_id']);
+
+        if (! $isSponsor) {
+            $this->author = Employee::where('company_id', $this->data['company_id'])
+                ->where('permission_level', '<=', config('officelife.permission_level.hr'))
+                ->findOrFail($this->data['author_id']);
+        }
     }
 
-    private function update(): void
+    private function create(): void
     {
-        $this->recruitingStage->name = $this->data['name'];
-        $this->recruitingStage->position = $this->endPosition;
-        $this->recruitingStage->save();
-
-        $this->recruitingStage->refresh();
-    }
-
-    private function updateAllOtherPositions(): void
-    {
-        RecruitingStage::where('recruiting_stage_template_id', $this->data['recruiting_stage_template_id'])
-            ->where('position', '>', $this->startPosition)
-            ->where('position', '<=', $this->endPosition)
-            ->get()
-            ->each(function ($recruitingStage) {
-                $recruitingStage->position = $recruitingStage->position - 1;
-                $recruitingStage->save();
-            });
+        CandidateStageNote::create([
+            'author_id' => $this->author->id,
+            'candidate_stage_id' => $this->candidateStage->id,
+            'note' => $this->data['note'],
+            'author_name' => $this->author->name,
+        ]);
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'recruiting_stage_updated',
+            'action' => 'candidate_stage_note_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'recruiting_stage_id' => $this->recruitingStage->id,
-                'recruiting_stage_name' => $this->recruitingStage->name,
+                'job_opening_id' => $this->jobOpening->id,
+                'job_opening_title' => $this->jobOpening->title,
+                'job_opening_reference_number' => $this->jobOpening->reference_number,
+                'candidate_id' => $this->candidate->name,
+                'candidate_name' => $this->candidate->name,
             ]),
         ])->onQueue('low');
     }

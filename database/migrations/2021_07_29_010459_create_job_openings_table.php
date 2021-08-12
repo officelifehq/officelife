@@ -99,13 +99,14 @@ class CreateJobOpeningsTable extends Migration
 
         Schema::create('candidate_stage_participants', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('employee_id')->nullable();
-            $table->unsignedBigInteger('job_opening_id');
+            $table->unsignedBigInteger('candidate_stage_id')->nullable();
+            $table->unsignedBigInteger('participant_id')->nullable();
             $table->string('participant_name')->nullable();
-            $table->boolean('has_participated')->default(false);
+            $table->boolean('participated')->default(false);
+            $table->datetime('participated_at')->nullable();
             $table->timestamps();
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('set null');
-            $table->foreign('job_opening_id')->references('id')->on('job_openings')->onDelete('cascade');
+            $table->foreign('candidate_stage_id')->references('id')->on('candidate_stages')->onDelete('set null');
+            $table->foreign('participant_id')->references('id')->on('employees')->onDelete('set null');
         });
 
         Schema::create('candidate_stage_tasks', function (Blueprint $table) {

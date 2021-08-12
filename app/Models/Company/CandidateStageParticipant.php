@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class CandidateStageNote extends Model
+class CandidateStageParticipant extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class CandidateStageNote extends Model
      *
      * @var string
      */
-    protected $table = 'candidate_stage_notes';
+    protected $table = 'candidate_stage_participants';
 
     /**
      * The attributes that are mass assignable.
@@ -23,10 +23,29 @@ class CandidateStageNote extends Model
      * @var array
      */
     protected $fillable = [
-        'author_id',
+        'participant_id',
         'candidate_stage_id',
-        'note',
-        'author_name',
+        'participant_name',
+        'participated',
+        'participated_at',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'participated' => 'boolean',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'participated_at',
     ];
 
     /**
@@ -44,8 +63,8 @@ class CandidateStageNote extends Model
      *
      * @return BelongsTo
      */
-    public function author()
+    public function participant()
     {
-        return $this->belongsTo(Employee::class, 'author_id');
+        return $this->belongsTo(Employee::class, 'participant_id');
     }
 }
