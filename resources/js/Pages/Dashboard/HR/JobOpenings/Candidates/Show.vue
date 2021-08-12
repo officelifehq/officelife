@@ -75,6 +75,12 @@
     background-color: #ae20201f;
   }
 }
+
+.participant-list {
+  li:last-child {
+    border-bottom: none;
+  }
+}
 </style>
 
 <template>
@@ -242,15 +248,28 @@
               <div class="pa3 bb bb-gray">
                 <!-- employees -->
                 <h3 class="mt0 fw5 f6">
-                  Employees needed to be talked to
+                  Participants in this recruiting stage
                 </h3>
-                <div class="flex items-center">
-                  <div class="mr3 relative" data-v-cff706f6="">
-                    <span class="db ma0" data-v-cff706f6="">
-                      <a href="https://officelife.test/1/employees/1" data-v-cff706f6="">Michael Scott</a>
-                    </span>
-                  </div>
-                </div>
+                <p class="gray f6 mt0">Participants will be able to read any document uploaded by the candidate and provide feedback.</p>
+
+                <ul class="pl0 ma0 ba bb-gray participant-list br3">
+                  <li class="ph2 pv3 list bb bb-gray bb-gray-hover flex justify-between">
+                    <div class="relative di" data-v-27cbaf5a="" data-v-bbcb10ee="">
+                      <img loading="lazy" src="https://ucarecdn.com/c1eab52a-1b79-4536-a2aa-e821605f92d2/-/scale_crop/18x18/smart/" srcset="https://ucarecdn.com/c1eab52a-1b79-4536-a2aa-e821605f92d2/-/scale_crop/18x18/smart/ 1x,https://ucarecdn.com/c1eab52a-1b79-4536-a2aa-e821605f92d2/-/scale_crop/36x36/smart/ 2x" class="absolute br-100" alt="avatar"
+                           style="top: 0px; height: 18px; width: 18px;" data-v-27cbaf5a=""
+                      /><span class="f6 gray" style="margin-left: 25px;" data-v-27cbaf5a="">Dwight Schrute</span>
+                    </div>
+                    <span class="badge closed">no feedback provided yet</span>
+                  </li>
+                  <li class="ph2 pv3 list bb bb-gray bb-gray-hover flex justify-between">
+                    <div class="relative di" data-v-27cbaf5a="" data-v-bbcb10ee="">
+                      <img loading="lazy" src="https://ucarecdn.com/c1eab52a-1b79-4536-a2aa-e821605f92d2/-/scale_crop/18x18/smart/" srcset="https://ucarecdn.com/c1eab52a-1b79-4536-a2aa-e821605f92d2/-/scale_crop/18x18/smart/ 1x,https://ucarecdn.com/c1eab52a-1b79-4536-a2aa-e821605f92d2/-/scale_crop/36x36/smart/ 2x" class="absolute br-100" alt="avatar"
+                           style="top: 0px; height: 18px; width: 18px;" data-v-27cbaf5a=""
+                      /><span class="f6 gray" style="margin-left: 25px;" data-v-27cbaf5a="">Dwight Schrute</span>
+                    </div>
+                    <span class="badge active">feedback provided</span>
+                  </li>
+                </ul>
                 <span>Ask employee to assist for this stage</span>
               </div>
 

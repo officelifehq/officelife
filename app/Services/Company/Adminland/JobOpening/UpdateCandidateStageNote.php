@@ -8,15 +8,16 @@ use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
-use Illuminate\Support\Facades\DB;
 use App\Models\Company\CandidateStage;
 use App\Models\Company\CandidateStageNote;
+use App\Exceptions\NotEnoughPermissionException;
 
-class CreateCandidateStageNote extends BaseService
+class UpdateCandidateStageNote extends BaseService
 {
     protected array $data;
     protected JobOpening $jobOpening;
     protected Candidate $candidate;
+    protected Employee $participant;
     protected CandidateStage $candidateStage;
     protected CandidateStageNote $candidateStageNote;
 
@@ -33,12 +34,13 @@ class CreateCandidateStageNote extends BaseService
             'job_opening_id' => 'required|integer|exists:job_openings,id',
             'candidate_id' => 'required|integer|exists:candidates,id',
             'candidate_stage_id' => 'required|integer|exists:candidate_stages,id',
+            'candidate_stage_note_id' => 'required|integer|exists:candidate_stage_notes,id',
             'note' => 'required|string|max:65535',
         ];
     }
 
     /**
-     * Write a note for the given candidate stage.
+     * Update a note from the candidate stage.
      *
      * @param array $data
      * @return CandidateStageNote
@@ -47,7 +49,7 @@ class CreateCandidateStageNote extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->create();
+        $this->edit();
         $this->log();
 
         return $this->candidateStageNote;
@@ -67,43 +69,37 @@ class CreateCandidateStageNote extends BaseService
         $this->candidateStage = CandidateStage::where('candidate_id', $this->data['candidate_id'])
             ->findOrFail($this->data['candidate_stage_id']);
 
-        // check if the author is a sponsor
-        $isSponsor = DB::table('job_opening_sponsor')
-            ->where('employee_id', $this->data['author_id'])
-            ->where('job_opening_id', $this->data['job_opening_id'])
-            ->exists();
+        $this->candidateStageNote = CandidateStageNote::where('candidate_stage_id', $this->candidateStage->id)
+            ->findOrFail($this->data['candidate_stage_note_id']);
 
         // check if the author is a participant of the recruiting process
-        $isParticipant = DB::table('candidate_stage_participants')
-            ->where('participant_id', $this->data['author_id'])
-            ->where('candidate_stage_id', $this->data['candidate_stage_id'])
-            ->exists();
-
         $this->author = Employee::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['author_id']);
 
-        if (! $isSponsor && ! $isParticipant) {
-            $this->author = Employee::where('company_id', $this->data['company_id'])
-                ->where('permission_level', '<=', config('officelife.permission_level.hr'))
-                ->findOrFail($this->data['author_id']);
+        $isAuthor = $this->candidateStageNote->author->id === $this->author->id;
+
+        if (! $isAuthor) {
+            try {
+                $this->author = Employee::where('company_id', $this->data['company_id'])
+                    ->where('permission_level', '<=', config('officelife.permission_level.hr'))
+                    ->findOrFail($this->data['author_id']);
+            } catch (NotEnoughPermissionException $e) {
+                throw new NotEnoughPermissionException;
+            }
         }
     }
 
-    private function create(): void
+    private function edit(): void
     {
-        $this->candidateStageNote = CandidateStageNote::create([
-            'author_id' => $this->author->id,
-            'candidate_stage_id' => $this->candidateStage->id,
-            'note' => $this->data['note'],
-            'author_name' => $this->author->name,
-        ]);
+        $this->candidateStageNote->note = $this->data['note'];
+        $this->candidateStageNote->save();
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'candidate_stage_note_created',
+            'action' => 'candidate_stage_note_updated',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),

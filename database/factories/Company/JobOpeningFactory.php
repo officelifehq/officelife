@@ -45,7 +45,7 @@ class JobOpeningFactory extends Factory
             },
             'active' => true,
             'fulfilled' => false,
-            'reference_number' => $this->faker->numberBetween(1, 100),
+            'reference_number' => $this->faker->text(10),
             'title' => $this->faker->text(100),
             'description' => $this->faker->text(300),
             'slug' => function (array $attributes) {

@@ -20,10 +20,10 @@ class CreateJobOpeningsTable extends Migration
             $table->unsignedBigInteger('position_id');
             $table->unsignedBigInteger('recruiting_stage_template_id')->nullable();
             $table->unsignedBigInteger('team_id')->nullable();
+            $table->string('title');
             $table->boolean('active')->default(false);
             $table->boolean('fulfilled')->default(false);
             $table->string('reference_number')->nullable();
-            $table->string('title');
             $table->string('slug');
             $table->text('description');
             $table->unsignedBigInteger('page_views')->default(0);
@@ -88,24 +88,24 @@ class CreateJobOpeningsTable extends Migration
 
         Schema::create('candidate_stage_notes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('candidate_stage_id')->nullable();
+            $table->unsignedBigInteger('candidate_stage_id');
             $table->unsignedBigInteger('author_id')->nullable();
             $table->text('note');
             $table->string('author_name')->nullable();
             $table->timestamps();
-            $table->foreign('candidate_stage_id')->references('id')->on('candidate_stages')->onDelete('set null');
+            $table->foreign('candidate_stage_id')->references('id')->on('candidate_stages')->onDelete('cascade');
             $table->foreign('author_id')->references('id')->on('employees')->onDelete('set null');
         });
 
         Schema::create('candidate_stage_participants', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('candidate_stage_id')->nullable();
+            $table->unsignedBigInteger('candidate_stage_id');
             $table->unsignedBigInteger('participant_id')->nullable();
             $table->string('participant_name')->nullable();
             $table->boolean('participated')->default(false);
             $table->datetime('participated_at')->nullable();
             $table->timestamps();
-            $table->foreign('candidate_stage_id')->references('id')->on('candidate_stages')->onDelete('set null');
+            $table->foreign('candidate_stage_id')->references('id')->on('candidate_stages')->onDelete('cascade');
             $table->foreign('participant_id')->references('id')->on('employees')->onDelete('set null');
         });
 

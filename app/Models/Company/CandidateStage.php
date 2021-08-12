@@ -3,6 +3,7 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -66,5 +67,25 @@ class CandidateStage extends Model
     public function decider()
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    /**
+     * Get the notes associated with the candidate stage.
+     *
+     * @return HasMany
+     */
+    public function notes()
+    {
+        return $this->hasMany(CandidateStageNote::class);
+    }
+
+    /**
+     * Get the participants associated with the candidate stage.
+     *
+     * @return HasMany
+     */
+    public function participants()
+    {
+        return $this->hasMany(CandidateStageParticipant::class);
     }
 }

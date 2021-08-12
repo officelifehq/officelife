@@ -10,15 +10,17 @@ use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company\CandidateStage;
-use App\Models\Company\CandidateStageNote;
+use App\Exceptions\NotEnoughPermissionException;
+use App\Models\Company\CandidateStageParticipant;
 
-class CreateCandidateStageNote extends BaseService
+class CreateCandidateStageParticipant extends BaseService
 {
     protected array $data;
     protected JobOpening $jobOpening;
     protected Candidate $candidate;
+    protected Employee $participant;
     protected CandidateStage $candidateStage;
-    protected CandidateStageNote $candidateStageNote;
+    protected CandidateStageParticipant $candidateStageParticipant;
 
     /**
      * Get the validation rules that apply to the service.
@@ -33,24 +35,24 @@ class CreateCandidateStageNote extends BaseService
             'job_opening_id' => 'required|integer|exists:job_openings,id',
             'candidate_id' => 'required|integer|exists:candidates,id',
             'candidate_stage_id' => 'required|integer|exists:candidate_stages,id',
-            'note' => 'required|string|max:65535',
+            'participant_id' => 'required|integer|exists:employees,id',
         ];
     }
 
     /**
-     * Write a note for the given candidate stage.
+     * Add a participant to the candidate stage.
      *
      * @param array $data
-     * @return CandidateStageNote
+     * @return CandidateStageParticipant
      */
-    public function execute(array $data): CandidateStageNote
+    public function execute(array $data): CandidateStageParticipant
     {
         $this->data = $data;
         $this->validate();
         $this->create();
         $this->log();
 
-        return $this->candidateStageNote;
+        return $this->candidateStageParticipant;
     }
 
     private function validate(): void
@@ -67,35 +69,35 @@ class CreateCandidateStageNote extends BaseService
         $this->candidateStage = CandidateStage::where('candidate_id', $this->data['candidate_id'])
             ->findOrFail($this->data['candidate_stage_id']);
 
+        $this->participant = Employee::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['participant_id']);
+
         // check if the author is a sponsor
         $isSponsor = DB::table('job_opening_sponsor')
             ->where('employee_id', $this->data['author_id'])
             ->where('job_opening_id', $this->data['job_opening_id'])
             ->exists();
 
-        // check if the author is a participant of the recruiting process
-        $isParticipant = DB::table('candidate_stage_participants')
-            ->where('participant_id', $this->data['author_id'])
-            ->where('candidate_stage_id', $this->data['candidate_stage_id'])
-            ->exists();
-
         $this->author = Employee::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['author_id']);
 
-        if (! $isSponsor && ! $isParticipant) {
-            $this->author = Employee::where('company_id', $this->data['company_id'])
-                ->where('permission_level', '<=', config('officelife.permission_level.hr'))
-                ->findOrFail($this->data['author_id']);
+        if (! $isSponsor) {
+            try {
+                $this->author = Employee::where('company_id', $this->data['company_id'])
+                    ->where('permission_level', '<=', config('officelife.permission_level.hr'))
+                    ->findOrFail($this->data['author_id']);
+            } catch (NotEnoughPermissionException $e) {
+                throw new NotEnoughPermissionException;
+            }
         }
     }
 
     private function create(): void
     {
-        $this->candidateStageNote = CandidateStageNote::create([
-            'author_id' => $this->author->id,
+        $this->candidateStageParticipant = CandidateStageParticipant::create([
+            'participant_id' => $this->participant->id,
             'candidate_stage_id' => $this->candidateStage->id,
-            'note' => $this->data['note'],
-            'author_name' => $this->author->name,
+            'participant_name' => $this->participant->name,
         ]);
     }
 
@@ -103,7 +105,7 @@ class CreateCandidateStageNote extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'candidate_stage_note_created',
+            'action' => 'candidate_stage_participant_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
@@ -113,6 +115,8 @@ class CreateCandidateStageNote extends BaseService
                 'job_opening_reference_number' => $this->jobOpening->reference_number,
                 'candidate_id' => $this->candidate->id,
                 'candidate_name' => $this->candidate->name,
+                'participant_id' => $this->participant->id,
+                'participant_name' => $this->participant->name,
             ]),
         ])->onQueue('low');
     }

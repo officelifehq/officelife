@@ -181,8 +181,8 @@ class DashboardHRCandidatesViewHelper
 
         if (! $highestReachedStage) {
             return CandidateStage::where('candidate_id', $candidate->id)
-                ->orderBy('stage_position', 'asc')
-                ->last();
+                ->orderBy('stage_position', 'desc')
+                ->first();
         }
 
         return $highestReachedStage;
