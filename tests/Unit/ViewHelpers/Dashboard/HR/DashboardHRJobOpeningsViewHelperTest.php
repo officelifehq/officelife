@@ -12,6 +12,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
+use App\Models\Company\CandidateStage;
 use App\Models\Company\RecruitingStageTemplate;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRJobOpeningsViewHelper;
@@ -235,16 +236,24 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             'job_opening_id' => $jobOpening->id,
             'application_completed' => true,
         ]);
-        Candidate::factory()->create([
+        CandidateStage::factory()->create([
+            'candidate_id' => $candidate->id,
+            'status' => CandidateStage::STATUS_PENDING,
+        ]);
+        $candidate2 = Candidate::factory()->create([
             'company_id' => $michael->company_id,
             'job_opening_id' => $jobOpening->id,
             'application_completed' => true,
-            'rejected' => true,
+        ]);
+        CandidateStage::factory()->create([
+            'candidate_id' => $candidate2->id,
+            'status' => CandidateStage::STATUS_PASSED,
         ]);
         Candidate::factory()->create([
             'company_id' => $michael->company_id,
             'job_opening_id' => $jobOpening->id,
             'application_completed' => true,
+            'rejected' => true,
         ]);
 
         $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);

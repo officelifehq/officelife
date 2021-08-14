@@ -174,7 +174,6 @@ class DashboardHRJobOpeningsViewHelper
     {
         $team = $jobOpening->team;
         $position = $jobOpening->position;
-        $stages = $jobOpening->template->stages;
 
         $sponsors = $jobOpening->sponsors;
         $sponsorsCollection = collect();
@@ -196,7 +195,8 @@ class DashboardHRJobOpeningsViewHelper
 
         $allCandidates = $jobOpening->candidates()
             ->where('rejected', false)
-            ->with('stages')->get();
+            ->with('stages')
+            ->get();
 
         $candidatesSelectedCount = 0;
         $candidatesCollection = collect();
@@ -228,6 +228,7 @@ class DashboardHRJobOpeningsViewHelper
         $rejectedCandidates = $jobOpening->candidates()
             ->where('application_completed', true)
             ->where('rejected', true)
+            ->get()
             ->count();
 
         return [
