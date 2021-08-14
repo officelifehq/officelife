@@ -77,9 +77,23 @@
 }
 
 .participant-list {
+  li:first-child:hover {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
   li:last-child {
     border-bottom: none;
+
+    &:hover {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
   }
+}
+
+.participant-icon {
+  width: 16px;
 }
 </style>
 
@@ -245,13 +259,16 @@
                 </div>
               </div>
 
+              <!-- Participants -->
               <div class="pa3 bb bb-gray">
-                <!-- employees -->
-                <h3 class="mt0 fw5 f6">
-                  Participants in this recruiting stage
+                <h3 class="mt0 fw5 f5">
+                  <span class="mr1">
+                    🤓
+                  </span> Participants in this recruiting stage
                 </h3>
                 <p class="gray f6 mt0">Participants will be able to read any document uploaded by the candidate and provide feedback.</p>
 
+                <!-- list of participants -->
                 <ul class="pl0 ma0 ba bb-gray participant-list br3">
                   <li class="ph2 pv3 list bb bb-gray bb-gray-hover flex justify-between">
                     <div class="relative di" data-v-27cbaf5a="" data-v-bbcb10ee="">
@@ -259,7 +276,10 @@
                            style="top: 0px; height: 18px; width: 18px;" data-v-27cbaf5a=""
                       /><span class="f6 gray" style="margin-left: 25px;" data-v-27cbaf5a="">Dwight Schrute</span>
                     </div>
-                    <span class="badge closed">no feedback provided yet</span>
+                    <div>
+                      <span class="badge f7 closed">no feedback provided yet</span>
+                      <span class="ml2"><a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete f7" href="">{{ $t('app.remove') }}</a></span>
+                    </div>
                   </li>
                   <li class="ph2 pv3 list bb bb-gray bb-gray-hover flex justify-between">
                     <div class="relative di" data-v-27cbaf5a="" data-v-bbcb10ee="">
@@ -267,10 +287,12 @@
                            style="top: 0px; height: 18px; width: 18px;" data-v-27cbaf5a=""
                       /><span class="f6 gray" style="margin-left: 25px;" data-v-27cbaf5a="">Dwight Schrute</span>
                     </div>
-                    <span class="badge active">feedback provided</span>
+                    <span class="badge f7 active">feedback provided</span>
+                  </li>
+                  <li class="ph2 pv3 list bb bb-gray bb-gray-hover tc">
+                    <a class="bb b--dotted bt-0 bl-0 br-0 pointer f6" href="">Ask employee to assist and give feedback</a>
                   </li>
                 </ul>
-                <span>Ask employee to assist for this stage</span>
               </div>
 
               <!-- add a note -->

@@ -9,7 +9,6 @@ use App\Models\Company\Company;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use App\Models\Company\CandidateStage;
 
 class DashboardHRCandidatesViewHelper
@@ -48,23 +47,13 @@ class DashboardHRCandidatesViewHelper
      */
     public static function candidate(Company $company, JobOpening $jobOpening, Candidate $candidate): ?array
     {
-        // stages reached by the candidate
-        $candidateStages = $candidate->stages;
-
-        // all the stages of the job opening
-        $stages = $jobOpening->template->stages()->get();
-        $stagesCollection = collect();
-        foreach ($stages as $stage) {
-            // has the candidate reached this stage?
-            $candidateStage = $candidateStages->filter(function ($candidateStage) use ($stage) {
-                return $candidateStage->stage_position == $stage->position;
-            })->first();
-
-            $stagesCollection->push([
+        $candidateStagesCollection = collect();
+        foreach ($candidate->stages as $stage) {
+            $candidateStagesCollection->push([
                 'id' => $stage->id,
                 'name' => $stage->name,
-                'position' => $stage->position,
-                'status' => $candidateStage ? $candidateStage->status : CandidateStage::STATUS_PENDING,
+                'position' => $stage->stage_position,
+                'status' => $stage->status,
                 'url' => route('dashboard.hr.candidates.stage.show', [
                     'company' => $company,
                     'jobOpening' => $jobOpening,
@@ -80,7 +69,7 @@ class DashboardHRCandidatesViewHelper
             'email' => $candidate->email,
             'rejected' => $candidate->rejected,
             'created_at' => DateHelper::formatDate($candidate->created_at),
-            'stages' => $stagesCollection,
+            'stages' => $candidateStagesCollection,
         ];
     }
 
@@ -90,27 +79,29 @@ class DashboardHRCandidatesViewHelper
      *
      * @param Company $company
      * @param Candidate $candidate
+     * @param JobOpening $opening
      * @return Collection|null
      */
-    public static function otherJobOpenings(Company $company, Candidate $candidate): ?Collection
+    public static function otherJobOpenings(Company $company, Candidate $candidate, JobOpening $opening): ?Collection
     {
         // has the candidate applied to other job openings?
-        $otherJobOpenings = DB::table('job_openings')
-            ->join('candidates', 'job_openings.id', '=', 'candidates.job_opening_id')
-            ->where('candidates.company_id', '=', $company->id)
-            ->where('candidates.email', 'like', $candidate->email)
-            ->select('job_openings.id', 'job_openings.title', 'job_openings.slug', 'job_openings.reference_number', 'job_openings.active', 'job_openings.fulfilled')
-            ->get();
+        $otherCandidatesWithTheSameEmail = Candidate::where('company_id', $company->id)
+                ->where('email', 'like', $candidate->email)
+                ->where('job_opening_id', '!=', $opening->id)
+                ->with('jobOpening')
+                ->select('job_opening_id')
+                ->get();
 
         $otherJobOpeningsCollection = collect();
-        foreach ($otherJobOpenings as $otherJobOpening) {
+        foreach ($otherCandidatesWithTheSameEmail as $candidate) {
             $otherJobOpeningsCollection->push([
-                'id' => $otherJobOpening->id,
-                'title' => $otherJobOpening->title,
-                'slug' => $otherJobOpening->slug,
-                'reference_number' => $otherJobOpening->reference_number,
-                'active' => $otherJobOpening->active,
-                'fulfilled' => $otherJobOpening->fulfilled,
+                'id' => $candidate->jobOpening->id,
+                'title' => $candidate->jobOpening->title,
+                'slug' => $candidate->jobOpening->slug,
+                'reference_number' => $candidate->jobOpening->reference_number,
+                'active' => $candidate->jobOpening->active,
+                'fulfilled' => $candidate->jobOpening->fulfilled,
+                'activated_at' => DateHelper::formatDate($candidate->jobOpening->activated_at),
             ]);
         }
 
@@ -118,7 +109,7 @@ class DashboardHRCandidatesViewHelper
     }
 
     /**
-     * Get the information about a candidate.
+     * Get the information about a stage.
      *
      * @param CandidateStage $stage
      * @return array|null
