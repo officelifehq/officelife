@@ -8,6 +8,7 @@ use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use App\Models\Company\JobOpening;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use App\Models\Company\CandidateStage;
 
 class DashboardHRJobOpeningsViewHelper
@@ -225,10 +226,10 @@ class DashboardHRJobOpeningsViewHelper
             }
         }
 
-        $rejectedCandidates = $jobOpening->candidates()
+        $rejectedCandidatesCount = DB::table('candidates')
+            ->where('job_opening_id', $jobOpening->id)
             ->where('application_completed', true)
             ->where('rejected', true)
-            ->get()
             ->count();
 
         return [
@@ -252,7 +253,7 @@ class DashboardHRJobOpeningsViewHelper
             'sponsors' => $sponsorsCollection,
             'candidates' => [
                 'to_sort' => $candidatesCollection,
-                'rejected_count' => $rejectedCandidates,
+                'rejected_count' => $rejectedCandidatesCount,
                 'selected_count' => $candidatesSelectedCount,
             ],
             'team' => $team ? [
