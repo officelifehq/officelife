@@ -6,8 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        # [Choice] PHP version: 7, 7.4, 7.3
-        VARIANT: "7.4"
+        # [Choice] PHP version: 8.0
+        VARIANT: "8.0"
         # [Option] Install Node.js
         INSTALL_NODE: "true"
         NODE_VERSION: "lts/*"

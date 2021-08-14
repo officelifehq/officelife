@@ -1,15 +1,6 @@
-# Update the VARIANT arg in docker-compose.yml to pick a PHP version: 7, 7.4, 7.3
-ARG VARIANT=7.4
+# Update the VARIANT arg in docker-compose.yml to pick a PHP version: 8.0
+ARG VARIANT=8.0
 FROM mcr.microsoft.com/vscode/devcontainers/php:dev-${VARIANT}
-
-# Install MariaDB client
-RUN set -ex; \
-    \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
-        mariadb-client \
-    ; \
-    rm -rf /var/lib/apt/lists/*
 
 # Update args in docker-compose.yaml to set the UID/GID of the "vscode" user.
 ARG USER_UID=1000
@@ -45,9 +36,6 @@ RUN set -ex; \
     docker-php-ext-install -j$(nproc) \
         intl \
         zip \
-        pdo_mysql \
-        mysqli \
-        pdo_pgsql \
         pdo_sqlite \
     ; \
     rm -rf /var/lib/apt/lists/*
