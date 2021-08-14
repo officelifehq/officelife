@@ -32,7 +32,7 @@ class CandidateFactory extends Factory
             },
             'name' => $this->faker->name(),
             'email' => $this->faker->email(),
-            'uuid' => $this->faker->uuid,
+            'uuid' => (int) $this->faker->uuid,
             'desired_salary' => $this->faker->numberBetween(1, 100000),
             'notes' => $this->faker->text(100),
             'url' => $this->faker->url(),
