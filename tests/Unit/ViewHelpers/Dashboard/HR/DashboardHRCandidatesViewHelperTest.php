@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Dashboard\HR;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
@@ -188,6 +189,61 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                 ],
             ],
             $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_details_about_the_candidate_stage(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $stage = CandidateStage::factory()->create([
+            'decider_name' => 'alexis',
+            'status' => CandidateStage::STATUS_PENDING,
+        ]);
+        $array = DashboardHRCandidatesViewHelper::stage($stage);
+        $this->assertEquals(
+            [
+                'id' => $stage->id,
+                'status' => CandidateStage::STATUS_PENDING,
+                'decision' => null,
+            ],
+            $array
+        );
+
+        $stage = CandidateStage::factory()->create([
+            'decider_name' => 'alexis',
+            'decided_at' => Carbon::now(),
+            'status' => CandidateStage::STATUS_PASSED,
+        ]);
+        $array = DashboardHRCandidatesViewHelper::stage($stage);
+        $this->assertCount(
+            3,
+            $array,
+        );
+        $this->assertEquals(
+            $stage->id,
+            $array['id'],
+        );
+        $this->assertEquals(
+            CandidateStage::STATUS_PASSED,
+            $array['status'],
+        );
+        $this->assertEquals(
+            [
+                'decider' => [
+                    'id' => $stage->decider->id,
+                    'name' => $stage->decider->name,
+                    'avatar' => ImageHelper::getAvatar($stage->decider, 32),
+                    'position' => [
+                        'id' => $stage->decider->position->id,
+                        'title' => $stage->decider->position->title,
+                    ],
+                    'url' =>  env('APP_URL') . '/' . $stage->decider->company_id . '/employees/' . $stage->decider->id,
+                ],
+                'decided_at' => 'Jan 01, 2018',
+            ],
+            $array['decision'],
         );
     }
 }

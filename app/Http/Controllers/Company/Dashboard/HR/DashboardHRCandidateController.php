@@ -55,7 +55,7 @@ class DashboardHRCandidateController extends Controller
 
         $jobOpeningInfo = DashboardHRCandidatesViewHelper::jobOpening($company, $jobOpening);
         $candidateInfo = DashboardHRCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
-        $otherJobOpenings = DashboardHRCandidatesViewHelper::otherJobOpenings($company, $candidate);
+        $otherJobOpenings = DashboardHRCandidatesViewHelper::otherJobOpenings($company, $candidate, $jobOpening);
         $highestReachedStage = DashboardHRCandidatesViewHelper::determineHighestStage($candidate);
         $stageInfo = DashboardHRCandidatesViewHelper::stage($highestReachedStage);
 
@@ -148,7 +148,7 @@ class DashboardHRCandidateController extends Controller
 
         $jobOpeningInfo = DashboardHRCandidatesViewHelper::jobOpening($company, $jobOpening);
         $candidateInfo = DashboardHRCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
-        $otherJobOpenings = DashboardHRCandidatesViewHelper::otherJobOpenings($company, $candidate);
+        $otherJobOpenings = DashboardHRCandidatesViewHelper::otherJobOpenings($company, $candidate, $jobOpening);
         $stageInfo = DashboardHRCandidatesViewHelper::stage($candidateStage);
 
         return Inertia::render('Dashboard/HR/JobOpenings/Candidates/Show', [
