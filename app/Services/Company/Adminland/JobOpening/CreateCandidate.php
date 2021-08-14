@@ -78,6 +78,7 @@ class CreateCandidate extends BaseService
         foreach ($jobOpeningStages as $jobOpeningStage) {
             CandidateStage::create([
                 'candidate_id' => $this->candidate->id,
+                'stage_name' => $jobOpeningStage->name,
                 'stage_position' => $jobOpeningStage->position,
                 'status' => CandidateStage::STATUS_PENDING,
             ]);

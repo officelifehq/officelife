@@ -125,14 +125,14 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $stage1->id,
-                    'name' => $stage1->name,
+                    'name' => $stage1->stage_name,
                     'position' => $stage1->stage_position,
                     'status' => CandidateStage::STATUS_PASSED,
                     'url' => env('APP_URL') . '/' . $company->id. '/dashboard/hr/job-openings/' . $opening->id.'/candidates/'.$candidate->id.'/stages/'.$stage1->id,
                 ],
                 1 => [
                     'id' => $stage2->id,
-                    'name' => $stage2->name,
+                    'name' => $stage2->stage_name,
                     'position' => $stage2->stage_position,
                     'status' => CandidateStage::STATUS_PENDING,
                     'url' => env('APP_URL') . '/' . $company->id. '/dashboard/hr/job-openings/' . $opening->id.'/candidates/'.$candidate->id.'/stages/'.$stage2->id,

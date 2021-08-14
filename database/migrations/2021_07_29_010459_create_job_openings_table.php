@@ -77,6 +77,7 @@ class CreateJobOpeningsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('candidate_id');
             $table->unsignedBigInteger('decider_id')->nullable();
+            $table->string('stage_name');
             $table->integer('stage_position');
             $table->string('status');
             $table->string('decider_name')->nullable();

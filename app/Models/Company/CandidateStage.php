@@ -33,6 +33,7 @@ class CandidateStage extends Model
     protected $fillable = [
         'candidate_id',
         'decider_id',
+        'stage_name',
         'stage_position',
         'status',
         'name',

@@ -51,7 +51,7 @@ class DashboardHRCandidatesViewHelper
         foreach ($candidate->stages as $stage) {
             $candidateStagesCollection->push([
                 'id' => $stage->id,
-                'name' => $stage->name,
+                'name' => $stage->stage_name,
                 'position' => $stage->stage_position,
                 'status' => $stage->status,
                 'url' => route('dashboard.hr.candidates.stage.show', [
@@ -160,6 +160,7 @@ class DashboardHRCandidatesViewHelper
         if ($candidate->rejected) {
             return CandidateStage::where('candidate_id', $candidate->id)
                 ->where('status', CandidateStage::STATUS_REJECTED)
+                ->orderBy('stage_position', 'asc')
                 ->first();
         }
 
