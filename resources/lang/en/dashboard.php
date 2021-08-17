@@ -261,4 +261,6 @@ return [
     'job_opening_stage_passed' => 'The candidate has reached the next stage.',
     'job_opening_stage_decision_passed' => 'Passed',
     'job_opening_stage_decision_rejected' => 'Rejected',
+    'job_opening_stage_participants_success' => 'The participant has been added.',
+    'job_opening_stage_participants_remove_success' => 'The participant has been removed.',
 ];

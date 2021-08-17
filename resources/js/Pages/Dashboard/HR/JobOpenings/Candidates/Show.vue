@@ -75,26 +75,6 @@
     background-color: #ae20201f;
   }
 }
-
-.participant-list {
-  li:first-child:hover {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
-
-  li:last-child {
-    border-bottom: none;
-
-    &:hover {
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
-  }
-}
-
-.participant-icon {
-  width: 16px;
-}
 </style>
 
 <template>
@@ -158,7 +138,7 @@
             <inertia-link :href="''" class="f6 fl ph3 pv2 dib pointer no-underline">
               Curriculum vitae
             </inertia-link>
-            <inertia-link :href="''" class="f6 fl ph3 pv2 dib pointer no-underline">
+            <inertia-link :href="''" :class="{ 'selected': tab == 'recruiting' }" class="f6 fl ph3 pv2 dib pointer no-underline">
               Recruiting process
             </inertia-link>
           </div>
@@ -201,7 +181,7 @@
           <div class="fl w-80-l w-100 pl4-l">
             <div class="bg-white box">
               <!-- actions -->
-              <div v-if="!candidate.rejected && !stage.decision" class="pa3 bb bb-gray">
+              <div v-if="!candidate.rejected && !stage.decision" class="pa3 pb4 bb bb-gray">
                 <div class="tc">
                   <img loading="lazy" src="/img/streamline-icon-gavel@100x100.png" width="100" height="100" alt="meeting"
                        class="mb3"
@@ -260,63 +240,18 @@
               </div>
 
               <!-- Participants -->
-              <div class="pa3 bb bb-gray">
-                <h3 class="mt0 fw5 f5">
-                  <span class="mr1">
-                    🤓
-                  </span> Participants in this recruiting stage
-                </h3>
-                <p class="gray f6 mt0">Participants will be able to read any document uploaded by the candidate and provide feedback.</p>
-
-                <!-- list of participants -->
-                <ul class="pl0 ma0 ba bb-gray participant-list br3">
-                  <li class="ph2 pv3 list bb bb-gray bb-gray-hover flex justify-between">
-                    <div class="relative di" data-v-27cbaf5a="" data-v-bbcb10ee="">
-                      <img loading="lazy" src="https://ucarecdn.com/c1eab52a-1b79-4536-a2aa-e821605f92d2/-/scale_crop/18x18/smart/" srcset="https://ucarecdn.com/c1eab52a-1b79-4536-a2aa-e821605f92d2/-/scale_crop/18x18/smart/ 1x,https://ucarecdn.com/c1eab52a-1b79-4536-a2aa-e821605f92d2/-/scale_crop/36x36/smart/ 2x" class="absolute br-100" alt="avatar"
-                           style="top: 0px; height: 18px; width: 18px;" data-v-27cbaf5a=""
-                      /><span class="f6 gray" style="margin-left: 25px;" data-v-27cbaf5a="">Dwight Schrute</span>
-                    </div>
-                    <div>
-                      <span class="badge f7 closed">no feedback provided yet</span>
-                      <span class="ml2"><a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete f7" href="">{{ $t('app.remove') }}</a></span>
-                    </div>
-                  </li>
-                  <li class="ph2 pv3 list bb bb-gray bb-gray-hover flex justify-between">
-                    <div class="relative di" data-v-27cbaf5a="" data-v-bbcb10ee="">
-                      <img loading="lazy" src="https://ucarecdn.com/c1eab52a-1b79-4536-a2aa-e821605f92d2/-/scale_crop/18x18/smart/" srcset="https://ucarecdn.com/c1eab52a-1b79-4536-a2aa-e821605f92d2/-/scale_crop/18x18/smart/ 1x,https://ucarecdn.com/c1eab52a-1b79-4536-a2aa-e821605f92d2/-/scale_crop/36x36/smart/ 2x" class="absolute br-100" alt="avatar"
-                           style="top: 0px; height: 18px; width: 18px;" data-v-27cbaf5a=""
-                      /><span class="f6 gray" style="margin-left: 25px;" data-v-27cbaf5a="">Dwight Schrute</span>
-                    </div>
-                    <span class="badge f7 active">feedback provided</span>
-                  </li>
-                  <li class="ph2 pv3 list bb bb-gray bb-gray-hover tc">
-                    <a class="bb b--dotted bt-0 bl-0 br-0 pointer f6" href="">Ask employee to assist and give feedback</a>
-                  </li>
-                </ul>
-              </div>
+              <participants :job-opening-id="jobOpening.id"
+                            :candidate-id="candidate.id"
+                            :stage-id="stage.id"
+                            :participants="participants"
+              />
 
               <!-- add a note -->
-              <div class="pa3 bb bb-gray">
-                <text-area v-model="form.content"
-                           :label="$t('account.company_news_new_content')"
-                           :datacy="'news-content-textarea'"
-                           :required="true"
-                           :rows="10"
-                           :help="$t('account.company_news_new_content_help')"
-                />
-              </div>
-
-              <div class="pa3 bb bb-gray">
-                <div class="lh-copy">
-                  Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
-                </div>
-
-                <!-- poster information -->
-                <p class="flex justify-between f7 gray mb1">
-                  <span>Submitted by Regis Freyd</span>
-                  <span>3:30pm</span>
-                </p>
-              </div>
+              <notes :job-opening-id="jobOpening.id"
+                     :candidate-id="candidate.id"
+                     :stage-id="stage.id"
+                     :notes="notes"
+              />
             </div>
           </div>
         </div>
@@ -328,15 +263,17 @@
 <script>
 import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
-import TextArea from '@/Shared/TextArea';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import Participants from '@/Pages/Dashboard/HR/JobOpenings/Candidates/Partials/Participants';
+import Notes from '@/Pages/Dashboard/HR/JobOpenings/Candidates/Partials/Notes';
 
 export default {
   components: {
     Layout,
     LoadingButton,
-    TextArea,
     SmallNameAndAvatar,
+    Participants,
+    Notes,
   },
 
   props: {
@@ -354,6 +291,18 @@ export default {
     },
     stage: {
       type: Object,
+      default: null,
+    },
+    participants: {
+      type: Object,
+      default: null,
+    },
+    notes: {
+      type: Object,
+      default: null,
+    },
+    tab: {
+      type: String,
       default: null,
     },
   },

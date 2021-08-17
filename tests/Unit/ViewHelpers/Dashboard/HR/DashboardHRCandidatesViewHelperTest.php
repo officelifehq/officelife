@@ -6,11 +6,13 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
+use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 use App\Models\Company\CandidateStage;
 use App\Models\Company\RecruitingStage;
 use App\Models\Company\RecruitingStageTemplate;
+use App\Models\Company\CandidateStageParticipant;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRCandidatesViewHelper;
 
@@ -244,6 +246,154 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                 'decided_at' => 'Jan 01, 2018',
             ],
             $array['decision'],
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_details_about_the_participants(): void
+    {
+        $michael = $this->createAdministrator();
+        $jim = $this->createAnotherEmployee($michael);
+        $stage = CandidateStage::factory()->create();
+        $candidateStageParticipant = CandidateStageParticipant::factory()->create([
+            'candidate_stage_id' => $stage->id,
+            'participant_id' => $jim->id,
+        ]);
+
+        $collection = DashboardHRCandidatesViewHelper::participants($stage);
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $jim->id,
+                    'name' => $jim->name,
+                    'avatar' => ImageHelper::getAvatar($jim, 32),
+                    'participant_id' => $candidateStageParticipant->id,
+                    'url' =>  env('APP_URL') . '/' . $jim->company_id. '/employees/' . $jim->id,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_potential_new_participants(): void
+    {
+        $michael = $this->createAdministrator();
+        $jim = $this->createAnotherEmployee($michael);
+        $jean = Employee::factory()->create([
+            'first_name' => 'jean',
+            'company_id' => $michael->company_id,
+        ]);
+        $stage = CandidateStage::factory()->create();
+        CandidateStageParticipant::factory()->create([
+            'candidate_stage_id' => $stage->id,
+            'participant_id' => $michael->id,
+        ]);
+        CandidateStageParticipant::factory()->create([
+            'candidate_stage_id' => $stage->id,
+            'participant_id' => $jim->id,
+        ]);
+
+        $collection = DashboardHRCandidatesViewHelper::potentialParticipants($michael->company, $stage, 'je');
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $jean->id,
+                    'name' => $jean->name,
+                    'avatar' => ImageHelper::getAvatar($jean, 64),
+                ],
+            ],
+            $collection->toArray()
+        );
+
+        $collection = DashboardHRCandidatesViewHelper::potentialParticipants($michael->company, $stage, 'roger');
+        $this->assertEquals(
+            [],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_highest_stage_reached_by_a_candidate(): void
+    {
+        $candidate = Candidate::factory()->create([
+            'rejected' => true,
+        ]);
+
+        $stage = CandidateStage::factory()->create([
+            'candidate_id' => $candidate->id,
+            'stage_position' => 1,
+            'status' => CandidateStage::STATUS_PASSED,
+            'decider_id' => null,
+        ]);
+        $stage2 = CandidateStage::factory()->create([
+            'candidate_id' => $candidate->id,
+            'stage_position' => 2,
+            'status' => CandidateStage::STATUS_REJECTED,
+            'decider_id' => null,
+        ]);
+
+        $stageResult = DashboardHRCandidatesViewHelper::determineHighestStage($candidate);
+
+        $this->assertInstanceOf(
+            CandidateStage::class,
+            $stageResult
+        );
+        $this->assertEquals(
+            $stage2->id,
+            $stageResult->id
+        );
+
+        $candidate->rejected = false;
+        $candidate->save();
+
+        $stageResult = DashboardHRCandidatesViewHelper::determineHighestStage($candidate);
+        $this->assertEquals(
+            $stage->id,
+            $stageResult->id
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_list_of_potential_participants(): void
+    {
+        $michael = Employee::factory()->create([
+            'first_name' => 'michael',
+        ]);
+        $jim = Employee::factory()->create([
+            'company_id' => $michael->company_id,
+            'first_name' => 'jim',
+        ]);
+        $dwight = Employee::factory()->create([
+            'company_id' => $michael->company_id,
+            'first_name' => 'dwight',
+        ]);
+
+        $candidate = Candidate::factory()->create();
+        $stage = CandidateStage::factory()->create([
+            'candidate_id' => $candidate->id,
+        ]);
+        CandidateStageParticipant::factory()->create([
+            'candidate_stage_id' => $stage->id,
+            'participant_id' => $michael->id,
+        ]);
+
+        $collection = DashboardHRCandidatesViewHelper::potentialParticipants($michael->company, $stage, 'michael');
+        $this->assertEquals(
+            0,
+            $collection->count()
+        );
+
+        $collection = DashboardHRCandidatesViewHelper::potentialParticipants($michael->company, $stage, 'jim');
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $jim->id,
+                    'name' => $jim->name,
+                    'avatar' => ImageHelper::getAvatar($jim, 64),
+                ],
+            ],
+            $collection->toArray()
         );
     }
 }

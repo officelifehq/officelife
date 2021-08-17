@@ -150,6 +150,32 @@ class DashboardHRCandidatesViewHelper
     }
 
     /**
+     * Get the information about the participants in a stage.
+     *
+     * @param CandidateStage $stage
+     * @return Collection|null
+     */
+    public static function participants(CandidateStage $stage): ?Collection
+    {
+        $participants = $stage->participants()->with('participant')->get();
+        $participantCollection = collect();
+        foreach ($participants as $participant) {
+            $participantCollection->push([
+                'id' => $participant->participant->id,
+                'name' => $participant->participant->name,
+                'avatar' => ImageHelper::getAvatar($participant->participant, 32),
+                'participant_id' => $participant->id,
+                'url' => route('employees.show', [
+                    'company' => $participant->participant->company,
+                    'employee' => $participant->participant,
+                ]),
+            ]);
+        }
+
+        return $participantCollection;
+    }
+
+    /**
      * Determine the highest stage reached by the candidate.
      *
      * @param Candidate $candidate
@@ -176,5 +202,81 @@ class DashboardHRCandidatesViewHelper
         }
 
         return $highestReachedStage;
+    }
+
+    /**
+     * Returns the potential employees that can be added as participants.
+     * This filters out the current participants for the given stage.
+     *
+     * @param Company $company
+     * @param CandidateStage $stage
+     * @param string $criteria
+     * @return Collection
+     */
+    public static function potentialParticipants(Company $company, CandidateStage $stage, string $criteria): Collection
+    {
+        $currentParticipants = $stage->participants()
+            ->select('participant_id')
+            ->pluck('participant_id');
+
+        $potentialEmployees = $company->employees()
+            ->select('id', 'first_name', 'last_name', 'avatar_file_id')
+            ->notLocked()
+            ->where(function ($query) use ($criteria) {
+                $query->where('first_name', 'LIKE', '%' . $criteria . '%')
+                    ->orWhere('last_name', 'LIKE', '%' . $criteria . '%')
+                    ->orWhere('email', 'LIKE', '%' . $criteria . '%');
+            })
+            ->whereNotIn('id', $currentParticipants)
+            ->orderBy('last_name', 'asc')
+            ->take(10)
+            ->get();
+
+        $potentialEmployeesCollection = collect([]);
+        foreach ($potentialEmployees as $potential) {
+            $potentialEmployeesCollection->push([
+                'id' => $potential->id,
+                'name' => $potential->name,
+                'avatar' => ImageHelper::getAvatar($potential, 64),
+            ]);
+        }
+
+        return $potentialEmployeesCollection;
+    }
+
+    /**
+     * Get the information about the notes in a stage.
+     *
+     * @param Company $company
+     * @param CandidateStage $stage
+     * @return Collection|null
+     */
+    public static function notes(Company $company, CandidateStage $stage): ?Collection
+    {
+        $notes = $stage->notes()->with('author')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $noteCollection = collect();
+        foreach ($notes as $note) {
+            $noteCollection->push([
+                'id' => $note->id,
+                'note' => StringHelper::parse($note->note),
+                'created_at' => DateHelper::formatDate($note->created_at),
+                'author' => $note->author ? [
+                    'id' => $note->author->id,
+                    'name' => $note->author->name,
+                    'avatar' => ImageHelper::getAvatar($note->author, 32),
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $note->author,
+                    ]),
+                ] : [
+                    'name' => $note->author_name,
+                ],
+            ]);
+        }
+
+        return $noteCollection;
     }
 }

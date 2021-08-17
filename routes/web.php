@@ -152,6 +152,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('job-openings/{jobOpening}/candidates/{candidate}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@show')->name('dashboard.hr.candidates.show');
                 Route::get('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@showStage')->name('dashboard.hr.candidates.stage.show');
                 Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@store');
+
+                // participant in candidate stage
+                Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/searchParticipants', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@searchParticipants');
+                Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/assignParticipant', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@assignParticipant');
+                Route::delete('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/participants/{participant}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@removeParticipant');
+
+                // notes in candidate stage
+                Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/notes', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@notes');
             });
         });
 

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Company\Dashboard\HR;
 
 use Inertia\Inertia;
+use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
+use App\Helpers\StringHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Candidate;
 use Illuminate\Http\JsonResponse;
@@ -14,6 +17,9 @@ use App\Models\Company\CandidateStage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\JobOpening\ProcessCandidateStage;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRCandidatesViewHelper;
+use App\Services\Company\Adminland\JobOpening\CreateCandidateStageNote;
+use App\Services\Company\Adminland\JobOpening\CreateCandidateStageParticipant;
+use App\Services\Company\Adminland\JobOpening\DestroyCandidateStageParticipant;
 
 class DashboardHRCandidateController extends Controller
 {
@@ -43,14 +49,14 @@ class DashboardHRCandidateController extends Controller
                 ->with('sponsors')
                 ->findOrFail($jobOpeningId);
         } catch (ModelNotFoundException $e) {
-            return redirect('dashboard.hr.openings.index');
+            return redirect('home');
         }
 
         try {
             $candidate = Candidate::where('company_id', $company->id)
                 ->findOrFail($candidateId);
         } catch (ModelNotFoundException $e) {
-            return redirect('dashboard.hr.openings.index');
+            return redirect('home');
         }
 
         $jobOpeningInfo = DashboardHRCandidatesViewHelper::jobOpening($company, $jobOpening);
@@ -58,6 +64,8 @@ class DashboardHRCandidateController extends Controller
         $otherJobOpenings = DashboardHRCandidatesViewHelper::otherJobOpenings($company, $candidate, $jobOpening);
         $highestReachedStage = DashboardHRCandidatesViewHelper::determineHighestStage($candidate);
         $stageInfo = DashboardHRCandidatesViewHelper::stage($highestReachedStage);
+        $participants = DashboardHRCandidatesViewHelper::participants($highestReachedStage);
+        $notes = DashboardHRCandidatesViewHelper::notes($company, $highestReachedStage);
 
         return Inertia::render('Dashboard/HR/JobOpenings/Candidates/Show', [
             'notifications' => NotificationHelper::getNotifications($employee),
@@ -65,6 +73,9 @@ class DashboardHRCandidateController extends Controller
             'candidate' => $candidateInfo,
             'otherJobOpenings' => $otherJobOpenings,
             'stage' => $stageInfo,
+            'participants' => $participants,
+            'notes' => $notes,
+            'tab' => 'recruiting',
         ]);
     }
 
@@ -129,27 +140,29 @@ class DashboardHRCandidateController extends Controller
                 ->with('sponsors')
                 ->findOrFail($jobOpeningId);
         } catch (ModelNotFoundException $e) {
-            return redirect('dashboard.hr.openings.index');
+            return redirect('home');
         }
 
         try {
             $candidate = Candidate::where('company_id', $company->id)
                 ->findOrFail($candidateId);
         } catch (ModelNotFoundException $e) {
-            return redirect('dashboard.hr.openings.index');
+            return redirect('home');
         }
 
         try {
             $candidateStage = CandidateStage::where('candidate_id', $candidate->id)
                 ->findOrFail($stageId);
         } catch (ModelNotFoundException $e) {
-            return redirect('dashboard.hr.openings.index');
+            return redirect('home');
         }
 
         $jobOpeningInfo = DashboardHRCandidatesViewHelper::jobOpening($company, $jobOpening);
         $candidateInfo = DashboardHRCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
         $otherJobOpenings = DashboardHRCandidatesViewHelper::otherJobOpenings($company, $candidate, $jobOpening);
         $stageInfo = DashboardHRCandidatesViewHelper::stage($candidateStage);
+        $participants = DashboardHRCandidatesViewHelper::participants($candidateStage);
+        $notes = DashboardHRCandidatesViewHelper::notes($company, $candidateStage);
 
         return Inertia::render('Dashboard/HR/JobOpenings/Candidates/Show', [
             'notifications' => NotificationHelper::getNotifications($employee),
@@ -157,6 +170,169 @@ class DashboardHRCandidateController extends Controller
             'candidate' => $candidateInfo,
             'otherJobOpenings' => $otherJobOpenings,
             'stage' => $stageInfo,
+            'participants' => $participants,
+            'notes' => $notes,
+            'tab' => 'recruiting',
         ]);
+    }
+
+    /**
+     * Search the potential participants.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @param integer $candidateId
+     * @param integer $stageId
+     */
+    public function searchParticipants(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $stageId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        // is this person HR?
+        if ($employee->permission_level > config('officelife.permission_level.hr')) {
+            return response()->json([], 403);
+        }
+
+        try {
+            JobOpening::where('company_id', $loggedCompany->id)
+                ->with('team')
+                ->with('position')
+                ->with('sponsors')
+                ->findOrFail($jobOpeningId);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([], 403);
+        }
+
+        try {
+            $candidate = Candidate::where('company_id', $loggedCompany->id)
+                ->findOrFail($candidateId);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([], 403);
+        }
+
+        try {
+            $candidateStage = CandidateStage::where('candidate_id', $candidate->id)
+                ->findOrFail($stageId);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([], 403);
+        }
+
+        $potential = DashboardHRCandidatesViewHelper::potentialParticipants(
+            $loggedCompany,
+            $candidateStage,
+            $request->input('searchTerm')
+        );
+
+        return response()->json([
+            'data' => $potential,
+        ], 200);
+    }
+
+    /**
+     * Actually assign a participant to the recruiting stage.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @param integer $candidateId
+     * @param integer $stageId
+     * @return mixed
+     */
+    public function assignParticipant(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $stageId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $candidateStageParticipant = (new CreateCandidateStageParticipant)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'job_opening_id' => $jobOpeningId,
+            'candidate_id' => $candidateId,
+            'candidate_stage_id' => $stageId,
+            'participant_id' => $request->input('employeeId'),
+        ]);
+
+        return response()->json([
+            'data' => [
+                'id' => $candidateStageParticipant->participant->id,
+                'name' => $candidateStageParticipant->participant->name,
+                'avatar' => ImageHelper::getAvatar($candidateStageParticipant->participant, 32),
+                'participant_id' => $candidateStageParticipant->id,
+            ],
+        ], 200);
+    }
+
+    /**
+     * Remove a participant from the recruiting stage.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @param integer $candidateId
+     * @param integer $stageId
+     * @param integer $participantId
+     * @return mixed
+     */
+    public function removeParticipant(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $stageId, int $participantId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        (new DestroyCandidateStageParticipant)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'job_opening_id' => $jobOpeningId,
+            'candidate_id' => $candidateId,
+            'candidate_stage_id' => $stageId,
+            'candidate_stage_participant_id' => $participantId,
+        ]);
+
+        return response()->json([
+            'data' => true,
+        ], 200);
+    }
+
+    /**
+     * Create a new note.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @param integer $candidateId
+     * @param integer $stageId
+     * @return mixed
+     */
+    public function notes(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $stageId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $note = (new CreateCandidateStageNote)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'job_opening_id' => $jobOpeningId,
+            'candidate_id' => $candidateId,
+            'candidate_stage_id' => $stageId,
+            'note' => $request->input('note'),
+        ]);
+
+        return response()->json([
+            'data' => [
+                'id' => $note->id,
+                'note' => StringHelper::parse($note->note),
+                'created_at' => DateHelper::formatDate($note->created_at),
+                'author' => [
+                    'id' => $note->author->id,
+                    'name' => $note->author->name,
+                    'avatar' => ImageHelper::getAvatar($note->author, 32),
+                    'url' => route('employees.show', [
+                        'company' => $loggedCompany,
+                        'employee' => $note->author,
+                    ]),
+                ],
+            ],
+        ], 200);
     }
 }
