@@ -160,6 +160,7 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
             'job_opening_id' => $opening->id,
             'company_id' => $company->id,
             'email' => 'email',
+            'application_completed' => true,
         ]);
         $collection = DashboardHRCandidatesViewHelper::otherJobOpenings($company, $candidate, $opening);
         $this->assertEquals(0, $collection->count());
@@ -172,11 +173,13 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
             'job_opening_id' => $opening2->id,
             'company_id' => $company->id,
             'email' => 'email',
+            'application_completed' => true,
         ]);
         Candidate::factory()->create([
             'job_opening_id' => $opening2->id,
             'company_id' => $company->id,
             'email' => 'email2',
+            'application_completed' => true,
         ]);
 
         $collection = DashboardHRCandidatesViewHelper::otherJobOpenings($company, $candidate, $opening);
@@ -436,7 +439,8 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                 ],
                 1 => [
                     'id' => $candidateStageNote->id,
-                    'note' => StringHelper::parse($candidateStageNote->note),
+                    'note' => $candidateStageNote->note,
+                    'parsed_note' => StringHelper::parse($candidateStageNote->note),
                     'created_at' => DateHelper::formatShortDateWithTime($candidateStageNote->created_at),
                     'author' => [
                         'id' => $candidateStageNote->author->id,

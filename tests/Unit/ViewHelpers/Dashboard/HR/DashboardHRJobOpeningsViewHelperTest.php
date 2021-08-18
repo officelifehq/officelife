@@ -313,7 +313,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                     'id' => $candidate->id,
                     'name' => $candidate->name,
                     'received_at' => 'Jan 01, 2018',
-                    'url' => env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->position->id.'/candidates/' . $candidate->id,
+                    'url' => env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->id.'/candidates/' . $candidate->id,
                 ],
             ],
             $array['candidates']['to_sort']->toArray()
