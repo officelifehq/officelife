@@ -52,7 +52,7 @@ class CreateJobOpeningsTable extends Migration
             $table->string('url', 500)->nullable();
             $table->string('desired_salary')->nullable();
             $table->text('notes')->nullable();
-            $table->uuid('uuid');
+            $table->string('uuid');
             $table->boolean('application_completed')->default(false);
             $table->boolean('rejected')->default(false);
             $table->timestamps();

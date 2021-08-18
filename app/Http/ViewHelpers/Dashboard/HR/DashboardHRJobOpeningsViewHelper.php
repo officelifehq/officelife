@@ -275,4 +275,8 @@ class DashboardHRJobOpeningsViewHelper
             ]),
         ];
     }
+
+    public static function selected()
+    {
+    }
 }
