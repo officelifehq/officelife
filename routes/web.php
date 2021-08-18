@@ -160,6 +160,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
                 // notes in candidate stage
                 Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/notes', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@notes');
+                Route::put('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/notes/{note}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@updateNote');
+                Route::delete('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/notes/{note}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@destroyNote');
             });
         });
 

@@ -125,14 +125,18 @@
         </div>
 
         <!-- has the candidate applied to other jobs in the company -->
-        <div class="warning pa3 br3 mb4">
-          <p class="ma0 mb3 f6"><span class="mr1">⚠️</span> Has likely applied to 3 other jobs (based on the email address used)</p>
+        <div v-if="otherJobOpenings.length > 0" class="warning pa3 br3 mb4">
+          <p class="ma0 mb3 f6"><span class="mr1">⚠️</span> Has likely applied to {{ otherJobOpenings.length }} other jobs (based on the email address used)</p>
           <ul class="list ma0 pl0">
-            <li class="mb2 mr2"><inertia-link>Finance</inertia-link> <span class="badge f7 active">active</span></li>
-            <li class="mr2"><inertia-link>Finance</inertia-link> <span class="badge f7 closed">closed</span></li>
+            <li v-for="job in otherJobOpenings" :key="job.id" class="mb2 mr2">
+              <inertia-link :href="''" class="mr2">{{ job.title }}</inertia-link>
+              <span v-if="job.active" class="badge f7 active">active</span>
+              <span v-if="! job.active" class="badge f7 closed">closed</span>
+            </li>
           </ul>
         </div>
 
+        <!-- tab -->
         <div class="center br3 mb5 tc">
           <div class="cf dib btn-group">
             <inertia-link :href="''" class="f6 fl ph3 pv2 dib pointer no-underline">
@@ -144,6 +148,7 @@
           </div>
         </div>
 
+        <!-- central part  -->
         <div class="cf center">
           <!-- LEFT COLUMN -->
           <div class="fl w-20-l w-100">
@@ -286,6 +291,10 @@ export default {
       default: null,
     },
     candidate: {
+      type: Object,
+      default: null,
+    },
+    otherJobOpenings: {
       type: Object,
       default: null,
     },

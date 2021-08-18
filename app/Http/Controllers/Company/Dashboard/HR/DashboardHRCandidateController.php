@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\JobOpening\ProcessCandidateStage;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRCandidatesViewHelper;
 use App\Services\Company\Adminland\JobOpening\CreateCandidateStageNote;
+use App\Services\Company\Adminland\JobOpening\UpdateCandidateStageNote;
+use App\Services\Company\Adminland\JobOpening\DestroyCandidateStageNote;
 use App\Services\Company\Adminland\JobOpening\CreateCandidateStageParticipant;
 use App\Services\Company\Adminland\JobOpening\DestroyCandidateStageParticipant;
 
@@ -35,10 +37,10 @@ class DashboardHRCandidateController extends Controller
     public function show(Request $request, int $companyId, int $jobOpeningId, int $candidateId): mixed
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         // is this person HR?
-        if ($employee->permission_level > config('officelife.permission_level.hr')) {
+        if ($loggedEmployee->permission_level > config('officelife.permission_level.hr')) {
             return redirect('home');
         }
 
@@ -65,10 +67,10 @@ class DashboardHRCandidateController extends Controller
         $highestReachedStage = DashboardHRCandidatesViewHelper::determineHighestStage($candidate);
         $stageInfo = DashboardHRCandidatesViewHelper::stage($highestReachedStage);
         $participants = DashboardHRCandidatesViewHelper::participants($highestReachedStage);
-        $notes = DashboardHRCandidatesViewHelper::notes($company, $highestReachedStage);
+        $notes = DashboardHRCandidatesViewHelper::notes($company, $highestReachedStage, $loggedEmployee);
 
         return Inertia::render('Dashboard/HR/JobOpenings/Candidates/Show', [
-            'notifications' => NotificationHelper::getNotifications($employee),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
             'jobOpening' => $jobOpeningInfo,
             'candidate' => $candidateInfo,
             'otherJobOpenings' => $otherJobOpenings,
@@ -126,10 +128,10 @@ class DashboardHRCandidateController extends Controller
     public function showStage(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $stageId): mixed
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         // is this person HR?
-        if ($employee->permission_level > config('officelife.permission_level.hr')) {
+        if ($loggedEmployee->permission_level > config('officelife.permission_level.hr')) {
             return redirect('home');
         }
 
@@ -162,10 +164,10 @@ class DashboardHRCandidateController extends Controller
         $otherJobOpenings = DashboardHRCandidatesViewHelper::otherJobOpenings($company, $candidate, $jobOpening);
         $stageInfo = DashboardHRCandidatesViewHelper::stage($candidateStage);
         $participants = DashboardHRCandidatesViewHelper::participants($candidateStage);
-        $notes = DashboardHRCandidatesViewHelper::notes($company, $candidateStage);
+        $notes = DashboardHRCandidatesViewHelper::notes($company, $candidateStage, $loggedEmployee);
 
         return Inertia::render('Dashboard/HR/JobOpenings/Candidates/Show', [
-            'notifications' => NotificationHelper::getNotifications($employee),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
             'jobOpening' => $jobOpeningInfo,
             'candidate' => $candidateInfo,
             'otherJobOpenings' => $otherJobOpenings,
@@ -332,7 +334,90 @@ class DashboardHRCandidateController extends Controller
                         'employee' => $note->author,
                     ]),
                 ],
+                'permissions' => [
+                    'can_edit' => $loggedEmployee->id === $note->author->id,
+                    'can_destroy' => $loggedEmployee->id === $note->author->id,
+                ],
             ],
+        ], 200);
+    }
+
+    /**
+     * Update a note.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @param integer $candidateId
+     * @param integer $stageId
+     * @param integer $noteId
+     * @return mixed
+     */
+    public function updateNote(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $stageId, int $noteId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $note = (new UpdateCandidateStageNote)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'job_opening_id' => $jobOpeningId,
+            'candidate_id' => $candidateId,
+            'candidate_stage_id' => $stageId,
+            'candidate_stage_note_id' => $noteId,
+            'note' => $request->input('note'),
+        ]);
+
+        return response()->json([
+            'data' => [
+                'id' => $note->id,
+                'note' => $note->note,
+                'parsed_note' => StringHelper::parse($note->note),
+                'created_at' => DateHelper::formatShortDateWithTime($note->created_at),
+                'author' => [
+                    'id' => $note->author->id,
+                    'name' => $note->author->name,
+                    'avatar' => ImageHelper::getAvatar($note->author, 32),
+                    'url' => route('employees.show', [
+                        'company' => $loggedCompany,
+                        'employee' => $note->author,
+                    ]),
+                ],
+                'permissions' => [
+                    'can_edit' => $loggedEmployee->id === $note->author->id,
+                    'can_destroy' => $loggedEmployee->id === $note->author->id,
+                ],
+            ],
+        ], 200);
+    }
+
+    /**
+     * Destroy a note.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @param integer $candidateId
+     * @param integer $stageId
+     * @param integer $noteId
+     * @return mixed
+     */
+    public function destroyNote(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $stageId, int $noteId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        (new DestroyCandidateStageNote)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'job_opening_id' => $jobOpeningId,
+            'candidate_id' => $candidateId,
+            'candidate_stage_id' => $stageId,
+            'candidate_stage_note_id' => $noteId,
+        ]);
+
+        return response()->json([
+            'data' => true,
         ], 200);
     }
 }

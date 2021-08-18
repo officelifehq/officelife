@@ -6,6 +6,7 @@ use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Company;
+use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 use Illuminate\Support\Collection;
@@ -88,6 +89,7 @@ class DashboardHRCandidatesViewHelper
         $otherCandidatesWithTheSameEmail = Candidate::where('company_id', $company->id)
                 ->where('email', 'like', $candidate->email)
                 ->where('job_opening_id', '!=', $opening->id)
+                ->where('application_completed', true)
                 ->with('jobOpening')
                 ->select('job_opening_id')
                 ->get();
@@ -101,7 +103,6 @@ class DashboardHRCandidatesViewHelper
                 'reference_number' => $candidate->jobOpening->reference_number,
                 'active' => $candidate->jobOpening->active,
                 'fulfilled' => $candidate->jobOpening->fulfilled,
-                'activated_at' => DateHelper::formatDate($candidate->jobOpening->activated_at),
             ]);
         }
 
@@ -164,6 +165,7 @@ class DashboardHRCandidatesViewHelper
                 'id' => $participant->participant->id,
                 'name' => $participant->participant->name,
                 'avatar' => ImageHelper::getAvatar($participant->participant, 32),
+                'participated' => $participant->participated,
                 'participant_id' => $participant->id,
                 'url' => route('employees.show', [
                     'company' => $participant->participant->company,
@@ -249,9 +251,10 @@ class DashboardHRCandidatesViewHelper
      *
      * @param Company $company
      * @param CandidateStage $stage
+     * @param Employee $loggedEmployee
      * @return Collection|null
      */
-    public static function notes(Company $company, CandidateStage $stage): ?Collection
+    public static function notes(Company $company, CandidateStage $stage, Employee $loggedEmployee): ?Collection
     {
         $notes = $stage->notes()->with('author')
             ->orderBy('id', 'desc')
@@ -261,8 +264,9 @@ class DashboardHRCandidatesViewHelper
         foreach ($notes as $note) {
             $noteCollection->push([
                 'id' => $note->id,
-                'note' => StringHelper::parse($note->note),
-                'created_at' => DateHelper::formatDate($note->created_at),
+                'note' => $note->note,
+                'parsed_note' => StringHelper::parse($note->note),
+                'created_at' => DateHelper::formatShortDateWithTime($note->created_at),
                 'author' => $note->author ? [
                     'id' => $note->author->id,
                     'name' => $note->author->name,
@@ -273,6 +277,10 @@ class DashboardHRCandidatesViewHelper
                     ]),
                 ] : [
                     'name' => $note->author_name,
+                ],
+                'permissions' => [
+                    'can_edit' => $loggedEmployee->id === $note->author->id,
+                    'can_destroy' => $loggedEmployee->id === $note->author->id,
                 ],
             ]);
         }

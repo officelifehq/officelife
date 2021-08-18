@@ -12,23 +12,22 @@
       <span>
         <span class="mr1">
           📝
-        </span> Notes
+        </span> {{ $t('dashboard.job_opening_stage_notes_title') }}
       </span>
 
-      <a class="btn dib-l db" @click="showModal">Add a new note</a>
+      <a class="btn dib-l db" @click="showModal">{{ $t('dashboard.job_opening_stage_notes_cta') }}</a>
     </h3>
 
     <div v-if="modal">
       <form @submit.prevent="submit">
         <errors :errors="form.errors" />
 
-        <text-area v-model="form.note"
-                   :label="$t('account.')"
+        <text-area ref="note"
+                   v-model="form.note"
+                   :label="$t('dashboard.job_opening_stage_notes_note_textarea')"
                    :datacy="'news-content-textarea'"
                    :required="true"
                    :rows="10"
-                   :custom-ref="note"
-                   :help="$t('account.')"
         />
 
         <!-- Actions -->
@@ -39,29 +38,80 @@
                 {{ $t('app.cancel') }}
               </a>
             </div>
-            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'submit-update-message-button'" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" />
           </div>
         </div>
       </form>
     </div>
 
     <div v-for="note in localNotes" :key="note.id" class="mb4 note-item bb-gray-hover">
-      <div class="parsed-content" v-html="note.note"></div>
+      <div v-if="idToEdit != note.id">
+        <div class="parsed-content" v-html="note.parsed_note"></div>
 
-      <!-- poster information -->
-      <p class="flex justify-between f7 gray mb1">
-        <span>Submitted by {{ note.author.name }}</span>
-        <span>{{ note.created_at }}</span>
-      </p>
+        <!-- poster information -->
+        <p class="flex justify-between f7 gray mb1">
+          <ul class="pl0 ma0 list">
+            <li class="di mr2">{{ $t('dashboard.job_opening_stage_notes_written_by', { name: note.author.name }) }}</li>
+
+            <!-- edit link -->
+            <li v-if="note.permissions.can_edit" class="di mr2"><a class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="showEditModal(note)">{{ $t('app.edit') }}</a></li>
+
+            <!-- delete link -->
+            <li v-if="idToDelete == note.id" class="di">
+              {{ $t('app.sure') }}
+              <a class="c-delete mr1 pointer" @click.prevent="destroy(note)">
+                {{ $t('app.yes') }}
+              </a>
+              <a class="pointer" @click.prevent="idToDelete = 0">
+                {{ $t('app.no') }}
+              </a>
+            </li>
+            <li v-if="note.permissions.can_destroy && idToDelete != note.id" class="di">
+              <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click.prevent="idToDelete = note.id">
+                {{ $t('app.delete') }}
+              </a>
+            </li>
+          </ul>
+          <span>{{ note.created_at }}</span>
+        </p>
+      </div>
+
+      <!-- edit note -->
+      <div v-else>
+        <form @submit.prevent="update(note)">
+          <errors :errors="form.errors" />
+
+          <text-area ref="note"
+                     v-model="form.note"
+                     :label="$t('dashboard.job_opening_stage_notes_note_textarea')"
+                     :datacy="'news-content-textarea'"
+                     :required="true"
+                     :rows="10"
+          />
+
+          <!-- Actions -->
+          <div class="mt2 mb3">
+            <div class="flex-ns justify-between">
+              <div>
+                <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click="idToEdit = 0">
+                  {{ $t('app.cancel') }}
+                </a>
+              </div>
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" />
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
 
     <!-- blank state -->
-    <div v-if="localNotes.length == 0" class="bb bb-gray">
+    <div v-if="localNotes.length == 0">
       <p class="tc measure center mb4 lh-copy">
-        There are currently no job openings available.
+        {{ $t('dashboard.job_opening_stage_notes_blank') }}
       </p>
-      <img loading="lazy" class="db center mb4" alt="add a position symbol" srcset="/img/company/account/blank-position-1x.png,
-                                    /img/company/account/blank-position-2x.png 2x"
+
+      <img loading="lazy" src="/img/streamline-icon-color-notes@100x100.png" alt="symbol" class="db center mb4" height="80"
+           width="80"
       />
     </div>
   </div>
@@ -70,11 +120,13 @@
 <script>
 import LoadingButton from '@/Shared/LoadingButton';
 import TextArea from '@/Shared/TextArea';
+import Errors from '@/Shared/Errors';
 
 export default {
   components: {
     LoadingButton,
     TextArea,
+    Errors,
   },
 
   props: {
@@ -99,13 +151,14 @@ export default {
   data() {
     return {
       modal: false,
+      idToEdit: 0,
       idToDelete: 0,
       form: {
         note: '',
         errors: [],
       },
       localNotes: [],
-      loadingStateReject: '',
+      loadingState: '',
       processingSearch: false,
     };
   },
@@ -128,6 +181,15 @@ export default {
       });
     },
 
+    showEditModal(note) {
+      this.form.note = note.note;
+      this.idToEdit = note.id;
+
+      this.$nextTick(() => {
+        this.$refs.note.focus();
+      });
+    },
+
     submit() {
       this.loadingState = 'loading';
 
@@ -141,6 +203,38 @@ export default {
         .catch(error => {
           this.form.errors = error.response.data;
           this.loadingState = null;
+        });
+    },
+
+    update(note) {
+      this.loadingState = 'loading';
+
+      axios.put(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpeningId}/candidates/${this.candidateId}/stages/${this.stageId}/notes/${note.id}`, this.form)
+        .then(response => {
+          this.localNotes[this.localNotes.findIndex(x => x.id === note.id)] = response.data.data;
+          this.flash(this.$t('dashboard.job_opening_stage_notes_update_success'), 'success');
+
+          this.idToEdit = 0;
+          this.form.note = '';
+          this.loadingState = null;
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+          this.loadingState = null;
+        });
+    },
+
+    destroy(note) {
+      axios.delete(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpeningId}/candidates/${this.candidateId}/stages/${this.stageId}/notes/${note.id}`)
+        .then(response => {
+          this.idToDelete = 0;
+          var id = this.localNotes.findIndex(x => x.id == note.id);
+          this.localNotes.splice(id, 1);
+
+          this.flash(this.$t('dashboard.job_opening_stage_notes_destroy_success'), 'success');
+        })
+        .catch(error => {
+          this.idToDelete = 0;
         });
     },
   }

@@ -4,13 +4,16 @@ namespace Tests\Unit\ViewHelpers\Dashboard\HR;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
+use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 use App\Models\Company\CandidateStage;
 use App\Models\Company\RecruitingStage;
+use App\Models\Company\CandidateStageNote;
 use App\Models\Company\RecruitingStageTemplate;
 use App\Models\Company\CandidateStageParticipant;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -187,7 +190,6 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                     'reference_number' => $opening2->reference_number,
                     'active' => $opening2->active,
                     'fulfilled' => $opening2->fulfilled,
-                    'activated_at' => 'Jan 01, 2018',
                 ],
             ],
             $collection->toArray()
@@ -258,6 +260,7 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
         $candidateStageParticipant = CandidateStageParticipant::factory()->create([
             'candidate_stage_id' => $stage->id,
             'participant_id' => $jim->id,
+            'participated' => true,
         ]);
 
         $collection = DashboardHRCandidatesViewHelper::participants($stage);
@@ -267,6 +270,7 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                     'id' => $jim->id,
                     'name' => $jim->name,
                     'avatar' => ImageHelper::getAvatar($jim, 32),
+                    'participated' => true,
                     'participant_id' => $candidateStageParticipant->id,
                     'url' =>  env('APP_URL') . '/' . $jim->company_id. '/employees/' . $jim->id,
                 ],
@@ -391,6 +395,59 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                     'id' => $jim->id,
                     'name' => $jim->name,
                     'avatar' => ImageHelper::getAvatar($jim, 64),
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_notes(): void
+    {
+        $michael = $this->createAdministrator();
+        $jim = $this->createAnotherEmployee($michael);
+        $stage = CandidateStage::factory()->create();
+        $candidateStageNote = CandidateStageNote::factory()->create([
+            'candidate_stage_id' => $stage->id,
+            'author_id' => $michael->id,
+        ]);
+        $candidateStageNoteB = CandidateStageNote::factory()->create([
+            'candidate_stage_id' => $stage->id,
+        ]);
+
+        $collection = DashboardHRCandidatesViewHelper::notes($michael->company, $stage, $michael);
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $candidateStageNoteB->id,
+                    'note' => $candidateStageNoteB->note,
+                    'parsed_note' => StringHelper::parse($candidateStageNoteB->note),
+                    'created_at' => DateHelper::formatShortDateWithTime($candidateStageNoteB->created_at),
+                    'author' => [
+                        'id' => $candidateStageNoteB->author->id,
+                        'name' => $candidateStageNoteB->author->name,
+                        'avatar' => ImageHelper::getAvatar($candidateStageNoteB->author, 32),
+                        'url' =>  env('APP_URL') . '/' . $michael->company_id . '/employees/' . $candidateStageNoteB->author->id,
+                    ],
+                    'permissions' => [
+                        'can_edit' => false,
+                        'can_destroy' => false,
+                    ],
+                ],
+                1 => [
+                    'id' => $candidateStageNote->id,
+                    'note' => StringHelper::parse($candidateStageNote->note),
+                    'created_at' => DateHelper::formatShortDateWithTime($candidateStageNote->created_at),
+                    'author' => [
+                        'id' => $candidateStageNote->author->id,
+                        'name' => $candidateStageNote->author->name,
+                        'avatar' => ImageHelper::getAvatar($michael, 32),
+                        'url' =>  env('APP_URL') . '/' . $michael->company_id . '/employees/' . $michael->id,
+                    ],
+                    'permissions' => [
+                        'can_edit' => true,
+                        'can_destroy' => true,
+                    ],
                 ],
             ],
             $collection->toArray()

@@ -41,9 +41,9 @@
     <h3 class="mt0 fw5 f5">
       <span class="mr1">
         🤓
-      </span> Participants in this recruiting stage
+      </span> {{ $t('dashboard.job_opening_stage_participants_title') }}
     </h3>
-    <p class="gray f6 mt0">Participants will be able to read any document uploaded by the candidate and provide feedback.</p>
+    <p class="gray f6 mt0 lh-copy">{{ $t('dashboard.job_opening_stage_participants_help') }}</p>
 
     <!-- list of participants -->
     <ul class="pl0 ma0 ba bb-gray participant-list br3">
@@ -62,8 +62,10 @@
           {{ participant.name }}
         </span>
         <div>
-          <span class="badge f7">no feedback provided yet</span>
+          <span v-if="participant.participated" class="badge f7 feedback">{{ $t('dashboard.job_opening_stage_participants_feedback') }}</span>
+          <span v-else class="badge f7">{{ $t('dashboard.job_opening_stage_participants_no_feedback') }}</span>
 
+          <!-- remove button -->
           <ul class="list pl2 di f7 mv0">
             <li v-if="idToDelete == participant.id" class="di">
               {{ $t('app.sure') }}
