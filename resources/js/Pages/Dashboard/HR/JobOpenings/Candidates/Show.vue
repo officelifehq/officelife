@@ -90,10 +90,10 @@
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings'">{{ $t('app.breadcrumb_hr_job_openings_active') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings/' + jobOpening.id">{{ $t('app.breadcrumb_dashboard_job_opening_detail') }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_job_opening_detail') }}
+            {{ $t('app.breadcrumb_dashboard_job_opening_candidate') }}
           </li>
         </ul>
       </div>
@@ -111,16 +111,15 @@
 
               <ul class="list pa0 ma0 f7 gray">
                 <li class="di mr3">
-                  Applied {{ candidate.created_at }}
+                  {{ $t('dashboard.job_opening_show_candidate_applied', { date: candidate.created_at }) }}
                 </li>
                 <li class="di mr3">{{ candidate.email }}</li>
-                <li class="di">telephone number</li>
               </ul>
             </div>
           </div>
 
           <div class="bg-gray pa3 f7 box-bottom">
-            <p class="ma0">Job opening: <inertia-link :href="jobOpening.url">{{ jobOpening.title }}</inertia-link></p>
+            <p class="ma0">{{ $t('dashboard.job_opening_show_candidate_job_opening') }} <inertia-link :href="jobOpening.url">{{ jobOpening.title }}</inertia-link></p>
           </div>
         </div>
 
@@ -140,17 +139,17 @@
         <div class="center br3 mb5 tc">
           <div class="cf dib btn-group">
             <inertia-link :href="''" class="f6 fl ph3 pv2 dib pointer no-underline">
-              Curriculum vitae
+              {{ $t('dashboard.job_opening_show_candidate_tab_cv') }}
             </inertia-link>
             <inertia-link :href="''" :class="{ 'selected': tab == 'recruiting' }" class="f6 fl ph3 pv2 dib pointer no-underline">
-              Recruiting process
+              {{ $t('dashboard.job_opening_show_candidate_tab_recruiting') }}
             </inertia-link>
           </div>
         </div>
 
         <!-- central part  -->
         <div class="cf center">
-          <!-- LEFT COLUMN -->
+          <!-- left column -->
           <div class="fl w-20-l w-100">
             <!-- sidebar -->
             <ul class="list ma0 pl0 sidebar">
@@ -193,11 +192,11 @@
                   />
                 </div>
                 <p class="mt0 mb3 f4 tc">
-                  Do you consider this candidate to be qualified for the next stage?
+                  {{ $t('dashboard.job_opening_show_stage_decision_question') }}
                 </p>
                 <div class="list ma0 pl0 tc">
-                  <loading-button :class="'btn w-auto-ns w-100 pv2 ph3 mb0-ns mb2 mr3 destroy'" :state="loadingStateReject" :text="'Reject'" @click="reject()" />
-                  <loading-button :class="'btn w-auto-ns w-100 pv2 ph3 mb0-ns mb2 add'" :state="loadingStateAccept" :text="'Qualifies for next stage'" @click="accept()" />
+                  <loading-button :class="'btn w-auto-ns w-100 pv2 ph3 mb0-ns mb2 mr3 destroy'" :state="loadingStateReject" :text="$t('app.reject')" @click="reject()" />
+                  <loading-button :class="'btn w-auto-ns w-100 pv2 ph3 mb0-ns mb2 add'" :state="loadingStateAccept" :text="$t('dashboard.job_opening_show_stage_decision')" @click="accept()" />
                 </div>
               </div>
 
@@ -207,7 +206,7 @@
                   <!-- decision -->
                   <div>
                     <span class="db mb2 f7 gray">
-                      Decision
+                      {{ $t('dashboard.job_opening_show_stage_decision_text') }}
                     </span>
                     <span>{{ $t('dashboard.job_opening_stage_decision_' + stage.status) }}</span>
                   </div>
@@ -215,7 +214,7 @@
                   <!-- decider name -->
                   <div>
                     <span class="db mb2 f7 gray">
-                      Decider
+                      {{ $t('dashboard.job_opening_show_stage_decider') }}
                     </span>
 
                     <!-- case the employee still exists -->
@@ -237,7 +236,7 @@
                   <!-- decider date -->
                   <div>
                     <span class="db mb2 f7 gray">
-                      Decided on
+                      {{ $t('dashboard.job_opening_show_stage_decided_on') }}
                     </span>
                     <span>{{ stage.decision.decided_at }}</span>
                   </div>

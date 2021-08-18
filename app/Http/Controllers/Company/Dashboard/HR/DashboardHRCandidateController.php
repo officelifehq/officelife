@@ -323,7 +323,8 @@ class DashboardHRCandidateController extends Controller
         return response()->json([
             'data' => [
                 'id' => $note->id,
-                'note' => StringHelper::parse($note->note),
+                'note' => $note->note,
+                'parsed_note' => StringHelper::parse($note->note),
                 'created_at' => DateHelper::formatDate($note->created_at),
                 'author' => [
                     'id' => $note->author->id,

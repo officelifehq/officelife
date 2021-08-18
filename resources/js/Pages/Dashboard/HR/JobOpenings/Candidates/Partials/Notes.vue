@@ -175,6 +175,7 @@ export default {
   methods: {
     showModal() {
       this.modal = true;
+      this.form.note = '';
 
       this.$nextTick(() => {
         this.$refs.note.focus();
