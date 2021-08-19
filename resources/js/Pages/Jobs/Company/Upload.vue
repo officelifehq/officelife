@@ -252,6 +252,7 @@ export default {
     submit() {
       if (this.localFiles.length == 0) {
         this.showWarningMessage = true;
+        return;
       }
 
       axios.post(`jobs/${this.data.company.slug}/jobs/${this.data.job_opening.slug}/apply/${this.candidate.slug}`, this.form)

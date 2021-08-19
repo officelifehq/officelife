@@ -159,11 +159,15 @@ class DashboardHRJobOpeningController extends Controller
 
         $jobOpeningDetail = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
         $sponsors = DashboardHRJobOpeningsViewHelper::sponsors($company, $jobOpening);
+        $stats = DashboardHRJobOpeningsViewHelper::stats($jobOpening);
+        $candidates = DashboardHRJobOpeningsViewHelper::toSort($company, $jobOpening);
 
         return Inertia::render('Dashboard/HR/JobOpenings/Show', [
             'notifications' => NotificationHelper::getNotifications($employee),
             'jobOpening' => $jobOpeningDetail,
             'sponsors' => $sponsors,
+            'stats' => $stats,
+            'candidates' => $candidates,
             'tab' => 'to_sort',
         ]);
     }

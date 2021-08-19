@@ -190,13 +190,13 @@
         <div class="center br3 mb5 tc">
           <div class="cf dib btn-group">
             <inertia-link :href="''" class="f6 fl ph3 pv2 dib pointer no-underline">
-              {{ $t('dashboard.job_opening_show_tab_rejected', {count: jobOpening.candidates.rejected_count}) }}
+              {{ $t('dashboard.job_opening_show_tab_rejected', {count: stats.rejected}) }}
             </inertia-link>
             <inertia-link :href="''" :class="{ 'selected': tab === 'to_sort'}" class="f6 fl ph3 pv2 dib pointer no-underline">
-              {{ $t('dashboard.job_opening_show_tab_to_sort', {count: jobOpening.candidates.to_sort.length}) }}
+              {{ $t('dashboard.job_opening_show_tab_to_sort', {count: stats.to_sort}) }}
             </inertia-link>
             <inertia-link :href="''" class="f6 fl ph3 pv2 dib pointer no-underline">
-              {{ $t('dashboard.job_opening_show_tab_selected', {count: jobOpening.candidates.selected_count}) }}
+              {{ $t('dashboard.job_opening_show_tab_selected', {count: stats.selected}) }}
             </inertia-link>
           </div>
         </div>
@@ -204,20 +204,14 @@
 
       <div class="mw7 center br3 mb5 relative z-1">
         <div class="bg-white box">
-          <ul v-if="jobOpening.candidates.to_sort.length > 0" class="ma0 pl0 list">
-            <li v-for="candidate in jobOpening.candidates.to_sort" :key="candidate.id" class="pa3 candidate-item bb bb-gray bb-gray-hover relative flex justify-between">
+          <ul v-if="candidates.length > 0" class="ma0 pl0 list">
+            <li v-for="candidate in candidates" :key="candidate.id" class="pa3 candidate-item bb bb-gray bb-gray-hover relative flex justify-between">
               <div>
                 <span class="dib relative mr2 br-100 dot"></span>
                 <inertia-link :href="candidate.url">{{ candidate.name }}</inertia-link>
               </div>
 
               <span class="f7 gray">{{ candidate.received_at }}</span>
-            </li>
-            <li class="pa3 candidate-item bb bb-gray bb-gray-hover">
-              <inertia-link :href="''" class="mb2 dib">Tom Yorke</inertia-link>
-              <div class="db f7 gray">
-                Rejected by Regis Freyd on Dec 19, 2010
-              </div>
             </li>
           </ul>
 
@@ -258,6 +252,14 @@ export default {
       default: null,
     },
     sponsors: {
+      type: Object,
+      default: null,
+    },
+    stats: {
+      type: Object,
+      default: null,
+    },
+    candidates: {
       type: Object,
       default: null,
     },

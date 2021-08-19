@@ -232,10 +232,11 @@ class DashboardHRJobOpeningsViewHelper
     /**
      * Get the stats about the job opening.
      *
+     * @param Company $company
      * @param JobOpening $jobOpening
      * @return array
      */
-    public static function stats(JobOpening $jobOpening): array
+    public static function stats(Company $company, JobOpening $jobOpening): array
     {
         $rejectedCandidatesCount = DB::table('candidates')
             ->where('job_opening_id', $jobOpening->id)
@@ -268,9 +269,21 @@ class DashboardHRJobOpeningsViewHelper
         }
 
         return [
-            'to_sort' => $candidatesToSortCount,
+            'to_sort' => [
+                'count' => $candidatesToSortCount,
+                'url' => route('dashboard.hr.openings.show', [
+                    'company' => $company,
+                    'jobOpening' => $jobOpening,
+                ]),
+            ],
             'selected' => $candidatesSelectedCount,
-            'rejected' => $rejectedCandidatesCount,
+            'rejected' => [
+                'count' => $rejectedCandidatesCount,
+                'url' => route('dashboard.hr.openings.show.rejected', [
+                    'company' => $company,
+                    'jobOpening' => $jobOpening,
+                ]),
+            ],
         ];
     }
 
@@ -315,6 +328,7 @@ class DashboardHRJobOpeningsViewHelper
     {
         $allCandidates = $jobOpening->candidates()
             ->where('rejected', false)
+            ->where('application_completed', true)
             ->with('stages')
             ->get();
 
