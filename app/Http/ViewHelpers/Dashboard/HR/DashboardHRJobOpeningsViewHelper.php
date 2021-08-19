@@ -176,6 +176,113 @@ class DashboardHRJobOpeningsViewHelper
         $team = $jobOpening->team;
         $position = $jobOpening->position;
 
+        $stagesCollection = collect();
+        foreach ($jobOpening->template->stages as $stage) {
+            $stagesCollection->push([
+                'id' => $stage->id,
+                'name' => $stage->name,
+                'position' => $stage->position,
+                // 'url' => route('dashboard.hr.openings.stage.show', [
+                //     'company' => $company,
+                //     'jobOpening' => $jobOpening,
+                //     'stage' => $stage,
+                // ]),
+            ]);
+        }
+
+        return [
+            'id' => $jobOpening->id,
+            'title' => $jobOpening->title,
+            'description' => StringHelper::parse($jobOpening->description),
+            'slug' => $jobOpening->slug,
+            'reference_number' => $jobOpening->reference_number,
+            'active' => $jobOpening->active,
+            'activated_at' => $jobOpening->activated_at ? DateHelper::formatDate($jobOpening->activated_at) : null,
+            'page_views' => $jobOpening->page_views,
+            'position' => [
+                'id' => $position->id,
+                'title' => $position->title,
+                'count_employees' => $position->employees()->notLocked()->count(),
+                'url' => route('hr.positions.show', [
+                    'company' => $company,
+                    'position' => $position,
+                ]),
+            ],
+            'stages' => $stagesCollection,
+            'team' => $team ? [
+                'id' => $team->id,
+                'name' => $team->name,
+                'count' => $team->employees()->notLocked()->count(),
+                'url' => route('team.show', [
+                    'company' => $company,
+                    'team' => $team,
+                ]),
+            ] : null,
+            'url_public_view' => route('jobs.company.show.incognito', [
+                'company' => $company->slug,
+                'job' => $jobOpening->slug,
+            ]),
+            'url_edit' => route('dashboard.hr.openings.edit', [
+                'company' => $company,
+                'jobOpening' => $jobOpening,
+            ]),
+        ];
+    }
+
+    /**
+     * Get the stats about the job opening.
+     *
+     * @param JobOpening $jobOpening
+     * @return array
+     */
+    public static function stats(JobOpening $jobOpening): array
+    {
+        $rejectedCandidatesCount = DB::table('candidates')
+            ->where('job_opening_id', $jobOpening->id)
+            ->where('application_completed', true)
+            ->where('rejected', true)
+            ->count();
+
+        $allCandidates = $jobOpening->candidates()
+            ->where('application_completed', true)
+            ->where('rejected', false)
+            ->with('stages')
+            ->get();
+
+        $candidatesToSortCount = 0;
+        $candidatesSelectedCount = 0;
+        foreach ($allCandidates as $candidate) {
+            $needsToBeSorted = true;
+            $candidateStages = $candidate->stages;
+            foreach ($candidateStages as $candidateStage) {
+                if ($candidateStage->status != CandidateStage::STATUS_PENDING) {
+                    $needsToBeSorted = false;
+                }
+            }
+
+            if ($needsToBeSorted) {
+                $candidatesToSortCount = $candidatesToSortCount + 1;
+            } else {
+                $candidatesSelectedCount = $candidatesSelectedCount + 1;
+            }
+        }
+
+        return [
+            'to_sort' => $candidatesToSortCount,
+            'selected' => $candidatesSelectedCount,
+            'rejected' => $rejectedCandidatesCount,
+        ];
+    }
+
+    /**
+     * Get all the sponsors about a specific job opening.
+     *
+     * @param Company $company
+     * @param JobOpening $jobOpening
+     * @return Collection
+     */
+    public static function sponsors(Company $company, JobOpening $jobOpening): Collection
+    {
         $sponsors = $jobOpening->sponsors;
         $sponsorsCollection = collect();
         foreach ($sponsors as $sponsor) {
@@ -194,12 +301,23 @@ class DashboardHRJobOpeningsViewHelper
             ]);
         }
 
+        return $sponsorsCollection;
+    }
+
+    /**
+     * Get the candidates to sort for the given job opening.
+     *
+     * @param Company $company
+     * @param JobOpening $jobOpening
+     * @return Collection
+     */
+    public static function toSort(Company $company, JobOpening $jobOpening): Collection
+    {
         $allCandidates = $jobOpening->candidates()
             ->where('rejected', false)
             ->with('stages')
             ->get();
 
-        $candidatesSelectedCount = 0;
         $candidatesCollection = collect();
         foreach ($allCandidates as $candidate) {
             $needsToBeSorted = true;
@@ -221,62 +339,51 @@ class DashboardHRJobOpeningsViewHelper
                         'candidate' => $candidate,
                     ]),
                 ]);
-            } else {
-                $candidatesSelectedCount = $candidatesSelectedCount + 1;
             }
         }
 
-        $rejectedCandidatesCount = DB::table('candidates')
-            ->where('job_opening_id', $jobOpening->id)
-            ->where('application_completed', true)
-            ->where('rejected', true)
-            ->count();
-
-        return [
-            'id' => $jobOpening->id,
-            'title' => $jobOpening->title,
-            'description' => StringHelper::parse($jobOpening->description),
-            'slug' => $jobOpening->slug,
-            'reference_number' => $jobOpening->reference_number,
-            'active' => $jobOpening->active,
-            'activated_at' => $jobOpening->activated_at ? DateHelper::formatDate($jobOpening->activated_at) : null,
-            'page_views' => $jobOpening->page_views,
-            'position' => [
-                'id' => $position->id,
-                'title' => $position->title,
-                'count_employees' => $position->employees()->notLocked()->count(),
-                'url' => route('hr.positions.show', [
-                    'company' => $company,
-                    'position' => $position,
-                ]),
-            ],
-            'sponsors' => $sponsorsCollection,
-            'candidates' => [
-                'to_sort' => $candidatesCollection,
-                'rejected_count' => $rejectedCandidatesCount,
-                'selected_count' => $candidatesSelectedCount,
-            ],
-            'team' => $team ? [
-                'id' => $team->id,
-                'name' => $team->name,
-                'count' => $team->employees()->notLocked()->count(),
-                'url' => route('team.show', [
-                    'company' => $company,
-                    'team' => $team,
-                ]),
-            ] : null,
-            'url_public_view' => route('jobs.company.show.incognito', [
-                'company' => $company->slug,
-                'job' => $jobOpening->slug,
-            ]),
-            'url_edit' => route('dashboard.hr.openings.edit', [
-                'company' => $company,
-                'jobOpening' => $jobOpening,
-            ]),
-        ];
+        return $candidatesCollection;
     }
 
-    public static function selected()
+    /**
+     * Get the candidates who have been rejected for the given job opening.
+     *
+     * @param Company $company
+     * @param JobOpening $jobOpening
+     * @return Collection
+     */
+    public static function rejected(Company $company, JobOpening $jobOpening): Collection
     {
+        $rejectedCandidates = $jobOpening->candidates()
+            ->where('rejected', true)
+            ->with('stages')
+            ->get();
+
+        $candidatesCollection = collect();
+        foreach ($rejectedCandidates as $candidate) {
+            $stageCollection = collect();
+            foreach ($candidate->stages as $stage) {
+                $stageCollection->push([
+                    'id' => $stage->id,
+                    'name' => $stage->stage_name,
+                    'position' => $stage->stage_position,
+                    'status' => $stage->status,
+                ]);
+            }
+
+            $candidatesCollection->push([
+                'id' => $candidate->id,
+                'name' => $candidate->name,
+                'received_at' => DateHelper::formatDate($candidate->created_at),
+                'stages' => $stageCollection,
+                'url' => route('dashboard.hr.candidates.show', [
+                    'company' => $company,
+                    'jobOpening' => $jobOpening,
+                    'candidate' => $candidate,
+                ]),
+            ]);
+        }
+
+        return $candidatesCollection;
     }
 }

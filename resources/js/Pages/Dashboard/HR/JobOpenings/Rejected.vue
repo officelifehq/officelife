@@ -28,6 +28,14 @@
   }
 }
 
+.reference-number {
+  padding: 2px 6px;
+  border-radius: 6px;
+  top: -4px;
+  background-color: #ddf4ff;
+  color: #0969da;
+}
+
 .icon {
   color: #6a73a4;
   width: 15px;
@@ -88,7 +96,43 @@
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
         <!-- header -->
-        <information :job-opening="jobOpening" />
+        <div class="mb4 bg-white box pa3">
+          <h2 class="mr2 mt0 mb2 fw4">
+            {{ jobOpening.title }}
+
+            <span v-if="jobOpening.reference_number" class="reference-number f7 code fw4">
+              {{ jobOpening.reference_number }}
+            </span>
+          </h2>
+
+          <ul class="ma0 pl0 list f7 gray">
+            <li v-if="jobOpening.activated_at" class="di mr3">
+              Active since {{ jobOpening.activated_at }}
+            </li>
+            <li class="di mr3">
+              <a :href="jobOpening.url_public_view" target="_blank">{{ $t('dashboard.job_opening_show_view_public_version') }}</a>
+            </li>
+            <li class="di mr3">
+              <inertia-link :href="jobOpening.url_create">{{ $t('app.edit') }}</inertia-link>
+            </li>
+
+            <!-- delete -->
+            <li v-if="deleteMode" class="di">
+              {{ $t('app.sure') }}
+              <a class="c-delete mr1 pointer" @click.prevent="destroy()">
+                {{ $t('app.yes') }}
+              </a>
+              <a class="pointer" @click.prevent="deleteMode = false">
+                {{ $t('app.no') }}
+              </a>
+            </li>
+            <li v-else class="di">
+              <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click.prevent="deleteMode = true">
+                {{ $t('app.delete') }}
+              </a>
+            </li>
+          </ul>
+        </div>
 
         <!-- teams, sponsors and stats -->
         <div class="flex items-center mb5">
@@ -135,7 +179,7 @@
           </div>
 
           <!-- sponsors -->
-          <div v-if="sponsors" class="mr5">
+          <div v-if="jobOpening.sponsors" class="mr5">
             <div class="db relative mb2">
               <svg class="icon mr1 relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
@@ -146,7 +190,7 @@
             </div>
 
             <div class="flex items-start">
-              <div v-for="sponsor in sponsors" :key="sponsor.id" class="mr3 relative">
+              <div v-for="sponsor in jobOpening.sponsors" :key="sponsor.id" class="mr3 relative">
                 <avatar :avatar="sponsor.avatar" :size="35" :class="'br-100 absolute avatar'" />
 
                 <div class="name">
@@ -202,33 +246,60 @@
         </div>
       </div>
 
-      <div class="mw7 center br3 mb5 relative z-1">
-        <div class="bg-white box">
-          <ul v-if="jobOpening.candidates.to_sort.length > 0" class="ma0 pl0 list">
-            <li v-for="candidate in jobOpening.candidates.to_sort" :key="candidate.id" class="pa3 candidate-item bb bb-gray bb-gray-hover relative flex justify-between">
-              <div>
-                <span class="dib relative mr2 br-100 dot"></span>
-                <inertia-link :href="candidate.url">{{ candidate.name }}</inertia-link>
+      <!-- central part  -->
+      <div class="mw8 center br3 mb5 relative z-1">
+        <div class="cf center">
+          <!-- left column -->
+          <div class="fl w-20-l w-100">
+            <!-- sidebar -->
+            <ul class="list ma0 pl0 sidebar">
+              <li class="pointer pa2 br3 relative f6 flex items-start mb2">
+                <div>
+                  <span class="mb2 db f7 gray fw5">Stage {{ currentStage.position }}</span>
+                  <span class="relative">{{ currentStage.name }}</span>
+                </div>
+                <span>2</span>
+              </li>
+              <li v-for="currentStage in jobOpening.stages" :key="currentStage.id" class="pointer pa2 br3 relative f6 flex items-center justify-between mb2" @click.prevent="load(currentStage.url)">
+                <div>
+                  <span class="mb2 db f7 gray fw5">Stage {{ currentStage.position }}</span>
+                  <span class="relative">{{ currentStage.name }}</span>
+                </div>
+                <span>2</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- RIGHT COLUMN -->
+          <div class="fl w-80-l w-100 pl4-l">
+            <div class="bg-white box">
+              <ul v-if="jobOpening.candidates.to_sort.length > 0" class="ma0 pl0 list">
+                <li v-for="candidate in jobOpening.candidates.to_sort" :key="candidate.id" class="pa3 candidate-item bb bb-gray bb-gray-hover relative flex justify-between">
+                  <div>
+                    <span class="dib relative mr2 br-100 dot"></span>
+                    <inertia-link :href="candidate.url">{{ candidate.name }}</inertia-link>
+                  </div>
+
+                  <span class="f7 gray">{{ candidate.received_at }}</span>
+                </li>
+                <li class="pa3 candidate-item bb bb-gray bb-gray-hover">
+                  <inertia-link :href="''" class="mb2 dib">Tom Yorke</inertia-link>
+                  <div class="db f7 gray">
+                    Rejected by Regis Freyd on Dec 19, 2010
+                  </div>
+                </li>
+              </ul>
+
+              <div v-else>
+                <p class="tc measure center mb4 lh-copy">
+                  There are no candidates for now.
+                </p>
+
+                <img loading="lazy" src="/img/streamline-icon-detective-1-5@140x140.png" alt="add email symbol" class="db center mb4" height="120"
+                     width="120"
+                />
               </div>
-
-              <span class="f7 gray">{{ candidate.received_at }}</span>
-            </li>
-            <li class="pa3 candidate-item bb bb-gray bb-gray-hover">
-              <inertia-link :href="''" class="mb2 dib">Tom Yorke</inertia-link>
-              <div class="db f7 gray">
-                Rejected by Regis Freyd on Dec 19, 2010
-              </div>
-            </li>
-          </ul>
-
-          <div v-else>
-            <p class="tc measure center mb4 lh-copy">
-              There are no candidates for now.
-            </p>
-
-            <img loading="lazy" src="/img/streamline-icon-detective-1-5@140x140.png" alt="add email symbol" class="db center mb4" height="120"
-                 width="120"
-            />
+            </div>
           </div>
         </div>
       </div>
@@ -239,13 +310,11 @@
 <script>
 import Layout from '@/Shared/Layout';
 import Avatar from '@/Shared/Avatar';
-import Information from '@/Pages/Dashboard/HR/JobOpenings/Partials/Information';
 
 export default {
   components: {
     Layout,
     Avatar,
-    Information,
   },
 
   props: {
@@ -254,10 +323,6 @@ export default {
       default: null,
     },
     jobOpening: {
-      type: Object,
-      default: null,
-    },
-    sponsors: {
       type: Object,
       default: null,
     },

@@ -259,7 +259,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
 
         $this->assertCount(
-            14,
+            13,
             $array
         );
 
@@ -300,25 +300,6 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             $array['url_edit']
         );
         $this->assertEquals(
-            1,
-            $array['candidates']['rejected_count']
-        );
-        $this->assertEquals(
-            1,
-            $array['candidates']['selected_count']
-        );
-        $this->assertEquals(
-            [
-                0 => [
-                    'id' => $candidate->id,
-                    'name' => $candidate->name,
-                    'received_at' => 'Jan 01, 2018',
-                    'url' => env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->id.'/candidates/' . $candidate->id,
-                ],
-            ],
-            $array['candidates']['to_sort']->toArray()
-        );
-        $this->assertEquals(
             [
                 'id' => $jobOpening->position->id,
                 'title' => $jobOpening->position->title,
@@ -336,6 +317,63 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             ],
             $array['team']
         );
+    }
+
+    /** @test */
+    public function it_gets_the_stats(): void
+    {
+        $company = Company::factory()->create();
+        $jobOpening = JobOpening::factory()->create([
+            'company_id' => $company->id,
+            'activated_at' => Carbon::now(),
+        ]);
+        $candidate = Candidate::factory()->create([
+            'job_opening_id' => $jobOpening->id,
+            'application_completed' => true,
+        ]);
+        CandidateStage::factory()->create([
+            'candidate_id' => $candidate->id,
+            'status' => CandidateStage::STATUS_PENDING,
+        ]);
+        $candidate2 = Candidate::factory()->create([
+            'job_opening_id' => $jobOpening->id,
+            'application_completed' => true,
+        ]);
+        CandidateStage::factory()->create([
+            'candidate_id' => $candidate2->id,
+            'status' => CandidateStage::STATUS_PASSED,
+        ]);
+        $candidate3 = Candidate::factory()->create([
+            'job_opening_id' => $jobOpening->id,
+            'application_completed' => true,
+            'rejected' => true,
+        ]);
+        CandidateStage::factory()->create([
+            'candidate_id' => $candidate3->id,
+            'status' => CandidateStage::STATUS_REJECTED,
+        ]);
+
+        $array = DashboardHRJobOpeningsViewHelper::stats($jobOpening);
+
+        $this->assertEquals(
+            [
+                'to_sort' => 1,
+                'selected' => 1,
+                'rejected' => 1,
+            ],
+            $array
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_sponsors_of_a_job_opening(): void
+    {
+        $jobOpening = JobOpening::factory()->create();
+        $michael = Employee::factory()->create();
+        $jobOpening->sponsors()->syncWithoutDetaching([$michael->id]);
+
+        $collection = DashboardHRJobOpeningsViewHelper::sponsors($michael->company, $jobOpening);
+
         $this->assertEquals(
             [
                 0 => [
@@ -346,10 +384,131 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                         'id' => $michael->position->id,
                         'title' => $michael->position->title,
                     ],
-                    'url' => env('APP_URL') . '/' . $company->id . '/employees/' . $michael->id,
+                    'url' => env('APP_URL') . '/' . $michael->company->id . '/employees/' . $michael->id,
                 ],
             ],
-            $array['sponsors']->toArray()
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_candidates_in_the_sort_stage(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $company = Company::factory()->create();
+        $jobOpening = JobOpening::factory()->create([
+            'company_id' => $company->id,
+            'activated_at' => Carbon::now(),
+        ]);
+
+        $michael = Employee::factory()->create();
+        $jobOpening->sponsors()->syncWithoutDetaching([$michael->id]);
+
+        $candidate = Candidate::factory()->create([
+            'company_id' => $michael->company_id,
+            'job_opening_id' => $jobOpening->id,
+            'application_completed' => true,
+        ]);
+        CandidateStage::factory()->create([
+            'candidate_id' => $candidate->id,
+            'status' => CandidateStage::STATUS_PENDING,
+        ]);
+        $candidate2 = Candidate::factory()->create([
+            'company_id' => $michael->company_id,
+            'job_opening_id' => $jobOpening->id,
+            'application_completed' => true,
+        ]);
+        CandidateStage::factory()->create([
+            'candidate_id' => $candidate2->id,
+            'status' => CandidateStage::STATUS_PASSED,
+        ]);
+        Candidate::factory()->create([
+            'company_id' => $michael->company_id,
+            'job_opening_id' => $jobOpening->id,
+            'application_completed' => true,
+            'rejected' => true,
+        ]);
+
+        $collection = DashboardHRJobOpeningsViewHelper::toSort($company, $jobOpening);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $candidate->id,
+                    'name' => $candidate->name,
+                    'received_at' => 'Jan 01, 2018',
+                    'url' => env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->id . '/candidates/' . $candidate->id,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_candidates_in_the_rejected_stage(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $company = Company::factory()->create();
+        $jobOpening = JobOpening::factory()->create([
+            'company_id' => $company->id,
+            'activated_at' => Carbon::now(),
+        ]);
+
+        $candidate = Candidate::factory()->create([
+            'company_id' => $jobOpening->company_id,
+            'job_opening_id' => $jobOpening->id,
+            'application_completed' => true,
+            'rejected' => true,
+        ]);
+        $stage = CandidateStage::factory()->create([
+            'candidate_id' => $candidate->id,
+            'status' => CandidateStage::STATUS_PENDING,
+        ]);
+        $candidate2 = Candidate::factory()->create([
+            'company_id' => $jobOpening->company_id,
+            'job_opening_id' => $jobOpening->id,
+            'application_completed' => true,
+        ]);
+        CandidateStage::factory()->create([
+            'candidate_id' => $candidate2->id,
+            'status' => CandidateStage::STATUS_PASSED,
+        ]);
+        CandidateStage::factory()->create([
+            'candidate_id' => $candidate2->id,
+            'status' => CandidateStage::STATUS_REJECTED,
+        ]);
+
+        $collection = DashboardHRJobOpeningsViewHelper::rejected($company, $jobOpening);
+
+        $this->assertEquals(
+            1,
+            $collection->count()
+        );
+
+        $this->assertEquals(
+            $candidate->id,
+            $collection->toArray()[0]['id']
+        );
+        $this->assertEquals(
+            $candidate->name,
+            $collection->toArray()[0]['name']
+        );
+        $this->assertEquals(
+            'Jan 01, 2018',
+            $collection->toArray()[0]['received_at']
+        );
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $stage->id,
+                    'name' => $stage->stage_name,
+                    'position' => $stage->stage_position,
+                    'status' => $stage->status,
+                ],
+            ],
+            $collection->toArray()[0]['stages']->toArray()
         );
     }
 }
