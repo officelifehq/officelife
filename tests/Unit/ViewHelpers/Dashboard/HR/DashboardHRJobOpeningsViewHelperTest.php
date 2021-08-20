@@ -195,9 +195,9 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                     'team' => [
                         'id' => $jobOpeningB->team->id,
                         'name' => $jobOpeningB->team->name,
-                        'url' => env('APP_URL') . '/' . $company->id . '/teams/' . $jobOpeningB->team->id,
+                        'url' => env('APP_URL').'/'.$company->id.'/teams/'.$jobOpeningB->team->id,
                     ],
-                    'url' => env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpeningB->id,
+                    'url' => env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$jobOpeningB->id,
                 ],
             ],
             $array['open_job_openings']->toArray()
@@ -206,13 +206,13 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 'count' => 1,
-                'url' => env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/fulfilled',
+                'url' => env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/fulfilled',
             ],
             $array['fulfilled_job_openings']
         );
 
         $this->assertEquals(
-            env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/create',
+            env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/create',
             $array['url_create']
         );
     }
@@ -292,11 +292,11 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             $array['activated_at']
         );
         $this->assertEquals(
-            env('APP_URL') . '/jobs/' . $company->slug . '/jobs/' . $jobOpening->slug.'?ignore=true',
+            env('APP_URL').'/jobs/'.$company->slug.'/jobs/'.$jobOpening->slug.'?ignore=true',
             $array['url_public_view']
         );
         $this->assertEquals(
-            env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->id.'/edit',
+            env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$jobOpening->id.'/edit',
             $array['url_edit']
         );
         $this->assertEquals(
@@ -304,7 +304,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                 'id' => $jobOpening->position->id,
                 'title' => $jobOpening->position->title,
                 'count_employees' => 0,
-                'url' => env('APP_URL') . '/' . $company->id . '/company/hr/positions/' . $jobOpening->position->id,
+                'url' => env('APP_URL').'/'.$company->id.'/company/hr/positions/'.$jobOpening->position->id,
             ],
             $array['position']
         );
@@ -313,7 +313,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                 'id' => $jobOpening->team->id,
                 'name' => $jobOpening->team->name,
                 'count' => 0,
-                'url' => env('APP_URL') . '/' . $company->id . '/teams/' . $jobOpening->team->id,
+                'url' => env('APP_URL').'/'.$company->id.'/teams/'.$jobOpening->team->id,
             ],
             $array['team']
         );
@@ -359,15 +359,15 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             [
                 'to_sort' => [
                     'count' => 1,
-                    'url' =>  env('APP_URL') . '/' . $company->id. '/dashboard/hr/job-openings/' . $jobOpening->id,
+                    'url' =>  env('APP_URL').'/'.$company->id. '/dashboard/hr/job-openings/'.$jobOpening->id,
                 ],
                 'selected' => [
                     'count' => 1,
-                    'url' =>  env('APP_URL') . '/' . $company->id. '/dashboard/hr/job-openings/' . $jobOpening->id.'/selected',
+                    'url' =>  env('APP_URL').'/'.$company->id. '/dashboard/hr/job-openings/'.$jobOpening->id.'/selected',
                 ],
                 'rejected' => [
                     'count' => 1,
-                    'url' =>  env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->id . '/rejected',
+                    'url' =>  env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$jobOpening->id.'/rejected',
                 ],
             ],
             $array
@@ -393,7 +393,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                         'id' => $michael->position->id,
                         'title' => $michael->position->title,
                     ],
-                    'url' => env('APP_URL') . '/' . $michael->company->id . '/employees/' . $michael->id,
+                    'url' => env('APP_URL').'/'.$michael->company->id.'/employees/'.$michael->id,
                 ],
             ],
             $collection->toArray()
@@ -447,7 +447,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                     'id' => $candidate->id,
                     'name' => $candidate->name,
                     'received_at' => 'Jan 01, 2018',
-                    'url' => env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->id . '/candidates/' . $candidate->id,
+                    'url' => env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$jobOpening->id.'/candidates/'.$candidate->id,
                 ],
             ],
             $collection->toArray()
