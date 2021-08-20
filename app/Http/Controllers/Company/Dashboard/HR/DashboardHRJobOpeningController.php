@@ -12,6 +12,7 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\JobOpening\CreateJobOpening;
+use App\Services\Company\Adminland\JobOpening\ToggleJobOpening;
 use App\Services\Company\Adminland\JobOpening\DestroyJobOpening;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRJobOpeningsViewHelper;
 
@@ -127,6 +128,50 @@ class DashboardHRJobOpeningController extends Controller
     }
 
     /**
+     * Show the Edit job opening view.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $jobOpeningId
+     * @return mixed
+     */
+    public function edit(Request $request, int $companyId, int $jobOpeningId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        // is this person HR?
+        if ($employee->permission_level > config('officelife.permission_level.hr')) {
+            return redirect('home');
+        }
+
+        try {
+            $jobOpening = JobOpening::where('company_id', $company->id)
+                ->with('team')
+                ->with('position')
+                ->with('sponsors')
+                ->findOrFail($jobOpeningId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $positions = DashboardHRJobOpeningsViewHelper::positions($company);
+        $templates = DashboardHRJobOpeningsViewHelper::templates($company);
+        $teams = DashboardHRJobOpeningsViewHelper::teams($company);
+        $jobOpeningDetails = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
+        $sponsors = DashboardHRJobOpeningsViewHelper::sponsors($company, $jobOpening);
+
+        return Inertia::render('Dashboard/HR/JobOpenings/Edit', [
+            'positions' => $positions,
+            'teams' => $teams,
+            'templates' => $templates,
+            'jobOpening' => $jobOpeningDetails,
+            'sponsors' => $sponsors,
+            'notifications' => NotificationHelper::getNotifications($employee),
+        ]);
+    }
+
+    /**
      * Show the detail of a job opening.
      *
      * @param Request $request
@@ -159,7 +204,7 @@ class DashboardHRJobOpeningController extends Controller
 
         $jobOpeningDetail = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
         $sponsors = DashboardHRJobOpeningsViewHelper::sponsors($company, $jobOpening);
-        $stats = DashboardHRJobOpeningsViewHelper::stats($jobOpening);
+        $stats = DashboardHRJobOpeningsViewHelper::stats($company, $jobOpening);
         $candidates = DashboardHRJobOpeningsViewHelper::toSort($company, $jobOpening);
 
         return Inertia::render('Dashboard/HR/JobOpenings/Show', [
@@ -170,6 +215,124 @@ class DashboardHRJobOpeningController extends Controller
             'candidates' => $candidates,
             'tab' => 'to_sort',
         ]);
+    }
+
+    /**
+     * Show the rejected candidates of a job opening.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @return mixed
+     */
+    public function showRejected(Request $request, int $companyId, int $jobOpeningId): mixed
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        // is this person HR?
+        if ($employee->permission_level > config('officelife.permission_level.hr')) {
+            return redirect('home');
+        }
+
+        try {
+            $jobOpening = JobOpening::where('company_id', $company->id)
+                ->with('team')
+                ->with('position')
+                ->with('position.employees')
+                ->with('sponsors')
+                ->with('template')
+                ->with('template.stages')
+                ->findOrFail($jobOpeningId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('dashboard.hr.openings.index');
+        }
+
+        $jobOpeningDetail = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
+        $sponsors = DashboardHRJobOpeningsViewHelper::sponsors($company, $jobOpening);
+        $stats = DashboardHRJobOpeningsViewHelper::stats($company, $jobOpening);
+        $candidates = DashboardHRJobOpeningsViewHelper::rejected($company, $jobOpening);
+
+        return Inertia::render('Dashboard/HR/JobOpenings/Show', [
+            'notifications' => NotificationHelper::getNotifications($employee),
+            'jobOpening' => $jobOpeningDetail,
+            'sponsors' => $sponsors,
+            'stats' => $stats,
+            'candidates' => $candidates,
+            'tab' => 'rejected',
+        ]);
+    }
+
+    /**
+     * Show the selected candidates of a job opening.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @return mixed
+     */
+    public function showSelected(Request $request, int $companyId, int $jobOpeningId): mixed
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        // is this person HR?
+        if ($employee->permission_level > config('officelife.permission_level.hr')) {
+            return redirect('home');
+        }
+
+        try {
+            $jobOpening = JobOpening::where('company_id', $company->id)
+                ->with('team')
+                ->with('position')
+                ->with('position.employees')
+                ->with('sponsors')
+                ->with('template')
+                ->with('template.stages')
+                ->findOrFail($jobOpeningId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('dashboard.hr.openings.index');
+        }
+
+        $jobOpeningDetail = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
+        $sponsors = DashboardHRJobOpeningsViewHelper::sponsors($company, $jobOpening);
+        $stats = DashboardHRJobOpeningsViewHelper::stats($company, $jobOpening);
+        $candidates = DashboardHRJobOpeningsViewHelper::selected($company, $jobOpening);
+
+        return Inertia::render('Dashboard/HR/JobOpenings/Show', [
+            'notifications' => NotificationHelper::getNotifications($employee),
+            'jobOpening' => $jobOpeningDetail,
+            'sponsors' => $sponsors,
+            'stats' => $stats,
+            'candidates' => $candidates,
+            'tab' => 'selected',
+        ]);
+    }
+
+    /**
+     * Toggle the job status (active/inactive).
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @return JsonResponse
+     */
+    public function toggle(Request $request, int $companyId, int $jobOpeningId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        $data = [
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'job_opening_id' => $jobOpeningId,
+        ];
+
+        $jobOpening = (new ToggleJobOpening)->execute($data);
+
+        return response()->json([
+            'data' => true,
+        ], 201);
     }
 
     /**

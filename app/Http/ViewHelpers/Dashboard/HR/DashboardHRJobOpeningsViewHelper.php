@@ -182,11 +182,6 @@ class DashboardHRJobOpeningsViewHelper
                 'id' => $stage->id,
                 'name' => $stage->name,
                 'position' => $stage->position,
-                // 'url' => route('dashboard.hr.openings.stage.show', [
-                //     'company' => $company,
-                //     'jobOpening' => $jobOpening,
-                //     'stage' => $stage,
-                // ]),
             ]);
         }
 
@@ -276,7 +271,13 @@ class DashboardHRJobOpeningsViewHelper
                     'jobOpening' => $jobOpening,
                 ]),
             ],
-            'selected' => $candidatesSelectedCount,
+            'selected' => [
+                'count' => $candidatesSelectedCount,
+                'url' => route('dashboard.hr.openings.show.selected', [
+                    'company' => $company,
+                    'jobOpening' => $jobOpening,
+                ]),
+            ],
             'rejected' => [
                 'count' => $rejectedCandidatesCount,
                 'url' => route('dashboard.hr.openings.show.rejected', [
@@ -377,12 +378,14 @@ class DashboardHRJobOpeningsViewHelper
         foreach ($rejectedCandidates as $candidate) {
             $stageCollection = collect();
             foreach ($candidate->stages as $stage) {
-                $stageCollection->push([
-                    'id' => $stage->id,
-                    'name' => $stage->stage_name,
-                    'position' => $stage->stage_position,
-                    'status' => $stage->status,
-                ]);
+                if ($stage->status != CandidateStage::STATUS_PENDING) {
+                    $stageCollection->push([
+                        'id' => $stage->id,
+                        'name' => $stage->stage_name,
+                        'position' => $stage->stage_position,
+                        'status' => $stage->status,
+                    ]);
+                }
             }
 
             $candidatesCollection->push([
@@ -396,6 +399,55 @@ class DashboardHRJobOpeningsViewHelper
                     'candidate' => $candidate,
                 ]),
             ]);
+        }
+
+        return $candidatesCollection;
+    }
+
+    /**
+     * Get the candidates who have been selected for the given job opening.
+     *
+     * @param Company $company
+     * @param JobOpening $jobOpening
+     * @return Collection
+     */
+    public static function selected(Company $company, JobOpening $jobOpening): Collection
+    {
+        $rejectedCandidates = $jobOpening->candidates()
+            ->where('rejected', false)
+            ->with('stages')
+            ->get();
+
+        $needsToBeSorted = true;
+        $candidatesCollection = collect();
+        foreach ($rejectedCandidates as $candidate) {
+            $stageCollection = collect();
+            foreach ($candidate->stages as $stage) {
+                if ($stage->status != CandidateStage::STATUS_PENDING) {
+                    $needsToBeSorted = false;
+                }
+
+                $stageCollection->push([
+                    'id' => $stage->id,
+                    'name' => $stage->stage_name,
+                    'position' => $stage->stage_position,
+                    'status' => $stage->status,
+                ]);
+            }
+
+            if (! $needsToBeSorted) {
+                $candidatesCollection->push([
+                    'id' => $candidate->id,
+                    'name' => $candidate->name,
+                    'received_at' => DateHelper::formatDate($candidate->created_at),
+                    'stages' => $stageCollection,
+                    'url' => route('dashboard.hr.candidates.show', [
+                        'company' => $company,
+                        'jobOpening' => $jobOpening,
+                        'candidate' => $candidate,
+                    ]),
+                ]);
+            }
         }
 
         return $candidatesCollection;

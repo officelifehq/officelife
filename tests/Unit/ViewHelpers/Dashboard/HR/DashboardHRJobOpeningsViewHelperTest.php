@@ -353,13 +353,19 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             'status' => CandidateStage::STATUS_REJECTED,
         ]);
 
-        $array = DashboardHRJobOpeningsViewHelper::stats($jobOpening);
+        $array = DashboardHRJobOpeningsViewHelper::stats($company, $jobOpening);
 
         $this->assertEquals(
             [
-                'to_sort' => 1,
+                'to_sort' => [
+                    'count' => 1,
+                    'url' =>  env('APP_URL') . '/' . $company->id. '/dashboard/hr/job-openings/' . $jobOpening->id,
+                ],
                 'selected' => 1,
-                'rejected' => 1,
+                'rejected' => [
+                    'count' => 1,
+                    'url' =>  env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->id . '/rejected',
+                ],
             ],
             $array
         );
@@ -464,12 +470,13 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         ]);
         $stage = CandidateStage::factory()->create([
             'candidate_id' => $candidate->id,
-            'status' => CandidateStage::STATUS_PENDING,
+            'status' => CandidateStage::STATUS_REJECTED,
         ]);
         $candidate2 = Candidate::factory()->create([
             'company_id' => $jobOpening->company_id,
             'job_opening_id' => $jobOpening->id,
             'application_completed' => true,
+            'rejected' => false,
         ]);
         CandidateStage::factory()->create([
             'candidate_id' => $candidate2->id,

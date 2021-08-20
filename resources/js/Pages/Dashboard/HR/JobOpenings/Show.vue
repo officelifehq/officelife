@@ -1,12 +1,4 @@
 <style lang="scss" scoped>
-.avatar {
-  width: 35px;
-}
-
-.name {
-  padding-left: 44px;
-}
-
 .dot {
   height: 11px;
   width: 11px;
@@ -34,32 +26,24 @@
   top: 2px;
 }
 
-.url-icon {
-  width: 15px;
-  top: 4px;
+.stage-list {
+  li + li:before {
+    content: '>';
+    padding-left: 5px;
+    padding-right: 5px;
+  }
 }
 
-.sidebar {
-  svg {
-    width: 20px;
-    top: 3px;
-    color: #9da3ae;
+.stage-icon {
+  width: 13px;
+  top: 2px;
+
+  &.passed {
+    color: #3ebf46;
   }
 
-  span {
-    top: -2px;
-  }
-
-  .active {
-    background-color: #e5e7ea;
-
-    svg {
-      color: #6c727f;
-    }
-
-    span {
-      color: #121826;
-    }
+  &.rejected {
+    color: #ea5757;
   }
 }
 </style>
@@ -135,34 +119,7 @@
           </div>
 
           <!-- sponsors -->
-          <div v-if="sponsors" class="mr5">
-            <div class="db relative mb2">
-              <svg class="icon mr1 relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
-              </svg>
-              <span class="f7 gray">
-                {{ $t('dashboard.job_opening_show_sponsor') }}
-              </span>
-            </div>
-
-            <div class="flex items-start">
-              <div v-for="sponsor in sponsors" :key="sponsor.id" class="mr3 relative">
-                <avatar :avatar="sponsor.avatar" :size="35" :class="'br-100 absolute avatar'" />
-
-                <div class="name">
-                  <span class="db ma0">
-                    <inertia-link :href="sponsor.url">{{ sponsor.name }}</inertia-link>
-                  </span>
-                  <span v-if="sponsor.position" class="fw3 gray f7">
-                    {{ sponsor.position.title }}
-                  </span>
-                  <span v-else class="fw3 gray f7">
-                    {{ $t('app.no_position_defined') }}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <sponsors :sponsors="sponsors" />
 
           <!-- page views -->
           <div class="">
@@ -187,19 +144,7 @@
         </div>
 
         <!-- menu -->
-        <div class="center br3 mb5 tc">
-          <div class="cf dib btn-group">
-            <inertia-link :href="''" class="f6 fl ph3 pv2 dib pointer no-underline">
-              {{ $t('dashboard.job_opening_show_tab_rejected', {count: stats.rejected}) }}
-            </inertia-link>
-            <inertia-link :href="''" :class="{ 'selected': tab === 'to_sort'}" class="f6 fl ph3 pv2 dib pointer no-underline">
-              {{ $t('dashboard.job_opening_show_tab_to_sort', {count: stats.to_sort}) }}
-            </inertia-link>
-            <inertia-link :href="''" class="f6 fl ph3 pv2 dib pointer no-underline">
-              {{ $t('dashboard.job_opening_show_tab_selected', {count: stats.selected}) }}
-            </inertia-link>
-          </div>
-        </div>
+        <tabs :stats="stats" :tab="tab" />
       </div>
 
       <div class="mw7 center br3 mb5 relative z-1">
@@ -207,8 +152,26 @@
           <ul v-if="candidates.length > 0" class="ma0 pl0 list">
             <li v-for="candidate in candidates" :key="candidate.id" class="pa3 candidate-item bb bb-gray bb-gray-hover relative flex justify-between">
               <div>
-                <span class="dib relative mr2 br-100 dot"></span>
+                <span v-if="tab == 'to_sort'" class="dib relative mr2 br-100 dot"></span>
                 <inertia-link :href="candidate.url">{{ candidate.name }}</inertia-link>
+
+                <ul v-if="candidate.stages" class="db ma0 pl0 mt2 f7 gray stage-list">
+                  <li v-for="stage in candidate.stages" :key="stage.id" class="di relative">
+                    <svg v-if="stage.status == 'passed'" :class="stage.status" class="stage-icon relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                         fill="currentColor"
+                    >
+                      <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+
+                    <svg v-if="stage.status == 'rejected'" :class="stage.status" class="stage-icon relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                         fill="currentColor"
+                    >
+                      <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd" />
+                    </svg>
+
+                    {{ stage.name }}
+                  </li>
+                </ul>
               </div>
 
               <span class="f7 gray">{{ candidate.received_at }}</span>
@@ -217,7 +180,7 @@
 
           <div v-else>
             <p class="tc measure center mb4 lh-copy">
-              There are no candidates for now.
+              {{ $t('dashboard.job_opening_show_blank') }}
             </p>
 
             <img loading="lazy" src="/img/streamline-icon-detective-1-5@140x140.png" alt="add email symbol" class="db center mb4" height="120"
@@ -232,14 +195,16 @@
 
 <script>
 import Layout from '@/Shared/Layout';
-import Avatar from '@/Shared/Avatar';
 import Information from '@/Pages/Dashboard/HR/JobOpenings/Partials/Information';
+import Sponsors from '@/Pages/Dashboard/HR/JobOpenings/Partials/Sponsors';
+import Tabs from '@/Pages/Dashboard/HR/JobOpenings/Partials/Tabs';
 
 export default {
   components: {
     Layout,
-    Avatar,
     Information,
+    Sponsors,
+    Tabs,
   },
 
   props: {
@@ -269,35 +234,11 @@ export default {
     },
   },
 
-  data() {
-    return {
-      deleteMode: false,
-      loadingState: '',
-      form: {
-        name: null,
-        errors: [],
-      },
-    };
-  },
-
   mounted() {
     if (localStorage.success) {
       this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
-  },
-
-  methods: {
-    destroy(stageId) {
-      axios.delete('/' + this.$page.props.auth.company.id + '/dashboard/hr/job-openings/' + this.jobOpening.id)
-        .then(response => {
-          localStorage.success = this.$t('dashboard.job_opening_show_delete_success');
-          this.$inertia.visit(response.data.data.url);
-        })
-        .catch(error => {
-          this.form.errors = error.response.data;
-        });
-    },
   },
 };
 

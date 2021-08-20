@@ -143,10 +143,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('job-openings/fulfilled', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@index')->name('dashboard.hr.openings.index.fulfilled');
                 Route::get('job-openings/create', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@create')->name('dashboard.hr.openings.create');
                 Route::get('job-openings/{jobOpening}', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@show')->name('dashboard.hr.openings.show');
-                Route::get('job-openings/{jobOpening}/rejected', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@rejected')->name('dashboard.hr.openings.show.rejected');
+                Route::get('job-openings/{jobOpening}/rejected', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@showRejected')->name('dashboard.hr.openings.show.rejected');
+                Route::get('job-openings/{jobOpening}/selected', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@showSelected')->name('dashboard.hr.openings.show.selected');
                 Route::get('job-openings/{jobOpening}/edit', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@edit')->name('dashboard.hr.openings.edit');
                 Route::delete('job-openings/{jobOpening}', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@destroy');
                 Route::post('job-openings', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@store');
+                Route::post('job-openings/{jobOpening}/toggle', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@toggle');
                 Route::post('job-openings/sponsors', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@sponsors');
 
                 // candidates
