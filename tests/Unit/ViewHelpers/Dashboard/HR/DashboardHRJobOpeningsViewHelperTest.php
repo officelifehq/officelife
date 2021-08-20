@@ -361,7 +361,10 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                     'count' => 1,
                     'url' =>  env('APP_URL') . '/' . $company->id. '/dashboard/hr/job-openings/' . $jobOpening->id,
                 ],
-                'selected' => 1,
+                'selected' => [
+                    'count' => 1,
+                    'url' =>  env('APP_URL') . '/' . $company->id. '/dashboard/hr/job-openings/' . $jobOpening->id.'/selected',
+                ],
                 'rejected' => [
                     'count' => 1,
                     'url' =>  env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->id . '/rejected',
