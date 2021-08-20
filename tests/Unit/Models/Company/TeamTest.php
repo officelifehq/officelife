@@ -11,6 +11,7 @@ use App\Models\Company\Project;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\TeamNews;
+use App\Models\Company\JobOpening;
 use App\Models\Company\TeamUsefulLink;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -99,6 +100,16 @@ class TeamTest extends TestCase
         $sales->projects()->syncWithoutDetaching([$apiv4->id]);
 
         $this->assertTrue($sales->projects()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_job_openings()
+    {
+        $sales = Team::factory()->create([]);
+        JobOpening::factory()->count(2)->create([
+            'team_id' => $sales->id,
+        ]);
+        $this->assertTrue($sales->jobOpenings()->exists());
     }
 
     /** @test */

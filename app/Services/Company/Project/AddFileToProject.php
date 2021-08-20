@@ -40,7 +40,7 @@ class AddFileToProject extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->assign();
+        $this->attach();
         $this->logActivity();
         $this->log();
 
@@ -63,7 +63,7 @@ class AddFileToProject extends BaseService
             ->findOrFail($this->data['file_id']);
     }
 
-    private function assign(): void
+    private function attach(): void
     {
         /* @phpstan-ignore-next-line */
         $this->project->files()->syncWithoutDetaching([
