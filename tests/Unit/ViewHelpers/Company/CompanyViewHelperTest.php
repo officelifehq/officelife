@@ -294,12 +294,12 @@ class CompanyViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 0 => [
-                    'name' => $skillA->name,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/skills/'.$skillA->id,
-                ],
-                1 => [
                     'name' => $skillB->name,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/skills/'.$skillB->id,
+                ],
+                1 => [
+                    'name' => $skillA->name,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/skills/'.$skillA->id,
                 ],
             ],
             $array['skills']->toArray()
