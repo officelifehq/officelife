@@ -28,6 +28,7 @@ use App\Models\Company\Software;
 use App\Models\Company\TeamNews;
 use App\Models\Company\Timesheet;
 use App\Models\Company\AgendaItem;
+use App\Models\Company\JobOpening;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeLog;
 use App\Models\Company\ProjectTask;
@@ -565,6 +566,17 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->positionHistoryEntries()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_job_openings_as_sponsor(): void
+    {
+        $dwight = Employee::factory()->create();
+        $opening = JobOpening::factory()->create();
+
+        $dwight->jobOpeningsAsSponsor()->sync([$opening->id]);
+
+        $this->assertTrue($dwight->jobOpeningsAsSponsor()->exists());
     }
 
     /** @test */

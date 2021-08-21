@@ -10,7 +10,6 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Project\AddFileToProject;
-use App\Services\Company\Project\AddEmployeeToProject;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -65,7 +64,7 @@ class AddFileToProjectTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new AddEmployeeToProject)->execute($request);
+        (new AddFileToProject)->execute($request);
     }
 
     /** @test */

@@ -12,7 +12,6 @@ class UpdateRecruitingStage extends BaseService
 {
     protected array $data;
     protected RecruitingStage $recruitingStage;
-    private RecruitingStageTemplate $template;
     protected int $startPosition;
     protected int $endPosition;
 
@@ -59,7 +58,7 @@ class UpdateRecruitingStage extends BaseService
             ->asAtLeastHR()
             ->canExecuteService();
 
-        $this->template = RecruitingStageTemplate::where('company_id', $this->data['company_id'])
+        RecruitingStageTemplate::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['recruiting_stage_template_id']);
 
         $this->recruitingStage = RecruitingStage::where('recruiting_stage_template_id', $this->data['recruiting_stage_template_id'])

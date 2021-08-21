@@ -9,7 +9,7 @@
 </style>
 
 <template>
-  <div class="bb bb-gray">
+  <div>
     <h3 class="ph3 fw5">
       {{ $t('account.general_logo_title') }}
 

@@ -33,6 +33,7 @@ use App\Services\Company\Group\CreateMeeting;
 use App\Services\Company\Project\StartProject;
 use App\Services\Company\Team\Ship\CreateShip;
 use App\Models\Company\EmployeePositionHistory;
+use App\Models\Company\RecruitingStageTemplate;
 use App\Services\Company\Project\CreateProject;
 use App\Models\Company\CompanyDailyUsageHistory;
 use App\Services\Company\Group\CreateAgendaItem;
@@ -70,6 +71,8 @@ use App\Services\Company\Project\AssignProjectTaskToEmployee;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
+use App\Services\Company\Adminland\JobOpening\CreateJobOpening;
+use App\Services\Company\Adminland\JobOpening\ToggleJobOpening;
 use App\Services\Company\Adminland\Software\GiveSeatToEmployee;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
@@ -230,6 +233,7 @@ class SetupDummyAccount extends Command
         $this->addBillingAndInvoices();
         $this->addWikis();
         $this->addRecruitingStages();
+        $this->addJobOpenings();
         $this->addSecondaryBlankAccount();
         $this->validateUserAccounts();
         $this->stop();
@@ -2449,6 +2453,56 @@ Michael puts Jim and Dwight in charge of the Party Planning Committee because th
                     'recruiting_stage_template_id' => $template->id,
                     'name' => $stage,
                 ]);
+            }
+        }
+    }
+
+    private function addJobOpenings(): void
+    {
+        $this->info('☐ Add job openings');
+
+        $titles = collect([
+            'Engineering manager',
+            'Sales specialist',
+            'Warehouse Worker With Forklift Experience',
+        ]);
+
+        for ($i = 0; $i < rand(4, 12); $i++) {
+            foreach ($titles as $title) {
+                // get random team
+                $team = $this->teams->random();
+
+                // get random sponsors
+                $sponsors = $this->employees
+                    ->take(rand(1, 2))
+                    ->pluck('id')
+                    ->toArray();
+
+                // get random position
+                $position = Position::get()->random();
+
+                // get random recruiting stage
+                $recruitingStageTemplate = RecruitingStageTemplate::get()->random();
+
+                $opening = (new CreateJobOpening)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'position_id' => $position->id,
+                    'sponsors' => $sponsors,
+                    'team_id' => $team->id,
+                    'recruiting_stage_template_id' => $recruitingStageTemplate->id,
+                    'title' => $title,
+                    'reference_number' => $this->faker->text(5).'-'.$this->faker->randomNumber(),
+                    'description' => $this->faker->realText(1000),
+                ]);
+
+                if (rand(1, 2) == 1) {
+                    (new ToggleJobOpening)->execute([
+                        'company_id' => $this->company->id,
+                        'author_id' => $this->michael->id,
+                        'job_opening_id' => $opening->id,
+                    ]);
+                }
             }
         }
     }

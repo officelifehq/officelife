@@ -1364,6 +1364,19 @@ class LogHelper
                 ]);
                 break;
 
+            case 'job_opening_created':
+                $sentence = trans('account.log_job_opening_created', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                ]);
+                break;
+
+            case 'job_opening_destroyed':
+                $sentence = trans('account.log_job_opening_destroyed', [
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                ]);
+                break;
+
             case 'recruiting_stage_created':
                 $sentence = trans('account.log_recruiting_stage_created', [
                     'recruiting_stage_id' => $log->object->{'recruiting_stage_id'},
@@ -1401,6 +1414,75 @@ class LogHelper
             case 'company_location_updated':
                 $sentence = trans('account.log_company_location_updated', [
                     'location' => $log->object->{'location'},
+                ]);
+                break;
+
+            case 'job_opening_toggled':
+                $sentence = trans('account.log_job_opening_toggled', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                ]);
+                break;
+
+            case 'candidate_stage_passed':
+                $sentence = trans('account.log_candidate_stage_passed', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
+                ]);
+                break;
+
+            case 'candidate_stage_rejected':
+                $sentence = trans('account.log_candidate_stage_rejected', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
+                ]);
+                break;
+
+            case 'candidate_stage_note_created':
+                $sentence = trans('account.log_candidate_stage_note_created', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'job_opening_reference_number' => $log->object->{'job_opening_reference_number'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
+                ]);
+                break;
+
+            case 'candidate_stage_participant_created':
+                $sentence = trans('account.log_candidate_stage_participant_created', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'job_opening_reference_number' => $log->object->{'job_opening_reference_number'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
+                    'participant_id' => $log->object->{'participant_id'},
+                    'participant_name' => $log->object->{'participant_name'},
+                ]);
+                break;
+
+            case 'candidate_stage_participant_destroyed':
+                $sentence = trans('account.log_candidate_stage_participant_destroyed', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'job_opening_reference_number' => $log->object->{'job_opening_reference_number'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
+                    'participant_id' => $log->object->{'participant_id'},
+                    'participant_name' => $log->object->{'participant_name'},
+                ]);
+                break;
+
+            case 'candidate_stage_note_updated':
+                $sentence = trans('account.log_candidate_stage_note_updated', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'job_opening_reference_number' => $log->object->{'job_opening_reference_number'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
                 ]);
                 break;
 

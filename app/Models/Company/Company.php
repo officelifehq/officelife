@@ -326,6 +326,26 @@ class Company extends Model
     }
 
     /**
+     * Get all job openings written in the company.
+     *
+     * @return HasMany
+     */
+    public function jobOpenings()
+    {
+        return $this->hasMany(JobOpening::class);
+    }
+
+    /**
+     * Get all candidates in the company.
+     *
+     * @return HasMany
+     */
+    public function candidates()
+    {
+        return $this->hasMany(Candidate::class);
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
      * @return object|null

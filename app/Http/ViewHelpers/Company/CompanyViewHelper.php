@@ -253,7 +253,7 @@ class CompanyViewHelper
 
         $skills = $company->skills()
             ->select('id', 'name')
-            ->latest()
+            ->latest('id')
             ->take(5)
             ->get();
 

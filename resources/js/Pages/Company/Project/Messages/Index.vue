@@ -64,9 +64,9 @@
         <div v-if="messages.length > 0" class="bg-white box">
           <ul class="list pl0 mv0 list-no-line-bottom">
             <li v-for="message in messages" :key="message.id" :class="message.read_status ? 'read' : ''" class="bb bb-gray pa3 relative flex justify-between items-center">
-              <div class="ma0 fw5 message">
-                <p class="mt0 mb2 fw5">
-                  <span v-if="!message.read_status" class="dib relative mr1 br-100 dot"></span>
+              <div class="ma0 fw4 message">
+                <p class="mt0 mb2" :class="!message.read_status ? 'fw5' : ''">
+                  <span v-if="!message.read_status" class="dib relative mr2 br-100 dot"></span>
                   <inertia-link :href="message.url" class="lh-copy">{{ message.title }}</inertia-link>
                 </p>
                 <p class="mt0 mb0 f6 gray"><span class="mr1 f7 gray">{{ message.written_at }}</span> {{ message.content }}</p>
