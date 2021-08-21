@@ -60,12 +60,12 @@
       <!-- active toggle -->
       <li v-if="isActive" class="di mr3">
         <a class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="toggle()">
-          Mark job opening as inactive
+          {{ $t('dashboard.job_opening_show_toggle_inactive') }}
         </a>
       </li>
       <li v-else class="di mr3">
         <a class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="toggle()">
-          Mark job opening as active
+          {{ $t('dashboard.job_opening_show_toggle_active') }}
         </a>
       </li>
 
