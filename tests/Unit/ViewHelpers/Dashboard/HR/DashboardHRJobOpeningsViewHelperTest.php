@@ -218,6 +218,55 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
     }
 
     /** @test */
+    public function it_gets_a_collection_of_fulfilled_job_openings(): void
+    {
+        $company = Company::factory()->create();
+
+        $jobOpening = JobOpening::factory()->create([
+            'company_id' => $company->id,
+            'team_id' => null,
+            'fulfilled' => true,
+        ]);
+        JobOpening::factory()->create([
+            'company_id' => $company->id,
+            'fulfilled' => false,
+        ]);
+        JobOpening::factory()->create([
+            'company_id' => $company->id,
+            'fulfilled' => false,
+        ]);
+
+        $array = DashboardHRJobOpeningsViewHelper::fulfilledJobOpenings($company);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $jobOpening->id,
+                    'title' => $jobOpening->title,
+                    'reference_number' => $jobOpening->reference_number,
+                    'active' => $jobOpening->active,
+                    'team' => null,
+                    'url' => env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->id,
+                ],
+            ],
+            $array['fulfilled_job_openings']->toArray()
+        );
+
+        $this->assertEquals(
+            [
+                'count' => 2,
+                'url' => env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings',
+            ],
+            $array['open_job_openings']
+        );
+
+        $this->assertEquals(
+            env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/create',
+            $array['url_create']
+        );
+    }
+
+    /** @test */
     public function it_gets_the_detail_of_a_job_opening(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
