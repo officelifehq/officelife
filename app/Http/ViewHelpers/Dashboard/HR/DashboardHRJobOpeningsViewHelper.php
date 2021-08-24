@@ -172,7 +172,7 @@ class DashboardHRJobOpeningsViewHelper
      */
     public static function fulfilledJobOpenings(Company $company): array
     {
-        $openJobOpenings = $company->jobOpenings()
+        $fulfilledJobOpenings = $company->jobOpenings()
             ->with('team')
             ->with('position')
             ->with('sponsors')
@@ -181,14 +181,14 @@ class DashboardHRJobOpeningsViewHelper
             ->get();
 
         $jobOpeningsCollection = collect();
-        foreach ($openJobOpenings as $jobOpening) {
+        foreach ($fulfilledJobOpenings as $jobOpening) {
             $team = $jobOpening->team;
 
             $jobOpeningsCollection->push([
                 'id' => $jobOpening->id,
                 'title' => $jobOpening->title,
                 'reference_number' => $jobOpening->reference_number,
-                'active' => $jobOpening->active,
+                'fulfilled_at' => DateHelper::formatDate($jobOpening->fulfilled_at),
                 'team' => $team ? [
                     'id' => $team->id,
                     'name' => $team->name,

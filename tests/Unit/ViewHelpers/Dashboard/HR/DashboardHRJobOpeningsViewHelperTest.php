@@ -220,12 +220,14 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_fulfilled_job_openings(): void
     {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $company = Company::factory()->create();
 
         $jobOpening = JobOpening::factory()->create([
             'company_id' => $company->id,
             'team_id' => null,
             'fulfilled' => true,
+            'fulfilled_at' => Carbon::now(),
         ]);
         JobOpening::factory()->create([
             'company_id' => $company->id,
@@ -244,7 +246,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                     'id' => $jobOpening->id,
                     'title' => $jobOpening->title,
                     'reference_number' => $jobOpening->reference_number,
-                    'active' => $jobOpening->active,
+                    'fulfilled_at' => 'Jan 01, 2018',
                     'team' => null,
                     'url' => env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->id,
                 ],

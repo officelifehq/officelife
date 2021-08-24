@@ -56,11 +56,11 @@ class DashboardHRJobOpeningController extends Controller
             return redirect('home');
         }
 
-        $openJobOpenings = DashboardHRJobOpeningsViewHelper::fulfilledJobOpenings($company);
+        $jobOpenings = DashboardHRJobOpeningsViewHelper::fulfilledJobOpenings($company);
 
         return Inertia::render('Dashboard/HR/JobOpenings/Fulfilled', [
             'notifications' => NotificationHelper::getNotifications($employee),
-            'jobOpenings' => $openJobOpenings,
+            'jobOpenings' => $jobOpenings,
         ]);
     }
 
