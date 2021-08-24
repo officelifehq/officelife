@@ -100,7 +100,7 @@ class HireCandidateTest extends TestCase
             'candidate_stage_id' => $candidateStage->id,
         ]);
 
-        $this->executeService($michael, $opening, $candidate, $candidateStage, $candidateStageNote);
+        $this->executeService($michael, $opening, $candidate);
     }
 
     private function executeService(Employee $author, JobOpening $opening, Candidate $candidate): void
