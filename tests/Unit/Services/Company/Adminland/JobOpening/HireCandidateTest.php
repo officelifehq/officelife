@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services\Company\Adminland\JobOpening;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
@@ -9,8 +10,10 @@ use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 use Illuminate\Support\Facades\Queue;
 use App\Models\Company\CandidateStage;
+use App\Models\Company\CompanyPTOPolicy;
 use App\Models\Company\CandidateStageNote;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\JobOpening\HireCandidate;
@@ -53,7 +56,7 @@ class HireCandidateTest extends TestCase
     /** @test */
     public function normal_user_cant_execute_the_service(): void
     {
-        $this->expectException(ModelNotFoundException::class);
+        $this->expectException(NotEnoughPermissionException::class);
 
         $michael = $this->createEmployee();
         $opening = JobOpening::factory()->create([
@@ -105,20 +108,36 @@ class HireCandidateTest extends TestCase
         Queue::fake();
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
+        // used to populate the holidays
+        CompanyPTOPolicy::factory()->create([
+            'company_id' => $author->company_id,
+            'year' => 2018,
+        ]);
+
         $employee = (new HireCandidate)->execute([
             'company_id' => $author->company_id,
             'author_id' => $author->id,
             'job_opening_id' => $opening->id,
             'candidate_id' => $candidate->id,
-            'candidate_stage_id' => $candidateStage->id,
-            'candidate_stage_note_id' => $note->id,
-            'note' => 'ceci est une note',
+            'email' => 'michael@dundermifflin.com',
+            'first_name' => 'Michael',
+            'last_name' => 'Scott v2',
+            'hired_at' => '2022-01-01',
         ]);
 
         $this->assertDatabaseHas('job_openings', [
             'id' => $opening->id,
             'fulfilled_by_candidate_id' => $employee->id,
-            'fulfilled_at' => '2018-01-01 00:00:00',
+            'active' => false,
+            'fulfilled' => true,
+        ]);
+
+        $this->assertDatabaseHas('employees', [
+            'id' => $employee->id,
+            'company_id' => $employee->company_id,
+            'first_name' => 'Michael',
+            'last_name' => 'Scott v2',
+            'hired_at' => '2022-01-01 00:00:00',
         ]);
 
         $this->assertInstanceOf(
@@ -127,7 +146,7 @@ class HireCandidateTest extends TestCase
         );
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($author, $opening, $candidate) {
-            return $job->auditLog['action'] === 'candidate_stage_note_updated' &&
+            return $job->auditLog['action'] === 'candidate_hired' &&
                 $job->auditLog['author_id'] === $author->id &&
                 $job->auditLog['objects'] === json_encode([
                     'job_opening_id' => $opening->id,

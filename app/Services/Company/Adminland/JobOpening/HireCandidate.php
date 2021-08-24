@@ -8,6 +8,7 @@ use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
+use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 
 class HireCandidate extends BaseService
@@ -16,6 +17,7 @@ class HireCandidate extends BaseService
     protected JobOpening $jobOpening;
     protected Candidate $candidate;
     protected Employee $employee;
+    protected Carbon $hiredAt;
 
     /**
      * Get the validation rules that apply to the service.
@@ -71,6 +73,8 @@ class HireCandidate extends BaseService
         $this->candidate = Candidate::where('company_id', $this->data['company_id'])
             ->where('job_opening_id', $this->data['job_opening_id'])
             ->findOrFail($this->data['candidate_id']);
+
+        $this->hiredAt = Carbon::createFromFormat('Y-m-d', $this->data['hired_at']);
     }
 
     private function createEmployee(): void
@@ -84,12 +88,21 @@ class HireCandidate extends BaseService
             'permission_level' => config('officelife.permission_level.user'),
             'send_invitation' => false,
         ]);
+
+        (new SetHiringDate)->execute([
+            'company_id' => $this->jobOpening->company_id,
+            'author_id' => $this->author->id,
+            'employee_id' => $this->employee->id,
+            'year' => $this->hiredAt->year,
+            'month' => $this->hiredAt->month,
+            'day' => $this->hiredAt->day,
+        ]);
     }
 
     private function markJobOpeningAsFulfilled(): void
     {
         $this->jobOpening->active = false;
-        $this->jobOpening->fulfilled_at = Carbon::now();
+        $this->jobOpening->fulfilled = true;
         $this->jobOpening->fulfilled_by_candidate_id = $this->employee->id;
         $this->jobOpening->save();
     }
@@ -98,7 +111,7 @@ class HireCandidate extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'candidate_stage_note_updated',
+            'action' => 'candidate_hired',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
