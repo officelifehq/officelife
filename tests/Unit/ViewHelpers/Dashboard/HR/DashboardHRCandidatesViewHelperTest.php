@@ -98,7 +98,7 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
         $array = DashboardHRCandidatesViewHelper::candidate($company, $opening, $candidate);
 
         $this->assertEquals(
-            6,
+            7,
             count($array)
         );
 
@@ -123,8 +123,8 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
             $array['created_at']
         );
         $this->assertEquals(
-            'Jan 01, 2018',
-            $array['created_at']
+            env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $opening->id . '/candidates/' . $candidate->id . '/hire',
+            $array['url_hire']
         );
         $this->assertEquals(
             [

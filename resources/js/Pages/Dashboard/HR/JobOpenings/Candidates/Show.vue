@@ -104,7 +104,7 @@
         <div class="box bg-white mb4">
           <div class="pa3 flex justify-between items-center bb bb-gray">
             <!-- name + summary -->
-            <div class="">
+            <div>
               <h2 class="mt0 mb2 relative fw4">
                 {{ candidate.name }}
               </h2>
@@ -116,6 +116,8 @@
                 <li class="di mr3">{{ candidate.email }}</li>
               </ul>
             </div>
+
+            <inertia-link :href="''" class="btn">Hire candidate</inertia-link>
           </div>
 
           <div class="bg-gray pa3 f7 box-bottom">
@@ -125,12 +127,12 @@
 
         <!-- has the candidate applied to other jobs in the company -->
         <div v-if="otherJobOpenings.length > 0" class="warning pa3 br3 mb4">
-          <p class="ma0 mb3 f6"><span class="mr1">⚠️</span> Has likely applied to {{ otherJobOpenings.length }} other jobs (based on the email address used)</p>
+          <p class="ma0 mb3 f6"><span class="mr1">⚠️</span> {{ $t('dashboard.job_opening_show_other_jobs', { count: otherJobOpenings.length }) }}</p>
           <ul class="list ma0 pl0">
             <li v-for="job in otherJobOpenings" :key="job.id" class="mb2 mr2">
               <inertia-link :href="''" class="mr2">{{ job.title }}</inertia-link>
-              <span v-if="job.active" class="badge f7 active">active</span>
-              <span v-if="! job.active" class="badge f7 closed">closed</span>
+              <span v-if="job.active" class="badge f7 active">{{ $t('dashboard.job_opening_show_other_jobs_active') }}</span>
+              <span v-if="! job.active" class="badge f7 closed">{{ $t('dashboard.job_opening_show_other_jobs_closed') }}</span>
             </li>
           </ul>
         </div>

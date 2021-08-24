@@ -71,6 +71,11 @@ class DashboardHRCandidatesViewHelper
             'rejected' => $candidate->rejected,
             'created_at' => DateHelper::formatDate($candidate->created_at),
             'stages' => $candidateStagesCollection,
+            'url_hire' => route('dashboard.hr.candidates.hire', [
+                'company' => $company,
+                'jobOpening' => $jobOpening,
+                'candidate' => $candidate,
+            ]),
         ];
     }
 

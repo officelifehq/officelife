@@ -254,6 +254,9 @@ return [
     'job_opening_show_view_public_version' => 'View public version',
     'job_opening_show_position' => 'Associated position',
     'job_opening_show_position_count' => '{count} employee with this title|{count} employees with this title',
+    'job_opening_show_other_jobs' => 'Has likely applied to {count} other jobs (based on the email address used)',
+    'job_opening_show_other_jobs_active' => 'active',
+    'job_opening_show_other_jobs_closed' => 'closed',
     'job_opening_show_team' => 'Associated team',
     'job_opening_show_team_count' => '{count} team member|{count} team members',
     'job_opening_show_sponsor' => 'Sponsors',
@@ -288,4 +291,5 @@ return [
     'job_opening_stage_notes_written_by' => 'Written by {name}',
     'job_opening_stage_notes_blank' => 'No notes have been written yet about this stage.',
     'job_opening_stage_notes_destroy_success' => 'The note has been deleted.',
+    'job_opening_stage_notes_success' => 'The note has been added.',
 ];

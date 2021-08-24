@@ -155,6 +155,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('job-openings/{jobOpening}/candidates/{candidate}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@show')->name('dashboard.hr.candidates.show');
                 Route::get('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@showStage')->name('dashboard.hr.candidates.stage.show');
                 Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@store');
+                Route::get('job-openings/{jobOpening}/candidates/{candidate}/hire', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@hire')->name('dashboard.hr.candidates.hire');
 
                 // participant in candidate stage
                 Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/searchParticipants', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@searchParticipants');

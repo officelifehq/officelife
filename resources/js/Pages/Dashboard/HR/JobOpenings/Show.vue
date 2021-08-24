@@ -150,31 +150,32 @@
       <div class="mw7 center br3 mb5 relative z-1">
         <div class="bg-white box">
           <ul v-if="candidates.length > 0" class="ma0 pl0 list">
-            <li v-for="candidate in candidates" :key="candidate.id" class="pa3 candidate-item bb bb-gray bb-gray-hover relative flex justify-between">
-              <div>
-                <span v-if="tab == 'to_sort'" class="dib relative mr2 br-100 dot"></span>
-                <inertia-link :href="candidate.url">{{ candidate.name }}</inertia-link>
-
-                <ul v-if="candidate.stages" class="db ma0 pl0 mt2 f7 gray stage-list">
-                  <li v-for="stage in candidate.stages" :key="stage.id" class="di relative">
-                    <svg v-if="stage.status == 'passed'" :class="stage.status" class="stage-icon relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                         fill="currentColor"
-                    >
-                      <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                    </svg>
-
-                    <svg v-if="stage.status == 'rejected'" :class="stage.status" class="stage-icon relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                         fill="currentColor"
-                    >
-                      <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd" />
-                    </svg>
-
-                    {{ stage.name }}
-                  </li>
-                </ul>
+            <li v-for="candidate in candidates" :key="candidate.id" class="pa3 candidate-item bb bb-gray bb-gray-hover relative">
+              <div class="flex justify-between">
+                <div>
+                  <span v-if="tab == 'to_sort'" class="dib relative mr2 br-100 dot"></span>
+                  <inertia-link :href="candidate.url">{{ candidate.name }}</inertia-link>
+                </div>
+                <span class="f7 gray">{{ candidate.received_at }}</span>
               </div>
 
-              <span class="f7 gray">{{ candidate.received_at }}</span>
+              <ul v-if="candidate.stages" class="db ma0 pl0 mt2 f7 gray stage-list">
+                <li v-for="stage in candidate.stages" :key="stage.id" class="di relative">
+                  <svg v-if="stage.status == 'passed'" :class="stage.status" class="stage-icon relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                       fill="currentColor"
+                  >
+                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+
+                  <svg v-if="stage.status == 'rejected'" :class="stage.status" class="stage-icon relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                       fill="currentColor"
+                  >
+                    <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd" />
+                  </svg>
+
+                  {{ stage.name }}
+                </li>
+              </ul>
             </li>
           </ul>
 
