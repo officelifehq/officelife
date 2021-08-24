@@ -127,7 +127,7 @@ class HireCandidateTest extends TestCase
 
         $this->assertDatabaseHas('job_openings', [
             'id' => $opening->id,
-            'fulfilled_by_candidate_id' => $employee->id,
+            'fulfilled_by_candidate_id' => $candidate->id,
             'active' => false,
             'fulfilled' => true,
         ]);

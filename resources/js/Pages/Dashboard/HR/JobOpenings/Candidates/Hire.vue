@@ -250,10 +250,10 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/account/employees', this.form)
+      axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpening.id}/candidates/${this.candidate.id}/hire`, this.form)
         .then(response => {
           localStorage.success = this.$t('account.employee_new_success');
-          this.$inertia.visit('/' + response.data.company_id + '/account/employees');
+          this.$inertia.visit(response.data.data);
         })
         .catch(error => {
           this.loadingState = null;
