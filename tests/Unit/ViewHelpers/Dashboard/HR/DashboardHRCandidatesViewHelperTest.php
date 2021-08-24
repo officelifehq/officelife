@@ -47,6 +47,18 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                 'reference_number' => '123',
                 'active' => true,
                 'activated_at' => null,
+                'position' => [
+                    'id' => $opening->position->id,
+                    'title' => $opening->position->title,
+                    'count_employees' => 0,
+                    'url' => env('APP_URL') . '/' . $company->id . '/company/hr/positions/' . $opening->position->id,
+                ],
+                'team' => [
+                    'id' => $opening->team->id,
+                    'name' => $opening->team->name,
+                    'count' => 0,
+                    'url' => env('APP_URL') . '/' . $company->id . '/teams/' . $opening->team->id,
+                ],
                 'url' => env('APP_URL') . '/' . $company->id. '/dashboard/hr/job-openings/' . $opening->id,
             ],
             $array

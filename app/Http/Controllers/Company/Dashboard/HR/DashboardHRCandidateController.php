@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Dashboard\HR;
 
+use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
@@ -420,5 +421,55 @@ class DashboardHRCandidateController extends Controller
         return response()->json([
             'data' => true,
         ], 200);
+    }
+
+    /**
+     * Show the Hire candidate page.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @param integer $candidateId
+     * @return mixed
+     */
+    public function hire(Request $request, int $companyId, int $jobOpeningId, int $candidateId): mixed
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        // is this person HR?
+        if ($loggedEmployee->permission_level > config('officelife.permission_level.hr')) {
+            return redirect('home');
+        }
+
+        try {
+            $jobOpening = JobOpening::where('company_id', $company->id)
+                ->with('team')
+                ->with('position')
+                ->with('sponsors')
+                ->findOrFail($jobOpeningId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        try {
+            $candidate = Candidate::where('company_id', $company->id)
+                ->findOrFail($candidateId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $jobOpeningInfo = DashboardHRCandidatesViewHelper::jobOpening($company, $jobOpening);
+        $candidateInfo = DashboardHRCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
+
+        return Inertia::render('Dashboard/HR/JobOpenings/Candidates/Hire', [
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
+            'jobOpening' => $jobOpeningInfo,
+            'candidate' => $candidateInfo,
+            'year' => Carbon::now()->year,
+            'month' => Carbon::now()->month,
+            'day' => Carbon::now()->day,
+            'tab' => 'recruiting',
+        ]);
     }
 }

@@ -117,7 +117,7 @@
               </ul>
             </div>
 
-            <inertia-link :href="''" class="btn">Hire candidate</inertia-link>
+            <inertia-link :href="candidate.url_hire" class="btn">Hire candidate</inertia-link>
           </div>
 
           <div class="bg-gray pa3 f7 box-bottom">

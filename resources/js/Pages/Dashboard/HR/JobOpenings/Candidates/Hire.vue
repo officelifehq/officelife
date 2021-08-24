@@ -1,0 +1,266 @@
+<style scoped>
+input[type=checkbox] {
+  top: 5px;
+}
+
+input[type=radio] {
+  top: -2px;
+}
+
+.step {
+  background-color: #06B6D4;
+  width: 24px;
+  color: #fff;
+  height: 24px;
+  padding: 3px 10px 5px 8px;
+}
+
+.check {
+  color: #fb8444;
+  top: 4px;
+  width: 20px;
+}
+</style>
+
+<template>
+  <layout :notifications="notifications">
+    <div class="ph2 ph0-ns">
+      <!-- BREADCRUMB -->
+      <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
+        <ul class="list ph0 tc-l tl">
+          <li class="di">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+          </li>
+          <li class="di">
+            ...
+          </li>
+          <li class="di">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employees'">{{ $t('app.breadcrumb_account_manage_employees') }}</inertia-link>
+          </li>
+          <li class="di">
+            {{ $t('app.breadcrumb_account_add_employee') }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- BODY -->
+      <div class="mw7 center br3 mb3 bg-white box relative z-1">
+        <div class="">
+          <h2 class="pa3 mt3 center tc normal mb2">
+            Add Jean Noel as an employee
+          </h2>
+
+          <form @submit.prevent="submit">
+            <div v-if="form.errors" class="pa3">
+              <errors :errors="form.errors" />
+            </div>
+
+            <!-- Basic information -->
+            <p class="pa3 relative mv0"><span class="step br-100 relative mr2">1</span> Confirm the information about the candidate</p>
+            <div class="cf pa3 bb bb-gray pb4">
+              <!-- First name -->
+              <text-input :id="'first_name'"
+                          v-model="form.first_name"
+                          :name="'first_name'"
+                          :errors="$page.props.errors.first_name"
+                          :label="$t('account.employee_new_firstname')"
+                          :required="true"
+              />
+
+              <!-- Last name -->
+              <text-input :id="'last_name'"
+                          v-model="form.last_name"
+                          :name="'last_name'"
+                          :errors="$page.props.errors.last_name"
+                          :label="$t('account.employee_new_lastname')"
+                          :required="true"
+              />
+
+              <!-- Email -->
+              <text-input :id="'email'"
+                          v-model="form.email"
+                          :name="'email'"
+                          :type="'email'"
+                          :errors="$page.props.errors.email"
+                          :label="$t('account.employee_new_email')"
+                          :required="true"
+              />
+            </div>
+
+            <!-- Hiring date -->
+            <p class="pa3 pb0 relative mb0"><span class="step br-100 relative mr2">2</span> Tell us when the new employee will start</p>
+            <div class="cf pa3 bb bb-gray pb4">
+              <div class="dt-ns dt--fixed di">
+                <div class="dtc-ns pr2-ns pb0-ns w-100">
+                  <!-- year -->
+                  <text-input :id="'year'"
+                              v-model="form.year"
+                              :name="'year'"
+                              :errors="$page.props.errors.year"
+                              :label="$t('employee.edit_information_year')"
+                              :required="true"
+                              :type="'number'"
+                              :min="1900"
+                              :max="2050"
+                              :help="$t('employee.edit_information_year_help')"
+                  />
+                </div>
+                <div class="dtc-ns pr2-ns pb0-ns w-100">
+                  <!-- month -->
+                  <text-input :id="'month'"
+                              v-model="form.month"
+                              :name="'month'"
+                              :errors="$page.props.errors.month"
+                              :label="$t('employee.edit_information_month')"
+                              :required="true"
+                              :type="'number'"
+                              :min="1"
+                              :max="12"
+                              :help="$t('employee.edit_information_month_help')"
+                  />
+                </div>
+                <div class="dtc-ns pr2-ns pb0-ns w-100">
+                  <!-- day -->
+                  <text-input :id="'day'"
+                              v-model="form.day"
+                              :name="'day'"
+                              :errors="$page.props.errors.day"
+                              :label="$t('employee.edit_information_day')"
+                              :required="true"
+                              :type="'number'"
+                              :min="1"
+                              :max="31"
+                              :help="$t('employee.edit_information_day_help')"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Hiring date -->
+            <p class="pa3 relative mb0"><span class="step br-100 relative mr2">3</span> Position and team of the future employee</p>
+            <div class="cf pa3 bb bb-gray pb4">
+              The new employee will work as {{ jobOpening.position.title }} in the team called {{ jobOpening.team.name }}.
+            </div>
+
+            <!-- Hiring date -->
+            <div class="pa3 bb bb-gray">
+              <p class="relative mb3"><span class="step br-100 relative mr2">4</span> What happens next?</p>
+              <ul class="list pl4 mt3">
+                <li class="lh-copy mb2 relative">
+                  <svg class="check relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+
+                  The candidate will immediately become an employee without access to your OfficeLife company's account. You will have to send a formal invitation to the new employee in Adminland.
+                </li>
+                <li class="lh-copy relative">
+                  <svg class="check relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+
+                  The job opening will be closed and archived immediately. It won't be listed on your public jobs page anymore.
+                </li>
+              </ul>
+            </div>
+
+            <!-- Actions -->
+            <div v-if="!$page.props.demo_mode" class="cf pa3">
+              <div class="flex-ns justify-between">
+                <div>
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employees'" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
+                    {{ $t('app.cancel') }}
+                  </inertia-link>
+                </div>
+                <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-employee-button'" />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </layout>
+</template>
+
+<script>
+import TextInput from '@/Shared/TextInput';
+import Errors from '@/Shared/Errors';
+import LoadingButton from '@/Shared/LoadingButton';
+import Layout from '@/Shared/Layout';
+
+export default {
+  components: {
+    Layout,
+    TextInput,
+    Errors,
+    LoadingButton,
+  },
+
+  props: {
+    candidate: {
+      type: Object,
+      default: null,
+    },
+    jobOpening: {
+      type: Object,
+      default: null,
+    },
+    year: {
+      type: Number,
+      default: null,
+    },
+    month: {
+      type: Number,
+      default: null,
+    },
+    day: {
+      type: Number,
+      default: null,
+    },
+    notifications: {
+      type: Array,
+      default: null,
+    },
+  },
+
+  data() {
+    return {
+      form: {
+        first_name: null,
+        last_name: null,
+        email: null,
+        year: null,
+        month: null,
+        day: null,
+        errors: [],
+      },
+      loadingState: '',
+    };
+  },
+
+  mounted() {
+    this.form.first_name = this.candidate.name;
+    this.form.last_name = this.candidate.name;
+    this.form.email = this.candidate.email;
+    this.form.year = this.year;
+    this.form.month = this.month;
+    this.form.day = this.day;
+  },
+
+  methods: {
+    submit() {
+      this.loadingState = 'loading';
+
+      axios.post('/' + this.$page.props.auth.company.id + '/account/employees', this.form)
+        .then(response => {
+          localStorage.success = this.$t('account.employee_new_success');
+          this.$inertia.visit('/' + response.data.company_id + '/account/employees');
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+  }
+};
+
+</script>
