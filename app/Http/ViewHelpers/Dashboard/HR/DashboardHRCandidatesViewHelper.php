@@ -33,6 +33,7 @@ class DashboardHRCandidatesViewHelper
             'slug' => $jobOpening->slug,
             'reference_number' => $jobOpening->reference_number,
             'active' => $jobOpening->active,
+            'fulfilled' => $jobOpening->fulfilled,
             'activated_at' => $jobOpening->activated_at ? DateHelper::formatDate($jobOpening->activated_at) : null,
             'position' => [
                 'id' => $position->id,

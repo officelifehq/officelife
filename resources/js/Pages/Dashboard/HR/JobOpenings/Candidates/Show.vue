@@ -117,7 +117,7 @@
               </ul>
             </div>
 
-            <inertia-link :href="candidate.url_hire" class="btn">Hire candidate</inertia-link>
+            <inertia-link v-if="! jobOpening.fulfilled" :href="candidate.url_hire" class="btn">{{ $t('dashboard.job_opening_show_candidate_hire') }}</inertia-link>
           </div>
 
           <div class="bg-gray pa3 f7 box-bottom">
@@ -187,7 +187,7 @@
           <div class="fl w-80-l w-100 pl4-l">
             <div class="bg-white box">
               <!-- actions -->
-              <div v-if="!candidate.rejected && !stage.decision" class="pa3 pb4 bb bb-gray">
+              <div v-if="!candidate.rejected && !stage.decision && !jobOpening.fulfilled" class="pa3 pb4 bb bb-gray">
                 <div class="tc">
                   <img loading="lazy" src="/img/streamline-icon-gavel@100x100.png" width="100" height="100" alt="meeting"
                        class="mb3"

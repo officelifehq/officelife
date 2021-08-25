@@ -54,6 +54,7 @@ class HireCandidate extends BaseService
         $this->validate();
         $this->createEmployee();
         $this->markJobOpeningAsFulfilled();
+        $this->updateCandidate();
         $this->log();
 
         return $this->employee;
@@ -119,6 +120,13 @@ class HireCandidate extends BaseService
         $this->jobOpening->fulfilled = true;
         $this->jobOpening->fulfilled_by_candidate_id = $this->candidate->id;
         $this->jobOpening->save();
+    }
+
+    private function updateCandidate(): void
+    {
+        $this->candidate->employee_id = $this->employee->id;
+        $this->candidate->employee_name = $this->employee->name;
+        $this->candidate->save();
     }
 
     private function log(): void

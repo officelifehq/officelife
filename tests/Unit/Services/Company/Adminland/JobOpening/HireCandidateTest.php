@@ -146,6 +146,12 @@ class HireCandidateTest extends TestCase
             'team_id' => $opening->team_id,
         ]);
 
+        $this->assertDatabaseHas('candidates', [
+            'id' => $candidate->id,
+            'employee_id' => $employee->id,
+            'employee_name' => $employee->name,
+        ]);
+
         $this->assertInstanceOf(
             Employee::class,
             $employee

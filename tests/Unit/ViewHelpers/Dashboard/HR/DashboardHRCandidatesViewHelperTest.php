@@ -46,6 +46,7 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                 'slug' => 'title',
                 'reference_number' => '123',
                 'active' => true,
+                'fulfilled' => false,
                 'activated_at' => null,
                 'position' => [
                     'id' => $opening->position->id,

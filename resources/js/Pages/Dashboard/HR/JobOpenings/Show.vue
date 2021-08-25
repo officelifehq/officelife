@@ -143,6 +143,31 @@
           </div>
         </div>
 
+        <!-- candidate that fulfilled the job -->
+        <div v-if="jobOpening.fulfilled" class="bg-white box pa3 relative">
+          <img loading="lazy" src="/img/streamline-icon-finish-line-6@100x100.png" alt="victory" class="absolute left-1 mr1" height="80"
+               width="80"
+          />
+
+          This job opening was fulfilled by
+
+          <div class="mr3 relative">
+            <avatar :avatar="jobOpening.employee.avatar" :size="35" :class="'br-100 absolute avatar'" />
+
+            <div class="name">
+              <span class="db ma0">
+                <inertia-link :href="jobOpening.employee.url">{{ jobOpening.employee.name }}</inertia-link>
+              </span>
+              <span v-if="jobOpening.employee.position" class="fw3 gray f7">
+                {{ jobOpening.employee.position.title }}
+              </span>
+              <span v-else class="fw3 gray f7">
+                {{ $t('app.no_position_defined') }}
+              </span>
+            </div>
+          </div>
+        </div>
+
         <!-- menu -->
         <tabs :stats="stats" :tab="tab" />
       </div>
@@ -199,6 +224,7 @@ import Layout from '@/Shared/Layout';
 import Information from '@/Pages/Dashboard/HR/JobOpenings/Partials/Information';
 import Sponsors from '@/Pages/Dashboard/HR/JobOpenings/Partials/Sponsors';
 import Tabs from '@/Pages/Dashboard/HR/JobOpenings/Partials/Tabs';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
@@ -206,6 +232,7 @@ export default {
     Information,
     Sponsors,
     Tabs,
+    Avatar,
   },
 
   props: {

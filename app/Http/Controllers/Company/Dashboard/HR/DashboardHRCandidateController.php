@@ -460,6 +460,10 @@ class DashboardHRCandidateController extends Controller
             return redirect('home');
         }
 
+        if ($jobOpening->fulfilled || ! $jobOpening->active) {
+            return redirect('home');
+        }
+
         $jobOpeningInfo = DashboardHRCandidatesViewHelper::jobOpening($company, $jobOpening);
         $candidateInfo = DashboardHRCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
 

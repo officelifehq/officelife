@@ -3,6 +3,7 @@
 namespace Database\Factories\Company;
 
 use App\Models\Company\Company;
+use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -27,6 +28,11 @@ class CandidateFactory extends Factory
             'company_id' => Company::factory(),
             'job_opening_id' => function (array $attributes) {
                 return JobOpening::factory()->create([
+                    'company_id' => $attributes['company_id'],
+                ]);
+            },
+            'employee_id' => function (array $attributes) {
+                return Employee::factory()->create([
                     'company_id' => $attributes['company_id'],
                 ]);
             },
