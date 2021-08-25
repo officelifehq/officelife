@@ -138,6 +138,12 @@ class HireCandidateTest extends TestCase
             'first_name' => 'Michael',
             'last_name' => 'Scott v2',
             'hired_at' => '2022-01-01 00:00:00',
+            'position_id' => $opening->position_id,
+        ]);
+
+        $this->assertDatabaseHas('employee_team', [
+            'employee_id' => $employee->id,
+            'team_id' => $opening->team_id,
         ]);
 
         $this->assertInstanceOf(

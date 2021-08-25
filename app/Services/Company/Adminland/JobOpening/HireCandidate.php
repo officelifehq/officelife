@@ -8,6 +8,7 @@ use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
+use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 
@@ -97,6 +98,19 @@ class HireCandidate extends BaseService
             'month' => $this->hiredAt->month,
             'day' => $this->hiredAt->day,
         ]);
+
+        $team = $this->jobOpening->team;
+        if ($team) {
+            (new AddEmployeeToTeam)->execute([
+                'company_id' => $this->jobOpening->company_id,
+                'author_id' => $this->author->id,
+                'employee_id' => $this->employee->id,
+                'team_id' => $team->id,
+            ]);
+        }
+
+        $this->employee->position_id = $this->jobOpening->position_id;
+        $this->employee->save();
     }
 
     private function markJobOpeningAsFulfilled(): void
