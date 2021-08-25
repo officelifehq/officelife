@@ -32,13 +32,13 @@ input[type=radio] {
             <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            ...
+            …
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employees'">{{ $t('app.breadcrumb_account_manage_employees') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings/' + jobOpening.id + '/candidates/' + candidate.id">{{ $t('app.breadcrumb_dashboard_job_opening_candidate') }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_account_add_employee') }}
+            {{ $t('app.breadcrumb_dashboard_job_opening_candidate_hire') }}
           </li>
         </ul>
       </div>
@@ -47,7 +47,7 @@ input[type=radio] {
       <div class="mw7 center br3 mb3 bg-white box relative z-1">
         <div class="">
           <h2 class="pa3 mt3 center tc normal mb2">
-            Add Jean Noel as an employee
+            {{ $t('dashboard.job_opening_hire_title', { name: candidate.name }) }}
           </h2>
 
           <form @submit.prevent="submit">
@@ -56,7 +56,7 @@ input[type=radio] {
             </div>
 
             <!-- Basic information -->
-            <p class="pa3 relative mv0"><span class="step br-100 relative mr2">1</span> Confirm the information about the candidate</p>
+            <p class="pa3 relative mv0"><span class="step br-100 relative mr2">1</span> {{ $t('dashboard.job_opening_hire_step_1') }}</p>
             <div class="cf pa3 bb bb-gray pb4">
               <!-- First name -->
               <text-input :id="'first_name'"
@@ -88,7 +88,7 @@ input[type=radio] {
             </div>
 
             <!-- Hiring date -->
-            <p class="pa3 pb0 relative mb0"><span class="step br-100 relative mr2">2</span> Tell us when the new employee will start</p>
+            <p class="pa3 pb0 relative mb0"><span class="step br-100 relative mr2">2</span> {{ $t('dashboard.job_opening_hire_step_2') }}</p>
             <div class="cf pa3 bb bb-gray pb4">
               <div class="dt-ns dt--fixed di">
                 <div class="dtc-ns pr2-ns pb0-ns w-100">
@@ -137,9 +137,12 @@ input[type=radio] {
             </div>
 
             <!-- Hiring date -->
-            <p class="pa3 relative mb0"><span class="step br-100 relative mr2">3</span> Position and team of the future employee</p>
-            <div class="cf pa3 bb bb-gray pb4">
-              The new employee will work as {{ jobOpening.position.title }} in the team called {{ jobOpening.team.name }}.
+            <p class="pa3 relative mb0"><span class="step br-100 relative mr2">3</span> {{ $t('dashboard.job_opening_hire_step_3') }}</p>
+            <div v-if="jobOpening.team" class="cf pa3 bb bb-gray pb4">
+              {{ $t('dashboard.job_opening_hire_step_3_text_team', { position: jobOpening.position.title, team: jobOpening.team.name }) }}
+            </div>
+            <div v-else class="cf pa3 bb bb-gray pb4">
+              {{ $t('dashboard.job_opening_hire_step_3_text', { position: jobOpening.position.title }) }}
             </div>
 
             <!-- Hiring date -->
