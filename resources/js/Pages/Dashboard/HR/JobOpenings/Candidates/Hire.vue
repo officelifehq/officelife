@@ -154,14 +154,14 @@ input[type=radio] {
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                   </svg>
 
-                  The candidate will immediately become an employee without access to your OfficeLife company's account. You will have to send a formal invitation to the new employee in Adminland.
+                  {{ $t('dashboard.job_opening_hire_step_4') }}
                 </li>
                 <li class="lh-copy relative">
                   <svg class="check relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                   </svg>
 
-                  The job opening will be closed and archived immediately. It won't be listed on your public jobs page anymore.
+                  {{ $t('dashboard.job_opening_hire_step_4_bis') }}
                 </li>
               </ul>
             </div>
@@ -170,11 +170,11 @@ input[type=radio] {
             <div v-if="!$page.props.demo_mode" class="cf pa3">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employees'" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings/' + jobOpening.id + '/candidates/' + candidate.id" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-employee-button'" />
+                <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.confirm')" />
               </div>
             </div>
           </form>
@@ -255,7 +255,7 @@ export default {
 
       axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpening.id}/candidates/${this.candidate.id}/hire`, this.form)
         .then(response => {
-          localStorage.success = this.$t('account.employee_new_success');
+          localStorage.success = this.$t('dashboard.job_opening_hire_success');
           this.$inertia.visit(response.data.data);
         })
         .catch(error => {
