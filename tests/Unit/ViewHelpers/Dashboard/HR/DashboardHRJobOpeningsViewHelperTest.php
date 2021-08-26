@@ -325,6 +325,28 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             ],
             $array['team']
         );
+
+        // now provide an employee that won the job
+        $jobOpening->fulfilled_by_candidate_id = $candidate->id;
+        $jobOpening->fulfilled = true;
+        $jobOpening->save();
+        $candidate->employee_id = $michael->id;
+        $candidate->save();
+
+        $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
+        $this->assertEquals(
+            [
+                'id' => $michael->id,
+                'name' => $michael->name,
+                'avatar' => ImageHelper::getAvatar($michael, 35),
+                'position' => [
+                    'id' => $michael->position->id,
+                    'title' => $michael->position->title,
+                ],
+                'url' => env('APP_URL').'/'.$company->id.'/employees/'.$michael->id,
+            ],
+            $array['employee']
+        );
     }
 
     /** @test */

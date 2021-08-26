@@ -214,19 +214,22 @@ class DashboardHRJobOpeningsViewHelper
                     'team' => $team,
                 ]),
             ] : null,
-            'employee' => $jobOpening->fulfilled ? [
-                'id' => $jobOpening->candidateWhoWonTheJob->employee->id,
-                'name' => $jobOpening->candidateWhoWonTheJob->employee->name,
-                'avatar' => ImageHelper::getAvatar($jobOpening->candidateWhoWonTheJob->employee, 35),
-                'position' => (! $jobOpening->candidateWhoWonTheJob->employee->position) ? null : [
-                    'id' => $jobOpening->candidateWhoWonTheJob->employee->position->id,
-                    'title' => $jobOpening->candidateWhoWonTheJob->employee->position->title,
-                ],
-                'url' => route('employees.show', [
-                    'company' => $company,
-                    'employee' => $jobOpening->candidateWhoWonTheJob->employee,
-                ]),
-            ] : null,
+            'employee' => $jobOpening->fulfilled ?
+                ($jobOpening->candidateWhoWonTheJob->employee ? [
+                    'id' => $jobOpening->candidateWhoWonTheJob->employee->id,
+                    'name' => $jobOpening->candidateWhoWonTheJob->employee->name,
+                    'avatar' => ImageHelper::getAvatar($jobOpening->candidateWhoWonTheJob->employee, 35),
+                    'position' => (! $jobOpening->candidateWhoWonTheJob->employee->position) ? null : [
+                        'id' => $jobOpening->candidateWhoWonTheJob->employee->position->id,
+                        'title' => $jobOpening->candidateWhoWonTheJob->employee->position->title,
+                    ],
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $jobOpening->candidateWhoWonTheJob->employee,
+                    ]),
+                ] : [
+                    'name' => $jobOpening->candidateWhoWonTheJob->employee_name,
+                ]) : null,
             'url_public_view' => route('jobs.company.show.incognito', [
                 'company' => $company->slug,
                 'job' => $jobOpening->slug,

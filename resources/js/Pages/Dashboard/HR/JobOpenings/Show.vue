@@ -81,7 +81,8 @@
             🎉
           </span>
 
-          <p class="ma0 di" v-html="$t('dashboard.job_opening_show_candidate_employee', { url: jobOpening.employee.url, name: jobOpening.employee.name })"></p>
+          <p v-if="jobOpening.employee.id" class="ma0 di" v-html="$t('dashboard.job_opening_show_candidate_employee', { url: jobOpening.employee.url, name: jobOpening.employee.name })"></p>
+          <p v-else class="ma0 di">{{ $t('dashboard.job_opening_show_candidate_employee_no_name', { name: jobOpening.employee.name }) }}</p>
         </div>
 
         <!-- header -->

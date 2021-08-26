@@ -17,7 +17,7 @@ class AddEmployeeToCandidatesTable extends Migration
         Schema::table('candidates', function (Blueprint $table) {
             $table->unsignedBigInteger('employee_id')->nullable()->after('job_opening_id');
             $table->string('employee_name')->nullable()->after('employee_id');
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('set null');
         });
     }
 }
