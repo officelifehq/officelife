@@ -269,6 +269,7 @@ return [
     'job_opening_show_candidate_job_opening' => 'Job opening:',
     'job_opening_show_candidate_tab_cv' => 'Curriculum vitae',
     'job_opening_show_candidate_tab_recruiting' => 'Recruiting process',
+    'job_opening_show_candidate_employee' => 'This job opening has been fulfilled and the selected candidate is <a href="{url}">{name}</a>.',
     'job_opening_show_candidate_hire' => 'Hire candidate',
     'job_opening_show_stage_decision_question' => 'Do you consider this candidate to be qualified for the next stage?',
     'job_opening_show_stage_decision' => 'Qualifies for next stage',
