@@ -332,9 +332,9 @@ export default {
 
       this.loadingState = 'loading';
 
-      axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings`, this.form)
+      axios.put(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpening.id}`, this.form)
         .then(response => {
-          localStorage.success = this.$t('dashboard.job_opening_new_success');
+          localStorage.success = this.$t('dashboard.job_opening_edit_success');
           this.$inertia.visit(response.data.data.url);
         })
         .catch(error => {
@@ -380,7 +380,7 @@ export default {
       var id = this.sponsors.findIndex(member => member.id === sponsor.id);
       this.sponsors.splice(id, 1);
 
-      var id = this.form.sponsorsId.findIndex(member => member.id === sponsor.id);
+      var id = this.form.sponsorsId.findIndex(member => member === sponsor.id);
       this.form.sponsorsId.splice(id, 1);
     }
   }

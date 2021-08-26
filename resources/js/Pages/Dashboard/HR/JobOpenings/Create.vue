@@ -362,7 +362,7 @@ export default {
       var id = this.sponsors.findIndex(member => member.id === sponsor.id);
       this.sponsors.splice(id, 1);
 
-      var id = this.form.sponsorsId.findIndex(member => member.id === sponsor.id);
+      var id = this.form.sponsorsId.findIndex(member => member === sponsor.id);
       this.form.sponsorsId.splice(id, 1);
     }
   }

@@ -10,6 +10,7 @@ use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\JobOpening;
+use Illuminate\Support\Facades\DB;
 use App\Models\Company\RecruitingStageTemplate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -101,7 +102,9 @@ class UpdateJobOpening extends BaseService
             return;
         }
 
-        $this->jobOpening->sponsors()->sync([]);
+        DB::table('job_opening_sponsor')
+            ->where('job_opening_id', $this->jobOpening->id)
+            ->delete();
 
         foreach ($this->data['sponsors'] as &$id) {
             try {

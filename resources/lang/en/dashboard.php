@@ -290,4 +290,5 @@ return [
     'job_opening_stage_notes_blank' => 'No notes have been written yet about this stage.',
     'job_opening_stage_notes_destroy_success' => 'The note has been deleted.',
     'job_opening_edit_title' => 'Edit job opening',
+    'job_opening_edit_success' => 'The job opening has been edited.',
 ];
