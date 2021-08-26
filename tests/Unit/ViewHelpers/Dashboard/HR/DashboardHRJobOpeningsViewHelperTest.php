@@ -259,7 +259,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
 
         $this->assertCount(
-            13,
+            15,
             $array
         );
 
@@ -361,7 +361,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $array = DashboardHRJobOpeningsViewHelper::edit($company, $jobOpening);
 
         $this->assertCount(
-            13,
+            9,
             $array
         );
 
@@ -374,58 +374,32 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             $array['title']
         );
         $this->assertEquals(
-            StringHelper::parse($jobOpening->description),
-            $array['description']
-        );
-        $this->assertEquals(
             $jobOpening->description,
             $array['description_raw']
-        );
-        $this->assertEquals(
-            $jobOpening->slug,
-            $array['slug']
         );
         $this->assertEquals(
             $jobOpening->reference_number,
             $array['reference_number']
         );
         $this->assertEquals(
-            $jobOpening->active,
-            $array['active']
-        );
-        $this->assertEquals(
             $jobOpening->template->id,
             $array['recruiting_stage_template_id']
         );
         $this->assertEquals(
-            'Jan 01, 2018',
-            $array['activated_at']
-        );
-        $this->assertEquals(
-            env('APP_URL').'/jobs/'.$company->slug.'/jobs/'.$jobOpening->slug.'?ignore=true',
-            $array['url_public_view']
-        );
-        $this->assertEquals(
-            env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$jobOpening->id.'/edit',
-            $array['url_edit']
-        );
-        $this->assertEquals(
             [
                 'id' => $jobOpening->position->id,
-                'title' => $jobOpening->position->title,
-                'count_employees' => 0,
-                'url' => env('APP_URL').'/'.$company->id.'/company/hr/positions/'.$jobOpening->position->id,
             ],
             $array['position']
         );
         $this->assertEquals(
             [
                 'id' => $jobOpening->team->id,
-                'name' => $jobOpening->team->name,
-                'count' => 0,
-                'url' => env('APP_URL').'/'.$company->id.'/teams/'.$jobOpening->team->id,
             ],
             $array['team']
+        );
+        $this->assertEquals(
+            env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$jobOpening->id,
+            $array['url_cancel']
         );
     }
 
