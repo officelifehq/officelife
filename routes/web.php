@@ -153,6 +153,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
                 // candidates
                 Route::get('job-openings/{jobOpening}/candidates/{candidate}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@show')->name('dashboard.hr.candidates.show');
+                Route::get('job-openings/{jobOpening}/candidates/{candidate}/cv', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@showCV')->name('dashboard.hr.candidates.cv');
                 Route::get('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@showStage')->name('dashboard.hr.candidates.stage.show');
                 Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@store');
 
