@@ -229,8 +229,8 @@ input[type=radio] {
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <p v-if="form.sponsorsId.length == 0" class="ma0 f5"><span class="mr1">⚠️</span> Please select at least one sponsor</p>
-                <loading-button :class="'btn add w-auto-ns w-100'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-hardware-button'" />
+                <p v-if="form.sponsorsId.length == 0" class="ma0 f5"><span class="mr1">⚠️</span> {{ $t('dashboard.job_opening_new_select_sponsor') }}</p>
+                <loading-button :class="'btn add w-auto-ns w-100'" :state="loadingState" :text="$t('app.add')" />
               </div>
             </div>
           </form>

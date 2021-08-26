@@ -188,12 +188,14 @@ class DashboardHRJobOpeningsViewHelper
         return [
             'id' => $jobOpening->id,
             'title' => $jobOpening->title,
+            'description_raw' => $jobOpening->description,
             'description' => StringHelper::parse($jobOpening->description),
             'slug' => $jobOpening->slug,
             'reference_number' => $jobOpening->reference_number,
             'active' => $jobOpening->active,
             'activated_at' => $jobOpening->activated_at ? DateHelper::formatDate($jobOpening->activated_at) : null,
             'page_views' => $jobOpening->page_views,
+            'recruiting_stage_template_id' => $jobOpening->template->id,
             'position' => [
                 'id' => $position->id,
                 'title' => $position->title,
@@ -218,6 +220,47 @@ class DashboardHRJobOpeningsViewHelper
                 'job' => $jobOpening->slug,
             ]),
             'url_edit' => route('dashboard.hr.openings.edit', [
+                'company' => $company,
+                'jobOpening' => $jobOpening,
+            ]),
+        ];
+    }
+
+    /**
+     * Information needed to edit the job opening.
+     *
+     * @param Company $company
+     * @param JobOpening $jobOpening
+     * @return array
+     */
+    public static function edit(Company $company, JobOpening $jobOpening): array
+    {
+        $team = $jobOpening->team;
+        $position = $jobOpening->position;
+
+        $sponsorsCollection = collect([]);
+        foreach ($jobOpening->sponsors as $sponsor) {
+            $sponsorsCollection->push([
+                'id' => $sponsor->id,
+                'name' => $sponsor->name,
+                'avatar' => ImageHelper::getAvatar($sponsor, 64),
+            ]);
+        }
+
+        return [
+            'id' => $jobOpening->id,
+            'title' => $jobOpening->title,
+            'description_raw' => $jobOpening->description,
+            'reference_number' => $jobOpening->reference_number,
+            'recruiting_stage_template_id' => $jobOpening->template->id,
+            'sponsors' => $sponsorsCollection,
+            'position' => [
+                'id' => $position->id,
+            ],
+            'team' => $team ? [
+                'id' => $team->id,
+            ] : null,
+            'url_cancel' => route('dashboard.hr.openings.show', [
                 'company' => $company,
                 'jobOpening' => $jobOpening,
             ]),
