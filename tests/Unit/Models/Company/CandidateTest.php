@@ -38,6 +38,13 @@ class CandidateTest extends TestCase
     }
 
     /** @test */
+    public function it_belongs_to_an_employee(): void
+    {
+        $candidate = Candidate::factory()->create();
+        $this->assertTrue($candidate->employee()->exists());
+    }
+
+    /** @test */
     public function it_has_many_candidate_stages(): void
     {
         $candidate = Candidate::factory()->create();

@@ -146,6 +146,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('job-openings/{jobOpening}/rejected', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@showRejected')->name('dashboard.hr.openings.show.rejected');
                 Route::get('job-openings/{jobOpening}/selected', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@showSelected')->name('dashboard.hr.openings.show.selected');
                 Route::get('job-openings/{jobOpening}/edit', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@edit')->name('dashboard.hr.openings.edit');
+                Route::put('job-openings/{jobOpening}', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@update');
                 Route::delete('job-openings/{jobOpening}', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@destroy');
                 Route::post('job-openings', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@store');
                 Route::post('job-openings/{jobOpening}/toggle', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@toggle');
@@ -155,6 +156,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('job-openings/{jobOpening}/candidates/{candidate}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@show')->name('dashboard.hr.candidates.show');
                 Route::get('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@showStage')->name('dashboard.hr.candidates.stage.show');
                 Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@store');
+                Route::get('job-openings/{jobOpening}/candidates/{candidate}/hire', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@hire')->name('dashboard.hr.candidates.hire');
+                Route::post('job-openings/{jobOpening}/candidates/{candidate}/hire', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@storeHire');
 
                 // participant in candidate stage
                 Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/searchParticipants', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@searchParticipants');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Dashboard\HR;
 
+use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
@@ -15,6 +16,7 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Company\CandidateStage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Services\Company\Adminland\JobOpening\HireCandidate;
 use App\Services\Company\Adminland\JobOpening\ProcessCandidateStage;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRCandidatesViewHelper;
 use App\Services\Company\Adminland\JobOpening\CreateCandidateStageNote;
@@ -420,5 +422,97 @@ class DashboardHRCandidateController extends Controller
         return response()->json([
             'data' => true,
         ], 200);
+    }
+
+    /**
+     * Show the Hire candidate page.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @param integer $candidateId
+     * @return mixed
+     */
+    public function hire(Request $request, int $companyId, int $jobOpeningId, int $candidateId): mixed
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        // is this person HR?
+        if ($loggedEmployee->permission_level > config('officelife.permission_level.hr')) {
+            return redirect('home');
+        }
+
+        try {
+            $jobOpening = JobOpening::where('company_id', $company->id)
+                ->with('team')
+                ->with('position')
+                ->with('sponsors')
+                ->findOrFail($jobOpeningId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        try {
+            $candidate = Candidate::where('company_id', $company->id)
+                ->findOrFail($candidateId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        if ($jobOpening->fulfilled || ! $jobOpening->active) {
+            return redirect('home');
+        }
+
+        $jobOpeningInfo = DashboardHRCandidatesViewHelper::jobOpening($company, $jobOpening);
+        $candidateInfo = DashboardHRCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
+
+        return Inertia::render('Dashboard/HR/JobOpenings/Candidates/Hire', [
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
+            'jobOpening' => $jobOpeningInfo,
+            'candidate' => $candidateInfo,
+            'year' => Carbon::now()->year,
+            'month' => Carbon::now()->month,
+            'day' => Carbon::now()->day,
+            'tab' => 'recruiting',
+        ]);
+    }
+
+    /**
+     * Actually hire the candidate.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @param integer $candidateId
+     * @return mixed
+     */
+    public function storeHire(Request $request, int $companyId, int $jobOpeningId, int $candidateId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $hiredAt = Carbon::createFromDate(
+            $request->input('year'),
+            $request->input('month'),
+            $request->input('day')
+        )->format('Y-m-d');
+
+        (new HireCandidate)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'job_opening_id' => $jobOpeningId,
+            'candidate_id' => $candidateId,
+            'email' => $request->input('email'),
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'hired_at' => $hiredAt,
+        ]);
+
+        return response()->json([
+            'data' => route('dashboard.hr.openings.index', [
+                'company' => $loggedCompany,
+            ]),
+        ], 201);
     }
 }
