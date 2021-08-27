@@ -172,6 +172,7 @@ return [
     'breadcrumb_dashboard_job_opening_detail' => 'Detail of a job opening',
     'breadcrumb_dashboard_job_opening_candidate' => 'Detail of a candidate',
     'breadcrumb_dashboard_job_opening_candidate_hire' => 'Hire candidate',
+    'breadcrumb_hr_job_openings_edit' => 'Edit job opening',
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',
     'header_find' => 'Find',

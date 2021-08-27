@@ -229,8 +229,8 @@ input[type=radio] {
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <p v-if="form.sponsorsId.length == 0" class="ma0 f5"><span class="mr1">⚠️</span> Please select at least one sponsor</p>
-                <loading-button :class="'btn add w-auto-ns w-100'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-hardware-button'" />
+                <p v-if="form.sponsorsId.length == 0" class="ma0 f5"><span class="mr1">⚠️</span> {{ $t('dashboard.job_opening_new_select_sponsor') }}</p>
+                <loading-button :class="'btn add w-auto-ns w-100'" :state="loadingState" :text="$t('app.add')" />
               </div>
             </div>
           </form>
@@ -362,7 +362,7 @@ export default {
       var id = this.sponsors.findIndex(member => member.id === sponsor.id);
       this.sponsors.splice(id, 1);
 
-      var id = this.form.sponsorsId.findIndex(member => member.id === sponsor.id);
+      var id = this.form.sponsorsId.findIndex(sponsor.id);
       this.form.sponsorsId.splice(id, 1);
     }
   }
