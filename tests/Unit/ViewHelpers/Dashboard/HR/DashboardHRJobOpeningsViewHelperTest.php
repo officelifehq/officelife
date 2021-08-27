@@ -259,7 +259,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
 
         $this->assertCount(
-            15,
+            17,
             $array
         );
 
@@ -288,6 +288,10 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             $array['active']
         );
         $this->assertEquals(
+            $jobOpening->fulfilled,
+            $array['fulfilled']
+        );
+        $this->assertEquals(
             'Jan 01, 2018',
             $array['activated_at']
         );
@@ -309,6 +313,10 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             $array['position']
         );
         $this->assertEquals(
+            null,
+            $array['employee']
+        );
+        $this->assertEquals(
             [
                 'id' => $jobOpening->team->id,
                 'name' => $jobOpening->team->name,
@@ -316,6 +324,28 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                 'url' => env('APP_URL').'/'.$company->id.'/teams/'.$jobOpening->team->id,
             ],
             $array['team']
+        );
+
+        // now provide an employee that won the job
+        $jobOpening->fulfilled_by_candidate_id = $candidate->id;
+        $jobOpening->fulfilled = true;
+        $jobOpening->save();
+        $candidate->employee_id = $michael->id;
+        $candidate->save();
+
+        $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
+        $this->assertEquals(
+            [
+                'id' => $michael->id,
+                'name' => $michael->name,
+                'avatar' => ImageHelper::getAvatar($michael, 35),
+                'position' => [
+                    'id' => $michael->position->id,
+                    'title' => $michael->position->title,
+                ],
+                'url' => env('APP_URL').'/'.$company->id.'/employees/'.$michael->id,
+            ],
+            $array['employee']
         );
     }
 

@@ -46,7 +46,20 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                 'slug' => 'title',
                 'reference_number' => '123',
                 'active' => true,
+                'fulfilled' => false,
                 'activated_at' => null,
+                'position' => [
+                    'id' => $opening->position->id,
+                    'title' => $opening->position->title,
+                    'count_employees' => 0,
+                    'url' => env('APP_URL') . '/' . $company->id . '/company/hr/positions/' . $opening->position->id,
+                ],
+                'team' => [
+                    'id' => $opening->team->id,
+                    'name' => $opening->team->name,
+                    'count' => 0,
+                    'url' => env('APP_URL') . '/' . $company->id . '/teams/' . $opening->team->id,
+                ],
                 'url' => env('APP_URL') . '/' . $company->id. '/dashboard/hr/job-openings/' . $opening->id,
             ],
             $array
@@ -98,7 +111,7 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
         $array = DashboardHRCandidatesViewHelper::candidate($company, $opening, $candidate);
 
         $this->assertEquals(
-            6,
+            7,
             count($array)
         );
 
@@ -123,8 +136,8 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
             $array['created_at']
         );
         $this->assertEquals(
-            'Jan 01, 2018',
-            $array['created_at']
+            env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $opening->id . '/candidates/' . $candidate->id . '/hire',
+            $array['url_hire']
         );
         $this->assertEquals(
             [

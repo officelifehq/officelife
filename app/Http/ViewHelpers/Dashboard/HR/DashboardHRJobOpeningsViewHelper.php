@@ -193,6 +193,7 @@ class DashboardHRJobOpeningsViewHelper
             'slug' => $jobOpening->slug,
             'reference_number' => $jobOpening->reference_number,
             'active' => $jobOpening->active,
+            'fulfilled' => $jobOpening->fulfilled,
             'activated_at' => $jobOpening->activated_at ? DateHelper::formatDate($jobOpening->activated_at) : null,
             'page_views' => $jobOpening->page_views,
             'recruiting_stage_template_id' => $jobOpening->template->id,
@@ -215,6 +216,22 @@ class DashboardHRJobOpeningsViewHelper
                     'team' => $team,
                 ]),
             ] : null,
+            'employee' => $jobOpening->fulfilled ?
+                ($jobOpening->candidateWhoWonTheJob->employee ? [
+                    'id' => $jobOpening->candidateWhoWonTheJob->employee->id,
+                    'name' => $jobOpening->candidateWhoWonTheJob->employee->name,
+                    'avatar' => ImageHelper::getAvatar($jobOpening->candidateWhoWonTheJob->employee, 35),
+                    'position' => (! $jobOpening->candidateWhoWonTheJob->employee->position) ? null : [
+                        'id' => $jobOpening->candidateWhoWonTheJob->employee->position->id,
+                        'title' => $jobOpening->candidateWhoWonTheJob->employee->position->title,
+                    ],
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $jobOpening->candidateWhoWonTheJob->employee,
+                    ]),
+                ] : [
+                    'name' => $jobOpening->candidateWhoWonTheJob->employee_name,
+                ]) : null,
             'url_public_view' => route('jobs.company.show.incognito', [
                 'company' => $company->slug,
                 'job' => $jobOpening->slug,

@@ -349,9 +349,9 @@ return [
     'log_candidate_stage_note_created' => 'Added a note to the application of :candidate_name for the position called :job_opening_title (:job_opening_reference_number).',
     'log_candidate_stage_participant_created' => 'Added a participant named :participant_name for the application of :candidate_name for the position called :job_opening_title (:job_opening_reference_number).',
     'log_candidate_stage_participant_destroyed' => 'Deleted a participant named :participant_name for the application of :candidate_name for the position called :job_opening_title (:job_opening_reference_number).',
-    'log_candidate_stage_note_created' => 'Added a note to the application of :candidate_name for the position called :job_opening_title (:job_opening_reference_number).',
     'log_candidate_stage_note_destroyed' => 'Deleted a note to the application of :candidate_name for the position called :job_opening_title (:job_opening_reference_number).',
     'log_candidate_stage_note_updated' => 'Updated a note to the application of :candidate_name for the position called :job_opening_title (:job_opening_reference_number).',
+    'log_candidate_hired' => 'Hired the candidate called :candidate_name for the position called :job_opening_title (:job_opening_reference_number).',
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',

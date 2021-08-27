@@ -39,7 +39,7 @@
           {{ localJobOpening.reference_number }}
         </span>
       </h2>
-      <div>
+      <div v-if="!localJobOpening.fulfilled">
         <p v-if="isActive" class="status-active f7 dib ph2 pv2 br3 ma0">
           <span class="br3 f7 fw3 ph2 pv1 dib relative mr1 dot"></span>
           {{ $t('dashboard.job_opening_show_active') }}
@@ -58,20 +58,15 @@
       </li>
 
       <!-- active toggle -->
-      <li v-if="isActive" class="di mr3">
+      <li v-if="isActive && !localJobOpening.fulfilled" class="di mr3">
         <a class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="toggle()">
           {{ $t('dashboard.job_opening_show_toggle_inactive') }}
         </a>
       </li>
-      <li v-else class="di mr3">
+      <li v-if="!isActive && !localJobOpening.fulfilled" class="di mr3">
         <a class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="toggle()">
           {{ $t('dashboard.job_opening_show_toggle_active') }}
         </a>
-      </li>
-
-      <!-- active -->
-      <li v-if="localJobOpening.activated_at" class="di mr3">
-        Active since {{ localJobOpening.activated_at }}
       </li>
 
       <!-- edit -->

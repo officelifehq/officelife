@@ -23,6 +23,9 @@ class DashboardHRCandidatesViewHelper
      */
     public static function jobOpening(Company $company, JobOpening $jobOpening): ?array
     {
+        $team = $jobOpening->team;
+        $position = $jobOpening->position;
+
         return [
             'id' => $jobOpening->id,
             'title' => $jobOpening->title,
@@ -30,7 +33,26 @@ class DashboardHRCandidatesViewHelper
             'slug' => $jobOpening->slug,
             'reference_number' => $jobOpening->reference_number,
             'active' => $jobOpening->active,
+            'fulfilled' => $jobOpening->fulfilled,
             'activated_at' => $jobOpening->activated_at ? DateHelper::formatDate($jobOpening->activated_at) : null,
+            'position' => [
+                'id' => $position->id,
+                'title' => $position->title,
+                'count_employees' => $position->employees()->notLocked()->count(),
+                'url' => route('hr.positions.show', [
+                    'company' => $company,
+                    'position' => $position,
+                ]),
+            ],
+            'team' => $team ? [
+                'id' => $team->id,
+                'name' => $team->name,
+                'count' => $team->employees()->notLocked()->count(),
+                'url' => route('team.show', [
+                    'company' => $company,
+                    'team' => $team,
+                ]),
+            ] : null,
             'url' => route('dashboard.hr.openings.show', [
                 'company' => $company,
                 'jobOpening' => $jobOpening,
@@ -71,6 +93,11 @@ class DashboardHRCandidatesViewHelper
             'rejected' => $candidate->rejected,
             'created_at' => DateHelper::formatDate($candidate->created_at),
             'stages' => $candidateStagesCollection,
+            'url_hire' => route('dashboard.hr.candidates.hire', [
+                'company' => $company,
+                'jobOpening' => $jobOpening,
+                'candidate' => $candidate,
+            ]),
         ];
     }
 

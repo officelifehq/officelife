@@ -27,6 +27,7 @@ class Candidate extends Model
     protected $fillable = [
         'company_id',
         'job_opening_id',
+        'employee_id',
         'name',
         'email',
         'uuid',
@@ -76,6 +77,16 @@ class Candidate extends Model
     public function jobOpening()
     {
         return $this->belongsTo(JobOpening::class);
+    }
+
+    /**
+     * Get the employee associated with the candidate.
+     *
+     * @return BelongsTo
+     */
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
     }
 
     /**
