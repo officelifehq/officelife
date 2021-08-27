@@ -259,7 +259,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
 
         $this->assertCount(
-            15,
+            17,
             $array
         );
 
