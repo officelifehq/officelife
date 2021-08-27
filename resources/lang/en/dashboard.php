@@ -283,6 +283,7 @@ return [
     'job_opening_hire_step_3' => 'Position and team of the future employee',
     'job_opening_hire_step_3_text' => 'The new employee will be {position}.',
     'job_opening_hire_step_3_text_team' => 'The new employee will be {position} in the team called {team}.',
+    'job_opening_hire_step_4_title' => 'What happens next?',
     'job_opening_hire_step_4' => 'The candidate will immediately become an employee without access to your OfficeLife company’s account. You will have to send a formal invitation to the new employee in Adminland.',
     'job_opening_hire_step_4_bis' => 'The job opening will be closed and archived immediately. It won’t be listed on your public jobs page anymore.',
     'job_opening_hire_success' => 'The candidate has been hired.',

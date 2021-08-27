@@ -147,7 +147,7 @@ input[type=radio] {
 
             <!-- Hiring date -->
             <div class="pa3 bb bb-gray">
-              <p class="relative mb3"><span class="step br-100 relative mr2">4</span> What happens next?</p>
+              <p class="relative mb3"><span class="step br-100 relative mr2">4</span> {{ $t('dashboard.job_opening_hire_step_4_title') }}</p>
               <ul class="list pl4 mt3">
                 <li class="lh-copy mb2 relative">
                   <svg class="check relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -167,7 +167,7 @@ input[type=radio] {
             </div>
 
             <!-- Actions -->
-            <div v-if="!$page.props.demo_mode" class="cf pa3">
+            <div class="cf pa3">
               <div class="flex-ns justify-between">
                 <div>
                   <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings/' + jobOpening.id + '/candidates/' + candidate.id" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
