@@ -171,6 +171,7 @@ return [
     'breadcrumb_account_manage_recruitment_detail' => 'Detail of a template',
     'breadcrumb_dashboard_job_opening_detail' => 'Detail of a job opening',
     'breadcrumb_dashboard_job_opening_candidate' => 'Detail of a candidate',
+    'breadcrumb_hr_job_openings_edit' => 'Edit job opening',
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',
     'header_find' => 'Find',

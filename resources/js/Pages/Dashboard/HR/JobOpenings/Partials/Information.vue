@@ -76,7 +76,7 @@
 
       <!-- edit -->
       <li class="di mr3">
-        <inertia-link :href="localJobOpening.url_create">{{ $t('app.edit') }}</inertia-link>
+        <inertia-link :href="localJobOpening.url_edit">{{ $t('app.edit') }}</inertia-link>
       </li>
 
       <!-- delete -->

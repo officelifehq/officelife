@@ -37,7 +37,7 @@ input[type=radio] {
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr'">{{ $t('app.breadcrumb_hr') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings/' + jobOpening.id">{{ $t('app.breadcrumb_job_opening_detail') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_hr_job_openings_edit') }}
@@ -48,7 +48,7 @@ input[type=radio] {
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <h2 class="pa3 mt2 center tc normal mb2">
-          {{ $t('dashboard.job_opening_new_title') }}
+          {{ $t('dashboard.job_opening_edit_title') }}
 
           <help :url="$page.props.help_links.softwares" :top="'1px'" />
         </h2>
@@ -149,7 +149,7 @@ input[type=radio] {
                 </div>
 
                 <!-- list of existing sponsors -->
-                <div v-show="sponsors.length > 0" class="ba bb-gray mb3 mt3">
+                <div v-if="sponsors.length > 0" class="ba bb-gray mb3 mt3">
                   <div v-for="employee in sponsors" :key="employee.id" class="pa2 db bb-gray bb">
                     <span class="pl3 db relative sponsor">
                       <avatar :avatar="employee.avatar" :size="23" :class="'avatar absolute br-100'" />
@@ -225,12 +225,12 @@ input[type=radio] {
             <div class="pa3">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr'" class="btn dib tc w-auto-ns w-100">
+                  <inertia-link :href="jobOpening.url_cancel" class="btn dib tc w-auto-ns w-100">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <p v-if="form.sponsorsId.length == 0" class="ma0 f5"><span class="mr1">⚠️</span> Please select at least one sponsor</p>
-                <loading-button :class="'btn add w-auto-ns w-100'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-hardware-button'" />
+                <p v-if="form.sponsorsId.length == 0" class="ma0 f5"><span class="mr1">⚠️</span> {{ $t('dashboard.job_opening_new_select_sponsor') }}</p>
+                <loading-button :class="'btn add w-auto-ns w-100'" :state="loadingState" :text="$t('app.save')" />
               </div>
             </div>
           </form>
@@ -282,6 +282,10 @@ export default {
       type: Object,
       default: null,
     },
+    jobOpening: {
+      type: Object,
+      default: null,
+    },
   },
 
   data() {
@@ -306,6 +310,20 @@ export default {
     };
   },
 
+  mounted() {
+    this.form.position = this.jobOpening.position.id;
+    this.form.recruitingStageTemplateId = this.jobOpening.recruiting_stage_template_id;
+    this.form.teamId = this.jobOpening.team ? this.jobOpening.team.id : null;
+    this.form.title = this.jobOpening.title;
+    this.form.description = this.jobOpening.description;
+    this.form.description = this.jobOpening.description_raw;
+    this.form.reference_number = this.jobOpening.reference_number;
+    this.sponsors = this.jobOpening.sponsors;
+    this.sponsors.forEach(entry => {
+      this.form.sponsorsId.push(entry.id);
+    });
+  },
+
   methods: {
     submit() {
       if (this.form.sponsorsId.length === 0) {
@@ -314,9 +332,9 @@ export default {
 
       this.loadingState = 'loading';
 
-      axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings`, this.form)
+      axios.put(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpening.id}`, this.form)
         .then(response => {
-          localStorage.success = this.$t('dashboard.job_opening_new_success');
+          localStorage.success = this.$t('dashboard.job_opening_edit_success');
           this.$inertia.visit(response.data.data.url);
         })
         .catch(error => {
@@ -362,7 +380,7 @@ export default {
       var id = this.sponsors.findIndex(member => member.id === sponsor.id);
       this.sponsors.splice(id, 1);
 
-      var id = this.form.sponsorsId.findIndex(member => member.id === sponsor.id);
+      var id = this.form.sponsorsId.findIndex(sponsor.id);
       this.form.sponsorsId.splice(id, 1);
     }
   }

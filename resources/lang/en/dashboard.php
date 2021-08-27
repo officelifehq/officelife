@@ -239,6 +239,7 @@ return [
     'job_opening_new_reference_number' => 'Reference number, if needed',
     'job_opening_new_reference_number_help' => 'This will be displayed on the public version as well.',
     'job_opening_new_description' => 'Complete job description',
+    'job_opening_new_select_sponsor' => 'Please select at least one sponsor',
     'job_opening_new_success' => 'The job opening has been created.',
     'job_opening_index_sidebar_open' => '{count} open job opening|{count} open job openings',
     'job_opening_index_sidebar_fulfilled' => '{count} fulfilled job opening|{count} fulfilled job openings',
@@ -288,4 +289,6 @@ return [
     'job_opening_stage_notes_written_by' => 'Written by {name}',
     'job_opening_stage_notes_blank' => 'No notes have been written yet about this stage.',
     'job_opening_stage_notes_destroy_success' => 'The note has been deleted.',
+    'job_opening_edit_title' => 'Edit job opening',
+    'job_opening_edit_success' => 'The job opening has been edited.',
 ];

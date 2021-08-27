@@ -259,7 +259,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
 
         $this->assertCount(
-            13,
+            15,
             $array
         );
 
@@ -316,6 +316,90 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                 'url' => env('APP_URL').'/'.$company->id.'/teams/'.$jobOpening->team->id,
             ],
             $array['team']
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_detail_to_edit_a_job_opening(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $company = Company::factory()->create();
+        $jobOpening = JobOpening::factory()->create([
+            'company_id' => $company->id,
+            'activated_at' => Carbon::now(),
+        ]);
+
+        $michael = Employee::factory()->create();
+        $jobOpening->sponsors()->syncWithoutDetaching([$michael->id]);
+
+        $candidate = Candidate::factory()->create([
+            'company_id' => $michael->company_id,
+            'job_opening_id' => $jobOpening->id,
+            'application_completed' => true,
+        ]);
+        CandidateStage::factory()->create([
+            'candidate_id' => $candidate->id,
+            'status' => CandidateStage::STATUS_PENDING,
+        ]);
+        $candidate2 = Candidate::factory()->create([
+            'company_id' => $michael->company_id,
+            'job_opening_id' => $jobOpening->id,
+            'application_completed' => true,
+        ]);
+        CandidateStage::factory()->create([
+            'candidate_id' => $candidate2->id,
+            'status' => CandidateStage::STATUS_PASSED,
+        ]);
+        Candidate::factory()->create([
+            'company_id' => $michael->company_id,
+            'job_opening_id' => $jobOpening->id,
+            'application_completed' => true,
+            'rejected' => true,
+        ]);
+
+        $array = DashboardHRJobOpeningsViewHelper::edit($company, $jobOpening);
+
+        $this->assertCount(
+            9,
+            $array
+        );
+
+        $this->assertEquals(
+            $jobOpening->id,
+            $array['id']
+        );
+        $this->assertEquals(
+            $jobOpening->title,
+            $array['title']
+        );
+        $this->assertEquals(
+            $jobOpening->description,
+            $array['description_raw']
+        );
+        $this->assertEquals(
+            $jobOpening->reference_number,
+            $array['reference_number']
+        );
+        $this->assertEquals(
+            $jobOpening->template->id,
+            $array['recruiting_stage_template_id']
+        );
+        $this->assertEquals(
+            [
+                'id' => $jobOpening->position->id,
+            ],
+            $array['position']
+        );
+        $this->assertEquals(
+            [
+                'id' => $jobOpening->team->id,
+            ],
+            $array['team']
+        );
+        $this->assertEquals(
+            env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$jobOpening->id,
+            $array['url_cancel']
         );
     }
 
