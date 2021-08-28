@@ -122,13 +122,15 @@ class DashboardHRCandidateController extends Controller
         $jobOpeningInfo = DashboardHRCandidatesViewHelper::jobOpening($company, $jobOpening);
         $candidateInfo = DashboardHRCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
         $otherJobOpenings = DashboardHRCandidatesViewHelper::otherJobOpenings($company, $candidate, $jobOpening);
+        $documents = DashboardHRCandidatesViewHelper::documents($candidate);
 
-        return Inertia::render('Dashboard/HR/JobOpenings/Candidates/Show', [
+        return Inertia::render('Dashboard/HR/JobOpenings/Candidates/CV', [
             'notifications' => NotificationHelper::getNotifications($loggedEmployee),
             'jobOpening' => $jobOpeningInfo,
             'candidate' => $candidateInfo,
             'otherJobOpenings' => $otherJobOpenings,
-            'tab' => 'recruiting',
+            'documents' => $documents,
+            'tab' => 'cv',
         ]);
     }
 
