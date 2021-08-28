@@ -143,7 +143,7 @@
               <!-- blank state -->
               <div v-else>
                 <p class="tc measure center mb4 lh-copy">
-                  {{ $t('dashboard.job_opening_index_blank') }}
+                  {{ $t('dashboard.job_opening_index_fulfilled_blank') }}
                 </p>
 
                 <img loading="lazy" src="/img/streamline-icon-nomad-freelance-2-5@140x140.png" alt="add email symbol" class="db center mb4" height="80"
