@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\JobOpening\CreateJobOpening;
 use App\Services\Company\Adminland\JobOpening\ToggleJobOpening;
+use App\Services\Company\Adminland\JobOpening\UpdateJobOpening;
 use App\Services\Company\Adminland\JobOpening\DestroyJobOpening;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRJobOpeningsViewHelper;
 
@@ -158,17 +159,53 @@ class DashboardHRJobOpeningController extends Controller
         $positions = DashboardHRJobOpeningsViewHelper::positions($company);
         $templates = DashboardHRJobOpeningsViewHelper::templates($company);
         $teams = DashboardHRJobOpeningsViewHelper::teams($company);
-        $jobOpeningDetails = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
-        $sponsors = DashboardHRJobOpeningsViewHelper::sponsors($company, $jobOpening);
+        $jobOpeningDetails = DashboardHRJobOpeningsViewHelper::edit($company, $jobOpening);
 
         return Inertia::render('Dashboard/HR/JobOpenings/Edit', [
             'positions' => $positions,
             'teams' => $teams,
             'templates' => $templates,
             'jobOpening' => $jobOpeningDetails,
-            'sponsors' => $sponsors,
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
+    }
+
+    /**
+     * Update the job .
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @return JsonResponse
+     */
+    public function update(Request $request, int $companyId, int $jobOpeningId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        $data = [
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'job_opening_id' => $jobOpeningId,
+            'position_id' => $request->input('position'),
+            'recruiting_stage_template_id' => $request->input('recruitingStageTemplateId'),
+            'sponsors' => $request->input('sponsorsId'),
+            'team_id' => $request->input('teamId'),
+            'title' => $request->input('title'),
+            'reference_number' => $request->input('reference_number'),
+            'description' => $request->input('description'),
+        ];
+
+        $jobOpening = (new UpdateJobOpening)->execute($data);
+
+        return response()->json([
+            'data' => [
+                'url' => route('dashboard.hr.openings.show', [
+                    'company' => $loggedCompany,
+                    'jobOpening' => $jobOpening,
+                ]),
+            ],
+        ], 201);
     }
 
     /**
