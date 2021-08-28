@@ -287,9 +287,7 @@ class DashboardHRCandidatesViewHelper
     /**
      * Get the information about the notes in a stage.
      *
-     * @param Company $company
-     * @param CandidateStage $stage
-     * @param Employee $loggedEmployee
+     * @param Candidate $candidate
      * @return Collection|null
      */
     public static function documents(Candidate $candidate): ?Collection
