@@ -177,7 +177,7 @@ class DashboardHRJobOpeningsViewHelper
             ->with('position')
             ->with('sponsors')
             ->where('fulfilled', true)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('fulfilled_at', 'desc')
             ->get();
 
         $jobOpeningsCollection = collect();

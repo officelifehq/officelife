@@ -95,7 +95,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 <span class="relative">
-                  <inertia-link :href="jobOpenings.open_job_openings.url">{{ $tc('dashboard.job_opening_index_sidebar_open', jobOpenings.fulfilled_job_openings.count, {count: jobOpenings.fulfilled_job_openings.count}) }}</inertia-link>
+                  <inertia-link :href="jobOpenings.open_job_openings.url">{{ $tc('dashboard.job_opening_index_sidebar_open', jobOpenings.open_job_openings.count, {count: jobOpenings.open_job_openings.count}) }}</inertia-link>
                 </span>
               </li>
 
@@ -104,7 +104,7 @@
                 <svg class="relative mr2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" />
                 </svg>
-                <span class="relative">{{ $tc('dashboard.job_opening_index_sidebar_open', jobOpenings.open_job_openings.length, {count: jobOpenings.open_job_openings.length}) }}</span>
+                <span class="relative">{{ $tc('dashboard.job_opening_index_sidebar_open', jobOpenings.fulfilled_job_openings.length, {count: jobOpenings.fulfilled_job_openings.length}) }}</span>
               </li>
             </ul>
           </div>
@@ -114,7 +114,7 @@
             <!-- cta -->
             <p class="mt0 db fw5 mb2 flex justify-between items-center">
               <span>
-                {{ $t('dashboard.job_opening_index_title') }}
+                {{ $t('dashboard.job_opening_index_fulfilled_title') }}
 
                 <help :url="$page.props.help_links.project_messages" :top="'3px'" />
               </span>
@@ -123,13 +123,8 @@
 
             <div class="bg-white box mb4">
               <!-- list of job opening -->
-              <ul v-if="jobOpenings.open_job_openings.length > 0" class="list ma0 pl0">
-                <li v-for="jobOpening in jobOpenings.open_job_openings" :key="jobOpening.id" class="pa3 job-opening-item bb bb-gray bb-gray-hover flex items-center">
-                  <!-- status -->
-                  <span :class="jobOpening.active ? 'active' : 'inactive'" class="pv1 ph2 br3 gray mr3">
-                    <span class="dib dot br-100 relative">&nbsp;</span>
-                  </span>
-
+              <ul v-if="jobOpenings.fulfilled_job_openings.length > 0" class="list ma0 pl0">
+                <li v-for="jobOpening in jobOpenings.fulfilled_job_openings" :key="jobOpening.id" class="pa3 job-opening-item bb bb-gray bb-gray-hover flex items-center">
                   <!-- title and ref number -->
                   <div>
                     <div :class="jobOpening.team ? 'mb2': ''" class="db">
@@ -137,7 +132,10 @@
                       <span v-if="jobOpening.reference_number" class="reference-number f7 code fw4">{{ jobOpening.reference_number }}</span>
                     </div>
 
-                    <p v-if="jobOpening.team" class="ma0 f7 gray">For <inertia-link :href="jobOpening.team.url">{{ jobOpening.team.name }}</inertia-link></p>
+                    <ul class="list pl0 ma0 f7 gray">
+                      <li v-if="jobOpening.team" class="di mr3">{{ $t('dashboard.job_opening_index_fulfilled_team') }} <inertia-link :href="jobOpening.team.url">{{ jobOpening.team.name }}</inertia-link></li>
+                      <li class="di">Fulfilled on {{ jobOpening.fulfilled_at }}</li>
+                    </ul>
                   </div>
                 </li>
               </ul>
