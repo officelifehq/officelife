@@ -35,12 +35,7 @@ class StopRateYourManagerProcess implements ShouldQueue
             RateYourManagerSurvey::where('active', true)
                 ->chunk(200, function ($surveys) {
                     foreach ($surveys as $survey) {
-                        DB::table('rate_your_manager_answers')
-                            ->where('rate_your_manager_survey_id', $survey->id)
-                            ->update(['active' => 0]);
-
-                        $survey->active = false;
-                        $survey->save();
+                        $this->updateSurveys($survey);
                     }
                 });
         } else {
@@ -48,14 +43,19 @@ class StopRateYourManagerProcess implements ShouldQueue
                 ->where('valid_until_at', '<', Carbon::now()->format('Y-m-d H:i:s'))
                 ->chunk(200, function ($surveys) {
                     foreach ($surveys as $survey) {
-                        DB::table('rate_your_manager_answers')
-                            ->where('rate_your_manager_survey_id', $survey->id)
-                            ->update(['active' => 0]);
-
-                        $survey->active = false;
-                        $survey->save();
+                        $this->updateSurveys($survey);
                     }
                 });
         }
+    }
+
+    private function updateSurveys(RateYourManagerSurvey $survey): void
+    {
+        DB::table('rate_your_manager_answers')
+            ->where('rate_your_manager_survey_id', $survey->id)
+            ->update(['active' => 0]);
+
+        $survey->active = false;
+        $survey->save();
     }
 }
