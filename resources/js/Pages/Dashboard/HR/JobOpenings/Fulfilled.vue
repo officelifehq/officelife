@@ -134,7 +134,7 @@
 
                     <ul class="list pl0 ma0 f7 gray">
                       <li v-if="jobOpening.team" class="di mr3">{{ $t('dashboard.job_opening_index_fulfilled_team') }} <inertia-link :href="jobOpening.team.url">{{ jobOpening.team.name }}</inertia-link></li>
-                      <li class="di">Fulfilled on {{ jobOpening.fulfilled_at }}</li>
+                      <li class="di">{{ $t('dashboard.job_opening_index_fulfilled_on', { date: jobOpening.fulfilled_at }) }}</li>
                     </ul>
                   </div>
                 </li>

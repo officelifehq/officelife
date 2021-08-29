@@ -249,6 +249,7 @@ return [
     'job_opening_index_fulfilled_title' => 'All the job openings that are closed',
     'job_opening_index_fulfilled_blank' => 'There are no closed job openings at this time.',
     'job_opening_index_fulfilled_team' => 'Team:',
+    'job_opening_index_fulfilled_on' => 'Fulfilled on {date}',
     'job_opening_show_blank' => 'There are no candidates for now.',
     'job_opening_show_toggle_active' => 'Publish job opening',
     'job_opening_show_toggle_inactive' => 'Unpublish job opening',
