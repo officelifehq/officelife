@@ -8,7 +8,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
           </li>
           <li class="di">
-            ...
+            …
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.props.auth.company.id + '/company/kb/'">{{ $t('app.breadcrumb_kb_list') }}</inertia-link>

@@ -32,7 +32,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            ...
+            …
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/ships'">{{ $t('app.breadcrumb_team_show_recent_ships') }}</inertia-link>
