@@ -320,6 +320,7 @@ input[type=checkbox] {
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import BallClipRotate from 'vue-loaders/dist/loaders/ball-clip-rotate';
 import TextInput from '@/Shared/TextInput';
@@ -332,6 +333,7 @@ import Avatar from '@/Shared/Avatar';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Avatar,
     ProjectMenu,
     'ball-clip-rotate': BallClipRotate.component,

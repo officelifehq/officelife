@@ -80,12 +80,14 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import Avatar from '@/Shared/Avatar';
 import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu';
 
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Avatar,
     GroupMenu,
   },

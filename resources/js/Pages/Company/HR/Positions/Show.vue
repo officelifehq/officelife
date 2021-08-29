@@ -118,11 +118,13 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Avatar,
   },
 

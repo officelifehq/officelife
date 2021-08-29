@@ -74,6 +74,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import ProfileHeader from '@/Pages/Employee/Partials/ProfileHeader';
 import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar';
 import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
@@ -86,6 +87,7 @@ import Groups from '@/Pages/Employee/Work/Partials/Groups';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     ProfileHeader,
     ProfileSidebar,
     ProfileTabSwitcher,

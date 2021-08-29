@@ -73,6 +73,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu';
 import Participants from '@/Pages/Company/Group/Meetings/Partials/Participants';
 import DateWidget from '@/Pages/Company/Group/Meetings/Partials/Date';
@@ -81,6 +82,7 @@ import Agenda from '@/Pages/Company/Group/Meetings/Partials/Agenda';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     GroupMenu,
     Participants,
     DateWidget,

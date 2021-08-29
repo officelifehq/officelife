@@ -158,6 +158,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import TextInput from '@/Shared/TextInput';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import ProjectTasks from '@/Pages/Company/Project/Tasks/Partials/ProjectTasks';
@@ -168,6 +169,7 @@ import LoadingButton from '@/Shared/LoadingButton';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     ProjectMenu,
     Help,
     ProjectTasks,

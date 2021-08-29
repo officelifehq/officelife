@@ -170,6 +170,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import Avatar from '@/Shared/Avatar';
 import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu';
 import 'vue-loaders/dist/vue-loaders.css';
@@ -178,6 +179,7 @@ import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Avatar,
     GroupMenu,
     'ball-pulse-loader': BallPulseLoader.component,

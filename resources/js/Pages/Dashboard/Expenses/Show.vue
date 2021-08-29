@@ -25,11 +25,13 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import ExpenseStatus from '@/Shared/ExpenseStatus';
 
 export default {
   components: {
     Layout,
+    Breadcrumb,
     ExpenseStatus,
   },
 

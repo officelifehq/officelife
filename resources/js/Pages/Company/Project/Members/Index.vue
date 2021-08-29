@@ -230,6 +230,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import TextInput from '@/Shared/TextInput';
 import SelectBox from '@/Shared/Select';
@@ -239,6 +240,7 @@ import Avatar from '@/Shared/Avatar';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Avatar,
     ProjectMenu,
     TextInput,

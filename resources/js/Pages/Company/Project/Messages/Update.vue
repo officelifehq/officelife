@@ -72,11 +72,13 @@ import TextArea from '@/Shared/TextArea';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import Help from '@/Shared/Help';
 
 export default {
   components: {
     Layout,
+    Breadcrumb,
     TextInput,
     TextArea,
     Errors,

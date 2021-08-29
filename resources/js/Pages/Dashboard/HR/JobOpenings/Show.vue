@@ -199,6 +199,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import Information from '@/Pages/Dashboard/HR/JobOpenings/Partials/Information';
 import Sponsors from '@/Pages/Dashboard/HR/JobOpenings/Partials/Sponsors';
 import Tabs from '@/Pages/Dashboard/HR/JobOpenings/Partials/Tabs';
@@ -206,6 +207,7 @@ import Tabs from '@/Pages/Dashboard/HR/JobOpenings/Partials/Tabs';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Information,
     Sponsors,
     Tabs,

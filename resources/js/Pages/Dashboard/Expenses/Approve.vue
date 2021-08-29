@@ -207,12 +207,14 @@
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 import TextArea from '@/Shared/TextArea';
 
 export default {
   components: {
     Layout,
+    Breadcrumb,
     LoadingButton,
     SmallNameAndAvatar,
     TextArea,

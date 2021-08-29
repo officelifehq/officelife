@@ -97,10 +97,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 
 export default {
   components: {
     Layout,
+    Breadcrumb,
   },
 
   props: {

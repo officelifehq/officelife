@@ -92,6 +92,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 import Help from '@/Shared/Help';
@@ -99,6 +100,7 @@ import Help from '@/Shared/Help';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     ProjectMenu,
     SmallNameAndAvatar,
     Help,

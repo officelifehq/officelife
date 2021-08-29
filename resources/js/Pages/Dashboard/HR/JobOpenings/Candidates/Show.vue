@@ -257,6 +257,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import LoadingButton from '@/Shared/LoadingButton';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 import Participants from '@/Pages/Dashboard/HR/JobOpenings/Candidates/Partials/Participants';
@@ -265,6 +266,7 @@ import Notes from '@/Pages/Dashboard/HR/JobOpenings/Candidates/Partials/Notes';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     LoadingButton,
     SmallNameAndAvatar,
     Participants,

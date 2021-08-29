@@ -133,6 +133,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import vClickOutside from 'v-click-outside';
 import Members from '@/Pages/Team/Partials/Members';
 import TeamDescription from '@/Pages/Team/Partials/TeamDescription';
@@ -146,6 +147,7 @@ import Morale from '@/Pages/Team/Partials/Morale';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Members,
     TeamDescription,
     NewHiresNextWeek,

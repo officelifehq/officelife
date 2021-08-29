@@ -108,6 +108,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import Help from '@/Shared/Help';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
@@ -116,6 +117,7 @@ import Uploadcare from 'uploadcare-vue/src/Uploadcare.vue';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     ProjectMenu,
     Help,
     SmallNameAndAvatar,
