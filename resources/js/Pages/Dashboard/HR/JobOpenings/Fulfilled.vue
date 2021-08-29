@@ -68,8 +68,8 @@
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <breadcrumb
-                  :previous-url="'/' + $page.props.auth.company.id + '/dashboard/hr'"
-                  :previous="$t('app.breadcrumb_hr')"
+        :previous-url="'/' + $page.props.auth.company.id + '/dashboard/hr'"
+        :previous="$t('app.breadcrumb_hr')"
       >
         {{ $t('app.breadcrumb_hr_job_openings_active') }}
       </breadcrumb>
@@ -110,7 +110,6 @@
 
                 <help :url="$page.props.help_links.project_messages" :top="'3px'" />
               </span>
-              <inertia-link :href="jobOpenings.url_create" class="btn f5">{{ $t('dashboard.job_opening_index_cta') }}</inertia-link>
             </p>
 
             <div class="bg-white box mb4">
