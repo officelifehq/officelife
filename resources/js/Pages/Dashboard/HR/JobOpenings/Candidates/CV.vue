@@ -98,62 +98,12 @@ export default {
     },
   },
 
-  data() {
-    return {
-      form: {
-        accepted: true,
-        errors: [],
-      },
-      loadingStateReject: '',
-      loadingStateAccept: '',
-    };
-  },
-
-  created() {
-  },
-
   mounted() {
     if (localStorage.success) {
       this.flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
-
-  methods: {
-    accept() {
-      this.loadingStateAccept = 'loading';
-      this.form.accepted = true;
-
-      axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpening.id}/candidates/${this.candidate.id}/stages/${this.stage.id}`, this.form)
-        .then(response => {
-          localStorage.success = this.$t('dashboard.job_opening_stage_passed');
-          this.$inertia.visit(response.data.url);
-        })
-        .catch(error => {
-          this.loadingStateAccept = null;
-          this.form.errors = error.response.data;
-        });
-    },
-
-    reject() {
-      this.loadingStateReject = 'loading';
-      this.form.accepted = false;
-
-      axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpening.id}/candidates/${this.candidate.id}/stages/${this.stage.id}`, this.form)
-        .then(response => {
-          localStorage.success = this.$t('dashboard.job_opening_stage_rejected');
-          this.$inertia.visit(response.data.url);
-        })
-        .catch(error => {
-          this.loadingStateReject = null;
-          this.form.errors = error.response.data;
-        });
-    },
-
-    load(url) {
-      this.$inertia.visit(url);
-    },
-  }
 };
 
 </script>
