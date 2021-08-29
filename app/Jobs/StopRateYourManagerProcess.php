@@ -36,7 +36,7 @@ class StopRateYourManagerProcess implements ShouldQueue
                 ->chunk(200, function ($surveys) {
                     foreach ($surveys as $survey) {
                         DB::table('rate_your_manager_answers')
-                        ->where('rate_your_manager_survey_id', $survey->id)
+                            ->where('rate_your_manager_survey_id', $survey->id)
                             ->update(['active' => 0]);
 
                         $survey->active = false;
@@ -49,7 +49,7 @@ class StopRateYourManagerProcess implements ShouldQueue
                 ->chunk(200, function ($surveys) {
                     foreach ($surveys as $survey) {
                         DB::table('rate_your_manager_answers')
-                        ->where('rate_your_manager_survey_id', $survey->id)
+                            ->where('rate_your_manager_survey_id', $survey->id)
                             ->update(['active' => 0]);
 
                         $survey->active = false;
