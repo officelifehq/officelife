@@ -50,20 +50,13 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects'">{{ $t('app.breadcrumb_project_list') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_project_detail') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb
+        :root-url="'/' + $page.props.auth.company.id + '/company/projects'"
+        :root="$t('app.breadcrumb_project_list')"
+        :has-more="false"
+      >
+        {{ $t('app.breadcrumb_project_detail') }}
+      </breadcrumb>
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
@@ -240,6 +233,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
@@ -254,6 +248,7 @@ import Avatar from '@/Shared/Avatar';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Avatar,
     ProjectMenu,
     SmallNameAndAvatar,

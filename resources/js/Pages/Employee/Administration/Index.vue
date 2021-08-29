@@ -9,20 +9,13 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns mt4">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw7 br3 center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees'">{{ $t('app.breadcrumb_employee_list') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ employee.name }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb
+        :root-url="'/' + $page.props.auth.company.id + '/employees'"
+        :root="$t('app.breadcrumb_employee_list')"
+        :has-more="false"
+      >
+        {{ employee.name }}
+      </breadcrumb>
 
       <!-- -->
       <div class="cf mw9 center br3 mb5">
@@ -77,6 +70,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import ProfileHeader from '@/Pages/Employee/Partials/ProfileHeader';
 import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar';
 import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
@@ -88,6 +82,7 @@ import Softwares from '@/Pages/Employee/Administration/Partials/Software';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     ProfileHeader,
     ProfileSidebar,
     ProfileTabSwitcher,

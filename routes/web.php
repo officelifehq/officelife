@@ -292,7 +292,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         });
 
         Route::prefix('company')->group(function () {
-            Route::get('', 'Company\\Company\\CompanyController@index');
+            Route::get('', 'Company\\Company\\CompanyController@index')->name('company.index');
             Route::post('guessEmployee/vote', 'Company\\Company\\CompanyController@vote');
             Route::get('guessEmployee/replay', 'Company\\Company\\CompanyController@replay');
 
@@ -315,7 +315,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
             // Projects
             Route::prefix('projects')->group(function () {
-                Route::get('', 'Company\\Company\\Project\\ProjectController@index');
+                Route::get('', 'Company\\Company\\Project\\ProjectController@index')->name('projects.index');
                 Route::get('create', 'Company\\Company\\Project\\ProjectController@create');
                 Route::post('', 'Company\\Company\\Project\\ProjectController@store');
                 Route::post('search', 'Company\\Company\\Project\\ProjectController@search');

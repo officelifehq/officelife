@@ -42,20 +42,13 @@
 <template>
   <layout title="Home" :notifications="notifications">
     <div class="ph2 ph5-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/groups'">{{ $t('app.breadcrumb_group_list') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_group_detail') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb
+        :root-url="'/' + $page.props.auth.company.id + '/company/groups'"
+        :root="$t('app.breadcrumb_group_list')"
+        :has-more="false"
+      >
+        {{ $t('app.breadcrumb_group_detail') }}
+      </breadcrumb>
 
       <div class="mw7 center br3 mb5 relative z-1">
         <!-- Menu -->
@@ -177,6 +170,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import Avatar from '@/Shared/Avatar';
 import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu';
 import 'vue-loaders/dist/vue-loaders.css';
@@ -185,6 +179,7 @@ import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Avatar,
     GroupMenu,
     'ball-pulse-loader': BallPulseLoader.component,

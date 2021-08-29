@@ -4,17 +4,11 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw6 br3 center breadcrumb relative z-0 f6 pb2" :class="{'bg-white box': teams.length == 0}">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_team_list') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb :with-box="teams.length == 0"
+                  :has-more="false"
+      >
+        {{ $t('app.breadcrumb_team_list') }}
+      </breadcrumb>
 
       <div class="cf mw7 center" :class="{'bg-white box relative z-1': teams.length == 0}">
         <!-- list of teams -->
@@ -52,11 +46,13 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Avatar,
   },
 

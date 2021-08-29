@@ -55,23 +55,12 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
-          </li>
-          <li class="di">
-            …
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings'">{{ $t('app.breadcrumb_hr_job_openings_active') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_job_opening_detail') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb
+        :root-url="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings'"
+        :root="$t('app.breadcrumb_hr_job_openings_active')"
+      >
+        {{ $t('app.breadcrumb_job_opening_detail') }}
+      </breadcrumb>
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
@@ -210,6 +199,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import Information from '@/Pages/Dashboard/HR/JobOpenings/Partials/Information';
 import Sponsors from '@/Pages/Dashboard/HR/JobOpenings/Partials/Sponsors';
 import Tabs from '@/Pages/Dashboard/HR/JobOpenings/Partials/Tabs';
@@ -217,6 +207,7 @@ import Tabs from '@/Pages/Dashboard/HR/JobOpenings/Partials/Tabs';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Information,
     Sponsors,
     Tabs,
