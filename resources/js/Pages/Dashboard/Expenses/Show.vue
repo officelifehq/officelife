@@ -7,20 +7,15 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/expenses'">Expenses</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('dashboard.manager_expense_detail_expense_section') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb :boxed="true"
+                  :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
+                  :root="$t('app.breadcrumb_dashboard')"
+                  :previous-url="'/' + $page.props.auth.company.id + '/dashboard/expenses'"
+                  :previous="$t('app.breadcrumb_employee_expenses')"
+                  :has-more="false"
+      >
+        {{ $t('dashboard.manager_expense_detail_expense_section') }}
+      </breadcrumb>
 
       <!-- BODY -->
       <expense-status :expense="expense" />

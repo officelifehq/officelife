@@ -45,7 +45,7 @@
       <breadcrumb
         :root-url="'/' + $page.props.auth.company.id + '/company/projects'"
         :root="$t('app.breadcrumb_project_list')"
-        has-more="false"
+        :has-more="false"
       >
         {{ $t('app.breadcrumb_project_detail') }}
       </breadcrumb>

@@ -19,7 +19,7 @@
       <breadcrumb
         :root-url="'/' + $page.props.auth.company.id + '/company/kb'"
         :root="$t('app.breadcrumb_kb_list')"
-        has-more="false"
+        :has-more="false"
       >
         {{ $t('app.breadcrumb_wiki_detail') }}
       </breadcrumb>

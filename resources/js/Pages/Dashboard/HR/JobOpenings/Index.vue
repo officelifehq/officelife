@@ -70,7 +70,7 @@
       <breadcrumb
         :root-url="'/' + $page.props.auth.company.id + '/dashboard/hr'"
         :root="$t('app.breadcrumb_hr')"
-        has-more="false"
+        :has-more="false"
       >
         {{ $t('app.breadcrumb_hr_job_openings_active') }}
       </breadcrumb>

@@ -13,7 +13,7 @@
                   :previous-url="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages'"
                   :previous="project.name"
       >
-        {{ $t('app.breadcrumb_project_create_message') }}
+        {{ $t('app.breadcrumb_project_message_create') }}
       </breadcrumb>
 
       <!-- BODY -->

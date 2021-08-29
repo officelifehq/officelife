@@ -9,23 +9,12 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
-          </li>
-          <li class="di">
-            …
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages/' + message.id">Message</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_project_edit_message') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb :boxed="true"
+                  :previous-url="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages/' + message.id"
+                  :previous="$t('app.breadcrumb_project_message')"
+      >
+        {{ $t('app.breadcrumb_project_message_edit') }}
+      </breadcrumb>
 
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1">

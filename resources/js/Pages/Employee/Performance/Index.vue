@@ -21,7 +21,7 @@
       <breadcrumb
         :root-url="'/' + $page.props.auth.company.id + '/employees'"
         :root="$t('app.breadcrumb_employee_list')"
-        has-more="false"
+        :has-more="false"
       >
         {{ employee.name }}
       </breadcrumb>
