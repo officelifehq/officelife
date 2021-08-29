@@ -2,7 +2,7 @@
   <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
     <ul class="list ph0 tc-l tl">
       <li class="di">
-        <inertia-link :href="crootUrl">{{ croot }}</inertia-link>
+        <inertia-link :href="cRootUrl">{{ cRoot }}</inertia-link>
       </li>
       <li v-if="hasMore" class="di">
         …
@@ -43,11 +43,11 @@ export default {
   },
 
   computed: {
-    crootUrl: function () {
+    cRootUrl: function () {
       return this.rootUrl ?? this.route('company.index', { company: this.$page.props.auth.company.id });
     },
 
-    croot: function () {
+    cRoot: function () {
       return this.root ?? this.$t('app.breadcrumb_company');
     }
   }
