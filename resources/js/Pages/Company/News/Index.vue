@@ -9,7 +9,7 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <breadcrumb :boxed="true">
+      <breadcrumb :boxed="true" :has-more="false">
         {{ $t('app.breadcrumb_company_news') }}
       </breadcrumb>
 
