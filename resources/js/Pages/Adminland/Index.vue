@@ -11,17 +11,12 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_account_home') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb :with-box="true" :has-more="false"
+                  :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
+                  :root="$t('app.breadcrumb_dashboard')"
+      >
+        {{ $t('app.breadcrumb_account_home') }}
+      </breadcrumb>
 
       <!-- BODY -->
       <div class="mw7 center br3 mb3 bg-white box restricted relative z-1">
@@ -181,10 +176,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 
 export default {
   components: {
     Layout,
+    Breadcrumb,
   },
 
   props: {

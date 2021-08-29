@@ -42,23 +42,14 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw6 br3 center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
-          </li>
-          <li class="di">
-            …
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/hr'">{{ $t('app.breadcrumb_hr') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_hr_position') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb
+        :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
+        :root="$t('app.breadcrumb_dashboard')"
+        :previous-url="'/' + $page.props.auth.company.id + '/company/hr'"
+        :previous="$t('app.breadcrumb_hr')"
+      >
+        {{ $t('app.breadcrumb_hr_position') }}
+      </breadcrumb>
 
       <!-- BODY -->
       <div class="cf mw7 center">
@@ -127,11 +118,13 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Avatar,
   },
 

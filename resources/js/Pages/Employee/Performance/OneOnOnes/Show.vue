@@ -41,23 +41,14 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
-          </li>
-          <li class="di">
-            …
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/performance/oneonones'" data-cy="view-all-one-on-ones">{{ $t('app.breadcrumb_employee_one_on_ones') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_employee_one_on_one') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb :with-box="true"
+                  :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
+                  :root="$t('app.breadcrumb_dashboard')"
+                  :previous-url="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/performance/oneonones'" data-cy="view-all-one-on-ones"
+                  :previous="$t('app.breadcrumb_employee_one_on_ones')"
+      >
+        {{ $t('app.breadcrumb_employee_one_on_one') }}
+      </breadcrumb>
 
       <!-- BODY -->
       <div class="cf mw7 center br3 mb3 bg-white box relative">
@@ -196,6 +187,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import LoadingButton from '@/Shared/LoadingButton';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 import TalkingPoint from '@/Pages/Dashboard/OneOnOnes/Partials/TalkingPoint';
@@ -206,6 +198,7 @@ import Help from '@/Shared/Help';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Help,
     LoadingButton,
     SmallNameAndAvatar,

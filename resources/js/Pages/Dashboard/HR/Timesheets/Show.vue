@@ -33,23 +33,14 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
-          </li>
-          <li class="di">
-            …
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr/timesheets'">{{ $t('app.breadcrumb_employee_timesheets') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_employee_timesheet') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb :with-box="true"
+                  :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
+                  :root="$t('app.breadcrumb_dashboard')"
+                  :previous-url="'/' + $page.props.auth.company.id + '/dashboard/hr/timesheets'"
+                  :previous="$t('app.breadcrumb_employee_timesheets')"
+      >
+        {{ $t('app.breadcrumb_employee_timesheet') }}
+      </breadcrumb>
 
       <!-- BODY -->
       <div class="cf mw7 center br3 mb3 bg-white box relative pa3">
@@ -213,12 +204,14 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import Help from '@/Shared/Help';
 import TimesheetHeader from '@/Pages/Dashboard/Timesheet/Partials/TimesheetHeader';
 
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Help,
     TimesheetHeader,
   },

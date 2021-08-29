@@ -22,20 +22,13 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mb3 mw7 br3 center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/teams'">{{ $t('app.breadcrumb_team_list') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ team.name }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb
+        :root-url="'/' + $page.props.auth.company.id + '/teams'"
+        :root="$t('app.breadcrumb_team_list')"
+        :has-more="false"
+      >
+        {{ team.name }}
+      </breadcrumb>
 
       <!-- BODY -->
       <div class="cf mw8 center">
@@ -140,6 +133,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import vClickOutside from 'v-click-outside';
 import Members from '@/Pages/Team/Partials/Members';
 import TeamDescription from '@/Pages/Team/Partials/TeamDescription';
@@ -153,6 +147,7 @@ import Morale from '@/Pages/Team/Partials/Morale';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Members,
     TeamDescription,
     NewHiresNextWeek,
