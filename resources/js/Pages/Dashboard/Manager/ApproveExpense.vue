@@ -7,7 +7,7 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <breadcrumb :boxed="true"
+      <breadcrumb :with-box="true"
                   :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
                   :root="$t('app.breadcrumb_dashboard')"
                   :previous-url="'/' + $page.props.auth.company.id + '/dashboard/manager'"

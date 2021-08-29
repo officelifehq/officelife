@@ -1,5 +1,5 @@
 <template>
-  <div :class="['mt4-l mt1 mw6 br3 center breadcrumb relative z-0 f6 pb2', {'bg-white box': boxed}]">
+  <div :class="['mt4-l mt1 mw6 br3 center breadcrumb relative z-0 f6 pb2', {'bg-white box': withBox}]">
     <ul class="list ph0 tc-l tl">
       <li class="di">
         <inertia-link :href="cRootUrl">{{ cRoot }}</inertia-link>
@@ -20,7 +20,7 @@
 <script>
 export default {
   props: {
-    boxed: {
+    withBox: {
       type: Boolean,
       default: false,
     },

@@ -4,7 +4,7 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
-      <breadcrumb :boxed="teams.length == 0"
+      <breadcrumb :with-box="teams.length == 0"
                   :has-more="false"
       >
         {{ $t('app.breadcrumb_team_list') }}

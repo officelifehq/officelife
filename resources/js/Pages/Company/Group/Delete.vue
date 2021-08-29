@@ -1,7 +1,7 @@
 <template>
   <layout title="Home" :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <breadcrumb :boxed="true"
+      <breadcrumb :with-box="true"
                   :previous-url="'/' + $page.props.auth.company.id + '/company/groups/' + group.id"
                   :previous="$t('app.breadcrumb_group_detail')"
       >

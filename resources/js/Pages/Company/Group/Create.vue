@@ -31,7 +31,7 @@
 <template>
   <layout title="Home" :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <breadcrumb :boxed="true"
+      <breadcrumb :with-box="true"
                   :previous-url="'/' + $page.props.auth.company.id + '/company/groups/'"
                   :previous="$t('app.breadcrumb_group_list')"
       >
