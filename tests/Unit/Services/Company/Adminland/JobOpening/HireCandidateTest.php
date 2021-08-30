@@ -9,15 +9,12 @@ use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 use Illuminate\Support\Facades\Queue;
-use App\Models\Company\CandidateStage;
 use App\Models\Company\CompanyPTOPolicy;
-use App\Models\Company\CandidateStageNote;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\JobOpening\HireCandidate;
-use App\Services\Company\Adminland\JobOpening\UpdateCandidateStageNote;
 
 class HireCandidateTest extends TestCase
 {
@@ -78,7 +75,7 @@ class HireCandidateTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new UpdateCandidateStageNote)->execute($request);
+        (new HireCandidate)->execute($request);
     }
 
     /** @test */
@@ -91,13 +88,6 @@ class HireCandidateTest extends TestCase
         $candidate = Candidate::factory()->create([
             'company_id' => $michael->company_id,
             'job_opening_id' => $opening->id,
-        ]);
-        $candidateStage = CandidateStage::factory()->create([
-            'candidate_id' => $candidate->id,
-            'stage_position' => 1,
-        ]);
-        $candidateStageNote = CandidateStageNote::factory()->create([
-            'candidate_stage_id' => $candidateStage->id,
         ]);
 
         $this->executeService($michael, $opening, $candidate);
@@ -128,6 +118,7 @@ class HireCandidateTest extends TestCase
         $this->assertDatabaseHas('job_openings', [
             'id' => $opening->id,
             'fulfilled_by_candidate_id' => $candidate->id,
+            'fulfilled_at' => '2018-01-01 00:00:00',
             'active' => false,
             'fulfilled' => true,
         ]);

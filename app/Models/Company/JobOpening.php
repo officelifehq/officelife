@@ -38,6 +38,8 @@ class JobOpening extends Model
         'title',
         'description',
         'created_at',
+        'activated_at',
+        'fulfilled_at',
     ];
 
     /**
@@ -47,6 +49,7 @@ class JobOpening extends Model
      */
     protected $dates = [
         'activated_at',
+        'fulfilled_at',
     ];
 
     /**

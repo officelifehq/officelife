@@ -57,23 +57,14 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
-          </li>
-          <li class="di">
-            …
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings/' + jobOpening.id">{{ $t('app.breadcrumb_dashboard_job_opening_detail') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_dashboard_job_opening_candidate') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb
+        :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
+        :root="$t('app.breadcrumb_dashboard')"
+        :previous-url="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings/' + jobOpening.id"
+        :previous="$t('app.breadcrumb_dashboard_job_opening_detail')"
+      >
+        {{ $t('app.breadcrumb_dashboard_job_opening_candidate') }}
+      </breadcrumb>
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
@@ -203,6 +194,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import LoadingButton from '@/Shared/LoadingButton';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 import Participants from '@/Pages/Dashboard/HR/JobOpenings/Candidates/Partials/Participants';
@@ -212,6 +204,7 @@ import Information from '@/Pages/Dashboard/HR/JobOpenings/Candidates/Partials/In
 export default {
   components: {
     Layout,
+    Breadcrumb,
     LoadingButton,
     SmallNameAndAvatar,
     Participants,

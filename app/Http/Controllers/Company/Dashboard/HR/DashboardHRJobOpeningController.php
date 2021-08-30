@@ -43,6 +43,29 @@ class DashboardHRJobOpeningController extends Controller
     }
 
     /**
+     * Show the list of job openings that are fulfilled.
+     *
+     * @return mixed
+     */
+    public function fulfilled()
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        // is this person HR?
+        if ($employee->permission_level > config('officelife.permission_level.hr')) {
+            return redirect('home');
+        }
+
+        $jobOpenings = DashboardHRJobOpeningsViewHelper::fulfilledJobOpenings($company);
+
+        return Inertia::render('Dashboard/HR/JobOpenings/Fulfilled', [
+            'notifications' => NotificationHelper::getNotifications($employee),
+            'jobOpenings' => $jobOpenings,
+        ]);
+    }
+
+    /**
      * Show the Create job opening view.
      *
      * @param Request $request
