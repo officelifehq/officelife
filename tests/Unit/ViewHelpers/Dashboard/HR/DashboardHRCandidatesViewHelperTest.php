@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
+use App\Models\Company\File;
 use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
@@ -52,15 +53,15 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                     'id' => $opening->position->id,
                     'title' => $opening->position->title,
                     'count_employees' => 0,
-                    'url' => env('APP_URL') . '/' . $company->id . '/company/hr/positions/' . $opening->position->id,
+                    'url' => env('APP_URL').'/'.$company->id.'/company/hr/positions/'.$opening->position->id,
                 ],
                 'team' => [
                     'id' => $opening->team->id,
                     'name' => $opening->team->name,
                     'count' => 0,
-                    'url' => env('APP_URL') . '/' . $company->id . '/teams/' . $opening->team->id,
+                    'url' => env('APP_URL').'/'.$company->id.'/teams/'.$opening->team->id,
                 ],
-                'url' => env('APP_URL') . '/' . $company->id. '/dashboard/hr/job-openings/' . $opening->id,
+                'url' => env('APP_URL').'/'.$company->id. '/dashboard/hr/job-openings/'.$opening->id,
             ],
             $array
         );
@@ -111,7 +112,7 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
         $array = DashboardHRCandidatesViewHelper::candidate($company, $opening, $candidate);
 
         $this->assertEquals(
-            7,
+            9,
             count($array)
         );
 
@@ -136,8 +137,16 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
             $array['created_at']
         );
         $this->assertEquals(
-            env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $opening->id . '/candidates/' . $candidate->id . '/hire',
+            env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$opening->id.'/candidates/'.$candidate->id.'/hire',
             $array['url_hire']
+        );
+        $this->assertEquals(
+            env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$opening->id.'/candidates/'.$candidate->id,
+            $array['url_stages']
+        );
+        $this->assertEquals(
+            env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$opening->id.'/candidates/'.$candidate->id.'/cv',
+            $array['url_cv']
         );
         $this->assertEquals(
             [
@@ -146,14 +155,14 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                     'name' => $stage1->stage_name,
                     'position' => $stage1->stage_position,
                     'status' => CandidateStage::STATUS_PASSED,
-                    'url' => env('APP_URL') . '/' . $company->id. '/dashboard/hr/job-openings/' . $opening->id.'/candidates/'.$candidate->id.'/stages/'.$stage1->id,
+                    'url' => env('APP_URL').'/'.$company->id. '/dashboard/hr/job-openings/'.$opening->id.'/candidates/'.$candidate->id.'/stages/'.$stage1->id,
                 ],
                 1 => [
                     'id' => $stage2->id,
                     'name' => $stage2->stage_name,
                     'position' => $stage2->stage_position,
                     'status' => CandidateStage::STATUS_PENDING,
-                    'url' => env('APP_URL') . '/' . $company->id. '/dashboard/hr/job-openings/' . $opening->id.'/candidates/'.$candidate->id.'/stages/'.$stage2->id,
+                    'url' => env('APP_URL').'/'.$company->id. '/dashboard/hr/job-openings/'.$opening->id.'/candidates/'.$candidate->id.'/stages/'.$stage2->id,
                 ],
             ],
             $array['stages']->toArray()
@@ -206,6 +215,7 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                     'reference_number' => $opening2->reference_number,
                     'active' => $opening2->active,
                     'fulfilled' => $opening2->fulfilled,
+                    'url' => env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$opening2->id,
                 ],
             ],
             $collection->toArray()
@@ -259,7 +269,7 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                         'id' => $stage->decider->position->id,
                         'title' => $stage->decider->position->title,
                     ],
-                    'url' =>  env('APP_URL') . '/' . $stage->decider->company_id . '/employees/' . $stage->decider->id,
+                    'url' =>  env('APP_URL').'/'.$stage->decider->company_id.'/employees/'.$stage->decider->id,
                 ],
                 'decided_at' => 'Jan 01, 2018',
             ],
@@ -288,7 +298,7 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                     'avatar' => ImageHelper::getAvatar($jim, 32),
                     'participated' => true,
                     'participant_id' => $candidateStageParticipant->id,
-                    'url' =>  env('APP_URL') . '/' . $jim->company_id. '/employees/' . $jim->id,
+                    'url' =>  env('APP_URL').'/'.$jim->company_id. '/employees/'.$jim->id,
                 ],
             ],
             $collection->toArray()
@@ -443,7 +453,7 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                         'id' => $candidateStageNoteB->author->id,
                         'name' => $candidateStageNoteB->author->name,
                         'avatar' => ImageHelper::getAvatar($candidateStageNoteB->author, 32),
-                        'url' =>  env('APP_URL') . '/' . $michael->company_id . '/employees/' . $candidateStageNoteB->author->id,
+                        'url' =>  env('APP_URL').'/'.$michael->company_id.'/employees/'.$candidateStageNoteB->author->id,
                     ],
                     'permissions' => [
                         'can_edit' => false,
@@ -459,12 +469,45 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                         'id' => $candidateStageNote->author->id,
                         'name' => $candidateStageNote->author->name,
                         'avatar' => ImageHelper::getAvatar($michael, 32),
-                        'url' =>  env('APP_URL') . '/' . $michael->company_id . '/employees/' . $michael->id,
+                        'url' =>  env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                     'permissions' => [
                         'can_edit' => true,
                         'can_destroy' => true,
                     ],
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_documents(): void
+    {
+        Carbon::setTestNow(Carbon::create(2019, 1, 1));
+
+        $michael = $this->createAdministrator();
+        $candidate = Candidate::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $file = File::factory()->create([
+            'company_id' => $michael->company_id,
+            'size' => 123,
+            'uploader_employee_id' => $michael->id,
+        ]);
+        $candidate->files()->syncWithoutDetaching([
+            $file->id,
+        ]);
+
+        $collection = DashboardHRCandidatesViewHelper::documents($candidate);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $file->id,
+                    'size' => '123B',
+                    'filename' => $file->name,
+                    'download_url' => $file->cdn_url,
                 ],
             ],
             $collection->toArray()

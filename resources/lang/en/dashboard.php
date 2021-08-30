@@ -272,7 +272,7 @@ return [
     'job_opening_show_tab_selected' => 'Selected candidates ({count})',
     'job_opening_show_candidate_applied' => 'Applied on {date}',
     'job_opening_show_candidate_job_opening' => 'Job opening:',
-    'job_opening_show_candidate_tab_cv' => 'Curriculum vitae',
+    'job_opening_show_candidate_tab_cv' => 'CV and other documents',
     'job_opening_show_candidate_tab_recruiting' => 'Recruiting process',
     'job_opening_show_candidate_employee' => 'This job opening has been fulfilled and the selected candidate is <a href="{url}">{name}</a>.',
     'job_opening_show_candidate_employee_no_name' => 'This job opening has been fulfilled and the selected candidate was {name}, but this employee is no longer in the system.',
