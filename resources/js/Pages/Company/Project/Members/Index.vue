@@ -42,10 +42,9 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
-      <breadcrumb
-        :root-url="'/' + $page.props.auth.company.id + '/company/projects'"
-        :root="$t('app.breadcrumb_project_list')"
-        :has-more="false"
+      <breadcrumb :has-more="false"
+                  :previous-url="route('projects.index', { company: $page.props.auth.company.id})"
+                  :previous="$t('app.breadcrumb_project_list')"
       >
         {{ $t('app.breadcrumb_project_detail') }}
       </breadcrumb>
