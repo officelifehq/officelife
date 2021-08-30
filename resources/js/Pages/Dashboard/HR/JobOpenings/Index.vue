@@ -68,9 +68,12 @@
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <breadcrumb
-        :root-url="'/' + $page.props.auth.company.id + '/dashboard/hr'"
-        :root="$t('app.breadcrumb_hr')"
+        :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
+        :root="$t('app.breadcrumb_dashboard')"
+        :previous-url="'/' + $page.props.auth.company.id + '/dashboard/hr'"
+        :previous="$t('app.breadcrumb_hr')"
         :has-more="false"
+        :custom-class="'mb4'"
       >
         {{ $t('app.breadcrumb_hr_job_openings_active') }}
       </breadcrumb>
