@@ -9239,7 +9239,8 @@ vue-resize@^1.0.1:
 
 "vue-select@github:sagalbot/vue-select#feat/vue-3-compat":
   version "3.11.2"
-  resolved "https://codeload.github.com/sagalbot/vue-select/tar.gz/3b3ab38c8ee2b0e489a6b03cb484193a504d78ff"
+  uid "2d3cdac7fccd863b0e6df13c7bc7ed174ab1595c"
+  resolved "https://codeload.github.com/sagalbot/vue-select/tar.gz/2d3cdac7fccd863b0e6df13c7bc7ed174ab1595c"
 
 vue-style-loader@^4.1.3:
   version "4.1.3"
