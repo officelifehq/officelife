@@ -141,6 +141,10 @@ class DashboardHRCandidatesViewHelper
                 'reference_number' => $candidate->jobOpening->reference_number,
                 'active' => $candidate->jobOpening->active,
                 'fulfilled' => $candidate->jobOpening->fulfilled,
+                'url' => route('dashboard.hr.openings.show', [
+                    'company' => $company,
+                    'jobOpening' => $candidate->jobOpening,
+                ]),
             ]);
         }
 

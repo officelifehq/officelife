@@ -215,6 +215,7 @@ class DashboardHRCandidatesViewHelperTest extends TestCase
                     'reference_number' => $opening2->reference_number,
                     'active' => $opening2->active,
                     'fulfilled' => $opening2->fulfilled,
+                    'url' => env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$opening2->id,
                 ],
             ],
             $collection->toArray()
