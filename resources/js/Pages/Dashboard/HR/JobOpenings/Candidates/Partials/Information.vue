@@ -56,7 +56,7 @@
         <li v-for="job in otherJobOpenings" :key="job.id" class="mb2 mr2">
           <inertia-link :href="''" class="mr2">{{ job.title }}</inertia-link>
           <span v-if="job.active" class="badge f7 active">{{ $t('dashboard.job_opening_show_other_jobs_active') }}</span>
-          <span v-if="! job.active" class="badge f7 closed">{{ $t('dashboard.job_opening_show_other_jobs_closed') }}</span>
+          <span v-else class="badge f7 closed">{{ $t('dashboard.job_opening_show_other_jobs_closed') }}</span>
         </li>
       </ul>
     </div>
