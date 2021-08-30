@@ -70,6 +70,7 @@
       <breadcrumb
         :previous-url="'/' + $page.props.auth.company.id + '/dashboard/hr'"
         :previous="$t('app.breadcrumb_hr')"
+        :custom-class="'mb4'"
       >
         {{ $t('app.breadcrumb_hr_job_openings_active') }}
       </breadcrumb>
