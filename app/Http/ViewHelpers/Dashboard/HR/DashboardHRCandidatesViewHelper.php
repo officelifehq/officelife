@@ -3,6 +3,7 @@
 namespace App\Http\ViewHelpers\Dashboard\HR;
 
 use App\Helpers\DateHelper;
+use App\Helpers\FileHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Company;
@@ -98,6 +99,16 @@ class DashboardHRCandidatesViewHelper
                 'jobOpening' => $jobOpening,
                 'candidate' => $candidate,
             ]),
+            'url_stages' => route('dashboard.hr.candidates.show', [
+                'company' => $company,
+                'jobOpening' => $jobOpening,
+                'candidate' => $candidate,
+            ]),
+            'url_cv' => route('dashboard.hr.candidates.cv', [
+                'company' => $company,
+                'jobOpening' => $jobOpening,
+                'candidate' => $candidate,
+            ]),
         ];
     }
 
@@ -130,6 +141,10 @@ class DashboardHRCandidatesViewHelper
                 'reference_number' => $candidate->jobOpening->reference_number,
                 'active' => $candidate->jobOpening->active,
                 'fulfilled' => $candidate->jobOpening->fulfilled,
+                'url' => route('dashboard.hr.openings.show', [
+                    'company' => $company,
+                    'jobOpening' => $candidate->jobOpening,
+                ]),
             ]);
         }
 
@@ -271,6 +286,24 @@ class DashboardHRCandidatesViewHelper
         }
 
         return $potentialEmployeesCollection;
+    }
+
+    /**
+     * Get the information about the notes in a stage.
+     *
+     * @param Candidate $candidate
+     * @return Collection|null
+     */
+    public static function documents(Candidate $candidate): ?Collection
+    {
+        return $candidate->files->map(function ($file) {
+            return [
+                'id' => $file->id,
+                'size' => FileHelper::getSize($file->size),
+                'filename' => $file->name,
+                'download_url' => $file->cdn_url,
+            ];
+        });
     }
 
     /**

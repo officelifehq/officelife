@@ -11,14 +11,6 @@
   background-color: #f5f5f5;
 }
 
-.edit-item {
-  left: 88px;
-}
-
-.list-item {
-  left: -86px;
-}
-
 @media (max-width: 480px) {
   .list-item {
     left: 0;

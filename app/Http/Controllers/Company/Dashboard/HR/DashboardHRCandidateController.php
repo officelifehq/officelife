@@ -28,7 +28,7 @@ use App\Services\Company\Adminland\JobOpening\DestroyCandidateStageParticipant;
 class DashboardHRCandidateController extends Controller
 {
     /**
-     * Show the detail of a job opening.
+     * Show the detail of a candidate.
      *
      * @param Request $request
      * @param integer $companyId
@@ -84,7 +84,58 @@ class DashboardHRCandidateController extends Controller
     }
 
     /**
-     * Show the detail of a job opening.
+     * Show the cv of a candidate.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $jobOpeningId
+     * @param integer $candidateId
+     * @return mixed
+     */
+    public function showCV(Request $request, int $companyId, int $jobOpeningId, int $candidateId): mixed
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        // is this person HR?
+        if ($loggedEmployee->permission_level > config('officelife.permission_level.hr')) {
+            return redirect('home');
+        }
+
+        try {
+            $jobOpening = JobOpening::where('company_id', $company->id)
+                ->with('team')
+                ->with('position')
+                ->with('sponsors')
+                ->findOrFail($jobOpeningId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        try {
+            $candidate = Candidate::where('company_id', $company->id)
+                ->findOrFail($candidateId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $jobOpeningInfo = DashboardHRCandidatesViewHelper::jobOpening($company, $jobOpening);
+        $candidateInfo = DashboardHRCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
+        $otherJobOpenings = DashboardHRCandidatesViewHelper::otherJobOpenings($company, $candidate, $jobOpening);
+        $documents = DashboardHRCandidatesViewHelper::documents($candidate);
+
+        return Inertia::render('Dashboard/HR/JobOpenings/Candidates/CV', [
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
+            'jobOpening' => $jobOpeningInfo,
+            'candidate' => $candidateInfo,
+            'otherJobOpenings' => $otherJobOpenings,
+            'documents' => $documents,
+            'tab' => 'cv',
+        ]);
+    }
+
+    /**
+     * Show the detail of a candidate.
      *
      * @param Request $request
      * @param integer $companyId
@@ -118,7 +169,7 @@ class DashboardHRCandidateController extends Controller
     }
 
     /**
-     * Show the detail of a job opening at a given stage.
+     * Show the detail of a candidate at a given stage.
      *
      * @param Request $request
      * @param integer $companyId

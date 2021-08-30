@@ -118,6 +118,7 @@ class HireCandidate extends BaseService
     {
         $this->jobOpening->active = false;
         $this->jobOpening->fulfilled = true;
+        $this->jobOpening->fulfilled_at = Carbon::now();
         $this->jobOpening->fulfilled_by_candidate_id = $this->candidate->id;
         $this->jobOpening->save();
     }

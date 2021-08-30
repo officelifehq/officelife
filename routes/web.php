@@ -140,7 +140,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
                 // job openings
                 Route::get('job-openings', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@index')->name('dashboard.hr.openings.index');
-                Route::get('job-openings/fulfilled', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@index')->name('dashboard.hr.openings.index.fulfilled');
+                Route::get('job-openings/fulfilled', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@fulfilled')->name('dashboard.hr.openings.index.fulfilled');
                 Route::get('job-openings/create', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@create')->name('dashboard.hr.openings.create');
                 Route::get('job-openings/{jobOpening}', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@show')->name('dashboard.hr.openings.show');
                 Route::get('job-openings/{jobOpening}/rejected', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@showRejected')->name('dashboard.hr.openings.show.rejected');
@@ -154,6 +154,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
                 // candidates
                 Route::get('job-openings/{jobOpening}/candidates/{candidate}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@show')->name('dashboard.hr.candidates.show');
+                Route::get('job-openings/{jobOpening}/candidates/{candidate}/cv', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@showCV')->name('dashboard.hr.candidates.cv');
                 Route::get('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@showStage')->name('dashboard.hr.candidates.stage.show');
                 Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@store');
                 Route::get('job-openings/{jobOpening}/candidates/{candidate}/hire', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@hire')->name('dashboard.hr.candidates.hire');
@@ -292,7 +293,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         });
 
         Route::prefix('company')->group(function () {
-            Route::get('', 'Company\\Company\\CompanyController@index');
+            Route::get('', 'Company\\Company\\CompanyController@index')->name('company.index');
             Route::post('guessEmployee/vote', 'Company\\Company\\CompanyController@vote');
             Route::get('guessEmployee/replay', 'Company\\Company\\CompanyController@replay');
 
@@ -315,7 +316,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
             // Projects
             Route::prefix('projects')->group(function () {
-                Route::get('', 'Company\\Company\\Project\\ProjectController@index');
+                Route::get('', 'Company\\Company\\Project\\ProjectController@index')->name('projects.index');
                 Route::get('create', 'Company\\Company\\Project\\ProjectController@create');
                 Route::post('', 'Company\\Company\\Project\\ProjectController@store');
                 Route::post('search', 'Company\\Company\\Project\\ProjectController@search');

@@ -165,6 +165,62 @@ class DashboardHRJobOpeningsViewHelper
     }
 
     /**
+     * Get all the fulfilled job openings in the company.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function fulfilledJobOpenings(Company $company): array
+    {
+        $fulfilledJobOpenings = $company->jobOpenings()
+            ->with('team')
+            ->with('position')
+            ->with('sponsors')
+            ->where('fulfilled', true)
+            ->orderBy('fulfilled_at', 'desc')
+            ->get();
+
+        $jobOpeningsCollection = collect();
+        foreach ($fulfilledJobOpenings as $jobOpening) {
+            $team = $jobOpening->team;
+
+            $jobOpeningsCollection->push([
+                'id' => $jobOpening->id,
+                'title' => $jobOpening->title,
+                'reference_number' => $jobOpening->reference_number,
+                'fulfilled_at' => DateHelper::formatDate($jobOpening->fulfilled_at),
+                'team' => $team ? [
+                    'id' => $team->id,
+                    'name' => $team->name,
+                    'url' => route('team.show', [
+                        'company' => $company,
+                        'team' => $team,
+                    ]),
+                ] : null,
+                'url' => route('dashboard.hr.openings.show', [
+                    'company' => $company,
+                    'jobOpening' => $jobOpening,
+                ]),
+            ]);
+        }
+
+        $countOpenJobOpenings = $company->jobOpenings()->where('fulfilled', false)->count();
+
+        return [
+            'url_create' => route('dashboard.hr.openings.create', [
+                'company' => $company,
+            ]),
+            'fulfilled_job_openings' => $jobOpeningsCollection,
+            'open_job_openings' => [
+                'count' => $countOpenJobOpenings,
+                'url' => route('dashboard.hr.openings.index', [
+                    'company' => $company,
+                ]),
+            ],
+        ];
+    }
+
+    /**
      * Get all the details about a specific job opening.
      *
      * @param Company $company

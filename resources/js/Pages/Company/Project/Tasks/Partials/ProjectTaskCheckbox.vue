@@ -25,6 +25,10 @@ input[type=checkbox] {
   left: -4px;
 }
 
+.action {
+  left: -92px;
+}
+
 .hover-effect:hover {
   background-color: yellow;
 }
@@ -62,11 +66,11 @@ input[type=checkbox] {
 </style>
 
 <template>
-  <div :class="extraClassUpperDiv" class="hover" :data-cy="datacy" @mouseover="showHover()" @mouseleave="hover = false">
+  <div :class="extraClassUpperDiv" class="hover relative" :data-cy="datacy" @mouseover="showHover()" @mouseleave="hideHover()">
     <!-- actions - available on mouse hover on desktop -->
-    <div v-show="editable" :class="hover ? 'di' : 'visibility-hidden'" class="hide-actions di f6 bg-white ph1 pv1 br3">
+    <div v-show="editable" :class="hover ? 'di' : 'visibility-hidden'" class="hide-actions absolute action di f6 bg-white ph1 pv1 br3">
       <!-- edit -->
-      <span :data-cy="datacy + '-edit'" class="di mr1 bb b--dotted bt-0 bl-0 br-0 pointer" @click="$emit('edit', itemId)">
+      <span :data-cy="datacy + '-edit'" class="di mr2 bb b--dotted bt-0 bl-0 br-0 pointer" @click="$emit('edit', itemId)">
         {{ $t('app.edit') }}
       </span>
 
@@ -166,7 +170,6 @@ input[type=checkbox] {
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 
 export default {
-
   components: {
     SmallNameAndAvatar,
   },
@@ -296,6 +299,10 @@ export default {
     goTo(url) {
       this.$inertia.visit(url);
     },
+
+    hideHover() {
+      setTimeout(() => this.hover = false, 500);
+    }
   },
 };
 </script>
