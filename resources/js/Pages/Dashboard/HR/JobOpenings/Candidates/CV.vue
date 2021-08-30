@@ -20,8 +20,10 @@
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <breadcrumb
-                  :previous-url="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings/' + jobOpening.id"
-                  :previous="$t('app.breadcrumb_dashboard_job_opening_detail')"
+        :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
+        :root="$t('app.breadcrumb_dashboard')"
+        :previous-url="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings/' + jobOpening.id"
+        :previous="$t('app.breadcrumb_dashboard_job_opening_detail')"
       >
         {{ $t('app.breadcrumb_dashboard_job_opening_candidate') }}
       </breadcrumb>
