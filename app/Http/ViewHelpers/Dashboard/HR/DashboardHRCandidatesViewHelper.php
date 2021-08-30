@@ -292,17 +292,14 @@ class DashboardHRCandidatesViewHelper
      */
     public static function documents(Candidate $candidate): ?Collection
     {
-        $filesCollection = collect();
-        foreach ($candidate->files as $file) {
-            $filesCollection->push([
+        return $candidate->files->map(function ($file) {
+            return [
                 'id' => $file->id,
                 'size' => FileHelper::getSize($file->size),
                 'filename' => $file->name,
                 'download_url' => $file->cdn_url,
-            ]);
-        }
-
-        return $filesCollection;
+            ];
+        });
     }
 
     /**
