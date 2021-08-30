@@ -1,5 +1,5 @@
 <template>
-  <div :class="['mt4-l mt1 mw6 br3 center breadcrumb relative z-0 f6 pb2', {'bg-white box': withBox}]">
+  <div :class="localClasses">
     <ul class="list ph0 tc-l tl">
       <li class="di">
         <inertia-link :href="cRootUrl">{{ cRoot }}</inertia-link>
@@ -44,6 +44,16 @@ export default {
       type: String,
       default: null,
     },
+    customClass: {
+      type: String,
+      default: null,
+    }
+  },
+
+  data() {
+    return {
+      localClasses: '',
+    };
   },
 
   computed: {
@@ -53,6 +63,18 @@ export default {
 
     cRoot: function () {
       return this.root ?? this.$t('app.breadcrumb_company');
+    }
+  },
+
+  mounted() {
+    this.localClasses = 'mt4-l mt1 mw6 br3 center breadcrumb relative z-0 f6 pb2';
+
+    if (this.withBox) {
+      this.localClasses = this.localClasses + ' bg-white box';
+    }
+
+    if (this.customClass) {
+      this.localClasses = this.localClasses + ' ' + this.customClass;
     }
   }
 };
