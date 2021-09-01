@@ -27,7 +27,7 @@
     <div class="cf mw7 center mb2 fw5">
       <span class="mr1">
         🧑‍🎓
-      </span> Job openings you are sponsor of
+      </span> {{ $t('dashboard.job_opening_sponsor_title') }}
 
       <help :url="$page.props.help_links.worklogs" />
     </div>
