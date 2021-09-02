@@ -199,7 +199,7 @@ export default {
         if (this.form.searchTerm != '') {
           this.processingSearch = true;
 
-          axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpeningId}/candidates/${this.candidateId}/stages/${this.stageId}/searchParticipants`, this.form)
+          axios.post(`${this.$page.props.auth.company.id}/recruiting/job-openings/${this.jobOpeningId}/candidates/${this.candidateId}/stages/${this.stageId}/searchParticipants`, this.form)
             .then(response => {
               this.potentialParticipants = response.data.data;
               this.processingSearch = false;
@@ -214,7 +214,7 @@ export default {
     add(employee) {
       this.form.employeeId = employee.id;
 
-      axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpeningId}/candidates/${this.candidateId}/stages/${this.stageId}/assignParticipant`, this.form)
+      axios.post(`${this.$page.props.auth.company.id}/recruiting/job-openings/${this.jobOpeningId}/candidates/${this.candidateId}/stages/${this.stageId}/assignParticipant`, this.form)
         .then(response => {
           this.flash(this.$t('dashboard.job_opening_stage_participants_success'), 'success');
 
@@ -230,7 +230,7 @@ export default {
     },
 
     remove(employee) {
-      axios.delete(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpeningId}/candidates/${this.candidateId}/stages/${this.stageId}/participants/${employee.participant_id}`)
+      axios.delete(`${this.$page.props.auth.company.id}/recruiting/job-openings/${this.jobOpeningId}/candidates/${this.candidateId}/stages/${this.stageId}/participants/${employee.participant_id}`)
         .then(response => {
           this.flash(this.$t('dashboard.job_opening_stage_participants_remove_success'), 'success');
 

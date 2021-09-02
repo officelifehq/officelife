@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\ViewHelpers\Dashboard\HR;
+namespace App\Http\ViewHelpers\Recruiting;
 
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company\CandidateStage;
 
-class DashboardHRJobOpeningsViewHelper
+class RecruitingJobOpeningsViewHelper
 {
     /**
      * Get all the positions in the company.
@@ -141,7 +141,7 @@ class DashboardHRJobOpeningsViewHelper
                         'company' => $company,
                         'team' => $team,
                     ]), ] : null,
-                'url' => route('dashboard.hr.openings.show', [
+                'url' => route('recruiting.openings.show', [
                     'company' => $company,
                     'jobOpening' => $jobOpening,
                 ]),
@@ -151,13 +151,13 @@ class DashboardHRJobOpeningsViewHelper
         $countFulfilledJobOpenings = $company->jobOpenings()->where('fulfilled', true)->count();
 
         return [
-            'url_create' => route('dashboard.hr.openings.create', [
+            'url_create' => route('recruiting.openings.create', [
                 'company' => $company,
             ]),
             'open_job_openings' => $jobOpeningsCollection,
             'fulfilled_job_openings' => [
                 'count' => $countFulfilledJobOpenings,
-                'url' => route('dashboard.hr.openings.index.fulfilled', [
+                'url' => route('recruiting.openings.index.fulfilled', [
                     'company' => $company,
                 ]),
             ],
@@ -197,7 +197,7 @@ class DashboardHRJobOpeningsViewHelper
                         'team' => $team,
                     ]),
                 ] : null,
-                'url' => route('dashboard.hr.openings.show', [
+                'url' => route('recruiting.openings.show', [
                     'company' => $company,
                     'jobOpening' => $jobOpening,
                 ]),
@@ -207,13 +207,13 @@ class DashboardHRJobOpeningsViewHelper
         $countOpenJobOpenings = $company->jobOpenings()->where('fulfilled', false)->count();
 
         return [
-            'url_create' => route('dashboard.hr.openings.create', [
+            'url_create' => route('recruiting.openings.create', [
                 'company' => $company,
             ]),
             'fulfilled_job_openings' => $jobOpeningsCollection,
             'open_job_openings' => [
                 'count' => $countOpenJobOpenings,
-                'url' => route('dashboard.hr.openings.index', [
+                'url' => route('recruiting.openings.index', [
                     'company' => $company,
                 ]),
             ],
@@ -292,7 +292,7 @@ class DashboardHRJobOpeningsViewHelper
                 'company' => $company->slug,
                 'job' => $jobOpening->slug,
             ]),
-            'url_edit' => route('dashboard.hr.openings.edit', [
+            'url_edit' => route('recruiting.openings.edit', [
                 'company' => $company,
                 'jobOpening' => $jobOpening,
             ]),
@@ -333,7 +333,7 @@ class DashboardHRJobOpeningsViewHelper
             'team' => $team ? [
                 'id' => $team->id,
             ] : null,
-            'url_cancel' => route('dashboard.hr.openings.show', [
+            'url_cancel' => route('recruiting.openings.show', [
                 'company' => $company,
                 'jobOpening' => $jobOpening,
             ]),
@@ -382,21 +382,21 @@ class DashboardHRJobOpeningsViewHelper
         return [
             'to_sort' => [
                 'count' => $candidatesToSortCount,
-                'url' => route('dashboard.hr.openings.show', [
+                'url' => route('recruiting.openings.show', [
                     'company' => $company,
                     'jobOpening' => $jobOpening,
                 ]),
             ],
             'selected' => [
                 'count' => $candidatesSelectedCount,
-                'url' => route('dashboard.hr.openings.show.selected', [
+                'url' => route('recruiting.openings.show.selected', [
                     'company' => $company,
                     'jobOpening' => $jobOpening,
                 ]),
             ],
             'rejected' => [
                 'count' => $rejectedCandidatesCount,
-                'url' => route('dashboard.hr.openings.show.rejected', [
+                'url' => route('recruiting.openings.show.rejected', [
                     'company' => $company,
                     'jobOpening' => $jobOpening,
                 ]),
@@ -464,7 +464,7 @@ class DashboardHRJobOpeningsViewHelper
                     'id' => $candidate->id,
                     'name' => $candidate->name,
                     'received_at' => DateHelper::formatDate($candidate->created_at),
-                    'url' => route('dashboard.hr.candidates.show', [
+                    'url' => route('recruiting.candidates.show', [
                         'company' => $company,
                         'jobOpening' => $jobOpening,
                         'candidate' => $candidate,
@@ -509,7 +509,7 @@ class DashboardHRJobOpeningsViewHelper
                 'name' => $candidate->name,
                 'received_at' => DateHelper::formatDate($candidate->created_at),
                 'stages' => $stageCollection,
-                'url' => route('dashboard.hr.candidates.show', [
+                'url' => route('recruiting.candidates.show', [
                     'company' => $company,
                     'jobOpening' => $jobOpening,
                     'candidate' => $candidate,
@@ -557,7 +557,7 @@ class DashboardHRJobOpeningsViewHelper
                     'name' => $candidate->name,
                     'received_at' => DateHelper::formatDate($candidate->created_at),
                     'stages' => $stageCollection,
-                    'url' => route('dashboard.hr.candidates.show', [
+                    'url' => route('recruiting.candidates.show', [
                         'company' => $company,
                         'jobOpening' => $jobOpening,
                         'candidate' => $candidate,

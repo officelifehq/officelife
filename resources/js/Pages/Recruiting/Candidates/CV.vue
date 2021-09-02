@@ -20,10 +20,11 @@
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <breadcrumb
-        :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
-        :root="$t('app.breadcrumb_dashboard')"
-        :previous-url="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings/' + jobOpening.id"
+        :root-url="'/' + $page.props.auth.company.id + '/recruiting/job-openings'"
+        :root="$t('app.breadcrumb_hr_job_openings_active')"
+        :previous-url="'/' + $page.props.auth.company.id + '/recruiting/job-openings/' + jobOpening.id"
         :previous="$t('app.breadcrumb_dashboard_job_opening_detail')"
+        :has-more="false"
       >
         {{ $t('app.breadcrumb_dashboard_job_opening_candidate') }}
       </breadcrumb>
@@ -55,7 +56,7 @@
 <script>
 import Layout from '@/Shared/Layout';
 import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Information from '@/Pages/Dashboard/HR/JobOpenings/Candidates/Partials/Information';
+import Information from '@/Pages/Recruiting/Candidates/Partials/Information';
 
 export default {
   components: {

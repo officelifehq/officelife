@@ -178,6 +178,7 @@ return [
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',
     'header_find' => 'Find',
+    'header_recruiting' => 'Recruiting',
     'header_company' => 'Company',
     'header_adminland' => 'Adminland',
     'header_settings' => 'Settings',

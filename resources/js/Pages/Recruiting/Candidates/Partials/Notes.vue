@@ -194,7 +194,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpeningId}/candidates/${this.candidateId}/stages/${this.stageId}/notes`, this.form)
+      axios.post(`${this.$page.props.auth.company.id}/recruiting/job-openings/${this.jobOpeningId}/candidates/${this.candidateId}/stages/${this.stageId}/notes`, this.form)
         .then(response => {
           this.modal = false;
           this.flash(this.$t('dashboard.job_opening_stage_notes_success'), 'success');
@@ -210,7 +210,7 @@ export default {
     update(note) {
       this.loadingState = 'loading';
 
-      axios.put(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpeningId}/candidates/${this.candidateId}/stages/${this.stageId}/notes/${note.id}`, this.form)
+      axios.put(`${this.$page.props.auth.company.id}/recruiting/job-openings/${this.jobOpeningId}/candidates/${this.candidateId}/stages/${this.stageId}/notes/${note.id}`, this.form)
         .then(response => {
           this.localNotes[this.localNotes.findIndex(x => x.id === note.id)] = response.data.data;
           this.flash(this.$t('dashboard.job_opening_stage_notes_update_success'), 'success');
@@ -226,7 +226,7 @@ export default {
     },
 
     destroy(note) {
-      axios.delete(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpeningId}/candidates/${this.candidateId}/stages/${this.stageId}/notes/${note.id}`)
+      axios.delete(`${this.$page.props.auth.company.id}/recruiting/job-openings/${this.jobOpeningId}/candidates/${this.candidateId}/stages/${this.stageId}/notes/${note.id}`)
         .then(response => {
           this.idToDelete = 0;
           var id = this.localNotes.findIndex(x => x.id == note.id);

@@ -28,10 +28,11 @@ input[type=radio] {
   <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <breadcrumb :with-box="true"
-                  :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
-                  :root="$t('app.breadcrumb_dashboard')"
-                  :previous-url="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings/' + jobOpening.id"
+                  :root-url="'/' + $page.props.auth.company.id + '/recruiting/job-openings'"
+                  :root="$t('app.breadcrumb_hr_job_openings_active')"
+                  :previous-url="'/' + $page.props.auth.company.id + '/recruiting/job-openings/' + jobOpening.id"
                   :previous="$t('app.breadcrumb_job_opening_detail')"
+                  :has-more="false"
       >
         {{ $t('app.breadcrumb_hr_job_openings_edit') }}
       </breadcrumb>
@@ -325,7 +326,7 @@ export default {
 
       this.loadingState = 'loading';
 
-      axios.put(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpening.id}`, this.form)
+      axios.put(`${this.$page.props.auth.company.id}/recruiting/job-openings/${this.jobOpening.id}`, this.form)
         .then(response => {
           localStorage.success = this.$t('dashboard.job_opening_edit_success');
           this.$inertia.visit(response.data.data.url);
@@ -342,7 +343,7 @@ export default {
         if (this.form.searchTerm != '') {
           this.processingSearch = true;
 
-          axios.post(`/${this.$page.props.auth.company.id}/dashboard/hr/job-openings/sponsors`, this.form)
+          axios.post(`/${this.$page.props.auth.company.id}/recruiting/job-openings/sponsors`, this.form)
             .then(response => {
               this.potentialSponsors = _.filter(response.data.data, employee => _.every(this.sponsors, e => employee.id !== e.id));
               this.processingSearch = false;

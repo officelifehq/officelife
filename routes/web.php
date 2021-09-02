@@ -137,38 +137,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('timesheets/{timesheet}', 'Company\\Dashboard\\HR\\DashboardHRTimesheetController@show')->name('dashboard.hr.timesheet.show');
                 Route::post('timesheets/{timesheet}/approve', 'Company\\Dashboard\\HR\\DashboardHRTimesheetController@approve');
                 Route::post('timesheets/{timesheet}/reject', 'Company\\Dashboard\\HR\\DashboardHRTimesheetController@reject');
-
-                // job openings
-                Route::get('job-openings', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@index')->name('dashboard.hr.openings.index');
-                Route::get('job-openings/fulfilled', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@fulfilled')->name('dashboard.hr.openings.index.fulfilled');
-                Route::get('job-openings/create', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@create')->name('dashboard.hr.openings.create');
-                Route::get('job-openings/{jobOpening}', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@show')->name('dashboard.hr.openings.show');
-                Route::get('job-openings/{jobOpening}/rejected', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@showRejected')->name('dashboard.hr.openings.show.rejected');
-                Route::get('job-openings/{jobOpening}/selected', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@showSelected')->name('dashboard.hr.openings.show.selected');
-                Route::get('job-openings/{jobOpening}/edit', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@edit')->name('dashboard.hr.openings.edit');
-                Route::put('job-openings/{jobOpening}', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@update');
-                Route::delete('job-openings/{jobOpening}', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@destroy');
-                Route::post('job-openings', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@store');
-                Route::post('job-openings/{jobOpening}/toggle', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@toggle');
-                Route::post('job-openings/sponsors', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@sponsors');
-
-                // candidates
-                Route::get('job-openings/{jobOpening}/candidates/{candidate}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@show')->name('dashboard.hr.candidates.show');
-                Route::get('job-openings/{jobOpening}/candidates/{candidate}/cv', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@showCV')->name('dashboard.hr.candidates.cv');
-                Route::get('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@showStage')->name('dashboard.hr.candidates.stage.show');
-                Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@store');
-                Route::get('job-openings/{jobOpening}/candidates/{candidate}/hire', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@hire')->name('dashboard.hr.candidates.hire');
-                Route::post('job-openings/{jobOpening}/candidates/{candidate}/hire', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@storeHire');
-
-                // participant in candidate stage
-                Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/searchParticipants', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@searchParticipants');
-                Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/assignParticipant', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@assignParticipant');
-                Route::delete('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/participants/{participant}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@removeParticipant');
-
-                // notes in candidate stage
-                Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/notes', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@notes');
-                Route::put('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/notes/{note}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@updateNote');
-                Route::delete('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/notes/{note}', 'Company\\Dashboard\\HR\\DashboardHRCandidateController@destroyNote');
             });
         });
 
@@ -437,6 +405,41 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::put('{wiki}/pages/{page}', 'Company\\Company\\KB\\KnowledgeBasePageController@update');
                 Route::delete('{wiki}/pages/{page}', 'Company\\Company\\KB\\KnowledgeBasePageController@destroy');
             });
+        });
+
+        // recruiting tab
+        Route::prefix('recruiting')->group(function () {
+            // job openings
+            Route::get('job-openings', 'Company\\Recruiting\\RecruitingJobOpeningController@index')->name('recruiting.openings.index');
+            Route::get('job-openings/fulfilled', 'Company\\Recruiting\\RecruitingJobOpeningController@fulfilled')->name('recruiting.openings.index.fulfilled');
+            Route::get('job-openings/create', 'Company\\Recruiting\\RecruitingJobOpeningController@create')->name('recruiting.openings.create');
+            Route::get('job-openings/{jobOpening}', 'Company\\Recruiting\\RecruitingJobOpeningController@show')->name('recruiting.openings.show');
+            Route::get('job-openings/{jobOpening}/rejected', 'Company\\Recruiting\\RecruitingJobOpeningController@showRejected')->name('recruiting.openings.show.rejected');
+            Route::get('job-openings/{jobOpening}/selected', 'Company\\Recruiting\\RecruitingJobOpeningController@showSelected')->name('recruiting.openings.show.selected');
+            Route::get('job-openings/{jobOpening}/edit', 'Company\\Recruiting\\RecruitingJobOpeningController@edit')->name('recruiting.openings.edit');
+            Route::put('job-openings/{jobOpening}', 'Company\\Recruiting\\RecruitingJobOpeningController@update');
+            Route::delete('job-openings/{jobOpening}', 'Company\\Recruiting\\RecruitingJobOpeningController@destroy');
+            Route::post('job-openings', 'Company\\Recruiting\\RecruitingJobOpeningController@store');
+            Route::post('job-openings/{jobOpening}/toggle', 'Company\\Recruiting\\RecruitingJobOpeningController@toggle');
+            Route::post('job-openings/sponsors', 'Company\\Recruiting\\RecruitingJobOpeningController@sponsors');
+
+            // candidates
+            Route::get('job-openings/{jobOpening}/candidates/{candidate}', 'Company\\Recruiting\\RecruitingCandidateController@show')->name('recruiting.candidates.show');
+            Route::get('job-openings/{jobOpening}/candidates/{candidate}/cv', 'Company\\Recruiting\\RecruitingCandidateController@showCV')->name('recruiting.candidates.cv');
+            Route::get('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Recruiting\\RecruitingCandidateController@showStage')->name('recruiting.candidates.stage.show');
+            Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Recruiting\\RecruitingCandidateController@store');
+            Route::get('job-openings/{jobOpening}/candidates/{candidate}/hire', 'Company\\Recruiting\\RecruitingCandidateController@hire')->name('recruiting.candidates.hire');
+            Route::post('job-openings/{jobOpening}/candidates/{candidate}/hire', 'Company\\Recruiting\\RecruitingCandidateController@storeHire');
+
+            // participant in candidate stage
+            Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/searchParticipants', 'Company\\Recruiting\\RecruitingCandidateController@searchParticipants');
+            Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/assignParticipant', 'Company\\Recruiting\\RecruitingCandidateController@assignParticipant');
+            Route::delete('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/participants/{participant}', 'Company\\Recruiting\\RecruitingCandidateController@removeParticipant');
+
+            // notes in candidate stage
+            Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/notes', 'Company\\Recruiting\\RecruitingCandidateController@notes');
+            Route::put('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/notes/{note}', 'Company\\Recruiting\\RecruitingCandidateController@updateNote');
+            Route::delete('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/notes/{note}', 'Company\\Recruiting\\RecruitingCandidateController@destroyNote');
         });
 
         // only available to accountant role
