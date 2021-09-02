@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Company\Dashboard\HR;
+namespace App\Http\Controllers\Company\Recruiting;
 
 use Carbon\Carbon;
 use Inertia\Inertia;
@@ -17,15 +17,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Company\CandidateStage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\JobOpening\HireCandidate;
+use App\Http\ViewHelpers\Recruiting\RecruitingCandidatesViewHelper;
 use App\Services\Company\Adminland\JobOpening\ProcessCandidateStage;
-use App\Http\ViewHelpers\Dashboard\HR\DashboardHRCandidatesViewHelper;
 use App\Services\Company\Adminland\JobOpening\CreateCandidateStageNote;
 use App\Services\Company\Adminland\JobOpening\UpdateCandidateStageNote;
 use App\Services\Company\Adminland\JobOpening\DestroyCandidateStageNote;
 use App\Services\Company\Adminland\JobOpening\CreateCandidateStageParticipant;
 use App\Services\Company\Adminland\JobOpening\DestroyCandidateStageParticipant;
 
-class DashboardHRCandidateController extends Controller
+class RecruitingCandidateController extends Controller
 {
     /**
      * Show the detail of a candidate.
@@ -63,15 +63,15 @@ class DashboardHRCandidateController extends Controller
             return redirect('home');
         }
 
-        $jobOpeningInfo = DashboardHRCandidatesViewHelper::jobOpening($company, $jobOpening);
-        $candidateInfo = DashboardHRCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
-        $otherJobOpenings = DashboardHRCandidatesViewHelper::otherJobOpenings($company, $candidate, $jobOpening);
-        $highestReachedStage = DashboardHRCandidatesViewHelper::determineHighestStage($candidate);
-        $stageInfo = DashboardHRCandidatesViewHelper::stage($highestReachedStage);
-        $participants = DashboardHRCandidatesViewHelper::participants($highestReachedStage);
-        $notes = DashboardHRCandidatesViewHelper::notes($company, $highestReachedStage, $loggedEmployee);
+        $jobOpeningInfo = RecruitingCandidatesViewHelper::jobOpening($company, $jobOpening);
+        $candidateInfo = RecruitingCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
+        $otherJobOpenings = RecruitingCandidatesViewHelper::otherJobOpenings($company, $candidate, $jobOpening);
+        $highestReachedStage = RecruitingCandidatesViewHelper::determineHighestStage($candidate);
+        $stageInfo = RecruitingCandidatesViewHelper::stage($highestReachedStage);
+        $participants = RecruitingCandidatesViewHelper::participants($highestReachedStage);
+        $notes = RecruitingCandidatesViewHelper::notes($company, $highestReachedStage, $loggedEmployee);
 
-        return Inertia::render('Dashboard/HR/JobOpenings/Candidates/Show', [
+        return Inertia::render('Recruiting/Candidates/Show', [
             'notifications' => NotificationHelper::getNotifications($loggedEmployee),
             'jobOpening' => $jobOpeningInfo,
             'candidate' => $candidateInfo,
@@ -119,12 +119,12 @@ class DashboardHRCandidateController extends Controller
             return redirect('home');
         }
 
-        $jobOpeningInfo = DashboardHRCandidatesViewHelper::jobOpening($company, $jobOpening);
-        $candidateInfo = DashboardHRCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
-        $otherJobOpenings = DashboardHRCandidatesViewHelper::otherJobOpenings($company, $candidate, $jobOpening);
-        $documents = DashboardHRCandidatesViewHelper::documents($candidate);
+        $jobOpeningInfo = RecruitingCandidatesViewHelper::jobOpening($company, $jobOpening);
+        $candidateInfo = RecruitingCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
+        $otherJobOpenings = RecruitingCandidatesViewHelper::otherJobOpenings($company, $candidate, $jobOpening);
+        $documents = RecruitingCandidatesViewHelper::documents($candidate);
 
-        return Inertia::render('Dashboard/HR/JobOpenings/Candidates/CV', [
+        return Inertia::render('Recruiting/Candidates/CV', [
             'notifications' => NotificationHelper::getNotifications($loggedEmployee),
             'jobOpening' => $jobOpeningInfo,
             'candidate' => $candidateInfo,
@@ -159,7 +159,7 @@ class DashboardHRCandidateController extends Controller
         ]);
 
         return response()->json([
-            'url' => route('dashboard.hr.candidates.stage.show', [
+            'url' => route('recruiting.candidates.stage.show', [
                 'company' => $companyId,
                 'jobOpening' => $jobOpeningId,
                 'candidate' => $candidateId,
@@ -212,14 +212,14 @@ class DashboardHRCandidateController extends Controller
             return redirect('home');
         }
 
-        $jobOpeningInfo = DashboardHRCandidatesViewHelper::jobOpening($company, $jobOpening);
-        $candidateInfo = DashboardHRCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
-        $otherJobOpenings = DashboardHRCandidatesViewHelper::otherJobOpenings($company, $candidate, $jobOpening);
-        $stageInfo = DashboardHRCandidatesViewHelper::stage($candidateStage);
-        $participants = DashboardHRCandidatesViewHelper::participants($candidateStage);
-        $notes = DashboardHRCandidatesViewHelper::notes($company, $candidateStage, $loggedEmployee);
+        $jobOpeningInfo = RecruitingCandidatesViewHelper::jobOpening($company, $jobOpening);
+        $candidateInfo = RecruitingCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
+        $otherJobOpenings = RecruitingCandidatesViewHelper::otherJobOpenings($company, $candidate, $jobOpening);
+        $stageInfo = RecruitingCandidatesViewHelper::stage($candidateStage);
+        $participants = RecruitingCandidatesViewHelper::participants($candidateStage);
+        $notes = RecruitingCandidatesViewHelper::notes($company, $candidateStage, $loggedEmployee);
 
-        return Inertia::render('Dashboard/HR/JobOpenings/Candidates/Show', [
+        return Inertia::render('Recruiting/Candidates/Show', [
             'notifications' => NotificationHelper::getNotifications($loggedEmployee),
             'jobOpening' => $jobOpeningInfo,
             'candidate' => $candidateInfo,
@@ -274,7 +274,7 @@ class DashboardHRCandidateController extends Controller
             return response()->json([], 403);
         }
 
-        $potential = DashboardHRCandidatesViewHelper::potentialParticipants(
+        $potential = RecruitingCandidatesViewHelper::potentialParticipants(
             $loggedCompany,
             $candidateStage,
             $request->input('searchTerm')
@@ -515,10 +515,10 @@ class DashboardHRCandidateController extends Controller
             return redirect('home');
         }
 
-        $jobOpeningInfo = DashboardHRCandidatesViewHelper::jobOpening($company, $jobOpening);
-        $candidateInfo = DashboardHRCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
+        $jobOpeningInfo = RecruitingCandidatesViewHelper::jobOpening($company, $jobOpening);
+        $candidateInfo = RecruitingCandidatesViewHelper::candidate($company, $jobOpening, $candidate);
 
-        return Inertia::render('Dashboard/HR/JobOpenings/Candidates/Hire', [
+        return Inertia::render('Recruiting/Candidates/Hire', [
             'notifications' => NotificationHelper::getNotifications($loggedEmployee),
             'jobOpening' => $jobOpeningInfo,
             'candidate' => $candidateInfo,
@@ -561,7 +561,7 @@ class DashboardHRCandidateController extends Controller
         ]);
 
         return response()->json([
-            'data' => route('dashboard.hr.openings.index', [
+            'data' => route('recruiting.openings.index', [
                 'company' => $loggedCompany,
             ]),
         ], 201);

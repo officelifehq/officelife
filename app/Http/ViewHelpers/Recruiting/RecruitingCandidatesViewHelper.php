@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\ViewHelpers\Dashboard\HR;
+namespace App\Http\ViewHelpers\Recruiting;
 
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
@@ -13,7 +13,7 @@ use App\Models\Company\JobOpening;
 use Illuminate\Support\Collection;
 use App\Models\Company\CandidateStage;
 
-class DashboardHRCandidatesViewHelper
+class RecruitingCandidatesViewHelper
 {
     /**
      * Get the information about the job opening.
@@ -54,7 +54,7 @@ class DashboardHRCandidatesViewHelper
                     'team' => $team,
                 ]),
             ] : null,
-            'url' => route('dashboard.hr.openings.show', [
+            'url' => route('recruiting.openings.show', [
                 'company' => $company,
                 'jobOpening' => $jobOpening,
             ]),
@@ -78,7 +78,7 @@ class DashboardHRCandidatesViewHelper
                 'name' => $stage->stage_name,
                 'position' => $stage->stage_position,
                 'status' => $stage->status,
-                'url' => route('dashboard.hr.candidates.stage.show', [
+                'url' => route('recruiting.candidates.stage.show', [
                     'company' => $company,
                     'jobOpening' => $jobOpening,
                     'candidate' => $candidate,
@@ -94,17 +94,17 @@ class DashboardHRCandidatesViewHelper
             'rejected' => $candidate->rejected,
             'created_at' => DateHelper::formatDate($candidate->created_at),
             'stages' => $candidateStagesCollection,
-            'url_hire' => route('dashboard.hr.candidates.hire', [
+            'url_hire' => route('recruiting.candidates.hire', [
                 'company' => $company,
                 'jobOpening' => $jobOpening,
                 'candidate' => $candidate,
             ]),
-            'url_stages' => route('dashboard.hr.candidates.show', [
+            'url_stages' => route('recruiting.candidates.show', [
                 'company' => $company,
                 'jobOpening' => $jobOpening,
                 'candidate' => $candidate,
             ]),
-            'url_cv' => route('dashboard.hr.candidates.cv', [
+            'url_cv' => route('recruiting.candidates.cv', [
                 'company' => $company,
                 'jobOpening' => $jobOpening,
                 'candidate' => $candidate,
@@ -141,7 +141,7 @@ class DashboardHRCandidatesViewHelper
                 'reference_number' => $candidate->jobOpening->reference_number,
                 'active' => $candidate->jobOpening->active,
                 'fulfilled' => $candidate->jobOpening->fulfilled,
-                'url' => route('dashboard.hr.openings.show', [
+                'url' => route('recruiting.openings.show', [
                     'company' => $company,
                     'jobOpening' => $candidate->jobOpening,
                 ]),

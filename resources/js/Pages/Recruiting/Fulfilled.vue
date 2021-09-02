@@ -66,15 +66,7 @@
 
 <template>
   <layout :notifications="notifications">
-    <div class="ph2 ph5-ns">
-      <breadcrumb
-        :previous-url="'/' + $page.props.auth.company.id + '/dashboard/hr'"
-        :previous="$t('app.breadcrumb_hr')"
-        :custom-class="'mb4'"
-      >
-        {{ $t('app.breadcrumb_hr_job_openings_active') }}
-      </breadcrumb>
-
+    <div class="ph2 ph5-ns mt5">
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
         <div class="cf center">
@@ -152,12 +144,10 @@
 
 <script>
 import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 
 export default {
   components: {
     Layout,
-    Breadcrumb,
   },
 
   props: {

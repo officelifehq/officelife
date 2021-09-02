@@ -26,9 +26,9 @@ input[type=radio] {
   <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <breadcrumb :with-box="true"
-                  :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
-                  :root="$t('app.breadcrumb_dashboard')"
-                  :previous-url="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings/' + jobOpening.id + '/candidates/' + candidate.id"
+                  :root-url="'/' + $page.props.auth.company.id + '/recruiting/job-openings'"
+                  :root="$t('app.breadcrumb_hr_job_openings_active')"
+                  :previous-url="'/' + $page.props.auth.company.id + '/recruiting/job-openings/' + jobOpening.id + '/candidates/' + candidate.id"
                   :previous="$t('app.breadcrumb_dashboard_job_opening_candidate')"
       >
         {{ $t('app.breadcrumb_dashboard_job_opening_candidate_hire') }}
@@ -161,7 +161,7 @@ input[type=radio] {
             <div class="cf pa3">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings/' + jobOpening.id + '/candidates/' + candidate.id" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/recruiting/job-openings/' + jobOpening.id + '/candidates/' + candidate.id" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
@@ -246,7 +246,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpening.id}/candidates/${this.candidate.id}/hire`, this.form)
+      axios.post(`${this.$page.props.auth.company.id}/recruiting/job-openings/${this.jobOpening.id}/candidates/${this.candidate.id}/hire`, this.form)
         .then(response => {
           localStorage.success = this.$t('dashboard.job_opening_hire_success');
           this.$inertia.visit(response.data.data);
