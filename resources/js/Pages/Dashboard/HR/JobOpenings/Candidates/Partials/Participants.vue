@@ -87,7 +87,7 @@
 
       <!-- add a new participant cta -->
       <li v-if="!modal" class="ph2 pv3 list bb bb-gray bb-gray-hover tc">
-        <a class="bb b--dotted bt-0 bl-0 br-0 pointer f6" @click="showSearch()">Ask employee to assist and give feedback</a>
+        <a class="bb b--dotted bt-0 bl-0 br-0 pointer f6" @click="showSearch()">{{ trans('dashboard.job_opening_stage_participants_cta') }}</a>
       </li>
 
       <!-- modal to add -->

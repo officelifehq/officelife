@@ -303,6 +303,7 @@ return [
     'job_opening_stage_participants_help' => 'Participants can assist you in the recruitment process, give feedback. Also, they will be able to read any document uploaded by the candidate.',
     'job_opening_stage_participants_feedback' => 'feedback given',
     'job_opening_stage_participants_no_feedback' => 'no feedback provided yet',
+    'job_opening_stage_participants_cta' => 'Ask employee to assist and give feedback',
     'job_opening_stage_notes_title' => 'Notes',
     'job_opening_stage_notes_cta' => 'Add a new note',
     'job_opening_stage_notes_update_success' => 'The note has been updated.',

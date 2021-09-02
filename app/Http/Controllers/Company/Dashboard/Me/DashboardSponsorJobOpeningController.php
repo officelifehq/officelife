@@ -13,10 +13,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRJobOpeningsViewHelper;
 
-class DashboardMeJobOpeningController extends Controller
+class DashboardSponsorJobOpeningController extends Controller
 {
     /**
-     * Display the job opening.
+     * Display the job opening as the sponsor.
      *
      * @param Request $request
      * @param integer $companyId
@@ -57,7 +57,7 @@ class DashboardMeJobOpeningController extends Controller
                 ->with('template.stages')
                 ->findOrFail($jobOpeningId);
         } catch (ModelNotFoundException $e) {
-            return redirect('dashboard.hr.openings.index');
+            return redirect('home');
         }
 
         $jobOpeningDetail = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
@@ -65,7 +65,7 @@ class DashboardMeJobOpeningController extends Controller
         $stats = DashboardHRJobOpeningsViewHelper::stats($company, $jobOpening);
         $candidates = DashboardHRJobOpeningsViewHelper::toSort($company, $jobOpening);
 
-        return Inertia::render('Dashboard/HR/JobOpenings/Show', [
+        return Inertia::render('Dashboard/Me/JobOpenings/Show', [
             'notifications' => NotificationHelper::getNotifications($loggedEmployee),
             'jobOpening' => $jobOpeningDetail,
             'sponsors' => $sponsors,

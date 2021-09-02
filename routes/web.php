@@ -74,9 +74,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('expense', 'Company\\Dashboard\\Me\\DashboardMeExpenseController@store')->name('dashboard.expense.store');
 
             // details of job openings as a sponsor
-            Route::get('job-openings/{jobOpening}', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@show')->name('dashboard.hr.openings.show');
-            Route::get('job-openings/{jobOpening}/rejected', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@showRejected')->name('dashboard.hr.openings.show.rejected');
-            Route::get('job-openings/{jobOpening}/selected', 'Company\\Dashboard\\HR\\DashboardHRJobOpeningController@showSelected')->name('dashboard.hr.openings.show.selected');
+            Route::get('job-openings/{jobOpening}', 'Company\\Dashboard\\Me\\DashboardSponsorJobOpeningController@show')->name('dashboard.me.openings.show');
+            Route::get('job-openings/{jobOpening}/rejected', 'Company\\Dashboard\\Me\\DashboardSponsorJobOpeningController@showRejected')->name('dashboard.me.openings.show.rejected');
+            Route::get('job-openings/{jobOpening}/selected', 'Company\\Dashboard\\Me\\DashboardSponsorJobOpeningController@showSelected')->name('dashboard.me.openings.show.selected');
 
             // details of one on ones
             Route::get('oneonones/{entry}', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@show')->name('dashboard.oneonones.show');
