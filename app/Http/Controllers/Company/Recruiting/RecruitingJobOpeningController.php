@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Company\Dashboard\HR;
+namespace App\Http\Controllers\Company\Recruiting;
 
 use Inertia\Inertia;
-use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;
@@ -15,9 +14,9 @@ use App\Services\Company\Adminland\JobOpening\CreateJobOpening;
 use App\Services\Company\Adminland\JobOpening\ToggleJobOpening;
 use App\Services\Company\Adminland\JobOpening\UpdateJobOpening;
 use App\Services\Company\Adminland\JobOpening\DestroyJobOpening;
-use App\Http\ViewHelpers\Dashboard\HR\DashboardHRJobOpeningsViewHelper;
+use App\Http\ViewHelpers\Recruiting\RecruitingJobOpeningsViewHelper;
 
-class DashboardHRJobOpeningController extends Controller
+class RecruitingJobOpeningController extends Controller
 {
     /**
      * Show the list of job openings.
@@ -34,9 +33,9 @@ class DashboardHRJobOpeningController extends Controller
             return redirect('home');
         }
 
-        $openJobOpenings = DashboardHRJobOpeningsViewHelper::openJobOpenings($company);
+        $openJobOpenings = RecruitingJobOpeningsViewHelper::openJobOpenings($company);
 
-        return Inertia::render('Dashboard/HR/JobOpenings/Index', [
+        return Inertia::render('Recruiting/Index', [
             'notifications' => NotificationHelper::getNotifications($employee),
             'jobOpenings' => $openJobOpenings,
         ]);
@@ -57,9 +56,9 @@ class DashboardHRJobOpeningController extends Controller
             return redirect('home');
         }
 
-        $jobOpenings = DashboardHRJobOpeningsViewHelper::fulfilledJobOpenings($company);
+        $jobOpenings = RecruitingJobOpeningsViewHelper::fulfilledJobOpenings($company);
 
-        return Inertia::render('Dashboard/HR/JobOpenings/Fulfilled', [
+        return Inertia::render('Recruiting/Fulfilled', [
             'notifications' => NotificationHelper::getNotifications($employee),
             'jobOpenings' => $jobOpenings,
         ]);
@@ -82,11 +81,11 @@ class DashboardHRJobOpeningController extends Controller
             return redirect('home');
         }
 
-        $positions = DashboardHRJobOpeningsViewHelper::positions($company);
-        $templates = DashboardHRJobOpeningsViewHelper::templates($company);
-        $teams = DashboardHRJobOpeningsViewHelper::teams($company);
+        $positions = RecruitingJobOpeningsViewHelper::positions($company);
+        $templates = RecruitingJobOpeningsViewHelper::templates($company);
+        $teams = RecruitingJobOpeningsViewHelper::teams($company);
 
-        return Inertia::render('Dashboard/HR/JobOpenings/Create', [
+        return Inertia::render('Recruiting/Create', [
             'positions' => $positions,
             'teams' => $teams,
             'templates' => $templates,
@@ -106,7 +105,7 @@ class DashboardHRJobOpeningController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
 
-        $potentialSponsors = DashboardHRJobOpeningsViewHelper::potentialSponsors(
+        $potentialSponsors = RecruitingJobOpeningsViewHelper::potentialSponsors(
             $company,
             $request->input('searchTerm')
         );
@@ -144,7 +143,7 @@ class DashboardHRJobOpeningController extends Controller
 
         return response()->json([
             'data' => [
-                'url' => route('dashboard.hr.openings.index', [
+                'url' => route('recruiting.openings.index', [
                     'company' => $company,
                 ]),
             ],
@@ -179,12 +178,12 @@ class DashboardHRJobOpeningController extends Controller
             return redirect('home');
         }
 
-        $positions = DashboardHRJobOpeningsViewHelper::positions($company);
-        $templates = DashboardHRJobOpeningsViewHelper::templates($company);
-        $teams = DashboardHRJobOpeningsViewHelper::teams($company);
-        $jobOpeningDetails = DashboardHRJobOpeningsViewHelper::edit($company, $jobOpening);
+        $positions = RecruitingJobOpeningsViewHelper::positions($company);
+        $templates = RecruitingJobOpeningsViewHelper::templates($company);
+        $teams = RecruitingJobOpeningsViewHelper::teams($company);
+        $jobOpeningDetails = RecruitingJobOpeningsViewHelper::edit($company, $jobOpening);
 
-        return Inertia::render('Dashboard/HR/JobOpenings/Edit', [
+        return Inertia::render('Recruiting/Edit', [
             'positions' => $positions,
             'teams' => $teams,
             'templates' => $templates,
@@ -223,7 +222,7 @@ class DashboardHRJobOpeningController extends Controller
 
         return response()->json([
             'data' => [
-                'url' => route('dashboard.hr.openings.show', [
+                'url' => route('recruiting.openings.show', [
                     'company' => $loggedCompany,
                     'jobOpening' => $jobOpening,
                 ]),
@@ -259,15 +258,15 @@ class DashboardHRJobOpeningController extends Controller
                 ->with('template.stages')
                 ->findOrFail($jobOpeningId);
         } catch (ModelNotFoundException $e) {
-            return redirect('dashboard.hr.openings.index');
+            return redirect('recruiting.openings.index');
         }
 
-        $jobOpeningDetail = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
-        $sponsors = DashboardHRJobOpeningsViewHelper::sponsors($company, $jobOpening);
-        $stats = DashboardHRJobOpeningsViewHelper::stats($company, $jobOpening);
-        $candidates = DashboardHRJobOpeningsViewHelper::toSort($company, $jobOpening);
+        $jobOpeningDetail = RecruitingJobOpeningsViewHelper::show($company, $jobOpening);
+        $sponsors = RecruitingJobOpeningsViewHelper::sponsors($company, $jobOpening);
+        $stats = RecruitingJobOpeningsViewHelper::stats($company, $jobOpening);
+        $candidates = RecruitingJobOpeningsViewHelper::toSort($company, $jobOpening);
 
-        return Inertia::render('Dashboard/HR/JobOpenings/Show', [
+        return Inertia::render('Recruiting/Show', [
             'notifications' => NotificationHelper::getNotifications($employee),
             'jobOpening' => $jobOpeningDetail,
             'sponsors' => $sponsors,
@@ -305,15 +304,15 @@ class DashboardHRJobOpeningController extends Controller
                 ->with('template.stages')
                 ->findOrFail($jobOpeningId);
         } catch (ModelNotFoundException $e) {
-            return redirect('dashboard.hr.openings.index');
+            return redirect('recruiting.openings.index');
         }
 
-        $jobOpeningDetail = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
-        $sponsors = DashboardHRJobOpeningsViewHelper::sponsors($company, $jobOpening);
-        $stats = DashboardHRJobOpeningsViewHelper::stats($company, $jobOpening);
-        $candidates = DashboardHRJobOpeningsViewHelper::rejected($company, $jobOpening);
+        $jobOpeningDetail = RecruitingJobOpeningsViewHelper::show($company, $jobOpening);
+        $sponsors = RecruitingJobOpeningsViewHelper::sponsors($company, $jobOpening);
+        $stats = RecruitingJobOpeningsViewHelper::stats($company, $jobOpening);
+        $candidates = RecruitingJobOpeningsViewHelper::rejected($company, $jobOpening);
 
-        return Inertia::render('Dashboard/HR/JobOpenings/Show', [
+        return Inertia::render('Recruiting/Show', [
             'notifications' => NotificationHelper::getNotifications($employee),
             'jobOpening' => $jobOpeningDetail,
             'sponsors' => $sponsors,
@@ -351,15 +350,15 @@ class DashboardHRJobOpeningController extends Controller
                 ->with('template.stages')
                 ->findOrFail($jobOpeningId);
         } catch (ModelNotFoundException $e) {
-            return redirect('dashboard.hr.openings.index');
+            return redirect('recruiting.openings.index');
         }
 
-        $jobOpeningDetail = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
-        $sponsors = DashboardHRJobOpeningsViewHelper::sponsors($company, $jobOpening);
-        $stats = DashboardHRJobOpeningsViewHelper::stats($company, $jobOpening);
-        $candidates = DashboardHRJobOpeningsViewHelper::selected($company, $jobOpening);
+        $jobOpeningDetail = RecruitingJobOpeningsViewHelper::show($company, $jobOpening);
+        $sponsors = RecruitingJobOpeningsViewHelper::sponsors($company, $jobOpening);
+        $stats = RecruitingJobOpeningsViewHelper::stats($company, $jobOpening);
+        $candidates = RecruitingJobOpeningsViewHelper::selected($company, $jobOpening);
 
-        return Inertia::render('Dashboard/HR/JobOpenings/Show', [
+        return Inertia::render('Recruiting/Show', [
             'notifications' => NotificationHelper::getNotifications($employee),
             'jobOpening' => $jobOpeningDetail,
             'sponsors' => $sponsors,
@@ -388,7 +387,7 @@ class DashboardHRJobOpeningController extends Controller
             'job_opening_id' => $jobOpeningId,
         ];
 
-        $jobOpening = (new ToggleJobOpening)->execute($data);
+        (new ToggleJobOpening)->execute($data);
 
         return response()->json([
             'data' => true,
@@ -418,7 +417,7 @@ class DashboardHRJobOpeningController extends Controller
 
         return response()->json([
             'data' => [
-                'url' => route('dashboard.hr.openings.index', [
+                'url' => route('recruiting.openings.index', [
                     'company' => $loggedCompany,
                 ]),
             ],

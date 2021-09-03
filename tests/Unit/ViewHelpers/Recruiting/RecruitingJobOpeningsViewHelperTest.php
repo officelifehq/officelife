@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Dashboard\HR;
+namespace Tests\Unit\ViewHelpers\Recruiting;
 
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -15,9 +15,9 @@ use App\Models\Company\JobOpening;
 use App\Models\Company\CandidateStage;
 use App\Models\Company\RecruitingStageTemplate;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Dashboard\HR\DashboardHRJobOpeningsViewHelper;
+use App\Http\ViewHelpers\Recruiting\RecruitingJobOpeningsViewHelper;
 
-class DashboardHRJobOpeningsViewHelperTest extends TestCase
+class RecruitingJobOpeningsViewHelperTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -35,7 +35,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             'title' => 'Boyfriend',
         ]);
 
-        $collection = DashboardHRJobOpeningsViewHelper::positions($company);
+        $collection = RecruitingJobOpeningsViewHelper::positions($company);
 
         $this->assertEquals(
             2,
@@ -71,7 +71,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             'name' => 'Boyfriend',
         ]);
 
-        $collection = DashboardHRJobOpeningsViewHelper::templates($company);
+        $collection = RecruitingJobOpeningsViewHelper::templates($company);
 
         $this->assertEquals(
             2,
@@ -103,7 +103,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             'company_id' => $michael->company_id,
         ]);
 
-        $collection = DashboardHRJobOpeningsViewHelper::potentialSponsors($michael->company, 'je');
+        $collection = RecruitingJobOpeningsViewHelper::potentialSponsors($michael->company, 'je');
         $this->assertEquals(
             [
                 0 => [
@@ -115,7 +115,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             $collection->toArray()
         );
 
-        $collection = DashboardHRJobOpeningsViewHelper::potentialSponsors($michael->company, 'roger');
+        $collection = RecruitingJobOpeningsViewHelper::potentialSponsors($michael->company, 'roger');
         $this->assertEquals(
             [],
             $collection->toArray()
@@ -136,7 +136,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             'name' => 'B',
         ]);
 
-        $collection = DashboardHRJobOpeningsViewHelper::teams($company);
+        $collection = RecruitingJobOpeningsViewHelper::teams($company);
 
         $this->assertEquals(
             2,
@@ -175,7 +175,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             'fulfilled' => true,
         ]);
 
-        $array = DashboardHRJobOpeningsViewHelper::openJobOpenings($company);
+        $array = RecruitingJobOpeningsViewHelper::openJobOpenings($company);
 
         $this->assertEquals(
             [
@@ -185,7 +185,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                     'reference_number' => $jobOpeningA->reference_number,
                     'active' => $jobOpeningA->active,
                     'team' => null,
-                    'url' => env('APP_URL').'/'. $company->id.'/dashboard/hr/job-openings/'.$jobOpeningA->id,
+                    'url' => env('APP_URL').'/'. $company->id.'/recruiting/job-openings/'.$jobOpeningA->id,
                 ],
                 1 => [
                     'id' => $jobOpeningB->id,
@@ -197,7 +197,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                         'name' => $jobOpeningB->team->name,
                         'url' => env('APP_URL').'/'.$company->id.'/teams/'.$jobOpeningB->team->id,
                     ],
-                    'url' => env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$jobOpeningB->id,
+                    'url' => env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$jobOpeningB->id,
                 ],
             ],
             $array['open_job_openings']->toArray()
@@ -206,13 +206,13 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 'count' => 1,
-                'url' => env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/fulfilled',
+                'url' => env('APP_URL').'/'.$company->id.'/recruiting/job-openings/fulfilled',
             ],
             $array['fulfilled_job_openings']
         );
 
         $this->assertEquals(
-            env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/create',
+            env('APP_URL').'/'.$company->id.'/recruiting/job-openings/create',
             $array['url_create']
         );
     }
@@ -238,7 +238,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             'fulfilled' => false,
         ]);
 
-        $array = DashboardHRJobOpeningsViewHelper::fulfilledJobOpenings($company);
+        $array = RecruitingJobOpeningsViewHelper::fulfilledJobOpenings($company);
 
         $this->assertEquals(
             [
@@ -248,7 +248,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                     'reference_number' => $jobOpening->reference_number,
                     'fulfilled_at' => 'Jan 01, 2018',
                     'team' => null,
-                    'url' => env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/' . $jobOpening->id,
+                    'url' => env('APP_URL') . '/' . $company->id . '/recruiting/job-openings/' . $jobOpening->id,
                 ],
             ],
             $array['fulfilled_job_openings']->toArray()
@@ -257,13 +257,13 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 'count' => 2,
-                'url' => env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings',
+                'url' => env('APP_URL') . '/' . $company->id . '/recruiting/job-openings',
             ],
             $array['open_job_openings']
         );
 
         $this->assertEquals(
-            env('APP_URL') . '/' . $company->id . '/dashboard/hr/job-openings/create',
+            env('APP_URL') . '/' . $company->id . '/recruiting/job-openings/create',
             $array['url_create']
         );
     }
@@ -307,7 +307,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             'rejected' => true,
         ]);
 
-        $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
+        $array = RecruitingJobOpeningsViewHelper::show($company, $jobOpening);
 
         $this->assertCount(
             17,
@@ -351,7 +351,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             $array['url_public_view']
         );
         $this->assertEquals(
-            env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$jobOpening->id.'/edit',
+            env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$jobOpening->id.'/edit',
             $array['url_edit']
         );
         $this->assertEquals(
@@ -384,7 +384,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $candidate->employee_id = $michael->id;
         $candidate->save();
 
-        $array = DashboardHRJobOpeningsViewHelper::show($company, $jobOpening);
+        $array = RecruitingJobOpeningsViewHelper::show($company, $jobOpening);
         $this->assertEquals(
             [
                 'id' => $michael->id,
@@ -439,7 +439,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             'rejected' => true,
         ]);
 
-        $array = DashboardHRJobOpeningsViewHelper::edit($company, $jobOpening);
+        $array = RecruitingJobOpeningsViewHelper::edit($company, $jobOpening);
 
         $this->assertCount(
             9,
@@ -479,7 +479,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             $array['team']
         );
         $this->assertEquals(
-            env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$jobOpening->id,
+            env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$jobOpening->id,
             $array['url_cancel']
         );
     }
@@ -518,21 +518,21 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             'status' => CandidateStage::STATUS_REJECTED,
         ]);
 
-        $array = DashboardHRJobOpeningsViewHelper::stats($company, $jobOpening);
+        $array = RecruitingJobOpeningsViewHelper::stats($company, $jobOpening);
 
         $this->assertEquals(
             [
                 'to_sort' => [
                     'count' => 1,
-                    'url' =>  env('APP_URL').'/'.$company->id. '/dashboard/hr/job-openings/'.$jobOpening->id,
+                    'url' =>  env('APP_URL').'/'.$company->id. '/recruiting/job-openings/'.$jobOpening->id,
                 ],
                 'selected' => [
                     'count' => 1,
-                    'url' =>  env('APP_URL').'/'.$company->id. '/dashboard/hr/job-openings/'.$jobOpening->id.'/selected',
+                    'url' =>  env('APP_URL').'/'.$company->id. '/recruiting/job-openings/'.$jobOpening->id.'/selected',
                 ],
                 'rejected' => [
                     'count' => 1,
-                    'url' =>  env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$jobOpening->id.'/rejected',
+                    'url' =>  env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$jobOpening->id.'/rejected',
                 ],
             ],
             $array
@@ -546,7 +546,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
         $michael = Employee::factory()->create();
         $jobOpening->sponsors()->syncWithoutDetaching([$michael->id]);
 
-        $collection = DashboardHRJobOpeningsViewHelper::sponsors($michael->company, $jobOpening);
+        $collection = RecruitingJobOpeningsViewHelper::sponsors($michael->company, $jobOpening);
 
         $this->assertEquals(
             [
@@ -604,7 +604,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             'rejected' => true,
         ]);
 
-        $collection = DashboardHRJobOpeningsViewHelper::toSort($company, $jobOpening);
+        $collection = RecruitingJobOpeningsViewHelper::toSort($company, $jobOpening);
 
         $this->assertEquals(
             [
@@ -612,7 +612,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
                     'id' => $candidate->id,
                     'name' => $candidate->name,
                     'received_at' => 'Jan 01, 2018',
-                    'url' => env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$jobOpening->id.'/candidates/'.$candidate->id,
+                    'url' => env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$jobOpening->id.'/candidates/'.$candidate->id,
                 ],
             ],
             $collection->toArray()
@@ -655,7 +655,7 @@ class DashboardHRJobOpeningsViewHelperTest extends TestCase
             'status' => CandidateStage::STATUS_REJECTED,
         ]);
 
-        $collection = DashboardHRJobOpeningsViewHelper::rejected($company, $jobOpening);
+        $collection = RecruitingJobOpeningsViewHelper::rejected($company, $jobOpening);
 
         $this->assertEquals(
             1,

@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Models\Company\RateYourManagerSurvey;
 
 class StopRateYourManagerProcess implements ShouldQueue
 {
@@ -31,14 +32,30 @@ class StopRateYourManagerProcess implements ShouldQueue
     public function handle(): void
     {
         if ($this->force) {
-            DB::table('rate_your_manager_surveys')
-                ->where('active', 1)
-                ->update(['active' => 0]);
+            RateYourManagerSurvey::where('active', true)
+                ->chunk(200, function ($surveys) {
+                    foreach ($surveys as $survey) {
+                        $this->updateSurveys($survey);
+                    }
+                });
         } else {
-            DB::table('rate_your_manager_surveys')
-                ->where('active', 1)
+            RateYourManagerSurvey::where('active', true)
                 ->where('valid_until_at', '<', Carbon::now()->format('Y-m-d H:i:s'))
-                ->update(['active' => 0]);
+                ->chunk(200, function ($surveys) {
+                    foreach ($surveys as $survey) {
+                        $this->updateSurveys($survey);
+                    }
+                });
         }
+    }
+
+    private function updateSurveys(RateYourManagerSurvey $survey): void
+    {
+        DB::table('rate_your_manager_answers')
+            ->where('rate_your_manager_survey_id', $survey->id)
+            ->update(['active' => 0]);
+
+        $survey->active = false;
+        $survey->save();
     }
 }

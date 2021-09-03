@@ -123,7 +123,7 @@ export default {
     toggle() {
       this.isActive = !this.isActive;
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/hr/job-openings/' + this.jobOpening.id + '/toggle', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/recruiting/job-openings/' + this.jobOpening.id + '/toggle', this.form)
         .then(response => {
         })
         .catch(error => {
@@ -132,7 +132,7 @@ export default {
     },
 
     destroy(stageId) {
-      axios.delete('/' + this.$page.props.auth.company.id + '/dashboard/hr/job-openings/' + this.jobOpening.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/recruiting/job-openings/' + this.jobOpening.id)
         .then(response => {
           localStorage.success = this.$t('dashboard.job_opening_show_delete_success');
           this.$inertia.visit(response.data.data.url);

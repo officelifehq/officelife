@@ -58,10 +58,11 @@
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <breadcrumb
-        :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
-        :root="$t('app.breadcrumb_dashboard')"
-        :previous-url="'/' + $page.props.auth.company.id + '/dashboard/hr/job-openings/' + jobOpening.id"
+        :root-url="'/' + $page.props.auth.company.id + '/recruiting/job-openings'"
+        :root="$t('app.breadcrumb_hr_job_openings_active')"
+        :previous-url="'/' + $page.props.auth.company.id + '/recruiting/job-openings/' + jobOpening.id"
         :previous="$t('app.breadcrumb_dashboard_job_opening_detail')"
+        :has-more="false"
       >
         {{ $t('app.breadcrumb_dashboard_job_opening_candidate') }}
       </breadcrumb>
@@ -197,9 +198,9 @@ import Layout from '@/Shared/Layout';
 import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import LoadingButton from '@/Shared/LoadingButton';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
-import Participants from '@/Pages/Dashboard/HR/JobOpenings/Candidates/Partials/Participants';
-import Notes from '@/Pages/Dashboard/HR/JobOpenings/Candidates/Partials/Notes';
-import Information from '@/Pages/Dashboard/HR/JobOpenings/Candidates/Partials/Information';
+import Participants from '@/Pages/Recruiting/Candidates/Partials/Participants';
+import Notes from '@/Pages/Recruiting/Candidates/Partials/Notes';
+import Information from '@/Pages/Recruiting/Candidates/Partials/Information';
 
 export default {
   components: {
@@ -273,7 +274,7 @@ export default {
       this.loadingStateAccept = 'loading';
       this.form.accepted = true;
 
-      axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpening.id}/candidates/${this.candidate.id}/stages/${this.stage.id}`, this.form)
+      axios.post(`${this.$page.props.auth.company.id}/recruiting/job-openings/${this.jobOpening.id}/candidates/${this.candidate.id}/stages/${this.stage.id}`, this.form)
         .then(response => {
           localStorage.success = this.$t('dashboard.job_opening_stage_passed');
           this.$inertia.visit(response.data.url);
@@ -288,7 +289,7 @@ export default {
       this.loadingStateReject = 'loading';
       this.form.accepted = false;
 
-      axios.post(`${this.$page.props.auth.company.id}/dashboard/hr/job-openings/${this.jobOpening.id}/candidates/${this.candidate.id}/stages/${this.stage.id}`, this.form)
+      axios.post(`${this.$page.props.auth.company.id}/recruiting/job-openings/${this.jobOpening.id}/candidates/${this.candidate.id}/stages/${this.stage.id}`, this.form)
         .then(response => {
           localStorage.success = this.$t('dashboard.job_opening_stage_rejected');
           this.$inertia.visit(response.data.url);
