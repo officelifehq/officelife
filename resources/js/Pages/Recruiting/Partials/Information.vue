@@ -58,7 +58,7 @@
       </li>
 
       <!-- active toggle -->
-      <li v-if="isActive && !localJobOpening.fulfilled" class="di mr3">
+      <li v-if="isActive && !localJobOpening.fulfilled && !isSponsor" class="di mr3">
         <a class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="toggle()">
           {{ $t('dashboard.job_opening_show_toggle_inactive') }}
         </a>
@@ -70,7 +70,7 @@
       </li>
 
       <!-- edit -->
-      <li class="di mr3">
+      <li v-if="!isSponsor" class="di mr3">
         <inertia-link :href="localJobOpening.url_edit">{{ $t('app.edit') }}</inertia-link>
       </li>
 
@@ -84,7 +84,7 @@
           {{ $t('app.no') }}
         </a>
       </li>
-      <li v-else class="di">
+      <li v-if="!deleteMode && !isSponsor" class="di">
         <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click.prevent="deleteMode = true">
           {{ $t('app.delete') }}
         </a>
@@ -99,6 +99,10 @@ export default {
     jobOpening: {
       type: Object,
       default: null,
+    },
+    isSponsor: {
+      type: Boolean,
+      default: false,
     },
   },
 

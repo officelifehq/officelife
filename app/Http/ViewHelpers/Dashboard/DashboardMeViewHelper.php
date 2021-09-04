@@ -501,7 +501,7 @@ class DashboardMeViewHelper
                 'id' => $jobOpening->id,
                 'title' => $jobOpening->title,
                 'reference_number' => $jobOpening->reference_number,
-                'url' => route('dashboard.hr.openings.show', [
+                'url' => route('recruiting.openings.show', [
                     'company' => $company,
                     'jobOpening' => $jobOpening,
                 ]),

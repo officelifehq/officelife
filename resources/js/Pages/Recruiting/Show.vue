@@ -76,7 +76,7 @@
         </div>
 
         <!-- header -->
-        <information :job-opening="jobOpening" />
+        <information :job-opening="jobOpening" :is-sponsor="isSponsor" />
 
         <!-- teams, sponsors and stats -->
         <div class="flex items-center mb5">
@@ -234,6 +234,10 @@ export default {
     candidates: {
       type: Object,
       default: null,
+    },
+    isSponsor: {
+      type: Boolean,
+      default: false,
     },
     tab: {
       type: String,
