@@ -568,15 +568,4 @@ class RecruitingJobOpeningsViewHelper
 
         return $candidatesCollection;
     }
-
-    /**
-     * Get the permissions for the given employee.
-     *
-     * @param Employee $employee
-     * @param JobOpening $jobOpening
-     * @return array
-     */
-    public static function permissions(Employee $employee, JobOpening $jobOpening): array
-    {
-    }
 }

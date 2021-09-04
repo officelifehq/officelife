@@ -249,9 +249,11 @@ class RecruitingJobOpeningController extends Controller
             ->where('job_opening_id', $jobOpeningId)
             ->count() === 1;
 
-        // is this person HR?
-        if ($loggedEmployee->permission_level > config('officelife.permission_level.hr')) {
-            return redirect('home');
+        if (! $isSponsor) {
+            // is this person HR?
+            if ($loggedEmployee->permission_level > config('officelife.permission_level.hr')) {
+                return redirect('home');
+            }
         }
 
         try {
@@ -278,7 +280,6 @@ class RecruitingJobOpeningController extends Controller
             'sponsors' => $sponsors,
             'stats' => $stats,
             'candidates' => $candidates,
-            'isSponsor' => $isSponsor,
             'tab' => 'to_sort',
         ]);
     }
@@ -301,9 +302,11 @@ class RecruitingJobOpeningController extends Controller
             ->where('job_opening_id', $jobOpeningId)
             ->count() === 1;
 
-        // is this person HR?
-        if ($loggedEmployee->permission_level > config('officelife.permission_level.hr')) {
-            return redirect('home');
+        if (! $isSponsor) {
+            // is this person HR?
+            if ($loggedEmployee->permission_level > config('officelife.permission_level.hr')) {
+                return redirect('home');
+            }
         }
 
         try {
@@ -330,7 +333,6 @@ class RecruitingJobOpeningController extends Controller
             'sponsors' => $sponsors,
             'stats' => $stats,
             'candidates' => $candidates,
-            'isSponsor' => $isSponsor,
             'tab' => 'rejected',
         ]);
     }
@@ -353,9 +355,11 @@ class RecruitingJobOpeningController extends Controller
             ->where('job_opening_id', $jobOpeningId)
             ->count() === 1;
 
-        // is this person HR?
-        if ($loggedEmployee->permission_level > config('officelife.permission_level.hr')) {
-            return redirect('home');
+        if (! $isSponsor) {
+            // is this person HR?
+            if ($loggedEmployee->permission_level > config('officelife.permission_level.hr')) {
+                return redirect('home');
+            }
         }
 
         try {
@@ -382,7 +386,6 @@ class RecruitingJobOpeningController extends Controller
             'sponsors' => $sponsors,
             'stats' => $stats,
             'candidates' => $candidates,
-            'isSponsor' => $isSponsor,
             'tab' => 'selected',
         ]);
     }
