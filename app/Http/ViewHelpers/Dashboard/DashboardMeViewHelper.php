@@ -519,7 +519,7 @@ class DashboardMeViewHelper
      * @param Employee $employee
      * @return Collection
      */
-    public static function jobOpeningsAsParticipant(Company $company, Employee $employee): Collection
+    public static function jobOpeningsAsParticipant(Employee $employee): Collection
     {
         $stages = CandidateStageParticipant::where('participant_id', $employee->id)
             ->where('participated', false)
@@ -538,7 +538,6 @@ class DashboardMeViewHelper
             $jobOpeningsCollection->push([
                 'id' => $jobOpening->id,
                 'title' => $jobOpening->title,
-                'reference_number' => $jobOpening->reference_number,
                 'candidate' => [
                     'id' => $stage->candidateStage->candidate->id,
                     'name' => $stage->candidateStage->candidate->name,
