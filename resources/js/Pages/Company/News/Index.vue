@@ -23,10 +23,8 @@
           </h2>
 
           <div v-for="newsItem in news" :key="newsItem.id" class="mb5">
-            <div class="f6">
-              <span class="mr3">
-                {{ newsItem.written_at }}
-              </span>
+            <div class="f7 gray mr3">
+              {{ newsItem.written_at }}
             </div>
 
             <!-- title -->

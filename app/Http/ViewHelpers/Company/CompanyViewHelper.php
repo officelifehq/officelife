@@ -297,6 +297,7 @@ class CompanyViewHelper
             $newsCollection->push([
                 'id' => $new->id,
                 'title' => $new->title,
+                'created_at' => DateHelper::formatDate($new->created_at),
                 'extract' => StringHelper::parse(Str::words($new->content, 20, ' ...')),
                 'author_name' => $new->author_name,
             ]);

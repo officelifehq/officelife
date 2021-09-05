@@ -17,7 +17,7 @@
       <div v-if="news.count > 0">
         <ul class="list ma0 pa3">
           <li v-for="newsItem in news.news" :key="newsItem.id" class="answer-item mb3">
-            <h3 class="f5 fw5 mt0 mb1">{{ newsItem.title }}</h3>
+            <h3 class="f5 fw5 mt0 mb1">{{ newsItem.title }} <span class="f7 gray ml2">{{ newsItem.created_at }}</span></h3>
             <div class="gray parsed-content f6" v-html="newsItem.extract"></div>
           </li>
         </ul>
