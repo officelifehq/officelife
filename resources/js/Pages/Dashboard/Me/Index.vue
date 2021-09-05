@@ -27,6 +27,11 @@
         :e-coffee="eCoffee"
       />
 
+      <job-openings-as-participant
+        v-if="jobOpeningsAsParticipant.length > 0"
+        :job-openings="jobOpeningsAsParticipant"
+      />
+
       <job-openings-as-sponsor
         v-if="jobOpeningsAsSponsor.length > 0"
         :job-openings="jobOpeningsAsSponsor"
@@ -86,6 +91,7 @@ import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 import ECoffee from '@/Pages/Dashboard/Me/Partials/ECoffee';
 import Projects from '@/Pages/Dashboard/Me/Partials/Projects';
 import JobOpeningsAsSponsor from '@/Pages/Dashboard/Me/Partials/JobOpeningSponsor';
+import JobOpeningsAsParticipant from '@/Pages/Dashboard/Me/Partials/JobOpeningParticipant';
 
 export default {
   components: {
@@ -102,6 +108,7 @@ export default {
     ECoffee,
     Projects,
     JobOpeningsAsSponsor,
+    JobOpeningsAsParticipant,
   },
 
   props: {
@@ -174,6 +181,10 @@ export default {
       default: null,
     },
     jobOpeningsAsSponsor: {
+      type: Object,
+      default: null,
+    },
+    jobOpeningsAsParticipant: {
       type: Object,
       default: null,
     },
