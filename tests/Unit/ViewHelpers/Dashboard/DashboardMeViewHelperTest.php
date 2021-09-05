@@ -585,7 +585,7 @@ class DashboardMeViewHelperTest extends TestCase
                     'id' => $jobOpening->id,
                     'title' => $jobOpening->title,
                     'reference_number' => $jobOpening->reference_number,
-                    'url' => env('APP_URL').'/'.$company->id.'/dashboard/hr/job-openings/'.$jobOpening->id,
+                    'url' => env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$jobOpening->id,
                 ],
             ],
             DashboardMeViewHelper::jobOpeningsAsSponsor($company, $michael)->toArray()
