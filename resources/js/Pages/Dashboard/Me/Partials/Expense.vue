@@ -1,4 +1,4 @@
-<style lang="scss" scoped>
+k<style lang="scss" scoped>
 .expense-item:first-child {
   border-top-width: 1px;
   border-top-style: solid;
@@ -81,7 +81,7 @@
                               :type="'number'"
                               :step="'0.01'"
                               :min="0"
-                              :max="1000000"
+                              :max="10000000000"
                               @esc-key-pressed="hideAddMode()"
                   />
                 </div>
