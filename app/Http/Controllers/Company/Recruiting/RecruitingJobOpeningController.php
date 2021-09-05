@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;
 use App\Models\Company\JobOpening;
+use Illuminate\Support\Facades\DB;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -240,16 +241,23 @@ class RecruitingJobOpeningController extends Controller
      */
     public function show(Request $request, int $companyId, int $jobOpeningId): mixed
     {
-        $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        // is this person HR?
-        if ($employee->permission_level > config('officelife.permission_level.hr')) {
-            return redirect('home');
+        // is this person the sponsor of the job?
+        $isSponsor = DB::table('job_opening_sponsor')->where('employee_id', $loggedEmployee->id)
+            ->where('job_opening_id', $jobOpeningId)
+            ->count() === 1;
+
+        if (! $isSponsor) {
+            // is this person HR?
+            if ($loggedEmployee->permission_level > config('officelife.permission_level.hr')) {
+                return redirect('home');
+            }
         }
 
         try {
-            $jobOpening = JobOpening::where('company_id', $company->id)
+            $jobOpening = JobOpening::where('company_id', $loggedCompany->id)
                 ->with('team')
                 ->with('position')
                 ->with('position.employees')
@@ -261,13 +269,13 @@ class RecruitingJobOpeningController extends Controller
             return redirect('recruiting.openings.index');
         }
 
-        $jobOpeningDetail = RecruitingJobOpeningsViewHelper::show($company, $jobOpening);
-        $sponsors = RecruitingJobOpeningsViewHelper::sponsors($company, $jobOpening);
-        $stats = RecruitingJobOpeningsViewHelper::stats($company, $jobOpening);
-        $candidates = RecruitingJobOpeningsViewHelper::toSort($company, $jobOpening);
+        $jobOpeningDetail = RecruitingJobOpeningsViewHelper::show($loggedCompany, $jobOpening);
+        $sponsors = RecruitingJobOpeningsViewHelper::sponsors($loggedCompany, $jobOpening);
+        $stats = RecruitingJobOpeningsViewHelper::stats($loggedCompany, $jobOpening);
+        $candidates = RecruitingJobOpeningsViewHelper::toSort($loggedCompany, $jobOpening);
 
         return Inertia::render('Recruiting/Show', [
-            'notifications' => NotificationHelper::getNotifications($employee),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
             'jobOpening' => $jobOpeningDetail,
             'sponsors' => $sponsors,
             'stats' => $stats,
@@ -287,11 +295,18 @@ class RecruitingJobOpeningController extends Controller
     public function showRejected(Request $request, int $companyId, int $jobOpeningId): mixed
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        // is this person HR?
-        if ($employee->permission_level > config('officelife.permission_level.hr')) {
-            return redirect('home');
+        // is this person the sponsor of the job?
+        $isSponsor = DB::table('job_opening_sponsor')->where('employee_id', $loggedEmployee->id)
+            ->where('job_opening_id', $jobOpeningId)
+            ->count() === 1;
+
+        if (! $isSponsor) {
+            // is this person HR?
+            if ($loggedEmployee->permission_level > config('officelife.permission_level.hr')) {
+                return redirect('home');
+            }
         }
 
         try {
@@ -313,7 +328,7 @@ class RecruitingJobOpeningController extends Controller
         $candidates = RecruitingJobOpeningsViewHelper::rejected($company, $jobOpening);
 
         return Inertia::render('Recruiting/Show', [
-            'notifications' => NotificationHelper::getNotifications($employee),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
             'jobOpening' => $jobOpeningDetail,
             'sponsors' => $sponsors,
             'stats' => $stats,
@@ -333,11 +348,18 @@ class RecruitingJobOpeningController extends Controller
     public function showSelected(Request $request, int $companyId, int $jobOpeningId): mixed
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        // is this person HR?
-        if ($employee->permission_level > config('officelife.permission_level.hr')) {
-            return redirect('home');
+        // is this person the sponsor of the job?
+        $isSponsor = DB::table('job_opening_sponsor')->where('employee_id', $loggedEmployee->id)
+            ->where('job_opening_id', $jobOpeningId)
+            ->count() === 1;
+
+        if (! $isSponsor) {
+            // is this person HR?
+            if ($loggedEmployee->permission_level > config('officelife.permission_level.hr')) {
+                return redirect('home');
+            }
         }
 
         try {
@@ -359,7 +381,7 @@ class RecruitingJobOpeningController extends Controller
         $candidates = RecruitingJobOpeningsViewHelper::selected($company, $jobOpening);
 
         return Inertia::render('Recruiting/Show', [
-            'notifications' => NotificationHelper::getNotifications($employee),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
             'jobOpening' => $jobOpeningDetail,
             'sponsors' => $sponsors,
             'stats' => $stats,

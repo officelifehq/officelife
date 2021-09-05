@@ -84,7 +84,7 @@
           {{ $t('app.no') }}
         </a>
       </li>
-      <li v-else class="di">
+      <li v-if="!deleteMode" class="di">
         <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click.prevent="deleteMode = true">
           {{ $t('app.delete') }}
         </a>

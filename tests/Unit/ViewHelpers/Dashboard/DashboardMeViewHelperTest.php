@@ -15,6 +15,7 @@ use App\Models\Company\Project;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
+use App\Models\Company\JobOpening;
 use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
@@ -562,6 +563,32 @@ class DashboardMeViewHelperTest extends TestCase
                 'has_worked_from_home_today' => true,
             ],
             DashboardMeViewHelper::workFromHome($michael)
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_job_openings_the_employee_is_a_sponsor_of(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $company = Company::factory()->create();
+        $jobOpening = JobOpening::factory()->create([
+            'company_id' => $company->id,
+            'activated_at' => Carbon::now(),
+        ]);
+        $michael = Employee::factory()->create();
+        $jobOpening->sponsors()->syncWithoutDetaching([$michael->id]);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $jobOpening->id,
+                    'title' => $jobOpening->title,
+                    'reference_number' => $jobOpening->reference_number,
+                    'url' => env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$jobOpening->id,
+                ],
+            ],
+            DashboardMeViewHelper::jobOpeningsAsSponsor($company, $michael)->toArray()
         );
     }
 }

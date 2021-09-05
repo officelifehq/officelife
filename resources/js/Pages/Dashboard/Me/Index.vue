@@ -15,16 +15,21 @@
         :projects="projects"
       />
 
+      <contract-renewal-date
+        v-if="contractRenewal"
+        :employee="employee"
+        :contract-renewal="contractRenewal"
+      />
+
       <e-coffee
         v-if="eCoffee"
         :employee="employee"
         :e-coffee="eCoffee"
       />
 
-      <contract-renewal-date
-        v-if="contractRenewal"
-        :employee="employee"
-        :contract-renewal="contractRenewal"
+      <job-openings-as-sponsor
+        v-if="jobOpeningsAsSponsor.length > 0"
+        :job-openings="jobOpeningsAsSponsor"
       />
 
       <one-on-one-with-manager
@@ -80,6 +85,7 @@ import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 import ECoffee from '@/Pages/Dashboard/Me/Partials/ECoffee';
 import Projects from '@/Pages/Dashboard/Me/Partials/Projects';
+import JobOpeningsAsSponsor from '@/Pages/Dashboard/Me/Partials/JobOpeningSponsor';
 
 export default {
   components: {
@@ -95,6 +101,7 @@ export default {
     DashboardMenu,
     ECoffee,
     Projects,
+    JobOpeningsAsSponsor,
   },
 
   props: {
@@ -163,6 +170,10 @@ export default {
       default: null,
     },
     question: {
+      type: Object,
+      default: null,
+    },
+    jobOpeningsAsSponsor: {
       type: Object,
       default: null,
     },

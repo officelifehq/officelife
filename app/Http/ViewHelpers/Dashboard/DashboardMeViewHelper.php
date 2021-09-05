@@ -480,4 +480,34 @@ class DashboardMeViewHelper
             'has_worked_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
         ];
     }
+
+    /**
+     * Get the information about the job openings as a sponsor.
+     *
+     * @param Company $company
+     * @param Employee $employee
+     * @return Collection
+     */
+    public static function jobOpeningsAsSponsor(Company $company, Employee $employee): Collection
+    {
+        $jobOpenings = $employee->jobOpeningsAsSponsor()
+            ->where('fulfilled', false)
+            ->orderBy('job_openings.created_at', 'desc')
+            ->get();
+
+        $jobsOpeningCollection = collect();
+        foreach ($jobOpenings as $jobOpening) {
+            $jobsOpeningCollection->push([
+                'id' => $jobOpening->id,
+                'title' => $jobOpening->title,
+                'reference_number' => $jobOpening->reference_number,
+                'url' => route('recruiting.openings.show', [
+                    'company' => $company,
+                    'jobOpening' => $jobOpening,
+                ]),
+            ]);
+        }
+
+        return $jobsOpeningCollection;
+    }
 }
