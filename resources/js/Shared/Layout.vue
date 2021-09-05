@@ -87,9 +87,9 @@ nav {
             <inertia-link :href="'/' + $page.props.auth.company.id + '/company'" class="mr2 no-underline pa2 bb-0 special" data-cy="header-teams-link">
               <span class="mr1">⛺️</span> {{ $t('app.header_company') }}
             </inertia-link>
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/recruiting/job-openings'" class="mr2 no-underline pa2 bb-0 special">
+            <!-- <inertia-link :href="'/' + $page.props.auth.company.id + '/recruiting/job-openings'" class="mr2 no-underline pa2 bb-0 special">
               <span class="mr1">🥇</span> {{ $t('app.header_recruiting') }}
-            </inertia-link>
+            </inertia-link> -->
             <a data-cy="header-find-link" class="mr2 no-underline pa2 bb-0 special pointer" @click="showFindModal">
               <span class="mr1">🔍</span> {{ $t('app.header_find') }}
             </a>
