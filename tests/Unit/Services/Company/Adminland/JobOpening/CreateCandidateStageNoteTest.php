@@ -153,7 +153,7 @@ class CreateCandidateStageNoteTest extends TestCase
         $this->executeService($michael, $opening, $candidate, $candidateStage);
     }
 
-    private function executeService(Employee $author, JobOpening $opening, Candidate $candidate, CandidateStage $candidateStage): void
+    private function executeService(Employee $author, JobOpening $opening, Candidate $candidate, CandidateStage $candidateStage, bool $isParticipant = false): void
     {
         Queue::fake();
 
@@ -172,6 +172,14 @@ class CreateCandidateStageNoteTest extends TestCase
             'note' => 'ceci est une note',
             'author_name' => $author->name,
         ]);
+
+        if ($isParticipant) {
+            $this->assertDatabaseHas('candidate_stage_participants', [
+                'candidate_stage_id' => $candidateStage->id,
+                'participant_id' => $author->id,
+                'participated' => true,
+            ]);
+        }
 
         $this->assertInstanceOf(
             CandidateStageNote::class,

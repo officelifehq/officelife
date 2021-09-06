@@ -18,6 +18,7 @@ use Money\Currencies\ISOCurrencies;
 use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
+use App\Models\Company\CandidateStageParticipant;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
 
@@ -509,5 +510,42 @@ class DashboardMeViewHelper
         }
 
         return $jobsOpeningCollection;
+    }
+
+    /**
+     * Get the information about the job openings as a participant.
+     *
+     * @param Employee $employee
+     * @return Collection
+     */
+    public static function jobOpeningsAsParticipant(Employee $employee): Collection
+    {
+        $stages = CandidateStageParticipant::where('participant_id', $employee->id)
+            ->where('participated', false)
+            ->with('candidateStage')
+            ->with('candidateStage.candidate')
+            ->with('candidateStage.candidate.jobOpening')
+            ->get();
+
+        $jobOpeningsCollection = collect();
+        foreach ($stages as $stage) {
+            $jobOpening = $stage->candidateStage->candidate->jobOpening;
+            if (! $jobOpening->active) {
+                continue;
+            }
+
+            $jobOpeningsCollection->push([
+                'id' => $jobOpening->id,
+                'candidate_stage_id' => $stage->candidate_stage_id,
+                'title' => $jobOpening->title,
+                'participated' => false,
+                'candidate' => [
+                    'id' => $stage->candidateStage->candidate->id,
+                    'name' => $stage->candidateStage->candidate->name,
+                ],
+            ]);
+        }
+
+        return $jobOpeningsCollection;
     }
 }

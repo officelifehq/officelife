@@ -19,6 +19,7 @@ class CreateCandidateStageNote extends BaseService
     protected Candidate $candidate;
     protected CandidateStage $candidateStage;
     protected CandidateStageNote $candidateStageNote;
+    protected bool $isParticipant;
 
     /**
      * Get the validation rules that apply to the service.
@@ -48,6 +49,7 @@ class CreateCandidateStageNote extends BaseService
         $this->data = $data;
         $this->validate();
         $this->create();
+        $this->markParticipated();
         $this->log();
 
         return $this->candidateStageNote;
@@ -74,7 +76,7 @@ class CreateCandidateStageNote extends BaseService
             ->exists();
 
         // check if the author is a participant of the recruiting process
-        $isParticipant = DB::table('candidate_stage_participants')
+        $this->isParticipant = DB::table('candidate_stage_participants')
             ->where('participant_id', $this->data['author_id'])
             ->where('candidate_stage_id', $this->data['candidate_stage_id'])
             ->exists();
@@ -82,7 +84,7 @@ class CreateCandidateStageNote extends BaseService
         $this->author = Employee::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['author_id']);
 
-        if (! $isSponsor && ! $isParticipant) {
+        if (! $isSponsor && ! $this->isParticipant) {
             $this->author = Employee::where('company_id', $this->data['company_id'])
                 ->where('permission_level', '<=', config('officelife.permission_level.hr'))
                 ->findOrFail($this->data['author_id']);
@@ -97,6 +99,19 @@ class CreateCandidateStageNote extends BaseService
             'note' => $this->data['note'],
             'author_name' => $this->author->name,
         ]);
+    }
+
+    private function markParticipated(): void
+    {
+        if ($this->isParticipant) {
+            DB::table('candidate_stage_participants')
+                ->where('participant_id', $this->data['author_id'])
+                ->where('candidate_stage_id', $this->data['candidate_stage_id'])
+                ->update([
+                    'participated' => true,
+                    'participated_at' => Carbon::now(),
+                ]);
+        }
     }
 
     private function log(): void

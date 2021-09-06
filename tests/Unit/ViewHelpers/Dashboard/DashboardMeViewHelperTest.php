@@ -15,14 +15,17 @@ use App\Models\Company\Project;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
+use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\CandidateStage;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Jobs\StartRateYourManagerProcess;
 use GrahamCampbell\TestBenchCore\HelperTrait;
+use App\Models\Company\CandidateStageParticipant;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
@@ -589,6 +592,46 @@ class DashboardMeViewHelperTest extends TestCase
                 ],
             ],
             DashboardMeViewHelper::jobOpeningsAsSponsor($company, $michael)->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_job_openings_the_employee_is_a_participant_of(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $company = Company::factory()->create();
+        $jobOpening = JobOpening::factory()->create([
+            'company_id' => $company->id,
+            'activated_at' => Carbon::now(),
+        ]);
+        $dwight = Employee::factory()->create();
+        $michael = Candidate::factory()->create([
+            'job_opening_id' => $jobOpening->id,
+        ]);
+        $stage = CandidateStage::factory()->create([
+            'candidate_id' => $michael->id,
+        ]);
+        CandidateStageParticipant::factory()->create([
+            'candidate_stage_id' => $stage->id,
+            'participant_id' => $dwight->id,
+            'participated' => false,
+        ]);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $jobOpening->id,
+                    'title' => $jobOpening->title,
+                    'candidate_stage_id' => $stage->id,
+                    'participated' => false,
+                    'candidate' => [
+                        'id' => $michael->id,
+                        'name' => $michael->name,
+                    ],
+                ],
+            ],
+            DashboardMeViewHelper::jobOpeningsAsParticipant($dwight)->toArray()
         );
     }
 }
