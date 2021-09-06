@@ -515,7 +515,6 @@ class DashboardMeViewHelper
     /**
      * Get the information about the job openings as a participant.
      *
-     * @param Company $company
      * @param Employee $employee
      * @return Collection
      */
