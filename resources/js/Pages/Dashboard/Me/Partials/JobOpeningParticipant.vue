@@ -108,7 +108,6 @@ export default {
         note: null,
         errors: [],
       },
-      localWorklogs: null,
       loadingState: '',
     };
   },
