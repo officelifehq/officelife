@@ -73,6 +73,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             ]);
             Route::post('expense', 'Company\\Dashboard\\Me\\DashboardMeExpenseController@store')->name('dashboard.expense.store');
 
+            // add note as participant of a job opening recruitment process
+            Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/notes', 'Company\\Dashboard\\Me\\DashboardMeRecruitingController@store');
+
             // details of one on ones
             Route::get('oneonones/{entry}', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@show')->name('dashboard.oneonones.show');
             Route::post('oneonones/{entry}/happened', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@markHappened');
