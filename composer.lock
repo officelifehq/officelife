@@ -2640,16 +2640,16 @@
         },
         {
             "name": "laravel/socialite",
-            "version": "v5.2.4",
+            "version": "v5.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "59e2f8d9d9663029c7746a92d60bbb7697953bb9"
+                "reference": "fd0f6a3dd963ca480b598649b54f92d81a43617f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/59e2f8d9d9663029c7746a92d60bbb7697953bb9",
-                "reference": "59e2f8d9d9663029c7746a92d60bbb7697953bb9",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/fd0f6a3dd963ca480b598649b54f92d81a43617f",
+                "reference": "fd0f6a3dd963ca480b598649b54f92d81a43617f",
                 "shasum": ""
             },
             "require": {
@@ -2705,7 +2705,7 @@
                 "issues": "https://github.com/laravel/socialite/issues",
                 "source": "https://github.com/laravel/socialite"
             },
-            "time": "2021-08-10T17:44:52+00:00"
+            "time": "2021-08-31T15:16:26+00:00"
         },
         {
             "name": "laravel/tinker",
