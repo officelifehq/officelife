@@ -49,7 +49,7 @@ class DashboardMeController extends Controller
             'workFromHome' => DashboardMeViewHelper::workFromHome($employee),
             'question' => DashboardMeViewHelper::question($employee),
             'jobOpeningsAsSponsor' => DashboardMeViewHelper::jobOpeningsAsSponsor($company, $employee),
-            'jobOpeningsAsParticipant' => DashboardMeViewHelper::jobOpeningsAsParticipant($company, $employee),
+            'jobOpeningsAsParticipant' => DashboardMeViewHelper::jobOpeningsAsParticipant($employee),
         ]);
     }
 }

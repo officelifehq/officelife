@@ -537,7 +537,9 @@ class DashboardMeViewHelper
 
             $jobOpeningsCollection->push([
                 'id' => $jobOpening->id,
+                'candidate_stage_id' => $stage->candidate_stage_id,
                 'title' => $jobOpening->title,
+                'participated' => false,
                 'candidate' => [
                     'id' => $stage->candidateStage->candidate->id,
                     'name' => $stage->candidateStage->candidate->name,

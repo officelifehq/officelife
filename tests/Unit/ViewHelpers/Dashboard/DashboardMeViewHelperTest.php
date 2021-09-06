@@ -623,6 +623,8 @@ class DashboardMeViewHelperTest extends TestCase
                 0 => [
                     'id' => $jobOpening->id,
                     'title' => $jobOpening->title,
+                    'candidate_stage_id' => $stage->id,
+                    'participated' => false,
                     'candidate' => [
                         'id' => $michael->id,
                         'name' => $michael->name,

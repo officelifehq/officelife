@@ -14,12 +14,13 @@ class DashboardMeRecruitingController extends Controller
      * Add a note as a participant of a recruiting process.
      *
      * @param Request $request
+     * @param int $companyId
      * @param int $jobOpeningId
      * @param int $candidateId
      * @param int $candidateStageId
      * @return JsonResponse
      */
-    public function store(Request $request, int $jobOpeningId, int $candidateId, int $candidateStageId): JsonResponse
+    public function store(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $candidateStageId): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
@@ -30,7 +31,7 @@ class DashboardMeRecruitingController extends Controller
             'job_opening_id' => $jobOpeningId,
             'candidate_id' => $candidateId,
             'candidate_stage_id' => $candidateStageId,
-            'currency' => $request->input('note'),
+            'note' => $request->input('note'),
         ];
 
         (new CreateCandidateStageNote)->execute($data);

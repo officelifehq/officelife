@@ -314,4 +314,9 @@ return [
     'job_opening_stage_notes_success' => 'The note has been added.',
     'job_opening_edit_title' => 'Edit job opening',
     'job_opening_edit_success' => 'The job opening has been edited.',
+    'participant_dashboard_job_opening_title' => 'Recruiting',
+    'participant_dashboard_job_opening_desc' => 'You have been asked to help in the recruiting process of the candidates below.',
+    'participant_dashboard_job_opening_thanks' => 'Thanks!',
+    'participant_dashboard_job_opening_note' => 'Your feedback will be read by everyone involved in the recruiting process, except the candidate.',
+    'participant_dashboard_job_opening_success' => 'The note has been saved.',
 ];

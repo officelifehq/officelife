@@ -107,7 +107,10 @@ class CreateCandidateStageNote extends BaseService
             DB::table('candidate_stage_participants')
                 ->where('participant_id', $this->data['author_id'])
                 ->where('candidate_stage_id', $this->data['candidate_stage_id'])
-                ->update(['participated' => true]);
+                ->update([
+                    'participated' => true,
+                    'participated_at' => Carbon::now(),
+                ]);
         }
     }
 
