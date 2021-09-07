@@ -27,10 +27,12 @@
         :e-coffee="eCoffee"
       />
 
-      <job-openings-as-participant
-        v-if="jobOpeningsAsParticipant.length > 0"
-        :job-openings="jobOpeningsAsParticipant"
-      />
+      <div v-if="jobOpeningsAsParticipant">
+        <job-openings-as-participant
+          v-if="jobOpeningsAsParticipant.length > 0"
+          :job-openings="jobOpeningsAsParticipant"
+        />
+      </div>
 
       <job-openings-as-sponsor
         v-if="jobOpeningsAsSponsor.length > 0"
