@@ -30,41 +30,63 @@
 
 ## What is OfficeLife
 
+<img src="docs/img/company.png" alt="OfficeLife company" title="OfficeLife" />
+
 If a company wants to have a complete 360 view of what’s happening inside its walls, it needs to buy and configure a lot of tools. There is a tool for every specific aspect of a company: HR, project management, time tracking, holidays and time offs, team management, One on Ones,... There isn't a software available today, that combine all of them together in a simple way.
 
 Not only buying and configuring all those software is a time-consuming process, but it also costs a lot of money - especially for smaller companies with a limited budget. Moreover, most of the SAAS out there have a let's-call-us-and-talk-for-an-hour-before-you-can-see-what-the-pricing-will-look-like-for-you policy, which most people hate and that we refuse to follow.
 
-OfficeLife is born to offer a solution to these problems.
+We've created OfficeLife to provide a single source of truth for everything an employee does.
 
-OfficeLife has the following features:
+OfficeLife has the following features, in 5 major domains:
 
-* Applicant tracking system (coming soon)
-* Onboarding / offboarding (coming soon)
-* Employee management
-* Team management
-* Company management
-* Time tracking
-* PTOs (ie holidays and time offs) (coming soon)
-* Expenses management
-* Hardware and software licenses
-* Project management
-* Work logs
-* Recent ships
-* Team and company news
-* Get to know your colleagues
-* Wikis
-* Employee and team morale
-* One on Ones
-* Rate your manager
-* Skills
-* Objectives Key Results (OKR) (coming soon)
-* e-Coffees
+* Recruit
+   * Applicant tracking system
+   * Onboarding / offboarding (coming soon)
 
-<img src="docs/img/company.png" alt="OfficeLife company" title="OfficeLife" />
+* Manage
+    * Employee management
+    * Team management
+    * Company management
+
+* Operate
+    * Time tracking
+    * PTOs (ie holidays and time offs) (coming soon)
+    * Expenses management
+    * Hardware and software licenses
+    * Project management
+
+* Communicate
+    * Work logs
+    * Recent ships
+    * Team and company news
+    * Get to know your colleagues
+    * Wikis
+
+* Grow
+    Employee and team morale
+    * One on Ones
+    * Rate your manager
+    * Skills
+    * Objectives Key Results (OKR) (coming soon)
+    * e-Coffees
 
 <img src="docs/img/profile.png" alt="OfficeLife company" title="OfficeLife" />
 
 To have more information about the project, check the documentation: https://docs.officelife.io/documentation/introduction.html#what-is-officelife
+
+## Who is it for?
+
+OfficeLife is aimed at small and medium size businesses, ranging from 10 to 500 employees. It's not suited for smaller teams, because it's collaborative. Also, it's not meant for huge companies as those companies usually have enough resources to manage a lot of different dedicated, specialized softwares.
+
+OfficeLife is for companies that want one tool, simple enough for everybody, and hackable so it can fit your custom needs.
+
+## Get started
+
+OfficeLife is open source, but it comes in several flavors so it fits everyone needs:
+
+1. Use our hosted version. It's the same version that you will find here on GitHub (exactly the same).
+2. Host the software yourself. We provide ample instructions on [our documentation portal](https://docs.officelife.io/documentation/installation.html#which-version-of-officelife-should-you-use).
 
 ## Requirements for hosting the software
 
@@ -80,9 +102,9 @@ To have more information about the project, check the documentation: https://doc
 - Node and Yarn,
 - A knowledge of how [Laravel](https://laravel.com), [VueJS](https://vuejs.org/) and [InertiaJS](https://inertiajs.com/) work. OfficeLife is a complex Laravel application, with a lot of queues and cron jobs.
 
-## State of the project (as of April 10th, 2021)
+## State of the project (as of September 06th, 2021)
 
-We are not yet ready for production. We've been developing this project for more than 2 years now and we are close to launch a beta version. We expect to launch during the summer (sooner if possible, but... life happens).
+The project is in beta right now, accessible from https://beta.officelife.io. The software might have some bugs that we are fixing as we find them.
 
 * If you find any bugs, please file them by [creating a new issue](https://github.com/officelifehq/officelife/issues).
 * Please don't submit new big ideas for now. We want to do a million other things with OfficeLife already. However, we seek feedback on the current features and how we could make them more useful.
