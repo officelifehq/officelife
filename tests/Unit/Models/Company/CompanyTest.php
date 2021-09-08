@@ -10,6 +10,7 @@ use App\Models\Company\Team;
 use App\Models\Company\Wiki;
 use App\Models\Company\Group;
 use App\Models\Company\Skill;
+use App\Models\Company\Comment;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
@@ -345,6 +346,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->candidates()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_comments(): void
+    {
+        $company = Company::factory()->create();
+        Comment::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->comments()->exists());
     }
 
     /** @test */

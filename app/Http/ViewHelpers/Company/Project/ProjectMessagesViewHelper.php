@@ -4,7 +4,6 @@ namespace App\Http\ViewHelpers\Company\Project;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
-use Illuminate\Support\Str;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Project;
@@ -28,7 +27,8 @@ class ProjectMessagesViewHelper
         $messages = $project->messages()
             ->select('id', 'title', 'content', 'created_at', 'author_id')
             ->with('author')
-            ->orderBy('id')
+            ->with('comments')
+            ->orderBy('id', 'desc')
             ->get();
 
         $messageReadStatuses = DB::table('project_message_read_status')
@@ -44,12 +44,14 @@ class ProjectMessagesViewHelper
 
             $author = $message->author;
 
+            $commentCount = $message->comments->count();
+
             $messagesCollection->push([
                 'id' => $message->id,
                 'title' => $message->title,
-                'content' => Str::words($message->content, 10, '...'),
                 'read_status' => $readStatus,
                 'written_at' => $message->created_at->diffForHumans(),
+                'comment_count' => $commentCount,
                 'url' => route('projects.messages.show', [
                     'company' => $company,
                     'project' => $project,
