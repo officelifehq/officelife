@@ -77,7 +77,7 @@
                 </p>
                 <ul class="list pl0 mt0 mb0 f6 gray">
                   <li class="di mr2 f7 gray">{{ message.written_at }}</li>
-                  <li class="di f7 gray">{{ message.comment_count }} comment</li>
+                  <li class="di f7 gray">{{ $tc('project.message_index_comment', message.comment_count, {count: message.comment_count}) }}</li>
                 </ul>
               </div>
 

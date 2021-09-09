@@ -92,6 +92,37 @@ class ProjectMessagesViewHelper
                 ->first();
         }
 
+        // get comments
+        $comments = $projectMessage->comments()->orderBy('created_at', 'asc')->get();
+        $commentsCollection = collect([]);
+        foreach ($comments as $comment) {
+            $canDoActionsAgainstComment = false;
+
+            if ($comment->author_id == $employee->id) {
+                $canDoActionsAgainstComment = true;
+            }
+            if ($employee->permission_level <= config('officelife.permission_level.hr')) {
+                $canDoActionsAgainstComment = true;
+            }
+
+            $commentsCollection->push([
+                'id' => $comment->id,
+                'content' => StringHelper::parse($comment->content),
+                'written_at' => DateHelper::formatShortDateWithTime($comment->created_at),
+                'author' => $comment->author ? [
+                    'id' => $comment->author->id,
+                    'name' => $comment->author->name,
+                    'avatar' => ImageHelper::getAvatar($comment->author, 32),
+                    'url' => route('employees.show', [
+                        'company' => $projectMessage->project->company_id,
+                        'employee' => $comment->author,
+                    ]),
+                ] : $comment->author_name,
+                'can_edit' => $canDoActionsAgainstComment,
+                'can_delete' => $canDoActionsAgainstComment,
+            ]);
+        }
+
         return [
             'id' => $projectMessage->id,
             'title' => $projectMessage->title,
@@ -119,6 +150,7 @@ class ProjectMessagesViewHelper
                     'employee' => $author,
                 ]),
             ] : null,
+            'comments' => $commentsCollection,
         ];
     }
 

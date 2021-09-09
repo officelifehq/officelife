@@ -86,35 +86,77 @@ class ProjectMessagesViewHelperTest extends TestCase
             'project_id' => $project->id,
             'author_id' => $michael->id,
         ]);
+        $comment = Comment::factory()->create();
+        $projectMessage->comments()->save($comment);
 
         $array = ProjectMessagesViewHelper::show($projectMessage, $michael);
         $this->assertEquals(
+            $projectMessage->id,
+            $array['id']
+        );
+        $this->assertEquals(
+            $projectMessage->title,
+            $array['title']
+        );
+        $this->assertEquals(
+            $projectMessage->content,
+            $array['content']
+        );
+        $this->assertEquals(
+            StringHelper::parse($projectMessage->content),
+            $array['parsed_content']
+        );
+        $this->assertEquals(
+            DateHelper::formatDate($projectMessage->created_at),
+            $array['written_at']
+        );
+        $this->assertEquals(
+            $projectMessage->created_at->diffForHumans(),
+            $array['written_at_human']
+        );
+        $this->assertEquals(
+            route('projects.messages.edit', [
+                'company' => $projectMessage->project->company_id,
+                'project' => $projectMessage->project,
+                'message' => $projectMessage,
+            ]),
+            $array['url_edit']
+        );
+        $this->assertEquals(
             [
-                'id' => $projectMessage->id,
-                'title' => $projectMessage->title,
-                'content' => $projectMessage->content,
-                'parsed_content' => StringHelper::parse($projectMessage->content),
-                'written_at' => DateHelper::formatDate($projectMessage->created_at),
-                'written_at_human' => $projectMessage->created_at->diffForHumans(),
-                'url_edit' => route('projects.messages.edit', [
-                    'company' => $projectMessage->project->company_id,
-                    'project' => $projectMessage->project,
-                    'message' => $projectMessage,
-                ]),
-                'author' => [
-                    'id' => $michael->id,
-                    'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael),
-                    'role' => null,
-                    'added_at' => null,
-                    'position' => [
-                        'id' => $michael->position->id,
-                        'title' => $michael->position->title,
+                'id' => $michael->id,
+                'name' => $michael->name,
+                'avatar' => ImageHelper::getAvatar($michael),
+                'role' => null,
+                'added_at' => null,
+                'position' => [
+                    'id' => $michael->position->id,
+                    'title' => $michael->position->title,
+                ],
+                'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+            ],
+            $array['author']
+        );
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $comment->id,
+                    'content' => StringHelper::parse($comment->content),
+                    'written_at' => DateHelper::formatShortDateWithTime($comment->created_at),
+                    'author' => [
+                        'id' => $comment->author->id,
+                        'name' => $comment->author->name,
+                        'avatar' => ImageHelper::getAvatar($comment->author, 32),
+                        'url' => route('employees.show', [
+                            'company' => $projectMessage->project->company_id,
+                            'employee' => $comment->author,
+                        ]),
                     ],
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                    'can_edit' => true,
+                    'can_delete' => true,
                 ],
             ],
-            $array
+            $array['comments']->toArray()
         );
     }
 }

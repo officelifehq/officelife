@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Company\Company\Project;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
+use App\Helpers\StringHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
 use Illuminate\Http\JsonResponse;
@@ -17,6 +20,7 @@ use App\Services\Company\Project\DestroyProjectMessage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Project\MarkProjectMessageasRead;
 use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
+use App\Services\Company\Project\CreateProjectMessageComment;
 use App\Http\ViewHelpers\Company\Project\ProjectMessagesViewHelper;
 
 class ProjectMessagesController extends Controller
@@ -248,6 +252,49 @@ class ProjectMessagesController extends Controller
 
         return response()->json([
             'data' => true,
+        ], 201);
+    }
+
+    /**
+     * Create the message's comment.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @param int $projectMessageId
+     *
+     * @return JsonResponse
+     */
+    public function storeComment(Request $request, int $companyId, int $projectId, int $projectMessageId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        $data = [
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $projectId,
+            'project_message_id' => $projectMessageId,
+            'content' => $request->input('comment'),
+        ];
+
+        $comment = (new CreateProjectMessageComment)->execute($data);
+
+        return response()->json([
+            'data' => [
+                'id' => $comment->id,
+                'content' => StringHelper::parse($comment->content),
+                'written_at' => DateHelper::formatShortDateWithTime($comment->created_at),
+                'author' => [
+                    'id' => $loggedEmployee->id,
+                    'name' => $loggedEmployee->name,
+                    'avatar' => ImageHelper::getAvatar($loggedEmployee, 32),
+                    'url' => route('employees.show', [
+                        'company' => $loggedCompany,
+                        'employee' => $loggedEmployee,
+                    ]),
+                ],
+            ],
         ], 201);
     }
 }

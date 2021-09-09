@@ -327,6 +327,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
                 // project messages
                 Route::resource('{project}/messages', 'Company\\Company\\Project\\ProjectMessagesController', ['as' => 'projects']);
+                Route::post('{project}/messages/{message}/comments', 'Company\\Company\\Project\\ProjectMessagesController@storeComment');
 
                 // project tasks
                 Route::resource('{project}/tasks', 'Company\\Company\\Project\\ProjectTasksController', ['as' => 'projects']);
