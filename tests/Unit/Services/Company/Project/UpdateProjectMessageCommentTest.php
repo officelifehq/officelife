@@ -151,7 +151,7 @@ class UpdateProjectMessageCommentTest extends TestCase
         $comment = (new UpdateProjectMessageComment)->execute($request);
 
         $this->assertDatabaseHas('comments', [
-            'id' => $projectMessage->id,
+            'id' => $comment->id,
             'author_id' => $michael->id,
             'commentable_id' => $projectMessage->id,
             'content' => 'content',
