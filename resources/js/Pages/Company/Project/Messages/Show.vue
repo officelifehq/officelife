@@ -58,7 +58,7 @@
               </div>
 
               <!-- comment box -->
-              <div class="box bg-white mb4 w-100">
+              <div v-if="idToEdit != comment.id" class="box bg-white mb4 w-100">
                 <!-- comment -->
                 <div class="bb bb-gray ph3" v-html="comment.content"></div>
 
@@ -70,15 +70,46 @@
 
                     <!-- edit -->
                     <li v-if="comment.can_edit" class="di ml2">
-                      <a class="bb b--dotted bt-0 bl-0 br-0 pointer">{{ $t('app.edit') }}</a>
+                      <a class="bb b--dotted bt-0 bl-0 br-0 pointer" @click="showEdit(comment)">{{ $t('app.edit') }}</a>
                     </li>
 
                     <!-- delete -->
-                    <li v-if="comment.can_delete" class="di ml2">
-                      <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete">{{ $t('app.delete') }}</a>
+                    <li v-if="idToDelete == comment.id" class="di ml2">
+                      {{ $t('app.sure') }}
+                      <a class="c-delete mr1 pointer" :data-cy="'delete-confirm-button'" @click.prevent="destroyComment(comment)">
+                        {{ $t('app.yes') }}
+                      </a>
+                      <a class="pointer" :data-cy="'delete-cancel-button'" @click.prevent="idToDelete = 0">
+                        {{ $t('app.no') }}
+                      </a>
+                    </li>
+                    <li v-if="comment.can_delete && idToDelete != comment.id" class="di ml2">
+                      <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'delete-button'" @click.prevent="idToDelete = comment.id">
+                        {{ $t('app.delete') }}
+                      </a>
                     </li>
                   </ul>
                 </div>
+              </div>
+
+              <!-- edit comment modal -->
+              <div v-else class="box bg-white mb4 w-100">
+                <form class="pa3" @submit.prevent="updateComment(comment)">
+                  <text-area
+                    :ref="'comment' + comment.id"
+                    v-model="form.commentEdit"
+                    :label="$t('project.message_comment_label')"
+                    :required="true"
+                    :rows="4"
+                    @esc-key-pressed="hideEdit()"
+                  />
+
+                  <!-- actions -->
+                  <div class="flex justify-between">
+                    <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click="idToEdit = 0">{{ $t('app.cancel') }}</a>
+                    <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingStateEdit" :text="$t('app.post')" />
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -212,11 +243,15 @@ export default {
 
   data() {
     return {
+      idToEdit: 0,
+      idToDelete: 0,
       localComments: null,
       removalConfirmation: false,
       loadingState: null,
+      loadingStateEdit: null,
       form: {
         comment: null,
+        commentEdit: null,
         errors: [],
       },
     };
@@ -234,6 +269,19 @@ export default {
   },
 
   methods: {
+    showEdit(comment) {
+      this.form.commentEdit = comment.content_raw;
+      this.idToEdit = comment.id;
+
+      this.$nextTick(() => {
+        this.$refs[`comment${comment.id}`].focus();
+      });
+    },
+
+    hideEdit() {
+      this.idToEdit = 0;
+    },
+
     destroy() {
       axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/messages/${this.message.id}`)
         .then(response => {
@@ -257,6 +305,33 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    updateComment(comment) {
+      this.loadingStateEdit = 'loading';
+
+      axios.put(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/messages/${this.message.id}/comments/${comment.id}`, this.form)
+        .then(response => {
+          this.flash(this.$t('project.message_comment_written_success'), 'success');
+          this.localComments[this.localComments.findIndex(x => x.id === comment.id)] = response.data.data;
+          this.idToEdit = 0;
+          this.loadingStateEdit = null;
+          this.form.comment = null;
+        })
+        .catch(error => {
+          this.loadingStateEdit = null;
+        });
+    },
+
+    destroyComment(comment) {
+      axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/messages/${this.message.id}/comments/${comment.id}`)
+        .then(response => {
+          this.localComments.splice(this.localComments.findIndex(i => i.id === comment.id), 1);
+          this.flash(this.$t('project.message_comment_delete_success'), 'success');
+        })
+        .catch(error => {
           this.form.errors = error.response.data;
         });
     }

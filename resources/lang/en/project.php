@@ -113,6 +113,7 @@ return [
     'message_comment_written_by' => 'Written by <a href="{url}">{name}</a> on {date}',
     'message_comment_written_by_anonymous' => 'Written by {name} on {date}',
     'message_comment_written_success' => 'The comment has been saved.',
+    'message_comment_delete_success' => 'The comment has been deleted.',
     'task_title' => 'All the tasks in this project',
     'task_default_task_list' => 'General list',
     'task_list_cta' => 'Create a task list',

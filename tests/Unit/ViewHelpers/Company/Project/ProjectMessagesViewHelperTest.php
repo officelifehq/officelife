@@ -142,6 +142,7 @@ class ProjectMessagesViewHelperTest extends TestCase
                 0 => [
                     'id' => $comment->id,
                     'content' => StringHelper::parse($comment->content),
+                    'content_raw' => $comment->content,
                     'written_at' => DateHelper::formatShortDateWithTime($comment->created_at),
                     'author' => [
                         'id' => $comment->author->id,
