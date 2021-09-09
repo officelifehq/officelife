@@ -286,6 +286,7 @@ class ProjectMessagesController extends Controller
             'data' => [
                 'id' => $comment->id,
                 'content' => StringHelper::parse($comment->content),
+                'content_raw' => $comment->content,
                 'written_at' => DateHelper::formatShortDateWithTime($comment->created_at),
                 'author' => [
                     'id' => $loggedEmployee->id,
@@ -333,6 +334,7 @@ class ProjectMessagesController extends Controller
             'data' => [
                 'id' => $comment->id,
                 'content' => StringHelper::parse($comment->content),
+                'content_raw' => $comment->content,
                 'written_at' => DateHelper::formatShortDateWithTime($comment->created_at),
                 'author' => [
                     'id' => $loggedEmployee->id,
