@@ -109,7 +109,7 @@ class CreateProjectMessageCommentTest extends TestCase
         $comment = (new CreateProjectMessageComment)->execute($request);
 
         $this->assertDatabaseHas('comments', [
-            'id' => $projectMessage->id,
+            'id' => $comment->id,
             'author_id' => $michael->id,
             'author_name' => $michael->name,
             'commentable_id' => $projectMessage->id,
