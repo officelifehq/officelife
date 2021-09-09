@@ -1510,6 +1510,13 @@ class LogHelper
                 ]);
                 break;
 
+            case 'project_message_comment_updated':
+                $sentence = trans('account.log_project_message_comment_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
