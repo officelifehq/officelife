@@ -75,6 +75,11 @@ class UpdateAskMeAnythingSessionTest extends TestCase
 
         $ama = (new UpdateAskMeAnythingSession)->execute($request);
 
+        $this->assertInstanceOf(
+            AskMeAnythingSession::class,
+            $ama
+        );
+
         $this->assertDatabaseHas('ask_me_anything_sessions', [
             'id' => $ama->id,
             'theme' => 'theme',

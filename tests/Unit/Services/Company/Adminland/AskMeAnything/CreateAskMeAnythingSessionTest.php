@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
+use App\Models\Company\AskMeAnythingSession;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -63,6 +64,11 @@ class CreateAskMeAnythingSessionTest extends TestCase
         ];
 
         $ama = (new CreateAskMeAnythingSession)->execute($request);
+
+        $this->assertInstanceOf(
+            AskMeAnythingSession::class,
+            $ama
+        );
 
         $this->assertDatabaseHas('ask_me_anything_sessions', [
             'id' => $ama->id,
