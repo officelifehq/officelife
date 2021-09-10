@@ -1503,6 +1503,13 @@ class LogHelper
                 ]);
                 break;
 
+            case 'ask_me_anything_session_created':
+                $sentence = trans('account.log_ask_me_anything_session_created', [
+                    'ask_me_anything_session_id' => $log->object->{'ask_me_anything_session_id'},
+                    'ask_me_anything_session_theme' => $log->object->{'ask_me_anything_session_theme'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
