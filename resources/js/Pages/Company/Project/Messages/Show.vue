@@ -4,28 +4,6 @@
   top: 5px;
   width: 35px;
 }
-
-.comment-avatar {
-  width: 50px;
-}
-
-.team-member {
-  padding-left: 44px;
-
-  .avatar {
-    top: 2px;
-  }
-}
-
-.icon-date {
-  width: 15px;
-  top: 2px;
-}
-
-.icon-role {
-  width: 15px;
-  top: 2px;
-}
 </style>
 
 <template>
@@ -52,11 +30,17 @@
 
         <!-- LEFT COLUMN -->
         <div class="fl w-70-l w-100">
+          <!-- message content -->
           <div class="bg-white box mb4">
             <div class="pa3 pb3" data-cy="project-content">
               <div class="parsed-content" v-html="message.parsed_content"></div>
             </div>
           </div>
+
+          <comments
+            :comments="message.comments"
+            :post-url="`/${$page.props.auth.company.id}/company/projects/${project.id}/messages/${message.id}/comments/`"
+          />
         </div>
 
         <!-- RIGHT COLUMN -->
@@ -135,6 +119,7 @@
 import Layout from '@/Shared/Layout';
 import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
+import Comments from '@/Shared/Comments';
 import Avatar from '@/Shared/Avatar';
 
 export default {
@@ -143,6 +128,7 @@ export default {
     Breadcrumb,
     ProjectMenu,
     Avatar,
+    Comments,
   },
 
   props: {
@@ -167,10 +153,6 @@ export default {
   data() {
     return {
       removalConfirmation: false,
-      form: {
-        comment: null,
-        errors: [],
-      },
     };
   },
 

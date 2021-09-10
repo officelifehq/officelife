@@ -16,6 +16,7 @@ use App\Models\Company\Place;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
 use App\Models\Company\Morale;
+use App\Models\Company\Comment;
 use App\Models\Company\Company;
 use App\Models\Company\Expense;
 use App\Models\Company\Meeting;
@@ -730,6 +731,17 @@ class EmployeeTest extends TestCase
             3,
             $dwight->getListOfDirectReports()->count()
         );
+    }
+
+    /** @test */
+    public function it_has_many_comments(): void
+    {
+        $author = Employee::factory()->create();
+        Comment::factory()->create([
+            'author_id' => $author->id,
+        ]);
+
+        $this->assertTrue($author->comments()->exists());
     }
 
     /** @test */

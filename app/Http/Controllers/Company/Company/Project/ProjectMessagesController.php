@@ -248,6 +248,6 @@ class ProjectMessagesController extends Controller
 
         return response()->json([
             'data' => true,
-        ], 201);
+        ], 200);
     }
 }
