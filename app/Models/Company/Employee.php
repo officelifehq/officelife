@@ -593,6 +593,16 @@ class Employee extends Model
     }
 
     /**
+     * Get all of the comments written by the employee.
+     *
+     * @return hasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'author_id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query

@@ -4,6 +4,7 @@ namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProjectMessage extends Model
@@ -30,7 +31,7 @@ class ProjectMessage extends Model
     ];
 
     /**
-     * Get the project decision record associated with the project decision decision.
+     * Get the project record associated with the project message.
      *
      * @return BelongsTo
      */
@@ -40,12 +41,22 @@ class ProjectMessage extends Model
     }
 
     /**
-     * Get the employee record associated with the project decision.
+     * Get the employee record associated with the project message.
      *
      * @return BelongsTo
      */
     public function author()
     {
         return $this->belongsTo(Employee::class, 'author_id');
+    }
+
+    /**
+     * Get all of the comments associated with the project message.
+     *
+     * @return MorphMany
+     */
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

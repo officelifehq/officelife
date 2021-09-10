@@ -346,6 +346,16 @@ class Company extends Model
     }
 
     /**
+     * Get all of the comments made in the company.
+     *
+     * @return HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
      * @return object|null

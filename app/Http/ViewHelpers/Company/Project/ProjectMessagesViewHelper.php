@@ -4,7 +4,6 @@ namespace App\Http\ViewHelpers\Company\Project;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
-use Illuminate\Support\Str;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Project;
@@ -28,7 +27,8 @@ class ProjectMessagesViewHelper
         $messages = $project->messages()
             ->select('id', 'title', 'content', 'created_at', 'author_id')
             ->with('author')
-            ->orderBy('id')
+            ->with('comments')
+            ->orderBy('id', 'desc')
             ->get();
 
         $messageReadStatuses = DB::table('project_message_read_status')
@@ -44,12 +44,14 @@ class ProjectMessagesViewHelper
 
             $author = $message->author;
 
+            $commentCount = $message->comments->count();
+
             $messagesCollection->push([
                 'id' => $message->id,
                 'title' => $message->title,
-                'content' => Str::words($message->content, 10, '...'),
                 'read_status' => $readStatus,
                 'written_at' => $message->created_at->diffForHumans(),
+                'comment_count' => $commentCount,
                 'url' => route('projects.messages.show', [
                     'company' => $company,
                     'project' => $project,
@@ -90,6 +92,38 @@ class ProjectMessagesViewHelper
                 ->first();
         }
 
+        // get comments
+        $comments = $projectMessage->comments()->orderBy('created_at', 'asc')->get();
+        $commentsCollection = collect([]);
+        foreach ($comments as $comment) {
+            $canDoActionsAgainstComment = false;
+
+            if ($comment->author_id == $employee->id) {
+                $canDoActionsAgainstComment = true;
+            }
+            if ($employee->permission_level <= config('officelife.permission_level.hr')) {
+                $canDoActionsAgainstComment = true;
+            }
+
+            $commentsCollection->push([
+                'id' => $comment->id,
+                'content' => StringHelper::parse($comment->content),
+                'content_raw' => $comment->content,
+                'written_at' => DateHelper::formatShortDateWithTime($comment->created_at),
+                'author' => $comment->author ? [
+                    'id' => $comment->author->id,
+                    'name' => $comment->author->name,
+                    'avatar' => ImageHelper::getAvatar($comment->author, 32),
+                    'url' => route('employees.show', [
+                        'company' => $projectMessage->project->company_id,
+                        'employee' => $comment->author,
+                    ]),
+                ] : $comment->author_name,
+                'can_edit' => $canDoActionsAgainstComment,
+                'can_delete' => $canDoActionsAgainstComment,
+            ]);
+        }
+
         return [
             'id' => $projectMessage->id,
             'title' => $projectMessage->title,
@@ -117,6 +151,7 @@ class ProjectMessagesViewHelper
                     'employee' => $author,
                 ]),
             ] : null,
+            'comments' => $commentsCollection,
         ];
     }
 

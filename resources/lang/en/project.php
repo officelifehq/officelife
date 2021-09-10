@@ -94,6 +94,7 @@ return [
     'message_title' => 'Messages',
     'message_blank' => 'Messages are essential to make announcements, give feedback, ask questions and have a central point of documentation in the project.',
     'message_cta' => 'Write a message',
+    'message_index_comment' => '{count} comment|{count} comments',
     'message_show_written_by' => 'Written by',
     'message_show_written_on' => 'Written on',
     'message_show_actions' => 'Actions',
