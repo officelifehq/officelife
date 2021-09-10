@@ -46,8 +46,7 @@ return [
     'message_comment_written_success' => 'The comment has been saved.',
     'message_comment_delete_success' => 'The comment has been deleted.',
     'message_comment_label' => 'Post a comment',
-    'message_comment_written_by' => 'Written by <a href="{url}">{name}</a> on {date}',
-    'message_comment_written_by_anonymous' => 'Written by {name} on {date}',
+    'message_comment_written_by' => 'Written by:',
 
     'error_title' => '👇 Oops. An error occured.',
     'error_not_same_company' => 'This item does not belong to this company.',

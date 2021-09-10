@@ -30,8 +30,8 @@
           <!-- comment info -->
           <div class="bg-gray ph3 pv2 f7 box-bottom">
             <ul class="ma0 list pl0">
-              <li v-if="comment.author.id" class="di" v-html="$t('app.message_comment_written_by', { url: comment.author.url, name: comment.author.name, date: comment.written_at })"></li>
-              <li v-else class="di">{{ $t('app.message_comment_written_by_anonymous', { name: comment.author, date: comment.written_at }) }}</li>
+              <li v-if="comment.author.id" class="di">{{ $t('app.message_comment_written_by') }} <inertia-link :href="comment.author.url">{{ comment.author.name }}</inertia-link> <span class="gray">({{ comment.written_at }})</span></li>
+              <li v-else class="di">{{ $t('app.message_comment_written_by') }} comment.author <span class="gray">({{ comment.written_at }})</span>()</li>
 
               <!-- edit -->
               <li v-if="comment.can_edit" class="di ml2">
