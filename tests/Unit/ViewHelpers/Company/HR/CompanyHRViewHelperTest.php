@@ -10,6 +10,8 @@ use App\Models\Company\ECoffee;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\ECoffeeMatch;
+use App\Models\Company\AskMeAnythingSession;
+use App\Models\Company\AskMeAnythingQuestion;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Company\HR\CompanyHRViewHelper;
 
@@ -189,6 +191,33 @@ class CompanyHRViewHelperTest extends TestCase
                     'percent' => 33,
                     'url' => env('APP_URL') . '/' . $company->id . '/company/hr/positions/' . $positionB->id,
                 ],
+            ],
+            $array
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_upcoming_ask_me_anything_session(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $company = Company::factory()->create();
+
+        $ama = AskMeAnythingSession::factory()->create([
+            'company_id' => $company->id,
+            'theme' => 'theme',
+            'happened_at' => Carbon::now()->addDay(),
+        ]);
+        AskMeAnythingQuestion::factory()->count(2)->create([
+            'ask_me_anything_session_id' => $ama->id,
+        ]);
+
+        $array = CompanyHRViewHelper::askMeAnythingUpcomingSession($company);
+
+        $this->assertEquals(
+            [
+                'happened_at' => 'Tuesday, Jan 2nd 2018',
+                'theme' => 'theme',
+                'questions_count' => 2,
             ],
             $array
         );

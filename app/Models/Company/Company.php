@@ -346,6 +346,16 @@ class Company extends Model
     }
 
     /**
+     * Get all sessions in the company.
+     *
+     * @return HasMany
+     */
+    public function askMeAnythingSessions()
+    {
+        return $this->hasMany(AskMeAnythingSession::class);
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
      * @return object|null

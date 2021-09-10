@@ -2,6 +2,8 @@
 
 namespace App\Http\ViewHelpers\Company\HR;
 
+use Carbon\Carbon;
+use App\Helpers\DateHelper;
 use App\Models\User\Pronoun;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
@@ -9,6 +11,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\Models\Company\AskMeAnythingSession;
 
 class CompanyHRViewHelper
 {
@@ -181,5 +184,25 @@ class CompanyHRViewHelper
         }
 
         return $positionsCollection->sortByDesc('number_of_employees')->values()->all();
+    }
+
+    /**
+     * Get the upcoming Ask My Anything Session in the company.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function askMeAnythingUpcomingSession(Company $company): array
+    {
+        $upcomingSession = AskMeAnythingSession::where('company_id', $company->id)
+            ->where('happened_at', '>=', Carbon::now()->endOfDay())
+            ->with('questions')
+            ->first();
+
+        return [
+            'happened_at' => DateHelper::formatFullDate($upcomingSession->happened_at),
+            'theme' => $upcomingSession->theme,
+            'questions_count' => $upcomingSession->questions->count(),
+        ];
     }
 }
