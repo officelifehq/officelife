@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Company\Adminland\Position;
+namespace App\Services\Company\Adminland\AskMeAnything;
 
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
@@ -9,6 +9,7 @@ use App\Models\Company\AskMeAnythingSession;
 
 class CreateAskMeAnythingSession extends BaseService
 {
+    private array $data;
     private AskMeAnythingSession $session;
 
     /**
@@ -54,9 +55,10 @@ class CreateAskMeAnythingSession extends BaseService
 
     private function createSession(): void
     {
-        $this->group = AskMeAnythingSession::create([
+        $this->session = AskMeAnythingSession::create([
             'company_id' => $this->data['company_id'],
             'happened_at' => $this->data['date'],
+            'theme' => $this->valueOrNull($this->data, 'theme'),
         ]);
     }
 
@@ -70,7 +72,6 @@ class CreateAskMeAnythingSession extends BaseService
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'ask_me_anything_session_id' => $this->session->id,
-                'ask_me_anything_session_theme' => $this->session->theme,
             ]),
         ])->onQueue('low');
     }
