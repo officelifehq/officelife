@@ -401,6 +401,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                     Route::delete('ask-me-anything/{session}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@destroy');
                 });
                 Route::get('ask-me-anything/{session}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@show')->name('hr.ama.show');
+                Route::get('ask-me-anything/{session}/answered', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@show')->name('hr.ama.show.answered');
             });
 
             // Knowledge base

@@ -78,9 +78,10 @@ class CompanyHRAskMeAnythingViewHelper
      *
      * @param Company $company
      * @param AskMeAnythingSession $session
+     * @param Employee $employee
      * @return array
      */
-    public static function show(Company $company, AskMeAnythingSession $session): array
+    public static function show(Company $company, AskMeAnythingSession $session, Employee $employee): array
     {
         $questionsCollection = collect();
         foreach ($session->questions as $question) {
@@ -112,6 +113,20 @@ class CompanyHRAskMeAnythingViewHelper
             'theme' => $session->theme,
             'happened_at' => DateHelper::formatDate($session->happened_at),
             'questions' => $questionsCollection,
+            'permissions' => [
+                'can_mark_answered' => $employee->permission_level <= config('officelife.permission_level.hr'),
+                'can_edit' => $employee->permission_level <= config('officelife.permission_level.hr'),
+            ],
+            'url' => [
+                'unanswered_tab' => route('hr.ama.show', [
+                    'company' => $company->id,
+                    'session' => $session->id,
+                ]),
+                'answered_tab' => route('hr.ama.show.answered', [
+                    'company' => $company->id,
+                    'session' => $session->id,
+                ]),
+            ],
         ];
     }
 }

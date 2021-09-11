@@ -112,10 +112,11 @@ class CompanyHRAskMeAnythingController extends Controller
             return redirect('home');
         }
 
-        $data = CompanyHRAskMeAnythingViewHelper::show($company, $session);
+        $data = CompanyHRAskMeAnythingViewHelper::show($company, $session, $employee);
 
         return Inertia::render('Company/HR/AskMeAnything/Show', [
             'data' => $data,
+            'tab' => 'unanswered',
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }

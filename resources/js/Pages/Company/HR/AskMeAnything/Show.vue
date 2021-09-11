@@ -36,34 +36,43 @@
           </h2>
 
           <!-- session theme -->
-          <p v-if="data.theme" class="mb3 tc">{{ data.theme }}</p>
+          <p v-if="data.theme" class="mb3 tc mv0">{{ data.theme }}</p>
         </div>
 
         <!-- tabs -->
         <div class="cf mw7 center br3 mb5 tc">
           <div class="cf dib btn-group">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(tab == 'company')}">
+            <inertia-link :href="data.url.unanswered_tab" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(tab == 'unanswered')}">
               Unanswered
             </inertia-link>
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(tab == 'projects')}">
+            <inertia-link :href="data.url.answered_tab" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(tab == 'answered')}">
               Answered
             </inertia-link>
           </div>
         </div>
 
         <!-- questions -->
-        <ul class="list pl0 ma0 bg-white box">
-          <li class="flex items-center justify-between pa3 question-item bb bb-gray bb-gray-hover">
-            <span class="f4">sadlfkjlsd fjlas djfl sjd</span>
+        <div v-if="data.questions.length > 0" class="ma0 bg-white box">
+          <div v-for="question in data.questions" :key="question.id">
+            <div v-if="!question.answered" class="flex items-center justify-between pa3 question-item bb bb-gray bb-gray-hover">
+              <span class="f4">
+                {{ question.question }}
+              </span>
 
-            <a class="btn">Mark answered</a>
-          </li>
-          <li class="flex items-center justify-between pa3 question-item">
-            <span class="f4">sadlfkjlsd fjlas djfl sjd</span>
+              <loading-button v-if="data.permissions.can_mark_answered" :class="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('company.hr_ama_show_questions_mark_answered')" />
+            </div>
+          </div>
+        </div>
 
-            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'Mark answered'" />
-          </li>
-        </ul>
+        <!-- blank state -->
+        <div class="list pl0 ma0 bg-white box tc">
+          <p class="mb4 lh-copy">
+            {{ $t('company.hr_ama_show_questions_blank') }}
+          </p>
+          <img loading="lazy" src="/img/streamline-icon-singer-record-14@400x400.png" alt="mic symbol" class="mr2" height="140"
+               width="140"
+          />
+        </div>
       </div>
     </div>
   </layout>
@@ -89,6 +98,10 @@ export default {
       default: null,
     },
     data: {
+      type: Object,
+      default: null,
+    },
+    tab: {
       type: Object,
       default: null,
     },

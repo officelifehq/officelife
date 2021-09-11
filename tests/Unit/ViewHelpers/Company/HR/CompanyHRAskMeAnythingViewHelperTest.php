@@ -83,6 +83,7 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $company = Company::factory()->create();
+        $michael = $this->createAdministrator();
 
         $ama = AskMeAnythingSession::factory()->create([
             'company_id' => $company->id,
@@ -100,7 +101,7 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
             'anonymous' => true,
         ]);
 
-        $array = CompanyHRAskMeAnythingViewHelper::show($company, $ama);
+        $array = CompanyHRAskMeAnythingViewHelper::show($company, $ama, $michael);
 
         $this->assertEquals(
             $ama->id,
@@ -117,6 +118,20 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
         $this->assertEquals(
             'Jan 02, 2018',
             $array['happened_at']
+        );
+        $this->assertEquals(
+            [
+                'unanswered_tab' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id,
+                'answered_tab' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/answered',
+            ],
+            $array['url']
+        );
+        $this->assertEquals(
+            [
+                'can_mark_answered' => true,
+                'can_edit' => true,
+            ],
+            $array['permissions']
         );
         $this->assertEquals(
             [
@@ -143,6 +158,16 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
                 ],
             ],
             $array['questions']->toArray()
+        );
+
+        $michael = $this->createEmployee();
+        $array = CompanyHRAskMeAnythingViewHelper::show($company, $ama, $michael);
+        $this->assertEquals(
+            [
+                'can_mark_answered' => false,
+                'can_edit' => false,
+            ],
+            $array['permissions']
         );
     }
 }
