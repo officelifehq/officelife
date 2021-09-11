@@ -180,6 +180,8 @@ return [
     'breadcrumb_dashboard_job_opening_candidate' => 'Detail of a candidate',
     'breadcrumb_dashboard_job_opening_candidate_hire' => 'Hire candidate',
     'breadcrumb_hr_job_openings_edit' => 'Edit job opening',
+    'breadcrumb_ama_list' => 'All the sessions',
+    'breadcrumb_ama_new' => 'Create a new session',
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',
     'header_find' => 'Find',

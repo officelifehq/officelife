@@ -48,6 +48,26 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
     }
 
     /** @test */
+    public function it_gets_the_information_needed_for_the_create_screen(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $company = Company::factory()->create();
+
+        $array = CompanyHRAskMeAnythingViewHelper::new($company);
+
+        $this->assertEquals(
+            [
+                'url_back' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything',
+                'url_submit' => env('APP_URL') . '/' . $company->id . '/company/hr/ask-me-anything',
+                'year' => 2018,
+                'month' => 01,
+                'day' => 01,
+            ],
+            $array
+        );
+    }
+
+    /** @test */
     public function it_gets_the_details_of_a_given_ama_session(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));

@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Company\HR;
 
+use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
@@ -35,6 +36,30 @@ class CompanyHRAskMeAnythingViewHelper
         }
 
         return $sessionsCollection;
+    }
+
+    /**
+     * Get all the data necessary for the create screen.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function new(Company $company): array
+    {
+        $urlBack = route('hr.ama.index', [
+            'company' => $company->id,
+        ]);
+        $urlSubmit = route('hr.ama.store', [
+            'company' => $company->id,
+        ]);
+
+        return [
+            'url_back' => $urlBack,
+            'url_submit' => $urlSubmit,
+            'year' => Carbon::now()->year,
+            'month' => Carbon::now()->month,
+            'day' => Carbon::now()->day,
+        ];
     }
 
     /**

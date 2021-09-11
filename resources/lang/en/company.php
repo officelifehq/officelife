@@ -76,4 +76,12 @@ return [
     'hr_positions_stat' => '{number} employee|{number} employees',
     'hr_positions_show_employees' => 'Employees with this position',
     'hr_positions_show_gender' => 'Ratio of pronouns for this position',
+    'hr_ama_widget_title' => 'Upcoming Ask Me Anything session',
+    'hr_ama_widget_view_all' => 'View all sessions',
+    'hr_ama_widget_questions' => '{count} question already|{count} questions already',
+    'hr_ama_new_title' => 'Create a new session',
+    'hr_ama_new_dates' => 'When will the Ask Me Anything session take place?',
+    'hr_ama_new_theme_label' => 'Indicate a theme for this session',
+    'hr_ama_new_theme_help' => 'It is not mandatory, but it can help to guide questions.',
+    'hr_ama_new_success' => 'The session has been created.',
 ];
