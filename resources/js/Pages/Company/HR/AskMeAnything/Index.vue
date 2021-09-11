@@ -33,10 +33,10 @@
           <div>
             <span class="mr1">
               🎉
-            </span> Upcoming session
+            </span> {{ $t('company.hr_ama_index_upcoming_session') }}
           </div>
 
-          <inertia-link v-if="data.can_create" :href="data.url_new" class="btn f5">Schedule a new session</inertia-link>
+          <inertia-link v-if="data.can_create" :href="data.url_new" class="btn f5">{{ $t('company.hr_ama_index_cta') }}</inertia-link>
         </div>
         <div class="br3 mb5 bg-white box flex justify-between items-center pa3">
           <div class="relative flex items-center">
@@ -45,7 +45,7 @@
             />
 
             <div>
-              <p class="mt0 mb2 f7 gray">Next session</p>
+              <p class="mt0 mb2 f7 gray">{{ $t('company.hr_ama_index_next_session') }}</p>
               <h2 class="fw4 mt0 mb2">
                 Sept 33, 2200
               </h2>
@@ -54,8 +54,8 @@
           </div>
 
           <div class="tc">
-            <inertia-link class="btn db mb2">View</inertia-link>
-            <p class="mv0 gray f7">33 questions already</p>
+            <inertia-link class="btn db mb2">{{ $t('app.view') }}</inertia-link>
+            <p class="mv0 gray f7">{{ $t('company.hr_ama_index_next_questions') }}</p>
           </div>
         </div>
 
@@ -63,7 +63,7 @@
         <div class="mb2 fw5 relative mt4">
           <span class="mr1">
             🎤
-          </span> Past sessions
+          </span> {{ $t('company.hr_ama_index_past_session') }}
         </div>
         <div class="br3 mb3 bg-white box">
           <!-- list of past sessions -->
@@ -77,14 +77,14 @@
                 <p class="mv0 f7 gray">{{ session.theme }}</p>
               </div>
 
-              <p class="mv0">33/32 questions answered</p>
+              <p class="mv0">{{ $t('company.hr_ama_index_past_session_count') }}</p>
             </li>
           </ul>
 
           <!-- blank state -->
           <div v-else class="center tc">
             <p class="measure mb4 lh-copy">
-              There are no previous sessions yet.
+              {{ $t('company.hr_ama_index_blank') }}
             </p>
             <img loading="lazy" src="/img/streamline-icon-singer-record-14@400x400.png" alt="mic symbol" class="mr2" height="140"
                  width="140"

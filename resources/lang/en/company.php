@@ -84,4 +84,11 @@ return [
     'hr_ama_new_theme_label' => 'Indicate a theme for this session',
     'hr_ama_new_theme_help' => 'It is not mandatory, but it can help to guide questions.',
     'hr_ama_new_success' => 'The session has been created.',
+    'hr_ama_index_upcoming_session' => 'Upcoming session',
+    'hr_ama_index_cta' => 'Schedule a new session',
+    'hr_ama_index_next_session' => 'Next session',
+    'hr_ama_index_next_questions' => '{count} questions already',
+    'hr_ama_index_past_session' => 'Past sessions',
+    'hr_ama_index_past_session_count' => '{answered}/{total} questions answered',
+    'hr_ama_index_blank' => 'There are no previous sessions yet.',
 ];
