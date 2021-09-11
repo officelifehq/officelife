@@ -182,6 +182,7 @@ return [
     'breadcrumb_hr_job_openings_edit' => 'Edit job opening',
     'breadcrumb_ama_list' => 'All the sessions',
     'breadcrumb_ama_new' => 'Create a new session',
+    'breadcrumb_ama_show' => 'Detail of a session',
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',
     'header_find' => 'Find',

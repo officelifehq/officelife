@@ -91,4 +91,5 @@ return [
     'hr_ama_index_past_session' => 'Past sessions',
     'hr_ama_index_past_session_count' => '{answered}/{total} questions answered',
     'hr_ama_index_blank' => 'There are no previous sessions yet.',
+    'hr_ama_show_title' => 'Ask Me Anything session of {date}',
 ];

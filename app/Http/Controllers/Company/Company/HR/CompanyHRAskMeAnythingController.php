@@ -106,6 +106,7 @@ class CompanyHRAskMeAnythingController extends Controller
 
         try {
             $session = AskMeAnythingSession::where('company_id', $company->id)
+                ->with('questions')
                 ->findOrFail($sessionId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');

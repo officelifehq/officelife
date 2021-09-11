@@ -1526,6 +1526,12 @@ class LogHelper
                 ]);
                 break;
 
+            case 'ask_me_anything_question_answered':
+                $sentence = trans('account.ask_me_anything_question_answered', [
+                    'ask_me_anything_session_id' => $log->object->{'ask_me_anything_session_id'},
+                ]);
+                break;
+
             case 'project_message_comment_created':
                 $sentence = trans('account.log_project_message_comment_created', [
                     'project_id' => $log->object->{'project_id'},

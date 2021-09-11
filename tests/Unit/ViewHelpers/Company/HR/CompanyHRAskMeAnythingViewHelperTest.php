@@ -42,6 +42,7 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
                     'theme' => 'theme',
                     'happened_at' => 'Jan 02, 2018',
                     'questions_count' => 2,
+                    'url' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id,
                 ],
             ],
             $array['sessions']->toArray()

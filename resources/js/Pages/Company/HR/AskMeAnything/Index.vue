@@ -54,7 +54,7 @@
           </div>
 
           <div class="tc">
-            <inertia-link class="btn db mb2">{{ $t('app.view') }}</inertia-link>
+            <inertia-link :href="''" class="btn db mb2">{{ $t('app.view') }}</inertia-link>
             <p class="mv0 gray f7">{{ $t('company.hr_ama_index_next_questions') }}</p>
           </div>
         </div>
@@ -70,7 +70,7 @@
           <ul v-if="data.sessions.length > 0" class="list pl0 ma0">
             <li v-for="session in data.sessions" :key="session.id" class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between session-item">
               <div class="mb1 relative">
-                <inertia-link :href="''" class="dib mb2">
+                <inertia-link :href="session.url" class="dib mb2">
                   {{ session.happened_at }}
                 </inertia-link>
 

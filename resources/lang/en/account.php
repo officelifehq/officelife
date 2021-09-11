@@ -356,6 +356,7 @@ return [
     'log_ask_me_anything_session_destroyed' => 'Deleted an existing Ask me anything session.',
     'log_ask_me_anything_session_toggled' => 'Toggled an existing Ask me anything session.',
     'log_ask_me_anything_session_updated' => 'Updated an existing Ask me anything session.',
+    'log_ask_me_anything_question_answered' => 'Marked an answer of an existing Ask me anything session as answered.',
     'log_project_message_comment_created' => 'Wrote a comment on a message in the project called :project_name.',
     'log_project_message_comment_updated' => 'Edited a comment on a message in the project called :project_name.',
     'log_project_message_comment_destroyed' => 'Deleted a comment on a message in the project called :project_name.',

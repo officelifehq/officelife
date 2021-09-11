@@ -33,6 +33,10 @@ class CompanyHRAskMeAnythingViewHelper
                 'theme' => $session->theme,
                 'happened_at' => DateHelper::formatDate($session->happened_at),
                 'questions_count' => $session->questions->count(),
+                'url' => route('hr.ama.show', [
+                    'company' => $company->id,
+                    'session' => $session->id,
+                ]),
             ]);
         }
 
