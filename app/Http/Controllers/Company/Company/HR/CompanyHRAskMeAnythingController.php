@@ -29,10 +29,10 @@ class CompanyHRAskMeAnythingController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $data = CompanyHRAskMeAnythingViewHelper::index($company);
+        $data = CompanyHRAskMeAnythingViewHelper::index($company, $employee);
 
         return Inertia::render('Company/HR/AskMeAnything/Index', [
-            'sessions' => $data,
+            'data' => $data,
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }

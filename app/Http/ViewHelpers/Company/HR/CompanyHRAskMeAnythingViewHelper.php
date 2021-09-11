@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
-use Illuminate\Support\Collection;
+use App\Models\Company\Employee;
 use App\Models\Company\AskMeAnythingSession;
 
 class CompanyHRAskMeAnythingViewHelper
@@ -15,9 +15,10 @@ class CompanyHRAskMeAnythingViewHelper
      * Get all the sessions in the company.
      *
      * @param Company $company
-     * @return Collection
+     * @param Employee $employee
+     * @return array
      */
-    public static function index(Company $company): Collection
+    public static function index(Company $company, Employee $employee): array
     {
         $sessions = AskMeAnythingSession::where('company_id', $company->id)
             ->with('questions')
@@ -35,7 +36,13 @@ class CompanyHRAskMeAnythingViewHelper
             ]);
         }
 
-        return $sessionsCollection;
+        return [
+            'sessions' => $sessionsCollection,
+            'can_create' => $employee->permission_level <= config('officelife.permission_level.hr'),
+            'url_new' => route('hr.ama.create', [
+                'company' => $company->id,
+            ]),
+        ];
     }
 
     /**

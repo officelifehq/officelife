@@ -21,6 +21,7 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $company = Company::factory()->create();
+        $michael = $this->createAdministrator();
 
         $ama = AskMeAnythingSession::factory()->create([
             'company_id' => $company->id,
@@ -31,7 +32,7 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
             'ask_me_anything_session_id' => $ama->id,
         ]);
 
-        $collection = CompanyHRAskMeAnythingViewHelper::index($company);
+        $array = CompanyHRAskMeAnythingViewHelper::index($company, $michael);
 
         $this->assertEquals(
             [
@@ -43,8 +44,17 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
                     'questions_count' => 2,
                 ],
             ],
-            $collection->toArray()
+            $array['sessions']->toArray()
         );
+        $this->assertTrue($array['can_create']);
+        $this->assertEquals(
+            env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/create',
+            $array['url_new']
+        );
+
+        $dwight = $this->createEmployee();
+        $array = CompanyHRAskMeAnythingViewHelper::index($company, $dwight);
+        $this->assertFalse($array['can_create']);
     }
 
     /** @test */

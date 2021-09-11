@@ -1,5 +1,5 @@
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <breadcrumb :with-box="true"
                   :previous-url="'/' + $page.props.auth.company.id + '/company/hr/ask-me-anything'"
