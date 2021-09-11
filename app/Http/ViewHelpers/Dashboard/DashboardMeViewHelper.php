@@ -558,11 +558,15 @@ class DashboardMeViewHelper
      * @param Employee $employee
      * @return array
      */
-    public static function activeAskMeAnythingSession(Company $company, Employee $employee): array
+    public static function activeAskMeAnythingSession(Company $company, Employee $employee): ?array
     {
         $session = AskMeAnythingSession::where('company_id', $company->id)
             ->where('active', true)
             ->first();
+
+        if (! $session) {
+            return null;
+        }
 
         $questionsAskedByEmployee = $session->questions()
             ->where('employee_id', $employee->id)
@@ -575,7 +579,7 @@ class DashboardMeViewHelper
             'active' => $session->active,
             'theme' => $session->theme,
             'happened_at' => DateHelper::formatDate($session->happened_at),
-            'url' => route('hr.ama.show', [
+            'url_new' => route('dashboard.ama.question.store', [
                 'company' => $company->id,
                 'session' => $session->id,
             ]),

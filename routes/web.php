@@ -402,6 +402,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                     Route::put('ask-me-anything/{session}/questions/{question}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@toggle')->name('hr.ama.question.toggle');
                 });
                 Route::get('ask-me-anything/{session}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@show')->name('hr.ama.show');
+                Route::post('ask-me-anything/{session}', 'Company\\Dashboard\\Me\\DashboardAskMeAnythingQuestionController@store')->name('dashboard.ama.question.store');
                 Route::get('ask-me-anything/{session}/answered', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@show')->name('hr.ama.show.answered');
             });
 

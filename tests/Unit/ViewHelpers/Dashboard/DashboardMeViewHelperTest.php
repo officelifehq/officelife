@@ -650,7 +650,7 @@ class DashboardMeViewHelperTest extends TestCase
             'active' => true,
             'happened_at' => Carbon::now()->addDay(),
         ]);
-        $question = AskMeAnythingQuestion::factory()->create([
+        AskMeAnythingQuestion::factory()->create([
             'ask_me_anything_session_id' => $ama->id,
             'employee_id' => $michael->id,
         ]);
@@ -667,7 +667,7 @@ class DashboardMeViewHelperTest extends TestCase
                 'active' => $ama->active,
                 'theme' => $ama->theme,
                 'happened_at' => 'Jan 02, 2018',
-                'url' => env('APP_URL') . '/' . $company->id . '/company/hr/ask-me-anything/' . $ama->id,
+                'url_new' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id,
                 'questions_asked_by_employee_count' => 1,
                 'questions_in_total_count' => 2,
             ],
