@@ -104,6 +104,11 @@ class CompanyHRAskMeAnythingViewHelper
                         'employee' => $author,
                     ]),
                 ] : null,
+                'url' => route('hr.ama.question.toggle', [
+                    'company' => $company->id,
+                    'session' => $session->id,
+                    'question' => $question->id,
+                ]),
             ]);
         }
 

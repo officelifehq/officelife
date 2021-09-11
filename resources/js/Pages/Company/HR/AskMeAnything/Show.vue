@@ -59,7 +59,7 @@
                 {{ question.question }}
               </span>
 
-              <loading-button v-if="data.permissions.can_mark_answered" :class="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('company.hr_ama_show_questions_mark_answered')" />
+              <loading-button v-if="data.permissions.can_mark_answered" :class="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('company.hr_ama_show_questions_mark_answered')" @click="markAnswered(question)" />
             </div>
           </div>
         </div>
@@ -109,30 +109,20 @@ export default {
 
   data() {
     return {
-      form: {
-        year: null,
-        month: null,
-        day: null,
-        theme: null,
-        date: null,
-        errors: [],
-      },
       loadingState: '',
       errorTemplate: Error,
     };
   },
 
   mounted() {
-    this.form.year = this.data.year;
-    this.form.month = this.data.month;
-    this.form.day = this.data.day;
+
   },
 
   methods: {
-    submit() {
+    markAnswered(question) {
       this.loadingState = 'loading';
 
-      axios.post(this.data.url_submit, this.form)
+      axios.put(question.url, this.form)
         .then(response => {
           localStorage.success = this.$t('company.hr_ama_new_success');
           this.$inertia.visit(response.data.data.url);

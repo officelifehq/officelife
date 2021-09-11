@@ -13,6 +13,7 @@ use App\Models\Company\AskMeAnythingSession;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\HR\CompanyHRAskMeAnythingViewHelper;
 use App\Services\Company\Adminland\AskMeAnything\CreateAskMeAnythingSession;
+use App\Services\Company\Adminland\AskMeAnything\AnswerAskMeAnythingQuestion;
 
 class CompanyHRAskMeAnythingController extends Controller
 {
@@ -119,5 +120,33 @@ class CompanyHRAskMeAnythingController extends Controller
             'tab' => 'unanswered',
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
+    }
+
+    /**
+     * Toggle the question.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $sessionId
+     * @param int $questionId
+     * @return JsonResponse
+     */
+    public function toggle(Request $request, int $companyId, int $sessionId, int $questionId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $data = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'ask_me_anything_session_id' => $sessionId,
+            'ask_me_anything_question_id' => $questionId,
+        ];
+
+        $question = (new AnswerAskMeAnythingQuestion)->execute($data);
+
+        return response()->json([
+            'data' => true,
+        ], 200);
     }
 }

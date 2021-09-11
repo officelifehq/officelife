@@ -69,7 +69,7 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 'url_back' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything',
-                'url_submit' => env('APP_URL') . '/' . $company->id . '/company/hr/ask-me-anything',
+                'url_submit' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything',
                 'year' => 2018,
                 'month' => 01,
                 'day' => 01,
@@ -149,12 +149,14 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
                         ],
                         'url_view' => env('APP_URL').'/'.$company->id.'/employees/'.$question->employee->id,
                     ],
+                    'url' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/questions/'.$question->id,
                 ],
                 1 => [
                     'id' => $anonymousQuestion->id,
                     'question' => $anonymousQuestion->question,
                     'answered' => $anonymousQuestion->answered,
                     'author' => null,
+                    'url' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/questions/'.$anonymousQuestion->id,
                 ],
             ],
             $array['questions']->toArray()
