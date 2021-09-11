@@ -21,7 +21,6 @@ class CompanyHRAskMeAnythingController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $positionId
      * @return mixed
      */
     public function index(Request $request, int $companyId)
