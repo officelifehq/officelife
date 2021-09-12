@@ -39,6 +39,12 @@
           <p v-if="data.theme" class="mb3 tc mv0">{{ data.theme }}</p>
         </div>
 
+        <!-- actions -->
+        <div v-if="data.permissions.can_edit" class="actions pa3 box flex justify-center mb4">
+          <inertia-link :href="''" class="btn dib mr3">{{ $t('app.edit') }}</inertia-link>
+          <a class="btn" @click="''">{{ $t('company.hr_ama_actions_shuffle') }}</a>
+        </div>
+
         <!-- tabs -->
         <div class="cf mw7 center br3 mb5 tc">
           <div class="cf dib btn-group">

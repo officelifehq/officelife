@@ -136,6 +136,10 @@ class CompanyHRAskMeAnythingViewHelper
                     'company' => $company->id,
                     'session' => $session->id,
                 ]),
+                'edit' => route('hr.ama.edit', [
+                    'company' => $company->id,
+                    'session' => $session->id,
+                ]),
             ],
         ];
     }

@@ -12,6 +12,10 @@
     border-bottom-right-radius: 10px;
   }
 }
+
+.actions {
+  background-color: #eef3f9;
+}
 </style>
 
 <template>
@@ -39,14 +43,20 @@
           <p v-if="data.theme" class="mb3 tc mv0">{{ data.theme }}</p>
         </div>
 
+        <!-- actions -->
+        <div v-if="data.permissions.can_edit" class="actions pa3 box flex justify-center mb4">
+          <inertia-link :href="''" class="btn dib mr3">{{ $t('app.edit') }}</inertia-link>
+          <a class="btn" @click="''">{{ $t('company.hr_ama_actions_shuffle') }}</a>
+        </div>
+
         <!-- tabs -->
         <div class="cf mw7 center br3 mb5 tc">
           <div class="cf dib btn-group">
             <inertia-link :href="data.url.unanswered_tab" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(tab == 'unanswered')}">
-              Unanswered
+              {{ $t('company.hr_ama_show_questions_tab_unanswered') }}
             </inertia-link>
             <inertia-link :href="data.url.answered_tab" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(tab == 'answered')}">
-              Answered
+              {{ $t('company.hr_ama_show_questions_tab_answered') }}
             </inertia-link>
           </div>
         </div>

@@ -123,6 +123,7 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
             [
                 'unanswered_tab' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id,
                 'answered_tab' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/answered',
+                'edit' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/edit',
             ],
             $array['url']
         );
