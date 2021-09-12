@@ -79,12 +79,17 @@ class CompanyHRAskMeAnythingViewHelper
      * @param Company $company
      * @param AskMeAnythingSession $session
      * @param Employee $employee
+     * @param bool $showAnswered
      * @return array
      */
-    public static function show(Company $company, AskMeAnythingSession $session, Employee $employee): array
+    public static function show(Company $company, AskMeAnythingSession $session, Employee $employee, bool $showAnswered): array
     {
+        $questions = $session->questions()
+            ->where('answered', $showAnswered)
+            ->get();
+
         $questionsCollection = collect();
-        foreach ($session->questions as $question) {
+        foreach ($questions as $question) {
             $author = $question->employee;
 
             $questionsCollection->push([
@@ -104,7 +109,7 @@ class CompanyHRAskMeAnythingViewHelper
                         'employee' => $author,
                     ]),
                 ] : null,
-                'url' => route('hr.ama.question.toggle', [
+                'url_toggle' => route('hr.ama.question.toggle', [
                     'company' => $company->id,
                     'session' => $session->id,
                     'question' => $question->id,

@@ -403,7 +403,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 });
                 Route::get('ask-me-anything/{session}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@show')->name('hr.ama.show');
                 Route::post('ask-me-anything/{session}', 'Company\\Dashboard\\Me\\DashboardAskMeAnythingQuestionController@store')->name('dashboard.ama.question.store');
-                Route::get('ask-me-anything/{session}/answered', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@show')->name('hr.ama.show.answered');
+                Route::get('ask-me-anything/{session}/answered', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@showAnswered')->name('hr.ama.show.answered');
             });
 
             // Knowledge base

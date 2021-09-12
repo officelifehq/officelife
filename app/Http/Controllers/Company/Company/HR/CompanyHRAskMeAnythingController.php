@@ -113,11 +113,41 @@ class CompanyHRAskMeAnythingController extends Controller
             return redirect('home');
         }
 
-        $data = CompanyHRAskMeAnythingViewHelper::show($company, $session, $employee);
+        $data = CompanyHRAskMeAnythingViewHelper::show($company, $session, $employee, false);
 
         return Inertia::render('Company/HR/AskMeAnything/Show', [
             'data' => $data,
             'tab' => 'unanswered',
+            'notifications' => NotificationHelper::getNotifications($employee),
+        ]);
+    }
+
+    /**
+     * Show the Ask Me Anything session for the answered questions.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $sessionId
+     * @return mixed
+     */
+    public function showAnswered(Request $request, int $companyId, int $sessionId)
+    {
+        $employee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
+
+        try {
+            $session = AskMeAnythingSession::where('company_id', $company->id)
+                ->with('questions')
+                ->findOrFail($sessionId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $data = CompanyHRAskMeAnythingViewHelper::show($company, $session, $employee, true);
+
+        return Inertia::render('Company/HR/AskMeAnything/Answered', [
+            'data' => $data,
+            'tab' => 'answered',
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }

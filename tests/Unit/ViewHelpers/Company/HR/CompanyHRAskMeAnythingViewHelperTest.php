@@ -101,7 +101,7 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
             'anonymous' => true,
         ]);
 
-        $array = CompanyHRAskMeAnythingViewHelper::show($company, $ama, $michael);
+        $array = CompanyHRAskMeAnythingViewHelper::show($company, $ama, $michael, false);
 
         $this->assertEquals(
             $ama->id,
@@ -149,21 +149,21 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
                         ],
                         'url_view' => env('APP_URL').'/'.$company->id.'/employees/'.$question->employee->id,
                     ],
-                    'url' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/questions/'.$question->id,
+                    'url_toggle' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/questions/'.$question->id,
                 ],
                 1 => [
                     'id' => $anonymousQuestion->id,
                     'question' => $anonymousQuestion->question,
                     'answered' => $anonymousQuestion->answered,
                     'author' => null,
-                    'url' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/questions/'.$anonymousQuestion->id,
+                    'url_toggle' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/questions/'.$anonymousQuestion->id,
                 ],
             ],
             $array['questions']->toArray()
         );
 
         $michael = $this->createEmployee();
-        $array = CompanyHRAskMeAnythingViewHelper::show($company, $ama, $michael);
+        $array = CompanyHRAskMeAnythingViewHelper::show($company, $ama, $michael, false);
         $this->assertEquals(
             [
                 'can_mark_answered' => false,

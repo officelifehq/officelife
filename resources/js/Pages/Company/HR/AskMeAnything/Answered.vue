@@ -43,10 +43,10 @@
         <div class="cf mw7 center br3 mb5 tc">
           <div class="cf dib btn-group">
             <inertia-link :href="data.url.unanswered_tab" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(tab == 'unanswered')}">
-              Unanswered
+              {{ $t('company.hr_ama_show_questions_tab_unanswered') }}
             </inertia-link>
             <inertia-link :href="data.url.answered_tab" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(tab == 'answered')}">
-              Answered
+              {{ $t('company.hr_ama_show_questions_tab_answered') }}
             </inertia-link>
           </div>
         </div>
@@ -54,7 +54,7 @@
         <!-- questions -->
         <div v-if="localQuestions.length > 0" class="ma0 bg-white box">
           <div v-for="question in localQuestions" :key="question.id" class="question-item bb bb-gray bb-gray-hover">
-            <div v-if="!question.answered" class="flex items-center justify-between pa3">
+            <div v-if="question.answered" class="flex items-center justify-between pa3">
               <div>
                 <span class="db f4 mb2">
                   {{ question.question }}
@@ -70,8 +70,6 @@
                   :margin-between-name-avatar="'25px'"
                 />
               </div>
-
-              <loading-button v-if="data.permissions.can_mark_answered" :class="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('company.hr_ama_show_questions_mark_answered')" @click="markAnswered(question)" />
             </div>
           </div>
         </div>
@@ -91,7 +89,6 @@
 </template>
 
 <script>
-import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
 import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import Help from '@/Shared/Help';
@@ -101,7 +98,6 @@ export default {
   components: {
     Layout,
     Breadcrumb,
-    LoadingButton,
     Help,
     SmallNameAndAvatar,
   },

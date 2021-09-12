@@ -94,4 +94,6 @@ return [
     'hr_ama_show_title' => 'Ask Me Anything session of {date}',
     'hr_ama_show_questions_blank' => 'There are no questions at the moment.',
     'hr_ama_show_questions_mark_answered' => 'Mark answered',
+    'hr_ama_show_questions_tab_answered' => 'Answered',
+    'hr_ama_show_questions_tab_unanswered' => 'Unanswered',
 ];

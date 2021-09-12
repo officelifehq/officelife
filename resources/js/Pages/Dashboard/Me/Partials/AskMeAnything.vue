@@ -20,7 +20,7 @@
     <div class="cf mw7 center mb2 fw5">
       <span class="mr1">
         🎤
-      </span> {{ $t('dashbooard.ask_me_anything_section_title') }}
+      </span> {{ $t('dashboard.ask_me_anything_section_title') }}
 
       <help :url="$page.props.help_links.questions" />
     </div>
