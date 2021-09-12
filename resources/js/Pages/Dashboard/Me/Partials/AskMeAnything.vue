@@ -20,27 +20,25 @@
     <div class="cf mw7 center mb2 fw5">
       <span class="mr1">
         🎤
-      </span> Upcoming Ask Me Anything session
+      </span> {{ $t('dashbooard.ask_me_anything_section_title') }}
 
       <help :url="$page.props.help_links.questions" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box relative">
-      <img loading="lazy" src="/img/dashboard/question_dashboard.png" alt="a group taking a selfie" class="absolute top-1" />
-
       <div class="pa3">
-        <h2 class="f4 fw4 mt0 mb3 ml6 lh-copy">
-          The next Ask Me Anything session is scheduled for {{ session.happened_at }}.
+        <h2 class="f4 fw4 mt0 mb3 mr6 lh-copy">
+          {{ $t('dashboard.ask_me_anything_title', {date: session.happened_at}) }}
         </h2>
 
         <!-- CTA to add an answer -->
-        <p v-if="!addMode">
-          <a class="btn dib ml6 mr2" data-cy="log-answer-cta" @click.prevent="showEditor()">{{ $t('dashboard.ask_me_anything_cta') }}</a>
-          <span class="f6 silver di-l db mt4 mt0-l">{{ $tc('dashboard.ask_me_anything_total_questions', session.questions_asked_by_employee_count, { number: session.questions_asked_by_employee_count }) }}</span>
+        <p v-if="!addMode" class="mb0">
+          <a class="btn dib mr2" data-cy="log-answer-cta" @click.prevent="showEditor()">{{ $t('dashboard.ask_me_anything_cta') }}</a>
+          <span class="f6 silver di-l db mt4 mt0-l">{{ $tc('dashboard.ask_me_anything_total_questions', numberOfQuestions, { number: numberOfQuestions }) }}</span>
         </p>
 
         <!-- Add the answer form -->
-        <div v-show="addMode" class="ml6">
+        <div v-show="addMode" class="mr6">
           <form @submit.prevent="submit()">
             <errors :errors="form.errors" />
 
@@ -65,12 +63,16 @@
               </a>
             </p>
 
-            <p class="db lh-copy f6">
+            <p class="db lh-copy f6 mb0">
               <span class="mr1">👋</span> {{ $t('dashboard.ask_me_anything_new_help') }}
             </p>
           </form>
         </div>
       </div>
+
+      <img loading="lazy" src="/img/streamline-icon-singer-record-14@400x400.png" alt="mic symbol" class="mr2 absolute top-1 right-1" height="80"
+           width="80"
+      />
     </div>
   </div>
 </template>
@@ -138,10 +140,12 @@ export default {
 
       axios.post(this.session.url_new, this.form)
         .then(response => {
+          this.loadingState = null;
           this.flash(this.$t('dashboard.ask_me_anything_success'), 'success');
           this.addMode = false;
-          this.loadingState = null;
           this.numberOfQuestions++;
+          this.form.question = null;
+          this.form.anonymous = false;
         })
         .catch(error => {
           this.loadingState = null;
