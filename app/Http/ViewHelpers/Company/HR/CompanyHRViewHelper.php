@@ -198,16 +198,18 @@ class CompanyHRViewHelper
             ->with('questions')
             ->first();
 
+        $session = $upcomingSession ? [
+            'happened_at' => DateHelper::formatFullDate($upcomingSession->happened_at),
+            'theme' => $upcomingSession->theme,
+            'questions_count' => $upcomingSession->questions->count(),
+            'url' => route('hr.ama.show', [
+                'company' => $company->id,
+                'session' => $upcomingSession->id,
+            ]),
+        ] : null;
+
         return [
-            'session' => [
-                'happened_at' => DateHelper::formatFullDate($upcomingSession->happened_at),
-                'theme' => $upcomingSession->theme,
-                'questions_count' => $upcomingSession->questions->count(),
-                'url' => route('hr.ama.show', [
-                    'company' => $company->id,
-                    'session' => $upcomingSession->id,
-                ]),
-            ],
+            'session' => $session,
             'url_view_all' => route('hr.ama.index', [
                 'company' => $company->id,
             ]),

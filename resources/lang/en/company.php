@@ -78,6 +78,7 @@ return [
     'hr_positions_show_gender' => 'Ratio of pronouns for this position',
     'hr_ama_widget_title' => 'Upcoming Ask Me Anything session',
     'hr_ama_widget_view_all' => 'View all sessions',
+    'hr_ama_widget_blank' => 'No session is planned in the near future.',
     'hr_ama_widget_questions' => '{count} question already|{count} questions already',
     'hr_ama_new_title' => 'Create a new session',
     'hr_ama_new_dates' => 'When will the Ask Me Anything session take place?',
