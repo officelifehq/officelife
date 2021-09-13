@@ -97,4 +97,5 @@ return [
     'hr_ama_show_questions_tab_answered' => 'Answered',
     'hr_ama_show_questions_tab_unanswered' => 'Unanswered',
     'hr_ama_actions_shuffle' => 'Shuffle questions',
+    'hr_ama_edit_success' => 'The session has been updated.',
 ];

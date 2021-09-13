@@ -45,7 +45,7 @@
 
         <!-- actions -->
         <div v-if="data.permissions.can_edit" class="actions pa3 box flex justify-center mb4">
-          <inertia-link :href="''" class="btn dib mr3">{{ $t('app.edit') }}</inertia-link>
+          <inertia-link :href="data.url.edit" class="btn dib mr3">{{ $t('app.edit') }}</inertia-link>
           <a class="btn" @click="''">{{ $t('company.hr_ama_actions_shuffle') }}</a>
         </div>
 
@@ -141,6 +141,11 @@ export default {
 
   mounted() {
     this.localQuestions = this.data.questions;
+
+    if (localStorage.success) {
+      this.flash(localStorage.success, 'success');
+      localStorage.removeItem('success');
+    }
   },
 
   methods: {

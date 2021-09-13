@@ -397,7 +397,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                     Route::get('ask-me-anything/create', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@create')->name('hr.ama.create');
                     Route::post('ask-me-anything', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@store')->name('hr.ama.store');
                     Route::get('ask-me-anything/{session}/edit', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@edit')->name('hr.ama.edit');
-                    Route::put('ask-me-anything/{session}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@update');
+                    Route::put('ask-me-anything/{session}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@update')->name('hr.ama.update');
                     Route::delete('ask-me-anything/{session}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@destroy');
                     Route::put('ask-me-anything/{session}/questions/{question}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@toggle')->name('hr.ama.question.toggle');
                 });

@@ -6,7 +6,7 @@
                   :previous="$t('app.breadcrumb_ama_list')"
                   :has-more="false"
       >
-        {{ $t('app.breadcrumb_ama_new') }}
+        {{ $t('app.breadcrumb_ama_edit') }}
       </breadcrumb>
 
       <!-- BODY -->
@@ -84,11 +84,11 @@
             <div class="mb4 mt5">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="data.url_back" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <inertia-link :href="data.url.back" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.create')" />
+                <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.update')" />
               </div>
             </div>
           </form>
@@ -142,19 +142,20 @@ export default {
   },
 
   mounted() {
-    this.form.year = this.data.year;
-    this.form.month = this.data.month;
-    this.form.day = this.data.day;
+    this.form.year = this.data.happened_at_year;
+    this.form.month = this.data.happened_at_month;
+    this.form.day = this.data.happened_at_day;
+    this.form.theme = this.data.theme;
   },
 
   methods: {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.data.url_submit, this.form)
+      axios.put(this.data.url.update, this.form)
         .then(response => {
-          localStorage.success = this.$t('company.hr_ama_new_success');
-          this.$inertia.visit(response.data.data.url);
+          localStorage.success = this.$t('company.hr_ama_edit_success');
+          this.$inertia.visit(response.data.data);
         })
         .catch(error => {
           this.loadingState = null;

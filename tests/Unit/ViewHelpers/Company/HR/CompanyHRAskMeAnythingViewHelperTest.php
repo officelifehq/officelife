@@ -173,4 +173,34 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
             $array['permissions']
         );
     }
+
+    /** @test */
+    public function it_gets_the_details_to_edit_a_given_ama_session(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $company = Company::factory()->create();
+
+        $ama = AskMeAnythingSession::factory()->create([
+            'company_id' => $company->id,
+            'theme' => 'theme',
+            'happened_at' => Carbon::now()->addDay(),
+        ]);
+
+        $array = CompanyHRAskMeAnythingViewHelper::edit($company, $ama);
+
+        $this->assertEquals(
+            [
+                'id' => $ama->id,
+                'theme' => $ama->theme,
+                'happened_at_year' => $ama->happened_at->year,
+                'happened_at_month' => $ama->happened_at->month,
+                'happened_at_day' => $ama->happened_at->day,
+                'url' => [
+                    'update' => env('APP_URL') . '/' . $company->id . '/company/hr/ask-me-anything/' . $ama->id,
+                    'back' => env('APP_URL') . '/' . $company->id . '/company/hr/ask-me-anything/' . $ama->id,
+                ],
+            ],
+            $array
+        );
+    }
 }

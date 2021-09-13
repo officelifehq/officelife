@@ -143,4 +143,32 @@ class CompanyHRAskMeAnythingViewHelper
             ],
         ];
     }
+
+    /**
+     * Get the information needed to edit a session.
+     *
+     * @param Company $company
+     * @param AskMeAnythingSession $session
+     * @return array
+     */
+    public static function edit(Company $company, AskMeAnythingSession $session): array
+    {
+        return [
+            'id' => $session->id,
+            'theme' => $session->theme,
+            'happened_at_year' => $session->happened_at->year,
+            'happened_at_month' => $session->happened_at->month,
+            'happened_at_day' => $session->happened_at->day,
+            'url' => [
+                'update' => route('hr.ama.update', [
+                    'company' => $company->id,
+                    'session' => $session->id,
+                ]),
+                'back' => route('hr.ama.show', [
+                    'company' => $company->id,
+                    'session' => $session->id,
+                ]),
+            ],
+        ];
+    }
 }

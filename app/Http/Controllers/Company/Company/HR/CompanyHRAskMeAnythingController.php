@@ -13,6 +13,7 @@ use App\Models\Company\AskMeAnythingSession;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\HR\CompanyHRAskMeAnythingViewHelper;
 use App\Services\Company\Adminland\AskMeAnything\CreateAskMeAnythingSession;
+use App\Services\Company\Adminland\AskMeAnything\UpdateAskMeAnythingSession;
 use App\Services\Company\Adminland\AskMeAnything\AnswerAskMeAnythingQuestion;
 
 class CompanyHRAskMeAnythingController extends Controller
@@ -120,6 +121,71 @@ class CompanyHRAskMeAnythingController extends Controller
             'tab' => 'unanswered',
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
+    }
+
+    /**
+     * Show the Edit Ask Me Anything session screen.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $sessionId
+     * @return mixed
+     */
+    public function edit(Request $request, int $companyId, int $sessionId)
+    {
+        $employee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
+
+        try {
+            $session = AskMeAnythingSession::where('company_id', $company->id)
+                ->findOrFail($sessionId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $data = CompanyHRAskMeAnythingViewHelper::edit($company, $session);
+
+        return Inertia::render('Company/HR/AskMeAnything/Edit', [
+            'data' => $data,
+            'notifications' => NotificationHelper::getNotifications($employee),
+        ]);
+    }
+
+    /**
+     * Update the session.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $sessionId
+     * @return JsonResponse
+     */
+    public function update(Request $request, int $companyId, int $sessionId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $date = Carbon::createFromDate(
+            $request->input('year'),
+            $request->input('month'),
+            $request->input('day')
+        )->format('Y-m-d');
+
+        $data = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'ask_me_anything_session_id' => $sessionId,
+            'theme' => $request->input('theme'),
+            'date' => $date,
+        ];
+
+        $session = (new UpdateAskMeAnythingSession)->execute($data);
+
+        return response()->json([
+            'data' => route('hr.ama.show', [
+                'company' => $company->id,
+                'session' => $session->id,
+            ]),
+        ], 200);
     }
 
     /**
