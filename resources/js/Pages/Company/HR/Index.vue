@@ -47,11 +47,11 @@
         </div>
 
         <div class="fl w-50-l w-100 pl4-l">
+          <ask-me-anything-session :data="askMeAnythingSession" />
+
           <genders
             :genders="genders"
           />
-
-          <ask-me-anything-session />
         </div>
       </div>
     </div>
@@ -96,6 +96,10 @@ export default {
       default: null,
     },
     positions: {
+      type: Object,
+      default: null,
+    },
+    askMeAnythingSession: {
       type: Object,
       default: null,
     },

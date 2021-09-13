@@ -16,6 +16,28 @@
 .actions {
   background-color: #eef3f9;
 }
+
+.dot {
+  height: 1px;
+  top: 1px;
+}
+
+.status-active {
+  top: -4px;
+  background-color: #dcf7ee;
+
+  .dot {
+    background-color: #00b760;
+  }
+}
+.status-inactive {
+  top: -4px;
+  background-color: #ffe9e3;
+
+  .dot {
+    background-color: #ff3400;
+  }
+}
 </style>
 
 <template>
@@ -33,8 +55,17 @@
       <div class="mw7 center br3 mb5 relative z-1">
         <!-- title -->
         <div class="bg-white box pa3 center mb4">
-          <h2 class="tc normal mb4 lh-copy">
+          <h2 class="tc normal mb4 lh-copy relative mt0">
             {{ $t('company.hr_ama_show_title', {date: data.happened_at}) }}
+
+            <span v-if="activeStatus" class="status-active relative dib pa1 br3 f7 ml2 mr2">
+              <span class="br3 f7 fw3 ph1 pv1 dib relative dot"></span>
+              {{ $t('company.hr_ama_active') }}
+            </span>
+            <span v-else class="status-inactive relative dib pa1 br3 f7 ml2 mr2">
+              <span class="br3 f7 fw3 ph1 pv1 dib relative dot"></span>
+              {{ $t('company.hr_ama_inactive') }}
+            </span>
 
             <help :url="$page.props.help_links.wiki" :top="'1px'" />
           </h2>
@@ -46,7 +77,8 @@
         <!-- actions -->
         <div v-if="data.permissions.can_edit" class="actions pa3 box flex justify-center mb4">
           <inertia-link :href="data.url.edit" class="btn dib mr3">{{ $t('app.edit') }}</inertia-link>
-          <a class="btn" @click="''">{{ $t('company.hr_ama_actions_shuffle') }}</a>
+          <a v-if="activeStatus" class="btn" @click="toggle()">{{ $t('company.hr_ama_deactivate') }}</a>
+          <a v-else class="btn" @click="toggle()">{{ $t('company.hr_ama_activate') }}</a>
         </div>
 
         <!-- tabs -->
@@ -66,19 +98,20 @@
           <div v-for="question in localQuestions" :key="question.id" class="question-item bb bb-gray bb-gray-hover">
             <div v-if="!question.answered" class="flex items-center justify-between pa3">
               <div>
-                <span class="db f4 mb2">
+                <span class="db f4 lh-copy measure">
                   {{ question.question }}
                 </span>
 
-                <small-name-and-avatar
-                  v-if="question.author"
-                  :name="question.author.name"
-                  :avatar="question.author.avatar"
-                  :class="'gray'"
-                  :size="'18px'"
-                  :top="'0px'"
-                  :margin-between-name-avatar="'25px'"
-                />
+                <div v-if="question.author" class="mt2">
+                  <small-name-and-avatar
+                    :name="question.author.name"
+                    :avatar="question.author.avatar"
+                    :class="'gray mt2'"
+                    :size="'18px'"
+                    :top="'0px'"
+                    :margin-between-name-avatar="'25px'"
+                  />
+                </div>
               </div>
 
               <loading-button v-if="data.permissions.can_mark_answered" :class="'btn w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('company.hr_ama_show_questions_mark_answered')" @click="markAnswered(question)" />
@@ -126,21 +159,24 @@ export default {
       default: null,
     },
     tab: {
-      type: Object,
+      type: String,
       default: null,
     },
   },
 
   data() {
     return {
+      activeStatus: false,
       localQuestions: [],
       loadingState: '',
+      loadingToggleState: '',
       errorTemplate: Error,
     };
   },
 
   mounted() {
     this.localQuestions = this.data.questions;
+    this.activeStatus = this.data.active;
 
     if (localStorage.success) {
       this.flash(localStorage.success, 'success');
@@ -162,6 +198,19 @@ export default {
         .catch(error => {
           this.loadingState = null;
           this.form.errors = error.response.data;
+        });
+    },
+
+    toggle() {
+      this.loadingToggleState = 'loading';
+
+      axios.put(this.data.url.toggle, this.form)
+        .then(response => {
+          this.loadingToggleState = null;
+          this.activeStatus = !this.activeStatus;
+        })
+        .catch(error => {
+          this.loadingToggleState = null;
         });
     },
   }

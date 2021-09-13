@@ -39,12 +39,6 @@
           <p v-if="data.theme" class="mb3 tc mv0">{{ data.theme }}</p>
         </div>
 
-        <!-- actions -->
-        <div v-if="data.permissions.can_edit" class="actions pa3 box flex justify-center mb4">
-          <inertia-link :href="''" class="btn dib mr3">{{ $t('app.edit') }}</inertia-link>
-          <a class="btn" @click="''">{{ $t('company.hr_ama_actions_shuffle') }}</a>
-        </div>
-
         <!-- tabs -->
         <div class="cf mw7 center br3 mb5 tc">
           <div class="cf dib btn-group">
@@ -118,7 +112,7 @@ export default {
       default: null,
     },
     tab: {
-      type: Object,
+      type: String,
       default: null,
     },
   },
@@ -126,32 +120,12 @@ export default {
   data() {
     return {
       localQuestions: [],
-      loadingState: '',
-      errorTemplate: Error,
     };
   },
 
   mounted() {
     this.localQuestions = this.data.questions;
   },
-
-  methods: {
-    markAnswered(question) {
-      this.loadingState = 'loading';
-
-      axios.put(question.url_toggle, this.form)
-        .then(response => {
-          localStorage.success = this.$t('company.hr_ama_new_success');
-          var id = this.localQuestions.findIndex(x => x.id === question.id);
-          this.localQuestions.splice(id, 1);
-          this.loadingState = null;
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = error.response.data;
-        });
-    },
-  }
 };
 
 </script>

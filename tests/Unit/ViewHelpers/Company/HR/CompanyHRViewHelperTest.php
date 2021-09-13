@@ -182,14 +182,14 @@ class CompanyHRViewHelperTest extends TestCase
                     'title' => 'dev',
                     'number_of_employees' => 2,
                     'percent' => 67,
-                    'url' => env('APP_URL') . '/' . $company->id . '/company/hr/positions/'.$positionA->id,
+                    'url' => env('APP_URL').'/'.$company->id.'/company/hr/positions/'.$positionA->id,
                 ],
                 1 => [
                     'id' => $positionB->id,
                     'title' => 'ceo',
                     'number_of_employees' => 1,
                     'percent' => 33,
-                    'url' => env('APP_URL') . '/' . $company->id . '/company/hr/positions/' . $positionB->id,
+                    'url' => env('APP_URL').'/'.$company->id.'/company/hr/positions/'.$positionB->id,
                 ],
             ],
             $array
@@ -206,6 +206,7 @@ class CompanyHRViewHelperTest extends TestCase
             'company_id' => $company->id,
             'theme' => 'theme',
             'happened_at' => Carbon::now()->addDay(),
+            'active' => true,
         ]);
         AskMeAnythingQuestion::factory()->count(2)->create([
             'ask_me_anything_session_id' => $ama->id,
@@ -215,9 +216,13 @@ class CompanyHRViewHelperTest extends TestCase
 
         $this->assertEquals(
             [
-                'happened_at' => 'Tuesday, Jan 2nd 2018',
-                'theme' => 'theme',
-                'questions_count' => 2,
+                'session' => [
+                    'happened_at' => 'Tuesday, Jan 2nd 2018',
+                    'theme' => 'theme',
+                    'questions_count' => 2,
+                    'url' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id,
+                ],
+                'url_view_all' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything',
             ],
             $array
         );

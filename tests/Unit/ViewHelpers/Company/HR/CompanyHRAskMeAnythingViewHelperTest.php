@@ -23,13 +23,24 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
         $company = Company::factory()->create();
         $michael = $this->createAdministrator();
 
-        $ama = AskMeAnythingSession::factory()->create([
+        $activeAma = AskMeAnythingSession::factory()->create([
             'company_id' => $company->id,
             'theme' => 'theme',
             'happened_at' => Carbon::now()->addDay(),
+            'active' => true,
         ]);
         AskMeAnythingQuestion::factory()->count(2)->create([
-            'ask_me_anything_session_id' => $ama->id,
+            'ask_me_anything_session_id' => $activeAma->id,
+        ]);
+
+        $inactiveAma = AskMeAnythingSession::factory()->create([
+            'company_id' => $company->id,
+            'theme' => 'other theme',
+            'happened_at' => Carbon::now()->addDay(),
+            'active' => false,
+        ]);
+        AskMeAnythingQuestion::factory()->count(2)->create([
+            'ask_me_anything_session_id' => $inactiveAma->id,
         ]);
 
         $array = CompanyHRAskMeAnythingViewHelper::index($company, $michael);
@@ -37,15 +48,25 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 0 => [
-                    'id' => $ama->id,
+                    'id' => $inactiveAma->id,
                     'active' => false,
-                    'theme' => 'theme',
+                    'theme' => 'other theme',
                     'happened_at' => 'Jan 02, 2018',
                     'questions_count' => 2,
-                    'url' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id,
+                    'url' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$inactiveAma->id,
                 ],
             ],
-            $array['sessions']->toArray()
+            $array['inactive_sessions']->toArray()
+        );
+        $this->assertEquals(
+            [
+                'id' => $activeAma->id,
+                'theme' => 'theme',
+                'happened_at' => 'Jan 02, 2018',
+                'questions_count' => 2,
+                'url' => env('APP_URL') . '/' . $company->id . '/company/hr/ask-me-anything/' . $activeAma->id,
+            ],
+            $array['active_session']
         );
         $this->assertTrue($array['can_create']);
         $this->assertEquals(
@@ -124,6 +145,7 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
                 'unanswered_tab' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id,
                 'answered_tab' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/answered',
                 'edit' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/edit',
+                'toggle' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/toggle',
             ],
             $array['url']
         );

@@ -2,7 +2,6 @@
 
 namespace App\Http\ViewHelpers\Company\HR;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Models\User\Pronoun;
 use App\Models\Company\Company;
@@ -195,14 +194,23 @@ class CompanyHRViewHelper
     public static function askMeAnythingUpcomingSession(Company $company): array
     {
         $upcomingSession = AskMeAnythingSession::where('company_id', $company->id)
-            ->where('happened_at', '>=', Carbon::now()->endOfDay())
+            ->where('active', true)
             ->with('questions')
             ->first();
 
         return [
-            'happened_at' => DateHelper::formatFullDate($upcomingSession->happened_at),
-            'theme' => $upcomingSession->theme,
-            'questions_count' => $upcomingSession->questions->count(),
+            'session' => [
+                'happened_at' => DateHelper::formatFullDate($upcomingSession->happened_at),
+                'theme' => $upcomingSession->theme,
+                'questions_count' => $upcomingSession->questions->count(),
+                'url' => route('hr.ama.show', [
+                    'company' => $company->id,
+                    'session' => $upcomingSession->id,
+                ]),
+            ],
+            'url_view_all' => route('hr.ama.index', [
+                'company' => $company->id,
+            ]),
         ];
     }
 }

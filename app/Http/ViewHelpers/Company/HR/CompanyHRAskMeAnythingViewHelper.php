@@ -20,14 +20,15 @@ class CompanyHRAskMeAnythingViewHelper
      */
     public static function index(Company $company, Employee $employee): array
     {
-        $sessions = AskMeAnythingSession::where('company_id', $company->id)
+        $inactiveSessions = AskMeAnythingSession::where('company_id', $company->id)
+            ->where('active', false)
             ->with('questions')
             ->orderBy('happened_at', 'desc')
             ->get();
 
-        $sessionsCollection = collect();
-        foreach ($sessions as $session) {
-            $sessionsCollection->push([
+        $inactiveSessionsCollection = collect();
+        foreach ($inactiveSessions as $session) {
+            $inactiveSessionsCollection->push([
                 'id' => $session->id,
                 'active' => $session->active,
                 'theme' => $session->theme,
@@ -40,8 +41,26 @@ class CompanyHRAskMeAnythingViewHelper
             ]);
         }
 
+        // get active session
+        $activeSession = AskMeAnythingSession::where('company_id', $company->id)
+            ->where('active', true)
+            ->with('questions')
+            ->first();
+
+        $activeSession = $activeSession ? [
+            'id' => $activeSession->id,
+            'theme' => $activeSession->theme,
+            'happened_at' => DateHelper::formatDate($activeSession->happened_at),
+            'questions_count' => $activeSession->questions->count(),
+            'url' => route('hr.ama.show', [
+                'company' => $company->id,
+                'session' => $activeSession->id,
+            ]),
+        ] : null;
+
         return [
-            'sessions' => $sessionsCollection,
+            'active_session' => $activeSession,
+            'inactive_sessions' => $inactiveSessionsCollection,
             'can_create' => $employee->permission_level <= config('officelife.permission_level.hr'),
             'url_new' => route('hr.ama.create', [
                 'company' => $company->id,
@@ -137,6 +156,10 @@ class CompanyHRAskMeAnythingViewHelper
                     'session' => $session->id,
                 ]),
                 'edit' => route('hr.ama.edit', [
+                    'company' => $company->id,
+                    'session' => $session->id,
+                ]),
+                'toggle' => route('hr.ama.toggle', [
                     'company' => $company->id,
                     'session' => $session->id,
                 ]),

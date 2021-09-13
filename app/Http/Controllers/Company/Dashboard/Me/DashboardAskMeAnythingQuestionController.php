@@ -31,7 +31,7 @@ class DashboardAskMeAnythingQuestionController extends Controller
             'anonymous' => $request->input('anonymous'),
         ];
 
-        $question = (new CreateAskMeAnythingQuestion)->execute($data);
+        (new CreateAskMeAnythingQuestion)->execute($data);
 
         return response()->json([
             'data' => true,

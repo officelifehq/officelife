@@ -25,6 +25,7 @@ use App\Models\Company\ExpenseCategory;
 use App\Services\Company\Wiki\CreateWiki;
 use App\Services\Company\Team\SetTeamLead;
 use App\Services\Company\Group\CreateGroup;
+use App\Models\Company\AskMeAnythingSession;
 use App\Services\Company\Wiki\AddPageToWiki;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Company\RateYourManagerAnswer;
@@ -91,7 +92,10 @@ use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneTalkingPoint;
 use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
 use App\Services\Company\Employee\OneOnOne\MarkOneOnOneEntryAsHappened;
 use App\Services\Company\Adminland\Expense\AllowEmployeeToManageExpenses;
+use App\Services\Company\Adminland\AskMeAnything\CreateAskMeAnythingSession;
+use App\Services\Company\Adminland\AskMeAnything\ToggleAskMeAnythingSession;
 use App\Services\Company\Adminland\JobOpening\CreateRecruitingStageTemplate;
+use App\Services\Company\Adminland\AskMeAnything\CreateAskMeAnythingQuestion;
 use App\Services\Company\Employee\WorkFromHome\UpdateWorkFromHomeInformation;
 use App\Services\Company\Employee\EmployeeStatus\AssignEmployeeStatusToEmployee;
 
@@ -234,6 +238,7 @@ class SetupDummyAccount extends Command
         $this->addWikis();
         $this->addRecruitingStages();
         $this->addJobOpenings();
+        $this->addAMASessions();
         $this->addSecondaryBlankAccount();
         $this->validateUserAccounts();
         $this->stop();
@@ -2505,6 +2510,78 @@ Michael puts Jim and Dwight in charge of the Party Planning Committee because th
                 }
             }
         }
+    }
+
+    private function addAMASessions(): void
+    {
+        $this->info('☐ Add Ask Me Anything sessions');
+
+        $themes = collect([
+            'New office',
+            'New Year resolutions',
+            'Launch of the new marketing website',
+            'New plans for the next year',
+            'Merge with the company we just bought',
+        ]);
+
+        $questions = collect([
+            'Have you ever had a nickname? What is it?',
+            'Do you like or dislike surprises? Why or why not?',
+            'In the evening, would you rather play a game, visit a relative, watch a movie, or read?',
+            'Would you rather vacation in Hawaii or Alaska, and why?',
+            'Would you rather win the lottery or work at the perfect job? And why?',
+            'Who would you want to be stranded with on a deserted island?',
+            'If money was no object, what would you do all day?',
+            'If you could go back in time, what year would you travel to?',
+            'How would your friends describe you?',
+            'What are your hobbies?',
+            'What is the best gift you have been given?',
+            'What is the worst gift you have received?',
+            'Aside from necessities, what one thing could you not go a day without?',
+            'List two pet peeves.',
+            'Where do you see yourself in five years?',
+            'How many pairs of shoes do you own?',
+            'If you were a super-hero, what powers would you have?',
+            'What would you do if you won the lottery?',
+            'What form of public transportation do you prefer? (air, boat, train, bus, car, etc.)',
+            'What is your favorite zoo animal?',
+            'If you could go back in time to change one thing, what would it be?',
+            'If you could share a meal with any 4 individuals, living or dead, who would they be?',
+            'How many pillows do you sleep with?',
+            'What is the longest you have gone without sleep (and why)?',
+            'What is the tallest building you have been to the top in?',
+        ]);
+
+        $daysToSubtract = rand(200, 365);
+        foreach ($themes as $theme) {
+            // get random date
+            $date = Carbon::now()->copy()->subDays($daysToSubtract);
+
+            $ama = (new CreateAskMeAnythingSession)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->michael->id,
+                'theme' => $theme,
+                'date' => $date->format('Y-m-d'),
+            ]);
+
+            foreach ($questions->take(rand(10, 24)) as $question) {
+                (new CreateAskMeAnythingQuestion)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->employees->shuffle()->first()->id,
+                    'ask_me_anything_session_id' => $ama->id,
+                    'question' => $question,
+                    'anonymous' => rand(0, 1) == 1,
+                ]);
+            }
+
+            $daysToSubtract = $daysToSubtract + rand(200, 365);
+        }
+
+        (new ToggleAskMeAnythingSession)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'ask_me_anything_session_id' => AskMeAnythingSession::orderBy('id', 'desc')->first()->id,
+        ]);
     }
 
     private function addSecondaryBlankAccount(): void

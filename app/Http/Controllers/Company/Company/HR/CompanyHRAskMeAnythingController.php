@@ -13,6 +13,7 @@ use App\Models\Company\AskMeAnythingSession;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\HR\CompanyHRAskMeAnythingViewHelper;
 use App\Services\Company\Adminland\AskMeAnything\CreateAskMeAnythingSession;
+use App\Services\Company\Adminland\AskMeAnything\ToggleAskMeAnythingSession;
 use App\Services\Company\Adminland\AskMeAnything\UpdateAskMeAnythingSession;
 use App\Services\Company\Adminland\AskMeAnything\AnswerAskMeAnythingQuestion;
 
@@ -243,6 +244,32 @@ class CompanyHRAskMeAnythingController extends Controller
 
         return response()->json([
             'data' => true,
+        ], 200);
+    }
+
+    /**
+     * Toggle the session.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $sessionId
+     * @return JsonResponse
+     */
+    public function toggleStatus(Request $request, int $companyId, int $sessionId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $data = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'ask_me_anything_session_id' => $sessionId,
+        ];
+
+        $session = (new ToggleAskMeAnythingSession)->execute($data);
+
+        return response()->json([
+            'data' => $session->active,
         ], 200);
     }
 }

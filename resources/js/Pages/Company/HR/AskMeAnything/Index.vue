@@ -38,7 +38,7 @@
 
           <inertia-link v-if="data.can_create" :href="data.url_new" class="btn f5">{{ $t('company.hr_ama_index_cta') }}</inertia-link>
         </div>
-        <div class="br3 mb5 bg-white box flex justify-between items-center pa3">
+        <div v-if="data.active_session" class="br3 mb5 bg-white box flex justify-between items-center pa3">
           <div class="relative flex items-center">
             <img loading="lazy" src="/img/streamline-icon-microphone-19@400x400.png" alt="mic symbol" class="mr2" height="80"
                  width="80"
@@ -47,15 +47,22 @@
             <div>
               <p class="mt0 mb2 f7 gray">{{ $t('company.hr_ama_index_next_session') }}</p>
               <h2 class="fw4 mt0 mb2">
-                Sept 33, 2200
+                {{ data.active_session.happened_at }}
               </h2>
-              <p class="f6 mt1 mb0">blabla</p>
+              <p v-if="data.active_session.theme" class="f6 mt1 mb0">{{ data.active_session.theme }}</p>
             </div>
           </div>
 
           <div class="tc">
-            <inertia-link :href="''" class="btn db mb2">{{ $t('app.view') }}</inertia-link>
-            <p class="mv0 gray f7">{{ $t('company.hr_ama_index_next_questions') }}</p>
+            <inertia-link :href="data.active_session.url" class="btn db mb2">{{ $t('app.view') }}</inertia-link>
+            <p class="mv0 gray f7">{{ $tc('company.hr_ama_index_next_questions', data.active_session.questions_count, {count: data.active_session.questions_count }) }}</p>
+          </div>
+        </div>
+        <div v-else class="br3 mb5 bg-white box flex justify-between items-center pa3">
+          <div class="relative flex items-center">
+            <h2 class="fw4 f5 mt0 mb0 tc">
+              There are no planned scheduled sessions.
+            </h2>
           </div>
         </div>
 
@@ -67,8 +74,8 @@
         </div>
         <div class="br3 mb3 bg-white box">
           <!-- list of past sessions -->
-          <ul v-if="data.sessions.length > 0" class="list pl0 ma0">
-            <li v-for="session in data.sessions" :key="session.id" class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between session-item">
+          <ul v-if="data.inactive_sessions.length > 0" class="list pl0 ma0">
+            <li v-for="session in data.inactive_sessions" :key="session.id" class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between session-item">
               <div class="mb1 relative">
                 <inertia-link :href="session.url" class="dib mb2">
                   {{ session.happened_at }}
@@ -77,7 +84,7 @@
                 <p class="mv0 f7 gray">{{ session.theme }}</p>
               </div>
 
-              <p class="mv0">{{ $t('company.hr_ama_index_past_session_count') }}</p>
+              <p class="mv0">{{ $t('company.hr_ama_index_past_session_count', session.questions_count, {count: session.questions_count }) }}</p>
             </li>
           </ul>
 
