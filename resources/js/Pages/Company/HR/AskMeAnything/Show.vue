@@ -84,10 +84,10 @@
         <!-- tabs -->
         <div class="cf mw7 center br3 mb5 tc">
           <div class="cf dib btn-group">
-            <inertia-link :href="data.url.unanswered_tab" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(tab == 'unanswered')}">
+            <inertia-link :href="data.url.unanswered_tab" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{ selected: tab === 'unanswered' }">
               {{ $t('company.hr_ama_show_questions_tab_unanswered') }}
             </inertia-link>
-            <inertia-link :href="data.url.answered_tab" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(tab == 'answered')}">
+            <inertia-link :href="data.url.answered_tab" class="f6 fl ph3 pv2 dib pointer" :class="{ selected: tab === 'answered' }">
               {{ $t('company.hr_ama_show_questions_tab_answered') }}
             </inertia-link>
           </div>
