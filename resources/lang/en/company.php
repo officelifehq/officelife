@@ -91,6 +91,7 @@ return [
     'hr_ama_index_next_questions' => 'no question yet|{count} questions already',
     'hr_ama_index_past_session' => 'Past sessions',
     'hr_ama_index_past_session_count' => '0 question|{count} questions',
+    'hr_ama_index_blank_note' => 'There are no planned scheduled sessions.',
     'hr_ama_index_blank' => 'There are no previous sessions yet.',
     'hr_ama_show_title' => 'Ask Me Anything session of {date}',
     'hr_ama_show_questions_blank' => 'There are no questions at the moment.',

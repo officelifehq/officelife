@@ -61,7 +61,7 @@
         <div v-else class="br3 mb5 bg-white box flex justify-between items-center pa3">
           <div class="relative flex items-center">
             <h2 class="fw4 f5 mt0 mb0 tc">
-              There are no planned scheduled sessions.
+              {{ $t('company.hr_ama_index_blank_note') }}
             </h2>
           </div>
         </div>
