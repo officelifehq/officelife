@@ -346,6 +346,16 @@ class Company extends Model
     }
 
     /**
+     * Get all sessions in the company.
+     *
+     * @return HasMany
+     */
+    public function askMeAnythingSessions()
+    {
+        return $this->hasMany(AskMeAnythingSession::class);
+    }
+
+    /**
      * Get all of the comments made in the company.
      *
      * @return HasMany

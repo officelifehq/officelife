@@ -390,6 +390,22 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
                 // position
                 Route::get('positions/{position}', 'Company\\Company\\HR\\CompanyHRPositionController@show')->name('hr.positions.show');
+
+                // ask me anything
+                Route::get('ask-me-anything', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@index')->name('hr.ama.index');
+                Route::middleware(['hr'])->group(function () {
+                    Route::get('ask-me-anything/create', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@create')->name('hr.ama.create');
+                    Route::post('ask-me-anything', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@store')->name('hr.ama.store');
+                    Route::get('ask-me-anything/{session}/edit', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@edit')->name('hr.ama.edit');
+                    Route::put('ask-me-anything/{session}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@update')->name('hr.ama.update');
+                    Route::put('ask-me-anything/{session}/toggle', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@toggleStatus')->name('hr.ama.toggle');
+                    Route::get('ask-me-anything/{session}/delete', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@delete')->name('hr.ama.delete');
+                    Route::delete('ask-me-anything/{session}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@destroy')->name('hr.ama.destroy');
+                    Route::put('ask-me-anything/{session}/questions/{question}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@toggle')->name('hr.ama.question.toggle');
+                });
+                Route::get('ask-me-anything/{session}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@show')->name('hr.ama.show');
+                Route::post('ask-me-anything/{session}', 'Company\\Dashboard\\Me\\DashboardAskMeAnythingQuestionController@store')->name('dashboard.ama.question.store');
+                Route::get('ask-me-anything/{session}/answered', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@showAnswered')->name('hr.ama.show.answered');
             });
 
             // Knowledge base

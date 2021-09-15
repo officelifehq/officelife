@@ -9,9 +9,18 @@
 	}
 }
 
+.position-item:first-child:hover {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
 .position-item:last-child {
-  margin-bottom: 0;
   border-bottom: 0;
+
+  &:hover {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
 }
 
 .bar {

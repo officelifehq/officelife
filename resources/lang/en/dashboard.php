@@ -319,4 +319,11 @@ return [
     'participant_dashboard_job_opening_thanks' => 'Thanks!',
     'participant_dashboard_job_opening_note' => 'Your feedback will be read by everyone involved in the recruiting process, except the candidate.',
     'participant_dashboard_job_opening_success' => 'The note has been saved.',
+    'ask_me_anything_cta' => 'Ask a question',
+    'ask_me_anything_section_title' => 'Upcoming Ask Me Anything session',
+    'ask_me_anything_title' => 'The next Ask Me Anything session is scheduled for {date}.',
+    'ask_me_anything_anonymous' => 'Reveal your identity so everyone knows you are the author of this question',
+    'ask_me_anything_new_help' => 'Everyone in the company will be able to read your question, but they will not know who posted this question, unless you want to.',
+    'ask_me_anything_total_questions' => 'You have already submitted {count} question.|You have already submitted {count} questions.',
+    'ask_me_anything_success' => 'The question has been submitted.',
 ];

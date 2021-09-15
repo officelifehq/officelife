@@ -18,6 +18,7 @@ use Money\Currencies\ISOCurrencies;
 use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
+use App\Models\Company\AskMeAnythingSession;
 use App\Models\Company\CandidateStageParticipant;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
@@ -547,5 +548,43 @@ class DashboardMeViewHelper
         }
 
         return $jobOpeningsCollection;
+    }
+
+    /**
+     * Get the information about the current active ask me anything session, if
+     * it exists.
+     *
+     * @param Company $company
+     * @param Employee $employee
+     * @return array
+     */
+    public static function activeAskMeAnythingSession(Company $company, Employee $employee): ?array
+    {
+        $session = AskMeAnythingSession::where('company_id', $company->id)
+            ->where('active', true)
+            ->first();
+
+        if (! $session) {
+            return null;
+        }
+
+        $questionsAskedByEmployee = $session->questions()
+            ->where('employee_id', $employee->id)
+            ->count();
+
+        $questionsInTotal = $session->questions()->count();
+
+        return [
+            'id' => $session->id,
+            'active' => $session->active,
+            'theme' => $session->theme,
+            'happened_at' => DateHelper::formatDate($session->happened_at),
+            'url_new' => route('dashboard.ama.question.store', [
+                'company' => $company->id,
+                'session' => $session->id,
+            ]),
+            'questions_asked_by_employee_count' => $questionsAskedByEmployee,
+            'questions_in_total_count' => $questionsInTotal,
+        ];
     }
 }

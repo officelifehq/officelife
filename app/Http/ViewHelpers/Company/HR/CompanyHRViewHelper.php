@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Company\HR;
 
+use App\Helpers\DateHelper;
 use App\Models\User\Pronoun;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
@@ -9,6 +10,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\Models\Company\AskMeAnythingSession;
 
 class CompanyHRViewHelper
 {
@@ -181,5 +183,36 @@ class CompanyHRViewHelper
         }
 
         return $positionsCollection->sortByDesc('number_of_employees')->values()->all();
+    }
+
+    /**
+     * Get the upcoming Ask My Anything Session in the company.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function askMeAnythingUpcomingSession(Company $company): array
+    {
+        $upcomingSession = AskMeAnythingSession::where('company_id', $company->id)
+            ->where('active', true)
+            ->with('questions')
+            ->first();
+
+        $session = $upcomingSession ? [
+            'happened_at' => DateHelper::formatFullDate($upcomingSession->happened_at),
+            'theme' => $upcomingSession->theme,
+            'questions_count' => $upcomingSession->questions->count(),
+            'url' => route('hr.ama.show', [
+                'company' => $company->id,
+                'session' => $upcomingSession->id,
+            ]),
+        ] : null;
+
+        return [
+            'session' => $session,
+            'url_view_all' => route('hr.ama.index', [
+                'company' => $company->id,
+            ]),
+        ];
     }
 }

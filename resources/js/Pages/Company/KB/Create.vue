@@ -4,6 +4,7 @@
       <breadcrumb :with-box="true"
                   :previous-url="'/' + $page.props.auth.company.id + '/company/kb/'"
                   :previous="$t('app.breadcrumb_kb_list')"
+                  :has-more="false"
       >
         {{ $t('app.breadcrumb_kb_create') }}
       </breadcrumb>

@@ -68,6 +68,11 @@
         :question="question"
       />
 
+      <ask-me-anything
+        v-if="askMeAnything"
+        :session="askMeAnything"
+      />
+
       <expense
         :employee="employee"
         :categories="categories"
@@ -94,6 +99,7 @@ import ECoffee from '@/Pages/Dashboard/Me/Partials/ECoffee';
 import Projects from '@/Pages/Dashboard/Me/Partials/Projects';
 import JobOpeningsAsSponsor from '@/Pages/Dashboard/Me/Partials/JobOpeningSponsor';
 import JobOpeningsAsParticipant from '@/Pages/Dashboard/Me/Partials/JobOpeningParticipant';
+import AskMeAnything from '@/Pages/Dashboard/Me/Partials/AskMeAnything';
 
 export default {
   components: {
@@ -111,6 +117,7 @@ export default {
     Projects,
     JobOpeningsAsSponsor,
     JobOpeningsAsParticipant,
+    AskMeAnything,
   },
 
   props: {
@@ -187,6 +194,10 @@ export default {
       default: null,
     },
     jobOpeningsAsParticipant: {
+      type: Object,
+      default: null,
+    },
+    askMeAnything: {
       type: Object,
       default: null,
     },

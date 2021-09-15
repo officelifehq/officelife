@@ -32,6 +32,7 @@ use App\Models\Company\ConsultantRate;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Models\Company\CompanyPTOPolicy;
+use App\Models\Company\AskMeAnythingSession;
 use App\Models\Company\RecruitingStageTemplate;
 use App\Models\Company\CompanyDailyUsageHistory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -346,6 +347,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->candidates()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_ask_me_anything_sessions(): void
+    {
+        $company = Company::factory()->create();
+        AskMeAnythingSession::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->askMeAnythingSessions()->exists());
     }
 
     /** @test */

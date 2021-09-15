@@ -1503,6 +1503,35 @@ class LogHelper
                 ]);
                 break;
 
+            case 'ask_me_anything_session_created':
+                $sentence = trans('account.log_ask_me_anything_session_created', [
+                    'ask_me_anything_session_id' => $log->object->{'ask_me_anything_session_id'},
+                    'ask_me_anything_session_theme' => $log->object->{'ask_me_anything_session_theme'},
+                ]);
+                break;
+
+            case 'ask_me_anything_session_destroyed':
+                $sentence = trans('account.log_ask_me_anything_session_destroyed');
+                break;
+
+            case 'ask_me_anything_session_toggled':
+                $sentence = trans('account.ask_me_anything_session_toggled', [
+                    'ask_me_anything_session_id' => $log->object->{'ask_me_anything_session_id'},
+                ]);
+                break;
+
+            case 'ask_me_anything_session_updated':
+                $sentence = trans('account.ask_me_anything_session_updated', [
+                    'ask_me_anything_session_id' => $log->object->{'ask_me_anything_session_id'},
+                ]);
+                break;
+
+            case 'ask_me_anything_question_answered':
+                $sentence = trans('account.ask_me_anything_question_answered', [
+                    'ask_me_anything_session_id' => $log->object->{'ask_me_anything_session_id'},
+                ]);
+                break;
+
             case 'project_message_comment_created':
                 $sentence = trans('account.log_project_message_comment_created', [
                     'project_id' => $log->object->{'project_id'},
