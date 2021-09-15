@@ -16,6 +16,7 @@ use App\Services\Company\Adminland\AskMeAnything\CreateAskMeAnythingSession;
 use App\Services\Company\Adminland\AskMeAnything\ToggleAskMeAnythingSession;
 use App\Services\Company\Adminland\AskMeAnything\UpdateAskMeAnythingSession;
 use App\Services\Company\Adminland\AskMeAnything\AnswerAskMeAnythingQuestion;
+use App\Services\Company\Adminland\AskMeAnything\DestroyAskMeAnythingSession;
 
 class CompanyHRAskMeAnythingController extends Controller
 {
@@ -270,6 +271,62 @@ class CompanyHRAskMeAnythingController extends Controller
 
         return response()->json([
             'data' => $session->active,
+        ], 200);
+    }
+
+    /**
+     * Show the Delete Ask Me Anything session screen.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $sessionId
+     * @return mixed
+     */
+    public function delete(Request $request, int $companyId, int $sessionId)
+    {
+        $employee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
+
+        try {
+            $session = AskMeAnythingSession::where('company_id', $company->id)
+                ->findOrFail($sessionId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $data = CompanyHRAskMeAnythingViewHelper::delete($company, $session);
+
+        return Inertia::render('Company/HR/AskMeAnything/Delete', [
+            'data' => $data,
+            'notifications' => NotificationHelper::getNotifications($employee),
+        ]);
+    }
+
+    /**
+     * Destroy the session.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $sessionId
+     * @return JsonResponse
+     */
+    public function destroy(Request $request, int $companyId, int $sessionId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $data = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'ask_me_anything_session_id' => $sessionId,
+        ];
+
+        (new DestroyAskMeAnythingSession)->execute($data);
+
+        return response()->json([
+            'data' => route('hr.ama.index', [
+                'company' => $company->id,
+            ]),
         ], 200);
     }
 }

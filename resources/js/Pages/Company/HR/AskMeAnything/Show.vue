@@ -76,9 +76,10 @@
 
         <!-- actions -->
         <div v-if="data.permissions.can_edit" class="actions pa3 box flex justify-center mb4">
+          <a v-if="activeStatus" class="btn mr3" @click="toggle()">{{ $t('company.hr_ama_deactivate') }}</a>
+          <a v-else class="btn mr3" @click="toggle()">{{ $t('company.hr_ama_activate') }}</a>
           <inertia-link :href="data.url.edit" class="btn dib mr3">{{ $t('app.edit') }}</inertia-link>
-          <a v-if="activeStatus" class="btn" @click="toggle()">{{ $t('company.hr_ama_deactivate') }}</a>
-          <a v-else class="btn" @click="toggle()">{{ $t('company.hr_ama_activate') }}</a>
+          <inertia-link :href="data.url.delete" class="btn destroy dib mr3">{{ $t('app.delete') }}</inertia-link>
         </div>
 
         <!-- tabs -->

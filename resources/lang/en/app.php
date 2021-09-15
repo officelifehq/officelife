@@ -184,6 +184,7 @@ return [
     'breadcrumb_ama_new' => 'Create a new session',
     'breadcrumb_ama_show' => 'Detail of a session',
     'breadcrumb_ama_edit' => 'Edit a session',
+    'breadcrumb_ama_delete' => 'Delete a session',
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',
     'header_find' => 'Find',

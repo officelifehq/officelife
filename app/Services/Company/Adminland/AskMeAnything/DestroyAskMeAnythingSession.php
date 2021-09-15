@@ -64,6 +64,7 @@ class DestroyAskMeAnythingSession extends BaseService
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
+            'objects' => json_encode([]),
         ])->onQueue('low');
     }
 }

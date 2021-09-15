@@ -2,9 +2,8 @@
   <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
       <breadcrumb :with-box="true"
-                  :previous-url="'/' + $page.props.auth.company.id + '/company/hr/ask-me-anything'"
-                  :previous="$t('app.breadcrumb_ama_list')"
-                  :has-more="false"
+                  :previous-url="data.url.back"
+                  :previous="$t('app.breadcrumb_ama_show')"
       >
         {{ $t('app.breadcrumb_ama_edit') }}
       </breadcrumb>
@@ -13,7 +12,7 @@
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <div class="pa3 measure center">
           <h2 class="tc normal mb4 lh-copy">
-            {{ $t('company.hr_ama_new_title') }}
+            {{ $t('company.hr_ama_edit_title') }}
 
             <help :url="$page.props.help_links.wiki" :top="'1px'" />
           </h2>

@@ -64,7 +64,7 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
                 'theme' => 'theme',
                 'happened_at' => 'Jan 02, 2018',
                 'questions_count' => 2,
-                'url' => env('APP_URL') . '/' . $company->id . '/company/hr/ask-me-anything/' . $activeAma->id,
+                'url' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$activeAma->id,
             ],
             $array['active_session']
         );
@@ -145,6 +145,7 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
                 'unanswered_tab' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id,
                 'answered_tab' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/answered',
                 'edit' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/edit',
+                'delete' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/delete',
                 'toggle' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id.'/toggle',
             ],
             $array['url']
@@ -218,8 +219,31 @@ class CompanyHRAskMeAnythingViewHelperTest extends TestCase
                 'happened_at_month' => $ama->happened_at->month,
                 'happened_at_day' => $ama->happened_at->day,
                 'url' => [
-                    'update' => env('APP_URL') . '/' . $company->id . '/company/hr/ask-me-anything/' . $ama->id,
-                    'back' => env('APP_URL') . '/' . $company->id . '/company/hr/ask-me-anything/' . $ama->id,
+                    'update' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id,
+                    'back' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id,
+                ],
+            ],
+            $array
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_details_to_delete_a_given_ama_session(): void
+    {
+        $company = Company::factory()->create();
+
+        $ama = AskMeAnythingSession::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $array = CompanyHRAskMeAnythingViewHelper::delete($company, $ama);
+
+        $this->assertEquals(
+            [
+                'id' => $ama->id,
+                'url' => [
+                    'destroy' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id,
+                    'back' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id,
                 ],
             ],
             $array

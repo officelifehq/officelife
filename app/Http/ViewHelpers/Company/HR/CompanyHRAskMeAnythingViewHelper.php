@@ -159,6 +159,10 @@ class CompanyHRAskMeAnythingViewHelper
                     'company' => $company->id,
                     'session' => $session->id,
                 ]),
+                'delete' => route('hr.ama.delete', [
+                    'company' => $company->id,
+                    'session' => $session->id,
+                ]),
                 'toggle' => route('hr.ama.toggle', [
                     'company' => $company->id,
                     'session' => $session->id,
@@ -184,6 +188,30 @@ class CompanyHRAskMeAnythingViewHelper
             'happened_at_day' => $session->happened_at->day,
             'url' => [
                 'update' => route('hr.ama.update', [
+                    'company' => $company->id,
+                    'session' => $session->id,
+                ]),
+                'back' => route('hr.ama.show', [
+                    'company' => $company->id,
+                    'session' => $session->id,
+                ]),
+            ],
+        ];
+    }
+
+    /**
+     * Get the information needed to delete a session.
+     *
+     * @param Company $company
+     * @param AskMeAnythingSession $session
+     * @return array
+     */
+    public static function delete(Company $company, AskMeAnythingSession $session): array
+    {
+        return [
+            'id' => $session->id,
+            'url' => [
+                'destroy' => route('hr.ama.destroy', [
                     'company' => $company->id,
                     'session' => $session->id,
                 ]),

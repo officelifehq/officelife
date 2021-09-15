@@ -104,4 +104,8 @@ return [
     'hr_ama_deactivate' => 'Deactivate',
     'hr_ama_active' => 'active',
     'hr_ama_inactive' => 'inactive',
+    'hr_ama_edit_title' => 'Edit the session',
+    'hr_ama_delete_title' => 'Delete the session',
+    'hr_ama_delete_description' => 'Would you like to delete this session? If you proceed, all questions will also be deleted permanently.',
+    'hr_ama_delete_success' => 'The session has been deleted.',
 ];
