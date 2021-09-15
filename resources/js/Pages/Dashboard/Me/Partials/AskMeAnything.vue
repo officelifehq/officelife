@@ -22,7 +22,7 @@
         🎤
       </span> {{ $t('dashboard.ask_me_anything_section_title') }}
 
-      <help :url="$page.props.help_links.questions" />
+      <help :url="$page.props.help_links.ask_me_anything" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box relative">

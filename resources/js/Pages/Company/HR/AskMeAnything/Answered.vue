@@ -32,7 +32,7 @@
           <h2 class="tc normal mb4 lh-copy">
             {{ $t('company.hr_ama_show_title', {date: data.happened_at}) }}
 
-            <help :url="$page.props.help_links.wiki" :top="'1px'" />
+            <help :url="$page.props.help_links.ask_me_anything" :top="'1px'" />
           </h2>
 
           <!-- session theme -->

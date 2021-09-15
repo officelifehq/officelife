@@ -14,7 +14,7 @@
           <h2 class="tc normal mb4 lh-copy">
             {{ $t('company.hr_ama_edit_title') }}
 
-            <help :url="$page.props.help_links.wiki" :top="'1px'" />
+            <help :url="$page.props.help_links.ask_me_anything" :top="'1px'" />
           </h2>
 
           <form @submit.prevent="submit">

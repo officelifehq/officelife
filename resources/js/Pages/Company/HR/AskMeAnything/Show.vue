@@ -67,7 +67,7 @@
               {{ $t('company.hr_ama_inactive') }}
             </span>
 
-            <help :url="$page.props.help_links.wiki" :top="'1px'" />
+            <help :url="$page.props.help_links.ask_me_anything" :top="'1px'" />
           </h2>
 
           <!-- session theme -->

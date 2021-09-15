@@ -34,6 +34,8 @@
             <span class="mr1">
               🎉
             </span> {{ $t('company.hr_ama_index_upcoming_session') }}
+
+            <help :url="$page.props.help_links.ask_me_anything" :top="'2px'" />
           </div>
 
           <inertia-link v-if="data.can_create" :href="data.url_new" class="btn f5">{{ $t('company.hr_ama_index_cta') }}</inertia-link>
@@ -106,11 +108,13 @@
 <script>
 import Layout from '@/Shared/Layout';
 import Breadcrumb from '@/Shared/Layout/Breadcrumb';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
     Layout,
     Breadcrumb,
+    Help,
   },
 
   props: {
