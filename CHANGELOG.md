@@ -1,3 +1,32 @@
+# [0.5.0](https://github.com/officelifehq/officelife/compare/v0.4.0...v0.5.0) (2021-09-16)
+
+
+### Features
+
+* ability to edit a job opening ([#1280](https://github.com/officelifehq/officelife/issues/1280)) ([e11fb0e](https://github.com/officelifehq/officelife/commit/e11fb0e1abf4a635aa0d8e17c63e3aad300b6218))
+* ability to set company location ([#1223](https://github.com/officelifehq/officelife/issues/1223)) ([521729c](https://github.com/officelifehq/officelife/commit/521729cc46a2245f3c679acd02173f400feacb39))
+* add ability to manage job openings ([#1175](https://github.com/officelifehq/officelife/issues/1175)) ([925506a](https://github.com/officelifehq/officelife/commit/925506a2aaeb13cb981deb6523b48186907fb59d))
+* add ability to post comment to project messages ([#1322](https://github.com/officelifehq/officelife/issues/1322)) ([f9c57da](https://github.com/officelifehq/officelife/commit/f9c57daad197bdd0b6352c52688ebfd98270b6f0))
+* ask me anything ([#1323](https://github.com/officelifehq/officelife/issues/1323)) ([9f2eef3](https://github.com/officelifehq/officelife/commit/9f2eef395d0b4f06442ae8a1b1e367e70823ba71))
+* automatic slug when creating or renaming a company ([#1239](https://github.com/officelifehq/officelife/issues/1239)) ([c083181](https://github.com/officelifehq/officelife/commit/c083181720197edc23dd461cebab91e32d2e53fe))
+* hire candidate ([#1279](https://github.com/officelifehq/officelife/issues/1279)) ([4ef1544](https://github.com/officelifehq/officelife/commit/4ef15445c919ff02fd4379b7ab18dbd796e78a48))
+* increase expense maximum amount ([#1303](https://github.com/officelifehq/officelife/issues/1303)) ([f06c416](https://github.com/officelifehq/officelife/commit/f06c41645b66f9a83058d6f24e17d7781c9e690c))
+* let participant participate in recruiting process ([#1306](https://github.com/officelifehq/officelife/issues/1306)) ([89da2f4](https://github.com/officelifehq/officelife/commit/89da2f4ad0aaa9872cbc56918612f1003b7ce2ae))
+* markdown support for company news ([#1304](https://github.com/officelifehq/officelife/issues/1304)) ([51d3feb](https://github.com/officelifehq/officelife/commit/51d3febd9adaa18493ce063bded5ee6b5f37799f))
+* show fulfilled job openings in hr dashboard ([#1278](https://github.com/officelifehq/officelife/issues/1278)) ([d61cd34](https://github.com/officelifehq/officelife/commit/d61cd3492b3d515593419255a8543d186e5f78b7))
+* show job openings for which i am sponsor of on dashboard ([#1285](https://github.com/officelifehq/officelife/issues/1285)) ([9abee95](https://github.com/officelifehq/officelife/commit/9abee9563768d2f954b6b6b7df7e4af54c2e2189))
+* view candidate cv ([#1281](https://github.com/officelifehq/officelife/issues/1281)) ([a2f2f8c](https://github.com/officelifehq/officelife/commit/a2f2f8c07c8190de3aa3f7c5d5afe226e8094128))
+
+
+### Bug Fixes
+
+* edit profile address ([#1240](https://github.com/officelifehq/officelife/issues/1240)) ([524a3c5](https://github.com/officelifehq/officelife/commit/524a3c53b1a4c7f63fd941641ae5ffe9ca27cad5))
+* fix breadcrumbs ([#1287](https://github.com/officelifehq/officelife/issues/1287)) ([b2bc370](https://github.com/officelifehq/officelife/commit/b2bc370d11764c07dbd2c379736c51865cd01e00))
+* fix participants not shown on dashboard ([#1321](https://github.com/officelifehq/officelife/issues/1321)) ([b9c580e](https://github.com/officelifehq/officelife/commit/b9c580e9b8162e6fb6936722e1c5b71dfd93c2a3))
+* fix stop rate manager process not stopping surveys ([#1286](https://github.com/officelifehq/officelife/issues/1286)) ([6a47a6b](https://github.com/officelifehq/officelife/commit/6a47a6b81cf5d9b1d9b42c048d018b41b56fc9b7))
+* fix tasks overflow when text is too big ([#1298](https://github.com/officelifehq/officelife/issues/1298)) ([e6e8358](https://github.com/officelifehq/officelife/commit/e6e835888e51ab8dfd929c655d12efa4d822bff9))
+* fix wrong breadcrumb on projects page ([#1297](https://github.com/officelifehq/officelife/issues/1297)) ([672bf12](https://github.com/officelifehq/officelife/commit/672bf12ce978c433672d9efc70e60f2968ae887e))
+
 # [0.4.0](https://github.com/officelifehq/officelife/compare/v0.3.0...v0.4.0) (2021-07-30)
 
 
