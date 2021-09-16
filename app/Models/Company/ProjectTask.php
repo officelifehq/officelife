@@ -109,4 +109,14 @@ class ProjectTask extends Model
     {
         return $this->hasMany(TimeTrackingEntry::class);
     }
+
+    /**
+     * Get all of the comments associated with the project message.
+     *
+     * @return MorphMany
+     */
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }
