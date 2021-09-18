@@ -14,12 +14,10 @@ class CreateBoardsTable extends Migration
         // necessary for SQLlite
         Schema::enableForeignKeyConstraints();
 
-        Schema::create('boards', function (Blueprint $table) {
+        Schema::create('project_boards', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_id');
-            $table->datetime('happened_at');
-            $table->boolean('active')->default(false);
-            $table->string('theme')->nullable();
+            $table->string('name');
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
