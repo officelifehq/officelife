@@ -86,6 +86,7 @@ class UpdateProjectInformationTest extends TestCase
             'project_id' => $project->id,
             'name' => 'Livraison API v5',
             'code' => '123',
+            'short_code' => '123',
             'summary' => 'awesome project',
         ];
 
@@ -95,6 +96,7 @@ class UpdateProjectInformationTest extends TestCase
             'id' => $project->id,
             'name' => 'Livraison API v5',
             'code' => '123',
+            'short_code' => '123',
             'summary' => 'awesome project',
         ]);
 

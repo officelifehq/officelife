@@ -45,10 +45,10 @@
 
       <!-- add a new link / edit links -->
       <li v-if="permissions.can_manage_links && addMode == false" class="mt3">
-        <a v-if="!editMode" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="add-new-link" @click.prevent="addMode = true"><span>+</span> {{ $t('team.useful_link_cta') }}</a>
-        <span v-if="!editMode && localLinks.length > 0" class="moon-gray">|</span>
-        <a v-if="!editMode && localLinks.length > 0" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="edit-links" @click.prevent="editMode = true">{{ $t('team.useful_link_edit') }}</a>
-        <a v-if="editMode" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="exit-edit-link" @click.prevent="editMode = false">{{ $t('team.useful_link_exit_edit_mode') }}</a>
+        <a v-if="!editMode" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="add-new-link" @click.prevent="addMode = true"><span>+</span> {{ $t('team.useful_link_cta') }}</a>
+        <span v-if="!editMode && localLinks.length > 0" class="mr1 ml1 moon-gray">|</span>
+        <a v-if="!editMode && localLinks.length > 0" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="edit-links" @click.prevent="editMode = true">{{ $t('team.useful_link_edit') }}</a>
+        <a v-if="editMode" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="exit-edit-link" @click.prevent="editMode = false">{{ $t('team.useful_link_exit_edit_mode') }}</a>
       </li>
     </ul>
 

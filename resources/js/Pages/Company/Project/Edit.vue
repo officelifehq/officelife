@@ -36,6 +36,18 @@
                         :datacy="'project-code-input'"
                         :errors="$page.props.errors.title"
                         :label="$t('project.create_input_code')"
+                        :help="$t('project.create_input_help')"
+                        :maxlength="191"
+            />
+
+            <!-- short code -->
+            <text-input :id="'short_code'"
+                        v-model="form.short_code"
+                        :name="'short_code'"
+                        :errors="$page.props.errors.title"
+                        :label="$t('project.create_input_short_code')"
+                        :help="$t('project.create_input_short_code_help')"
+                        :maxlength="3"
             />
 
             <!-- Summary -->
@@ -99,6 +111,7 @@ export default {
       form: {
         name: null,
         code: null,
+        short_code: null,
         summary: null,
         errors: [],
       },
@@ -110,6 +123,7 @@ export default {
   created() {
     this.form.name = this.project.name;
     this.form.code = this.project.code;
+    this.form.short_code = this.project.short_code;
     this.form.summary = this.project.summary;
   },
 

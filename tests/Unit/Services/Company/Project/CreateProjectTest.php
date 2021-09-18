@@ -72,6 +72,21 @@ class CreateProjectTest extends TestCase
     }
 
     /** @test */
+    public function it_fails_if_project_short_code_already_exists(): void
+    {
+        $michael = Employee::factory()->create([]);
+        $jim = $this->createAnotherEmployee($michael);
+        Project::factory()->create([
+            'company_id' => $michael->company_id,
+            'status' => Project::CREATED,
+            'short_code' => '123',
+        ]);
+
+        $this->expectException(ProjectCodeAlreadyExistException::class);
+        $this->executeService($michael, $jim);
+    }
+
+    /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = Employee::factory()->create([]);
@@ -94,6 +109,7 @@ class CreateProjectTest extends TestCase
             'project_lead_id' => $lead ? $lead->id : null,
             'name' => 'Livraison API v3',
             'code' => '123',
+            'short_code' => '123',
             'emoji' => null,
             'description' => null,
         ];

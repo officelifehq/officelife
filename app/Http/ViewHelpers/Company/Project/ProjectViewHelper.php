@@ -136,6 +136,7 @@ class ProjectViewHelper
             'id' => $project->id,
             'name' => $project->name,
             'code' => $project->code,
+            'short_code' => $project->short_code,
             'summary' => $project->summary,
         ];
     }
