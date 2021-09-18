@@ -171,6 +171,7 @@ class ProjectViewHelperTest extends TestCase
                 'id' => $project->id,
                 'name' => $project->name,
                 'code' => $project->code,
+                'short_code' => $project->short_code,
                 'summary' => null,
             ],
             $array

@@ -439,6 +439,7 @@ class ProjectController extends Controller
             'project_lead_id' => $request->input('projectLead') ? $request->input('projectLead')['id'] : null,
             'name' => $request->input('name'),
             'code' => $request->input('code'),
+            'short_code' => $request->input('short_code'),
             'summary' => $request->input('summary'),
             'description' => $request->input('description'),
         ];

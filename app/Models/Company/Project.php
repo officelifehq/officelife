@@ -34,6 +34,7 @@ class Project extends Model
         'name',
         'summary',
         'code',
+        'short_code',
         'emoji',
         'description',
         'started_at',

@@ -72,6 +72,19 @@
                         :datacy="'project-code-input'"
                         :errors="$page.props.errors.title"
                         :label="$t('project.create_input_code')"
+                        :help="$t('project.create_input_help')"
+                        :maxlength="191"
+                        @esc-key-pressed="showCode = false"
+            />
+
+            <!-- Short code -->
+            <text-input v-if="showCode" :id="'short_code'"
+                        v-model="form.short_code"
+                        :name="'short_code'"
+                        :errors="$page.props.errors.short_code"
+                        :label="$t('project.create_input_short_code')"
+                        :help="$t('project.create_input_short_code_help')"
+                        :maxlength="3"
                         @esc-key-pressed="showCode = false"
             />
 
@@ -193,6 +206,7 @@ export default {
       form: {
         name: null,
         code: null,
+        short_code: null,
         summary: null,
         description: null,
         searchTerm: null,
