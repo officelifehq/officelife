@@ -9,6 +9,8 @@ return [
     'menu_messages' => 'Messages',
     'menu_tasks' => 'Tasks',
     'menu_calendar' => 'Calendar',
+    'menu_decision_logs' => 'Decision logs',
+    'menu_boards' => 'Boards',
     'menu_members' => 'Members',
     'menu_finance' => 'Finance',
     'menu_files' => 'Files',
