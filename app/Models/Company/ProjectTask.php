@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -108,5 +109,15 @@ class ProjectTask extends Model
     public function timeTrackingEntries()
     {
         return $this->hasMany(TimeTrackingEntry::class);
+    }
+
+    /**
+     * Get all of the comments associated with the project message.
+     *
+     * @return MorphMany
+     */
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }
