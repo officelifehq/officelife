@@ -48,7 +48,7 @@ class ProjectFilesController extends Controller
             'project' => ProjectViewHelper::info($project),
             'files' => ProjectFilesViewHelper::index($project, $loggedEmployee),
             'uploadcarePublicKey' => config('officelife.uploadcare_public_key'),
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }
 
