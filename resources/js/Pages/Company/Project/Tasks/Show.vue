@@ -220,6 +220,12 @@ input[type=checkbox] {
           <div v-if="displayTimeTrackingEntriesMode && timeTrackingEntries.length == 0" class="ba br3 bb-gray bg-white pa3">
             {{ $t('project.task_show_no_time_tracking') }}
           </div>
+
+          <!-- comments -->
+          <comments
+            :comments="localTask.comments"
+            :post-url="`/${$page.props.auth.company.id}/company/projects/${project.id}/tasks/${localTask.id}/comments/`"
+          />
         </div>
 
         <!-- RIGHT COLUMN -->
@@ -328,6 +334,7 @@ import SelectBox from '@/Shared/Select';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextDuration from '@/Shared/TextDuration';
 import Avatar from '@/Shared/Avatar';
+import Comments from '@/Shared/Comments';
 
 export default {
   components: {
@@ -341,6 +348,7 @@ export default {
     SelectBox,
     LoadingButton,
     TextDuration,
+    Comments,
   },
 
   props: {

@@ -4,7 +4,10 @@ namespace Tests\Unit\ViewHelpers\Company\Project;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
+use App\Helpers\StringHelper;
+use App\Models\Company\Comment;
 use App\Models\Company\Project;
 use App\Models\Company\Timesheet;
 use App\Models\Company\ProjectTask;
@@ -49,6 +52,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'description' => $projectTaskA->description,
                     'completed' => true,
                     'duration' => null,
+                    'comment_count' => 0,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
                     'assignee' => [
                         'id' => $michael->id,
@@ -63,6 +67,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'description' => $projectTaskB->description,
                     'completed' => false,
                     'duration' => null,
+                    'comment_count' => 0,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskB->id,
                     'assignee' => null,
                 ],
@@ -126,6 +131,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'description' => $projectTaskA->description,
                     'completed' => true,
                     'duration' => null,
+                    'comment_count' => 0,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
                     'assignee' => [
                         'id' => $michael->id,
@@ -160,6 +166,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'description' => $projectTaskB->description,
                     'completed' => false,
                     'duration' => null,
+                    'comment_count' => 0,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskB->id,
                     'assignee' => null,
                 ],
@@ -175,6 +182,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'description' => $projectTaskC->description,
                     'completed' => false,
                     'duration' => null,
+                    'comment_count' => 0,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskC->id,
                     'assignee' => null,
                 ],
@@ -198,35 +206,85 @@ class ProjectTasksViewHelperTest extends TestCase
             'assignee_id' => $michael->id,
         ]);
 
+        $comment = Comment::factory()->create();
+        $projectTaskA->comments()->save($comment);
+
         $array = ProjectTasksViewHelper::getTaskFullDetails($projectTaskA, $michael->company, $michael);
 
         $this->assertEquals(
+            $projectTaskA->id,
+            $array['id']
+        );
+        $this->assertEquals(
+            $projectTaskA->title,
+            $array['title']
+        );
+        $this->assertEquals(
+            $projectTaskA->description,
+            $array['description']
+        );
+        $this->assertEquals(
+            true,
+            $array['completed']
+        );
+        $this->assertEquals(
+            'Jan 01, 2018',
+            $array['completed_at']
+        );
+        $this->assertEquals(
+            'Jan 01, 2018',
+            $array['created_at']
+        );
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
+            $array['url']
+        );
+        $this->assertEquals(
+            null,
+            $array['duration']
+        );
+        $this->assertEquals(
             [
-                'id' => $projectTaskA->id,
-                'title' => $projectTaskA->title,
-                'description' => $projectTaskA->description,
-                'completed' => true,
-                'completed_at' => 'Jan 01, 2018',
-                'created_at' => 'Jan 01, 2018',
-                'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
-                'duration' => null,
-                'author' => [
-                    'id' => $michael->id,
-                    'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael, 35),
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
-                    'role' => null,
-                    'added_at' => null,
-                    'position' => $michael->position->title,
-                ],
-                'assignee' => [
-                    'id' => $michael->id,
-                    'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael, 35),
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                'id' => $michael->id,
+                'name' => $michael->name,
+                'avatar' => ImageHelper::getAvatar($michael, 35),
+                'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                'role' => null,
+                'added_at' => null,
+                'position' => $michael->position->title,
+            ],
+            $array['author']
+        );
+        $this->assertEquals(
+            [
+                'id' => $michael->id,
+                'name' => $michael->name,
+                'avatar' => ImageHelper::getAvatar($michael, 35),
+                'url' => env('APP_URL') . '/' . $michael->company_id . '/employees/' . $michael->id,
+            ],
+            $array['assignee']
+        );
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $comment->id,
+                    'content' => StringHelper::parse($comment->content),
+                    'content_raw' => $comment->content,
+                    'written_at' => DateHelper::formatShortDateWithTime($comment->created_at),
+                    'author' => [
+                        'id' => $comment->author->id,
+                        'name' => $comment->author->name,
+                        'avatar' => ImageHelper::getAvatar($comment->author, 32),
+                        'url' => route('employees.show', [
+                            'company' => $michael->company_id,
+                            'employee' => $comment->author,
+                        ]),
+                    ],
+                    'can_edit' => true,
+                    'can_delete' => true,
                 ],
             ],
-            $array
+            $array['comments']->toArray()
         );
     }
 
@@ -287,35 +345,6 @@ class ProjectTasksViewHelperTest extends TestCase
         ]);
 
         $array = ProjectTasksViewHelper::taskDetails($projectTask, $michael->company, $michael);
-
-        $this->assertEquals(
-            [
-                'id' => $projectTask->id,
-                'title' => $projectTask->title,
-                'description' => $projectTask->description,
-                'completed' => true,
-                'completed_at' => 'Jan 01, 2018',
-                'created_at' => 'Jan 01, 2018',
-                'duration' => '01h40',
-                'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTask->id,
-                'author' => [
-                    'id' => $michael->id,
-                    'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael, 35),
-                    'role' => null,
-                    'added_at' => null,
-                    'position' => $michael->position->title,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
-                ],
-                'assignee' => [
-                    'id' => $michael->id,
-                    'name' => $michael->name,
-                    'avatar' => ImageHelper::getAvatar($michael, 35),
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
-                ],
-            ],
-            $array['task']
-        );
 
         $this->assertEquals(
             [

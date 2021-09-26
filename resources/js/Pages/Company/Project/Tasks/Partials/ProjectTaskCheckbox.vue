@@ -51,12 +51,19 @@ input[type=checkbox] {
   }
 }
 
+.icon-comment {
+  width: 17px;
+  color: #a2a5b1;
+  top: 4px;
+}
+
 .duration {
-  background-color: #F3FBF1;
+  background-color: #f2f7f0;
   font-size: 11px;
   padding: 3px 6px;
   top: -2px;
-  border: 1px solid #d5ddd4;
+  border: 1px solid #e4e6e3;
+  color: gray;
 
   svg {
     width: 13px;
@@ -96,7 +103,7 @@ input[type=checkbox] {
           :value="value"
           :data-cy="datacy + '-single-item'"
           type="checkbox"
-          class="relative"
+          class="relative mr2"
           :required="required"
           :name="name"
           :disabled="!editable"
@@ -118,12 +125,19 @@ input[type=checkbox] {
             :margin-between-name-avatar="'22px'"
           />
 
-          <span v-if="duration" class="duration br3 relative ml2">
+          <span v-if="duration" class="duration br3 relative ml2 mr2">
             <svg class="relative" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
 
             {{ duration }}
+          </span>
+
+          <span v-if="comments" class="relative f7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon-comment relative" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd" />
+            </svg>
+            {{ comments }}
           </span>
 
           <!-- actions - only shown on mobile -->
@@ -243,6 +257,10 @@ export default {
     },
     duration: {
       type: String,
+      default: null,
+    },
+    comments: {
+      type: Number,
       default: null,
     },
     url: {

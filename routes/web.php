@@ -339,6 +339,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::delete('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@destroy');
                 Route::get('{project}/tasks/{task}/timeTrackingEntries', 'Company\\Company\\Project\\ProjectTasksController@timeTrackingEntries');
                 Route::post('{project}/tasks/{task}/log', 'Company\\Company\\Project\\ProjectTasksController@logTime');
+                Route::post('{project}/tasks/{task}/comments', 'Company\\Company\\Project\\ProjectTasksCommentController@store');
+                Route::put('{project}/tasks/{task}/comments/{comment}', 'Company\\Company\\Project\\ProjectTasksCommentController@update');
+                Route::delete('{project}/tasks/{task}/comments/{comment}', 'Company\\Company\\Project\\ProjectTasksCommentController@destroy');
 
                 // files
                 Route::get('{project}/files', 'Company\\Company\\Project\\ProjectFilesController@index');

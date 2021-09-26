@@ -363,6 +363,9 @@ return [
     'log_project_board_created' => 'Created the board called :name in the project called :project_name.',
     'log_project_board_updated' => 'Updated the board called :name in the project called :project_name.',
     'log_project_board_destroyed' => 'Deleted the board called :name in the project called :project_name.',
+    'log_project_task_comment_created' => 'Wrote a comment on a task in the project called :project_name.',
+    'log_project_task_comment_updated' => 'Edited a comment on a task in the project called :project_name.',
+    'log_project_task_comment_destroyed' => 'Deleted a comment on a task in the project called :project_name.',
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',

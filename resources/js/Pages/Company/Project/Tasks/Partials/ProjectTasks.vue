@@ -47,6 +47,7 @@
           :required="true"
           :url="task.url"
           :duration="task.duration"
+          :comments="task.comment_count"
           @update:model-value="toggle(task.id)"
           @edit="showEditTask(task)"
           @destroy="destroy(task.id)"
