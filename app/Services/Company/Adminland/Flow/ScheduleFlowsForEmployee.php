@@ -40,8 +40,8 @@ class ScheduleFlowsForEmployee extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->checkIfThereAreFlowsWithTheGivenTrigger();
-        $this->checkFlows();
+        $this->getAllFlowsWithTheGivenTrigger();
+        $this->processFlows();
     }
 
     private function validate(): void
@@ -52,7 +52,7 @@ class ScheduleFlowsForEmployee extends BaseService
             ->findOrFail($this->data['employee_id']);
     }
 
-    private function checkIfThereAreFlowsWithTheGivenTrigger(): void
+    private function getAllFlowsWithTheGivenTrigger(): void
     {
         $this->flows = Flow::where('company_id', $this->data['company_id'])
             ->where('type', Flow::DATE_BASED)
@@ -62,7 +62,7 @@ class ScheduleFlowsForEmployee extends BaseService
             ->get();
     }
 
-    private function checkFlows()
+    private function processFlows()
     {
         if ($this->flows->count() == 0) {
             return;
@@ -84,7 +84,7 @@ class ScheduleFlowsForEmployee extends BaseService
         $actions = DB::table('actions')
             ->join('steps', 'steps.id', '=', 'actions.step_id')
             ->join('flows', 'flows.id', '=', 'steps.flow_id')
-            ->where('flows.id', $this->flow->id)
+            ->where('flows.id', $flow->id)
             ->select('actions.id')
             ->pluck('actions.id')
             ->toArray();

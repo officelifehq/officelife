@@ -25,7 +25,7 @@ class RemoveRecipientFromActions extends Migration
             $table->string('name');
             $table->string('type');
             $table->string('trigger')->nullable();
-            $table->boolean('anniversary')->default(false);
+            $table->boolean('is_triggered_on_anniversary')->default(false);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });

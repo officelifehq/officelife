@@ -32,7 +32,7 @@ class PauseFlowTest extends TestCase
             'company_id' => $michael->company_id,
             'trigger' => Flow::TRIGGER_HIRING_DATE,
             'type' => Flow::DATE_BASED,
-            'anniversary' => true,
+            'is_triggered_on_anniversary' => true,
         ]);
         $step = Step::factory()->create([
             'flow_id' => $flow->id,
@@ -61,7 +61,7 @@ class PauseFlowTest extends TestCase
             'company_id' => $michael->company_id,
             'trigger' => Flow::TRIGGER_HIRING_DATE,
             'type' => Flow::DATE_BASED,
-            'anniversary' => true,
+            'is_triggered_on_anniversary' => true,
         ]);
         $step = Step::factory()->create([
             'flow_id' => $flow->id,
@@ -90,7 +90,7 @@ class PauseFlowTest extends TestCase
             'company_id' => $michael->company_id,
             'trigger' => Flow::TRIGGER_HIRING_DATE,
             'type' => Flow::DATE_BASED,
-            'anniversary' => true,
+            'is_triggered_on_anniversary' => true,
         ]);
         $step = Step::factory()->create([
             'flow_id' => $flow->id,

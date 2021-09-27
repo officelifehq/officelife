@@ -86,4 +86,137 @@ class AddStepToFlowTest extends TestCase
             $step
         );
     }
+
+    /** @test */
+    public function it_calculates_the_real_number_of_days(): void
+    {
+        $michael = $this->createAdministrator();
+        $flow = Flow::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $request = [
+            'company_id' => $flow->company_id,
+            'author_id' => $michael->id,
+            'flow_id' => $flow->id,
+            'modifier' => Step::MODIFIER_SAME_DAY,
+        ];
+        $step = (new AddStepToFlow)->execute($request);
+        $this->assertEquals(
+            0,
+            $step->real_number_of_days
+        );
+
+        $michael = $this->createAdministrator();
+        $flow = Flow::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $request = [
+            'company_id' => $flow->company_id,
+            'author_id' => $michael->id,
+            'flow_id' => $flow->id,
+            'modifier' => Step::MODIFIER_BEFORE,
+            'unit_of_time' => Step::UNIT_DAY,
+            'number' => 9,
+        ];
+        $step = (new AddStepToFlow)->execute($request);
+        $this->assertEquals(
+            -9,
+            $step->real_number_of_days
+        );
+
+        $michael = $this->createAdministrator();
+        $flow = Flow::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $request = [
+            'company_id' => $flow->company_id,
+            'author_id' => $michael->id,
+            'flow_id' => $flow->id,
+            'modifier' => Step::MODIFIER_BEFORE,
+            'unit_of_time' => Step::UNIT_WEEK,
+            'number' => 9,
+        ];
+        $step = (new AddStepToFlow)->execute($request);
+
+        $this->assertEquals(
+            -63,
+            $step->real_number_of_days
+        );
+
+        $michael = $this->createAdministrator();
+        $flow = Flow::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $request = [
+            'company_id' => $flow->company_id,
+            'author_id' => $michael->id,
+            'flow_id' => $flow->id,
+            'modifier' => Step::MODIFIER_BEFORE,
+            'unit_of_time' => Step::UNIT_MONTH,
+            'number' => 9,
+        ];
+        $step = (new AddStepToFlow)->execute($request);
+
+        $this->assertEquals(
+            -270,
+            $step->real_number_of_days
+        );
+
+        $michael = $this->createAdministrator();
+        $flow = Flow::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $request = [
+            'company_id' => $flow->company_id,
+            'author_id' => $michael->id,
+            'flow_id' => $flow->id,
+            'modifier' => Step::MODIFIER_AFTER,
+            'unit_of_time' => Step::UNIT_DAY,
+            'number' => 9,
+        ];
+        $step = (new AddStepToFlow)->execute($request);
+
+        $this->assertEquals(
+            9,
+            $step->real_number_of_days
+        );
+
+        $michael = $this->createAdministrator();
+        $flow = Flow::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $request = [
+            'company_id' => $flow->company_id,
+            'author_id' => $michael->id,
+            'flow_id' => $flow->id,
+            'modifier' => Step::MODIFIER_AFTER,
+            'unit_of_time' => Step::UNIT_WEEK,
+            'number' => 9,
+        ];
+        $step = (new AddStepToFlow)->execute($request);
+
+        $this->assertEquals(
+            63,
+            $step->real_number_of_days
+        );
+
+        $michael = $this->createAdministrator();
+        $flow = Flow::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $request = [
+            'company_id' => $flow->company_id,
+            'author_id' => $michael->id,
+            'flow_id' => $flow->id,
+            'modifier' => Step::MODIFIER_AFTER,
+            'unit_of_time' => Step::UNIT_MONTH,
+            'number' => 9,
+        ];
+        $step = (new AddStepToFlow)->execute($request);
+
+        $this->assertEquals(
+            270,
+            $step->real_number_of_days
+        );
+    }
 }

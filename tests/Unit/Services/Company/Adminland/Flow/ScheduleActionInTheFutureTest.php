@@ -28,7 +28,7 @@ class ScheduleActionInTheFutureTest extends TestCase
             'company_id' => $michael->company_id,
             'type' => Flow::DATE_BASED,
             'trigger' => Flow::TRIGGER_HIRING_DATE,
-            'anniversary' => true,
+            'is_triggered_on_anniversary' => true,
         ]);
         $step = Step::factory()->create([
             'flow_id' => $flow->id,
@@ -59,7 +59,7 @@ class ScheduleActionInTheFutureTest extends TestCase
             'company_id' => $michael->company_id,
             'type' => Flow::DATE_BASED,
             'trigger' => Flow::TRIGGER_HIRING_DATE,
-            'anniversary' => true,
+            'is_triggered_on_anniversary' => true,
         ]);
         $step = Step::factory()->create([
             'flow_id' => $flow->id,
@@ -90,7 +90,7 @@ class ScheduleActionInTheFutureTest extends TestCase
             'company_id' => $michael->company_id,
             'type' => Flow::DATE_BASED,
             'trigger' => Flow::TRIGGER_HIRING_DATE,
-            'anniversary' => false,
+            'is_triggered_on_anniversary' => false,
         ]);
         $step = Step::factory()->create([
             'flow_id' => $flow->id,

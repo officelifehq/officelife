@@ -8,6 +8,10 @@ use App\Models\Company\ScheduledAction;
 use App\Exceptions\MissingInformationInJsonAction;
 use App\Services\Company\Adminland\Flow\ScheduleActionInTheFuture;
 
+/**
+ * This is the Base Service specific the Action object, which is used by the
+ * Flow object.
+ */
 abstract class BaseServiceAction
 {
     /**
@@ -54,7 +58,7 @@ abstract class BaseServiceAction
      */
     public function scheduleFutureIteration(Action $action, Employee $employee): void
     {
-        if ($action->step->flow->anniversary) {
+        if ($action->step->flow->is_triggered_on_anniversary) {
             (new ScheduleActionInTheFuture)->execute($action, $employee);
         }
     }

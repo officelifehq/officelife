@@ -34,7 +34,7 @@ class CreateFlow extends BaseService
                     Flow::TRIGGER_HIRING_DATE,
                 ]),
             ],
-            'anniversary' => 'required|boolean',
+            'is_triggered_on_anniversary' => 'required|boolean',
         ];
     }
 
@@ -59,7 +59,7 @@ class CreateFlow extends BaseService
             'name' => $data['name'],
             'type' => $data['type'],
             'trigger' => $data['trigger'],
-            'anniversary' => $data['anniversary'],
+            'is_triggered_on_anniversary' => $data['is_triggered_on_anniversary'],
             'paused' => true,
         ]);
 

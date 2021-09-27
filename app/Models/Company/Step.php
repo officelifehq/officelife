@@ -69,44 +69,4 @@ class Step extends Model
     {
         return $this->hasMany(Action::class);
     }
-
-    /**
-     * Calculate the real number of days represented by the step.
-     */
-    public function calculateDays(): void
-    {
-        if ($this->modifier == Step::MODIFIER_SAME_DAY) {
-            $this->real_number_of_days = 0;
-        }
-
-        if ($this->modifier == Step::MODIFIER_BEFORE) {
-            if ($this->unit_of_time == Step::UNIT_DAY) {
-                $this->real_number_of_days = $this->number * -1;
-            }
-
-            if ($this->unit_of_time == Step::UNIT_WEEK) {
-                $this->real_number_of_days = $this->number * 7 * -1;
-            }
-
-            if ($this->unit_of_time == Step::UNIT_MONTH) {
-                $this->real_number_of_days = $this->number * 30 * -1;
-            }
-        }
-
-        if ($this->modifier == Step::MODIFIER_AFTER) {
-            if ($this->unit_of_time == Step::UNIT_DAY) {
-                $this->real_number_of_days = $this->number;
-            }
-
-            if ($this->unit_of_time == Step::UNIT_WEEK) {
-                $this->real_number_of_days = $this->number * 7;
-            }
-
-            if ($this->unit_of_time == Step::UNIT_MONTH) {
-                $this->real_number_of_days = $this->number * 30;
-            }
-        }
-
-        $this->save();
-    }
 }

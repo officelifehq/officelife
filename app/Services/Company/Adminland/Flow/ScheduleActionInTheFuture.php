@@ -12,37 +12,43 @@ use App\Models\Company\ScheduledAction;
 class ScheduleActionInTheFuture
 {
     private Carbon $date;
+    private Action $action;
+    private Employee $employee;
+    private Step $step;
+    private Flow $flow;
 
     /**
-     * Schedule the future iteration of the given action.
+     * Schedule the future iteration of the given action for the given employee.
      *
      * @param Action $action
      * @param Employee $employee
      */
     public function execute(Action $action, Employee $employee)
     {
-        $step = $action->step;
-        $flow = $action->step->flow;
+        $this->action = $action;
+        $this->employee = $employee;
+        $this->step = $action->step;
+        $this->flow = $action->step->flow;
 
-        $this->determineTriggerDate($flow, $employee);
-        $this->scheduleAction($step, $flow, $action, $employee);
+        $this->determineTriggerDate();
+        $this->scheduleAction();
     }
 
-    private function determineTriggerDate(Flow $flow, Employee $employee): void
+    private function determineTriggerDate(): void
     {
-        if ($flow->trigger == Flow::TRIGGER_HIRING_DATE) {
-            $this->date = $employee->hired_at;
+        if ($this->flow->trigger == Flow::TRIGGER_HIRING_DATE) {
+            $this->date = $this->employee->hired_at;
         }
     }
 
-    private function scheduleAction(Step $step, Flow $flow, Action $action, Employee $employee): void
+    private function scheduleAction(): void
     {
         // real_number_of_days is either positive or negative, depending on the
         // step (a step can be before, or after a given date)
-        if ($step->real_number_of_days >= 0) {
-            $dateStepShouldBeTriggered = $this->date->copy()->addDays((int) $step->real_number_of_days);
+        if ($this->step->real_number_of_days >= 0) {
+            $dateStepShouldBeTriggered = $this->date->copy()->addDays((int) $this->step->real_number_of_days);
         } else {
-            $dateStepShouldBeTriggered = $this->date->copy()->subDays((int) $step->real_number_of_days * -1);
+            $dateStepShouldBeTriggered = $this->date->copy()->subDays((int) $this->step->real_number_of_days * -1);
         }
 
         // if the flow is set for the anniversary of the given date, we
@@ -50,7 +56,7 @@ class ScheduleActionInTheFuture
         //the present or the future.
         // if it's not an anniversary, we simply don't process the step
         // in the past.
-        if ($dateStepShouldBeTriggered->isPast() && ! $flow->anniversary) {
+        if ($dateStepShouldBeTriggered->isPast() && ! $this->flow->is_triggered_on_anniversary) {
             return;
         }
 
@@ -59,10 +65,10 @@ class ScheduleActionInTheFuture
         }
 
         ScheduledAction::create([
-            'action_id' => $action->id,
-            'employee_id' => $employee->id,
+            'action_id' => $this->action->id,
+            'employee_id' => $this->employee->id,
             'triggered_at' => $dateStepShouldBeTriggered,
-            'content' => $action->content,
+            'content' => $this->action->content,
         ]);
     }
 }

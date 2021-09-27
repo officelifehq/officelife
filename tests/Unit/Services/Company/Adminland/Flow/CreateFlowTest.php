@@ -60,7 +60,7 @@ class CreateFlowTest extends TestCase
             'name' => 'Selling team',
             'type' => Flow::DATE_BASED,
             'trigger' => Flow::TRIGGER_HIRING_DATE,
-            'anniversary' => false,
+            'is_triggered_on_anniversary' => false,
         ];
 
         $flow = (new CreateFlow)->execute($request);

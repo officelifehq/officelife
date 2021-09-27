@@ -32,7 +32,7 @@ class Flow extends Model
         'name',
         'type',
         'trigger',
-        'anniversary',
+        'is_triggered_on_anniversary',
         'paused',
     ];
 
@@ -42,7 +42,7 @@ class Flow extends Model
      * @var array
      */
     protected $casts = [
-        'anniversary' => 'boolean',
+        'is_triggered_on_anniversary' => 'boolean',
         'paused' => 'boolean',
     ];
 

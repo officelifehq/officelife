@@ -9,6 +9,8 @@ use Illuminate\Validation\Rule;
 
 class AddStepToFlow extends BaseService
 {
+    private Step $step;
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -59,17 +61,54 @@ class AddStepToFlow extends BaseService
         Flow::where('company_id', $data['company_id'])
             ->findOrFail($data['flow_id']);
 
-        $step = Step::create([
+        $this->step = Step::create([
             'flow_id' => $data['flow_id'],
-            'number' => $data['number'],
-            'unit_of_time' => $data['unit_of_time'],
+            'number' => $this->valueOrNull($data, 'number'),
+            'unit_of_time' => $this->valueOrNull($data, 'unit_of_time'),
             'modifier' => $data['modifier'],
         ]);
 
-        $step->calculateDays();
+        $this->calculateRealDays();
+        $this->step->save();
 
-        $step->refresh();
+        return $this->step;
+    }
 
-        return $step;
+    /**
+     * Calculate the real number of days represented by the step.
+     */
+    private function calculateRealDays(): void
+    {
+        if ($this->step->modifier == Step::MODIFIER_SAME_DAY) {
+            $this->step->real_number_of_days = 0;
+        }
+
+        if ($this->step->modifier == Step::MODIFIER_BEFORE) {
+            if ($this->step->unit_of_time == Step::UNIT_DAY) {
+                $this->step->real_number_of_days = $this->step->number * -1;
+            }
+
+            if ($this->step->unit_of_time == Step::UNIT_WEEK) {
+                $this->step->real_number_of_days = $this->step->number * 7 * -1;
+            }
+
+            if ($this->step->unit_of_time == Step::UNIT_MONTH) {
+                $this->step->real_number_of_days = $this->step->number * 30 * -1;
+            }
+        }
+
+        if ($this->step->modifier == Step::MODIFIER_AFTER) {
+            if ($this->step->unit_of_time == Step::UNIT_DAY) {
+                $this->step->real_number_of_days = $this->step->number;
+            }
+
+            if ($this->step->unit_of_time == Step::UNIT_WEEK) {
+                $this->step->real_number_of_days = $this->step->number * 7;
+            }
+
+            if ($this->step->unit_of_time == Step::UNIT_MONTH) {
+                $this->step->real_number_of_days = $this->step->number * 30;
+            }
+        }
     }
 }
