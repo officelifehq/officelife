@@ -10,6 +10,8 @@ class ProjectBoard extends Model
 {
     use HasFactory;
 
+    protected $table = 'project_boards';
+
     /**
      * The attributes that are mass assignable.
      *
