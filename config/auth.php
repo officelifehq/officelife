@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 return [
 
     /*
@@ -125,5 +127,19 @@ return [
     */
 
     'complex_password' => env('COMPLEX_PASSWORD', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Login providers
+    |--------------------------------------------------------------------------
+    |
+    | List of available login providers, coma separated. This uses socialite
+    | packages.
+    |
+    | Supported: azure, github, google, linkedin, monica, saml2, slack, twitter.
+    |
+    */
+
+    'login_providers' => Str::of(env('LOGIN_PROVIDERS'))->split('/\s*,\s*/', -1, PREG_SPLIT_NO_EMPTY),
 
 ];

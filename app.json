@@ -19,7 +19,7 @@
   ],
   "addons": [
     {
-      "plan": "jawsdb:kitefin"
+      "plan": "heroku-postgresql:hobby-dev"
     },
     {
       "plan": "scheduler:standard"
@@ -34,20 +34,40 @@
       "value": "",
       "required": true
     },
+    "DB_CONNECTION": {
+      "description": "Database connection to use.",
+      "value": "pgsql",
+      "required": true
+    },
     "APP_ENV": {
       "description": "Set to 'production' by default, or set it to 'local' if you want to install the app as a development version.",
       "value": "production",
       "required": false
     },
     "APP_TRUSTED_PROXIES": {
-        "description": "Set the trusted proxy IP addresses. Default to '*' to allow all heroku background ips.",
-        "value": "*",
-        "required": false
+      "description": "Set the trusted proxy IP addresses. Default to '*' to allow all heroku background ips.",
+      "value": "*",
+      "required": false
     },
     "LOG_CHANNEL": {
-        "description": "Set logging channel. Default to 'errorlog' to log error on heroku logs.",
-        "value": "errorlog",
-        "required": false
+      "description": "Set logging channel. Default to 'errorlog' to log error on heroku logs.",
+      "value": "errorlog",
+      "required": false
+    },
+    "CACHE_DRIVER": {
+      "description": "Set cache driver. Default to 'database', use 'redis' in combination with redis add-on.",
+      "value": "database",
+      "required": false
+    },
+    "QUEUE_CONNECTION": {
+      "description": "Set queue driver. Default to 'sync' with free dynos. Add paid dynos, and use 'database, or 'redis' in combination with redis add-on.",
+      "value": "sync",
+      "required": false
+    },
+    "SESSION_DRIVER": {
+      "description": "Set session driver. Default to 'database', use 'redis' in combination with redis add-on.",
+      "value": "database",
+      "required": false
     }
   },
   "environments": {

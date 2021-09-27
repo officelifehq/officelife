@@ -1096,6 +1096,10 @@ class LogHelper
                 $sentence = trans('account.log_toggle_e_coffee_process');
                 break;
 
+            case 'toggle_work_from_home_process':
+                $sentence = trans('account.log_toggle_work_from_home_process');
+                break;
+
             case 'group_created':
                 $sentence = trans('account.log_group_created', [
                     'group_id' => $log->object->{'group_id'},
@@ -1307,7 +1311,7 @@ class LogHelper
                     'expense_title' => $log->object->{'expense_title'},
                 ]);
                 break;
-            
+
             case 'file_added_to_software':
                 $sentence = trans('account.log_file_added_to_software', [
                     'software_name' => $log->object->{'software_name'},
@@ -1319,6 +1323,266 @@ class LogHelper
                 $sentence = trans('account.log_software_file_destroyed', [
                     'software_name' => $log->object->{'software_name'},
                     'name' => $log->object->{'name'},
+                ]);
+                break;
+
+            case 'wiki_created':
+                $sentence = trans('account.log_wiki_created', [
+                    'wiki_id' => $log->object->{'wiki_id'},
+                    'wiki_title' => $log->object->{'wiki_title'},
+                ]);
+                break;
+
+            case 'wiki_updated':
+                $sentence = trans('account.log_wiki_updated', [
+                    'wiki_title' => $log->object->{'wiki_title'},
+                ]);
+                break;
+
+            case 'wiki_destroyed':
+                $sentence = trans('account.log_wiki_destroyed', [
+                    'wiki_title' => $log->object->{'wiki_title'},
+                ]);
+                break;
+
+            case 'page_created':
+                $sentence = trans('account.log_page_created', [
+                    'wiki_id' => $log->object->{'wiki_id'},
+                    'wiki_title' => $log->object->{'wiki_title'},
+                    'page_id' => $log->object->{'page_id'},
+                    'page_title' => $log->object->{'page_title'},
+                ]);
+                break;
+
+            case 'page_updated':
+                $sentence = trans('account.log_page_updated', [
+                        'wiki_id' => $log->object->{'wiki_id'},
+                        'wiki_title' => $log->object->{'wiki_title'},
+                        'page_id' => $log->object->{'page_id'},
+                        'page_title' => $log->object->{'page_title'},
+                    ]);
+                break;
+
+            case 'page_destroyed':
+                $sentence = trans('account.log_page_destroyed', [
+                    'wiki_title' => $log->object->{'wiki_title'},
+                    'page_title' => $log->object->{'page_title'},
+                ]);
+                break;
+
+            case 'worklog_destroyed':
+                $sentence = trans('account.log_worklog_destroyed', [
+                    'date' => $log->object->{'date'},
+                ]);
+                break;
+
+            case 'job_opening_created':
+                $sentence = trans('account.log_job_opening_created', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                ]);
+                break;
+
+            case 'job_opening_destroyed':
+                $sentence = trans('account.log_job_opening_destroyed', [
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                ]);
+                break;
+
+            case 'recruiting_stage_created':
+                $sentence = trans('account.log_recruiting_stage_created', [
+                    'recruiting_stage_id' => $log->object->{'recruiting_stage_id'},
+                    'recruiting_stage_name' => $log->object->{'recruiting_stage_name'},
+                ]);
+                break;
+
+            case 'recruiting_stage_updated':
+                $sentence = trans('account.log_recruiting_stage_updated', [
+                    'recruiting_stage_id' => $log->object->{'recruiting_stage_id'},
+                    'recruiting_stage_name' => $log->object->{'recruiting_stage_name'},
+                ]);
+                break;
+
+            case 'recruiting_stage_destroyed':
+                $sentence = trans('account.log_recruiting_stage_destroyed', [
+                    'recruiting_stage_name' => $log->object->{'recruiting_stage_name'},
+                ]);
+                break;
+
+            case 'recruiting_stage_template_created':
+                $sentence = trans('account.log_recruiting_stage_template_created', [
+                    'recruiting_stage_template_id' => $log->object->{'recruiting_stage_template_id'},
+                    'recruiting_stage_template_name' => $log->object->{'recruiting_stage_template_name'},
+                ]);
+                break;
+
+            case 'recruiting_stage_template_updated':
+                $sentence = trans('account.log_recruiting_stage_template_updated', [
+                    'recruiting_stage_template_id' => $log->object->{'recruiting_stage_template_id'},
+                    'recruiting_stage_template_name' => $log->object->{'recruiting_stage_template_name'},
+                ]);
+                break;
+
+            case 'company_location_updated':
+                $sentence = trans('account.log_company_location_updated', [
+                    'location' => $log->object->{'location'},
+                ]);
+                break;
+
+            case 'job_opening_toggled':
+                $sentence = trans('account.log_job_opening_toggled', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                ]);
+                break;
+
+            case 'candidate_stage_passed':
+                $sentence = trans('account.log_candidate_stage_passed', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
+                ]);
+                break;
+
+            case 'candidate_stage_rejected':
+                $sentence = trans('account.log_candidate_stage_rejected', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
+                ]);
+                break;
+
+            case 'candidate_stage_note_created':
+                $sentence = trans('account.log_candidate_stage_note_created', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'job_opening_reference_number' => $log->object->{'job_opening_reference_number'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
+                ]);
+                break;
+
+            case 'candidate_stage_participant_created':
+                $sentence = trans('account.log_candidate_stage_participant_created', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'job_opening_reference_number' => $log->object->{'job_opening_reference_number'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
+                    'participant_id' => $log->object->{'participant_id'},
+                    'participant_name' => $log->object->{'participant_name'},
+                ]);
+                break;
+
+            case 'candidate_stage_participant_destroyed':
+                $sentence = trans('account.log_candidate_stage_participant_destroyed', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'job_opening_reference_number' => $log->object->{'job_opening_reference_number'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
+                    'participant_id' => $log->object->{'participant_id'},
+                    'participant_name' => $log->object->{'participant_name'},
+                ]);
+                break;
+
+            case 'candidate_stage_note_updated':
+                $sentence = trans('account.log_candidate_stage_note_updated', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'job_opening_reference_number' => $log->object->{'job_opening_reference_number'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
+                ]);
+                break;
+
+            case 'candidate_hired':
+                $sentence = trans('account.log_candidate_hired', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                    'job_opening_reference_number' => $log->object->{'job_opening_reference_number'},
+                    'candidate_id' => $log->object->{'candidate_id'},
+                    'candidate_name' => $log->object->{'candidate_name'},
+                ]);
+                break;
+
+            case 'job_opening_updated':
+                $sentence = trans('account.log_job_opening_updated', [
+                    'job_opening_id' => $log->object->{'job_opening_id'},
+                    'job_opening_title' => $log->object->{'job_opening_title'},
+                ]);
+                break;
+
+            case 'ask_me_anything_session_created':
+                $sentence = trans('account.log_ask_me_anything_session_created', [
+                    'ask_me_anything_session_id' => $log->object->{'ask_me_anything_session_id'},
+                    'ask_me_anything_session_theme' => $log->object->{'ask_me_anything_session_theme'},
+                ]);
+                break;
+
+            case 'ask_me_anything_session_destroyed':
+                $sentence = trans('account.log_ask_me_anything_session_destroyed');
+                break;
+
+            case 'ask_me_anything_session_toggled':
+                $sentence = trans('account.ask_me_anything_session_toggled', [
+                    'ask_me_anything_session_id' => $log->object->{'ask_me_anything_session_id'},
+                ]);
+                break;
+
+            case 'ask_me_anything_session_updated':
+                $sentence = trans('account.ask_me_anything_session_updated', [
+                    'ask_me_anything_session_id' => $log->object->{'ask_me_anything_session_id'},
+                ]);
+                break;
+
+            case 'ask_me_anything_question_answered':
+                $sentence = trans('account.ask_me_anything_question_answered', [
+                    'ask_me_anything_session_id' => $log->object->{'ask_me_anything_session_id'},
+                ]);
+                break;
+
+            case 'project_message_comment_created':
+                $sentence = trans('account.log_project_message_comment_created', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'project_task_comment_created':
+                $sentence = trans('account.log_project_task_comment_created', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'project_message_comment_updated':
+                $sentence = trans('account.log_project_message_comment_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'project_task_comment_updated':
+                $sentence = trans('account.log_project_task_comment_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'project_message_comment_destroyed':
+                $sentence = trans('account.log_project_message_comment_destroyed', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'project_task_comment_destroyed':
+                $sentence = trans('account.log_project_task_comment_destroyed', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
                 ]);
                 break;
 
@@ -1879,7 +2143,7 @@ class LogHelper
                 break;
 
             case 'meeting_decision_updated':
-                $sentence = trans('account.employee_log_log_meeting_decision_updated', [
+                $sentence = trans('account.employee_log_meeting_decision_updated', [
                     'group_id' => $log->object->{'group_id'},
                     'group_name' => $log->object->{'group_name'},
                     'meeting_id' => $log->object->{'meeting_id'},
@@ -1887,10 +2151,16 @@ class LogHelper
                 break;
 
             case 'add_guest_to_meeting':
-                $sentence = trans('account.employee_log_log_add_guest_to_meeting', [
+                $sentence = trans('account.employee_log_add_guest_to_meeting', [
                     'group_id' => $log->object->{'group_id'},
                     'group_name' => $log->object->{'group_name'},
                     'meeting_id' => $log->object->{'meeting_id'},
+                ]);
+                break;
+
+            case 'worklog_destroyed':
+                $sentence = trans('account.employee_log_worklog_destroyed', [
+                    'date' => $log->object->{'date'},
                 ]);
                 break;
 

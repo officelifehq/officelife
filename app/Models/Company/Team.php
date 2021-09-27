@@ -121,6 +121,16 @@ class Team extends Model
     }
 
     /**
+     * Get the job opening records associated with the team.
+     *
+     * @return HasMany
+     */
+    public function jobOpenings()
+    {
+        return $this->hasMany(JobOpening::class);
+    }
+
+    /**
      * Returns an array of work logs of all the active team members in the
      * given team on a given date.
      *
@@ -138,7 +148,7 @@ class Team extends Model
                 ['employee_team.team_id', '=', $this->id],
                 ['employees.locked', '=', false],
             ])
-            ->select('worklogs.content', 'employees.id', 'employees.first_name', 'employees.email', 'employees.last_name', 'employees.avatar_file_id')
+            ->select('worklogs.content', 'worklogs.id as worklog_id', 'employees.id', 'employees.first_name', 'employees.email', 'employees.last_name', 'employees.avatar_file_id')
             ->get();
 
         $worklogCollection = collect();
@@ -156,7 +166,8 @@ class Team extends Model
 
             $worklogCollection->push([
                 'content' => $worklog->content,
-                'id' => $worklog->id,
+                'id' => $worklog->worklog_id,
+                'employee_id' => $employee->id,
                 'first_name' => $employee->first_name,
                 'email' => $employee->email,
                 'last_name' => $employee->last_name,

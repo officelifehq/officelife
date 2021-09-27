@@ -41,7 +41,8 @@ class CompanyNewsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $questionId
-     * @return mixed
+     *
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function show(Request $request, int $companyId, int $questionId)
     {

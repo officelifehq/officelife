@@ -8,7 +8,10 @@ use App\Models\User\Pronoun;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Employee;
+use App\Models\Company\Position;
 use App\Models\Company\ECoffeeMatch;
+use App\Models\Company\AskMeAnythingSession;
+use App\Models\Company\AskMeAnythingQuestion;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Company\HR\CompanyHRViewHelper;
 
@@ -145,6 +148,81 @@ class CompanyHRViewHelperTest extends TestCase
                     'number_of_employees' => 0,
                     'percent' => 0,
                 ],
+            ],
+            $array
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_stats_about_the_positions(): void
+    {
+        $company = Company::factory()->create();
+
+        $positionA = Position::factory()->create([
+            'title' => 'dev',
+        ]);
+        $positionB = Position::factory()->create([
+            'title' => 'ceo',
+        ]);
+        Employee::factory()->count(2)->create([
+            'company_id' => $company->id,
+            'position_id' => $positionA->id,
+        ]);
+        Employee::factory()->create([
+            'company_id' => $company->id,
+            'position_id' => $positionB->id,
+        ]);
+
+        $array = CompanyHRViewHelper::positions($company);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $positionA->id,
+                    'title' => 'dev',
+                    'number_of_employees' => 2,
+                    'percent' => 67,
+                    'url' => env('APP_URL').'/'.$company->id.'/company/hr/positions/'.$positionA->id,
+                ],
+                1 => [
+                    'id' => $positionB->id,
+                    'title' => 'ceo',
+                    'number_of_employees' => 1,
+                    'percent' => 33,
+                    'url' => env('APP_URL').'/'.$company->id.'/company/hr/positions/'.$positionB->id,
+                ],
+            ],
+            $array
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_upcoming_ask_me_anything_session(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $company = Company::factory()->create();
+
+        $ama = AskMeAnythingSession::factory()->create([
+            'company_id' => $company->id,
+            'theme' => 'theme',
+            'happened_at' => Carbon::now()->addDay(),
+            'active' => true,
+        ]);
+        AskMeAnythingQuestion::factory()->count(2)->create([
+            'ask_me_anything_session_id' => $ama->id,
+        ]);
+
+        $array = CompanyHRViewHelper::askMeAnythingUpcomingSession($company);
+
+        $this->assertEquals(
+            [
+                'session' => [
+                    'happened_at' => 'Tuesday, Jan 2nd 2018',
+                    'theme' => 'theme',
+                    'questions_count' => 2,
+                    'url' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id,
+                ],
+                'url_view_all' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything',
             ],
             $array
         );

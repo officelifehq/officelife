@@ -4,20 +4,15 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_account_manage_general_settings') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb :with-box="true"
+                  :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
+                  :root="$t('app.breadcrumb_dashboard')"
+                  :previous-url="'/' + $page.props.auth.company.id + '/account'"
+                  :previous="$t('app.breadcrumb_account_home')"
+                  :has-more="false"
+      >
+        {{ $t('app.breadcrumb_account_manage_general_settings') }}
+      </breadcrumb>
 
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
@@ -41,6 +36,11 @@
             :information="information"
           />
 
+          <!-- company location -->
+          <location
+            :information="information"
+          />
+
           <!-- Currency -->
           <currency
             :information="information"
@@ -59,16 +59,20 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import Name from '@/Pages/Adminland/General/Partials/Name';
 import Currency from '@/Pages/Adminland/General/Partials/Currency';
 import Stat from '@/Pages/Adminland/General/Partials/Stat';
+import Location from '@/Pages/Adminland/General/Partials/Location';
 import Logo from '@/Pages/Adminland/General/Partials/Logo';
 import FoundedDate from '@/Pages/Adminland/General/Partials/FoundedDate';
 
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Name,
+    Location,
     Currency,
     Stat,
     Logo,

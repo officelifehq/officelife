@@ -4,6 +4,7 @@ namespace App\Http\ViewHelpers\Company;
 
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
+use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
@@ -28,7 +29,7 @@ class CompanyNewsViewHelper
             $newsCollection->push([
                 'id' => $news->id,
                 'title' => $news->title,
-                'content' => $news->content,
+                'content' => StringHelper::parse($news->content),
                 'author' => $author ? [
                     'id' => $author->id,
                     'name' => $author->name,

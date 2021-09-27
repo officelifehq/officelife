@@ -25,9 +25,12 @@ class Company extends Model
     protected $fillable = [
         'name',
         'currency',
+        'slug',
+        'location',
         'has_dummy_data',
         'logo_file_id',
         'e_coffee_enabled',
+        'work_from_home_enabled',
         'founded_at',
         'code_to_join_company',
     ];
@@ -50,6 +53,7 @@ class Company extends Model
     protected $casts = [
         'has_dummy_data' => 'boolean',
         'e_coffee_enabled' => 'boolean',
+        'work_from_home_enabled' => 'boolean',
     ];
 
     /**
@@ -262,6 +266,26 @@ class Company extends Model
     }
 
     /**
+     * Get all company usage history records in the company.
+     *
+     * @return HasMany
+     */
+    public function usageHistory()
+    {
+        return $this->hasMany(CompanyDailyUsageHistory::class);
+    }
+
+    /**
+     * Get all company invoice records in the company.
+     *
+     * @return HasMany
+     */
+    public function invoices()
+    {
+        return $this->hasMany(CompanyInvoice::class);
+    }
+
+    /**
      * Get all softwares in the company.
      *
      * @return HasMany
@@ -272,6 +296,26 @@ class Company extends Model
     }
 
     /**
+     * Get all wikis written in the company.
+     *
+     * @return HasMany
+     */
+    public function wikis()
+    {
+        return $this->hasMany(Wiki::class);
+    }
+
+    /**
+     * Get all recruiting stage templates in the company.
+     *
+     * @return HasMany
+     */
+    public function recruitingStageTemplates()
+    {
+        return $this->hasMany(RecruitingStageTemplate::class);
+    }
+
+    /**
      * Get the logo associated with the company.
      *
      * @return HasOne
@@ -279,6 +323,46 @@ class Company extends Model
     public function logo()
     {
         return $this->hasOne(File::class, 'id', 'logo_file_id');
+    }
+
+    /**
+     * Get all job openings written in the company.
+     *
+     * @return HasMany
+     */
+    public function jobOpenings()
+    {
+        return $this->hasMany(JobOpening::class);
+    }
+
+    /**
+     * Get all candidates in the company.
+     *
+     * @return HasMany
+     */
+    public function candidates()
+    {
+        return $this->hasMany(Candidate::class);
+    }
+
+    /**
+     * Get all sessions in the company.
+     *
+     * @return HasMany
+     */
+    public function askMeAnythingSessions()
+    {
+        return $this->hasMany(AskMeAnythingSession::class);
+    }
+
+    /**
+     * Get all of the comments made in the company.
+     *
+     * @return HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     /**

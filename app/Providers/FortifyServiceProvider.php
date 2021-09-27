@@ -10,6 +10,7 @@ use App\Services\User\ResetUserPassword;
 use Illuminate\Cache\RateLimiting\Limit;
 use App\Services\User\UpdateUserPassword;
 use Illuminate\Support\Facades\RateLimiter;
+use App\Http\Controllers\Auth\LoginController;
 use App\Services\User\UpdateUserProfileInformation;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -27,6 +28,10 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Fortify::loginView(function ($request) {
+            return app()->call(LoginController::class, ['request' => $request]);
+        });
+
         Fortify::createUsersUsing(CreateAccount::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);

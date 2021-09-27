@@ -11,6 +11,7 @@ use App\Models\Company\Project;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\TeamNews;
+use App\Models\Company\JobOpening;
 use App\Models\Company\TeamUsefulLink;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -102,6 +103,16 @@ class TeamTest extends TestCase
     }
 
     /** @test */
+    public function it_has_many_job_openings()
+    {
+        $sales = Team::factory()->create([]);
+        JobOpening::factory()->count(2)->create([
+            'team_id' => $sales->id,
+        ]);
+        $this->assertTrue($sales->jobOpenings()->exists());
+    }
+
+    /** @test */
     public function it_returns_the_number_of_team_members_who_have_completed_a_worklog_at_a_given_time()
     {
         $date = Carbon::now();
@@ -116,12 +127,12 @@ class TeamTest extends TestCase
         $sales->employees()->syncWithoutDetaching([$manager->id]);
         $sales->employees()->syncWithoutDetaching([$employee->id]);
 
-        Worklog::factory()->create([
+        $worklogA = Worklog::factory()->create([
             'employee_id' => $manager->id,
             'created_at' => $date,
             'content' => 'date1',
         ]);
-        Worklog::factory()->create([
+        $worklogB = Worklog::factory()->create([
             'employee_id' => $employee->id,
             'created_at' => $date,
             'content' => 'date2',
@@ -138,7 +149,8 @@ class TeamTest extends TestCase
             [
                 0 => [
                     'content' => 'date1',
-                    'id' => $manager->id,
+                    'id' => $worklogA->id,
+                    'employee_id' => $manager->id,
                     'first_name' => $manager->first_name,
                     'email' => $manager->email,
                     'last_name' => $manager->last_name,
@@ -148,7 +160,8 @@ class TeamTest extends TestCase
                 ],
                 1 => [
                     'content' => 'date2',
-                    'id' => $employee->id,
+                    'id' => $worklogB->id,
+                    'employee_id' => $employee->id,
                     'first_name' => $employee->first_name,
                     'email' => $employee->email,
                     'last_name' => $employee->last_name,
@@ -165,7 +178,8 @@ class TeamTest extends TestCase
             [
                 0 => [
                     'content' => 'date1',
-                    'id' => $manager->id,
+                    'id' => $worklogA->id,
+                    'employee_id' => $manager->id,
                     'first_name' => $manager->first_name,
                     'email' => $manager->email,
                     'last_name' => $manager->last_name,
@@ -175,7 +189,8 @@ class TeamTest extends TestCase
                 ],
                 1 => [
                     'content' => 'date2',
-                    'id' => $employee->id,
+                    'id' => $worklogB->id,
+                    'employee_id' => $employee->id,
                     'first_name' => $employee->first_name,
                     'email' => $employee->email,
                     'last_name' => $employee->last_name,

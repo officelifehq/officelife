@@ -7,8 +7,10 @@ use Tests\TestCase;
 use App\Models\Company\File;
 use App\Models\Company\Flow;
 use App\Models\Company\Team;
+use App\Models\Company\Wiki;
 use App\Models\Company\Group;
 use App\Models\Company\Skill;
+use App\Models\Company\Comment;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
@@ -19,14 +21,20 @@ use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
 use App\Models\Company\Software;
+use App\Models\Company\Candidate;
 use App\Models\Company\ImportJob;
 use App\Models\Company\Timesheet;
+use App\Models\Company\JobOpening;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\DirectReport;
+use App\Models\Company\CompanyInvoice;
 use App\Models\Company\ConsultantRate;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Models\Company\CompanyPTOPolicy;
+use App\Models\Company\AskMeAnythingSession;
+use App\Models\Company\RecruitingStageTemplate;
+use App\Models\Company\CompanyDailyUsageHistory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CompanyTest extends TestCase
@@ -254,6 +262,28 @@ class CompanyTest extends TestCase
     }
 
     /** @test */
+    public function it_has_many_company_usage_history(): void
+    {
+        $company = Company::factory()->create();
+        CompanyDailyUsageHistory::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->usageHistory()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_company_invoices(): void
+    {
+        $company = Company::factory()->create();
+        CompanyInvoice::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->invoices()->exists());
+    }
+
+    /** @test */
     public function it_has_many_softwares(): void
     {
         $company = Company::factory()->create();
@@ -265,6 +295,28 @@ class CompanyTest extends TestCase
     }
 
     /** @test */
+    public function it_has_many_wikis(): void
+    {
+        $company = Company::factory()->create();
+        Wiki::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->wikis()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_recruiting_stage_templates(): void
+    {
+        $company = Company::factory()->create();
+        RecruitingStageTemplate::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->recruitingStageTemplates()->exists());
+    }
+
+    /** @test */
     public function it_has_one_logo(): void
     {
         $file = File::factory()->create([]);
@@ -273,6 +325,50 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->logo()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_job_openings(): void
+    {
+        $company = Company::factory()->create();
+        JobOpening::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->jobOpenings()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_candidates(): void
+    {
+        $company = Company::factory()->create();
+        Candidate::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->candidates()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_ask_me_anything_sessions(): void
+    {
+        $company = Company::factory()->create();
+        AskMeAnythingSession::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->askMeAnythingSessions()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_comments(): void
+    {
+        $company = Company::factory()->create();
+        Comment::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->comments()->exists());
     }
 
     /** @test */

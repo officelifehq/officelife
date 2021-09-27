@@ -10,6 +10,27 @@ Route::get('/', function () {
 Route::get('invite/employee/{link}', 'Auth\\UserInvitationController@check');
 Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join')->name('invitation.join');
 
+Route::get('auth/{driver}', 'Auth\SocialiteCallbackController@login')->name('login.provider');
+Route::get('auth/{driver}/callback', 'Auth\SocialiteCallbackController@callback');
+Route::post('auth/{driver}/callback', 'Auth\SocialiteCallbackController@callback');
+
+// jobs public section
+Route::prefix('jobs')->group(function () {
+    Route::get('', 'Jobs\\JobsController@index')->name('jobs');
+    Route::get('{company}', 'Jobs\\JobsCompanyController@index')->name('jobs.company.index');
+    Route::get('{company}/jobs/{job}', 'Jobs\\JobsCompanyController@show')->name('jobs.company.show');
+    Route::get('{company}/jobs/{job}?ignore=true', 'Jobs\\JobsCompanyController@show')->name('jobs.company.show.incognito');
+    Route::get('{company}/jobs/{job}/apply', 'Jobs\\JobsCompanyController@apply')->name('jobs.company.apply');
+    Route::post('{company}/jobs/{job}', 'Jobs\\JobsCompanyController@store');
+    Route::get('{company}/jobs/{job}/apply/{candidate}/cv', 'Jobs\\JobsCompanyController@cv')->name('jobs.company.cv');
+    Route::post('{company}/jobs/{job}/apply/{candidate}/cv', 'Jobs\\JobsCompanyController@storeCv');
+    Route::post('{company}/jobs/{job}/apply/{candidate}', 'Jobs\\JobsCompanyController@finalizeApplication');
+    Route::get('{company}/jobs/{job}/apply/{candidate}/success', 'Jobs\\JobsCompanyController@success')->name('jobs.company.success');
+    Route::delete('{company}/jobs/{job}/apply/{candidate}/cv/{file}', 'Jobs\\JobsCompanyController@destroyCv');
+    Route::delete('{company}/jobs/{job}/apply/{candidate}', 'Jobs\\JobsCompanyController@destroy');
+});
+
+// logged app
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('home', 'HomeController@index')->name('home');
     Route::get('companies', 'HomeController@list')->name('companies');
@@ -52,6 +73,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             ]);
             Route::post('expense', 'Company\\Dashboard\\Me\\DashboardMeExpenseController@store')->name('dashboard.expense.store');
 
+            // add note as participant of a job opening recruitment process
+            Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/notes', 'Company\\Dashboard\\Me\\DashboardMeRecruitingController@store');
+
             // details of one on ones
             Route::get('oneonones/{entry}', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@show')->name('dashboard.oneonones.show');
             Route::post('oneonones/{entry}/happened', 'Company\\Dashboard\\Me\\DashboardMeOneOnOneController@markHappened');
@@ -91,6 +115,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::get('team', 'Company\\Dashboard\\Teams\\DashboardTeamController@index')->name('dashboard.team');
             Route::get('team/{team}', 'Company\\Dashboard\\Teams\\DashboardTeamController@index');
             Route::get('team/{team}/{date}', 'Company\\Dashboard\\Teams\\DashboardTeamController@worklogDetails');
+            Route::delete('team/{team}/{worklog}/{employee}', 'Company\\Dashboard\\Teams\\DashboardTeamController@destroyWorkLog');
 
             // manager tab
             Route::prefix('manager')->group(function () {
@@ -194,6 +219,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 // worklogs
                 Route::get('worklogs/week/{week}/day/{day}', 'Company\\Employee\\Work\\EmployeeWorkController@worklogDay');
                 Route::get('worklogs/week/{week}/day', 'Company\\Employee\\Work\\EmployeeWorkController@worklogDay');
+                Route::delete('worklogs/{worklog}', 'Company\\Employee\\Work\\EmployeeWorkController@destroyWorkLog');
             });
 
             // performance tab
@@ -238,7 +264,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         });
 
         Route::prefix('company')->group(function () {
-            Route::get('', 'Company\\Company\\CompanyController@index');
+            Route::get('', 'Company\\Company\\CompanyController@index')->name('company.index');
             Route::post('guessEmployee/vote', 'Company\\Company\\CompanyController@vote');
             Route::get('guessEmployee/replay', 'Company\\Company\\CompanyController@replay');
 
@@ -261,7 +287,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
             // Projects
             Route::prefix('projects')->group(function () {
-                Route::get('', 'Company\\Company\\Project\\ProjectController@index');
+                Route::get('', 'Company\\Company\\Project\\ProjectController@index')->name('projects.index');
                 Route::get('create', 'Company\\Company\\Project\\ProjectController@create');
                 Route::post('', 'Company\\Company\\Project\\ProjectController@store');
                 Route::post('search', 'Company\\Company\\Project\\ProjectController@search');
@@ -301,6 +327,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
                 // project messages
                 Route::resource('{project}/messages', 'Company\\Company\\Project\\ProjectMessagesController', ['as' => 'projects']);
+                Route::post('{project}/messages/{message}/comments', 'Company\\Company\\Project\\ProjectMessagesCommentController@store');
+                Route::put('{project}/messages/{message}/comments/{comment}', 'Company\\Company\\Project\\ProjectMessagesCommentController@update');
+                Route::delete('{project}/messages/{message}/comments/{comment}', 'Company\\Company\\Project\\ProjectMessagesCommentController@destroy');
 
                 // project tasks
                 Route::resource('{project}/tasks', 'Company\\Company\\Project\\ProjectTasksController', ['as' => 'projects']);
@@ -310,6 +339,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::delete('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@destroy');
                 Route::get('{project}/tasks/{task}/timeTrackingEntries', 'Company\\Company\\Project\\ProjectTasksController@timeTrackingEntries');
                 Route::post('{project}/tasks/{task}/log', 'Company\\Company\\Project\\ProjectTasksController@logTime');
+                Route::post('{project}/tasks/{task}/comments', 'Company\\Company\\Project\\ProjectTasksCommentController@store');
+                Route::put('{project}/tasks/{task}/comments/{comment}', 'Company\\Company\\Project\\ProjectTasksCommentController@update');
+                Route::delete('{project}/tasks/{task}/comments/{comment}', 'Company\\Company\\Project\\ProjectTasksCommentController@destroy');
 
                 // files
                 Route::get('{project}/files', 'Company\\Company\\Project\\ProjectFilesController@index');
@@ -317,6 +349,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::delete('{project}/files/{file}', 'Company\\Company\\Project\\ProjectFilesController@destroy');
             });
 
+            // Groups
             Route::prefix('groups')->group(function () {
                 Route::get('', 'Company\\Company\\Group\\GroupController@index');
                 Route::get('create', 'Company\\Company\\Group\\GroupController@create')->name('groups.new');
@@ -354,9 +387,84 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('{group}/meetings/{meeting}/presenters', 'Company\\Company\\Group\\GroupMeetingsController@getPresenters');
             });
 
+            // HR tab
             Route::prefix('hr')->group(function () {
                 Route::get('', 'Company\\Company\\HR\\CompanyHRController@index');
+
+                // position
+                Route::get('positions/{position}', 'Company\\Company\\HR\\CompanyHRPositionController@show')->name('hr.positions.show');
+
+                // ask me anything
+                Route::get('ask-me-anything', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@index')->name('hr.ama.index');
+                Route::middleware(['hr'])->group(function () {
+                    Route::get('ask-me-anything/create', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@create')->name('hr.ama.create');
+                    Route::post('ask-me-anything', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@store')->name('hr.ama.store');
+                    Route::get('ask-me-anything/{session}/edit', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@edit')->name('hr.ama.edit');
+                    Route::put('ask-me-anything/{session}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@update')->name('hr.ama.update');
+                    Route::put('ask-me-anything/{session}/toggle', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@toggleStatus')->name('hr.ama.toggle');
+                    Route::get('ask-me-anything/{session}/delete', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@delete')->name('hr.ama.delete');
+                    Route::delete('ask-me-anything/{session}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@destroy')->name('hr.ama.destroy');
+                    Route::put('ask-me-anything/{session}/questions/{question}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@toggle')->name('hr.ama.question.toggle');
+                });
+                Route::get('ask-me-anything/{session}', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@show')->name('hr.ama.show');
+                Route::post('ask-me-anything/{session}', 'Company\\Dashboard\\Me\\DashboardAskMeAnythingQuestionController@store')->name('dashboard.ama.question.store');
+                Route::get('ask-me-anything/{session}/answered', 'Company\\Company\\HR\\CompanyHRAskMeAnythingController@showAnswered')->name('hr.ama.show.answered');
             });
+
+            // Knowledge base
+            Route::prefix('kb')->group(function () {
+                // Wikis
+                Route::get('', 'Company\\Company\\KB\\KnowledgeBaseController@index')->name('wikis.index');
+                Route::get('create', 'Company\\Company\\KB\\KnowledgeBaseController@create')->name('wikis.new');
+                Route::post('', 'Company\\Company\\KB\\KnowledgeBaseController@store');
+                Route::get('{wiki}', 'Company\\Company\\KB\\KnowledgeBaseController@show')->name('wikis.show');
+                Route::get('{wiki}/edit', 'Company\\Company\\KB\\KnowledgeBaseController@edit')->name('wikis.edit');
+                Route::put('{wiki}', 'Company\\Company\\KB\\KnowledgeBaseController@update');
+                Route::delete('{wiki}', 'Company\\Company\\KB\\KnowledgeBaseController@destroy')->name('wikis.destroy');
+
+                // Pages
+                Route::get('{wiki}/pages/create', 'Company\\Company\\KB\\KnowledgeBasePageController@create')->name('pages.new');
+                Route::post('{wiki}/pages', 'Company\\Company\\KB\\KnowledgeBasePageController@store');
+                Route::get('{wiki}/pages/{page}', 'Company\\Company\\KB\\KnowledgeBasePageController@show')->name('pages.show');
+                Route::get('{wiki}/pages/{page}/edit', 'Company\\Company\\KB\\KnowledgeBasePageController@edit')->name('pages.edit');
+                Route::put('{wiki}/pages/{page}', 'Company\\Company\\KB\\KnowledgeBasePageController@update');
+                Route::delete('{wiki}/pages/{page}', 'Company\\Company\\KB\\KnowledgeBasePageController@destroy');
+            });
+        });
+
+        // recruiting tab
+        Route::prefix('recruiting')->group(function () {
+            // job openings
+            Route::get('job-openings', 'Company\\Recruiting\\RecruitingJobOpeningController@index')->name('recruiting.openings.index');
+            Route::get('job-openings/fulfilled', 'Company\\Recruiting\\RecruitingJobOpeningController@fulfilled')->name('recruiting.openings.index.fulfilled');
+            Route::get('job-openings/create', 'Company\\Recruiting\\RecruitingJobOpeningController@create')->name('recruiting.openings.create');
+            Route::get('job-openings/{jobOpening}', 'Company\\Recruiting\\RecruitingJobOpeningController@show')->name('recruiting.openings.show');
+            Route::get('job-openings/{jobOpening}/rejected', 'Company\\Recruiting\\RecruitingJobOpeningController@showRejected')->name('recruiting.openings.show.rejected');
+            Route::get('job-openings/{jobOpening}/selected', 'Company\\Recruiting\\RecruitingJobOpeningController@showSelected')->name('recruiting.openings.show.selected');
+            Route::get('job-openings/{jobOpening}/edit', 'Company\\Recruiting\\RecruitingJobOpeningController@edit')->name('recruiting.openings.edit');
+            Route::put('job-openings/{jobOpening}', 'Company\\Recruiting\\RecruitingJobOpeningController@update');
+            Route::delete('job-openings/{jobOpening}', 'Company\\Recruiting\\RecruitingJobOpeningController@destroy');
+            Route::post('job-openings', 'Company\\Recruiting\\RecruitingJobOpeningController@store');
+            Route::post('job-openings/{jobOpening}/toggle', 'Company\\Recruiting\\RecruitingJobOpeningController@toggle');
+            Route::post('job-openings/sponsors', 'Company\\Recruiting\\RecruitingJobOpeningController@sponsors');
+
+            // candidates
+            Route::get('job-openings/{jobOpening}/candidates/{candidate}', 'Company\\Recruiting\\RecruitingCandidateController@show')->name('recruiting.candidates.show');
+            Route::get('job-openings/{jobOpening}/candidates/{candidate}/cv', 'Company\\Recruiting\\RecruitingCandidateController@showCV')->name('recruiting.candidates.cv');
+            Route::get('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Recruiting\\RecruitingCandidateController@showStage')->name('recruiting.candidates.stage.show');
+            Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}', 'Company\\Recruiting\\RecruitingCandidateController@store');
+            Route::get('job-openings/{jobOpening}/candidates/{candidate}/hire', 'Company\\Recruiting\\RecruitingCandidateController@hire')->name('recruiting.candidates.hire');
+            Route::post('job-openings/{jobOpening}/candidates/{candidate}/hire', 'Company\\Recruiting\\RecruitingCandidateController@storeHire');
+
+            // participant in candidate stage
+            Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/searchParticipants', 'Company\\Recruiting\\RecruitingCandidateController@searchParticipants');
+            Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/assignParticipant', 'Company\\Recruiting\\RecruitingCandidateController@assignParticipant');
+            Route::delete('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/participants/{participant}', 'Company\\Recruiting\\RecruitingCandidateController@removeParticipant');
+
+            // notes in candidate stage
+            Route::post('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/notes', 'Company\\Recruiting\\RecruitingCandidateController@notes');
+            Route::put('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/notes/{note}', 'Company\\Recruiting\\RecruitingCandidateController@updateNote');
+            Route::delete('job-openings/{jobOpening}/candidates/{candidate}/stages/{stage}/notes/{note}', 'Company\\Recruiting\\RecruitingCandidateController@destroyNote');
         });
 
         // only available to accountant role
@@ -377,9 +485,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('account/general/currency', 'Company\\Adminland\\AdminGeneralController@currency');
             Route::post('account/general/logo', 'Company\\Adminland\\AdminGeneralController@logo');
             Route::post('account/general/date', 'Company\\Adminland\\AdminGeneralController@date');
+            Route::post('account/general/location', 'Company\\Adminland\\AdminGeneralController@location');
 
             Route::get('account/cancel', 'Company\\Adminland\\AdminCancelAccountController@index');
             Route::delete('account/cancel', 'Company\\Adminland\\AdminCancelAccountController@destroy');
+
+            Route::get('account/billing', 'Company\\Adminland\\AdminBillingController@index');
+            Route::get('account/billing/{invoice}', 'Company\\Adminland\\AdminBillingController@show')->name('invoices.show');
         });
 
         // only available to hr role or administrator
@@ -471,6 +583,18 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             // e-coffee
             Route::get('account/ecoffee', 'Company\\Adminland\\AdminECoffeeController@index');
             Route::post('account/ecoffee', 'Company\\Adminland\\AdminECoffeeController@store');
+
+            // work from home
+            Route::get('account/workFromHome', 'Company\\Adminland\\AdminWorkFromHomeController@index');
+            Route::put('account/workFromHome', 'Company\\Adminland\\AdminWorkFromHomeController@update');
+
+            // recruiting stage templates
+            Route::get('account/recruitment', 'Company\\Adminland\\AdminRecruitmentController@index');
+            Route::post('account/recruitment', 'Company\\Adminland\\AdminRecruitmentController@store');
+            Route::get('account/recruitment/{template}', 'Company\\Adminland\\AdminRecruitmentController@show')->name('recruitment.show');
+            Route::post('account/recruitment/{template}', 'Company\\Adminland\\AdminRecruitmentController@storeStage');
+            Route::put('account/recruitment/{template}/stage/{stage}', 'Company\\Adminland\\AdminRecruitmentController@updateStage');
+            Route::delete('account/recruitment/{template}/stage/{stage}', 'Company\\Adminland\\AdminRecruitmentController@destroyStage');
         });
     });
 });

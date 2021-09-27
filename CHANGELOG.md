@@ -1,3 +1,98 @@
+# [0.5.0](https://github.com/officelifehq/officelife/compare/v0.4.0...v0.5.0) (2021-09-16)
+
+
+### Features
+
+* ability to edit a job opening ([#1280](https://github.com/officelifehq/officelife/issues/1280)) ([e11fb0e](https://github.com/officelifehq/officelife/commit/e11fb0e1abf4a635aa0d8e17c63e3aad300b6218))
+* ability to set company location ([#1223](https://github.com/officelifehq/officelife/issues/1223)) ([521729c](https://github.com/officelifehq/officelife/commit/521729cc46a2245f3c679acd02173f400feacb39))
+* add ability to manage job openings ([#1175](https://github.com/officelifehq/officelife/issues/1175)) ([925506a](https://github.com/officelifehq/officelife/commit/925506a2aaeb13cb981deb6523b48186907fb59d))
+* add ability to post comment to project messages ([#1322](https://github.com/officelifehq/officelife/issues/1322)) ([f9c57da](https://github.com/officelifehq/officelife/commit/f9c57daad197bdd0b6352c52688ebfd98270b6f0))
+* ask me anything ([#1323](https://github.com/officelifehq/officelife/issues/1323)) ([9f2eef3](https://github.com/officelifehq/officelife/commit/9f2eef395d0b4f06442ae8a1b1e367e70823ba71))
+* automatic slug when creating or renaming a company ([#1239](https://github.com/officelifehq/officelife/issues/1239)) ([c083181](https://github.com/officelifehq/officelife/commit/c083181720197edc23dd461cebab91e32d2e53fe))
+* hire candidate ([#1279](https://github.com/officelifehq/officelife/issues/1279)) ([4ef1544](https://github.com/officelifehq/officelife/commit/4ef15445c919ff02fd4379b7ab18dbd796e78a48))
+* increase expense maximum amount ([#1303](https://github.com/officelifehq/officelife/issues/1303)) ([f06c416](https://github.com/officelifehq/officelife/commit/f06c41645b66f9a83058d6f24e17d7781c9e690c))
+* let participant participate in recruiting process ([#1306](https://github.com/officelifehq/officelife/issues/1306)) ([89da2f4](https://github.com/officelifehq/officelife/commit/89da2f4ad0aaa9872cbc56918612f1003b7ce2ae))
+* markdown support for company news ([#1304](https://github.com/officelifehq/officelife/issues/1304)) ([51d3feb](https://github.com/officelifehq/officelife/commit/51d3febd9adaa18493ce063bded5ee6b5f37799f))
+* show fulfilled job openings in hr dashboard ([#1278](https://github.com/officelifehq/officelife/issues/1278)) ([d61cd34](https://github.com/officelifehq/officelife/commit/d61cd3492b3d515593419255a8543d186e5f78b7))
+* show job openings for which i am sponsor of on dashboard ([#1285](https://github.com/officelifehq/officelife/issues/1285)) ([9abee95](https://github.com/officelifehq/officelife/commit/9abee9563768d2f954b6b6b7df7e4af54c2e2189))
+* view candidate cv ([#1281](https://github.com/officelifehq/officelife/issues/1281)) ([a2f2f8c](https://github.com/officelifehq/officelife/commit/a2f2f8c07c8190de3aa3f7c5d5afe226e8094128))
+
+
+### Bug Fixes
+
+* edit profile address ([#1240](https://github.com/officelifehq/officelife/issues/1240)) ([524a3c5](https://github.com/officelifehq/officelife/commit/524a3c53b1a4c7f63fd941641ae5ffe9ca27cad5))
+* fix breadcrumbs ([#1287](https://github.com/officelifehq/officelife/issues/1287)) ([b2bc370](https://github.com/officelifehq/officelife/commit/b2bc370d11764c07dbd2c379736c51865cd01e00))
+* fix participants not shown on dashboard ([#1321](https://github.com/officelifehq/officelife/issues/1321)) ([b9c580e](https://github.com/officelifehq/officelife/commit/b9c580e9b8162e6fb6936722e1c5b71dfd93c2a3))
+* fix stop rate manager process not stopping surveys ([#1286](https://github.com/officelifehq/officelife/issues/1286)) ([6a47a6b](https://github.com/officelifehq/officelife/commit/6a47a6b81cf5d9b1d9b42c048d018b41b56fc9b7))
+* fix tasks overflow when text is too big ([#1298](https://github.com/officelifehq/officelife/issues/1298)) ([e6e8358](https://github.com/officelifehq/officelife/commit/e6e835888e51ab8dfd929c655d12efa4d822bff9))
+* fix wrong breadcrumb on projects page ([#1297](https://github.com/officelifehq/officelife/issues/1297)) ([672bf12](https://github.com/officelifehq/officelife/commit/672bf12ce978c433672d9efc70e60f2968ae887e))
+
+# [0.4.0](https://github.com/officelifehq/officelife/compare/v0.3.0...v0.4.0) (2021-07-30)
+
+
+### Features
+
+* add concept of wiki ([#1129](https://github.com/officelifehq/officelife/issues/1129)) ([b7a711e](https://github.com/officelifehq/officelife/commit/b7a711ed04d44ee38c28c5314c05fe14da186157))
+* add external login providers ([#1174](https://github.com/officelifehq/officelife/issues/1174)) ([e92d516](https://github.com/officelifehq/officelife/commit/e92d5167d3c0a27551178fc1d6dcdc6126c8f327))
+* change task list when editing a task in a project ([#1140](https://github.com/officelifehq/officelife/issues/1140)) ([ce01914](https://github.com/officelifehq/officelife/commit/ce01914fcdfb6d98c081ffbcdbfe5e7a3baf491c))
+* display account usage in adminland ([#1158](https://github.com/officelifehq/officelife/issues/1158)) ([032ac33](https://github.com/officelifehq/officelife/commit/032ac334ff9f0001e70b9d2323390c140a24b121))
+* display stats about positions in the company ([#1193](https://github.com/officelifehq/officelife/issues/1193)) ([3a30f1f](https://github.com/officelifehq/officelife/commit/3a30f1fc32e4fb50e365df54fda7810a093e12ea))
+* force https when using production env ([#1161](https://github.com/officelifehq/officelife/issues/1161)) ([dcfe7e6](https://github.com/officelifehq/officelife/commit/dcfe7e6fcff5f0fe22c1ae631fa23f648c5baaa7))
+* manage recruiting stages ([#1221](https://github.com/officelifehq/officelife/issues/1221)) ([571522c](https://github.com/officelifehq/officelife/commit/571522c1b3b77da6d751a1861e832ca4270e16bc))
+* record daily account usage for each account ([#855](https://github.com/officelifehq/officelife/issues/855)) ([07901c2](https://github.com/officelifehq/officelife/commit/07901c2d2a98e044c91b1b57172e7d03fce36bf7))
+
+
+### Bug Fixes
+
+* fix blank state message on billing screen ([#1187](https://github.com/officelifehq/officelife/issues/1187)) ([f1c777b](https://github.com/officelifehq/officelife/commit/f1c777b0ae88a66c69e3ccc1756eb52b63a2452e))
+* fix convertamount format ([#1191](https://github.com/officelifehq/officelife/issues/1191)) ([841cd29](https://github.com/officelifehq/officelife/commit/841cd2988b7a8a288dddbfbf5e4dcfbe4536332c))
+* fix heroku configuration file ([#1173](https://github.com/officelifehq/officelife/issues/1173)) ([09994e4](https://github.com/officelifehq/officelife/commit/09994e4029b6e98d1546f121c475c66804ed5d1e))
+* fix hr page not showing because of empty ecoffee session ([#1192](https://github.com/officelifehq/officelife/issues/1192)) ([6bd8cd0](https://github.com/officelifehq/officelife/commit/6bd8cd0d9f4eae07ca94da8bd7bdebacaf896ed4))
+* fix permissions to edit employee contract info ([#1141](https://github.com/officelifehq/officelife/issues/1141)) ([1f9435c](https://github.com/officelifehq/officelife/commit/1f9435ca14363f9fcc577f8b2a6afc92d9e41d97))
+* fix search function to accept null criteria as empty query string ([#1138](https://github.com/officelifehq/officelife/issues/1138)) ([bae676b](https://github.com/officelifehq/officelife/commit/bae676b9d4c2812c75d0a8cb694dce80c3dbd603))
+
+# [0.3.0](https://github.com/officelifehq/officelife/compare/v0.2.0...v0.3.0) (2021-06-24)
+
+
+### Features
+
+* ability to delete a work log ([#1074](https://github.com/officelifehq/officelife/issues/1074)) ([f5409f9](https://github.com/officelifehq/officelife/commit/f5409f9bd6d5dbf3f8d9c0e22d72f52630fb20df))
+* ability to manage softwares ([#856](https://github.com/officelifehq/officelife/issues/856)) ([98bb0ce](https://github.com/officelifehq/officelife/commit/98bb0ce5f2b1a37131e13866f32581dfb5f11747))
+* add ability to attach a file to a software ([#1071](https://github.com/officelifehq/officelife/issues/1071)) ([0b2ed60](https://github.com/officelifehq/officelife/commit/0b2ed60d5ee5a8f52a44b0acddb1574e1078d906))
+* add ability to delete an expense ([#1042](https://github.com/officelifehq/officelife/issues/1042)) ([5a14f2e](https://github.com/officelifehq/officelife/commit/5a14f2e2fdcc459adc03f94fd2f2ac60053e207e))
+* add ability to disable work from home feature ([#1113](https://github.com/officelifehq/officelife/issues/1113)) ([9b5b66a](https://github.com/officelifehq/officelife/commit/9b5b66ad41e362351bb608c4ea228491dfd53221))
+* add link to release notes in footer ([#1016](https://github.com/officelifehq/officelife/issues/1016)) ([4213398](https://github.com/officelifehq/officelife/commit/4213398b67bd0f1653d48e45ffce173db998797f))
+* add remaining characters left in input text fields ([#1104](https://github.com/officelifehq/officelife/issues/1104)) ([11ce6bf](https://github.com/officelifehq/officelife/commit/11ce6bf02ed80efeaf02a61b73e5f3202d54efd3))
+* add sentry logger channel ([#1046](https://github.com/officelifehq/officelife/issues/1046)) ([811fd3a](https://github.com/officelifehq/officelife/commit/811fd3aa7d2aa54f19f610fd9cfdc89383a23ec2))
+* allow cents in expense ([#1041](https://github.com/officelifehq/officelife/issues/1041)) ([9dafa89](https://github.com/officelifehq/officelife/commit/9dafa892e1f0555550b1929f5ee3ce7c28667e91))
+* birthday not mandatory to edit an employee anymore ([#1070](https://github.com/officelifehq/officelife/issues/1070)) ([9473ff1](https://github.com/officelifehq/officelife/commit/9473ff1d8d9577362453a90ff5aef073f95bd16a))
+* check csv validity before processing it ([#1086](https://github.com/officelifehq/officelife/issues/1086)) ([8f47cf8](https://github.com/officelifehq/officelife/commit/8f47cf83867f242673a5790b75d3165080d6b1ac))
+* remove employee hierarchy when locking employees ([#1039](https://github.com/officelifehq/officelife/issues/1039)) ([0b987f8](https://github.com/officelifehq/officelife/commit/0b987f8f5ae11ebeb04d908f0392b02eeb9ce5c8))
+
+
+### Bug Fixes
+
+* ability to use money with different minorUnit ([#1045](https://github.com/officelifehq/officelife/issues/1045)) ([86fad07](https://github.com/officelifehq/officelife/commit/86fad07e2a3a2d7e5098b71c285e6b7f5e53dded))
+* add missing field in the failed jobs table ([#1077](https://github.com/officelifehq/officelife/issues/1077)) ([ca8934c](https://github.com/officelifehq/officelife/commit/ca8934cdd73480ffc696c9ed8914801c3db48678))
+* fix ability to search a blank string as a skill ([#1091](https://github.com/officelifehq/officelife/issues/1091)) ([b3cdbec](https://github.com/officelifehq/officelife/commit/b3cdbecb66239ac5e08dd009d823f40fdef48186))
+* fix age calculation using timezone ([#1038](https://github.com/officelifehq/officelife/issues/1038)) ([72c5373](https://github.com/officelifehq/officelife/commit/72c5373edca1a94f418fe81671b7ff2cd9353645))
+* fix audit log for updated agenda item action ([#1075](https://github.com/officelifehq/officelife/issues/1075)) ([5cb1211](https://github.com/officelifehq/officelife/commit/5cb12111794ab487484f4c4c848b106f29539921))
+* fix broken link on importing employees ([#1015](https://github.com/officelifehq/officelife/issues/1015)) ([772df31](https://github.com/officelifehq/officelife/commit/772df31c3c663aa5506e323e53149aace1966583))
+* fix broken link to create project on timesheet view ([#1011](https://github.com/officelifehq/officelife/issues/1011)) ([a556635](https://github.com/officelifehq/officelife/commit/a556635fc1f13e270cb40d29edd41df2d806cc90))
+* fix contract rate store ([#1023](https://github.com/officelifehq/officelife/issues/1023)) ([30bd168](https://github.com/officelifehq/officelife/commit/30bd16813bc0ca2cdf0695f95038f3c4087db0a5))
+* fix edit contract page being shown for employees who are not external ([#1027](https://github.com/officelifehq/officelife/issues/1027)) ([3b605bf](https://github.com/officelifehq/officelife/commit/3b605bf38ffb3a8d68d73b6345c5f507fea2c7e0))
+* fix illustration on expense hiding help text ([#1040](https://github.com/officelifehq/officelife/issues/1040)) ([294bbaa](https://github.com/officelifehq/officelife/commit/294bbaa4593579b6b76ebb7f5dc018beaa782bd3))
+* fix one on one note length ([#1105](https://github.com/officelifehq/officelife/issues/1105)) ([0982bae](https://github.com/officelifehq/officelife/commit/0982bae8ca367b0ee5c9b45b50a24ab9cdf104be))
+* fix order number in software that can not be edited ([#1108](https://github.com/officelifehq/officelife/issues/1108)) ([0396d88](https://github.com/officelifehq/officelife/commit/0396d88a9e08d244e69aa27e0f8f7ecb58789a6a))
+* fix reset demo download issues ([#1021](https://github.com/officelifehq/officelife/issues/1021)) ([30064d4](https://github.com/officelifehq/officelife/commit/30064d4b18956246923c0d55fc4327f20f9da390))
+* fix search with empty criteria ([#1092](https://github.com/officelifehq/officelife/issues/1092)) ([50ad748](https://github.com/officelifehq/officelife/commit/50ad74826e827dee9a27ff6165b89cf353a8f7c5))
+* fix search without pattern ([#1022](https://github.com/officelifehq/officelife/issues/1022)) ([8a11a2b](https://github.com/officelifehq/officelife/commit/8a11a2b527c47215f4ddc9cb417c7dec764a027c))
+* fix text overriden avatars on ecoffee widgets ([#1012](https://github.com/officelifehq/officelife/issues/1012)) ([7911bcd](https://github.com/officelifehq/officelife/commit/7911bcdec66955e7b6c2a4064e2134e18d9be810))
+* remove pagination in software page  ([#1079](https://github.com/officelifehq/officelife/issues/1079)) ([085da61](https://github.com/officelifehq/officelife/commit/085da6132e055452c3d650caba53a482537fca17))
+* remove the s on software in plural ([#1032](https://github.com/officelifehq/officelife/issues/1032)) ([989b33a](https://github.com/officelifehq/officelife/commit/989b33abb2729836d5dc24dc42d1bc8359d8e791))
+* remove timezones from dates on employee profile ([#1010](https://github.com/officelifehq/officelife/issues/1010)) ([45f6f25](https://github.com/officelifehq/officelife/commit/45f6f25dbeeaf46e3415578c7b7d3369fcacacdd))
+* revert vue upgrade ([#1085](https://github.com/officelifehq/officelife/issues/1085)) ([8b05a3e](https://github.com/officelifehq/officelife/commit/8b05a3e4f294ebab516f54bf1d3841c2a75100c2))
+
 # [0.2.0](https://github.com/officelifehq/officelife/compare/v0.1.0...v0.2.0) (2021-06-07)
 
 

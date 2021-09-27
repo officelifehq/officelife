@@ -84,6 +84,7 @@ class CompanyController extends Controller
      *
      * @param Request $request
      * @param int $companyId
+     *
      * @return JsonResponse
      */
     public function replay(Request $request, int $companyId): JsonResponse

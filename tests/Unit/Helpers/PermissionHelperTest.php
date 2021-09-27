@@ -838,6 +838,56 @@ class PermissionHelperTest extends TestCase
     }
 
     /** @test */
+    public function it_lets_the_employee_see_the_edit_contract_information_tab(): void
+    {
+        $administrator = Employee::factory()->asAdministrator()->create();
+        $hr = $this->createHR();
+        $employee = $this->createEmployee();
+        $anotherEmployee = $this->createEmployee();
+
+        $permission = PermissionHelper::permissions($administrator, $administrator);
+        $this->assertFalse($permission['can_see_edit_contract_information_tab']);
+
+        $permission = PermissionHelper::permissions($administrator, $hr);
+        $this->assertFalse($permission['can_see_edit_contract_information_tab']);
+
+        $permission = PermissionHelper::permissions($administrator, $employee);
+        $this->assertFalse($permission['can_see_edit_contract_information_tab']);
+
+        $permission = PermissionHelper::permissions($hr, $hr);
+        $this->assertFalse($permission['can_see_edit_contract_information_tab']);
+
+        $permission = PermissionHelper::permissions($hr, $employee);
+        $this->assertFalse($permission['can_see_edit_contract_information_tab']);
+
+        $permission = PermissionHelper::permissions($employee, $employee);
+        $this->assertFalse($permission['can_see_edit_contract_information_tab']);
+
+        $permission = PermissionHelper::permissions($employee, $anotherEmployee);
+        $this->assertFalse($permission['can_see_edit_contract_information_tab']);
+
+        $employee = $this->setEmployeeStatus($employee, EmployeeStatus::EXTERNAL);
+
+        $permission = PermissionHelper::permissions($administrator, $administrator);
+        $this->assertFalse($permission['can_see_edit_contract_information_tab']);
+
+        $permission = PermissionHelper::permissions($administrator, $hr);
+        $this->assertFalse($permission['can_see_edit_contract_information_tab']);
+
+        $permission = PermissionHelper::permissions($administrator, $employee);
+        $this->assertTrue($permission['can_see_edit_contract_information_tab']);
+
+        $permission = PermissionHelper::permissions($hr, $hr);
+        $this->assertFalse($permission['can_see_edit_contract_information_tab']);
+
+        $permission = PermissionHelper::permissions($hr, $employee);
+        $this->assertTrue($permission['can_see_edit_contract_information_tab']);
+
+        $permission = PermissionHelper::permissions($employee, $employee);
+        $this->assertFalse($permission['can_see_edit_contract_information_tab']);
+    }
+
+    /** @test */
     public function it_lets_the_employee_delete_worklog(): void
     {
         $administrator = $this->createAdministrator();

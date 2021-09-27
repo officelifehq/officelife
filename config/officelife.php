@@ -94,6 +94,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Enable payment in the instance
+    |--------------------------------------------------------------------------
+    |
+    | This is used to bill the customers of the OfficeLife instance.
+    | You most likely don't need to touch this variable if you self-host.
+    |
+    */
+    'enable_paid_plan' => env('ENABLE_PAID_PLAN', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Mapbox API key
     |--------------------------------------------------------------------------
     |
@@ -231,6 +242,7 @@ return [
         'account_general_currency' => 'manage/company-management.html#currency',
         'account_general_logo' => 'manage/company-management.html#logo',
         'account_general_founded_date' => 'manage/company-management.html#defining-the-company-s-founded-date',
+        'account_general_location' => 'manage/company-management.html#defining-the-company-s-main-location',
         'account_cancellation' => 'manage/company-management.html#account-cancellation',
         'one_on_ones' => 'grow/one-on-ones.html#overview',
         'project' => 'operate/project-management.html#overview',
@@ -241,5 +253,9 @@ return [
         'ecoffee' => 'grow/e-coffee.html#overview',
         'questions' => 'communicate/get-to-know-your-colleagues.html',
         'time_tracking' => 'operate/time-tracking.html',
+        'billing' => 'manage/company-management.html#account-billing',
+        'wiki' => 'communicate/wiki.html',
+        'recruitment_template' => 'recruit/applicant-tracking-system.html#the-recruiting-stages-and-templates',
+        'ask_me_anything' => 'communicate/ask-me-anything.html',
     ],
 ];

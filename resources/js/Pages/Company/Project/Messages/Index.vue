@@ -5,6 +5,20 @@
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
   }
+
+  li:first-child:hover {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  li:last-child {
+    border-bottom: 0;
+
+    &:hover {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+  }
 }
 
 .dot {
@@ -29,20 +43,12 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects'">{{ $t('app.breadcrumb_project_list') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_project_detail') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb :has-more="false"
+                  :previous-url="route('projects.index', { company: $page.props.auth.company.id})"
+                  :previous="$t('app.breadcrumb_project_list')"
+      >
+        {{ $t('app.breadcrumb_project_detail') }}
+      </breadcrumb>
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
@@ -63,13 +69,16 @@
         <!-- list of messages -->
         <div v-if="messages.length > 0" class="bg-white box">
           <ul class="list pl0 mv0 list-no-line-bottom">
-            <li v-for="message in messages" :key="message.id" :class="message.read_status ? 'read' : ''" class="bb bb-gray pa3 relative flex justify-between items-center">
-              <div class="ma0 fw5 message">
-                <p class="mt0 mb2 fw5">
-                  <span v-if="!message.read_status" class="dib relative mr1 br-100 dot"></span>
+            <li v-for="message in messages" :key="message.id" :class="message.read_status ? 'read' : ''" class="bb bb-gray bb-gray-hover pa3 relative flex justify-between items-center">
+              <div class="ma0 fw4 message">
+                <p class="mt0 mb2" :class="!message.read_status ? 'fw5' : ''">
+                  <span v-if="!message.read_status" class="dib relative mr2 br-100 dot"></span>
                   <inertia-link :href="message.url" class="lh-copy">{{ message.title }}</inertia-link>
                 </p>
-                <p class="mt0 mb0 f6 gray"><span class="mr1 f7 gray">{{ message.written_at }}</span> {{ message.content }}</p>
+                <ul class="list pl0 mt0 mb0 f6 gray">
+                  <li class="di mr2 f7 gray">{{ message.written_at }}</li>
+                  <li class="di f7 gray">{{ $tc('project.message_index_comment', message.comment_count, {count: message.comment_count}) }}</li>
+                </ul>
               </div>
 
               <div v-if="message.author" class="author tr">
@@ -99,6 +108,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 import Help from '@/Shared/Help';
@@ -106,6 +116,7 @@ import Help from '@/Shared/Help';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     ProjectMenu,
     SmallNameAndAvatar,
     Help,

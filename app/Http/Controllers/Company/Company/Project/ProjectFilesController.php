@@ -29,7 +29,7 @@ class ProjectFilesController extends Controller
      * @param int $companyId
      * @param int $projectId
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function index(Request $request, int $companyId, int $projectId)
     {
@@ -58,6 +58,7 @@ class ProjectFilesController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse|null
      */
     public function store(Request $request, int $companyId, int $projectId): ?JsonResponse
@@ -118,6 +119,7 @@ class ProjectFilesController extends Controller
      * @param int $companyId
      * @param int $projectId
      * @param int $fileId
+     *
      * @return JsonResponse|null
      */
     public function destroy(Request $request, int $companyId, int $projectId, int $fileId): ?JsonResponse

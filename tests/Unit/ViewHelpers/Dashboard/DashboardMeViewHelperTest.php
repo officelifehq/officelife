@@ -15,13 +15,19 @@ use App\Models\Company\Project;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
+use App\Models\Company\Candidate;
+use App\Models\Company\JobOpening;
 use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\CandidateStage;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Jobs\StartRateYourManagerProcess;
+use App\Models\Company\AskMeAnythingSession;
+use App\Models\Company\AskMeAnythingQuestion;
 use GrahamCampbell\TestBenchCore\HelperTrait;
+use App\Models\Company\CandidateStageParticipant;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
@@ -544,6 +550,7 @@ class DashboardMeViewHelperTest extends TestCase
 
         $this->assertEquals(
             [
+                'feature_enabled' => true,
                 'has_worked_from_home_today' => false,
             ],
             DashboardMeViewHelper::workFromHome($michael)
@@ -557,9 +564,114 @@ class DashboardMeViewHelperTest extends TestCase
 
         $this->assertEquals(
             [
+                'feature_enabled' => true,
                 'has_worked_from_home_today' => true,
             ],
             DashboardMeViewHelper::workFromHome($michael)
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_job_openings_the_employee_is_a_sponsor_of(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $company = Company::factory()->create();
+        $jobOpening = JobOpening::factory()->create([
+            'company_id' => $company->id,
+            'activated_at' => Carbon::now(),
+        ]);
+        $michael = Employee::factory()->create();
+        $jobOpening->sponsors()->syncWithoutDetaching([$michael->id]);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $jobOpening->id,
+                    'title' => $jobOpening->title,
+                    'reference_number' => $jobOpening->reference_number,
+                    'url' => env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$jobOpening->id,
+                ],
+            ],
+            DashboardMeViewHelper::jobOpeningsAsSponsor($company, $michael)->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_job_openings_the_employee_is_a_participant_of(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $company = Company::factory()->create();
+        $jobOpening = JobOpening::factory()->create([
+            'company_id' => $company->id,
+            'activated_at' => Carbon::now(),
+        ]);
+        $dwight = Employee::factory()->create();
+        $michael = Candidate::factory()->create([
+            'job_opening_id' => $jobOpening->id,
+        ]);
+        $stage = CandidateStage::factory()->create([
+            'candidate_id' => $michael->id,
+        ]);
+        CandidateStageParticipant::factory()->create([
+            'candidate_stage_id' => $stage->id,
+            'participant_id' => $dwight->id,
+            'participated' => false,
+        ]);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $jobOpening->id,
+                    'title' => $jobOpening->title,
+                    'candidate_stage_id' => $stage->id,
+                    'participated' => false,
+                    'candidate' => [
+                        'id' => $michael->id,
+                        'name' => $michael->name,
+                    ],
+                ],
+            ],
+            DashboardMeViewHelper::jobOpeningsAsParticipant($dwight)->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_details_of_the_current_active_ama_session(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $company = Company::factory()->create();
+        $michael = $this->createAdministrator();
+
+        $ama = AskMeAnythingSession::factory()->create([
+            'company_id' => $company->id,
+            'theme' => 'theme',
+            'active' => true,
+            'happened_at' => Carbon::now()->addDay(),
+        ]);
+        AskMeAnythingQuestion::factory()->create([
+            'ask_me_anything_session_id' => $ama->id,
+            'employee_id' => $michael->id,
+        ]);
+        AskMeAnythingQuestion::factory()->create([
+            'ask_me_anything_session_id' => $ama->id,
+            'anonymous' => true,
+        ]);
+
+        $array = DashboardMeViewHelper::activeAskMeAnythingSession($company, $michael);
+
+        $this->assertEquals(
+            [
+                'id' => $ama->id,
+                'active' => $ama->active,
+                'theme' => $ama->theme,
+                'happened_at' => 'Jan 02, 2018',
+                'url_new' => env('APP_URL').'/'.$company->id.'/company/hr/ask-me-anything/'.$ama->id,
+                'questions_asked_by_employee_count' => 1,
+                'questions_in_total_count' => 2,
+            ],
+            $array
         );
     }
 }

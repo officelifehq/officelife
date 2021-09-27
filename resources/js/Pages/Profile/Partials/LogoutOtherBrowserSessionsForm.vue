@@ -122,7 +122,7 @@ export default {
   props: {
     sessions: {
       type: Object,
-      default: () => {{}},
+      default: () => {return {};},
     },
   },
 

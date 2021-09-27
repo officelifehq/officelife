@@ -25,6 +25,8 @@ class CompanyHRController extends Controller
 
         $genders = CompanyHRViewHelper::genderStats($company);
         $eCoffees = CompanyHRViewHelper::eCoffees($company);
+        $positions = CompanyHRViewHelper::positions($company);
+        $ama = CompanyHRViewHelper::askMeAnythingUpcomingSession($company);
         $statistics = CompanyViewHelper::information($company);
 
         return Inertia::render('Company/HR/Index', [
@@ -32,6 +34,8 @@ class CompanyHRController extends Controller
             'eCoffees' => $eCoffees,
             'statistics' => $statistics,
             'genders' => $genders,
+            'positions' => $positions,
+            'askMeAnythingSession' => $ama,
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }

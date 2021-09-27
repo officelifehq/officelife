@@ -28,6 +28,7 @@ class CreateProject extends BaseService
             'project_lead_id' => 'nullable|integer|exists:employees,id',
             'name' => 'required|string|max:255',
             'code' => 'nullable|string|max:255',
+            'short_code' => 'nullable|string|max:3',
             'summary' => 'nullable|string|max:255',
             'emoji' => 'nullable|string|max:5',
             'description' => 'nullable|string|max:65535',
@@ -71,6 +72,17 @@ class CreateProject extends BaseService
             }
         }
 
+        // make sure the project short code, if provided, is unique in the company
+        if (! is_null($this->valueOrNull($this->data, 'short_code'))) {
+            $count = Project::where('company_id', $this->data['company_id'])
+                ->where('short_code', $this->data['short_code'])
+                ->count();
+
+            if ($count > 0) {
+                throw new ProjectCodeAlreadyExistException();
+            }
+        }
+
         if (! is_null($this->valueOrNull($this->data, 'project_lead_id'))) {
             Employee::where('company_id', $this->data['company_id'])
                 ->findOrFail($this->data['project_lead_id']);
@@ -86,6 +98,7 @@ class CreateProject extends BaseService
             'summary' => $this->valueOrNull($this->data, 'summary'),
             'status' => Project::CREATED,
             'code' => $this->valueOrNull($this->data, 'code'),
+            'short_code' => $this->valueOrNull($this->data, 'short_code'),
             'emoji' => $this->valueOrNull($this->data, 'emoji'),
             'description' => $this->valueOrNull($this->data, 'description'),
         ]);

@@ -11,14 +11,6 @@
   background-color: #f5f5f5;
 }
 
-.edit-item {
-  left: 88px;
-}
-
-.list-item {
-  left: -86px;
-}
-
 @media (max-width: 480px) {
   .list-item {
     left: 0;
@@ -55,6 +47,7 @@
           :required="true"
           :url="task.url"
           :duration="task.duration"
+          :comments="task.comment_count"
           @update:model-value="toggle(task.id)"
           @edit="showEditTask(task)"
           @destroy="destroy(task.id)"
@@ -88,7 +81,7 @@
 
             <!-- actions -->
             <div>
-              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'edit-task-cta-' + task.id" :state="loadingState" :text="$t('app.update')" />
+              <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3 mr2'" :data-cy="'edit-task-cta-' + task.id" :state="loadingState" :text="$t('app.update')" />
               <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="taskToEdit = 0">
                 {{ $t('app.cancel') }}
               </a>

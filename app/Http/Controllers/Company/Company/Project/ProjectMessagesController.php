@@ -28,7 +28,7 @@ class ProjectMessagesController extends Controller
      * @param int $companyId
      * @param int $projectId
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function index(Request $request, int $companyId, int $projectId)
     {
@@ -58,7 +58,7 @@ class ProjectMessagesController extends Controller
      * @param int $companyId
      * @param int $projectId
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function create(Request $request, int $companyId, int $projectId)
     {
@@ -84,6 +84,7 @@ class ProjectMessagesController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
      * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $projectId): JsonResponse
@@ -114,7 +115,7 @@ class ProjectMessagesController extends Controller
      * @param int $projectId
      * @param int $messageId
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function show(Request $request, int $companyId, int $projectId, int $messageId)
     {
@@ -160,7 +161,7 @@ class ProjectMessagesController extends Controller
      * @param int $projectId
      * @param int $messageId
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function edit(Request $request, int $companyId, int $projectId, int $messageId)
     {
@@ -197,6 +198,7 @@ class ProjectMessagesController extends Controller
      * @param int $companyId
      * @param int $projectId
      * @param int $projectMessageId
+     *
      * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $projectId, int $projectMessageId): JsonResponse
@@ -227,6 +229,7 @@ class ProjectMessagesController extends Controller
      * @param int $companyId
      * @param int $projectId
      * @param int $projectMessageId
+     *
      * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $projectId, int $projectMessageId): JsonResponse
@@ -245,6 +248,6 @@ class ProjectMessagesController extends Controller
 
         return response()->json([
             'data' => true,
-        ], 201);
+        ], 200);
     }
 }

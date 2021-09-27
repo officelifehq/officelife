@@ -25,6 +25,8 @@ class GroupMembersController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $groupId
+     *
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function index(Request $request, int $companyId, int $groupId)
     {
@@ -54,6 +56,7 @@ class GroupMembersController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $groupId
+     *
      * @return JsonResponse
      */
     public function search(Request $request, int $companyId, int $groupId): JsonResponse
@@ -84,6 +87,7 @@ class GroupMembersController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $groupId
+     *
      * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $groupId): JsonResponse
@@ -117,6 +121,7 @@ class GroupMembersController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $groupId
+     *
      * @return JsonResponse
      */
     public function remove(Request $request, int $companyId, int $groupId): JsonResponse

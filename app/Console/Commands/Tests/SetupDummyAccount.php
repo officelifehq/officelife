@@ -19,10 +19,14 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Company\ECoffeeMatch;
 use App\Services\User\CreateAccount;
 use App\Models\Company\ProjectStatus;
+use App\Models\Company\CompanyInvoice;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
+use App\Services\Company\Wiki\CreateWiki;
 use App\Services\Company\Team\SetTeamLead;
 use App\Services\Company\Group\CreateGroup;
+use App\Models\Company\AskMeAnythingSession;
+use App\Services\Company\Wiki\AddPageToWiki;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
@@ -30,10 +34,13 @@ use App\Services\Company\Group\CreateMeeting;
 use App\Services\Company\Project\StartProject;
 use App\Services\Company\Team\Ship\CreateShip;
 use App\Models\Company\EmployeePositionHistory;
+use App\Models\Company\RecruitingStageTemplate;
 use App\Services\Company\Project\CreateProject;
+use App\Models\Company\CompanyDailyUsageHistory;
 use App\Services\Company\Group\CreateAgendaItem;
 use App\Services\Company\Group\UpdateMeetingDate;
 use Symfony\Component\Console\Helper\ProgressBar;
+use App\Models\Company\CompanyUsageHistoryDetails;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Employee\Morale\LogMorale;
 use App\Services\Company\Project\CreateProjectLink;
@@ -65,6 +72,8 @@ use App\Services\Company\Project\AssignProjectTaskToEmployee;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
+use App\Services\Company\Adminland\JobOpening\CreateJobOpening;
+use App\Services\Company\Adminland\JobOpening\ToggleJobOpening;
 use App\Services\Company\Adminland\Software\GiveSeatToEmployee;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
@@ -72,6 +81,7 @@ use App\Services\Company\Employee\Timesheet\CreateOrGetTimesheet;
 use App\Services\Company\Employee\Contract\SetContractRenewalDate;
 use App\Services\Company\Employee\Pronoun\AssignPronounToEmployee;
 use App\Services\Company\Employee\ECoffee\MatchEmployeesForECoffee;
+use App\Services\Company\Adminland\JobOpening\CreateRecruitingStage;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
 use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneActionItem;
 use App\Services\Company\Employee\Position\AssignPositionToEmployee;
@@ -82,6 +92,10 @@ use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneTalkingPoint;
 use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
 use App\Services\Company\Employee\OneOnOne\MarkOneOnOneEntryAsHappened;
 use App\Services\Company\Adminland\Expense\AllowEmployeeToManageExpenses;
+use App\Services\Company\Adminland\AskMeAnything\CreateAskMeAnythingSession;
+use App\Services\Company\Adminland\AskMeAnything\ToggleAskMeAnythingSession;
+use App\Services\Company\Adminland\JobOpening\CreateRecruitingStageTemplate;
+use App\Services\Company\Adminland\AskMeAnything\CreateAskMeAnythingQuestion;
 use App\Services\Company\Employee\WorkFromHome\UpdateWorkFromHomeInformation;
 use App\Services\Company\Employee\EmployeeStatus\AssignEmployeeStatusToEmployee;
 
@@ -220,6 +234,11 @@ class SetupDummyAccount extends Command
         $this->setECoffeeProcess();
         $this->addGroups();
         $this->addPreviousPositionsHistory();
+        $this->addBillingAndInvoices();
+        $this->addWikis();
+        $this->addRecruitingStages();
+        $this->addJobOpenings();
+        $this->addAMASessions();
         $this->addSecondaryBlankAccount();
         $this->validateUserAccounts();
         $this->stop();
@@ -284,15 +303,15 @@ class SetupDummyAccount extends Command
         // grab the employee that was just created
         $this->michael = Employee::first();
 
-        $this->pronounHeHim = Pronoun::where('label', 'he/him')->first();
-        $this->pronounSheHer = Pronoun::where('label', 'she/her')->first();
-        $this->pronounTheyThem = Pronoun::where('label', 'they/them')->first();
+        $this->pronounHeHim = Pronoun::where('label', trans('account.pronoun_he_him'))->first();
+        $this->pronounSheHer = Pronoun::where('label', trans('account.pronoun_she_her'))->first();
+        $this->pronounTheyThem = Pronoun::where('label', trans('account.pronoun_they_them'))->first();
 
-        $this->expenseCategoryMaintenanceAndRepairs = ExpenseCategory::where('name', 'Maintenance and repairs')->first();
-        $this->expenseCategoryMealsAndEntertainment = ExpenseCategory::where('name', 'Meals and entertainment')->first();
-        $this->expenseCategoryOfficeExpense = ExpenseCategory::where('name', 'Office expense')->first();
-        $this->expenseCategoryTravel = ExpenseCategory::where('name', 'Travel')->first();
-        $this->expenseCategoryMotorVehicleExpenses = ExpenseCategory::where('name', 'Motor vehicle expenses')->first();
+        $this->expenseCategoryMaintenanceAndRepairs = ExpenseCategory::where('name', trans('account.expense_category_default_maintenance_and_repairs'))->first();
+        $this->expenseCategoryMealsAndEntertainment = ExpenseCategory::where('name', trans('account.expense_category_default_meals_and_entertainment'))->first();
+        $this->expenseCategoryOfficeExpense = ExpenseCategory::where('name', trans('account.expense_category_default_office_expense'))->first();
+        $this->expenseCategoryTravel = ExpenseCategory::where('name', trans('account.expense_category_default_travel'))->first();
+        $this->expenseCategoryMotorVehicleExpenses = ExpenseCategory::where('name', trans('account.expense_category_default_motor_vehicle_expenses'))->first();
     }
 
     private function assignAccountantRole(): void
@@ -2182,6 +2201,8 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
 
     private function addPreviousPositionsHistory(): void
     {
+        $this->info('☐ Add previous positions history');
+
         foreach ($this->employees as $employee) {
             $position = Position::inRandomOrder()->first();
 
@@ -2206,6 +2227,361 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                 'ended_at' => $ended,
             ]);
         }
+    }
+
+    private function addBillingAndInvoices(): void
+    {
+        $this->info('☐ Add past invoices');
+
+        $maxNumberEmployees = Employee::count();
+
+        $oneYearAgo = Carbon::now()->subYear();
+        while (! $oneYearAgo->isSameMonth(Carbon::now())) {
+            $randomNumberOfEmployees = Employee::inRandomOrder()->limit(rand(1, $maxNumberEmployees))->get();
+
+            $usage = CompanyDailyUsageHistory::create([
+                'company_id' => $this->company->id,
+                'number_of_active_employees' => $randomNumberOfEmployees->count(),
+                'created_at' => $oneYearAgo->format('Y-m-d'),
+            ]);
+
+            foreach ($randomNumberOfEmployees as $employee) {
+                CompanyUsageHistoryDetails::create([
+                    'usage_history_id' => $usage->id,
+                    'employee_name' => $employee->name,
+                    'employee_email' => $employee->email,
+                ]);
+            }
+
+            // if the day is the end of month, create invoice
+            if ($oneYearAgo->isSameDay($oneYearAgo->copy()->endOfMonth())) {
+                // get highest usage of the month
+                $usage = CompanyDailyUsageHistory::where('company_id', $this->company->id)
+                    ->whereBetween('created_at', [
+                        $oneYearAgo->copy()->startOfMonth(),
+                        $oneYearAgo->copy()->endOfMonth(),
+                    ])
+                    ->orderBy('number_of_active_employees', 'desc')
+                    ->first();
+
+                CompanyInvoice::create([
+                    'company_id' => $this->company->id,
+                    'usage_history_id' => $usage->id,
+                    'created_at' => $oneYearAgo->format('Y-m-d'),
+                ]);
+            }
+
+            $oneYearAgo = $oneYearAgo->copy()->addDay();
+        }
+    }
+
+    private function addWikis(): void
+    {
+        $this->info('☐ Add wikis and pages');
+
+        $wikiNames = collect([
+            'HR',
+            'Development',
+            'Product',
+            'Finance',
+            'Warehouse',
+        ]);
+
+        foreach ($wikiNames as $name) {
+            $wiki = (new CreateWiki)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->michael->id,
+                'title' => $name,
+            ]);
+
+            (new AddPageToWiki)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->michael->id,
+                'wiki_id' => $wiki->id,
+                'title' => 'Party planning committee',
+                'content' => "
+Historical members of the Party Planning Committee include former regular members Pam Beesly|Pam, Phyllis Vance|Phyllis (former chair), and Angela Martin|Angela (former chair). Other non-permanent members have once included Meredith Palmer|Meredith, Kelly Kapoor|Kelly, Karen Filippelli|Karen, Ryan Howard|Ryan, Holly Flax|Holly, and Oscar Martinez|Oscar. Jim Halpert|Jim and Dwight Schrute|Dwight were also temporary heads to prevent the chair from gaining too much power.
+
+## Pre-history parties
+These parties were planned prior to the beginning of the Office documentary.
+
+### A Pizza of Your Own Party
+
+* In a [http://www.hulu.com/watch/63883/the-office-party-planning-committee#s-p2-sr-i1 deleted scene] from `New Boss`, Michael Scott|Michael describes to Charles Miner the first party planned by the committee, which was a celebration of the release of the film ''A League of Their Own'' on Laserdisc. According to [http://www.imdb.com/title/tt0106055/laserdisc IMDB], the release of that film on Laserdisc occurred in 1993, making the committee 17 years old as of 2010. The celebration consisted of employees of the office making their own pizzas. (Gabe and Erin independently used the same idea for their ''Glee'' Viewing Party|viewing party.)
+
+### The '80s Party
+
+* In `The Alliance`, Michael Scott|Michael mentions a previous party; The '80s Party, which the office newsletter called `a success.`
+
+## Angela Martin era parties
+For the first four seasons, Angela Martin runs the Party Planning Committee.
+
+### Meredith's Birthday Party
+File:PartyPlanningCommittee1.jpg|thumb|left|250px|Angela, Pam, and Phyllis
+
+* In `The Alliance`, the Party Planning Committee (Angela, Pam, and Phyllis) plan Meredith's surprise birthday party.
+
+### 05 05 05
+
+* In `The Dundies`, Jan mentions that Michael had a luau on May 5, 2005 for no reason. Michael refuted her vehemently, saying that it was `05 05 05` and `happens once every billion years.`
+
+### Halloween Party
+
+* In `Halloween`, the planned office Halloween party is a flop because Devon invites most of the office to Poor Richard's. The only attendees of the party are Michael Scott|Michael, Dwight Schrute|Dwight, Creed Bratton|Creed, and Angela.
+
+### Christmas Party 2005
+
+* In `Christmas Party`, the Party Planning Committee (Angela, Pam, Phyllis, Meredith, and new member Ryan) plan the office Christmas party. Michael gives Ryan all the credit, which infuriates Angela.
+
+### Michael's Birthday Party
+
+* The Party Planning Committee is credited for planning Michael's Birthday|Michael's birthday party, although Dwight assumes control of all planning duties exclaiming `This is the most important day of the year!`
+
+### Christmas Party 2006
+
+* In `A Benihana Christmas`, the Party Planning Committee (Angela, Pam, Phyllis, Meredith, and new member Karen) plan the office Christmas party. Pam and Karen break off from the Party Planning Committee to plan their own competing party as the newly dubbed The Committee to Plan Parties|Committee to Plan Parties.
+
+### Luau Party
+
+* In `Back From Vacation`, the Party Planning Committee (Angela, Pam, Phyllis, Meredith, and Karen) are ordered to throw a luau-themed party with only three hours' notice.
+
+### Oscar's Welcome Back Party
+
+* In `The Return`, the Party Planning Committee (Angela, Pam, Phyllis, Meredith, Karen, and new member Oscar) plan Oscar's `Welcome Back` party. When Dwight returns from STAPLES Michael tells him that the party is for him.
+
+### Phyllis's Bridal Shower
+
+* In `Ben Franklin`, Angela (presumably with the assistance of the Party Planning Committee) decorates the conference room for Phyllis's bridal shower.
+
+### Dunder Mifflin Infinity Launch Party
+
+* In `Launch Party`, the Party Planning Committee (Angela, Phyllis, Meredith, and an unnamed member, presumably Pam) plan the Dunder Mifflin Infinity launch party.
+
+### Creed's Birthday/Birthday Month Party
+
+* In `Survivor Man`, Michael leaves Jim Halpert|Jim in charge of the office. Jim attempts to merge Creed's, Oscar's, Meredith's, and Toby Flenderson|Toby's (even though his birthday was 3 months ago) birthday parties into just one party. The slew of requests, including peach cobbler for Creed, devil's food cake for Meredith, and Fudgie the Whale and mushroom caps for Andy Bernard|Andy make this party increasingly difficult for Angela to plan. The combined party concept doesn't go over well with the office workers, and in the end, they just celebrate Creed's birthday.
+
+## Phyllis Vance era parties
+While it is unclear if there was an official change in the leadership of the Party Planning Committee, Phyllis Vance becomes the source of party planning authority and the de facto, if not formal leader.
+
+### Toby's Goodbye Party
+
+* In `Goodbye, Toby`, Phyllis is given the task of planning Toby's goodbye party after Angela rejects Michael's demands as impossibly unrealistic. The party is a smashing success, which makes Angela even more upset.
+
+### Weight Loss Party
+
+* In `Weight Loss`, Phyllis has solidified control of the Party Planning Committee thanks to her knowledge of Angela and Dwight's secret affair. She tries to buy a cake for Stanley's birthday party to celebrate the success of the weight loss initiative, but Michael insists that it consist only of fruit. Phyllis secretly organizes a party with cheesecake but is found out.
+
+### Baby Shower
+
+* In `Baby Shower`, Phyllis organizes Jan's baby shower. Phyllis relishes her new role, although Michael is disappointed with the sparse party decorations and food.
+
+### Christmas Party 2008
+
+* In `Moroccan Christmas`, Phyllis organizes a Morocco-themed Christmas party. Phyllis orders Angela around to the point where Angela finally refuses to go along, confident that Phyllis is too meek to carry through on her threat. Her gambit backfires, however, when Phyllis reveals Angela and Dwight's affair to everyone in the office.
+
+## Jim & Dwight era parties
+Michael puts Jim and Dwight in charge of the Party Planning Committee because there was `too much drama.` Michael believes that consolidating power into a single head was too dangerous, so the committee chairmanship is now shared.
+
+### Kelly's Missed Birthday
+
+* In `Lecture Circuit Part 1|Lecture Circuit Parts 1 & 2`, Jim and Dwight forget Kelly's birthday and attempt to throw her a party the next day. It features sagging balloons held up with masking tape, a cake reading `Happy Birthday Kelley [sic]` and an `It is your birthday.` sign. They offer her the choice of watching TV for an hour or napping for an hour and Kelly gleefully decides to take a nap. Dwight wakes her up by banging two trash can lids together, and orders her to make up the time lost while she was napping.
+
+### Michael's 15th Anniversary Party
+
+* In `New Boss`, Jim, Dwight, and Pam meet with Michael to plan his 15th Anniversary Party. New Corporate Vice President Charles Miner shuts down the Party Planning Committee as a waste of time and money.
+
+### Christmas Party 2009
+
+* In `Secret Santa`, Jim and Dwight (resuming their duties as the Party Planning Committee) try to get the office in the Christmas spirit, but the uncertain future of Dunder Mifflin Paper Company|Dunder Mifflin puts a damper on the festivities. Jim's decision to let Phyllis Vance|Phyllis be Santa Claus infuriates Michael Scott|Michael.
+
+## Second Angela Martin era parties
+
+### Secretary's Day 2010
+
+* In `Secretary's Day`, Andy thanks Angela for organizing the Secretary's Day party. Angela's return to the Party Planning Committee is not explained.
+
+### Nellie's Welcome Party 2012
+
+* Angela, Pam, Oscar and Phyllis work together to plan a terrible party for their new boss Nellie.
+
+## Other notes
+
+* In `Conflict Resolution`, it is revealed that Phyllis tried to get off the Party Planning Committee.
+
+* Mentioned in the deleted scenes of `Launch Party`, Mentioned Characters#Denise Dimm|Denise Dimm is identified as the head of the Dunder Mifflin Buffalo|Buffalo branch's Party Planning Committee.
+
+* In `Branch Wars`, Andy Bernard|Andy explains that his goal is to get into the office's most exclusive club - The Finer Things Club, with the Party Planning Committee as his backup and Scrantonicity|Kevin's band as his safety.
+
+* In `Launch Party` Phyllis tries new techniques to deal with difficult people (e.g. Angela) off of Google while the Party Planning Committee is planning the Launch Party.
+
+*  In `The New Boss`, Michael uses the code name PPC for the Party Planning Committee in an attempt to prevent Charles Miner from finding out about it.
+
+*  In `Classy Christmas`, Pam mentions that, as office administrator, she is basically being paid to be the head of the Party Planning Committee.
+
+*  Greg Daniels encouraged the actors to improvise mundane party planning chatter.<ref name=`officeladies_michaelsbirthday`>Kinsey, Angela and Jenna Fischer. 2020. [https://officeladies.com/episodes/2020/04/22/episode-25-michaels-birthday Episode 25: Michael's Birthday], Office Ladies podcast, April 22, 2020.</ref>
+                ",
+            ]);
+        }
+    }
+
+    private function addRecruitingStages(): void
+    {
+        $this->info('☐ Add recruiting stages');
+
+        $templates = collect([
+            'Engineering flow',
+            'Sales',
+            'Marketing with a lot of experience',
+        ]);
+
+        $stages = collect([
+            'Screening call',
+            'Technical interview',
+            'Interview with SM, PO',
+            'Reference check',
+            'Behavorial interview',
+        ]);
+
+        foreach ($templates as $template) {
+            $template = (new CreateRecruitingStageTemplate)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->michael->id,
+                'name' => $template,
+            ]);
+
+            $randomStages = $stages->shuffle()->take(rand(3, 6));
+            foreach ($randomStages as $stage) {
+                $stage = (new CreateRecruitingStage)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'recruiting_stage_template_id' => $template->id,
+                    'name' => $stage,
+                ]);
+            }
+        }
+    }
+
+    private function addJobOpenings(): void
+    {
+        $this->info('☐ Add job openings');
+
+        $titles = collect([
+            'Engineering manager',
+            'Sales specialist',
+            'Warehouse Worker With Forklift Experience',
+        ]);
+
+        for ($i = 0; $i < rand(4, 12); $i++) {
+            foreach ($titles as $title) {
+                // get random team
+                $team = $this->teams->random();
+
+                // get random sponsors
+                $sponsors = $this->employees
+                    ->take(rand(1, 2))
+                    ->pluck('id')
+                    ->toArray();
+
+                // get random position
+                $position = Position::get()->random();
+
+                // get random recruiting stage
+                $recruitingStageTemplate = RecruitingStageTemplate::get()->random();
+
+                $opening = (new CreateJobOpening)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'position_id' => $position->id,
+                    'sponsors' => $sponsors,
+                    'team_id' => $team->id,
+                    'recruiting_stage_template_id' => $recruitingStageTemplate->id,
+                    'title' => $title,
+                    'reference_number' => $this->faker->text(5).'-'.$this->faker->randomNumber(),
+                    'description' => $this->faker->realText(1000),
+                ]);
+
+                if (rand(1, 2) == 1) {
+                    (new ToggleJobOpening)->execute([
+                        'company_id' => $this->company->id,
+                        'author_id' => $this->michael->id,
+                        'job_opening_id' => $opening->id,
+                    ]);
+                }
+            }
+        }
+    }
+
+    private function addAMASessions(): void
+    {
+        $this->info('☐ Add Ask Me Anything sessions');
+
+        $themes = collect([
+            'New office',
+            'New Year resolutions',
+            'Launch of the new marketing website',
+            'New plans for the next year',
+            'Merge with the company we just bought',
+        ]);
+
+        $questions = collect([
+            'Have you ever had a nickname? What is it?',
+            'Do you like or dislike surprises? Why or why not?',
+            'In the evening, would you rather play a game, visit a relative, watch a movie, or read?',
+            'Would you rather vacation in Hawaii or Alaska, and why?',
+            'Would you rather win the lottery or work at the perfect job? And why?',
+            'Who would you want to be stranded with on a deserted island?',
+            'If money was no object, what would you do all day?',
+            'If you could go back in time, what year would you travel to?',
+            'How would your friends describe you?',
+            'What are your hobbies?',
+            'What is the best gift you have been given?',
+            'What is the worst gift you have received?',
+            'Aside from necessities, what one thing could you not go a day without?',
+            'List two pet peeves.',
+            'Where do you see yourself in five years?',
+            'How many pairs of shoes do you own?',
+            'If you were a super-hero, what powers would you have?',
+            'What would you do if you won the lottery?',
+            'What form of public transportation do you prefer? (air, boat, train, bus, car, etc.)',
+            'What is your favorite zoo animal?',
+            'If you could go back in time to change one thing, what would it be?',
+            'If you could share a meal with any 4 individuals, living or dead, who would they be?',
+            'How many pillows do you sleep with?',
+            'What is the longest you have gone without sleep (and why)?',
+            'What is the tallest building you have been to the top in?',
+        ]);
+
+        $daysToSubtract = rand(200, 365);
+        foreach ($themes as $theme) {
+            // get random date
+            $date = Carbon::now()->copy()->subDays($daysToSubtract);
+
+            $ama = (new CreateAskMeAnythingSession)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->michael->id,
+                'theme' => $theme,
+                'date' => $date->format('Y-m-d'),
+            ]);
+
+            foreach ($questions->take(rand(10, 24)) as $question) {
+                (new CreateAskMeAnythingQuestion)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->employees->shuffle()->first()->id,
+                    'ask_me_anything_session_id' => $ama->id,
+                    'question' => $question,
+                    'anonymous' => rand(0, 1) == 1,
+                ]);
+            }
+
+            $daysToSubtract = $daysToSubtract + rand(200, 365);
+        }
+
+        (new ToggleAskMeAnythingSession)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'ask_me_anything_session_id' => AskMeAnythingSession::orderBy('id', 'desc')->first()->id,
+        ]);
     }
 
     private function addSecondaryBlankAccount(): void

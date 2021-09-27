@@ -118,7 +118,7 @@ class CompanyViewHelper
     public static function birthdaysThisWeek(Company $company): array
     {
         $employees = $company->employees()
-            ->where('locked', false)
+            ->notLocked()
             ->whereNotNull('birthdate')
             ->get();
 
@@ -162,7 +162,7 @@ class CompanyViewHelper
     {
         $now = Carbon::now();
         $employees = $company->employees()
-            ->where('locked', false)
+            ->notLocked()
             ->whereNotNull('hired_at')
             ->whereDate('hired_at', '>=', $now->copy()->startOfWeek(Carbon::MONDAY))
             ->whereDate('hired_at', '<=', $now->copy()->endOfWeek(Carbon::SUNDAY))
@@ -253,7 +253,7 @@ class CompanyViewHelper
 
         $skills = $company->skills()
             ->select('id', 'name')
-            ->latest()
+            ->latest('id')
             ->take(5)
             ->get();
 
@@ -297,6 +297,7 @@ class CompanyViewHelper
             $newsCollection->push([
                 'id' => $new->id,
                 'title' => $new->title,
+                'created_at' => DateHelper::formatDate($new->created_at),
                 'extract' => StringHelper::parse(Str::words($new->content, 20, ' ...')),
                 'author_name' => $new->author_name,
             ]);

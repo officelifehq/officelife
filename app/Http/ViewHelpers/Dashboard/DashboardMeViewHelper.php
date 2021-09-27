@@ -18,6 +18,8 @@ use Money\Currencies\ISOCurrencies;
 use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
+use App\Models\Company\AskMeAnythingSession;
+use App\Models\Company\CandidateStageParticipant;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
 
@@ -138,7 +140,7 @@ class DashboardMeViewHelper
     /**
      * Get all the in progress expenses for this employee.
      *
-     * @var Employee
+     * @param Employee $employee
      * @return Collection|null
      */
     public static function expenses(Employee $employee): ?Collection
@@ -179,7 +181,7 @@ class DashboardMeViewHelper
      * Get all the Rate Your Manager survey answers that need to be answered, if
      * they exist.
      *
-     * @var Employee
+     * @param Employee $employee
      * @return Collection|null
      */
     public static function rateYourManagerAnswers(Employee $employee): ?Collection
@@ -476,7 +478,113 @@ class DashboardMeViewHelper
     public static function workFromHome(Employee $employee): ?array
     {
         return [
+            'feature_enabled' => $employee->company->work_from_home_enabled,
             'has_worked_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
+        ];
+    }
+
+    /**
+     * Get the information about the job openings as a sponsor.
+     *
+     * @param Company $company
+     * @param Employee $employee
+     * @return Collection
+     */
+    public static function jobOpeningsAsSponsor(Company $company, Employee $employee): Collection
+    {
+        $jobOpenings = $employee->jobOpeningsAsSponsor()
+            ->where('fulfilled', false)
+            ->orderBy('job_openings.created_at', 'desc')
+            ->get();
+
+        $jobsOpeningCollection = collect();
+        foreach ($jobOpenings as $jobOpening) {
+            $jobsOpeningCollection->push([
+                'id' => $jobOpening->id,
+                'title' => $jobOpening->title,
+                'reference_number' => $jobOpening->reference_number,
+                'url' => route('recruiting.openings.show', [
+                    'company' => $company,
+                    'jobOpening' => $jobOpening,
+                ]),
+            ]);
+        }
+
+        return $jobsOpeningCollection;
+    }
+
+    /**
+     * Get the information about the job openings as a participant.
+     *
+     * @param Employee $employee
+     * @return Collection
+     */
+    public static function jobOpeningsAsParticipant(Employee $employee): Collection
+    {
+        $stages = CandidateStageParticipant::where('participant_id', $employee->id)
+            ->where('participated', false)
+            ->with('candidateStage')
+            ->with('candidateStage.candidate')
+            ->with('candidateStage.candidate.jobOpening')
+            ->get();
+
+        $jobOpeningsCollection = collect();
+        foreach ($stages as $stage) {
+            $jobOpening = $stage->candidateStage->candidate->jobOpening;
+            if (! $jobOpening->active) {
+                continue;
+            }
+
+            $jobOpeningsCollection->push([
+                'id' => $jobOpening->id,
+                'candidate_stage_id' => $stage->candidate_stage_id,
+                'title' => $jobOpening->title,
+                'participated' => false,
+                'candidate' => [
+                    'id' => $stage->candidateStage->candidate->id,
+                    'name' => $stage->candidateStage->candidate->name,
+                ],
+            ]);
+        }
+
+        return $jobOpeningsCollection;
+    }
+
+    /**
+     * Get the information about the current active ask me anything session, if
+     * it exists.
+     *
+     * @param Company $company
+     * @param Employee $employee
+     * @return array
+     */
+    public static function activeAskMeAnythingSession(Company $company, Employee $employee): ?array
+    {
+        $session = AskMeAnythingSession::where('company_id', $company->id)
+            ->where('active', true)
+            ->first();
+
+        if (! $session) {
+            return null;
+        }
+
+        $questionsAskedByEmployee = $session->questions()
+            ->where('employee_id', $employee->id)
+            ->count();
+
+        $questionsInTotal = $session->questions()->count();
+
+        return [
+            'id' => $session->id,
+            'active' => $session->active,
+            'theme' => $session->theme,
+            'happened_at' => DateHelper::formatDate($session->happened_at),
+            'url_new' => route('dashboard.ama.question.store', [
+                'company' => $company->id,
+                'session' => $session->id,
+            ]),
+            'questions_asked_by_employee_count' => $questionsAskedByEmployee,
+            'questions_in_total_count' => $questionsInTotal,
         ];
     }
 }

@@ -16,6 +16,7 @@ use App\Models\Company\Place;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
 use App\Models\Company\Morale;
+use App\Models\Company\Comment;
 use App\Models\Company\Company;
 use App\Models\Company\Expense;
 use App\Models\Company\Meeting;
@@ -28,6 +29,7 @@ use App\Models\Company\Software;
 use App\Models\Company\TeamNews;
 use App\Models\Company\Timesheet;
 use App\Models\Company\AgendaItem;
+use App\Models\Company\JobOpening;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeLog;
 use App\Models\Company\ProjectTask;
@@ -568,6 +570,17 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_has_many_job_openings_as_sponsor(): void
+    {
+        $dwight = Employee::factory()->create();
+        $opening = JobOpening::factory()->create();
+
+        $dwight->jobOpeningsAsSponsor()->sync([$opening->id]);
+
+        $this->assertTrue($dwight->jobOpeningsAsSponsor()->exists());
+    }
+
+    /** @test */
     public function it_scopes_the_employees_by_the_locked_status(): void
     {
         $dwight = Employee::factory()->create([
@@ -718,6 +731,17 @@ class EmployeeTest extends TestCase
             3,
             $dwight->getListOfDirectReports()->count()
         );
+    }
+
+    /** @test */
+    public function it_has_many_comments(): void
+    {
+        $author = Employee::factory()->create();
+        Comment::factory()->create([
+            'author_id' => $author->id,
+        ]);
+
+        $this->assertTrue($author->comments()->exists());
     }
 
     /** @test */

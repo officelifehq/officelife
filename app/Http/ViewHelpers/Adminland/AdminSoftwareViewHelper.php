@@ -93,6 +93,7 @@ class AdminSoftwareViewHelper
             'licensed_to_email_address' => $software->licensed_to_email_address,
             'purchase_amount' => $software->purchase_amount / 100,
             'currency' => $software->currency,
+            'order_number' => $software->order_number,
             'website' => $software->website,
             'purchased_date_year' => $software->purchased_at ? $software->purchased_at->year : null,
             'purchased_date_month' => $software->purchased_at ? $software->purchased_at->month : null,
@@ -131,16 +132,15 @@ class AdminSoftwareViewHelper
      *
      * @param Software $software
      * @param Company $company
-     * @param string $criteria
+     * @param string|null $criteria
      * @return Collection
      */
-    public static function getPotentialEmployees(Software $software, Company $company, string $criteria): Collection
+    public static function getPotentialEmployees(Software $software, Company $company, ?string $criteria): Collection
     {
         // get list of employees who have the software
         $employees = $software->employees()
             ->select('id')
-            ->pluck('id')
-            ->toArray();
+            ->pluck('id');
 
         $potentialEmployees = $company->employees()
             ->select('id', 'first_name', 'last_name', 'avatar_file_id')

@@ -84,7 +84,7 @@
             "prettier --write --ignore-unknown"
         ],
         "*.php": [
-            "php ./vendor/bin/php-cs-fixer fix --config .php_cs"
+            "vendor/bin/php-cs-fixer fix --config .php-cs-fixer.php"
         ],
         "*.js|.*.js|resources/js/**/*.{vue,js}": [
             "yarn lint --fix"

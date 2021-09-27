@@ -294,12 +294,12 @@ class CompanyViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 0 => [
-                    'name' => $skillA->name,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/skills/'.$skillA->id,
-                ],
-                1 => [
                     'name' => $skillB->name,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/skills/'.$skillB->id,
+                ],
+                1 => [
+                    'name' => $skillA->name,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/skills/'.$skillA->id,
                 ],
             ],
             $array['skills']->toArray()
@@ -309,6 +309,7 @@ class CompanyViewHelperTest extends TestCase
     /** @test */
     public function it_gets_the_latest_news(): void
     {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = $this->createAdministrator();
         $newsA = CompanyNews::factory()->create([
             'company_id' => $michael->company_id,
@@ -340,12 +341,14 @@ class CompanyViewHelperTest extends TestCase
                 0 => [
                     'id' => $newsB->id,
                     'title' => $newsB->title,
+                    'created_at' => 'Jan 01, 2018',
                     'extract' => '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ...</p>',
                     'author_name' => $newsB->author_name,
                 ],
                 1 => [
                     'id' => $newsA->id,
                     'title' => $newsA->title,
+                    'created_at' => 'Jan 01, 2018',
                     'extract' => '<p>this is a test</p>',
                     'author_name' => $newsA->author_name,
                 ],

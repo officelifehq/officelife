@@ -15,16 +15,28 @@
         :projects="projects"
       />
 
+      <contract-renewal-date
+        v-if="contractRenewal"
+        :employee="employee"
+        :contract-renewal="contractRenewal"
+      />
+
       <e-coffee
         v-if="eCoffee"
         :employee="employee"
         :e-coffee="eCoffee"
       />
 
-      <contract-renewal-date
-        v-if="contractRenewal"
-        :employee="employee"
-        :contract-renewal="contractRenewal"
+      <div v-if="jobOpeningsAsParticipant">
+        <job-openings-as-participant
+          v-if="jobOpeningsAsParticipant.length > 0"
+          :job-openings="jobOpeningsAsParticipant"
+        />
+      </div>
+
+      <job-openings-as-sponsor
+        v-if="jobOpeningsAsSponsor.length > 0"
+        :job-openings="jobOpeningsAsSponsor"
       />
 
       <one-on-one-with-manager
@@ -39,6 +51,7 @@
       />
 
       <work-from-home
+        v-if="workFromHome.feature_enabled"
         :work-from-home="workFromHome"
       />
 
@@ -53,6 +66,11 @@
       <question
         :employee="employee"
         :question="question"
+      />
+
+      <ask-me-anything
+        v-if="askMeAnything"
+        :session="askMeAnything"
       />
 
       <expense
@@ -79,6 +97,9 @@ import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 import ECoffee from '@/Pages/Dashboard/Me/Partials/ECoffee';
 import Projects from '@/Pages/Dashboard/Me/Partials/Projects';
+import JobOpeningsAsSponsor from '@/Pages/Dashboard/Me/Partials/JobOpeningSponsor';
+import JobOpeningsAsParticipant from '@/Pages/Dashboard/Me/Partials/JobOpeningParticipant';
+import AskMeAnything from '@/Pages/Dashboard/Me/Partials/AskMeAnything';
 
 export default {
   components: {
@@ -94,6 +115,9 @@ export default {
     DashboardMenu,
     ECoffee,
     Projects,
+    JobOpeningsAsSponsor,
+    JobOpeningsAsParticipant,
+    AskMeAnything,
   },
 
   props: {
@@ -162,6 +186,18 @@ export default {
       default: null,
     },
     question: {
+      type: Object,
+      default: null,
+    },
+    jobOpeningsAsSponsor: {
+      type: Object,
+      default: null,
+    },
+    jobOpeningsAsParticipant: {
+      type: Object,
+      default: null,
+    },
+    askMeAnything: {
       type: Object,
       default: null,
     },

@@ -62,6 +62,7 @@ class Employee extends Model
         'default_dashboard_view',
         'can_manage_expenses',
         'display_welcome_message',
+        'contract_renewed_at',
     ];
 
     /**
@@ -582,6 +583,26 @@ class Employee extends Model
     }
 
     /**
+     * Get the job openings associated with the employee as sponsor.
+     *
+     * @return BelongsToMany
+     */
+    public function jobOpeningsAsSponsor()
+    {
+        return $this->belongsToMany(JobOpening::class, 'job_opening_sponsor')->withTimestamps();
+    }
+
+    /**
+     * Get all of the comments written by the employee.
+     *
+     * @return hasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'author_id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query
@@ -697,12 +718,9 @@ class Employee extends Model
      */
     public function getListOfManagers(): Collection
     {
-        $managersCollection = collect([]);
-        foreach ($this->managers()->orderBy('id')->get() as $directReport) {
-            $managersCollection->push($directReport->manager);
-        }
-
-        return $managersCollection;
+        return $this->managers()->orderBy('id')->get()->map(function ($directReport) {
+            return $directReport->manager;
+        });
     }
 
     /**
@@ -712,12 +730,9 @@ class Employee extends Model
      */
     public function getListOfDirectReports(): Collection
     {
-        $directReportCollection = collect([]);
-        foreach ($this->directReports()->get() as $directReport) {
-            $directReportCollection->push($directReport->directReport);
-        }
-
-        return $directReportCollection;
+        return $this->directReports()->get()->map(function ($directReport) {
+            return $directReport->directReport;
+        });
     }
 
     /**

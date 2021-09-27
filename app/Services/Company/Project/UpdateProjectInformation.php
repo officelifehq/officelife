@@ -28,6 +28,7 @@ class UpdateProjectInformation extends BaseService
             'project_id' => 'required|integer|exists:projects,id',
             'name' => 'required|string|max:255',
             'code' => 'nullable|string|max:255',
+            'short_code' => 'nullable|string|max:3',
             'summary' => 'nullable|string|max:255',
         ];
     }
@@ -72,13 +73,26 @@ class UpdateProjectInformation extends BaseService
                 throw new ProjectCodeAlreadyExistException();
             }
         }
+
+        // make sure the project short code, if provided, is unique in the company
+        if (! is_null($this->valueOrNull($this->data, 'short_code'))) {
+            $count = Project::where('company_id', $this->data['company_id'])
+                ->where('short_code', $this->data['short_code'])
+                ->where('id', '!=', $this->project->id)
+                ->count();
+
+            if ($count > 0) {
+                throw new ProjectCodeAlreadyExistException();
+            }
+        }
     }
 
     private function update(): void
     {
         $this->project->name = $this->data['name'];
-        $this->project->code = $this->data['code'];
-        $this->project->summary = $this->data['summary'];
+        $this->project->code = $this->valueOrNull($this->data, 'code');
+        $this->project->short_code = $this->valueOrNull($this->data, 'short_code');
+        $this->project->summary = $this->valueOrNull($this->data, 'summary');
         $this->project->save();
     }
 

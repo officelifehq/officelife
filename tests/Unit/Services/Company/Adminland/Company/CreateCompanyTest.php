@@ -31,6 +31,8 @@ class CreateCompanyTest extends TestCase
 
         $company = (new CreateCompany)->execute($request);
 
+        $company->refresh();
+
         $michael = $dwight->getEmployeeObjectForCompany($company);
 
         $this->assertInstanceOf(
@@ -44,6 +46,11 @@ class CreateCompanyTest extends TestCase
         ]);
 
         $this->assertNotNull($company->code_to_join_company);
+
+        $this->assertEquals(
+            'dunder-mifflin',
+            $company->slug
+        );
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael) {
             return $job->auditLog['action'] === 'account_created' &&

@@ -33,23 +33,12 @@
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
-          </li>
-          <li class="di">
-            ...
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/'">{{ $t('app.breadcrumb_project_list') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_project_create') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb :with-box="true"
+                  :previous-url="'/' + $page.props.auth.company.id + '/company/projects/'"
+                  :previous="$t('app.breadcrumb_project_list')"
+      >
+        {{ $t('app.breadcrumb_project_create') }}
+      </breadcrumb>
 
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
@@ -83,6 +72,19 @@
                         :datacy="'project-code-input'"
                         :errors="$page.props.errors.title"
                         :label="$t('project.create_input_code')"
+                        :help="$t('project.create_input_help')"
+                        :maxlength="191"
+                        @esc-key-pressed="showCode = false"
+            />
+
+            <!-- Short code -->
+            <text-input v-if="showCode" :id="'short_code'"
+                        v-model="form.short_code"
+                        :name="'short_code'"
+                        :errors="$page.props.errors.short_code"
+                        :label="$t('project.create_input_short_code')"
+                        :help="$t('project.create_input_short_code_help')"
+                        :maxlength="3"
                         @esc-key-pressed="showCode = false"
             />
 
@@ -171,6 +173,7 @@ import TextArea from '@/Shared/TextArea';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import Avatar from '@/Shared/Avatar';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import Help from '@/Shared/Help';
@@ -178,6 +181,7 @@ import Help from '@/Shared/Help';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Avatar,
     TextInput,
     TextArea,
@@ -202,6 +206,7 @@ export default {
       form: {
         name: null,
         code: null,
+        short_code: null,
         summary: null,
         description: null,
         searchTerm: null,

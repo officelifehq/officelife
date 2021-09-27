@@ -26,6 +26,7 @@ class ProjectFactory extends Factory
             'company_id' => Company::factory(),
             'name' => $this->faker->name,
             'code' => '123456',
+            'short_code' => 'off',
             'description' => $this->faker->sentence(),
             'status' => Project::CREATED,
         ];

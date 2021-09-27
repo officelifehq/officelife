@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\TimeHelper;
 use App\Helpers\ImageHelper;
+use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
@@ -31,6 +32,7 @@ class ProjectTasksViewHelper
             ->with('list')
             ->with('assignee')
             ->with('author')
+            ->with('comments')
             ->orderBy('id', 'asc')
             ->get();
 
@@ -50,12 +52,15 @@ class ProjectTasksViewHelper
 
             $assignee = $task->assignee;
 
+            $commentCount = $task->comments->count();
+
             $tasksWithoutListsCollection->push([
                 'id' => $task->id,
                 'title' => $task->title,
                 'description' => $task->description,
                 'completed' => $task->completed,
                 'duration' => $duration != 0 ? TimeHelper::durationInHumanFormat($duration) : null,
+                'comment_count' => $commentCount,
                 'url' => route('projects.tasks.show', [
                     'company' => $company,
                     'project' => $task->project_id,
@@ -96,12 +101,15 @@ class ProjectTasksViewHelper
 
                 $assignee = $task->assignee;
 
+                $commentCount = $task->comments->count();
+
                 $tasksWithListsCollection->push([
                     'id' => $task->id,
                     'title' => $task->title,
                     'description' => $task->description,
                     'completed' => $task->completed,
                     'duration' => $duration != 0 ? TimeHelper::durationInHumanFormat($duration) : null,
+                    'comment_count' => $commentCount,
                     'url' => route('projects.tasks.show', [
                         'company' => $company,
                         'project' => $task->project_id,
@@ -189,6 +197,38 @@ class ProjectTasksViewHelper
                 ->first();
         }
 
+        // get comments
+        $comments = $task->comments()->orderBy('created_at', 'asc')->get();
+        $commentsCollection = collect([]);
+        foreach ($comments as $comment) {
+            $canDoActionsAgainstComment = false;
+
+            if ($comment->author_id == $employee->id) {
+                $canDoActionsAgainstComment = true;
+            }
+            if ($employee->permission_level <= config('officelife.permission_level.hr')) {
+                $canDoActionsAgainstComment = true;
+            }
+
+            $commentsCollection->push([
+                'id' => $comment->id,
+                'content' => StringHelper::parse($comment->content),
+                'content_raw' => $comment->content,
+                'written_at' => DateHelper::formatShortDateWithTime($comment->created_at),
+                'author' => $comment->author ? [
+                    'id' => $comment->author->id,
+                    'name' => $comment->author->name,
+                    'avatar' => ImageHelper::getAvatar($comment->author, 32),
+                    'url' => route('employees.show', [
+                        'company' => $company->id,
+                        'employee' => $comment->author,
+                    ]),
+                ] : $comment->author_name,
+                'can_edit' => $canDoActionsAgainstComment,
+                'can_delete' => $canDoActionsAgainstComment,
+            ]);
+        }
+
         return [
             'id' => $task->id,
             'title' => $task->title,
@@ -223,6 +263,7 @@ class ProjectTasksViewHelper
                     'employee' => $assignee,
                 ]),
             ] : null,
+            'comments' => $commentsCollection,
         ];
     }
 
@@ -291,5 +332,24 @@ class ProjectTasksViewHelper
         }
 
         return $timeTrackingCollection;
+    }
+
+    /**
+     * Get all the task lists in the project.
+     *
+     * @param Project $project
+     * @return Collection|null
+     */
+    public static function taskLists(Project $project): ?Collection
+    {
+        return $project->lists()
+            ->orderBy('id', 'asc')
+            ->get()
+            ->map(function ($list) {
+                return [
+                    'value' => $list->id,
+                    'label' => $list->title,
+                ];
+            });
     }
 }

@@ -40,20 +40,15 @@ td, th {
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_account_manage_pto_policies') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb :with-box="true"
+                  :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
+                  :root="$t('app.breadcrumb_dashboard')"
+                  :previous-url="'/' + $page.props.auth.company.id + '/account'"
+                  :previous="$t('app.breadcrumb_account_home')"
+                  :has-more="false"
+      >
+        {{ $t('app.breadcrumb_account_manage_pto_policies') }}
+      </breadcrumb>
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 bg-white box restricted relative z-1">
@@ -229,10 +224,12 @@ td, th {
 import TextInput from '@/Shared/TextInput';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 
 export default {
   components: {
     Layout,
+    Breadcrumb,
     TextInput,
     LoadingButton,
   },

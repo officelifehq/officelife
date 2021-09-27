@@ -2,12 +2,15 @@
 
 namespace App\Http\ViewHelpers\Company\HR;
 
+use App\Helpers\DateHelper;
 use App\Models\User\Pronoun;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Employee;
+use App\Models\Company\Position;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\Models\Company\AskMeAnythingSession;
 
 class CompanyHRViewHelper
 {
@@ -30,9 +33,7 @@ class CompanyHRViewHelper
         $allMatchesInCompany = DB::table('e_coffees')
             ->where('company_id', $company->id)
             ->select('id')
-            ->get()
-            ->pluck('id')
-            ->toArray();
+            ->pluck('id');
 
         // list all matches for each ecoffee sessions
         $eCoffeeMatchesParticipated = DB::table('e_coffee_matches')
@@ -112,7 +113,7 @@ class CompanyHRViewHelper
         $pronouns = Pronoun::addSelect([
                 'number_of_employees' => Employee::selectRaw('count(*)')
                     ->whereColumn('pronoun_id', 'pronouns.id')
-                    ->where('locked', false)
+                    ->notLocked()
                     ->where('company_id', $company->id),
             ])->get();
 
@@ -120,8 +121,8 @@ class CompanyHRViewHelper
             return $pronoun->number_of_employees != 0;
         });
 
-        $totalNumberOfEmployees = $company->employees()->count();
-        $totalNumberOfEmployeesWithoutPronoun = $company->employees()->whereNull('pronoun_id')->count();
+        $totalNumberOfEmployees = $company->employees()->notLocked()->count();
+        $totalNumberOfEmployeesWithoutPronoun = $company->employees()->notLocked()->whereNull('pronoun_id')->count();
 
         $pronounCollection = collect();
 
@@ -144,5 +145,74 @@ class CompanyHRViewHelper
         }
 
         return $pronounCollection->sortByDesc('percent')->values()->all();
+    }
+
+    /**
+     * Get the statistics about all the positions in the company.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function positions(Company $company): array
+    {
+        $positions = Position::addSelect([
+            'number_of_employees' => Employee::selectRaw('count(*)')
+                ->whereColumn('position_id', 'positions.id')
+                ->notLocked()
+                ->where('company_id', $company->id),
+        ])->get();
+
+        $positions = $positions->filter(function ($position) {
+            return $position->number_of_employees != 0;
+        });
+
+        $totalNumberOfEmployees = $company->employees()->notLocked()->count();
+
+        $positionsCollection = collect();
+        foreach ($positions as $position) {
+            $positionsCollection->push([
+                'id' => $position->id,
+                'title' => $position->title,
+                'number_of_employees' => (int) $position->number_of_employees,
+                'percent' => (int) round($position->number_of_employees * 100 / $totalNumberOfEmployees, 0),
+                'url' => route('hr.positions.show', [
+                    'company' => $company->id,
+                    'position' => $position->id,
+                ]),
+            ]);
+        }
+
+        return $positionsCollection->sortByDesc('number_of_employees')->values()->all();
+    }
+
+    /**
+     * Get the upcoming Ask My Anything Session in the company.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function askMeAnythingUpcomingSession(Company $company): array
+    {
+        $upcomingSession = AskMeAnythingSession::where('company_id', $company->id)
+            ->where('active', true)
+            ->with('questions')
+            ->first();
+
+        $session = $upcomingSession ? [
+            'happened_at' => DateHelper::formatFullDate($upcomingSession->happened_at),
+            'theme' => $upcomingSession->theme,
+            'questions_count' => $upcomingSession->questions->count(),
+            'url' => route('hr.ama.show', [
+                'company' => $company->id,
+                'session' => $upcomingSession->id,
+            ]),
+        ] : null;
+
+        return [
+            'session' => $session,
+            'url_view_all' => route('hr.ama.index', [
+                'company' => $company->id,
+            ]),
+        ];
     }
 }

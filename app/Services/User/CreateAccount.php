@@ -88,9 +88,11 @@ class CreateAccount extends BaseService implements CreatesNewUsers
             $locale = LocaleHelper::getLocale();
         }
 
+        $password = $this->valueOrNull($data, 'password');
+
         $this->user = User::create([
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => $password != null ? Hash::make($password) : null,
             'first_name' => $this->valueOrNull($data, 'first_name'),
             'last_name' => $this->valueOrNull($data, 'last_name'),
             'middle_name' => $this->valueOrNull($data, 'middle_name'),

@@ -24,11 +24,13 @@ class CompanyNewsViewHelperTest extends TestCase
         $news = CompanyNews::factory()->create([
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
+            'content' => 'content',
         ]);
         $newsWithoutAuthor = CompanyNews::factory()->create([
             'company_id' => $michael->company_id,
             'author_id' => null,
             'author_name' => 'John Legend',
+            'content' => 'content',
         ]);
 
         $collection = CompanyNewsViewHelper::index($michael->company, $michael);
@@ -38,14 +40,14 @@ class CompanyNewsViewHelperTest extends TestCase
                 0 => [
                     'id' => $newsWithoutAuthor->id,
                     'title' => $newsWithoutAuthor->title,
-                    'content' => $newsWithoutAuthor->content,
+                    'content' => '<p>content</p>',
                     'author' => 'John Legend',
                     'written_at' => 'Jan 01, 2018',
                 ],
                 1 => [
                     'id' => $news->id,
                     'title' => $news->title,
-                    'content' => $news->content,
+                    'content' => '<p>content</p>',
                     'author' => [
                         'id' => $michael->id,
                         'name' => $michael->name,

@@ -10,7 +10,9 @@ use App\Jobs\ProcessAllScheduledActions;
 use App\Jobs\StopRateYourManagerProcess;
 use App\Jobs\StartRateYourManagerProcess;
 use Illuminate\Console\Scheduling\Schedule;
+use App\Jobs\Invoicing\CreateMonthlyInvoiceForCompanies;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Jobs\Invoicing\LogDailyMaxNumberOfActiveEmployeesInCompanies;
 
 class Kernel extends ConsoleKernel
 {
@@ -39,6 +41,8 @@ class Kernel extends ConsoleKernel
         $schedule->job(new StopRateYourManagerProcess())->hourly();
 
         $schedule->job(new ProcessAllScheduledActions())->hourly();
+        $schedule->job(new LogDailyMaxNumberOfActiveEmployeesInCompanies())->dailyAt($midnight);
+        $schedule->job(new CreateMonthlyInvoiceForCompanies())->lastDayOfMonth('22:00');
 
         // disabled until PTOs will be finally implemented
         //$schedule->command('timeoff:calculate '.Carbon::today()->format('Y-m-d'))->daily();
@@ -48,9 +52,9 @@ class Kernel extends ConsoleKernel
         }
 
         if (config('officelife.demo_mode')) {
-            $schedule->command('demo:reset', ['--force'])
-                ->hourly()
-                ->emailOutputOnFailure(config('officelife.email_instance_administrator'));
+            // $schedule->command('demo:reset', ['--force'])
+            //     ->hourly()
+            //     ->emailOutputOnFailure(config('officelife.email_instance_administrator'));
         }
     }
 

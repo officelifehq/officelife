@@ -288,10 +288,11 @@ class EmployeeShowViewHelperTest extends TestCase
 
         $array = EmployeeShowViewHelper::workFromHomeStats($michael);
 
-        $this->assertEquals(3, count($array));
+        $this->assertEquals(4, count($array));
 
         $this->assertEquals(
             [
+                'feature_enabled' => true,
                 'work_from_home_today' => true,
                 'number_times_this_year' => 3,
                 'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/work/workfromhome',

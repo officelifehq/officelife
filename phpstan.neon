@@ -17,6 +17,8 @@ parameters:
         - app/Http/ViewHelpers/Company/Group/GroupMeetingsViewHelper.php
         - app/Http/ViewHelpers/Company/Group/GroupShowViewHelper.php
         - app/Http/ViewHelpers/Company/Group/GroupViewHelper.php
+        - tests/ApiTestCase.php
+        - tests/TestCase.php
     inferPrivatePropertyTypeFromConstructor: true
     checkMissingIterableValueType: false
     reportUnmatchedIgnoredErrors: false
@@ -24,6 +26,9 @@ parameters:
     ignoreErrors:
         - '#Argument of an invalid type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator supplied for foreach, only iterables are supported#'
         - '#Method [a-zA-Z0-9\\_:]+\(\) should return Illuminate\\Http\\(Json)?Response but returns Illuminate\\Http\\RedirectResponse\.#'
+        - '#Access to an undefined property [a-zA-Z0-9\\_]+#'
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Collection[a-zA-Z0-9\|\.\\_\(\)\:]+\.#'
+        - '#Parameter .+#'
         - message: '#Access to an undefined property App\\Models\\Company\\Employee::\$pivot\.#'
           path: 'app/Http/ViewHelpers/Company/Project/ProjectMembersViewHelper.php'
         - message: '#Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::[a-zA-Z0-9\\_]+\(\)\.#'
@@ -33,3 +38,4 @@ parameters:
         - message: '#Cannot access property \$[a-zA-Z0-9_]+ on array.#'
           path: 'app/Helpers/NotificationHelper.php'
         - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory::[a-zA-Z0-9\\_]+\(\)\.#'
+        - '#Parameter \#1 \$amount of static method App\\Helpers\\MoneyHelper::format\(\) expects int\, float given\.#'

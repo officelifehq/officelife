@@ -31,23 +31,12 @@
 <template>
   <layout title="Home" :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
-          </li>
-          <li class="di">
-            ...
-          </li>
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/groups/'">{{ $t('app.breadcrumb_group_list') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_group_create') }}
-          </li>
-        </ul>
-      </div>
+      <breadcrumb :with-box="true"
+                  :previous-url="'/' + $page.props.auth.company.id + '/company/groups/'"
+                  :previous="$t('app.breadcrumb_group_list')"
+      >
+        {{ $t('app.breadcrumb_group_create') }}
+      </breadcrumb>
 
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
@@ -148,6 +137,7 @@ import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import Help from '@/Shared/Help';
@@ -156,6 +146,7 @@ import Avatar from '@/Shared/Avatar';
 export default {
   components: {
     Layout,
+    Breadcrumb,
     Avatar,
     TextInput,
     Errors,
@@ -213,7 +204,6 @@ export default {
               this.processingSearch = false;
             })
             .catch(error => {
-              console.log(error);
               this.form.errors = error.response.data;
               this.processingSearch = false;
             });

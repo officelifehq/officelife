@@ -50,14 +50,13 @@ class RenameCompany extends BaseService
 
         $this->rename();
 
+        $this->generateSlug();
+
         $this->log($oldName);
 
         return $this->company;
     }
 
-    /**
-     * Rename the company.
-     */
     private function rename(): void
     {
         Company::where('id', $this->company->id)->update([
@@ -65,10 +64,17 @@ class RenameCompany extends BaseService
         ]);
     }
 
+    private function generateSlug(): void
+    {
+        (new UpdateCompanySlug)->execute([
+            'company_id' => $this->company->id,
+        ]);
+    }
+
     /**
      * Add an audit log entry for this action.
      *
-     * @var string
+     * @param string $oldName
      */
     private function log(string $oldName): void
     {

@@ -50,6 +50,11 @@ class AdminGeneralViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
+            $michael->company->slug,
+            $response['slug']
+        );
+
+        $this->assertEquals(
             'Jan 01, 2018 12:00 AM',
             $response['creation_date']
         );
@@ -57,6 +62,10 @@ class AdminGeneralViewHelperTest extends TestCase
         $this->assertEquals(
             'USD',
             $response['currency']
+        );
+
+        $this->assertNull(
+            $response['location']
         );
 
         $this->assertEquals(

@@ -7,13 +7,12 @@ use Tests\TestCase;
 use App\Helpers\ImageHelper;
 use App\Models\Company\File;
 use App\Models\Company\Project;
-use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Company\Project\ProjectFilesViewHelper;
 
 class ProjectFilesViewHelperTest extends TestCase
 {
-    use DatabaseTransactions, HelperTrait;
+    use DatabaseTransactions;
 
     /** @test */
     public function it_gets_a_collection_of_files(): void

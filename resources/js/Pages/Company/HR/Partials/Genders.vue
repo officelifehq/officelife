@@ -21,6 +21,10 @@
   color: #fff;
   padding: 5px;
 }
+
+.gender-item:last-child {
+  margin-bottom: 0;
+}
 </style>
 
 <template>
@@ -28,12 +32,12 @@
     <span class="db fw5 mb2 relative">
       <span class="mr1">
         👫
-      </span> Genders in the company
+      </span> {{ $t('company.hr_genders_title') }}
     </span>
 
     <div class="br3 bg-white box z-1 pa3 relative">
       <!-- genders -->
-      <div v-for="gender in genders" :key="gender.id" class="mb3">
+      <div v-for="gender in genders" :key="gender.id" class="gender-item mb3">
         <div class="flex justify-between mb2">
           <span class="fw5">
             {{ gender.label }}
