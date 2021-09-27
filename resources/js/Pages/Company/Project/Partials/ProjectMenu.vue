@@ -48,9 +48,9 @@
         <inertia-link :class="{'selected':(tab == 'summary')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + ''" class="f6 fl ph3 pv2 dib pointer no-underline">
           {{ $t('project.menu_summary') }}
         </inertia-link>
-        <inertia-link :class="{'selected':(tab == 'boards')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/boards'" class="f6 fl ph3 pv2 dib pointer no-underline">
+        <!-- <inertia-link :class="{'selected':(tab == 'boards')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/boards'" class="f6 fl ph3 pv2 dib pointer no-underline">
           {{ $t('project.menu_boards') }}
-        </inertia-link>
+        </inertia-link> -->
         <inertia-link :class="{'selected':(tab == 'decisions')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/decisions'" class="f6 fl ph3 pv2 dib pointer no-underline">
           {{ $t('project.menu_decision_logs') }}
         </inertia-link>
