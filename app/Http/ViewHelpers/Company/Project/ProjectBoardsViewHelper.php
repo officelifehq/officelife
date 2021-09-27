@@ -3,7 +3,6 @@
 namespace App\Http\ViewHelpers\Company\Project;
 
 use App\Models\Company\Project;
-use App\Models\Company\Employee;
 
 class ProjectBoardsViewHelper
 {
@@ -11,7 +10,6 @@ class ProjectBoardsViewHelper
      * All the boards in the project.
      *
      * @param Project $project
-     * @param Employee $employee
      * @return array
      */
     public static function index(Project $project): array
