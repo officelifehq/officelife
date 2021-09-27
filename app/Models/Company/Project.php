@@ -181,4 +181,14 @@ class Project extends Model
     {
         return $this->belongsToMany(File::class);
     }
+
+    /**
+     * Get the board entries associated with the project.
+     *
+     * @return HasMany
+     */
+    public function boards()
+    {
+        return $this->hasMany(ProjectBoard::class);
+    }
 }

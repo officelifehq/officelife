@@ -9,6 +9,8 @@ return [
     'menu_messages' => 'Messages',
     'menu_tasks' => 'Tasks',
     'menu_calendar' => 'Calendar',
+    'menu_decision_logs' => 'Decision logs',
+    'menu_boards' => 'Boards',
     'menu_members' => 'Members',
     'menu_finance' => 'Finance',
     'menu_files' => 'Files',
@@ -144,4 +146,8 @@ return [
     'file_blank_state' => 'Upload a file here to keep information forever!',
     'file_upload_success' => 'The file has been uploaded.',
     'file_deletion_success' => 'The file has been deleted.',
+    'board_blank_state' => 'A board gives you a flexible way of managing work in progress.',
+    'board_title' => 'Boards',
+    'board_cta' => 'Create a board',
+    'board_cta_success' => 'The board has been created.',
 ];

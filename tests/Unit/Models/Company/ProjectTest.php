@@ -9,6 +9,7 @@ use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\ProjectLink;
 use App\Models\Company\ProjectTask;
+use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectStatus;
 use App\Models\Company\ProjectMessage;
 use App\Models\Company\ProjectDecision;
@@ -157,5 +158,16 @@ class ProjectTest extends TestCase
         $project->files()->sync([$file->id]);
 
         $this->assertTrue($project->files()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_time_project_boards(): void
+    {
+        $project = Project::factory()->create();
+        ProjectBoard::factory()->count(2)->create([
+            'project_id' => $project->id,
+        ]);
+
+        $this->assertTrue($project->boards()->exists());
     }
 }

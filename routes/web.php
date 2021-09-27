@@ -347,6 +347,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('{project}/files', 'Company\\Company\\Project\\ProjectFilesController@index');
                 Route::post('{project}/files', 'Company\\Company\\Project\\ProjectFilesController@store');
                 Route::delete('{project}/files/{file}', 'Company\\Company\\Project\\ProjectFilesController@destroy');
+
+                // boards
+                Route::get('{project}/boards', 'Company\\Company\\Project\\ProjectBoardsController@index')->name('projects.boards.index');
+                Route::post('{project}/boards', 'Company\\Company\\Project\\ProjectBoardsController@store')->name('projects.boards.store');
+                Route::get('{project}/boards/{board}', 'Company\\Company\\Project\\ProjectBoardsController@show')->name('projects.boards.show');
+                Route::put('{project}/boards/{board}', 'Company\\Company\\Project\\ProjectBoardsController@update')->name('projects.boards.update');
+                Route::delete('{project}/boards/{board}', 'Company\\Company\\Project\\ProjectBoardsController@destroy')->name('projects.boards.destroy');
             });
 
             // Groups
