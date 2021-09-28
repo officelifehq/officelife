@@ -164,7 +164,7 @@ class PauseFlowTest extends TestCase
 
         $this->assertEquals(
             0,
-            ScheduledAction::whereFalse('processed')->count(),
+            ScheduledAction::where('processed', false)->count(),
         );
 
         $this->assertEquals(
