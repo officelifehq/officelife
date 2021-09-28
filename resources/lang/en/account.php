@@ -145,7 +145,6 @@ return [
     'flow_new_action_notification_confirmation' => 'Are you sure? This will alert all the employees of the company.',
     'flow_new_action_notification_search_hint' => 'Type the first letters of the name',
     'flow_new_action_notification_search_teams' => 'Search a team',
-    'flow_new_action_remove' => 'Remove action',
     'flow_new_action_label_actual_employee' => 'the actual employee',
     'flow_new_action_label_managers' => 'the manager(s) of the employee',
     'flow_new_action_label_reports' => 'the direct report(s) of the employee',

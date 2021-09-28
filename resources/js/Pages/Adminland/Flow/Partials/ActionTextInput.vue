@@ -29,7 +29,7 @@
     </p>
 
     <!-- edit mode -->
-    <div v-if="editMode" class="mb4">
+    <div v-if="editMode">
       <text-input
         :ref="'input'"
         v-model="form.content"
@@ -44,7 +44,7 @@
       <!-- placeholders that can be used in the input text -->
       <p v-if="placeholders" class="mt0 mb1 lh-copy f6 gray">You can use those placeholders to populate your message above: <code>{{ placeholders }}</code></p>
 
-      <p class="flex">
+      <p class="flex mb0">
         <a class="btn add mr2" @click.prevent="save()">{{ $t('app.save') }}</a>
         <a class="btn" @click.prevent="editMode = false">{{ $t('app.cancel') }}</a>
       </p>
