@@ -330,7 +330,6 @@ export default {
               this.processingSearch = false;
             })
             .catch(error => {
-              console.log(error);
               this.form.errors = error.response.data;
               this.processingSearch = false;
             });

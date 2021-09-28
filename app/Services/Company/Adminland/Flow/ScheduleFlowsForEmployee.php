@@ -91,6 +91,7 @@ class ScheduleFlowsForEmployee extends BaseService
 
         $unprocessedScheduledActions = ScheduledAction::where('processed', false)
             ->whereIn('action_id', $actions)
+            ->where('employee_id', $this->employee->id)
             ->select('id')
             ->pluck('id')
             ->toArray();

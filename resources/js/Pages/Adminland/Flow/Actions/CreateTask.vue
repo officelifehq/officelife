@@ -21,21 +21,28 @@
     </div>
 
     <div class="pa3">
-      <ul class="pl0 ml0 list">
+      <div class="">
         <!-- Name of the task -->
-        <li class="flex mb3">
-          <div class="dib mr3 fw6 action-name">Task name:</div>
+        <div class="cf mb3">
+          <div class="fl w-third dib mr3 fw6 action-name">
+            Task name:
+          </div>
+
           <action-text-input
             :placeholders="'{{employee_name}}'"
+            @update="updateTitle($event)"
           />
-        </li>
+        </div>
 
         <!-- Assignee -->
-        <li class="flex">
-          <div class="dib mr3 fw6 action-name">Assign the task to:</div>
-          <action-assignee />
-        </li>
-      </ul>
+        <div class="cf">
+          <div class="fl w-third  dib mr3 fw6 action-name">
+            Assign the task to:
+          </div>
+
+          <action-assignee @update="updateAssignees($event)" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -70,50 +77,21 @@ export default {
 
   data() {
     return {
-      who: '',
-      message: '',
-      updatedMessage: '',
-      notification: {
-        id: 0,
-        type: '',
-        target: '',
-        employeeId: 0,
-        teamId: 0,
-        message: '',
+      task: {
+        title: '',
+        assignees: {
+          type: '',
+          ids: [],
+        },
         complete: false,
       },
-      form: {
-        searchTerm: null,
-        errors: [],
-      },
-      processingSearch: false,
-      searchEmployees: [],
-      searchTeams: [],
-      displayModal: false,
-      actionsModal: false,
-      showEveryoneConfirmationModal: false,
-      showSeachEmployeeModal: false,
-      showSeachTeamModal: false,
-      showEditMessage: false,
       deleteActionConfirmation: false,
     };
-  },
-
-  computed: {
-    charactersLeft() {
-      var char = this.updatedMessage.length, limit = 255;
-
-      return 'Characters remaining: ' + (limit - char) + ' / ' + limit;
-    }
   },
 
   mounted() {
     // prevent click outside event with popupItem.
     this.popupItem = this.$el;
-
-    // this.notification = this.action;
-    // this.who = 'an employee';
-    // this.setMessage(this.$t('account.flow_new_action_label_unknown_message'));
   },
 
   methods: {
@@ -122,32 +100,13 @@ export default {
       this.displayModal = false;
     },
 
-    displayEmployeeSearchBox() {
-      this.displayModal = false;
-      this.showSeachEmployeeModal = true;
+    updateAssignees(assignee) {
+      this.task.assignees.type = assignee.type;
+      this.task.assignees.ids = assignee.ids;
     },
 
-    displayTeamSearchBox() {
-      this.displayModal = false;
-      this.showSeachTeamModal = true;
-    },
-
-    displayEditMessageTextarea() {
-      if (this.notification.message == this.$t('account.flow_new_action_label_unknown_message')) {
-        this.updatedMessage = '';
-      } else {
-        this.updatedMessage = this.notification.message;
-      }
-      this.showEditMessage = true;
-    },
-
-    toggleModals() {
-      this.showEveryoneConfirmationModal = false;
-      this.displayModal = false;
-      this.showSeachEmployeeModal = false;
-      this.showSeachTeamModal = false;
-      this.actionsModal = false;
-      this.showEditMessage = false;
+    updateTitle(title) {
+      this.task.title = title;
     },
 
     // check if an action is considered "complete". If not, this will prevent
@@ -158,103 +117,9 @@ export default {
       }
     },
 
-    setTarget(target) {
-      this.notification.target = target;
-      this.toggleModals();
-
-      switch(target) {
-      case 'actualEmployee':
-        this.who = this.$t('account.flow_new_action_label_actual_employee');
-        break;
-      case 'everyone':
-        this.who = this.$t('account.flow_new_action_label_everyone');
-        break;
-      case 'managers':
-        this.who = this.$t('account.flow_new_action_label_managers');
-        break;
-      case 'directReports':
-        this.who = this.$t('account.flow_new_action_label_reports');
-        break;
-      case 'employeeTeam':
-        this.who = this.$t('account.flow_new_action_label_team_employee');
-        break;
-      case 'specificTeam':
-        break;
-      case 'specificEmployee':
-        break;
-      default:
-        this.who = this.$t('account.flow_new_action_label_employee');
-      }
-
-      this.checkComplete();
-      this.$emit('update', this.notification);
-    },
-
-    searchEmployee: _.debounce(
-      function() {
-
-        if (this.form.searchTerm != '') {
-          this.processingSearch = true;
-
-          axios.post('/search/employees/', this.form)
-            .then(response => {
-              this.searchEmployees = response.data.data;
-              this.processingSearch = false;
-            })
-            .catch(error => {
-              this.form.errors = error.response.data;
-              this.processingSearch = false;
-            });
-        }
-      }, 500),
-
-    searchTeam: _.debounce(
-      function() {
-
-        if (this.form.searchTerm != '') {
-          this.processingSearch = true;
-
-          axios.post('/search/teams/', this.form)
-            .then(response => {
-              this.searchTeams = response.data.data;
-              this.processingSearch = false;
-            })
-            .catch(error => {
-              this.form.errors = error.response.data;
-              this.processingSearch = false;
-            });
-        }
-      }, 500),
-
-    assignEmployee(employee) {
-      this.notification.employeeId = employee.id;
-      this.who = employee.name;
-      this.setTarget('specificEmployee');
-      this.toggleModals();
-    },
-
-    assignTeam(team) {
-      this.notification.teamId = team.id;
-      this.who = team.name;
-      this.setTarget('specificTeam');
-      this.toggleModals();
-    },
-
     destroyAction() {
       this.$emit('destroy');
     },
-
-    setMessage(message) {
-      if (message == '') {
-        this.notification.message = this.$t('account.flow_new_action_label_unknown_message');
-      } else {
-        this.notification.message = message;
-      }
-      this.message = this.notification.message;
-      this.toggleModals();
-      this.checkComplete();
-      this.$emit('update', this.notification);
-    }
   }
 };
 

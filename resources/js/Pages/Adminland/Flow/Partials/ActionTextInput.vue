@@ -7,7 +7,7 @@
 </style>
 
 <template>
-  <div>
+  <div class="fl w-two-thirds">
     <!-- blank state -->
     <p v-if="!editMode && !form.content" class="mt0 mb0 relative i gray" @click="editMode = true">
       {{ $t('account.flow_new_action_text_input_define_text') }}
@@ -19,7 +19,7 @@
     </p>
 
     <!-- non blank state -->
-    <p v-if="!editMode && form.content" class="lh-copy mt0 mb0 relative" @click="editMode = true">
+    <p v-if="!editMode && form.content" class="mt0 mb0 relative" @click="editMode = true">
       {{ form.content }}
 
       <svg class="ml2 icon-pen relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -31,11 +31,12 @@
     <!-- edit mode -->
     <div v-if="editMode" class="mb4">
       <text-input
-        :ref="'editText'"
+        :ref="'input'"
         v-model="form.content"
         :errors="$page.props.errors.content"
         :required="true"
         :class="'w-100'"
+        :maxlength="191"
         :extra-class-upper-div="'mb2'"
         @esc-key-pressed="editMode = false"
       />
@@ -44,8 +45,8 @@
       <p v-if="placeholders" class="mt0 mb1 lh-copy f6 gray">You can use those placeholders to populate your message above: <code>{{ placeholders }}</code></p>
 
       <p class="flex">
-        <a class="btn add mr2" :href="'#'" @click.prevent="save()">{{ $t('app.save') }}</a>
-        <a class="btn" :href="'#'" @click.prevent="editMode = false">{{ $t('app.cancel') }}</a>
+        <a class="btn add mr2" @click.prevent="save()">{{ $t('app.save') }}</a>
+        <a class="btn" @click.prevent="editMode = false">{{ $t('app.cancel') }}</a>
       </p>
     </div>
   </div>
@@ -85,12 +86,13 @@ export default {
       this.editMode = true;
 
       this.$nextTick(() => {
-        this.$refs.editText.focus();
+        this.$refs.input.focus();
       });
     },
 
     save() {
       this.editMode = false;
+      this.$emit('update', this.form.content);
     }
   }
 };

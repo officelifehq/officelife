@@ -204,7 +204,7 @@
             </div>
 
             <!-- Actions -->
-            <div class="mv4">
+            <div class="mt4">
               <div class="flex-ns justify-between">
                 <div>
                   <a :href="'/' + $page.props.auth.company.id + '/account/employees'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
