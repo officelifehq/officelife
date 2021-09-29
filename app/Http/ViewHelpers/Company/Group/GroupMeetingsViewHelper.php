@@ -25,11 +25,12 @@ class GroupMeetingsViewHelper
         $meetingsCollection = collect([]);
         foreach ($meetings as $meeting) {
             $members = $meeting->employees()
+                ->wherePivot('attended', true)
                 ->inRandomOrder()
                 ->take(3)
                 ->get();
 
-            $totalMembersCount = $meeting->employees()->count();
+            $totalMembersCount = $meeting->employees()->wherePivot('attended', true)->count();
             $totalMembersCount = $totalMembersCount - $members->count();
 
             $membersCollection = collect([]);
