@@ -77,7 +77,7 @@ class GroupShowViewHelperTest extends TestCase
             'group_id' => $group->id,
             'happened_at' => Carbon::now(),
         ]);
-        $meeting->employees()->attach([$michael->id]);
+        $meeting->employees()->attach([$michael->id => ['attended' => true]]);
 
         $collection = GroupShowViewHelper::meetings($group);
 

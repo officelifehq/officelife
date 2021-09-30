@@ -61,7 +61,7 @@
               <small-name-and-avatar
                 :name="agendaItem.presenter.name"
                 :avatar="agendaItem.presenter.avatar"
-                :class="'gray'"
+                :class="'gray bb-0'"
                 :size="'18px'"
                 :top="'0px'"
                 :margin-between-name-avatar="'25px'"
