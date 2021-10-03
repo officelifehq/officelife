@@ -23,6 +23,7 @@ use App\Models\Company\Question;
 use App\Models\Company\Software;
 use App\Models\Company\Candidate;
 use App\Models\Company\ImportJob;
+use App\Models\Company\IssueType;
 use App\Models\Company\Timesheet;
 use App\Models\Company\JobOpening;
 use App\Models\Company\CompanyNews;
@@ -369,6 +370,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->comments()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_issue_types(): void
+    {
+        $company = Company::factory()->create();
+        IssueType::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->issueTypes()->exists());
     }
 
     /** @test */

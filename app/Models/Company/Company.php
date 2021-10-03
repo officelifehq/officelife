@@ -366,6 +366,16 @@ class Company extends Model
     }
 
     /**
+     * Get all issue types in the company.
+     *
+     * @return HasMany
+     */
+    public function issueTypes()
+    {
+        return $this->hasMany(IssueType::class);
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
      * @return object|null
