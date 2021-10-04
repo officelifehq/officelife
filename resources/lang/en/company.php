@@ -108,4 +108,6 @@ return [
     'hr_ama_delete_title' => 'Delete the session',
     'hr_ama_delete_description' => 'Would you like to delete this session? If you proceed, all questions will also be deleted permanently.',
     'hr_ama_delete_success' => 'The session has been deleted.',
+    'hr_job_openings_title' => 'Open job positions',
+    'hr_job_openings_view_all' => 'View all open job positions ({count})',
 ];

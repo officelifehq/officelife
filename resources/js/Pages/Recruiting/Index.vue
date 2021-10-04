@@ -122,7 +122,7 @@
                       <span v-if="jobOpening.reference_number" class="reference-number f7 code fw4">{{ jobOpening.reference_number }}</span>
                     </div>
 
-                    <p v-if="jobOpening.team" class="ma0 f7 gray">For <inertia-link :href="jobOpening.team.url">{{ jobOpening.team.name }}</inertia-link></p>
+                    <p v-if="jobOpening.team" class="ma0 f7 gray"><inertia-link :href="jobOpening.team.url">{{ jobOpening.team.name }}</inertia-link></p>
                   </div>
                 </li>
               </ul>

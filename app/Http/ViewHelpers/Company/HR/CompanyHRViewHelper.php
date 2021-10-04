@@ -8,6 +8,7 @@ use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
+use App\Models\Company\JobOpening;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company\AskMeAnythingSession;
@@ -212,6 +213,59 @@ class CompanyHRViewHelper
             'session' => $session,
             'url_view_all' => route('hr.ama.index', [
                 'company' => $company->id,
+            ]),
+        ];
+    }
+
+    /**
+     * Get the information about open job openings.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function openedJobOpenings(Company $company): array
+    {
+        $openings = JobOpening::where('company_id', $company->id)
+            ->where('active', true)
+            ->where('fulfilled', false)
+            ->with('candidates')
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+
+        $numberOfJobOpeningsTotal = JobOpening::where('company_id', $company->id)
+            ->where('active', true)
+            ->where('fulfilled', false)
+            ->count();
+
+        $openingsCollection = collect([]);
+        foreach ($openings as $opening) {
+            $team = $opening->team;
+
+            $openingsCollection->push([
+                'id' => $opening->id,
+                'title' => $opening->title,
+                'reference_number' => $opening->reference_number,
+                'team' => $team ? [
+                    'id' => $team->id,
+                    'name' => $team->name,
+                    'url' => route('team.show', [
+                        'company' => $company,
+                        'team' => $team,
+                    ]),
+                ] : null,
+                'url' => route('jobs.company.show.incognito', [
+                    'company' => $company->slug,
+                    'job' => $opening->slug,
+                ]),
+            ]);
+        }
+
+        return [
+            'jobOpenings' => $openingsCollection,
+            'count' => $numberOfJobOpeningsTotal,
+            'url_view_all' => route('jobs.company.index', [
+                'company' => $company->slug,
             ]),
         ];
     }
