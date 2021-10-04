@@ -49,6 +49,8 @@
         <div class="fl w-50-l w-100 pl4-l">
           <ask-me-anything-session :data="askMeAnythingSession" />
 
+          <job-openings :data="jobOpenings" />
+
           <genders
             :genders="genders"
           />
@@ -64,6 +66,7 @@ import eCoffees from '@/Pages/Company/HR/Partials/eCoffees';
 import Genders from '@/Pages/Company/HR/Partials/Genders';
 import Positions from '@/Pages/Company/HR/Partials/Positions';
 import AskMeAnythingSession from '@/Pages/Company/HR/Partials/AskMeAnythingSession';
+import JobOpenings from '@/Pages/Company/HR/Partials/JobOpenings';
 import Tab from '@/Pages/Company/Partials/Tab';
 import HeaderComponent from '@/Pages/Company/Partials/Header';
 
@@ -72,6 +75,7 @@ export default {
     Layout,
     eCoffees,
     Genders,
+    JobOpenings,
     Positions,
     Tab,
     HeaderComponent,
@@ -100,6 +104,10 @@ export default {
       default: null,
     },
     askMeAnythingSession: {
+      type: Object,
+      default: null,
+    },
+    jobOpenings: {
       type: Object,
       default: null,
     },
