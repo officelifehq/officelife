@@ -25,6 +25,7 @@ class IssueTypeFactory extends Factory
         return [
             'company_id' => Company::factory(),
             'name' => $this->faker->name,
+            'icon_hex_color' => $this->faker->hexColor(),
         ];
     }
 }

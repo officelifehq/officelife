@@ -7,7 +7,7 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\IssueType;
 
-class CreateIssueType extends BaseService
+class UpdateIssueType extends BaseService
 {
     protected array $data;
     protected IssueType $type;
@@ -22,13 +22,14 @@ class CreateIssueType extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
+            'issue_type_id' => 'required|integer|exists:issue_types,id',
             'name' => 'required|string|max:255',
             'icon_hex_color' => 'required|string|max:255',
         ];
     }
 
     /**
-     * Create an issue type.
+     * Edit an issue type.
      *
      * @param array $data
      * @return IssueType
@@ -37,7 +38,7 @@ class CreateIssueType extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->create();
+        $this->update();
         $this->log();
 
         return $this->type;
@@ -51,22 +52,23 @@ class CreateIssueType extends BaseService
             ->inCompany($this->data['company_id'])
             ->asAtLeastHR()
             ->canExecuteService();
+
+        $this->type = IssueType::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['issue_type_id']);
     }
 
-    private function create(): void
+    private function update(): void
     {
-        $this->type = IssueType::create([
-            'company_id' => $this->data['company_id'],
-            'name' => $this->data['name'],
-            'icon_hex_color' => $this->data['icon_hex_color'],
-        ]);
+        $this->type->name = $this->data['name'];
+        $this->type->icon_hex_color = $this->data['icon_hex_color'];
+        $this->type->save();
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'issue_type_created',
+            'action' => 'issue_type_updated',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),

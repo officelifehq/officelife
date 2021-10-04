@@ -600,6 +600,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('account/recruitment/{template}', 'Company\\Adminland\\AdminRecruitmentController@storeStage');
             Route::put('account/recruitment/{template}/stage/{stage}', 'Company\\Adminland\\AdminRecruitmentController@updateStage');
             Route::delete('account/recruitment/{template}/stage/{stage}', 'Company\\Adminland\\AdminRecruitmentController@destroyStage');
+
+            // project management settings
+            Route::get('account/project', 'Company\\Adminland\\AdminProjectManagementController@index');
         });
     });
 });

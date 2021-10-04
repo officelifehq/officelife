@@ -20,6 +20,7 @@ class IssueType extends Model
     protected $fillable = [
         'company_id',
         'name',
+        'icon_hex_color',
     ];
 
     /**

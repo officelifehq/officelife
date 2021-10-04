@@ -7,7 +7,7 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\IssueType;
 
-class CreateIssueType extends BaseService
+class DestroyIssueType extends BaseService
 {
     protected array $data;
     protected IssueType $type;
@@ -22,25 +22,21 @@ class CreateIssueType extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'name' => 'required|string|max:255',
-            'icon_hex_color' => 'required|string|max:255',
+            'issue_type_id' => 'required|integer|exists:issue_types,id',
         ];
     }
 
     /**
-     * Create an issue type.
+     * Delete an issue type.
      *
      * @param array $data
-     * @return IssueType
      */
-    public function execute(array $data): IssueType
+    public function execute(array $data): void
     {
         $this->data = $data;
         $this->validate();
-        $this->create();
+        $this->delete();
         $this->log();
-
-        return $this->type;
     }
 
     private function validate(): void
@@ -51,27 +47,25 @@ class CreateIssueType extends BaseService
             ->inCompany($this->data['company_id'])
             ->asAtLeastHR()
             ->canExecuteService();
+
+        $this->type = IssueType::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['issue_type_id']);
     }
 
-    private function create(): void
+    private function delete(): void
     {
-        $this->type = IssueType::create([
-            'company_id' => $this->data['company_id'],
-            'name' => $this->data['name'],
-            'icon_hex_color' => $this->data['icon_hex_color'],
-        ]);
+        $this->type->delete();
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'issue_type_created',
+            'action' => 'issue_type_destroyed',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'issue_type_id' => $this->type->id,
                 'issue_type_name' => $this->type->name,
             ]),
         ])->onQueue('low');
