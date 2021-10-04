@@ -21,7 +21,6 @@
   color: #fff;
   padding: 5px;
 }
-
 </style>
 
 <template>
@@ -49,7 +48,7 @@
         <div class="fl w-50-l w-100 pl4-l">
           <ask-me-anything-session :data="askMeAnythingSession" />
 
-          <job-openings :data="jobOpenings" />
+          <job-openings v-if="jobOpenings.count > 0" :data="jobOpenings" />
 
           <genders
             :genders="genders"

@@ -29,7 +29,7 @@ class CompanyHRController extends Controller
         $ama = CompanyHRViewHelper::askMeAnythingUpcomingSession($company);
         $statistics = CompanyViewHelper::information($company);
         $jobOpenings = CompanyHRViewHelper::openedJobOpenings($company);
-        dd($jobOpenings);
+
         return Inertia::render('Company/HR/Index', [
             'tab' => 'hr',
             'eCoffees' => $eCoffees,

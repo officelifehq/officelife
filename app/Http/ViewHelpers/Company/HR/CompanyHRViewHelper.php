@@ -254,9 +254,9 @@ class CompanyHRViewHelper
                         'team' => $team,
                     ]),
                 ] : null,
-                'url' => route('recruiting.openings.show', [
-                    'company' => $company,
-                    'opening' => $opening,
+                'url' => route('jobs.company.show.incognito', [
+                    'company' => $company->slug,
+                    'job' => $opening->slug,
                 ]),
             ]);
         }
@@ -265,7 +265,7 @@ class CompanyHRViewHelper
             'jobOpenings' => $openingsCollection,
             'count' => $numberOfJobOpeningsTotal,
             'url_view_all' => route('jobs.company.index', [
-                'company' => $company->id,
+                'company' => $company->slug,
             ]),
         ];
     }
