@@ -9,14 +9,10 @@ use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Company\RecruitingStageTemplate;
 use App\Services\Company\Project\CreateIssueType;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Adminland\AdminRecruitmentViewHelper;
+use App\Services\Company\Project\UpdateIssueType;
+use App\Services\Company\Project\DestroyIssueType;
 use App\Http\ViewHelpers\Adminland\AdminProjectManagementViewHelper;
-use App\Services\Company\Adminland\JobOpening\CreateRecruitingStage;
-use App\Services\Company\Adminland\JobOpening\UpdateRecruitingStage;
-use App\Services\Company\Adminland\JobOpening\DestroyRecruitingStage;
 
 class AdminProjectManagementController extends Controller
 {
@@ -52,7 +48,7 @@ class AdminProjectManagementController extends Controller
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'name' => $request->input('name'),
-            'icon_hex_color' => $request->input('hex_code'),
+            'icon_hex_color' => $request->input('icon_hex_color'),
         ];
 
         $type = (new CreateIssueType)->execute($data);
@@ -62,46 +58,29 @@ class AdminProjectManagementController extends Controller
                 'id' => $type->id,
                 'name' => $type->name,
                 'icon_hex_color' => $type->icon_hex_color,
+                'url' => [
+                    'update' => route('projectmanagement.update', [
+                        'company' => $company->id,
+                        'type' => $type->id,
+                    ]),
+                    'destroy' => route('projectmanagement.destroy', [
+                        'company' => $company->id,
+                        'type' => $type->id,
+                    ]),
+                ],
             ],
         ], 201);
     }
 
     /**
-     * Show the template content.
+     * Update the issue typpe.
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $templateId
-     * @return mixed
-     */
-    public function show(Request $request, int $companyId, int $templateId)
-    {
-        $company = InstanceHelper::getLoggedCompany();
-
-        try {
-            $template = RecruitingStageTemplate::where('company_id', $company->id)
-                ->findOrFail($templateId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
-
-        $template = AdminRecruitmentViewHelper::show($company, $template);
-
-        return Inertia::render('Adminland/Recruitment/Show', [
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'template' => $template,
-        ]);
-    }
-
-    /**
-     * Create the stage.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $templateId
+     * @param int $issueTypeId
      * @return JsonResponse
      */
-    public function storeStage(Request $request, int $companyId, int $templateId): JsonResponse
+    public function update(Request $request, int $companyId, int $issueTypeId): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -109,65 +88,41 @@ class AdminProjectManagementController extends Controller
         $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
-            'recruiting_stage_template_id' => $templateId,
+            'issue_type_id' => $issueTypeId,
             'name' => $request->input('name'),
+            'icon_hex_color' => $request->input('icon_hex_color'),
         ];
 
-        $stage = (new CreateRecruitingStage)->execute($data);
+        $type = (new UpdateIssueType)->execute($data);
 
         return response()->json([
             'data' => [
-                'id' => $stage->id,
-                'name' => $stage->name,
-                'position' => $stage->position,
-            ],
-        ], 201);
-    }
-
-    /**
-     * Update the stage.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $templateId
-     * @param int $stageId
-     * @return JsonResponse
-     */
-    public function updateStage(Request $request, int $companyId, int $templateId, int $stageId): JsonResponse
-    {
-        $company = InstanceHelper::getLoggedCompany();
-        $loggedEmployee = InstanceHelper::getLoggedEmployee();
-
-        $data = [
-            'company_id' => $company->id,
-            'author_id' => $loggedEmployee->id,
-            'recruiting_stage_template_id' => $templateId,
-            'recruiting_stage_id' => $stageId,
-            'name' => $request->input('name'),
-            'position' => $request->input('position'),
-        ];
-
-        $stage = (new UpdateRecruitingStage)->execute($data);
-
-        return response()->json([
-            'data' => [
-                'id' => $stage->id,
-                'name' => $stage->name,
-                'position' => $stage->position,
+                'id' => $type->id,
+                'name' => $type->name,
+                'icon_hex_color' => $type->icon_hex_color,
+                'url' => [
+                    'update' => route('projectmanagement.update', [
+                        'company' => $company->id,
+                        'type' => $type->id,
+                    ]),
+                    'destroy' => route('projectmanagement.destroy', [
+                        'company' => $company->id,
+                        'type' => $type->id,
+                    ]),
+                ],
             ],
         ], 200);
     }
 
     /**
-     * Delete the stage.
+     * Delete the issue type.
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $templateId
-     * @param int $stageId
+     * @param int $issueTypeId
      * @return JsonResponse
      */
-    public function destroyStage(Request $request, int $companyId, int $templateId, int $stageId): JsonResponse
+    public function destroyStage(Request $request, int $companyId, int $issueTypeId): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -175,11 +130,10 @@ class AdminProjectManagementController extends Controller
         $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
-            'recruiting_stage_template_id' => $templateId,
-            'recruiting_stage_id' => $stageId,
+            'issue_type_id' => $issueTypeId,
         ];
 
-        (new DestroyRecruitingStage)->execute($data);
+        (new DestroyIssueType)->execute($data);
 
         return response()->json([
             'data' => true,

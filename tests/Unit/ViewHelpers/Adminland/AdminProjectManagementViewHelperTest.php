@@ -30,6 +30,10 @@ class AdminProjectManagementViewHelperTest extends ApiTestCase
                     'id' => $type->id,
                     'name' => 'supername',
                     'icon_hex_color' => '#123',
+                    'url' => [
+                        'update' => env('APP_URL').'/'.$company->id.'/account/project/issueType/'.$type->id,
+                        'destroy' => env('APP_URL').'/'.$company->id.'/account/project/issueType/'.$type->id,
+                    ],
                 ],
             ],
             $array['issue_types']->toArray()

@@ -34,6 +34,12 @@ export default {
     };
   },
 
+  computed: {
+    localReport() {
+      return this.dataReport ?? this.report;
+    }
+  },
+
   mounted() {
     this.classes = 'width: ' + this.width;
     this.classes += '; height: ' + this.height;

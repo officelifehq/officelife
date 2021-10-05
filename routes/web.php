@@ -604,6 +604,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             // project management settings
             Route::get('account/project', 'Company\\Adminland\\AdminProjectManagementController@index')->name('projectmanagement.index');
             Route::post('account/project/issueType', 'Company\\Adminland\\AdminProjectManagementController@store')->name('projectmanagement.store');
+            Route::put('account/project/issueType/{type}', 'Company\\Adminland\\AdminProjectManagementController@update')->name('projectmanagement.update');
+            Route::delete('account/project/issueType/{type}', 'Company\\Adminland\\AdminProjectManagementController@destroy')->name('projectmanagement.destroy');
         });
     });
 });

@@ -59,7 +59,7 @@
                               @esc-key-pressed="modal = false"
                   />
                   <text-input :ref="'newIssueType'"
-                              v-model="form.hex_code"
+                              v-model="form.icon_hex_color"
                               :label="'Color of the icon'"
                               :help="'Represented in hexadecimal.'"
                               :placeholder="'#ae4111'"
@@ -88,19 +88,30 @@
               {{ issueType.name }}
 
               <!-- RENAME ISSUE TYPE FORM -->
-              <div v-show="idToUpdate == issueType.id" class="cf mt3">
-                <form @submit.prevent="update(issueType.id)">
+              <div v-if="idToUpdate == issueType.id" class="cf mt3">
+                <form @submit.prevent="update(issueType)">
                   <div class="fl w-100 w-70-ns mb3 mb0-ns">
-                    <text-input :id="'name-' + issueType.id"
-                                :ref="'name' + issueType.id"
-                                v-model="form.name"
-                                :label="'Name'"
-                                :custom-ref="'name' + issueType.id"
-                                :errors="$page.props.errors.name"
-                                required
-                                :extra-class-upper-div="'mb0'"
-                                @esc-key-pressed="idToUpdate = 0"
-                    />
+                    <div class="flex justify-between">
+                      <text-input :ref="'newIssueType'"
+                                  v-model="form.name"
+                                  :label="'Name'"
+                                  :required="true"
+                                  :errors="$page.props.errors.name"
+                                  :extra-class-upper-div="'mb0 mr2'"
+                                  @esc-key-pressed="updateModal = false"
+                      />
+                      <text-input :ref="'newIssueType'"
+                                  v-model="form.icon_hex_color"
+                                  :label="'Color of the icon'"
+                                  :help="'Represented in hexadecimal.'"
+                                  :placeholder="'#ae4111'"
+                                  :maxlength="7"
+                                  :required="true"
+                                  :errors="$page.props.errors.name"
+                                  :extra-class-upper-div="'mb0'"
+                                  @esc-key-pressed="updateModal = false"
+                      />
+                    </div>
                   </div>
                   <div class="fl w-30-ns w-100 tr">
                     <a class="btn dib-l db mb2 mb0-ns mr2-ns" @click.prevent="idToUpdate = 0">
@@ -115,13 +126,13 @@
               <ul v-show="idToUpdate != issueType.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns f6">
                 <!-- RENAME A ISSUE TYPE -->
                 <li class="di mr2">
-                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'list-rename-button-' + issueType.id" @click.prevent="displayUpdateModal(issueType) ; form.name = issueType.title">{{ $t('app.rename') }}</a>
+                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="displayUpdateModal(issueType)">{{ $t('app.rename') }}</a>
                 </li>
 
                 <!-- DELETE A ISSUE TYPE -->
                 <li v-if="idToDelete == issueType.id" class="di">
                   {{ $t('app.sure') }}
-                  <a class="c-delete mr1 pointer" @click.prevent="destroy(issueType.id)">
+                  <a class="c-delete mr1 pointer" @click.prevent="destroy(issueType)">
                     {{ $t('app.yes') }}
                   </a>
                   <a class="pointer" @click.prevent="idToDelete = 0">
@@ -192,7 +203,7 @@ export default {
       idToDelete: 0,
       form: {
         name: null,
-        hex_code: null,
+        icon_hex_color: null,
         errors: [],
       },
     };
@@ -222,10 +233,8 @@ export default {
 
     displayUpdateModal(issueType) {
       this.idToUpdate = issueType.id;
-
-      this.$nextTick(() => {
-        this.$refs[`name${issueType.id}`].focus();
-      });
+      this.form.name = issueType.name;
+      this.form.icon_hex_color = issueType.icon_hex_color;
     },
 
     submit() {
@@ -246,28 +255,28 @@ export default {
         });
     },
 
-    update(id) {
-      axios.put(this.route('positions.update', [this.$page.props.auth.company.id, id]), this.form)
+    update(type) {
+      axios.put(type.url.update, this.form)
         .then(response => {
           this.flash(this.$t('account.position_success_update'), 'success');
 
           this.idToUpdate = 0;
           this.form.name = null;
 
-          this.localIssueTypes[this.localIssueTypes.findIndex(x => x.id === id)] = response.data.data;
+          this.localIssueTypes[this.localIssueTypes.findIndex(x => x.id === type.id)] = response.data.data;
         })
         .catch(error => {
           this.form.errors = error.response.data;
         });
     },
 
-    destroy(id) {
-      axios.delete(this.route('positions.destroy', [this.$page.props.auth.company.id, id]))
+    destroy(type) {
+      axios.delete(type.url.destroy)
         .then(response => {
           this.flash(this.$t('account.position_success_destroy'), 'success');
 
           this.idToDelete = 0;
-          id = this.localIssueTypes.findIndex(x => x.id === id);
+          id = this.localIssueTypes.findIndex(x => x.id === type.id);
           this.localIssueTypes.splice(id, 1);
         })
         .catch(error => {

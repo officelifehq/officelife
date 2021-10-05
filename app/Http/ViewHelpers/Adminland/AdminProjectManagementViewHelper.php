@@ -9,10 +9,10 @@ class AdminProjectManagementViewHelper
     /**
      * Get all the issue types in the company.
      *
-     * @param mixed $company
+     * @param Company $company
      * @return array
      */
-    public static function issueTypes($company): array
+    public static function issueTypes(Company $company): array
     {
         $types = $company->issueTypes()->orderBy('name', 'asc')->get();
         $typesCollection = collect([]);
@@ -21,6 +21,16 @@ class AdminProjectManagementViewHelper
                 'id' => $type->id,
                 'name' => $type->name,
                 'icon_hex_color' => $type->icon_hex_color,
+                'url' => [
+                    'update' => route('projectmanagement.update', [
+                        'company' => $company->id,
+                        'type' => $type->id,
+                    ]),
+                    'destroy' => route('projectmanagement.destroy', [
+                        'company' => $company->id,
+                        'type' => $type->id,
+                    ]),
+                ],
             ]);
         }
 
