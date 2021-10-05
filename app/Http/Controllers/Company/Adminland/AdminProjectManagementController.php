@@ -10,12 +10,13 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Company\RecruitingStageTemplate;
+use App\Services\Company\Project\CreateIssueType;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Adminland\AdminRecruitmentViewHelper;
+use App\Http\ViewHelpers\Adminland\AdminProjectManagementViewHelper;
 use App\Services\Company\Adminland\JobOpening\CreateRecruitingStage;
 use App\Services\Company\Adminland\JobOpening\UpdateRecruitingStage;
 use App\Services\Company\Adminland\JobOpening\DestroyRecruitingStage;
-use App\Services\Company\Adminland\JobOpening\CreateRecruitingStageTemplate;
 
 class AdminProjectManagementController extends Controller
 {
@@ -27,16 +28,16 @@ class AdminProjectManagementController extends Controller
     public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
-        $templates = AdminRecruitmentViewHelper::index($company);
+        $data = AdminProjectManagementViewHelper::issueTypes($company);
 
         return Inertia::render('Adminland/Project/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'templates' => $templates,
+            'data' => $data,
         ]);
     }
 
     /**
-     * Create the template.
+     * Create the issue type.
      *
      * @param Request $request
      * @param int $companyId
@@ -51,19 +52,16 @@ class AdminProjectManagementController extends Controller
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'name' => $request->input('name'),
+            'icon_hex_color' => $request->input('hex_code'),
         ];
 
-        $template = (new CreateRecruitingStageTemplate)->execute($data);
+        $type = (new CreateIssueType)->execute($data);
 
         return response()->json([
             'data' => [
-                'id' => $template->id,
-                'name' => $template->name,
-                'stages' => null,
-                'url' => route('recruitment.show', [
-                    'company' => $company,
-                    'template' => $template,
-                ]),
+                'id' => $type->id,
+                'name' => $type->name,
+                'icon_hex_color' => $type->icon_hex_color,
             ],
         ], 201);
     }

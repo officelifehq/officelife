@@ -1,6 +1,18 @@
-<style scoped>
-.list li:last-child {
-  border-bottom: 0;
+<style lang="scss" scoped>
+.type-list {
+  li:first-child:hover {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  li:last-child {
+    border-bottom: 0;
+
+    &:hover {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+  }
 }
 </style>
 
@@ -24,11 +36,12 @@
             {{ $t('account.project_management_title') }}
           </h2>
 
-          <p class="relative adminland-headline">
-            <a class="btn absolute-l relative dib-l db right-0" data-cy="add-position-button" @click.prevent="displayAddModal">
+          <div class="relative adminland-headline">
+            <p v-if="localIssueTypes.length > 0">All the issue types</p>
+            <a class="btn absolute-l relative dib-l db right-0" @click.prevent="displayAddModal">
               {{ $t('account.project_management_cta') }}
             </a>
-          </p>
+          </div>
 
           <!-- MODAL TO ADD AN ISSUE TYPE -->
           <form v-show="modal" class="mb3 pa3 ba br2 bb-gray bg-gray" @submit.prevent="submit">
@@ -36,12 +49,27 @@
 
             <div class="cf">
               <div class="fl w-100 w-70-ns mb3 mb0-ns">
-                <text-input :ref="'newIssueType'"
-                            v-model="form.name"
-                            :errors="$page.props.errors.name"
-                            :extra-class-upper-div="'mb0'"
-                            @esc-key-pressed="modal = false"
-                />
+                <div class="flex justify-between">
+                  <text-input :ref="'newIssueType'"
+                              v-model="form.name"
+                              :label="'Name'"
+                              :required="true"
+                              :errors="$page.props.errors.name"
+                              :extra-class-upper-div="'mb0 mr2'"
+                              @esc-key-pressed="modal = false"
+                  />
+                  <text-input :ref="'newIssueType'"
+                              v-model="form.hex_code"
+                              :label="'Color of the icon'"
+                              :help="'Represented in hexadecimal.'"
+                              :placeholder="'#ae4111'"
+                              :maxlength="7"
+                              :required="true"
+                              :errors="$page.props.errors.name"
+                              :extra-class-upper-div="'mb0'"
+                              @esc-key-pressed="modal = false"
+                  />
+                </div>
               </div>
               <div class="fl w-30-ns w-100 tr">
                 <a class="btn dib-l db mb2 mb0-ns mr2-ns" @click.prevent="modal = false">
@@ -53,9 +81,11 @@
           </form>
 
           <!-- LIST OF EXISTING ISSUE TYPE -->
-          <ul v-show="localIssueTypes.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="positions-list">
-            <li v-for="(issueType) in localIssueTypes" :key="issueType.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
-              {{ issueType.title }}
+          <ul v-show="localIssueTypes.length != 0" class="list pl0 mv0 center ba br2 bb-gray type-list">
+            <li v-for="(issueType) in localIssueTypes" :key="issueType.id" class="pv3 ph2 bb bb-gray bb-gray-hover relative">
+              <icon-issue-type :background-color="issueType.icon_hex_color" />
+
+              {{ issueType.name }}
 
               <!-- RENAME ISSUE TYPE FORM -->
               <div v-show="idToUpdate == issueType.id" class="cf mt3">
@@ -64,7 +94,8 @@
                     <text-input :id="'name-' + issueType.id"
                                 :ref="'name' + issueType.id"
                                 v-model="form.name"
-                                :custom-ref="'title' + issueType.id"
+                                :label="'Name'"
+                                :custom-ref="'name' + issueType.id"
                                 :errors="$page.props.errors.name"
                                 required
                                 :extra-class-upper-div="'mb0'"
@@ -84,7 +115,7 @@
               <ul v-show="idToUpdate != issueType.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns f6">
                 <!-- RENAME A ISSUE TYPE -->
                 <li class="di mr2">
-                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'list-rename-button-' + issueType.id" @click.prevent="displayUpdateModal(issueType) ; form.title = issueType.title">{{ $t('app.rename') }}</a>
+                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'list-rename-button-' + issueType.id" @click.prevent="displayUpdateModal(issueType) ; form.name = issueType.title">{{ $t('app.rename') }}</a>
                 </li>
 
                 <!-- DELETE A ISSUE TYPE -->
@@ -109,11 +140,10 @@
           <!-- BLANK STATE -->
           <div v-show="localIssueTypes.length == 0" class="pa3 mt5">
             <p class="tc measure center mb4 lh-copy">
-              {{ $t('account.issueTypes_blank') }}
+              {{ $t('account.project_management_blank') }}
             </p>
-            <img loading="lazy" class="db center mb4" alt="add a issueType symbol" srcset="/img/company/account/blank-issueType-1x.png,
-                                          /img/company/account/blank-issueType-2x.png 2x"
-            />
+
+            <img loading="lazy" class="db center mb4" alt="team" src="/img/streamline-icon-package-worker-5@100x100.png" />
           </div>
         </div>
       </div>
@@ -125,6 +155,7 @@
 import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
+import IconIssueType from '@/Shared/IconIssueType';
 import Layout from '@/Shared/Layout';
 import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 
@@ -133,6 +164,7 @@ export default {
     Layout,
     Breadcrumb,
     TextInput,
+    IconIssueType,
     Errors,
     LoadingButton,
   },
@@ -160,6 +192,7 @@ export default {
       idToDelete: 0,
       form: {
         name: null,
+        hex_code: null,
         errors: [],
       },
     };
@@ -191,19 +224,19 @@ export default {
       this.idToUpdate = issueType.id;
 
       this.$nextTick(() => {
-        this.$refs[`title${issueType.id}`].focus();
+        this.$refs[`name${issueType.id}`].focus();
       });
     },
 
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.route('positions.store', this.$page.props.auth.company.id), this.form)
+      axios.post(this.data.url_create, this.form)
         .then(response => {
-          this.flash(this.$t('account.position_success_new'), 'success');
+          this.flash(this.$t('account.project_management_success_new'), 'success');
 
           this.loadingState = null;
-          this.form.title = null;
+          this.form.name = null;
           this.modal = false;
           this.localIssueTypes.push(response.data.data);
         })
@@ -219,7 +252,7 @@ export default {
           this.flash(this.$t('account.position_success_update'), 'success');
 
           this.idToUpdate = 0;
-          this.form.title = null;
+          this.form.name = null;
 
           this.localIssueTypes[this.localIssueTypes.findIndex(x => x.id === id)] = response.data.data;
         })
