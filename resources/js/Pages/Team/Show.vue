@@ -99,7 +99,7 @@
                     {{ newsItem.title }}
                   </h3>
                   <div class="f6 relative news-information silver">
-                    <img loading="lazy" :src="newsItem.author.avatar" class="br-100 relative dib-ns dn" alt="avatar" />
+                    <avatar v-if="newsItem.author.avatar" :avatar="newsItem.author.avatar" :size="18" :class="'avatar br-100 relative'" />
                     {{ $t('team.team_news_written_by_at', { name: newsItem.author.name, created_at: newsItem.localized_created_at }) }}
                   </div>
                 </div>
@@ -143,10 +143,12 @@ import TeamUsefulLink from '@/Pages/Team/Partials/TeamUsefulLink';
 import RecentShips from '@/Pages/Team/Partials/RecentShips';
 import Birthdays from '@/Pages/Team/Partials/Birthdays';
 import Morale from '@/Pages/Team/Partials/Morale';
+import Avatar from '@/Shared/Avatar';
 
 export default {
   components: {
     Layout,
+    Avatar,
     Breadcrumb,
     Members,
     TeamDescription,
