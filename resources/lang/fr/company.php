@@ -70,4 +70,5 @@ return [
     'questions_active' => 'Question active',
     'stat_number_of_teams' => 'nombre d’équipes',
     'stat_number_of_employees' => 'nombre d’employé·e·s',
+    'menu_kb' => 'Base de connaissances',
 ];

@@ -40,4 +40,5 @@ return [
     'invitation_unlogged_choice_login_desc' => 'Use this option if you already have an account on OfficeLife',
     'invitation_unlogged_choice_account' => 'Create an account',
     'invitation_unlogged_choice_login' => 'Sign in to your account',
+    'login_provider_saml2' => 'SAML 2.0-tilbyder',
 ];
