@@ -103,6 +103,7 @@
         <!-- Personal fixes -->
         <UndefinedMagicPropertyFetch errorLevel="suppress" />
         <InvalidPropertyAssignmentValue errorLevel="suppress" />
+        <PossibleRawObjectIteration errorLevel="suppress" />
 
         <UnsafeInstantiation>
             <errorLevel type="suppress">
