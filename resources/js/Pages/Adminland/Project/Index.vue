@@ -258,7 +258,7 @@ export default {
     update(type) {
       axios.put(type.url.update, this.form)
         .then(response => {
-          this.flash(this.$t('account.position_success_update'), 'success');
+          this.flash(this.$t('account.project_management_success_update'), 'success');
 
           this.idToUpdate = 0;
           this.form.name = null;
@@ -273,10 +273,10 @@ export default {
     destroy(type) {
       axios.delete(type.url.destroy)
         .then(response => {
-          this.flash(this.$t('account.position_success_destroy'), 'success');
+          this.flash(this.$t('account.project_management_success_destroy'), 'success');
 
           this.idToDelete = 0;
-          id = this.localIssueTypes.findIndex(x => x.id === type.id);
+          var id = this.localIssueTypes.findIndex(x => x.id === type.id);
           this.localIssueTypes.splice(id, 1);
         })
         .catch(error => {

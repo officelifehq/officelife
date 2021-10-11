@@ -34,8 +34,8 @@ export default {
     };
   },
 
-  computed: {
-    localReport() {
+  watch: {
+    classes(value) {
       return this.dataReport ?? this.report;
     }
   },

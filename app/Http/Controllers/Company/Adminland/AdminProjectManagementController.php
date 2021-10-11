@@ -122,7 +122,7 @@ class AdminProjectManagementController extends Controller
      * @param int $issueTypeId
      * @return JsonResponse
      */
-    public function destroyStage(Request $request, int $companyId, int $issueTypeId): JsonResponse
+    public function destroy(Request $request, int $companyId, int $issueTypeId): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();

@@ -746,5 +746,7 @@ return [
     'project_management_title' => 'Project management settings',
     'project_management_cta' => 'Add a new issue type',
     'project_management_success_new' => 'The issue type has been created.',
+    'project_management_success_update' => 'The issue type has been updated.',
+    'project_management_success_destroy' => 'The issue type has been deleted.',
     'project_management_blank' => 'Issue types lets you categorize issues that are created in the different projects of your organization.',
 ];
