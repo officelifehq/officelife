@@ -191,4 +191,24 @@ class Project extends Model
     {
         return $this->hasMany(ProjectBoard::class);
     }
+
+    /**
+     * Get the sprint entries associated with the project.
+     *
+     * @return HasMany
+     */
+    public function sprints()
+    {
+        return $this->hasMany(ProjectSprint::class);
+    }
+
+    /**
+     * Get the issues entries associated with the project.
+     *
+     * @return HasMany
+     */
+    public function issues()
+    {
+        return $this->hasMany(ProjectIssue::class);
+    }
 }

@@ -603,6 +603,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the issues the employee is the reporter of.
+     *
+     * @return HasMany
+     */
+    public function issues()
+    {
+        return $this->hasMany(ProjectIssue::class, 'reporter_id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query

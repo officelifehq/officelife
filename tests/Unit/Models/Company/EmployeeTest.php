@@ -35,6 +35,7 @@ use App\Models\Company\EmployeeLog;
 use App\Models\Company\ProjectTask;
 use App\Models\Company\DirectReport;
 use App\Models\Company\Notification;
+use App\Models\Company\ProjectIssue;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\ConsultantRate;
@@ -578,6 +579,16 @@ class EmployeeTest extends TestCase
         $dwight->jobOpeningsAsSponsor()->sync([$opening->id]);
 
         $this->assertTrue($dwight->jobOpeningsAsSponsor()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_issues_as_reporter(): void
+    {
+        $michael = Employee::factory()
+            ->has(ProjectIssue::factory()->count(2), 'issues')
+            ->create();
+
+        $this->assertTrue($michael->issues()->exists());
     }
 
     /** @test */

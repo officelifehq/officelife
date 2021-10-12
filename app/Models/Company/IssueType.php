@@ -32,4 +32,14 @@ class IssueType extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    /**
+     * Get the issue records associated with the issue type.
+     *
+     * @return BelongsTo
+     */
+    public function issues()
+    {
+        return $this->hasMany(ProjectIssue::class);
+    }
 }
