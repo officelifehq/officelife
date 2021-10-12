@@ -377,6 +377,8 @@ return [
     'log_project_issue_updated' => 'Updated the issue called :title in the project called :project_name.',
     'log_project_issue_destroyed' => 'Destroyed the issue called :title in the project called :project_name.',
     'log_project_issue_assigned_to_sprint' => 'Assigned the issue called :title to the sprint called :sprint_name in the project called :project_name.',
+    'log_project_sprint_started' => 'Started the sprint called :name in the project called :project_name.',
+    'log_project_sprint_completed' => 'Completed the sprint called :name in the project called :project_name.',
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',
