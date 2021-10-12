@@ -84,6 +84,7 @@ return [
     'breadcrumb_account_manage_flows' => 'Manage flows',
     'breadcrumb_account_audit_logs' => 'Audit logs',
     'breadcrumb_account_manage_positions' => 'Positions',
+    'breadcrumb_account_manage_project' => 'Project management',
     'breadcrumb_account_manage_employee_statuses' => 'Employee statuses',
     'breadcrumb_account_manage_pto_policies' => 'Paid Time Off policies',
     'breadcrumb_account_manage_questions' => 'Questions',

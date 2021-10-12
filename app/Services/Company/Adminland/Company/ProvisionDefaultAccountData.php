@@ -5,6 +5,7 @@ namespace App\Services\Company\Adminland\Company;
 use Carbon\Carbon;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
+use App\Services\Company\Project\CreateIssueType;
 use App\Services\Company\Adminland\ExpenseCategory\CreateExpenseCategory;
 use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
 
@@ -71,6 +72,19 @@ class ProvisionDefaultAccountData extends BaseService
             ];
 
             (new CreateExpenseCategory)->execute($request);
+        }
+
+        // create default issue type
+        $listOfIssues = config('officelife.issue_types');
+        foreach ($listOfIssues as $name => $hexColor) {
+            $request = [
+                'company_id' => $company->id,
+                'author_id' => $employee->id,
+                'name' => trans('account.issue_type_'.$name),
+                'icon_hex_color' => $hexColor,
+            ];
+
+            (new CreateIssueType)->execute($request);
         }
     }
 }

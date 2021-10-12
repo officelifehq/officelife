@@ -206,6 +206,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Mapping for default issue types
+    |--------------------------------------------------------------------------
+    |
+    | Issue types are used in the project management domain.
+    | Here we define the type of issue type, as well as the color of the icon.
+    | When adding a new issue type here, don't forget to add the translation key
+    | in the `en/account` lang file, so we know how to display the right information.
+    |
+    */
+    'issue_types' => [
+        'story' => '#2ca775',
+        'bug' => '#ff5136',
+        'epic' => '#5652b3',
+        'task' => '#0080f8',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Mapping of the Help sections
     |--------------------------------------------------------------------------
     |

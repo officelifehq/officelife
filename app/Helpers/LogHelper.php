@@ -1598,6 +1598,26 @@ class LogHelper
                 ]);
                 break;
 
+            case 'issue_type_created':
+                $sentence = trans('account.log_issue_type_created', [
+                    'issue_type_id' => $log->object->{'issue_type_id'},
+                    'issue_type_name' => $log->object->{'issue_type_name'},
+                ]);
+                break;
+
+            case 'issue_type_updated':
+                $sentence = trans('account.log_issue_type_updated', [
+                    'issue_type_id' => $log->object->{'issue_type_id'},
+                    'issue_type_name' => $log->object->{'issue_type_name'},
+                ]);
+                break;
+
+            case 'issue_type_destroyed':
+                $sentence = trans('account.log_issue_type_destroyed', [
+                    'issue_type_name' => $log->object->{'issue_type_name'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
