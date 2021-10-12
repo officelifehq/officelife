@@ -3,18 +3,17 @@
 namespace Database\Factories\Company;
 
 use App\Models\Company\Project;
-use App\Models\Company\ProjectBoard;
-use App\Models\Company\ProjectSprint;
+use App\Models\Company\ProjectLabel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ProjectSprintFactory extends Factory
+class ProjectLabelFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = ProjectSprint::class;
+    protected $model = ProjectLabel::class;
 
     /**
      * Define the model's default state.
@@ -25,7 +24,6 @@ class ProjectSprintFactory extends Factory
     {
         return [
             'project_id' => Project::factory(),
-            'project_board_id' => ProjectBoard::factory(),
             'name' => $this->faker->name,
         ];
     }

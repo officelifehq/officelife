@@ -203,12 +203,22 @@ class Project extends Model
     }
 
     /**
-     * Get the issues entries associated with the project.
+     * Get the issue entries associated with the project.
      *
      * @return HasMany
      */
     public function issues()
     {
         return $this->hasMany(ProjectIssue::class);
+    }
+
+    /**
+     * Get the label entries associated with the project.
+     *
+     * @return HasMany
+     */
+    public function labels()
+    {
+        return $this->hasMany(ProjectLabel::class);
     }
 }

@@ -7,6 +7,7 @@ use App\Jobs\LogAccountAudit;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\IssueType;
+use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectIssue;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
@@ -29,7 +30,10 @@ class CreateProjectIssueTest extends TestCase
         $issueType = IssueType::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $project, $issueType);
+        $projectBoard = ProjectBoard::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $this->executeService($michael, $project, $issueType, $projectBoard);
     }
 
     /** @test */
@@ -43,7 +47,10 @@ class CreateProjectIssueTest extends TestCase
         $issueType = IssueType::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $project, $issueType);
+        $projectBoard = ProjectBoard::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $this->executeService($michael, $project, $issueType, $projectBoard);
     }
 
     /** @test */
@@ -57,7 +64,10 @@ class CreateProjectIssueTest extends TestCase
         $issueType = IssueType::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $this->executeService($michael, $project, $issueType);
+        $projectBoard = ProjectBoard::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $this->executeService($michael, $project, $issueType, $projectBoard);
     }
 
     /** @test */
@@ -79,9 +89,12 @@ class CreateProjectIssueTest extends TestCase
         $issueType = IssueType::factory()->create([
             'company_id' => $michael->company_id,
         ]);
+        $projectBoard = ProjectBoard::factory()->create([
+            'project_id' => $project->id,
+        ]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $project, $issueType);
+        $this->executeService($michael, $project, $issueType, $projectBoard);
     }
 
     /** @test */
@@ -93,18 +106,39 @@ class CreateProjectIssueTest extends TestCase
             'company_id' => $michael->company_id,
         ]);
         $issueType = IssueType::factory()->create();
+        $projectBoard = ProjectBoard::factory()->create([
+            'project_id' => $project->id,
+        ]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $project, $issueType);
+        $this->executeService($michael, $project, $issueType, $projectBoard);
     }
 
-    private function executeService(Employee $michael, Project $project, IssueType $issueType): void
+    /** @test */
+    public function it_fails_if_the_board_is_not_in_the_project(): void
+    {
+        $michael = $this->createEmployee();
+        $project = Project::factory()->create([
+            'short_code' => 'off',
+            'company_id' => $michael->company_id,
+        ]);
+        $issueType = IssueType::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $projectBoard = ProjectBoard::factory()->create();
+
+        $this->expectException(ModelNotFoundException::class);
+        $this->executeService($michael, $project, $issueType, $projectBoard);
+    }
+
+    private function executeService(Employee $michael, Project $project, IssueType $issueType, ProjectBoard $board): void
     {
         Queue::fake();
 
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
+            'project_board_id' => $board->id,
             'project_id' => $project->id,
             'issue_type_id' => $issueType->id,
             'title' => 'issue name',
@@ -116,6 +150,7 @@ class CreateProjectIssueTest extends TestCase
         $this->assertDatabaseHas('project_issues', [
             'id' => $projectIssue->id,
             'project_id' => $project->id,
+            'project_board_id' => $board->id,
             'reporter_id' => $michael->id,
             'issue_type_id' => $issueType->id,
             'id_in_project' => 1,

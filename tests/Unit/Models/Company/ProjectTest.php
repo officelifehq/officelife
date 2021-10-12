@@ -11,6 +11,7 @@ use App\Models\Company\ProjectLink;
 use App\Models\Company\ProjectTask;
 use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectIssue;
+use App\Models\Company\ProjectLabel;
 use App\Models\Company\ProjectSprint;
 use App\Models\Company\ProjectStatus;
 use App\Models\Company\ProjectMessage;
@@ -185,7 +186,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_time_project_issues(): void
+    public function it_has_many_project_issues(): void
     {
         $project = Project::factory()->create();
         ProjectIssue::factory()->count(2)->create([
@@ -193,5 +194,16 @@ class ProjectTest extends TestCase
         ]);
 
         $this->assertTrue($project->issues()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_project_labels(): void
+    {
+        $project = Project::factory()->create();
+        ProjectLabel::factory()->count(2)->create([
+            'project_id' => $project->id,
+        ]);
+
+        $this->assertTrue($project->labels()->exists());
     }
 }

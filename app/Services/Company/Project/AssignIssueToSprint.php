@@ -3,24 +3,19 @@
 namespace App\Services\Company\Project;
 
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
-use App\Models\Company\IssueType;
-use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectIssue;
+use App\Models\Company\ProjectSprint;
 use App\Models\Company\ProjectMemberActivity;
 
-class CreateProjectIssue extends BaseService
+class AssignIssueToSprint extends BaseService
 {
     protected array $data;
     protected ProjectIssue $projectIssue;
-    protected ProjectBoard $projectBoard;
-    protected IssueType $issueType;
+    protected ProjectSprint $projectSprint;
     protected Project $project;
-    protected ?int $newIdInProject;
-    protected string $key;
 
     /**
      * Get the validation rules that apply to the service.
@@ -33,15 +28,13 @@ class CreateProjectIssue extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'required|integer|exists:projects,id',
-            'project_board_id' => 'required|integer|exists:project_boards,id',
-            'issue_type_id' => 'required|integer|exists:issue_types,id',
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:16777215',
+            'project_sprint_id' => 'required|integer|exists:project_sprints,id',
+            'project_issue_id' => 'required|integer|exists:project_issues,id',
         ];
     }
 
     /**
-     * Create a project issue.
+     * Assign a project issue to a sprint.
      *
      * @param array $data
      * @return ProjectIssue
@@ -50,8 +43,7 @@ class CreateProjectIssue extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->generateIssueKey();
-        $this->createIssue();
+        $this->assign();
         $this->logActivity();
         $this->log();
 
@@ -70,40 +62,16 @@ class CreateProjectIssue extends BaseService
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
 
-        $this->issueType = IssueType::where('company_id', $this->data['company_id'])
-            ->findOrFail($this->data['issue_type_id']);
+        $this->projectSprint = ProjectSprint::where('project_id', $this->data['project_id'])
+            ->findOrFail($this->data['project_sprint_id']);
 
-        $this->projectBoard = ProjectBoard::where('project_id', $this->data['project_id'])
-            ->findOrFail($this->data['project_board_id']);
+        $this->projectIssue = ProjectIssue::where('project_id', $this->data['project_id'])
+            ->findOrFail($this->data['project_issue_id']);
     }
 
-    private function generateIssueKey(): void
+    private function assign(): void
     {
-        $projectShortCode = $this->project->short_code;
-
-        // get the biggest key number used in this project
-        $newId = ProjectIssue::where('project_id', $this->data['project_id'])
-            ->max('id_in_project');
-
-        $newId++;
-        $this->newIdInProject = $newId;
-
-        $this->key = $projectShortCode.'-'.$this->newIdInProject;
-    }
-
-    private function createIssue(): void
-    {
-        $this->projectIssue = ProjectIssue::create([
-            'project_id' => $this->data['project_id'],
-            'reporter_id' => $this->data['author_id'],
-            'project_board_id' => $this->data['project_board_id'],
-            'issue_type_id' => $this->data['issue_type_id'],
-            'id_in_project' => $this->newIdInProject,
-            'key' => $this->key,
-            'title' => $this->data['title'],
-            'slug' => Str::of($this->data['title'])->slug('-'),
-            'description' => $this->valueOrNull($this->data, 'description'),
-        ]);
+        $this->projectIssue->sprints()->syncWithoutDetaching([$this->projectSprint->id]);
     }
 
     private function logActivity(): void
@@ -118,7 +86,7 @@ class CreateProjectIssue extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_issue_created',
+            'action' => 'project_issue_assigned_to_sprint',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
@@ -126,6 +94,7 @@ class CreateProjectIssue extends BaseService
                 'project_id' => $this->project->id,
                 'project_name' => $this->project->name,
                 'title' => $this->projectIssue->title,
+                'sprint_name' => $this->projectSprint->name,
             ]),
         ])->onQueue('low');
     }
