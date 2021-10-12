@@ -16,8 +16,10 @@ class CreateIssuesTable extends Migration
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('reporter_id')->nullable();
             $table->unsignedBigInteger('issue_type_id')->nullable();
-            $table->integer('key');
+            $table->integer('id_in_project');
+            $table->string('key');
             $table->string('title');
+            $table->string('slug');
             $table->mediumText('description')->nullable();
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');

@@ -21,7 +21,9 @@ class ProjectIssue extends Model
         'project_id',
         'reporter_id',
         'issue_type_id',
+        'id_in_project',
         'key',
+        'slug',
         'title',
         'description',
     ];

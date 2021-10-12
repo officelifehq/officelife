@@ -3,6 +3,7 @@
 namespace App\Services\Company\Project;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
@@ -16,7 +17,8 @@ class CreateProjectIssue extends BaseService
     protected ProjectIssue $projectIssue;
     protected IssueType $issueType;
     protected Project $project;
-    protected int $key;
+    protected ?int $newIdInProject;
+    protected string $key;
 
     /**
      * Get the validation rules that apply to the service.
@@ -30,7 +32,7 @@ class CreateProjectIssue extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'required|integer|exists:projects,id',
             'issue_type_id' => 'required|integer|exists:issue_types,id',
-            'name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:16777215',
         ];
     }
@@ -74,22 +76,26 @@ class CreateProjectIssue extends BaseService
         $projectShortCode = $this->project->short_code;
 
         // get the biggest key number used in this project
-        $this->key = ProjectIssue::where('company_id', $this->data['company_id'])
-            ->where('project_id', $this->data['project_id'])
-            ->max('key');
+        $newId = ProjectIssue::where('project_id', $this->data['project_id'])
+            ->max('id_in_project');
 
-        $this->key++;
+        $newId++;
+        $this->newIdInProject = $newId;
+
+        $this->key = $projectShortCode.'-'.$this->newIdInProject;
     }
 
     private function createIssue(): void
     {
         $this->projectIssue = ProjectIssue::create([
             'project_id' => $this->data['project_id'],
-            'reporter_id' => $this->data['reporter_id'],
+            'reporter_id' => $this->data['author_id'],
             'issue_type_id' => $this->data['issue_type_id'],
+            'id_in_project' => $this->newIdInProject,
             'key' => $this->key,
             'title' => $this->data['title'],
-            'description' => $this->valueOrNull($this->data, 'title'),
+            'slug' => Str::of($this->data['title'])->slug('-'),
+            'description' => $this->valueOrNull($this->data, 'description'),
         ]);
     }
 
