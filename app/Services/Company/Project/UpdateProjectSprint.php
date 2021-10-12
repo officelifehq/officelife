@@ -13,7 +13,7 @@ class UpdateProjectSprint extends BaseService
 {
     protected array $data;
     protected Project $project;
-    protected ProjectSprint $projectBoard;
+    protected ProjectSprint $projectSprint;
 
     /**
      * Get the validation rules that apply to the service.
