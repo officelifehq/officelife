@@ -12,7 +12,6 @@ use App\Exceptions\ProjectCodeAlreadyExistException;
 class UpdateProjectInformation extends BaseService
 {
     private array $data;
-
     private Project $project;
 
     /**

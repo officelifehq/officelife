@@ -11,7 +11,6 @@ use App\Models\Company\ProjectMemberActivity;
 class StartProject extends BaseService
 {
     protected array $data;
-
     protected Project $project;
 
     /**
