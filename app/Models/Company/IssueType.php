@@ -3,6 +3,7 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -36,7 +37,7 @@ class IssueType extends Model
     /**
      * Get the issue records associated with the issue type.
      *
-     * @return BelongsTo
+     * @return HasMany
      */
     public function issues()
     {
