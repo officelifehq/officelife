@@ -1642,6 +1642,22 @@ class LogHelper
                 ]);
                 break;
 
+            case 'project_sprint_started':
+                $sentence = trans('account.log_project_sprint_started', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'name' => $log->object->{'name'},
+                ]);
+                break;
+
+            case 'project_sprint_completed':
+                $sentence = trans('account.log_project_sprint_completed', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'name' => $log->object->{'name'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
