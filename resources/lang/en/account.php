@@ -384,6 +384,7 @@ return [
     'log_project_label_destroyed' => 'Destroyed the label called :name in the project called :project_name.',
     'log_project_label_assigned_to_issue' => 'Assigned the label called :label_name to the issue called :issue_title in the project called :project_name.',
     'log_project_label_removed_from_issue' => 'Removed the label called :label_name from the issue called :issue_title in the project called :project_name.',
+    'log_project_issue_type_updated' => 'Updated the issue type of the issue called :issue_title in the project called :project_name.',
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',
