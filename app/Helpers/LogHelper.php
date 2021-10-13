@@ -1751,6 +1751,15 @@ class LogHelper
                 ]);
                 break;
 
+            case 'project_issue_unassigned_to_assignee':
+                $sentence = trans('account.log_project_issue_unassigned_to_assignee', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'employee_name' => $log->object->{'name'},
+                    'issue_title' => $log->object->{'issue_title'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
