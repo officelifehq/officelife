@@ -3,19 +3,24 @@
 namespace App\Services\Company\Project;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
+use App\Models\Company\IssueType;
 use App\Models\Company\ProjectBoard;
-use App\Models\Company\ProjectSprint;
+use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectMemberActivity;
 
-class CreateProjectSprint extends BaseService
+class CreateProjectIssue extends BaseService
 {
     protected array $data;
-    protected Project $project;
-    protected ProjectSprint $projectSprint;
+    protected ProjectIssue $projectIssue;
     protected ProjectBoard $projectBoard;
+    protected IssueType $issueType;
+    protected Project $project;
+    protected ?int $newIdInProject;
+    protected string $key;
 
     /**
      * Get the validation rules that apply to the service.
@@ -29,25 +34,28 @@ class CreateProjectSprint extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'required|integer|exists:projects,id',
             'project_board_id' => 'required|integer|exists:project_boards,id',
-            'name' => 'required|string|max:255',
+            'issue_type_id' => 'required|integer|exists:issue_types,id',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:16777215',
         ];
     }
 
     /**
-     * Create a project sprint.
+     * Create a project issue.
      *
      * @param array $data
-     * @return ProjectSprint
+     * @return ProjectIssue
      */
-    public function execute(array $data): ProjectSprint
+    public function execute(array $data): ProjectIssue
     {
         $this->data = $data;
         $this->validate();
-        $this->createSprint();
+        $this->generateIssueKey();
+        $this->createIssue();
         $this->logActivity();
         $this->log();
 
-        return $this->projectSprint;
+        return $this->projectIssue;
     }
 
     private function validate(): void
@@ -62,17 +70,39 @@ class CreateProjectSprint extends BaseService
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
 
+        $this->issueType = IssueType::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['issue_type_id']);
+
         $this->projectBoard = ProjectBoard::where('project_id', $this->data['project_id'])
             ->findOrFail($this->data['project_board_id']);
     }
 
-    private function createSprint(): void
+    private function generateIssueKey(): void
     {
-        $this->projectSprint = ProjectSprint::create([
+        $projectShortCode = $this->project->short_code;
+
+        // get the biggest key number used in this project
+        $newId = ProjectIssue::where('project_id', $this->data['project_id'])
+            ->max('id_in_project');
+
+        $newId++;
+        $this->newIdInProject = $newId;
+
+        $this->key = $projectShortCode.'-'.$this->newIdInProject;
+    }
+
+    private function createIssue(): void
+    {
+        $this->projectIssue = ProjectIssue::create([
             'project_id' => $this->data['project_id'],
+            'reporter_id' => $this->data['author_id'],
             'project_board_id' => $this->data['project_board_id'],
-            'author_id' => $this->data['author_id'],
-            'name' => $this->data['name'],
+            'issue_type_id' => $this->data['issue_type_id'],
+            'id_in_project' => $this->newIdInProject,
+            'key' => $this->key,
+            'title' => $this->data['title'],
+            'slug' => Str::of($this->data['title'])->slug('-'),
+            'description' => $this->valueOrNull($this->data, 'description'),
         ]);
     }
 
@@ -88,14 +118,14 @@ class CreateProjectSprint extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_sprint_created',
+            'action' => 'project_issue_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'project_id' => $this->project->id,
                 'project_name' => $this->project->name,
-                'name' => $this->projectSprint->name,
+                'title' => $this->projectIssue->title,
             ]),
         ])->onQueue('low');
     }

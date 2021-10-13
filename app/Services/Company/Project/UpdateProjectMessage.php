@@ -12,9 +12,7 @@ use App\Models\Company\ProjectMemberActivity;
 class UpdateProjectMessage extends BaseService
 {
     protected array $data;
-
     protected Project $project;
-
     protected ProjectMessage $projectMessage;
 
     /**

@@ -6,55 +6,49 @@ use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
-use App\Models\Company\ProjectBoard;
-use App\Models\Company\ProjectSprint;
+use App\Models\Company\ProjectLabel;
 use Illuminate\Support\Facades\Queue;
+use App\Exceptions\LabelAlreadyExistException;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Project\CreateProjectSprint;
+use App\Services\Company\Project\CreateProjectLabel;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class CreateProjectSprintTest extends TestCase
+class CreateProjectLabelTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_sprint_in_a_project_as_administrator(): void
+    public function it_creates_a_label_in_a_project_as_administrator(): void
     {
         $michael = $this->createAdministrator();
         $project = Project::factory()->create([
+            'short_code' => 'off',
             'company_id' => $michael->company_id,
         ]);
-        $projectBoard = ProjectBoard::factory()->create([
-            'project_id' => $project->id,
-        ]);
-        $this->executeService($michael, $project, $projectBoard);
+        $this->executeService($michael, $project);
     }
 
     /** @test */
-    public function it_creates_a_sprint_in_a_project_as_hr(): void
+    public function it_creates_a_label_in_a_project_as_hr(): void
     {
         $michael = $this->createHR();
         $project = Project::factory()->create([
+            'short_code' => 'off',
             'company_id' => $michael->company_id,
         ]);
-        $projectBoard = ProjectBoard::factory()->create([
-            'project_id' => $project->id,
-        ]);
-        $this->executeService($michael, $project, $projectBoard);
+        $this->executeService($michael, $project);
     }
 
     /** @test */
-    public function it_creates_a_sprint_in_a_project_as_normal_user(): void
+    public function it_creates_a_label_in_a_project_as_normal_user(): void
     {
         $michael = $this->createEmployee();
         $project = Project::factory()->create([
+            'short_code' => 'off',
             'company_id' => $michael->company_id,
         ]);
-        $projectBoard = ProjectBoard::factory()->create([
-            'project_id' => $project->id,
-        ]);
-        $this->executeService($michael, $project, $projectBoard);
+        $this->executeService($michael, $project);
     }
 
     /** @test */
@@ -65,7 +59,7 @@ class CreateProjectSprintTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new CreateProjectSprint)->execute($request);
+        (new CreateProjectLabel)->execute($request);
     }
 
     /** @test */
@@ -73,28 +67,28 @@ class CreateProjectSprintTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $project = Project::factory()->create();
-        $projectBoard = ProjectBoard::factory()->create([
-            'project_id' => $project->id,
-        ]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $project, $projectBoard);
+        $this->executeService($michael, $project);
     }
 
     /** @test */
-    public function it_fails_if_the_projectboard_is_not_in_the_project(): void
+    public function it_fails_if_the_label_already_exists(): void
     {
-        $michael = $this->createAdministrator();
+        $michael = $this->createEmployee();
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectBoard = ProjectBoard::factory()->create();
+        ProjectLabel::factory()->create([
+            'project_id' => $project->id,
+            'name' => 'label name',
+        ]);
 
-        $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $project, $projectBoard);
+        $this->expectException(LabelAlreadyExistException::class);
+        $this->executeService($michael, $project);
     }
 
-    private function executeService(Employee $michael, Project $project, ProjectBoard $board): void
+    private function executeService(Employee $michael, Project $project): void
     {
         Queue::fake();
 
@@ -102,17 +96,15 @@ class CreateProjectSprintTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'project_id' => $project->id,
-            'project_board_id' => $board->id,
-            'name' => 'board name',
+            'name' => 'label name',
         ];
 
-        $projectSprint = (new CreateProjectSprint)->execute($request);
+        $projectLabel = (new CreateProjectLabel)->execute($request);
 
-        $this->assertDatabaseHas('project_sprints', [
-            'id' => $projectSprint->id,
+        $this->assertDatabaseHas('project_labels', [
+            'id' => $projectLabel->id,
             'project_id' => $project->id,
-            'project_board_id' => $board->id,
-            'name' => 'board name',
+            'name' => 'label name',
         ]);
 
         $this->assertDatabaseHas('project_member_activities', [
@@ -121,17 +113,17 @@ class CreateProjectSprintTest extends TestCase
         ]);
 
         $this->assertInstanceOf(
-            ProjectSprint::class,
-            $projectSprint
+            ProjectLabel::class,
+            $projectLabel
         );
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project, $projectSprint) {
-            return $job->auditLog['action'] === 'project_sprint_created' &&
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project, $projectLabel) {
+            return $job->auditLog['action'] === 'project_label_created' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'project_id' => $project->id,
                     'project_name' => $project->name,
-                    'name' => $projectSprint->name,
+                    'name' => $projectLabel->name,
                 ]);
         });
     }

@@ -6,16 +6,14 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
-use App\Models\Company\ProjectBoard;
-use App\Models\Company\ProjectSprint;
+use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectMemberActivity;
 
-class CreateProjectSprint extends BaseService
+class DestroyProjectIssue extends BaseService
 {
     protected array $data;
     protected Project $project;
-    protected ProjectSprint $projectSprint;
-    protected ProjectBoard $projectBoard;
+    protected ProjectIssue $projectIssue;
 
     /**
      * Get the validation rules that apply to the service.
@@ -27,27 +25,23 @@ class CreateProjectSprint extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'project_id' => 'required|integer|exists:projects,id',
-            'project_board_id' => 'required|integer|exists:project_boards,id',
-            'name' => 'required|string|max:255',
+            'project_id' => 'nullable|integer|exists:projects,id',
+            'project_issue_id' => 'nullable|integer|exists:project_issues,id',
         ];
     }
 
     /**
-     * Create a project sprint.
+     * Delete the project issue.
      *
      * @param array $data
-     * @return ProjectSprint
      */
-    public function execute(array $data): ProjectSprint
+    public function execute(array $data): void
     {
         $this->data = $data;
         $this->validate();
-        $this->createSprint();
+        $this->destroy();
         $this->logActivity();
         $this->log();
-
-        return $this->projectSprint;
     }
 
     private function validate(): void
@@ -62,18 +56,13 @@ class CreateProjectSprint extends BaseService
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
 
-        $this->projectBoard = ProjectBoard::where('project_id', $this->data['project_id'])
-            ->findOrFail($this->data['project_board_id']);
+        $this->projectIssue = ProjectIssue::where('project_id', $this->project->id)
+            ->findOrFail($this->data['project_issue_id']);
     }
 
-    private function createSprint(): void
+    private function destroy(): void
     {
-        $this->projectSprint = ProjectSprint::create([
-            'project_id' => $this->data['project_id'],
-            'project_board_id' => $this->data['project_board_id'],
-            'author_id' => $this->data['author_id'],
-            'name' => $this->data['name'],
-        ]);
+        $this->projectIssue->delete();
     }
 
     private function logActivity(): void
@@ -88,14 +77,14 @@ class CreateProjectSprint extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_sprint_created',
+            'action' => 'project_issue_destroyed',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'project_id' => $this->project->id,
                 'project_name' => $this->project->name,
-                'name' => $this->projectSprint->name,
+                'project_issue_title' => $this->projectIssue->title,
             ]),
         ])->onQueue('low');
     }

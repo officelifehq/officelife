@@ -13,6 +13,9 @@ class CreateIssueTypesTable extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('issue_types', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');

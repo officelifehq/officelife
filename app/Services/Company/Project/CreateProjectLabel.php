@@ -6,16 +6,15 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
-use App\Models\Company\ProjectBoard;
-use App\Models\Company\ProjectSprint;
+use App\Models\Company\ProjectLabel;
 use App\Models\Company\ProjectMemberActivity;
+use App\Exceptions\LabelAlreadyExistException;
 
-class CreateProjectSprint extends BaseService
+class CreateProjectLabel extends BaseService
 {
     protected array $data;
     protected Project $project;
-    protected ProjectSprint $projectSprint;
-    protected ProjectBoard $projectBoard;
+    protected ProjectLabel $projectLabel;
 
     /**
      * Get the validation rules that apply to the service.
@@ -28,26 +27,26 @@ class CreateProjectSprint extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'required|integer|exists:projects,id',
-            'project_board_id' => 'required|integer|exists:project_boards,id',
             'name' => 'required|string|max:255',
         ];
     }
 
     /**
-     * Create a project sprint.
+     * Create a project label.
      *
      * @param array $data
-     * @return ProjectSprint
+     * @return ProjectLabel
      */
-    public function execute(array $data): ProjectSprint
+    public function execute(array $data): ProjectLabel
     {
         $this->data = $data;
         $this->validate();
-        $this->createSprint();
+        $this->verifyLabelUniqueness();
+        $this->createLabel();
         $this->logActivity();
         $this->log();
 
-        return $this->projectSprint;
+        return $this->projectLabel;
     }
 
     private function validate(): void
@@ -61,17 +60,23 @@ class CreateProjectSprint extends BaseService
 
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
-
-        $this->projectBoard = ProjectBoard::where('project_id', $this->data['project_id'])
-            ->findOrFail($this->data['project_board_id']);
     }
 
-    private function createSprint(): void
+    private function verifyLabelUniqueness(): void
     {
-        $this->projectSprint = ProjectSprint::create([
+        $alreadyExists = ProjectLabel::where('project_id', $this->data['project_id'])
+            ->where('name', $this->data['name'])
+            ->exists();
+
+        if ($alreadyExists) {
+            throw new LabelAlreadyExistException();
+        }
+    }
+
+    private function createLabel(): void
+    {
+        $this->projectLabel = ProjectLabel::create([
             'project_id' => $this->data['project_id'],
-            'project_board_id' => $this->data['project_board_id'],
-            'author_id' => $this->data['author_id'],
             'name' => $this->data['name'],
         ]);
     }
@@ -88,14 +93,14 @@ class CreateProjectSprint extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_sprint_created',
+            'action' => 'project_label_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'project_id' => $this->project->id,
                 'project_name' => $this->project->name,
-                'name' => $this->projectSprint->name,
+                'name' => $this->projectLabel->name,
             ]),
         ])->onQueue('low');
     }

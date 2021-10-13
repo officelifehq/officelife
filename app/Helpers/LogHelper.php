@@ -1642,6 +1642,39 @@ class LogHelper
                 ]);
                 break;
 
+            case 'project_issue_created':
+                $sentence = trans('account.log_project_issue_created', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'title' => $log->object->{'title'},
+                ]);
+                break;
+
+            case 'project_issue_updated':
+                $sentence = trans('account.log_project_issue_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'title' => $log->object->{'title'},
+                ]);
+                break;
+
+            case 'project_issue_destroyed':
+                $sentence = trans('account.log_project_issue_destroyed', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'title' => $log->object->{'title'},
+                ]);
+                break;
+
+            case 'project_issue_assigned_to_sprint':
+                $sentence = trans('account.log_project_issue_assigned_to_sprint', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'title' => $log->object->{'title'},
+                    'sprint_name' => $log->object->{'sprint_name'},
+                ]);
+                break;
+
             case 'project_sprint_started':
                 $sentence = trans('account.log_project_sprint_started', [
                     'project_id' => $log->object->{'project_id'},
@@ -1652,6 +1685,30 @@ class LogHelper
 
             case 'project_sprint_completed':
                 $sentence = trans('account.log_project_sprint_completed', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'name' => $log->object->{'name'},
+                ]);
+                break;
+
+            case 'project_label_created':
+                $sentence = trans('account.log_project_label_created', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'name' => $log->object->{'name'},
+                ]);
+                break;
+
+            case 'project_label_updated':
+                $sentence = trans('account.log_project_label_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'name' => $log->object->{'name'},
+                ]);
+                break;
+
+            case 'project_label_destroyed':
+                $sentence = trans('account.log_project_label_destroyed', [
                     'project_id' => $log->object->{'project_id'},
                     'project_name' => $log->object->{'project_name'},
                     'name' => $log->object->{'name'},
