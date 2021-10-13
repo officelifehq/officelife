@@ -154,7 +154,7 @@ class AssignAssigneeToProjectIssueTest extends TestCase
                     'project_id' => $project->id,
                     'project_name' => $project->name,
                     'employee_name' => $employee->name,
-                    'issue_name' => $issue->name,
+                    'issue_title' => $issue->title,
                 ]);
         });
     }
