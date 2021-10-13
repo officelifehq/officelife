@@ -1715,6 +1715,24 @@ class LogHelper
                 ]);
                 break;
 
+            case 'project_label_assigned_to_issue':
+                $sentence = trans('account.log_project_label_assigned_to_issue', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'issue_title' => $log->object->{'issue_title'},
+                    'label_name' => $log->object->{'label_name'},
+                ]);
+                break;
+
+            case 'project_label_removed_from_issue':
+                $sentence = trans('account.log_project_label_removed_from_issue', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'issue_title' => $log->object->{'issue_title'},
+                    'label_name' => $log->object->{'label_name'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;

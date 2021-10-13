@@ -6,14 +6,15 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
-use App\Models\Company\ProjectTask;
-use App\Models\Company\ProjectTaskList;
+use App\Models\Company\ProjectIssue;
+use App\Models\Company\ProjectLabel;
+use App\Models\Company\ProjectMemberActivity;
 
-class AssignProjectTaskToTaskList extends BaseService
+class RemoveLabelFromIssue extends BaseService
 {
     protected array $data;
-    protected ProjectTask $projectTask;
-    protected ProjectTaskList $projectTaskList;
+    protected ProjectIssue $projectIssue;
+    protected ProjectLabel $projectLabel;
     protected Project $project;
 
     /**
@@ -27,25 +28,23 @@ class AssignProjectTaskToTaskList extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'required|integer|exists:projects,id',
-            'project_task_id' => 'required|integer|exists:project_tasks,id',
-            'project_task_list_id' => 'required|integer|exists:project_task_lists,id',
+            'project_issue_id' => 'required|integer|exists:project_issues,id',
+            'project_label_id' => 'required|integer|exists:project_labels,id',
         ];
     }
 
     /**
-     * Assign the project task to a project task list.
+     * Remove a project label from a project issue.
      *
      * @param array $data
-     * @return ProjectTask
      */
-    public function execute(array $data): ProjectTask
+    public function execute(array $data): void
     {
         $this->data = $data;
         $this->validate();
-        $this->move();
+        $this->remove();
+        $this->logActivity();
         $this->log();
-
-        return $this->projectTask;
     }
 
     private function validate(): void
@@ -60,34 +59,39 @@ class AssignProjectTaskToTaskList extends BaseService
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
 
-        $this->projectTask = ProjectTask::where('project_id', $this->data['project_id'])
-            ->findOrFail($this->data['project_task_id']);
+        $this->projectLabel = ProjectLabel::where('project_id', $this->data['project_id'])
+            ->findOrFail($this->data['project_label_id']);
 
-        $this->projectTaskList = ProjectTaskList::where('project_id', $this->data['project_id'])
-            ->findOrFail($this->data['project_task_list_id']);
+        $this->projectIssue = ProjectIssue::where('project_id', $this->data['project_id'])
+            ->findOrFail($this->data['project_issue_id']);
     }
 
-    private function move(): void
+    private function remove(): void
     {
-        $this->projectTask->project_task_list_id = $this->projectTaskList->id;
-        $this->projectTask->save();
+        $this->projectIssue->labels()->detach([$this->projectLabel->id]);
+    }
+
+    private function logActivity(): void
+    {
+        ProjectMemberActivity::create([
+            'project_id' => $this->project->id,
+            'employee_id' => $this->author->id,
+        ]);
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_task_assigned_to_task_list',
+            'action' => 'project_label_removed_from_issue',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'project_id' => $this->project->id,
                 'project_name' => $this->project->name,
-                'project_task_id' => $this->projectTask->id,
-                'project_task_title' => $this->projectTask->title,
-                'project_task_list_id' => $this->projectTaskList->id,
-                'project_task_list_title' => $this->projectTaskList->title,
+                'issue_title' => $this->projectIssue->title,
+                'label_name' => $this->projectLabel->name,
             ]),
         ])->onQueue('low');
     }

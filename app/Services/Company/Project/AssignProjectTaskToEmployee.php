@@ -14,11 +14,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class AssignProjectTaskToEmployee extends BaseService
 {
     protected array $data;
-
     protected ProjectTask $projectTask;
-
     protected Employee $assignee;
-
     protected Project $project;
 
     /**
