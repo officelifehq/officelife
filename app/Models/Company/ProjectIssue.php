@@ -89,4 +89,14 @@ class ProjectIssue extends Model
     {
         return $this->belongsToMany(ProjectLabel::class, 'project_issue_project_label', 'project_issue_id', 'project_label_id');
     }
+
+    /**
+     * Get the employee records associated with the project issue, as assignees.
+     *
+     * @return belongsToMany
+     */
+    public function assignees()
+    {
+        return $this->belongsToMany(Employee::class, 'project_issue_assignees', 'project_issue_id', 'employee_id');
+    }
 }

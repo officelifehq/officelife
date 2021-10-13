@@ -592,6 +592,17 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_has_many_issues_as_assigneee(): void
+    {
+        $dwight = Employee::factory()->create();
+        $projectIssue = ProjectIssue::factory()->create();
+
+        $dwight->issuesAsAssignee()->sync([$projectIssue->id]);
+
+        $this->assertTrue($dwight->issuesAsAssignee()->exists());
+    }
+
+    /** @test */
     public function it_scopes_the_employees_by_the_locked_status(): void
     {
         $dwight = Employee::factory()->create([

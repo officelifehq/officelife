@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models\Company;
 
 use Tests\TestCase;
+use App\Models\Company\Employee;
 use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectLabel;
 use App\Models\Company\ProjectSprint;
@@ -58,5 +59,15 @@ class ProjectIssueTest extends TestCase
         $issue->labels()->sync([$label->id]);
 
         $this->assertTrue($issue->labels()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_assignees(): void
+    {
+        $issue = ProjectIssue::factory()->create();
+        $employee = Employee::factory()->create();
+        $issue->assignees()->sync([$employee->id]);
+
+        $this->assertTrue($issue->assignees()->exists());
     }
 }

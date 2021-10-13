@@ -613,6 +613,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the project issues associated with the employee as assignee.
+     *
+     * @return BelongsToMany
+     */
+    public function issuesAsAssignee()
+    {
+        return $this->belongsToMany(ProjectIssue::class, 'project_issue_assignees');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query
