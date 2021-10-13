@@ -379,6 +379,9 @@ return [
     'log_project_issue_assigned_to_sprint' => 'Assigned the issue called :title to the sprint called :sprint_name in the project called :project_name.',
     'log_project_sprint_started' => 'Started the sprint called :name in the project called :project_name.',
     'log_project_sprint_completed' => 'Completed the sprint called :name in the project called :project_name.',
+    'log_project_label_created' => 'Created the label called :name in the project called :project_name.',
+    'log_project_label_updated' => 'Updated the label called :name in the project called :project_name.',
+    'log_project_label_destroyed' => 'Destroyed the label called :name in the project called :project_name.',
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',

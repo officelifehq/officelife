@@ -6,14 +6,15 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
-use App\Models\Company\ProjectIssue;
+use App\Models\Company\ProjectLabel;
 use App\Models\Company\ProjectMemberActivity;
+use App\Exceptions\LabelAlreadyExistException;
 
-class DestroyProjectIssue extends BaseService
+class UpdateProjectLabel extends BaseService
 {
     protected array $data;
     protected Project $project;
-    protected ProjectIssue $projectIssue;
+    protected ProjectLabel $projectLabel;
 
     /**
      * Get the validation rules that apply to the service.
@@ -26,22 +27,27 @@ class DestroyProjectIssue extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'nullable|integer|exists:projects,id',
-            'project_issue_id' => 'nullable|integer|exists:project_issues,id',
+            'project_label_id' => 'nullable|integer|exists:project_labels,id',
+            'name' => 'required|string|max:255',
         ];
     }
 
     /**
-     * Delete the project issue.
+     * Update the project label.
      *
      * @param array $data
+     * @return ProjectLabel
      */
-    public function execute(array $data): void
+    public function execute(array $data): ProjectLabel
     {
         $this->data = $data;
         $this->validate();
-        $this->destroy();
+        $this->verifyLabelUniqueness();
+        $this->update();
         $this->logActivity();
         $this->log();
+
+        return $this->projectLabel;
     }
 
     private function validate(): void
@@ -56,13 +62,26 @@ class DestroyProjectIssue extends BaseService
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
 
-        $this->projectIssue = ProjectIssue::where('project_id', $this->project->id)
-            ->findOrFail($this->data['project_issue_id']);
+        $this->projectLabel = ProjectLabel::where('project_id', $this->project->id)
+            ->findOrFail($this->data['project_label_id']);
     }
 
-    private function destroy(): void
+    private function verifyLabelUniqueness(): void
     {
-        $this->projectIssue->delete();
+        $alreadyExists = ProjectLabel::where('project_id', $this->data['project_id'])
+            ->where('name', $this->data['name'])
+            ->where('id', '!=', $this->projectLabel->id)
+            ->exists();
+
+        if ($alreadyExists) {
+            throw new LabelAlreadyExistException();
+        }
+    }
+
+    private function update(): void
+    {
+        $this->projectLabel->name = $this->data['name'];
+        $this->projectLabel->save();
     }
 
     private function logActivity(): void
@@ -77,14 +96,14 @@ class DestroyProjectIssue extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_issue_destroyed',
+            'action' => 'project_label_updated',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'project_id' => $this->project->id,
                 'project_name' => $this->project->name,
-                'project_issue_title' => $this->projectIssue->title,
+                'name' => $this->projectLabel->name,
             ]),
         ])->onQueue('low');
     }
