@@ -12,9 +12,7 @@ use App\Models\Company\Employee;
 class AddEmployeeToProject extends BaseService
 {
     private array $data;
-
     private Employee $employee;
-
     private Project $project;
 
     /**
