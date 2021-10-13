@@ -26,8 +26,8 @@ class UpdateProjectLabel extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'project_id' => 'nullable|integer|exists:projects,id',
-            'project_label_id' => 'nullable|integer|exists:project_labels,id',
+            'project_id' => 'required|integer|exists:projects,id',
+            'project_label_id' => 'required|integer|exists:project_labels,id',
             'name' => 'required|string|max:255',
         ];
     }

@@ -6,14 +6,16 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
-use App\Models\Company\ProjectLabel;
+use App\Models\Company\IssueType;
+use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectMemberActivity;
 
-class DestroyProjectLabel extends BaseService
+class UpdateTypeOfProjectIssue extends BaseService
 {
     protected array $data;
     protected Project $project;
-    protected ProjectLabel $projectLabel;
+    protected ProjectIssue $projectIssue;
+    protected IssueType $issueType;
 
     /**
      * Get the validation rules that apply to the service.
@@ -26,12 +28,13 @@ class DestroyProjectLabel extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'required|integer|exists:projects,id',
-            'project_label_id' => 'required|integer|exists:project_labels,id',
+            'project_issue_id' => 'required|integer|exists:project_issues,id',
+            'issue_type_id' => 'required|integer|exists:issue_types,id',
         ];
     }
 
     /**
-     * Destroy the project label.
+     * Update the issue type of the project issue.
      *
      * @param array $data
      */
@@ -39,7 +42,7 @@ class DestroyProjectLabel extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->destroy();
+        $this->update();
         $this->logActivity();
         $this->log();
     }
@@ -56,13 +59,17 @@ class DestroyProjectLabel extends BaseService
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
 
-        $this->projectLabel = ProjectLabel::where('project_id', $this->project->id)
-            ->findOrFail($this->data['project_label_id']);
+        $this->projectIssue = ProjectIssue::where('project_id', $this->project->id)
+            ->findOrFail($this->data['project_issue_id']);
+
+        $this->issueType = IssueType::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['issue_type_id']);
     }
 
-    private function destroy(): void
+    private function update(): void
     {
-        $this->projectLabel->delete();
+        $this->projectIssue->issue_type_id = $this->issueType->id;
+        $this->projectIssue->save();
     }
 
     private function logActivity(): void
@@ -77,14 +84,15 @@ class DestroyProjectLabel extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_label_destroyed',
+            'action' => 'project_issue_type_updated',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'project_id' => $this->project->id,
                 'project_name' => $this->project->name,
-                'name' => $this->projectLabel->name,
+                'name' => $this->projectIssue->name,
+                'issue_type_name' => $this->issueType->name,
             ]),
         ])->onQueue('low');
     }
