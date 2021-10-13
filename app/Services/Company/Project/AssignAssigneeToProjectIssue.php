@@ -91,7 +91,7 @@ class AssignAssigneeToProjectIssue extends BaseService
                 'project_id' => $this->project->id,
                 'project_name' => $this->project->name,
                 'employee_name' => $this->employee->name,
-                'issue_name' => $this->projectIssue->name,
+                'issue_title' => $this->projectIssue->title,
             ]),
         ])->onQueue('low');
     }
