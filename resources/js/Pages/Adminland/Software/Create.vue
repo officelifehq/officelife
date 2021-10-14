@@ -182,10 +182,7 @@ input[type=radio] {
             </div>
             <div v-else class="cf pa3 bb bb-gray pb4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                <strong>{{ $t('account.software_new_purchased_date') }}</strong>
-                <p class="f7 silver lh-copy pr3-ns">
-                  {{ $t('employee.edit_information_timezone_help') }}
-                </p>
+                <strong>{{ $t('account.software_new_purchase_date') }}</strong>
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
                 <div class="dt-ns dt--fixed di">

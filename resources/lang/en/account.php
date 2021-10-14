@@ -742,6 +742,7 @@ return [
     'software_show_stat' => '{localUsedSeats}/{seats} seats used',
     'software_delete' => 'The software has been deleted.',
     'software_edit_title' => 'Edit software',
+    'software_edit_success' => 'The software has been edited.',
     'billing_show_blank' => 'After one month of activity in your account, you will find here your invoices.',
     'billing_show_title' => 'Invoice details for {date}',
     'billing_show_description' => 'In {month}, the day with the most active employees in the company was {max_employees}, with {number_active_employees} employees. This is what we will use to bill your account.',
