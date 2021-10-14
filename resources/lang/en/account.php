@@ -387,6 +387,8 @@ return [
     'log_project_issue_type_updated' => 'Updated the issue type of the issue called :issue_title in the project called :project_name.',
     'log_project_issue_assigned_to_assignee' => 'Added :employee_name as the assignee of the issue called :issue_title in the project called :project_name.',
     'log_project_issue_unassigned_to_assignee' => 'Removed :employee_name as an assignee of the issue called :issue_title in the project called :project_name.',
+    'log_project_issue_parent_set' => 'Assigned the issue called :parent_issue_title as the parent of the issue called :issue_title in the project called :project_name.',
+    'log_project_issue_parent_removed' => 'Removed the issue called :parent_issue_title as the parent of the issue called :issue_title in the project called :project_name.',
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',

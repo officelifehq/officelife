@@ -70,4 +70,24 @@ class ProjectIssueTest extends TestCase
 
         $this->assertTrue($issue->assignees()->exists());
     }
+
+    /** @test */
+    public function it_has_many_children(): void
+    {
+        $parent = ProjectIssue::factory()->create();
+        $child = ProjectIssue::factory()->create();
+        $parent->children()->sync([$child->id]);
+
+        $this->assertTrue($parent->children()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_parents(): void
+    {
+        $parent = ProjectIssue::factory()->create();
+        $child = ProjectIssue::factory()->create();
+        $child->parents()->sync([$parent->id]);
+
+        $this->assertTrue($child->parents()->exists());
+    }
 }
