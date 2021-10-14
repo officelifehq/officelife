@@ -1760,6 +1760,24 @@ class LogHelper
                 ]);
                 break;
 
+            case 'project_issue_parent_set':
+                $sentence = trans('account.log_project_issue_parent_set', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'parent_issue_title' => $log->object->{'parent_issue_title'},
+                    'issue_title' => $log->object->{'issue_title'},
+                ]);
+                break;
+
+            case 'project_issue_parent_removed':
+                $sentence = trans('account.log_project_issue_parent_removed', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'parent_issue_title' => $log->object->{'parent_issue_title'},
+                    'issue_title' => $log->object->{'issue_title'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;

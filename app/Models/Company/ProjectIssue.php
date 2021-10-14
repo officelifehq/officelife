@@ -99,4 +99,24 @@ class ProjectIssue extends Model
     {
         return $this->belongsToMany(Employee::class, 'project_issue_assignees', 'project_issue_id', 'employee_id');
     }
+
+    /**
+     * Get the parent project issues associated with the project issue.
+     *
+     * @return belongsToMany
+     */
+    public function parents()
+    {
+        return $this->belongsToMany(ProjectIssue::class, 'project_issue_parents', 'child_project_issue_id', 'parent_project_issue_id');
+    }
+
+    /**
+     * Get the child project issues associated with the project issue.
+     *
+     * @return belongsToMany
+     */
+    public function children()
+    {
+        return $this->belongsToMany(ProjectIssue::class, 'project_issue_parents', 'parent_project_issue_id', 'child_project_issue_id');
+    }
 }
