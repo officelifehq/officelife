@@ -81,7 +81,7 @@
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   🎲
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/project_management_cta'">
+                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/project'">
                   {{ $t('account.home_manage_project') }}
                 </inertia-link>
               </div>
