@@ -1746,8 +1746,8 @@ class LogHelper
                 $sentence = trans('account.log_project_issue_story_point_updated', [
                     'project_id' => $log->object->{'project_id'},
                     'project_name' => $log->object->{'project_name'},
-                    'name' => $log->object->{'name'},
-                    'issue_type_name' => $log->object->{'issue_type_name'},
+                    'project_issue_title' => $log->object->{'project_issue_title'},
+                    'project_issue_id' => $log->object->{'project_issue_id'},
                 ]);
                 break;
 
