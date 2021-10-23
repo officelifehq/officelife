@@ -37,6 +37,7 @@ class CreateProjectIssue extends BaseService
             'issue_type_id' => 'required|integer|exists:issue_types,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:16777215',
+            'points' => 'nullable|integer|max:100',
         ];
     }
 
@@ -103,6 +104,7 @@ class CreateProjectIssue extends BaseService
             'title' => $this->data['title'],
             'slug' => Str::of($this->data['title'])->slug('-'),
             'description' => $this->valueOrNull($this->data, 'description'),
+            'story_points' => $this->valueOrNull($this->data, 'points'),
         ]);
     }
 

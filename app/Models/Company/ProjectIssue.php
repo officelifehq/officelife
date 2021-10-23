@@ -28,6 +28,7 @@ class ProjectIssue extends Model
         'slug',
         'title',
         'description',
+        'story_points',
     ];
 
     /**
