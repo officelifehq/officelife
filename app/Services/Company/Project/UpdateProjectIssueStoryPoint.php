@@ -65,7 +65,7 @@ class UpdateProjectIssueStoryPoint extends BaseService
 
     private function update(): void
     {
-        $this->projectIssue->story_points = $this->valueOrNull($this->data, 'story_points');
+        $this->projectIssue->story_points = $this->valueOrNull($this->data, 'points');
         $this->projectIssue->save();
     }
 
@@ -74,7 +74,7 @@ class UpdateProjectIssueStoryPoint extends BaseService
         DB::table('project_issue_story_points_history')->insert([
             'project_issue_id' => $this->projectIssue->id,
             'employee_id' => $this->author->id,
-            'story_points' => $this->valueOrNull($this->data, 'story_points'),
+            'story_points' => $this->valueOrNull($this->data, 'points'),
         ]);
     }
 
@@ -90,7 +90,7 @@ class UpdateProjectIssueStoryPoint extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_issue_updated',
+            'action' => 'project_issue_story_point_updated',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),

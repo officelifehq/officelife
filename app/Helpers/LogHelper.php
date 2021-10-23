@@ -1742,6 +1742,15 @@ class LogHelper
                 ]);
                 break;
 
+            case 'project_issue_story_point_updated':
+                $sentence = trans('account.log_project_issue_story_point_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'name' => $log->object->{'name'},
+                    'issue_type_name' => $log->object->{'issue_type_name'},
+                ]);
+                break;
+
             case 'project_issue_assigned_to_assignee':
                 $sentence = trans('account.log_project_issue_assigned_to_assignee', [
                     'project_id' => $log->object->{'project_id'},

@@ -13,7 +13,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Project\UpdateProjectIssueStoryPoint;
 
-class cTest extends TestCase
+class UpdateProjectIssueStoryPointTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -112,12 +112,10 @@ class cTest extends TestCase
         $this->assertDatabaseHas('project_issues', [
             'id' => $issue->id,
             'project_id' => $project->id,
-            'title' => 'Update issue',
-            'slug' => 'update-issue',
             'story_points' => 1,
         ]);
 
-        $this->assertDatabaseHas('project_member_activities', [
+        $this->assertDatabaseHas('project_issue_story_points_history', [
             'project_issue_id' => $issue->id,
             'employee_id' => $michael->id,
             'story_points' => 1,
@@ -129,7 +127,7 @@ class cTest extends TestCase
         ]);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project, $issue) {
-            return $job->auditLog['action'] === 'project_issue_updated' &&
+            return $job->auditLog['action'] === 'project_issue_story_point_updated' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'project_id' => $project->id,
