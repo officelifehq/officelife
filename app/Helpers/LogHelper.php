@@ -1787,6 +1787,33 @@ class LogHelper
                 ]);
                 break;
 
+            case 'project_issue_comment_created':
+                $sentence = trans('account.log_project_issue_comment_created', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'project_issue_id' => $log->object->{'project_issue_id'},
+                    'project_issue_title' => $log->object->{'project_issue_title'},
+                ]);
+                break;
+
+            case 'project_issue_comment_updated':
+                $sentence = trans('account.log_project_issue_comment_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'project_issue_id' => $log->object->{'project_issue_id'},
+                    'project_issue_title' => $log->object->{'project_issue_title'},
+                ]);
+                break;
+
+            case 'project_issue_comment_destroyed':
+                $sentence = trans('account.log_project_issue_comment_destroyed', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'project_issue_id' => $log->object->{'project_issue_id'},
+                    'project_issue_title' => $log->object->{'project_issue_title'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;

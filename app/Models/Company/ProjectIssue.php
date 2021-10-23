@@ -120,4 +120,14 @@ class ProjectIssue extends Model
     {
         return $this->belongsToMany(ProjectIssue::class, 'project_issue_parents', 'parent_project_issue_id', 'child_project_issue_id');
     }
+
+    /**
+     * Get all of the comments associated with the project issue.
+     *
+     * @return MorphMany
+     */
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }
