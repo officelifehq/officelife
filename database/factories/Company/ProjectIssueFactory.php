@@ -35,6 +35,7 @@ class ProjectIssueFactory extends Factory
             'key' => $this->faker->name,
             'title' => $this->faker->name,
             'description' => $this->faker->name,
+            'story_points' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

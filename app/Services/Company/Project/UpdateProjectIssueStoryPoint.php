@@ -3,14 +3,14 @@
 namespace App\Services\Company\Project;
 
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
+use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectMemberActivity;
 
-class UpdateProjectIssue extends BaseService
+class UpdateProjectIssueStoryPoint extends BaseService
 {
     protected array $data;
     protected Project $project;
@@ -28,27 +28,23 @@ class UpdateProjectIssue extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'nullable|integer|exists:projects,id',
             'project_issue_id' => 'nullable|integer|exists:project_issues,id',
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:16777215',
             'points' => 'nullable|integer|max:100',
         ];
     }
 
     /**
-     * Update the project issue.
+     * Update the story point of the given project issue.
      *
      * @param array $data
-     * @return ProjectIssue
      */
-    public function execute(array $data): ProjectIssue
+    public function execute(array $data): void
     {
         $this->data = $data;
         $this->validate();
         $this->update();
+        $this->recordHistory();
         $this->logActivity();
         $this->log();
-
-        return $this->projectIssue;
     }
 
     private function validate(): void
@@ -69,11 +65,17 @@ class UpdateProjectIssue extends BaseService
 
     private function update(): void
     {
-        $this->projectIssue->title = $this->data['title'];
-        $this->projectIssue->slug = Str::of($this->data['title'])->slug('-');
-        $this->projectIssue->description = $this->valueOrNull($this->data, 'description');
-        $this->projectIssue->story_points = $this->valueOrNull($this->data, 'story_points');
+        $this->projectIssue->story_points = $this->valueOrNull($this->data, 'points');
         $this->projectIssue->save();
+    }
+
+    private function recordHistory(): void
+    {
+        DB::table('project_issue_story_points_history')->insert([
+            'project_issue_id' => $this->projectIssue->id,
+            'employee_id' => $this->author->id,
+            'story_points' => $this->valueOrNull($this->data, 'points'),
+        ]);
     }
 
     private function logActivity(): void
@@ -88,7 +90,7 @@ class UpdateProjectIssue extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_issue_updated',
+            'action' => 'project_issue_story_point_updated',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),

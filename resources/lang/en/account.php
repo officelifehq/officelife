@@ -385,6 +385,7 @@ return [
     'log_project_label_assigned_to_issue' => 'Assigned the label called :label_name to the issue called :issue_title in the project called :project_name.',
     'log_project_label_removed_from_issue' => 'Removed the label called :label_name from the issue called :issue_title in the project called :project_name.',
     'log_project_issue_type_updated' => 'Updated the issue type of the issue called :issue_title in the project called :project_name.',
+    'log_project_issue_story_point_updated' => 'Updated the story points of the issue called :issue_title in the project called :project_name.',
     'log_project_issue_assigned_to_assignee' => 'Added :employee_name as the assignee of the issue called :issue_title in the project called :project_name.',
     'log_project_issue_unassigned_to_assignee' => 'Removed :employee_name as an assignee of the issue called :issue_title in the project called :project_name.',
     'log_project_issue_parent_set' => 'Assigned the issue called :parent_issue_title as the parent of the issue called :issue_title in the project called :project_name.',
