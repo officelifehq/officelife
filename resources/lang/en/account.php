@@ -393,6 +393,7 @@ return [
     'log_project_issue_comment_created' => 'Created a comment on the issue called :project_issue_title in the project called :project_name.',
     'log_project_issue_comment_updated' => 'Updated a comment on the issue called :project_issue_title in the project called :project_name.',
     'log_project_issue_comment_destroyed' => 'Deleted a comment on the issue called :project_issue_title in the project called :project_name.',
+    'log_project_issue_duplicated' => 'Duplicated an issue issue called :project_issue_title in the project called :project_name.',
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_employee_locked' => 'Locked this employee entry.',

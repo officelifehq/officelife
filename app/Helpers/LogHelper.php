@@ -1814,6 +1814,15 @@ class LogHelper
                 ]);
                 break;
 
+            case 'project_issue_duplicated':
+                $sentence = trans('account.log_project_issue_duplicated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'project_issue_id' => $log->object->{'project_issue_id'},
+                    'project_issue_title' => $log->object->{'project_issue_title'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
