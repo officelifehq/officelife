@@ -25,6 +25,7 @@ class ProjectSprint extends Model
         'active',
         'started_at',
         'completed_at',
+        'is_board_backlog',
     ];
 
     /**
@@ -34,6 +35,7 @@ class ProjectSprint extends Model
      */
     protected $casts = [
         'active' => 'boolean',
+        'is_board_backlog' => 'boolean',
     ];
 
     /**

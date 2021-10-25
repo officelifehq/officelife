@@ -14,22 +14,17 @@ class CreateSprintStoryOrderTable extends Migration
         // necessary for SQLlite
         Schema::enableForeignKeyConstraints();
 
-        Schema::create('project_issues', function (Blueprint $table) {
+        Schema::table('project_sprints', function (Blueprint $table) {
+            $table->boolean('is_board_backlog')->default(false);
+        });
+
+        Schema::create('project_sprint_issue_order', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('project_id');
-            $table->unsignedBigInteger('project_board_id')->nullable();
-            $table->unsignedBigInteger('reporter_id')->nullable();
-            $table->unsignedBigInteger('issue_type_id')->nullable();
-            $table->integer('id_in_project');
-            $table->string('key');
-            $table->string('title');
-            $table->string('slug');
-            $table->mediumText('description')->nullable();
-            $table->timestamps();
-            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->foreign('reporter_id')->references('id')->on('employees')->onDelete('set null');
-            $table->foreign('issue_type_id')->references('id')->on('issue_types')->onDelete('set null');
-            $table->foreign('project_board_id')->references('id')->on('project_boards')->onDelete('set null');
+            $table->unsignedBigInteger('project_sprint_id')->nullable();
+            $table->unsignedBigInteger('project_issue_id')->nullable();
+            $table->integer('order');
+            $table->foreign('project_sprint_id')->references('id')->on('project_sprints')->onDelete('cascade');
+            $table->foreign('project_issue_id')->references('id')->on('project_issues')->onDelete('cascade');
         });
     }
 
@@ -38,6 +33,6 @@ class CreateSprintStoryOrderTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sprint_story_order');
+        Schema::dropIfExists('project_sprint_issue_order');
     }
 }

@@ -41,6 +41,7 @@ class CreateProjectBoard extends BaseService
         $this->data = $data;
         $this->validate();
         $this->createBoard();
+        $this->createBacklog();
         $this->logActivity();
         $this->log();
 
@@ -67,6 +68,19 @@ class CreateProjectBoard extends BaseService
             'author_id' => $this->data['author_id'],
             'name' => $this->data['name'],
         ]);
+    }
+
+    private function createBacklog(): void
+    {
+        $sprint = (new CreateProjectSprint)->execute([
+            'company_id' => $this->data['company_id'],
+            'author_id' => $this->data['author_id'],
+            'project_id' => $this->data['project_id'],
+            'project_board_id' => $this->projectBoard->id,
+            'name' => 'Backlog',
+        ]);
+        $sprint->is_board_backlog = true;
+        $sprint->save();
     }
 
     private function logActivity(): void

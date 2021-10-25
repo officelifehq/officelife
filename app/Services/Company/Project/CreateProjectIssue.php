@@ -8,8 +8,10 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\IssueType;
+use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectIssue;
+use App\Models\Company\ProjectSprint;
 use App\Models\Company\ProjectMemberActivity;
 
 class CreateProjectIssue extends BaseService
@@ -17,6 +19,7 @@ class CreateProjectIssue extends BaseService
     protected array $data;
     protected ProjectIssue $projectIssue;
     protected ProjectBoard $projectBoard;
+    protected ProjectSprint $projectSprint;
     protected IssueType $issueType;
     protected Project $project;
     protected ?int $newIdInProject;
@@ -34,6 +37,7 @@ class CreateProjectIssue extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'required|integer|exists:projects,id',
             'project_board_id' => 'required|integer|exists:project_boards,id',
+            'project_sprint_id' => 'required|integer|exists:project_sprints,id',
             'issue_type_id' => 'required|integer|exists:issue_types,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:16777215',
@@ -53,6 +57,7 @@ class CreateProjectIssue extends BaseService
         $this->validate();
         $this->generateIssueKey();
         $this->createIssue();
+        $this->setIssuePositionInSprint();
         $this->logActivity();
         $this->log();
 
@@ -76,6 +81,9 @@ class CreateProjectIssue extends BaseService
 
         $this->projectBoard = ProjectBoard::where('project_id', $this->data['project_id'])
             ->findOrFail($this->data['project_board_id']);
+
+        $this->projectSprint = ProjectSprint::where('project_id', $this->data['project_id'])
+            ->findOrFail($this->data['project_sprint_id']);
     }
 
     private function generateIssueKey(): void
@@ -105,6 +113,25 @@ class CreateProjectIssue extends BaseService
             'slug' => Str::of($this->data['title'])->slug('-'),
             'description' => $this->valueOrNull($this->data, 'description'),
             'story_points' => $this->valueOrNull($this->data, 'points'),
+        ]);
+
+        $this->projectIssue->sprints()->syncWithoutDetaching([$this->projectSprint->id]);
+    }
+
+    /**
+     * An issue has a position in the sprint (backlog or "real" sprint).
+     * Position 0 is the highest position in the sprint.
+     */
+    private function setIssuePositionInSprint(): void
+    {
+        $currentMaxPosition = DB::table('project_sprint_issue_order')
+            ->where('project_sprint_id', $this->projectSprint->id)
+            ->max('order');
+
+        DB::table('project_sprint_issue_order')->insert([
+            'project_sprint_id' => $this->projectSprint->id,
+            'project_issue_id' => $this->projectIssue->id,
+            'order' => $currentMaxPosition + 1,
         ]);
     }
 
