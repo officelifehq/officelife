@@ -27,6 +27,7 @@ class ProjectSprintFactory extends Factory
             'project_id' => Project::factory(),
             'project_board_id' => ProjectBoard::factory(),
             'name' => $this->faker->name,
+            'is_board_backlog' => false,
         ];
     }
 }

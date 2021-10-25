@@ -97,6 +97,12 @@ class CreateProjectBoardTest extends TestCase
             $projectBoard
         );
 
+        $this->assertDatabaseHas('project_sprints', [
+            'project_id' => $project->id,
+            'project_board_id' => $projectBoard->id,
+            'is_board_backlog' => true,
+        ]);
+
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project, $projectBoard) {
             return $job->auditLog['action'] === 'project_board_created' &&
                 $job->auditLog['author_id'] === $michael->id &&

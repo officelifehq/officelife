@@ -31,4 +31,22 @@ class ProjectBoard extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    /**
+     * Get the project sprint records associated with the project board.
+     */
+    public function sprints()
+    {
+        return $this->hasMany(ProjectSprint::class)->where('is_board_backlog', false);
+    }
+
+    /**
+     * Get the project sprint record associated with the project board.
+     * A backlog is basically the project sprint that was designed as the
+     * backlog of the board.
+     */
+    public function backlog()
+    {
+        return $this->hasOne(ProjectSprint::class)->where('is_board_backlog', true);
+    }
 }

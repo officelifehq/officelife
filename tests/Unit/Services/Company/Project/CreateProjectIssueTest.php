@@ -9,6 +9,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\IssueType;
 use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectIssue;
+use App\Models\Company\ProjectSprint;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Project\CreateProjectIssue;
@@ -33,7 +34,10 @@ class CreateProjectIssueTest extends TestCase
         $projectBoard = ProjectBoard::factory()->create([
             'project_id' => $project->id,
         ]);
-        $this->executeService($michael, $project, $issueType, $projectBoard);
+        $sprint = ProjectSprint::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $this->executeService($michael, $project, $issueType, $projectBoard, $sprint);
     }
 
     /** @test */
@@ -50,7 +54,10 @@ class CreateProjectIssueTest extends TestCase
         $projectBoard = ProjectBoard::factory()->create([
             'project_id' => $project->id,
         ]);
-        $this->executeService($michael, $project, $issueType, $projectBoard);
+        $sprint = ProjectSprint::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $this->executeService($michael, $project, $issueType, $projectBoard, $sprint);
     }
 
     /** @test */
@@ -67,7 +74,10 @@ class CreateProjectIssueTest extends TestCase
         $projectBoard = ProjectBoard::factory()->create([
             'project_id' => $project->id,
         ]);
-        $this->executeService($michael, $project, $issueType, $projectBoard);
+        $sprint = ProjectSprint::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $this->executeService($michael, $project, $issueType, $projectBoard, $sprint);
     }
 
     /** @test */
@@ -92,9 +102,12 @@ class CreateProjectIssueTest extends TestCase
         $projectBoard = ProjectBoard::factory()->create([
             'project_id' => $project->id,
         ]);
+        $sprint = ProjectSprint::factory()->create([
+            'project_id' => $project->id,
+        ]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $project, $issueType, $projectBoard);
+        $this->executeService($michael, $project, $issueType, $projectBoard, $sprint);
     }
 
     /** @test */
@@ -109,9 +122,12 @@ class CreateProjectIssueTest extends TestCase
         $projectBoard = ProjectBoard::factory()->create([
             'project_id' => $project->id,
         ]);
+        $sprint = ProjectSprint::factory()->create([
+            'project_id' => $project->id,
+        ]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $project, $issueType, $projectBoard);
+        $this->executeService($michael, $project, $issueType, $projectBoard, $sprint);
     }
 
     /** @test */
@@ -126,12 +142,33 @@ class CreateProjectIssueTest extends TestCase
             'company_id' => $michael->company_id,
         ]);
         $projectBoard = ProjectBoard::factory()->create();
+        $sprint = ProjectSprint::factory()->create();
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $project, $issueType, $projectBoard);
+        $this->executeService($michael, $project, $issueType, $projectBoard, $sprint);
     }
 
-    private function executeService(Employee $michael, Project $project, IssueType $issueType, ProjectBoard $board): void
+    /** @test */
+    public function it_fails_if_the_sprint_is_not_in_the_project(): void
+    {
+        $michael = $this->createEmployee();
+        $project = Project::factory()->create([
+            'short_code' => 'off',
+            'company_id' => $michael->company_id,
+        ]);
+        $issueType = IssueType::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $projectBoard = ProjectBoard::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $sprint = ProjectSprint::factory()->create();
+
+        $this->expectException(ModelNotFoundException::class);
+        $this->executeService($michael, $project, $issueType, $projectBoard, $sprint);
+    }
+
+    private function executeService(Employee $michael, Project $project, IssueType $issueType, ProjectBoard $board, ProjectSprint $sprint): void
     {
         Queue::fake();
 
@@ -141,6 +178,7 @@ class CreateProjectIssueTest extends TestCase
             'project_board_id' => $board->id,
             'project_id' => $project->id,
             'issue_type_id' => $issueType->id,
+            'project_sprint_id' => $sprint->id,
             'title' => 'issue name',
             'description' => 'this is a description',
         ];
@@ -158,6 +196,17 @@ class CreateProjectIssueTest extends TestCase
             'slug' => 'issue-name',
             'title' => 'issue name',
             'description' => 'this is a description',
+        ]);
+
+        $this->assertDatabaseHas('project_issue_project_sprint', [
+            'project_issue_id' => $projectIssue->id,
+            'project_sprint_id' => $sprint->id,
+        ]);
+
+        $this->assertDatabaseHas('project_sprint_issue_order', [
+            'project_sprint_id' => $sprint->id,
+            'project_issue_id' => $projectIssue->id,
+            'order' => 1,
         ]);
 
         $this->assertDatabaseHas('project_member_activities', [
