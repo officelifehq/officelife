@@ -3,8 +3,6 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasOne;
-use Illuminate\Database\Eloquent\Factories\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -36,8 +34,6 @@ class ProjectBoard extends Model
 
     /**
      * Get the project sprint records associated with the project board.
-     *
-     * @return HasMany
      */
     public function sprints()
     {
@@ -48,8 +44,6 @@ class ProjectBoard extends Model
      * Get the project sprint record associated with the project board.
      * A backlog is basically the project sprint that was designed as the
      * backlog of the board.
-     *
-     * @return HasOne
      */
     public function backlog()
     {
