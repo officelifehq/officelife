@@ -64,7 +64,7 @@
         "@sentry/integrations": "^6.2.5",
         "@sentry/tracing": "^6.2.5",
         "@vue/compiler-sfc": "3.0.11",
-        "axios": "^0.20",
+        "axios": "^0.21",
         "lodash": "^4.17.20",
         "sass": "^1.27.0",
         "tachyons": "^4.12.0",
