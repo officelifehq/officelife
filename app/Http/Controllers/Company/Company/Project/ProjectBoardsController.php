@@ -82,4 +82,35 @@ class ProjectBoardsController extends Controller
             ],
         ], 201);
     }
+
+    /**
+     * Display the board summary.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @param int $boardId
+     *
+     * @return \Illuminate\Http\RedirectResponse|Response
+     */
+    public function show(Request $request, int $companyId, int $projectId, int $boardId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        try {
+            $project = Project::where('company_id', $loggedCompany->id)
+                ->with('boards')
+                ->findOrFail($projectId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        return Inertia::render('Company/Project/Boards/Index', [
+            'tab' => 'boards',
+            'project' => ProjectViewHelper::info($project),
+            'data' => ProjectBoardsViewHelper::index($project),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
+        ]);
+    }
 }

@@ -351,9 +351,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 // boards
                 Route::get('{project}/boards', 'Company\\Company\\Project\\ProjectBoardsController@index')->name('projects.boards.index');
                 Route::post('{project}/boards', 'Company\\Company\\Project\\ProjectBoardsController@store')->name('projects.boards.store');
-                Route::get('{project}/boards/{board}', 'Company\\Company\\Project\\ProjectBoardsController@show')->name('projects.boards.show');
-                Route::put('{project}/boards/{board}', 'Company\\Company\\Project\\ProjectBoardsController@update')->name('projects.boards.update');
-                Route::delete('{project}/boards/{board}', 'Company\\Company\\Project\\ProjectBoardsController@destroy')->name('projects.boards.destroy');
+
+                Route::middleware(['accountant'])->prefix('boards')->group(function () {
+                    Route::get('{board}', 'Company\\Company\\Project\\ProjectBoardsController@show')->name('projects.boards.show');
+                    Route::put('{board}', 'Company\\Company\\Project\\ProjectBoardsController@update')->name('projects.boards.update');
+                    Route::delete('{board}', 'Company\\Company\\Project\\ProjectBoardsController@destroy')->name('projects.boards.destroy');
+                    Route::get('{board}/backlog', 'Company\\Company\\Project\\ProjectBoardsBacklogController@show')->name('projects.boards.show.backlog');
+                });
             });
 
             // Groups
