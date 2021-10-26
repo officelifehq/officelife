@@ -32,7 +32,5 @@ class CheckProject
         } catch (ModelNotFoundException $e) {
             abort(401);
         }
-
-        abort(401);
     }
 }
