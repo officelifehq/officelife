@@ -3,9 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
+use App\Models\Company\ProjectBoard;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CheckBoard
@@ -20,26 +18,18 @@ class CheckBoard
      */
     public function handle($request, Closure $next)
     {
-        $requestedCompanyId = $request->route()->parameter('company');
+        $requestedProjectId = $request->route()->parameter('project');
+        $requestedBoardId = $request->route()->parameter('board');
 
         try {
-            $employee = Employee::where('user_id', Auth::user()->id)
-                ->where('company_id', $requestedCompanyId)
-                ->firstOrFail();
+            $board = ProjectBoard::where('project_id', $requestedProjectId)
+                ->findOrFail($requestedBoardId);
 
-            if ($employee->locked) {
-                abort(401);
-            }
+            $request->attributes->add(['board' => $board]);
 
-            $cachedCompanyObject = 'cachedCompanyObject_' . Auth::user()->id;
-            $cachedEmployeeObject = 'cachedEmployeeObject_' . Auth::user()->id;
-
-            Cache::put($cachedCompanyObject, $employee->company, now()->addMinutes(60));
-            Cache::put($cachedEmployeeObject, $employee, now()->addMinutes(60));
+            return $next($request);
         } catch (ModelNotFoundException $e) {
             abort(401);
         }
-
-        return $next($request);
     }
 }

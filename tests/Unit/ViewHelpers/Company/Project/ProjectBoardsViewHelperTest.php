@@ -43,4 +43,31 @@ class ProjectBoardsViewHelperTest extends TestCase
             $array['url']
         );
     }
+
+    /** @test */
+    public function it_gets_the_details_of_the_board(): void
+    {
+        $michael = $this->createAdministrator();
+        $project = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $board = ProjectBoard::factory()->create([
+            'project_id' => $project->id,
+        ]);
+
+        $array = ProjectBoardsViewHelper::show($project, $board);
+
+        $this->assertEquals(
+            [
+                'id' => $board->id,
+                'name' => $board->name,
+            ],
+            $array['data']
+        );
+
+        $this->assertEquals(
+            [],
+            $array['url']
+        );
+    }
 }

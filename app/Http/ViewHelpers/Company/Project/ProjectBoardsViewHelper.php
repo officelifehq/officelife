@@ -3,6 +3,7 @@
 namespace App\Http\ViewHelpers\Company\Project;
 
 use App\Models\Company\Project;
+use App\Models\Company\ProjectBoard;
 
 class ProjectBoardsViewHelper
 {
@@ -40,6 +41,28 @@ class ProjectBoardsViewHelper
                     'project' => $project,
                 ]),
             ],
+        ];
+    }
+
+    /**
+     * Information needed for the Show board view.
+     *
+     * @param Project $project
+     * @param ProjectBoard $projectBoard
+     * @return array
+     */
+    public static function show(Project $project, ProjectBoard $projectBoard): array
+    {
+        $company = $project->company;
+
+        $boardInformation = [
+            'id' => $projectBoard->id,
+            'name' => $projectBoard->name,
+        ];
+
+        return [
+            'data' => $boardInformation,
+            'url' => [],
         ];
     }
 }

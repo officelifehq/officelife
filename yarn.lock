@@ -3256,6 +3256,11 @@ domutils@^2.0.0, domutils@^2.6.0:
     domelementtype "^2.2.0"
     domhandler "^4.2.0"
 
+donutty@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/donutty/-/donutty-2.3.0.tgz#fb9addd29dc8d137587101aac1603e66b986c890"
+  integrity sha512-8YGyfpPz4py0haQ+V10M95t6D3n+QwarAEMx06nQ81F01KNAeanpmlULibReDhsTTyP0gThX4i7Dgzrtlo5qpw==
+
 dot-case@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/dot-case/-/dot-case-3.0.4.tgz#9b2b670d00a431667a8a75ba29cd1b98809ce751"
