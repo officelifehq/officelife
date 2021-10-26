@@ -16,7 +16,6 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Project\CreateProjectDecision;
 use App\Services\Company\Project\DestroyProjectDecision;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
 use App\Http\ViewHelpers\Company\Project\ProjectDecisionsViewHelper;
 
@@ -36,14 +35,8 @@ class ProjectDecisionsController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        try {
-            $project = Project::where('company_id', $company->id)
-                ->with('decisions')
-                ->with('company')
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         return Inertia::render('Company/Project/Decisions/Index', [
             'tab' => 'decisions',

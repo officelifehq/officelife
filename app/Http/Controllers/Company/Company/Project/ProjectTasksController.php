@@ -40,12 +40,8 @@ class ProjectTasksController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
 
-        try {
-            $project = Project::where('company_id', $company->id)
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         return Inertia::render('Company/Project/Tasks/Index', [
             'tab' => 'tasks',
@@ -71,12 +67,8 @@ class ProjectTasksController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        try {
-            $project = Project::where('company_id', $company->id)
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         try {
             $projectTask = ProjectTask::where('project_id', $project->id)
@@ -296,12 +288,8 @@ class ProjectTasksController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        try {
-            $project = Project::where('company_id', $company->id)
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         try {
             $projectTask = ProjectTask::where('project_id', $project->id)

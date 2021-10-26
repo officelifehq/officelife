@@ -25,7 +25,6 @@ use App\Services\Company\Project\UpdateProjectLead;
 use App\Exceptions\ProjectCodeAlreadyExistException;
 use App\Services\Company\Project\DestroyProjectLink;
 use App\Services\Company\Project\CreateProjectStatus;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Project\UpdateProjectDescription;
 use App\Services\Company\Project\UpdateProjectInformation;
 use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
@@ -66,8 +65,9 @@ class ProjectController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
-        $project = Project::where('company_id', $company->id)
-            ->findOrFail($projectId);
+
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         return Inertia::render('Company/Project/Show', [
             'project' => ProjectViewHelper::info($project),
@@ -169,7 +169,8 @@ class ProjectController extends Controller
      */
     public function edit(Request $request, int $companyId, int $projectId): Response
     {
-        $project = Project::findOrFail($projectId);
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         return Inertia::render('Company/Project/Edit', [
             'project' => ProjectViewHelper::edit($project),
@@ -263,12 +264,8 @@ class ProjectController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
 
-        try {
-            $project = Project::where('company_id', $company->id)
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         return Inertia::render('Company/Project/Delete', [
             'project' => [
@@ -292,12 +289,8 @@ class ProjectController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        try {
-            $project = Project::where('company_id', $company->id)
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         (new DestroyProject)->execute([
             'company_id' => $company->id,
@@ -324,12 +317,8 @@ class ProjectController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        try {
-            $project = Project::where('company_id', $company->id)
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         $lead = (new UpdateProjectLead)->execute([
             'company_id' => $company->id,
@@ -369,12 +358,8 @@ class ProjectController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        try {
-            $project = Project::where('company_id', $company->id)
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         $project = (new ClearProjectLead)->execute([
             'company_id' => $company->id,
@@ -540,7 +525,9 @@ class ProjectController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
-        $project = Project::findOrFail($projectId);
+
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         if (! $employee->isInProject($projectId) && $employee->permission_level > 200) {
             return redirect('home');
