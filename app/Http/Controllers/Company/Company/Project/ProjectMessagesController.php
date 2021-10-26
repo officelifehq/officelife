@@ -35,13 +35,8 @@ class ProjectMessagesController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        try {
-            $project = Project::where('company_id', $company->id)
-                ->with('employees')
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         return Inertia::render('Company/Project/Messages/Index', [
             'tab' => 'messages',
@@ -64,13 +59,8 @@ class ProjectMessagesController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
 
-        try {
-            $project = Project::where('company_id', $company->id)
-                ->with('employees')
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         return Inertia::render('Company/Project/Messages/Create', [
             'project' => ProjectViewHelper::info($project),
@@ -122,13 +112,8 @@ class ProjectMessagesController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        try {
-            $project = Project::where('company_id', $loggedCompany->id)
-                ->with('employees')
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         try {
             $message = ProjectMessage::where('project_id', $project->id)
@@ -167,13 +152,8 @@ class ProjectMessagesController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
 
-        try {
-            $project = Project::where('company_id', $company->id)
-                ->with('employees')
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         try {
             $message = ProjectMessage::where('project_id', $project->id)
