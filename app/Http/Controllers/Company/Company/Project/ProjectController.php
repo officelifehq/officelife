@@ -198,6 +198,7 @@ class ProjectController extends Controller
             'project_id' => $projectId,
             'name' => $request->input('name'),
             'code' => $request->input('code'),
+            'short_code' => $request->input('short_code'),
             'summary' => $request->input('summary'),
         ];
 

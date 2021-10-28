@@ -150,4 +150,5 @@ return [
     'board_title' => 'Boards',
     'board_cta' => 'Create a board',
     'board_cta_success' => 'The board has been created.',
+    'issue_created' => 'The issue has been created.',
 ];

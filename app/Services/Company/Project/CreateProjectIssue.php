@@ -38,7 +38,7 @@ class CreateProjectIssue extends BaseService
             'project_id' => 'required|integer|exists:projects,id',
             'project_board_id' => 'required|integer|exists:project_boards,id',
             'project_sprint_id' => 'required|integer|exists:project_sprints,id',
-            'issue_type_id' => 'required|integer|exists:issue_types,id',
+            'issue_type_id' => 'nullable|integer|exists:issue_types,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:16777215',
             'points' => 'nullable|integer|max:100',
@@ -76,8 +76,10 @@ class CreateProjectIssue extends BaseService
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
 
-        $this->issueType = IssueType::where('company_id', $this->data['company_id'])
-            ->findOrFail($this->data['issue_type_id']);
+        if ($this->valueOrNull($this->data, 'issue_type_id')) {
+            $this->issueType = IssueType::where('company_id', $this->data['company_id'])
+                ->findOrFail($this->data['issue_type_id']);
+        }
 
         $this->projectBoard = ProjectBoard::where('project_id', $this->data['project_id'])
             ->findOrFail($this->data['project_board_id']);

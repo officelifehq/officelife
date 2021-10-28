@@ -41,6 +41,16 @@ class ProjectBoard extends Model
     }
 
     /**
+     * Get the active project sprint records associated with the project board.
+     */
+    public function activeSprints()
+    {
+        return $this->hasMany(ProjectSprint::class)
+            ->where('is_board_backlog', false)
+            ->where('completed_at', null);
+    }
+
+    /**
      * Get the project sprint record associated with the project board.
      * A backlog is basically the project sprint that was designed as the
      * backlog of the board.

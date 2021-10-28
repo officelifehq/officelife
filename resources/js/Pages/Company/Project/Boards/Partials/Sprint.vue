@@ -1,0 +1,325 @@
+<style lang="scss" scoped>
+.icon-type {
+  display: inline-block;
+  top: 0;
+  border-radius: 3px;
+}
+
+.icon-metrics {
+  width: 18px;
+  top: 4px;
+}
+
+.button-metrics {
+  padding: 2px 4px;
+  border-radius: 5px;
+}
+
+.story-points {
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,'Fira Sans','Droid Sans','Helvetica Neue',sans-serif;
+  color: #5e6c84;
+  border-radius: 2em;
+  padding: 3px 5px 2px 5px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  background-color: #dfe1e6;
+  color: #172b4d;
+  height: 16px;
+  max-height: 16px;
+  min-width: 12px;
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+.issue-list {
+  div:last-child {
+    border-bottom: 0;
+  }
+
+  div:first-child:hover {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  div:last-child {
+    border-bottom: 0;
+
+    &:hover {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+  }
+}
+
+.flex-grow {
+  flex-grow: 1
+}
+
+::v-deep .modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+::v-deep .modal-content {
+  display: flex;
+  flex-direction: column;
+  box-shadow: rgb(0 0 0 / 50%) 0px 16px 70px;
+  margin: 0 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #fff;
+  width: 650px;
+}
+::v-deep .overlay {
+  background-color: rgb(193 193 193 / 50%);
+}
+::v-deep .modal-body {
+  padding: 10px 12px 12px 12px;
+
+  .board-name {
+    background-color: #f5f7f8;
+    padding: 3px 8px;
+    color: #9f9f9f;
+    border-radius: 4px;
+  }
+
+  .close-icon {
+    top: 11px;
+    right: 13px;
+
+    svg {
+      width: 15px;
+    }
+  }
+}
+
+::v-deep .modal-footer {
+  text-align: right;
+  padding: 8px 13px;
+}
+
+.dot {
+  height: 11px;
+  width: 11px;
+  top: 4px;
+  background-color: #56bb76;
+}
+</style>
+
+<template>
+  <div>
+    <!-- new issue -->
+    <vue-final-modal v-model="showModal" overlay-class="overlay" classes="modal-container" content-class="modal-content">
+      <form @submit.prevent="submit">
+        <div class="modal-body relative bb bb-gray">
+          <div class="mb3">
+            <span class="f7">
+              <span class="board-name mr1">
+                {{ board.name }}
+              </span> <span class="mr1">
+                ›
+              </span> New issue
+            </span>
+          </div>
+
+          <div class="absolute close-icon pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showModal = false">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+
+          <text-input :ref="'newIssue'"
+                      v-model="form.title"
+                      :required="true"
+                      :errors="$page.props.errors.title"
+                      :extra-class-upper-div="'mb3 flex-grow'"
+                      @esc-key-pressed="hideAddModal"
+          />
+
+          <text-area v-model="form.description"
+                     :required="false"
+                     :rows="10"
+                     :help="$t('account.company_news_new_content_help')"
+                     @esc-key-pressed="hideAddModal"
+          />
+        </div>
+        <div class="modal-footer">
+          <errors :errors="errors" />
+
+          <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
+        </div>
+      </form>
+    </vue-final-modal>
+
+    <!-- right column -->
+    <div>
+      <!-- cycle -->
+      <div class="flex justify-between items-center">
+        <h3 class="normal mt0 mb2 f5 relative">
+          <span v-if="sprint.active" class="dib dot br-100 relative mr1">
+&nbsp;
+          </span>
+          Backlog
+        </h3>
+
+        <div class="mb2">
+          <span class="mr2 relative ba bb-gray f7 button-metrics">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon-metrics relative" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
+            View metrics
+          </span>
+          <span class="story-points">
+            32
+          </span>
+        </div>
+      </div>
+      <div class="bg-white box issue-list">
+        <div v-for="issue in localIssues" :key="issue.id">
+          <div class="bb bb-gray bb-gray-hover pa3 relative flex-ns justify-between items-center">
+            <div>
+              <!-- issue type -->
+              <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
+
+              <!-- key -->
+              <span class="f7 project-key mr2 code">
+                {{ issue.key }}
+              </span>
+
+              <!-- title -->
+              <span>{{ issue.title }}</span>
+            </div>
+
+            <div>
+              <!-- date -->
+              <span class="f7 code mr2">
+                {{ issue.created_at }}
+              </span>
+
+              <!-- points -->
+              <span v-if="issue.story_points" class="story-points">
+                {{ issue.story_points }}
+              </span>
+              <span v-else class="story-points">
+                -
+              </span>
+            </div>
+          </div>
+
+          <!-- separator -->
+          <div class="bb bb-gray bb-gray-hover ph3 pv1 tc relative bg-light-gray ttu f7">
+            dsfs
+          </div>
+        </div>
+
+        <!-- new -->
+        <div class="bb bb-gray bb-gray-hover pa3 relative flex justify-between items-center">
+          <text-input :ref="'newIssueType'"
+                      v-model="form.name"
+                      :required="true"
+                      :errors="$page.props.errors.name"
+                      :extra-class-upper-div="'mb0 mr2 flex-grow'"
+                      @esc-key-pressed="modal = false"
+          />
+          <div class="">
+            <a class="btn dib-l db mb2 mb0-ns mr2-ns" @click.prevent="modal = false">
+              {{ $t('app.cancel') }}
+            </a>
+            <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.add')" />
+          </div>
+        </div>
+      </div>
+      <ul class="list pl0 mt1 mb4">
+        <li class="di mr3"><span class="f7 pointer b--dotted bb bt-0 br-0 bl-0" @click="displayAddModal">+ New issue</span></li>
+        <li class="di mr2"><span class="f7 pointer b--dotted bb bt-0 br-0 bl-0">+ New separator</span></li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script>
+import TextInput from '@/Shared/TextInput';
+import LoadingButton from '@/Shared/LoadingButton';
+import TextArea from '@/Shared/TextArea';
+import Errors from '@/Shared/Errors';
+import { $vfm, VueFinalModal } from 'vue-final-modal';
+
+export default {
+  components: {
+    LoadingButton,
+    TextInput,
+    TextArea,
+    Errors,
+    VueFinalModal
+  },
+
+  props: {
+    board: {
+      type: Object,
+      default: null,
+    },
+    sprint: {
+      type: Object,
+      default: null,
+    },
+    issueTypes: {
+      type: Object,
+      default: null,
+    },
+  },
+
+  data() {
+    return {
+      loadingState: '',
+      localIssues: [],
+      errors: null,
+      showModal: false,
+      form: {
+        title: null,
+        description: null,
+      },
+    };
+  },
+
+  mounted() {
+    this.localIssues = this.sprint.issues;
+  },
+
+  methods: {
+    displayAddModal() {
+      this.showModal = true;
+      this.form.title = '';
+      this.form.description = '';
+      this.errors = null;
+
+      this.$nextTick(() => {
+        this.$refs.newIssue.focus();
+      });
+    },
+
+    hideAddModal() {
+      this.showModal = false;
+    },
+
+    submit() {
+      this.loadingState = 'loading';
+
+      axios.post(this.sprint.url.store, this.form)
+        .then(response => {
+          this.flash(this.$t('project.issue_created'), 'success');
+
+          this.loadingState = null;
+          this.hideAddModal();
+
+          this.localIssues.push(response.data.data);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.errors = error.response.data;
+        });
+    },
+  }
+};
+
+</script>

@@ -98,7 +98,8 @@ class ProjectBoardsController extends Controller
         return Inertia::render('Company/Project/Boards/Show', [
             'tab' => 'boards',
             'project' => ProjectViewHelper::info($board->project),
-            'data' => ProjectBoardsViewHelper::show($board->project, $board),
+            'data' => ProjectBoardsViewHelper::backlog($board->project, $board),
+            'issueTypes' => ProjectBoardsViewHelper::issueTypes($loggedCompany),
             'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }
