@@ -74,6 +74,7 @@
         "v-click-outside": "^3.1.2",
         "v-tooltip": "^2.0.2",
         "vue": "3.0.11",
+        "vue-final-modal": "^3.4.3",
         "vue-i18n": "^9.0.0",
         "vue-loader": "^16.1.2",
         "vue-loaders": "^4.1.1",

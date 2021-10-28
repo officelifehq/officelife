@@ -358,6 +358,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                         Route::put('{board}', 'Company\\Company\\Project\\ProjectBoardsController@update')->name('projects.boards.update');
                         Route::delete('{board}', 'Company\\Company\\Project\\ProjectBoardsController@destroy')->name('projects.boards.destroy');
                         Route::get('{board}/backlog', 'Company\\Company\\Project\\ProjectBoardsBacklogController@show')->name('projects.boards.show.backlog');
+                        Route::get('{board}/issues/new', 'Company\\Company\\Project\\ProjectIssuesController@new')->name('projects.issues.new');
                     });
                 });
             });

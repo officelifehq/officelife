@@ -1,6 +1,6 @@
 <template>
   <div :class="localClasses">
-    <ul class="list ph0 tc-l tl">
+    <ul class="list ph0 tl" :class="centerBox ? 'tc-l' : ''">
       <li class="di">
         <inertia-link :href="cRootUrl">{{ cRoot }}</inertia-link>
       </li>
@@ -47,6 +47,18 @@ export default {
     customClass: {
       type: String,
       default: null,
+    },
+    centerBox: {
+      type: Boolean,
+      default: true,
+    },
+    customMarginTop: {
+      type: String,
+      default: 'mt4-l'
+    },
+    customMarginBottom: {
+      type: String,
+      default: ' '
     }
   },
 
@@ -67,7 +79,11 @@ export default {
   },
 
   mounted() {
-    this.localClasses = 'mt4-l mt1 mw6 br3 center breadcrumb relative z-0 f6 pb2';
+    this.localClasses = this.customMarginTop + ' mt1 mw6 br3 breadcrumb relative z-0 f6 pb2 ' + this.customMarginBottom;
+
+    if (this.centerBox) {
+      this.localClasses = this.localClasses + ' center';
+    }
 
     if (this.withBox) {
       this.localClasses = this.localClasses + ' bg-white box';

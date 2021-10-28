@@ -61,16 +61,63 @@
 .flex-grow {
   flex-grow: 1
 }
+
+::v-deep .modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+::v-deep .modal-content {
+  display: flex;
+  flex-direction: column;
+  box-shadow: rgb(0 0 0 / 50%) 0px 16px 70px;
+  margin: 0 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #fff;
+  width: 650px;
+}
+::v-deep .overlay {
+  background-color: rgb(193 193 193 / 50%);
+}
+::v-deep .modal-body {
+  padding: 10px 12px 12px 12px;
+
+  .board-name {
+    background-color: #f5f7f8;
+    padding: 3px 8px;
+    color: #9f9f9f;
+    border-radius: 4px;
+  }
+
+  .close-icon {
+    top: 11px;
+    right: 13px;
+
+    svg {
+      width: 15px;
+    }
+  }
+}
+
+::v-deep .modal-footer {
+  text-align: right;
+  padding: 8px 13px;
+}
 </style>
 
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
-      <breadcrumb :has-more="false"
+      <breadcrumb :has-more="true"
                   :previous-url="route('projects.index', { company: $page.props.auth.company.id})"
-                  :previous="$t('app.breadcrumb_project_list')"
+                  :previous="'Project name'"
+                  :custom-class="'mt0-l'"
+                  :center-box="false"
+                  :custom-margin-top="'mt1'"
+                  :custom-margin-bottom="'mb3'"
       >
-        {{ $t('app.breadcrumb_project_detail') }}
+        Board name
       </breadcrumb>
 
       <!-- BODY -->
@@ -88,15 +135,52 @@
           </ul>
         </div>
 
+        <!-- new issue -->
+        <vue-final-modal v-model="showModal" overlay-class="overlay" classes="modal-container" content-class="modal-content">
+          <div class="modal-body relative bb bb-gray">
+            <div class="mb3">
+              <span class="f7">
+                <span class="board-name">
+                  Board name
+                </span> › New issue
+              </span>
+            </div>
+
+            <div class="absolute close-icon pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showModal = false">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </div>
+
+            <text-input :ref="'newIssueType'"
+                        v-model="form.name"
+                        :required="true"
+                        :errors="$page.props.errors.name"
+                        :extra-class-upper-div="'mb3 flex-grow'"
+                        @esc-key-pressed="modal = false"
+            />
+
+            <text-area v-model="form.content"
+                       :datacy="'news-content-textarea'"
+                       :required="true"
+                       :rows="10"
+                       :help="$t('account.company_news_new_content_help')"
+            />
+          </div>
+          <div class="modal-footer">
+            <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
+          </div>
+        </vue-final-modal>
+
         <!-- right column -->
         <div>
           <!-- cycle -->
           <div class="flex justify-between items-center">
-            <h3 class="normal mb2 f5">
+            <h3 class="normal mt0 mb2 f5">
               Backlog
             </h3>
 
-            <div>
+            <div class="mb2">
               <span class="story-points">
                 32
               </span>
@@ -106,7 +190,7 @@
             <div class="bb bb-gray bb-gray-hover pa3 relative flex-ns justify-between items-center">
               <div>
                 <!-- issue type -->
-                <span class="relative icon-type mr2" style="width: 13px; height: 13px; background-color: rgb(86, 82, 179);"></span>
+                <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
 
                 <!-- key -->
                 <span class="f7 project-key mr2 code">
@@ -132,7 +216,7 @@
             <div class="bb bb-gray bb-gray-hover pa3 relative flex justify-between items-center">
               <div>
                 <!-- issue type -->
-                <span class="relative icon-type mr2" style="width: 13px; height: 13px; background-color: rgb(86, 82, 179);"></span>
+                <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
 
                 <!-- key -->
                 <span class="f7 project-key mr2 code">
@@ -164,7 +248,7 @@
             <div class="bb bb-gray bb-gray-hover pa3 relative flex justify-between items-center">
               <div>
                 <!-- issue type -->
-                <span class="relative icon-type mr2" style="width: 13px; height: 13px; background-color: rgb(86, 82, 179);"></span>
+                <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
 
                 <!-- key -->
                 <span class="f7 project-key mr2 code">
@@ -190,7 +274,7 @@
             <div class="bb bb-gray bb-gray-hover pa3 relative flex justify-between items-center">
               <div>
                 <!-- issue type -->
-                <span class="relative icon-type mr2" style="width: 13px; height: 13px; background-color: rgb(86, 82, 179);"></span>
+                <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
 
                 <!-- key -->
                 <span class="f7 project-key mr2 code">
@@ -216,7 +300,7 @@
             <div class="bb bb-gray bb-gray-hover pa3 relative flex justify-between items-center">
               <div>
                 <!-- issue type -->
-                <span class="relative icon-type mr2" style="width: 13px; height: 13px; background-color: rgb(86, 82, 179);"></span>
+                <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
 
                 <!-- key -->
                 <span class="f7 project-key mr2 code">
@@ -242,7 +326,7 @@
             <div class="bb bb-gray bb-gray-hover pa3 relative flex justify-between items-center">
               <div>
                 <!-- issue type -->
-                <span class="relative icon-type mr2" style="width: 13px; height: 13px; background-color: rgb(86, 82, 179);"></span>
+                <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
 
                 <!-- key -->
                 <span class="f7 project-key mr2 code">
@@ -284,16 +368,36 @@
             </div>
           </div>
           <ul class="list pl0 mt1 mb4">
-            <li class="di mr3"><span class="f7 pointer b--dotted bb bt-0 br-0 bl-0">+ New issue</span></li>
+            <li class="di mr3"><span class="f7 pointer b--dotted bb bt-0 br-0 bl-0" @click="showModal = true">+ New issue</span></li>
             <li class="di mr2"><span class="f7 pointer b--dotted bb bt-0 br-0 bl-0">+ New separator</span></li>
           </ul>
 
           <!-- cycle -->
           <div class="flex justify-between items-center">
-            <h3 class="normal mb2 f5">
+            <h3 class="normal mt0 mb2 f5">
               Backlog
             </h3>
-            <div>
+
+            <div class="mb2">
+              <span class="story-points">
+                32
+              </span>
+            </div>
+          </div>
+          <div class="bg-white box issue-list">
+            <p class="tc measure center mb4 lh-copy">
+              {{ $t('account.project_management_blank') }}
+            </p>
+
+            <img loading="lazy" class="db center mb4" alt="team" src="/img/streamline-icon-extrinsic-drive-5@100x100.png" />
+          </div>
+
+          <!-- cycle -->
+          <div class="flex justify-between items-center">
+            <h3 class="normal mt0 mb2 f5">
+              Backlog
+            </h3>
+            <div class="mb2">
               <span class="story-points">
                 32
               </span>
@@ -303,7 +407,7 @@
             <div class="bb bb-gray bb-gray-hover pa3 relative flex-ns justify-between items-center">
               <div>
                 <!-- issue type -->
-                <span class="relative icon-type mr2" style="width: 13px; height: 13px; background-color: rgb(86, 82, 179);"></span>
+                <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
 
                 <!-- key -->
                 <span class="f7 project-key mr2 code">
@@ -329,7 +433,7 @@
             <div class="bb bb-gray bb-gray-hover pa3 relative flex justify-between items-center">
               <div>
                 <!-- issue type -->
-                <span class="relative icon-type mr2" style="width: 13px; height: 13px; background-color: rgb(86, 82, 179);"></span>
+                <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
 
                 <!-- key -->
                 <span class="f7 project-key mr2 code">
@@ -355,7 +459,7 @@
             <div class="bb bb-gray bb-gray-hover pa3 relative flex justify-between items-center">
               <div>
                 <!-- issue type -->
-                <span class="relative icon-type mr2" style="width: 13px; height: 13px; background-color: rgb(86, 82, 179);"></span>
+                <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
 
                 <!-- key -->
                 <span class="f7 project-key mr2 code">
@@ -381,7 +485,7 @@
             <div class="bb bb-gray bb-gray-hover pa3 relative flex justify-between items-center">
               <div>
                 <!-- issue type -->
-                <span class="relative icon-type mr2" style="width: 13px; height: 13px; background-color: rgb(86, 82, 179);"></span>
+                <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
 
                 <!-- key -->
                 <span class="f7 project-key mr2 code">
@@ -407,7 +511,7 @@
             <div class="bb bb-gray bb-gray-hover pa3 relative flex justify-between items-center">
               <div>
                 <!-- issue type -->
-                <span class="relative icon-type mr2" style="width: 13px; height: 13px; background-color: rgb(86, 82, 179);"></span>
+                <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
 
                 <!-- key -->
                 <span class="f7 project-key mr2 code">
@@ -433,7 +537,7 @@
             <div class="bb bb-gray bb-gray-hover pa3 relative flex justify-between items-center">
               <div>
                 <!-- issue type -->
-                <span class="relative icon-type mr2" style="width: 13px; height: 13px; background-color: rgb(86, 82, 179);"></span>
+                <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
 
                 <!-- key -->
                 <span class="f7 project-key mr2 code">
@@ -468,6 +572,8 @@ import Layout from '@/Shared/Layout';
 import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import TextInput from '@/Shared/TextInput';
 import LoadingButton from '@/Shared/LoadingButton';
+import TextArea from '@/Shared/TextArea';
+import { $vfm, VueFinalModal } from 'vue-final-modal';
 
 export default {
   components: {
@@ -475,6 +581,8 @@ export default {
     Breadcrumb,
     LoadingButton,
     TextInput,
+    TextArea,
+    VueFinalModal
   },
 
   props: {
@@ -500,7 +608,7 @@ export default {
     return {
       loadingState: '',
       localBoards: [],
-      showAddModal: false,
+      showModal: false,
       form: {
         name: null,
         errors: [],
