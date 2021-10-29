@@ -125,19 +125,27 @@ class ProjectBoardsViewHelper
                     'key' => $issue->key,
                     'title' => $issue->title,
                     'slug' => $issue->slug,
+                    'is_separator' => $issue->is_separator,
                     'created_at' => DateHelper::formatMonthAndDay($issue->created_at),
                     'story_points' => $issue->story_points,
                     'type' => $issue->type ? [
                         'name' => $issue->type->name,
                         'icon_hex_color' => $issue->type->icon_hex_color,
                     ] : null,
-                    'url' => route('projects.issues.show', [
-                        'company' => $company,
-                        'project' => $project,
-                        'board' => $projectBoard,
-                        'sprint' => $sprint,
-                        'issue' => $issue,
-                    ]),
+                    'url' => [
+                        'show' => route('projects.issues.show', [
+                            'company' => $company,
+                            'issue' => $issue->key,
+                            'slug' => $issue->slug,
+                        ]),
+                        'destroy' => route('projects.issues.destroy', [
+                            'company' => $company,
+                            'project' => $project,
+                            'board' => $projectBoard,
+                            'sprint' => $sprint,
+                            'issue' => $issue->id,
+                        ]),
+                    ],
                 ]);
             }
 

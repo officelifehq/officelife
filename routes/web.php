@@ -59,6 +59,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         // get the list of the positions in the company
         Route::get('positions', 'Company\\Company\\PositionController@index');
 
+        // get the issue - an issue should have the shortest link possible
+        Route::get('issues/{issue}/{slug}', 'Company\\Company\\Project\\ProjectIssuesController@show')->name('projects.issues.show');
+
         Route::prefix('dashboard')->group(function () {
             Route::get('', 'Company\\Dashboard\\DashboardController@index')->name('dashboard');
 
@@ -359,7 +362,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                         Route::delete('{board}', 'Company\\Company\\Project\\ProjectBoardsController@destroy')->name('projects.boards.destroy');
                         Route::get('{board}/backlog', 'Company\\Company\\Project\\ProjectBoardsBacklogController@show')->name('projects.boards.show.backlog');
                         Route::post('{board}/sprints/{sprint}/issues', 'Company\\Company\\Project\\ProjectIssuesController@store')->name('projects.issues.store');
-                        Route::get('{board}/sprints/{sprint}/issues/{issue}', 'Company\\Company\\Project\\ProjectIssuesController@store')->name('projects.issues.show');
+                        Route::delete('{board}/sprints/{sprint}/issues/{issue}', 'Company\\Company\\Project\\ProjectIssuesController@destroy')->name('projects.issues.destroy');
                     });
                 });
             });

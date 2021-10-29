@@ -2,25 +2,68 @@
 
 namespace App\Http\Controllers\Company\Company\Project;
 
+use Inertia\Inertia;
 use Inertia\Response;
 use App\Helpers\DateHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Models\Company\ProjectIssue;
 use App\Services\Company\Project\CreateProjectIssue;
+use App\Services\Company\Project\DestroyProjectIssue;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectBoardsViewHelper;
 
 class ProjectIssuesController extends Controller
 {
     /**
-     * Display the New issue view.
+     * Display the issue.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param string $issueKey
+     * @param string $issueSlug
+     *
+     * @return \Illuminate\Http\RedirectResponse|Response
+     */
+    public function show(Request $request, string $issueKey, string $issueSlug)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        try {
+            $issue = ProjectIssue::where('key', $issueKey)->where('slug', $issueSlug)
+                ->findOrFail();
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        if ($issue->project->company_id == $loggedCompany->id) {
+            return redirect('home');
+        }
+
+        // board comes from the CheckBoard middleware
+        $board = $request->get('board');
+
+        return Inertia::render('Company/Project/Boards/Show', [
+            'tab' => 'boards',
+            'project' => ProjectViewHelper::info($board->project),
+            'data' => ProjectBoardsViewHelper::backlog($board->project, $board),
+            'issueTypes' => ProjectBoardsViewHelper::issueTypes($loggedCompany),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
+        ]);
+    }
+
+    /**
+     * Save the issue.
      *
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
      * @param int $boardId
      * @param int $sprintId
-     *
-     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function store(Request $request, int $companyId, int $projectId, int $boardId, int $sprintId)
     {
@@ -36,6 +79,7 @@ class ProjectIssuesController extends Controller
             'issue_type_id' => $request->input('type'),
             'title' => $request->input('title'),
             'description' => $request->input('description'),
+            'is_separator' => $request->input('is_separator'),
         ];
 
         $issue = (new CreateProjectIssue)->execute($data);
@@ -48,18 +92,55 @@ class ProjectIssuesController extends Controller
                 'slug' => $issue->slug,
                 'created_at' => DateHelper::formatMonthAndDay($issue->created_at),
                 'story_points' => $issue->story_points,
+                'is_separator' => $issue->is_separator,
                 'type' => $issue->type ? [
                     'name' => $issue->type->name,
                     'icon_hex_color' => $issue->type->icon_hex_color,
                 ] : null,
-                'url' => route('projects.issues.show', [
-                    'company' => $loggedCompany,
-                    'project' => $projectId,
-                    'board' => $boardId,
-                    'sprint' => $sprintId,
-                    'issue' => $issue,
-                ]),
+                'url' => [
+                    'show' => route('projects.issues.show', [
+                        'company' => $loggedCompany,
+                        'issue' => $issue->key,
+                        'slug' => $issue->slug,
+                    ]),
+                    'destroy' => route('projects.issues.destroy', [
+                        'company' => $loggedCompany,
+                        'project' => $projectId,
+                        'board' => $boardId,
+                        'sprint' => $sprintId,
+                        'issue' => $issue->id,
+                    ]),
+                ],
             ],
         ], 201);
+    }
+
+    /**
+     * Destroy the issue.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @param int $boardId
+     * @param int $sprintId
+     * @param int $issueId
+     */
+    public function destroy(Request $request, int $companyId, int $projectId, int $boardId, int $sprintId, int $issueId)
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        $data = [
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $projectId,
+            'project_issue_id' => $issueId,
+        ];
+
+        (new DestroyProjectIssue)->execute($data);
+
+        return response()->json([
+            'data' => true,
+        ], 200);
     }
 }

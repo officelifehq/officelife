@@ -6,7 +6,7 @@
 }
 
 .icon-metrics {
-  width: 18px;
+  width: 16px;
   top: 4px;
 }
 
@@ -105,6 +105,12 @@
   top: 4px;
   background-color: #56bb76;
 }
+
+.icon-separator {
+  width: 12px;
+  top: 5px;
+  right: 8px;
+}
 </style>
 
 <template>
@@ -160,11 +166,19 @@
           <span v-if="sprint.active" class="dib dot br-100 relative mr1">
 &nbsp;
           </span>
+
           Backlog
         </h3>
 
         <div class="mb2">
-          <span class="mr2 relative ba bb-gray f7 button-metrics">
+          <span class="pointer mr2 relative ba bb-gray f7 button-metrics">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon-metrics relative" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Start cycle
+          </span>
+          <span class="pointer mr2 relative ba bb-gray f7 button-metrics">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon-metrics relative" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
             </svg>
@@ -175,9 +189,11 @@
           </span>
         </div>
       </div>
+
+      <!-- issue list -->
       <div class="bg-white box issue-list">
-        <div v-for="issue in localIssues" :key="issue.id">
-          <div class="bb bb-gray bb-gray-hover pa3 relative flex-ns justify-between items-center">
+        <div v-for="issue in localIssues" :key="issue.id" class="bb bb-gray bb-gray-hover">
+          <div v-if="!issue.is_separator" class="pa3 relative flex-ns justify-between items-center">
             <div>
               <!-- issue type -->
               <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
@@ -208,31 +224,39 @@
           </div>
 
           <!-- separator -->
-          <div class="bb bb-gray bb-gray-hover ph3 pv1 tc relative bg-light-gray ttu f7">
-            dsfs
+          <div v-else class="ph3 pv1 tc relative bg-light-gray ttu f7">
+            {{ issue.title }}
+
+            <svg xmlns="http://www.w3.org/2000/svg" class="pointer absolute icon-separator" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                 @click="destroySeparator(issue)"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </div>
         </div>
 
-        <!-- new -->
-        <div class="bb bb-gray bb-gray-hover pa3 relative flex justify-between items-center">
-          <text-input :ref="'newIssueType'"
-                      v-model="form.name"
-                      :required="true"
-                      :errors="$page.props.errors.name"
-                      :extra-class-upper-div="'mb0 mr2 flex-grow'"
-                      @esc-key-pressed="modal = false"
-          />
-          <div class="">
-            <a class="btn dib-l db mb2 mb0-ns mr2-ns" @click.prevent="modal = false">
-              {{ $t('app.cancel') }}
-            </a>
-            <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.add')" />
-          </div>
+        <!-- Add separator modal -->
+        <div v-if="showSeparatorModal" class="bb bb-gray bb-gray-hover pa3 relative">
+          <form class="flex justify-between items-center" @submit.prevent="submitSeparator">
+            <text-input :ref="'newIssueSeparator'"
+                        v-model="form.title"
+                        :required="true"
+                        :errors="$page.props.errors.title"
+                        :extra-class-upper-div="'mb0 mr2 flex-grow'"
+                        @esc-key-pressed="modal = false"
+            />
+            <div class="">
+              <a class="btn dib-l db mb2 mb0-ns mr2-ns" @click.prevent="hideAddSeparatorModal">
+                {{ $t('app.cancel') }}
+              </a>
+              <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.add')" />
+            </div>
+          </form>
         </div>
       </div>
       <ul class="list pl0 mt1 mb4">
         <li class="di mr3"><span class="f7 pointer b--dotted bb bt-0 br-0 bl-0" @click="displayAddModal">+ New issue</span></li>
-        <li class="di mr2"><span class="f7 pointer b--dotted bb bt-0 br-0 bl-0">+ New separator</span></li>
+        <li v-if="!showSeparatorModal" class="di mr2"><span class="f7 pointer b--dotted bb bt-0 br-0 bl-0" @click="displayAddSeparatorModal">+ New separator</span></li>
       </ul>
     </div>
   </div>
@@ -275,9 +299,11 @@ export default {
       localIssues: [],
       errors: null,
       showModal: false,
+      showSeparatorModal: false,
       form: {
         title: null,
         description: null,
+        is_separator: false,
       },
     };
   },
@@ -289,8 +315,8 @@ export default {
   methods: {
     displayAddModal() {
       this.showModal = true;
-      this.form.title = '';
-      this.form.description = '';
+      this.form.title = null;
+      this.form.description = null;
       this.errors = null;
 
       this.$nextTick(() => {
@@ -298,8 +324,22 @@ export default {
       });
     },
 
+    displayAddSeparatorModal() {
+      this.showSeparatorModal = true;
+      this.form.title = null;
+      this.errors = null;
+
+      this.$nextTick(() => {
+        this.$refs.newIssueSeparator.focus();
+      });
+    },
+
     hideAddModal() {
       this.showModal = false;
+    },
+
+    hideAddSeparatorModal() {
+      this.showSeparatorModal = false;
     },
 
     submit() {
@@ -313,6 +353,38 @@ export default {
           this.hideAddModal();
 
           this.localIssues.push(response.data.data);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.errors = error.response.data;
+        });
+    },
+
+    submitSeparator() {
+      this.loadingState = 'loading';
+      this.form.is_separator = true;
+
+      axios.post(this.sprint.url.store, this.form)
+        .then(response => {
+          this.flash(this.$t('project.separator_created'), 'success');
+
+          this.loadingState = null;
+          this.hideAddSeparatorModal();
+
+          this.localIssues.push(response.data.data);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.errors = error.response.data;
+        });
+    },
+
+    destroySeparator(issue) {
+      axios.delete(issue.url.destroy)
+        .then(response => {
+          this.flash(this.$t('project.issue_destroyed'), 'success');
+          var id = this.localIssues.findIndex(x => x.id === issue.id);
+          this.localIssues.splice(id, 1);
         })
         .catch(error => {
           this.loadingState = null;

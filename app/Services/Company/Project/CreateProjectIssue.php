@@ -42,6 +42,7 @@ class CreateProjectIssue extends BaseService
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:16777215',
             'points' => 'nullable|integer|max:100',
+            'is_separator' => 'nullable|boolean',
         ];
     }
 
@@ -115,6 +116,7 @@ class CreateProjectIssue extends BaseService
             'slug' => Str::of($this->data['title'])->slug('-'),
             'description' => $this->valueOrNull($this->data, 'description'),
             'story_points' => $this->valueOrNull($this->data, 'points'),
+            'is_separator' => $this->valueOrFalse($this->data, 'is_separator'),
         ]);
 
         $this->projectIssue->sprints()->syncWithoutDetaching([$this->projectSprint->id]);
