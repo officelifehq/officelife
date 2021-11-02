@@ -192,6 +192,59 @@
 
       <!-- issue list -->
       <div class="bg-white box issue-list">
+        <draggable
+          v-model="localIssues"
+          group="people"
+          item-key="id"
+          @start="drag=true"
+          @end="drag=false"
+        >
+          <template #item="{issue}">
+            <div class="bb bb-gray bb-gray-hover">
+              <div v-if="!issue.is_separator" class="pa3 relative flex-ns justify-between items-center">
+                <div>
+                  <!-- issue type -->
+                  <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
+
+                  <!-- key -->
+                  <span class="f7 project-key mr2 code">
+                    {{ issue.key }}
+                  </span>
+
+                  <!-- title -->
+                  <span>{{ issue.title }}</span>
+                </div>
+
+                <div>
+                  <!-- date -->
+                  <span class="f7 code mr2">
+                    {{ issue.created_at }}
+                  </span>
+
+                  <!-- points -->
+                  <span v-if="issue.story_points" class="story-points">
+                    {{ issue.story_points }}
+                  </span>
+                  <span v-else class="story-points">
+                    -
+                  </span>
+                </div>
+              </div>
+
+              <!-- separator -->
+              <div v-else class="ph3 pv1 tc relative bg-light-gray ttu f7">
+                {{ issue.title }}
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="pointer absolute icon-separator" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                     @click="destroySeparator(issue)"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+            </div>
+          </template>
+        </draggable>
+
         <div v-for="issue in localIssues" :key="issue.id" class="bb bb-gray bb-gray-hover">
           <div v-if="!issue.is_separator" class="pa3 relative flex-ns justify-between items-center">
             <div>
@@ -268,6 +321,7 @@ import LoadingButton from '@/Shared/LoadingButton';
 import TextArea from '@/Shared/TextArea';
 import Errors from '@/Shared/Errors';
 import { $vfm, VueFinalModal } from 'vue-final-modal';
+import draggable from 'vuedraggable';
 
 export default {
   components: {
@@ -275,7 +329,8 @@ export default {
     TextInput,
     TextArea,
     Errors,
-    VueFinalModal
+    VueFinalModal,
+    draggable,
   },
 
   props: {
@@ -298,6 +353,7 @@ export default {
       loadingState: '',
       localIssues: [],
       errors: null,
+      drag: false,
       showModal: false,
       showSeparatorModal: false,
       form: {
