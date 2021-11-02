@@ -54,6 +54,7 @@
         "johnkary/phpunit-speedtrap": "^3.1",
         "laravel/dusk": "^6.6",
         "laravel/legacy-factories": "^1.0",
+        "laravel/sail": "^1.12",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^5.0",
         "nunomaduro/larastan": "^0.7",
