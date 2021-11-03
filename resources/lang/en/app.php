@@ -38,6 +38,7 @@ return [
     'import_review' => 'Import and review',
     'login' => 'Log in',
     'flash_done' => 'Done.',
+    'type_first_letters' => 'Type the first letters…',
 
     'year' => 'Year',
     'month' => 'Month',

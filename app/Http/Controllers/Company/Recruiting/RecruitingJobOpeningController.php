@@ -140,12 +140,12 @@ class RecruitingJobOpeningController extends Controller
             'description' => $request->input('description'),
         ];
 
-        $company = (new CreateJobOpening)->execute($data);
+        $jobOpening = (new CreateJobOpening)->execute($data);
 
         return response()->json([
             'data' => [
                 'url' => route('recruiting.openings.index', [
-                    'company' => $company,
+                    'company' => $loggedCompany,
                 ]),
             ],
         ], 201);

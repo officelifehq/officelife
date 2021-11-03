@@ -1,6 +1,4 @@
 <style lang="scss" scoped>
-@import 'vue-select/src/scss/vue-select.scss';
-
 .optional-badge {
   border-radius: 4px;
   color: #283e59;
@@ -8,12 +6,31 @@
   padding: 3px 4px;
 }
 
-.style-chooser .vs__search::placeholder,
-.style-chooser .vs__dropdown-toggle,
-.style-chooser .vs__dropdown-menu {
-  border: 0;
+.icon-dropdown {
+  top: 10px;
+  right: 8px;
+  width: 15px;
 }
 
+.dropdown {
+  width: 300px;
+  max-height: 300px;
+
+  li:hover {
+    background-color: #4364c8;
+    color: #fff;
+  }
+
+  li:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  li:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+}
 </style>
 
 <template>
@@ -24,25 +41,42 @@
         {{ $t('app.optional') }}
       </span>
     </label>
-    <v-select v-model="proxyValue"
-              :input-id="realId"
-              :options="options"
-              :label="customLabelKey"
-              :placeholder="placeholder"
-              class="style-chooser"
-              :data-cy="datacy"
-              :close-on-select="true"
-    >
-      <!-- all this complex code below just to make sure the select box is required -->
-      <template #search="{ attributes, events }">
-        <input
-          class="vs__search"
-          :required="required && !proxyValue"
-          v-bind="attributes"
-          v-on="events"
-        />
-      </template>
-    </v-select>
+    <div v-if="selectedOption && !searchMode" class="br2 f5 ba b--black-40 pa2 outline-0 pointer relative" @click="displaySearchMode">
+      {{ selectedOption.label }}
+
+      <svg xmlns="http://www.w3.org/2000/svg" class="absolute icon-dropdown" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+    <div v-if="!selectedOption && !searchMode" class="relative br2 f5 ba silver b--black-40 pa2 outline-0 pointer" @click="displaySearchMode">
+      {{ placeholder }}
+
+      <svg xmlns="http://www.w3.org/2000/svg" class="absolute icon-dropdown" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+
+    <!-- input field to search options -->
+    <div class="relative">
+      <input v-if="searchMode"
+             :id="realId"
+             v-model="search"
+             class="br2 f5 ba b--black-40 pa2 outline-0"
+             :type="type"
+             :name="name"
+             :placeholder="$t('app.type_first_letters')"
+             v-bind="$attrs"
+             :maxlength="maxlength"
+             @keydown.esc="sendEscKey"
+             @keydown.enter="sendEnterKey"
+      />
+      <div v-if="options.length > 0 && searchMode" class="overflow-y-scroll absolute z-9999 dropdown bg-white box ba bw2">
+        <ul class="ma0 pa1 list">
+          <li v-for="option in filteredList" :key="option.key" class="pa2 pointer" @click="select(option)">{{ option.label }}</li>
+        </ul>
+      </div>
+    </div>
+
     <div v-if="errors.length" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
     </div>
@@ -53,14 +87,7 @@
 </template>
 
 <script>
-
-import vSelect from 'vue-select/src/index.js';
-
 export default {
-  components: {
-    vSelect,
-  },
-
   model: {
     prop: 'modelValue',
     event: 'update:modelValue'
@@ -127,6 +154,9 @@ export default {
 
   data() {
     return {
+      selectedOption: null,
+      search: '',
+      searchMode: false,
       localErrors: [],
     };
   },
@@ -140,12 +170,14 @@ export default {
         this.$emit('update:modelValue', value[this.customValueKey]);
       }
     },
-    labelValue() {
-      return this.proxyValue[this.customLabelKey];
-    },
-    realId() {
-      return this.id + this._.uid;
-    },
+
+    filteredList() {
+      // filter the list when searching
+      var list;
+      return this.options.filter(option => {
+        return option.label.toLowerCase().includes(this.search.toLowerCase());
+      });
+    }
   },
 
   watch: {
@@ -159,9 +191,20 @@ export default {
   },
 
   methods: {
+    displaySearchMode() {
+      this.searchMode = true;
+    },
+
     sendEscKey() {
+      this.searchMode = false;
       this.$emit('esc-key-pressed');
     },
+
+    select(option) {
+      this.selectedOption = option;
+      this.searchMode = false;
+      this.proxyValue = option;
+    }
   },
 };
 </script>
