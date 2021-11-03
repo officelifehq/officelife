@@ -129,8 +129,8 @@ class DashboardMeViewHelper
         $currencies = new ISOCurrencies();
         foreach ($currencies as $currency) {
             $currencyCollection->push([
-                'id' =>$currency->getCode(),
-                'code' => $currency->getCode(),
+                'key' => $currency->getCode(),
+                'label' => $currency->getCode(),
             ]);
         }
 
