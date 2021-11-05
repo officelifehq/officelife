@@ -116,7 +116,7 @@ class ProjectBoardsViewHelper
         $activeSprints->push($backlog);
 
         foreach ($activeSprints as $sprint) {
-            $issues = $sprint->issues()->with('type')->get();
+            $issues = $sprint->issues()->with('type')->orderBy('order')->get();
 
             $issueCollection = collect();
             foreach ($issues as $issue) {

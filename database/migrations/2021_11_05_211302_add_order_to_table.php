@@ -15,7 +15,7 @@ class AddOrderToTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::table('project_issue_project_sprint', function (Blueprint $table) {
-            $table->integer('order')->after('project_sprint_id');
+            $table->integer('order')->nullable()->after('project_sprint_id');
         });
 
         Schema::drop('project_sprint_issue_order');
