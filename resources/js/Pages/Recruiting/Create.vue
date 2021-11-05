@@ -56,15 +56,16 @@ input[type=radio] {
                 <strong>{{ $t('dashboard.job_opening_new_position') }}</strong>
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
-                <select-box :id="'position'"
-                            v-model="form.position"
-                            :options="positions"
-                            :name="'position'"
-                            :errors="$page.props.errors.position"
-                            :placeholder="$t('dashboard.job_opening_new_position_dropdown_placeholder')"
-                            :required="true"
-                            :extra-class-upper-div="'mb0'"
-                            :label="$t('dashboard.job_opening_new_position_title')"
+                <label class="db mb-2">
+                  {{ $t('dashboard.job_opening_new_position_title') }}
+                </label>
+                <a-select
+                  v-model:value="form.position"
+                  :placeholder="$t('dashboard.job_opening_new_position_dropdown_placeholder')"
+                  style="width: 300px; margin-bottom: 0px;"
+                  :options="positions"
+                  show-search
+                  option-filter-prop="label"
                 />
               </div>
             </div>
@@ -78,15 +79,16 @@ input[type=radio] {
                 </p>
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
-                <select-box :id="'template'"
-                            v-model="form.recruitingStageTemplateId"
-                            :options="templates"
-                            :name="'recruitingStageTemplateId'"
-                            :errors="$page.props.errors.recruitingStageTemplateId"
-                            :placeholder="$t('dashboard.job_opening_template_dropdown_placeholder')"
-                            :required="true"
-                            :extra-class-upper-div="'mb0'"
-                            :label="$t('dashboard.job_opening_template_title')"
+                <label class="db mb-2">
+                  {{ $t('dashboard.job_opening_template_title') }}
+                </label>
+                <a-select
+                  v-model:value="form.recruitingStageTemplateId"
+                  :placeholder="$t('dashboard.job_opening_template_dropdown_placeholder')"
+                  style="width: 300px; margin-bottom: 0px;"
+                  :options="templates"
+                  show-search
+                  option-filter-prop="label"
                 />
               </div>
             </div>
@@ -163,15 +165,16 @@ input[type=radio] {
                 <strong>{{ $t('dashboard.job_opening_new_team') }}</strong>
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
-                <select-box :id="'team'"
-                            v-model="form.teamId"
-                            :options="teams"
-                            :name="'team'"
-                            :errors="$page.props.errors.team"
-                            :placeholder="$t('dashboard.job_opening_new_team_placeholder')"
-                            :required="false"
-                            :extra-class-upper-div="'mb0'"
-                            :label="$t('dashboard.job_opening_new_team_dropdown')"
+                <label class="db mb-2">
+                  {{ $t('dashboard.job_opening_new_team_dropdown') }}
+                </label>
+                <a-select
+                  v-model:value="form.teamId"
+                  :placeholder="$t('dashboard.job_opening_new_team_placeholder')"
+                  style="width: 200px; margin-bottom: 0px;"
+                  :options="teams"
+                  show-search
+                  option-filter-prop="label"
                 />
               </div>
             </div>
@@ -239,7 +242,6 @@ import Layout from '@/Shared/Layout';
 import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import TextArea from '@/Shared/TextArea';
 import Help from '@/Shared/Help';
-import SelectBox from '@/Shared/Select';
 import Avatar from '@/Shared/Avatar';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
@@ -254,7 +256,6 @@ export default {
     TextArea,
     Avatar,
     Help,
-    SelectBox,
     'ball-pulse-loader': BallPulseLoader.component,
   },
 

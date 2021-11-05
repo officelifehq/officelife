@@ -64,6 +64,7 @@
         "@sentry/integrations": "^6.2.5",
         "@sentry/tracing": "^6.2.5",
         "@vue/compiler-sfc": "3.0.11",
+        "ant-design-vue": "^2.2.8",
         "axios": "^0.21",
         "donutty": "^2.3.0",
         "lodash": "^4.17.20",
@@ -78,7 +79,6 @@
         "vue-i18n": "^9.0.0",
         "vue-loader": "^16.1.2",
         "vue-loaders": "^4.1.1",
-        "vue-select": "^3.16.0",
         "vue-the-mask": "^0.11.1",
         "vuedraggable": "^4.1.0"
     },

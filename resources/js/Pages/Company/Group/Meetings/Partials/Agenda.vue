@@ -106,12 +106,14 @@
 
                   <!-- edit presenter -->
                   <div v-if="editPresenterMode && agendaItemEditedId == agendaItem.id" class="cf mb2">
-                    <select-box v-model="form.presented_by_id"
-                                :options="potentialPresenters"
-                                :errors="$page.props.errors.presented_by_id"
-                                :label="$t('group.meeting_show_add_agenda_item_presenter_title')"
-                                :placeholder="$t('app.choose_value')"
-                                :value="form.presented_by_id"
+                    <label class="db mb-2">{{ $t('group.meeting_show_add_agenda_item_presenter_title') }}</label>
+                    <a-select
+                      v-model:value="form.presented_by_id"
+                      :placeholder="$t('app.choose_value')"
+                      :options="potentialPresenters"
+                      show-search
+                      style="width: 200px"
+                      option-filter-prop="label"
                     />
                   </div>
 
@@ -252,12 +254,14 @@
 
           <!-- add presenter -->
           <div v-if="addPresenterMode" class="cf mb2">
-            <select-box v-model="form.presented_by_id"
-                        :options="potentialPresenters"
-                        :errors="$page.props.errors.presented_by_id"
-                        :label="$t('group.meeting_show_add_agenda_item_presenter_title')"
-                        :placeholder="$t('app.choose_value')"
-                        :value="form.presented_by_id"
+            <label class="db mb-2">{{ $t('group.meeting_show_add_agenda_item_presenter_title') }}</label>
+            <a-select
+              v-model:value="form.presented_by_id"
+              :placeholder="$t('app.choose_value')"
+              :options="potentialPresenters"
+              show-search
+              style="width: 200px"
+              option-filter-prop="label"
             />
           </div>
 
@@ -277,7 +281,6 @@
 <script>
 import TextInput from '@/Shared/TextInput';
 import TextArea from '@/Shared/TextArea';
-import SelectBox from '@/Shared/Select';
 import LoadingButton from '@/Shared/LoadingButton';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 
@@ -285,7 +288,6 @@ export default {
   components: {
     TextInput,
     TextArea,
-    SelectBox,
     LoadingButton,
     SmallNameAndAvatar,
   },
@@ -338,6 +340,7 @@ export default {
     // when adding a new agenda item
     showAddAgendaItem() {
       this.addAgendaItemMode = true;
+      this.form.presented_by_id = null;
 
       this.$nextTick(() => {
         this.$refs.summary.focus();
@@ -389,7 +392,7 @@ export default {
       this.agendaItemEditedId = agendaItem.id;
       this.form.summary = agendaItem.summary;
       this.form.description = agendaItem.description;
-      this.form.presented_by_id = agendaItem.presented_by_id;
+      this.form.presented_by_id = agendaItem.presenter.name;
       this.editAgendaItemMode = true;
       this.editDescriptionMode = false;
       this.editPresenterMode = false;

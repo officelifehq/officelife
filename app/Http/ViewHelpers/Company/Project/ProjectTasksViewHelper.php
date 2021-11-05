@@ -236,11 +236,6 @@ class ProjectTasksViewHelper
             'completed' => $task->completed,
             'completed_at' => $task->completed_at ? DateHelper::formatDate($task->completed_at, $employee->timezone) : null,
             'created_at' => DateHelper::formatDate($task->created_at, $employee->timezone),
-            'url' => route('projects.tasks.show', [
-                'company' => $company,
-                'project' => $task->project_id,
-                'task' => $task->id,
-            ]),
             'duration' => $duration != 0 ? TimeHelper::durationInHumanFormat($duration) : null,
             'author' => $author ? [
                 'id' => $author->id,
@@ -264,6 +259,23 @@ class ProjectTasksViewHelper
                 ]),
             ] : null,
             'comments' => $commentsCollection,
+            'url' => [
+                'show' => route('projects.tasks.show', [
+                    'company' => $company,
+                    'project' => $task->project_id,
+                    'task' => $task->id,
+                ]),
+                'toggle' => route('projects.tasks.toggle', [
+                    'company' => $company,
+                    'project' => $task->project_id,
+                    'task' => $task->id,
+                ]),
+                'entries' => route('projects.tasks.timeTrackingEntries', [
+                    'company' => $company,
+                    'project' => $task->project_id,
+                    'task' => $task->id,
+                ]),
+            ],
         ];
     }
 
