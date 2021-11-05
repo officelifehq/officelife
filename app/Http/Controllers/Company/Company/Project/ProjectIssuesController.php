@@ -22,7 +22,6 @@ class ProjectIssuesController extends Controller
      * Display the issue.
      *
      * @param Request $request
-     * @param int $companyId
      * @param string $issueKey
      * @param string $issueSlug
      *
