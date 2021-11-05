@@ -88,15 +88,16 @@
                 <div class="pa3 bb bb-gray">
                   <div class="measure">
                     <!-- employee -->
-                    <select-box :id="'employee'"
-                                v-model="form.employee_id"
-                                :options="potentialMembers"
-                                :name="'employee'"
-                                :errors="$page.props.errors.employee_id"
-                                :label="$t('project.members_index_add_select_title')"
-                                :placeholder="$t('project.members_index_add_select_placeholder')"
-                                :required="true"
-                                :datacy="'members_selector'"
+                    <label class="db mb-2">
+                      {{ $t('project.members_index_add_select_title') }}
+                    </label>
+                    <a-select
+                      v-model:value="form.employee_id"
+                      :placeholder="$t('project.members_index_add_select_placeholder')"
+                      style="width: 200px"
+                      :options="potentialMembers"
+                      show-search
+                      option-filter-prop="label"
                     />
                     <p class="lh-copy">{{ $t('project.members_index_add_role') }}</p>
 
@@ -232,7 +233,6 @@ import Layout from '@/Shared/Layout';
 import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import TextInput from '@/Shared/TextInput';
-import SelectBox from '@/Shared/Select';
 import LoadingButton from '@/Shared/LoadingButton';
 import Avatar from '@/Shared/Avatar';
 
@@ -243,7 +243,6 @@ export default {
     Avatar,
     ProjectMenu,
     TextInput,
-    SelectBox,
     LoadingButton,
   },
 

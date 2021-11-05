@@ -67,15 +67,14 @@
             />
 
             <div class="w-50">
-              <select-box :id="'assignee'"
-                          v-model="form.assignee_id"
-                          :options="members"
-                          :name="'assignee'"
-                          :errors="$page.props.errors.assignee_id"
-                          :label="$t('project.task_edit_assignee')"
-                          :placeholder="$t('app.choose_value')"
-                          :required="false"
-                          :datacy="'assignee_selector'"
+              <label class="db mb-2">{{ $t('project.task_edit_assignee') }}</label>
+              <a-select
+                v-model:value="form.assignee_id"
+                :placeholder="$t('app.choose_value')"
+                style="width: 200px; margin-bottom: 10px;"
+                :options="members"
+                show-search
+                option-filter-prop="label"
               />
             </div>
 
@@ -109,19 +108,20 @@
           />
 
           <div class="w-50">
-            <select-box v-model="form.assignee_id"
-                        :options="members"
-                        :errors="$page.props.errors.assignee_id"
-                        :label="$t('project.task_edit_assignee')"
-                        :placeholder="$t('app.choose_value')"
-                        :required="false"
-                        :datacy="'country_selector'"
+            <label class="db mb-2">{{ $t('project.task_edit_assignee') }}</label>
+            <a-select
+              v-model:value="form.assignee_id"
+              :placeholder="$t('app.choose_value')"
+              style="width: 200px; margin-bottom: 10px;"
+              :options="members"
+              show-search
+              option-filter-prop="label"
             />
           </div>
 
           <!-- actions -->
           <div>
-            <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :data-cy="'task-list-' + form.task_list_id + '-add-task-cta'" />
+            <loading-button :class="'btn add w-auto-ns w-100 mb2 mr2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :data-cy="'task-list-' + form.task_list_id + '-add-task-cta'" />
             <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addTaskMode = false">
               {{ $t('app.cancel') }}
             </a>
@@ -135,7 +135,6 @@
 <script>
 import TextArea from '@/Shared/TextArea';
 import LoadingButton from '@/Shared/LoadingButton';
-import SelectBox from '@/Shared/Select';
 import ProjectTaskCheckbox from '@/Pages/Company/Project/Tasks/Partials/ProjectTaskCheckbox';
 
 export default {
@@ -143,7 +142,6 @@ export default {
     TextArea,
     ProjectTaskCheckbox,
     LoadingButton,
-    SelectBox,
   },
 
   props: {

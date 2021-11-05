@@ -41,41 +41,18 @@
         {{ $t('app.optional') }}
       </span>
     </label>
-    <div v-if="selectedOption && !searchMode" class="br2 f5 ba b--black-40 pa2 outline-0 pointer relative" @click="displaySearchMode">
-      {{ selectedOption.label }}
-
-      <svg xmlns="http://www.w3.org/2000/svg" class="absolute icon-dropdown" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </div>
-    <div v-if="!selectedOption && !searchMode" class="relative br2 f5 ba silver b--black-40 pa2 outline-0 pointer" @click="displaySearchMode">
-      {{ placeholder }}
-
-      <svg xmlns="http://www.w3.org/2000/svg" class="absolute icon-dropdown" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </div>
-
-    <!-- input field to search options -->
-    <div class="relative">
-      <input v-if="searchMode"
-             :id="realId"
-             v-model="search"
-             class="br2 f5 ba b--black-40 pa2 outline-0"
-             :type="type"
-             :name="name"
-             :placeholder="$t('app.type_first_letters')"
-             v-bind="$attrs"
-             :maxlength="maxlength"
-             @keydown.esc="sendEscKey"
-             @keydown.enter="sendEnterKey"
-      />
-      <div v-if="options.length > 0 && searchMode" class="overflow-y-scroll absolute z-9999 dropdown bg-white box ba bw2">
-        <ul class="ma0 pa1 list">
-          <li v-for="option in filteredList" :key="option.key" class="pa2 pointer" @click="select(option)">{{ option.label }}</li>
-        </ul>
-      </div>
-    </div>
+    <a-select
+      v-model="form.country_id"
+      show-search
+      :placeholder="$t('app.choose')"
+      filter-option="true"
+      style="width: 200px"
+      :options="countries"
+      :dropdown-style="'mb-4'"
+      @focus="handleFocus"
+      @blur="handleBlur"
+      @change="handleChange"
+    />
 
     <div v-if="errors.length" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
@@ -154,30 +131,8 @@ export default {
 
   data() {
     return {
-      selectedOption: null,
-      search: '',
-      searchMode: false,
       localErrors: [],
     };
-  },
-
-  computed: {
-    proxyValue: {
-      get() {
-        return this.options[this.options.findIndex(p => p[this.customValueKey] === this.modelValue)];
-      },
-      set(value) {
-        this.$emit('update:modelValue', value[this.customValueKey]);
-      }
-    },
-
-    filteredList() {
-      // filter the list when searching
-      var list;
-      return this.options.filter(option => {
-        return option.label.toLowerCase().includes(this.search.toLowerCase());
-      });
-    }
   },
 
   watch: {
@@ -191,20 +146,10 @@ export default {
   },
 
   methods: {
-    displaySearchMode() {
-      this.searchMode = true;
-    },
-
     sendEscKey() {
       this.searchMode = false;
       this.$emit('esc-key-pressed');
     },
-
-    select(option) {
-      this.selectedOption = option;
-      this.searchMode = false;
-      this.proxyValue = option;
-    }
   },
 };
 </script>
