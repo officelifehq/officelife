@@ -9,9 +9,13 @@
     </template>
 
     <template #form>
-      <select-box v-model="form.locale"
-                  :options="localesFiltered"
-                  :required="true"
+      <a-select
+        v-model:value="form.locale"
+        :placeholder="$t('dashboard.timesheet_create_choose_project')"
+        style="width: 200px;"
+        :options="localesFiltered"
+        show-search
+        option-filter-prop="label"
       />
     </template>
 
@@ -26,14 +30,12 @@
 <script>
 import LoadingButton from '@/Shared/LoadingButton';
 import FormSection from '@/Shared/Layout/FormSection';
-import SelectBox from '@/Shared/Select';
 import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
   components: {
     LoadingButton,
     FormSection,
-    SelectBox,
   },
 
   props: {

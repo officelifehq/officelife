@@ -334,11 +334,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
                     // project tasks
                     Route::resource('{project}/tasks', 'Company\\Company\\Project\\ProjectTasksController', ['as' => 'projects']);
-                    Route::put('{project}/tasks/{task}/toggle', 'Company\\Company\\Project\\ProjectTasksController@toggle');
+                    Route::put('{project}/tasks/{task}/toggle', 'Company\\Company\\Project\\ProjectTasksController@toggle')->name('projects.tasks.toggle');
                     Route::post('{project}/tasks/lists/store', 'Company\\Company\\Project\\ProjectTaskListsController@store');
                     Route::put('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@update');
                     Route::delete('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@destroy');
-                    Route::get('{project}/tasks/{task}/timeTrackingEntries', 'Company\\Company\\Project\\ProjectTasksController@timeTrackingEntries');
+                    Route::get('{project}/tasks/{task}/timeTrackingEntries', 'Company\\Company\\Project\\ProjectTasksController@timeTrackingEntries')->name('projects.tasks.timeTrackingEntries');
                     Route::post('{project}/tasks/{task}/log', 'Company\\Company\\Project\\ProjectTasksController@logTime');
                     Route::post('{project}/tasks/{task}/comments', 'Company\\Company\\Project\\ProjectTasksCommentController@store');
                     Route::put('{project}/tasks/{task}/comments/{comment}', 'Company\\Company\\Project\\ProjectTasksCommentController@update');

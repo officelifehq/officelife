@@ -108,6 +108,7 @@ return [
     'breadcrumb_account_show_software' => 'View software details',
     'breadcrumb_account_edit_software' => 'Edit software',
     'breadcrumb_account_add_hardware' => 'Add item',
+    'breadcrumb_account_edit_hardware' => 'Edit item',
     'breadcrumb_account_show_hardware' => 'Show item',
     'breadcrumb_account_manage_e_coffee' => 'eCoffee management',
     'breadcrumb_account_manage_work_from_home' => 'Work from home feature',

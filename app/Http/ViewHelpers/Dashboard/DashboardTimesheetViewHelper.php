@@ -87,6 +87,11 @@ class DashboardTimesheetViewHelper
             'start_date' => DateHelper::formatDate($timesheet->started_at),
             'end_date' => DateHelper::formatDate($timesheet->ended_at),
             'entries' => $linesOfTimesheet,
+            'url' => [
+                'project_list' => route('dashboard.timesheet.projects', [
+                    'company' => $timesheet->company_id,
+                ]),
+            ],
         ];
     }
 
@@ -280,7 +285,7 @@ class DashboardTimesheetViewHelper
     }
 
     /**
-     * Get a colleciton of all the timesheets rejected for this employee.
+     * Get a collection of all the timesheets rejected for this employee.
      *
      * @param Employee $employee
      * @return Collection

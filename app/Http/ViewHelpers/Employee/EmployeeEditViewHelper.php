@@ -22,16 +22,8 @@ class EmployeeEditViewHelper
             'name' => $employee->name,
             'email' => $employee->email,
             'phone' => $employee->phone_number,
-            'birthdate' => (! $employee->birthdate) ? null : [
-                'year' => $employee->birthdate->year,
-                'month' => $employee->birthdate->month,
-                'day' => $employee->birthdate->day,
-            ],
-            'hired_at' => (! $employee->hired_at) ? null : [
-                'year' => $employee->hired_at->year,
-                'month' => $employee->hired_at->month,
-                'day' => $employee->hired_at->day,
-            ],
+            'birthdate' => (! $employee->birthdate) ? null : $employee->birthdate->format('Y-m-d'),
+            'hired_at' => (! $employee->hired_at) ? null : $employee->hired_at->format('Y-m-d'),
             'twitter_handle' => $employee->twitter_handle,
             'slack_handle' => $employee->slack_handle,
             'max_year' => Carbon::now()->year,

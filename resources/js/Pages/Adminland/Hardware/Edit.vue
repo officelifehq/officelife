@@ -66,15 +66,14 @@ input[type=radio] {
                 :required="false"
               />
 
-              <select-box v-if="form.lend_hardware"
-                          :id="'employee_id'"
-                          v-model="form.employee_id"
-                          :options="employees"
-                          :name="'employee_id'"
-                          :errors="$page.props.errors.employee_id"
-                          :placeholder="$t('account.hardware_create_lend_name')"
-                          :required="false"
-                          :datacy="'employee-selector'"
+              <a-select
+                v-if="form.lend_hardware"
+                v-model:value="form.employee_id"
+                :placeholder="$t('account.hardware_create_lend_name')"
+                style="width: 100%"
+                :options="employees"
+                show-search
+                option-filter-prop="label"
               />
             </div>
 
@@ -103,7 +102,6 @@ import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
 import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import SelectBox from '@/Shared/Select';
 import Help from '@/Shared/Help';
 
 export default {
@@ -114,7 +112,6 @@ export default {
     TextInput,
     Errors,
     LoadingButton,
-    SelectBox,
     Help
   },
 
