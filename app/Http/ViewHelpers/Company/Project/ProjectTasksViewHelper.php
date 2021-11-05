@@ -268,12 +268,10 @@ class ProjectTasksViewHelper
                 'toggle' => route('projects.tasks.toggle', [
                     'company' => $company,
                     'project' => $task->project_id,
-                    'project' => $task->project_id,
                     'task' => $task->id,
                 ]),
                 'entries' => route('projects.tasks.timeTrackingEntries', [
                     'company' => $company,
-                    'project' => $task->project_id,
                     'project' => $task->project_id,
                     'task' => $task->id,
                 ]),
