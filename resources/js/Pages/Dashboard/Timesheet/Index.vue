@@ -144,8 +144,9 @@
               <a-select
                 v-model:value="form.project"
                 :placeholder="$t('dashboard.timesheet_create_choose_project')"
-                style="width: 200px; margin-bottom: 10px;"
+                style="width: 400px; margin-bottom: 10px;"
                 :options="projects"
+                label-in-value
                 show-search
                 option-filter-prop="label"
                 @change="showTasks"
@@ -158,10 +159,12 @@
                 <a-select
                   v-model:value="form.task"
                   :placeholder="$t('dashboard.timesheet_create_choose_task')"
-                  style="width: 200px; margin-bottom: 10px;"
+                  style="width: 400px; margin-bottom: 10px;"
                   :options="tasks"
                   show-search
                   option-filter-prop="label"
+                  label-in-value
+                  @change="setTaskDetails"
                 />
               </div>
             </span>
@@ -287,6 +290,12 @@ export default {
         task: null,
         errors: [],
       },
+      newEntry: {
+        projectId: null,
+        projectName: null,
+        taskId: null,
+        taskName: null,
+      },
       loadingState: '',
       displayNewEntry: false,
       displayTasks: false,
@@ -338,13 +347,20 @@ export default {
       this.form.task = null;
     },
 
-    showTasks() {
+    showTasks(value) {
+      this.newEntry.projectId = value.key;
+      this.newEntry.projectName = value.label;
       this.getTasksList();
       this.displayTasks = true;
     },
 
+    setTaskDetails(value) {
+      this.newEntry.taskId = value.key;
+      this.newEntry.taskName = value.label;
+    },
+
     getProjectList() {
-      axios.get(`/${this.$page.props.auth.company.id}/dashboard/timesheet/projects`)
+      axios.get(this.timesheet.url.project_list)
         .then(response => {
           this.projects = response.data.data;
         })
@@ -354,7 +370,7 @@ export default {
     },
 
     getTasksList() {
-      axios.get(`/${this.$page.props.auth.company.id}/dashboard/timesheet/${this.timesheet.id}/projects/${this.form.project}/tasks`)
+      axios.get(`/${this.$page.props.auth.company.id}/dashboard/timesheet/${this.timesheet.id}/projects/${this.newEntry.projectId}/tasks`)
         .then(response => {
           this.tasks = response.data.data;
         })
@@ -377,11 +393,11 @@ export default {
 
     addBlankTimesheetRow() {
       this.timesheetRows.push({
-        project_id: this.form.project,
-        project_name: this.$refs.projects.proxyValue.label,
-        project_code: this.$refs.projects.proxyValue.code,
-        task_id: this.form.task,
-        task_title: this.$refs.tasks.proxyValue.label,
+        project_id: this.newEntry.projectId,
+        project_name: this.newEntry.projectName,
+        project_code: this.newEntry.projectId,
+        task_id: this.newEntry.taskId,
+        task_title: this.newEntry.taskName,
         total_this_week: 0,
         days: [
           {

@@ -103,6 +103,13 @@ class DashboardTimesheetViewHelperTest extends TestCase
 
         $this->assertEquals(
             [
+                'project_list' => env('APP_URL').'/'.$michael->company_id.'/dashboard/timesheet/projects',
+            ],
+            $array['url']
+        );
+
+        $this->assertEquals(
+            [
                 0 => [
                     'day_of_week' => 1,
                     'hours' => 1,
