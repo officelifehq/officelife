@@ -75,6 +75,6 @@ class ProjectSprint extends Model
      */
     public function issues()
     {
-        return $this->belongsToMany(ProjectIssue::class, 'project_issue_project_sprint', 'project_sprint_id', 'project_issue_id');
+        return $this->belongsToMany(ProjectIssue::class, 'project_issue_project_sprint', 'project_sprint_id', 'project_issue_id')->withPivot('order');
     }
 }

@@ -128,11 +128,11 @@ class CreateProjectIssue extends BaseService
      */
     private function setIssuePositionInSprint(): void
     {
-        $currentMaxPosition = DB::table('project_sprint_issue_order')
+        $currentMaxPosition = DB::table('project_issue_project_sprint')
             ->where('project_sprint_id', $this->projectSprint->id)
             ->max('order');
 
-        DB::table('project_sprint_issue_order')->insert([
+        DB::table('project_issue_project_sprint')->insert([
             'project_sprint_id' => $this->projectSprint->id,
             'project_issue_id' => $this->projectIssue->id,
             'order' => $currentMaxPosition + 1,

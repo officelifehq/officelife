@@ -33,21 +33,33 @@
 }
 
 .issue-list {
-  div:last-child {
+  .issue-list-item:last-child {
     border-bottom: 0;
   }
 
-  div:first-child:hover {
+  .issue-list-item:first-child:hover {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
 
-  div:last-child {
+  .issue-list-item:last-child {
     border-bottom: 0;
 
     &:hover {
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
+    }
+  }
+
+  .issue-list-item-separator {
+    &:last-child {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    &:first-child {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
     }
   }
 }
@@ -56,12 +68,12 @@
   flex-grow: 1
 }
 
-::v-deep .modal-container {
+::v-deep(.modal-container) {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-::v-deep .modal-content {
+::v-deep(.modal-content) {
   display: flex;
   flex-direction: column;
   box-shadow: rgb(0 0 0 / 50%) 0px 16px 70px;
@@ -71,11 +83,11 @@
   background: #fff;
   width: 650px;
 }
-::v-deep .overlay {
+::v-deep(.overlay) {
   background-color: rgb(193 193 193 / 50%);
 }
-::v-deep .modal-body {
-  padding: 10px 12px 12px 12px;
+::v-deep(.modal-body) {
+  padding: 10px 12px 12px 12px;tyrw
 
   .board-name {
     background-color: #f5f7f8;
@@ -94,7 +106,7 @@
   }
 }
 
-::v-deep .modal-footer {
+::v-deep(.modal-footer) {
   text-align: right;
   padding: 8px 13px;
 }
@@ -110,6 +122,12 @@
   width: 12px;
   top: 5px;
   right: 8px;
+}
+
+.handle-icon {
+  width: 16px;
+  left: -9px;
+  top: 3px;
 }
 </style>
 
@@ -158,7 +176,6 @@
       </form>
     </vue-final-modal>
 
-    <!-- right column -->
     <div>
       <!-- cycle -->
       <div class="flex justify-between items-center">
@@ -193,103 +210,66 @@
       <!-- issue list -->
       <div class="bg-white box issue-list">
         <draggable
-          v-model="localIssues"
-          group="people"
+          :list="localIssues"
           item-key="id"
-          @start="drag=true"
-          @end="drag=false"
+          :component-data="{name:'fade'}"
+          handle=".handle"
         >
-          <template #item="{issue}">
-            <div class="bb bb-gray bb-gray-hover">
-              <div v-if="!issue.is_separator" class="pa3 relative flex-ns justify-between items-center">
+          <template #item="{ element }">
+            <div v-if="!element.is_separator" class="bb bb-gray bb-gray-hover issue-list-item">
+              <div class="pa3 relative flex-ns justify-between items-center">
                 <div>
+                  <!-- handle -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="relative cursor-grab handle handle-icon inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                  </svg>
+
                   <!-- issue type -->
                   <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
 
                   <!-- key -->
                   <span class="f7 project-key mr2 code">
-                    {{ issue.key }}
+                    {{ element.key }}
                   </span>
 
                   <!-- title -->
-                  <span>{{ issue.title }}</span>
+                  <span>{{ element.title }}</span>
                 </div>
 
                 <div>
                   <!-- date -->
                   <span class="f7 code mr2">
-                    {{ issue.created_at }}
+                    {{ element.created_at }}
                   </span>
 
                   <!-- points -->
-                  <span v-if="issue.story_points" class="story-points">
-                    {{ issue.story_points }}
+                  <span v-if="element.story_points" class="story-points">
+                    {{ element.story_points }}
                   </span>
                   <span v-else class="story-points">
                     -
                   </span>
                 </div>
               </div>
+            </div>
 
+            <div v-else class="ph3 pv1 tc relative bg-light-gray ttu f7 handle issue-list-item-separator">
               <!-- separator -->
-              <div v-else class="ph3 pv1 tc relative bg-light-gray ttu f7">
-                {{ issue.title }}
+              <span class="cursor-grab">
+                {{ element.title }}
+              </span>
 
-                <svg xmlns="http://www.w3.org/2000/svg" class="pointer absolute icon-separator" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                     @click="destroySeparator(issue)"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="pointer absolute icon-separator" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                   @click="destroySeparator(element)"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
             </div>
           </template>
         </draggable>
 
-        <div v-for="issue in localIssues" :key="issue.id" class="bb bb-gray bb-gray-hover">
-          <div v-if="!issue.is_separator" class="pa3 relative flex-ns justify-between items-center">
-            <div>
-              <!-- issue type -->
-              <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
-
-              <!-- key -->
-              <span class="f7 project-key mr2 code">
-                {{ issue.key }}
-              </span>
-
-              <!-- title -->
-              <span>{{ issue.title }}</span>
-            </div>
-
-            <div>
-              <!-- date -->
-              <span class="f7 code mr2">
-                {{ issue.created_at }}
-              </span>
-
-              <!-- points -->
-              <span v-if="issue.story_points" class="story-points">
-                {{ issue.story_points }}
-              </span>
-              <span v-else class="story-points">
-                -
-              </span>
-            </div>
-          </div>
-
-          <!-- separator -->
-          <div v-else class="ph3 pv1 tc relative bg-light-gray ttu f7">
-            {{ issue.title }}
-
-            <svg xmlns="http://www.w3.org/2000/svg" class="pointer absolute icon-separator" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                 @click="destroySeparator(issue)"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </div>
-        </div>
-
         <!-- Add separator modal -->
-        <div v-if="showSeparatorModal" class="bb bb-gray bb-gray-hover pa3 relative">
+        <div v-if="showSeparatorModal" class="bb bb-gray pa3 relative">
           <form class="flex justify-between items-center" @submit.prevent="submitSeparator">
             <text-input :ref="'newIssueSeparator'"
                         v-model="form.title"
@@ -438,7 +418,7 @@ export default {
     destroySeparator(issue) {
       axios.delete(issue.url.destroy)
         .then(response => {
-          this.flash(this.$t('project.issue_destroyed'), 'success');
+          this.flash(this.$t('project.separator_destroyed'), 'success');
           var id = this.localIssues.findIndex(x => x.id === issue.id);
           this.localIssues.splice(id, 1);
         })

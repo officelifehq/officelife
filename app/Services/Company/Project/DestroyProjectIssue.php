@@ -6,14 +6,18 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
+use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectIssue;
+use App\Models\Company\ProjectSprint;
 use App\Models\Company\ProjectMemberActivity;
 
 class DestroyProjectIssue extends BaseService
 {
     protected array $data;
     protected Project $project;
+    protected ProjectSprint $projectSprint;
     protected ProjectIssue $projectIssue;
+    protected int $issueOrder;
 
     /**
      * Get the validation rules that apply to the service.
@@ -26,6 +30,7 @@ class DestroyProjectIssue extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'nullable|integer|exists:projects,id',
+            'project_sprint_id' => 'required|integer|exists:project_sprints,id',
             'project_issue_id' => 'nullable|integer|exists:project_issues,id',
         ];
     }
@@ -40,6 +45,7 @@ class DestroyProjectIssue extends BaseService
         $this->data = $data;
         $this->validate();
         $this->destroy();
+        $this->reorderIssuesInSprint();
         $this->logActivity();
         $this->log();
     }
@@ -58,11 +64,32 @@ class DestroyProjectIssue extends BaseService
 
         $this->projectIssue = ProjectIssue::where('project_id', $this->project->id)
             ->findOrFail($this->data['project_issue_id']);
+
+        $this->projectSprint = ProjectSprint::where('project_id', $this->data['project_id'])
+            ->findOrFail($this->data['project_sprint_id']);
+
+        $this->issueOrder = DB::table('project_issue_project_sprint')
+            ->where('project_sprint_id', $this->projectSprint->id)
+            ->where('project_issue_id', $this->projectIssue->id)
+            ->select('order')
+            ->first()->order;
     }
 
     private function destroy(): void
     {
         $this->projectIssue->delete();
+    }
+
+    /**
+     * An issue has a position in the sprint (backlog or "real" sprint).
+     * Position 0 is the highest position in the sprint.
+     */
+    private function reorderIssuesInSprint(): void
+    {
+        DB::table('project_issue_project_sprint')
+            ->where('project_sprint_id', $this->projectSprint->id)
+            ->where('order', '>', $this->issueOrder)
+            ->decrement('order');
     }
 
     private function logActivity(): void

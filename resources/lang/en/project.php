@@ -153,4 +153,5 @@ return [
     'separator_created' => 'The separator has been added.',
     'issue_created' => 'The issue has been created.',
     'issue_destroyed' => 'The issue has been deleted.',
+    'separator_destroyed' => 'The separator has been deleted.',
 ];
