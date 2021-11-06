@@ -31,7 +31,7 @@ class DestroyProjectIssueTest extends TestCase
         $projectIssue = ProjectIssue::factory()->create([
             'project_id' => $project->id,
         ]);
-        $sprint->issues()->syncWithoutDetaching([$projectIssue->id => ['order' => 3]]);
+        $sprint->issues()->syncWithoutDetaching([$projectIssue->id => ['position' => 3]]);
 
         $this->executeService($michael, $project, $sprint, $projectIssue);
     }
@@ -49,7 +49,7 @@ class DestroyProjectIssueTest extends TestCase
         $projectIssue = ProjectIssue::factory()->create([
             'project_id' => $project->id,
         ]);
-        $sprint->issues()->sync([$projectIssue->id => ['order' => 3]]);
+        $sprint->issues()->sync([$projectIssue->id => ['position' => 3]]);
         $this->executeService($michael, $project, $sprint, $projectIssue);
     }
 
@@ -66,7 +66,7 @@ class DestroyProjectIssueTest extends TestCase
         $projectIssue = ProjectIssue::factory()->create([
             'project_id' => $project->id,
         ]);
-        $sprint->issues()->sync([$projectIssue->id => ['order' => 3]]);
+        $sprint->issues()->sync([$projectIssue->id => ['position' => 3]]);
         $this->executeService($michael, $project, $sprint, $projectIssue);
     }
 
@@ -119,16 +119,16 @@ class DestroyProjectIssueTest extends TestCase
     {
         Queue::fake();
 
-        // this issue, once the given issue will be deleted, should have its order
+        // this issue, once the given issue will be deleted, should have its position
         // decreased by one
         $olderIssue = ProjectIssue::factory()->create([
             'project_id' => $project->id,
         ]);
-        $sprint->issues()->syncWithoutDetaching([$olderIssue->id => ['order' => 5]]);
+        $sprint->issues()->syncWithoutDetaching([$olderIssue->id => ['position' => 5]]);
         $youngerIssue = ProjectIssue::factory()->create([
             'project_id' => $project->id,
         ]);
-        $sprint->issues()->syncWithoutDetaching([$youngerIssue->id => ['order' => 2]]);
+        $sprint->issues()->syncWithoutDetaching([$youngerIssue->id => ['position' => 2]]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -153,12 +153,12 @@ class DestroyProjectIssueTest extends TestCase
         $this->assertDatabaseHas('project_issue_project_sprint', [
             'project_sprint_id' =>  $sprint->id,
             'project_issue_id' => $olderIssue->id,
-            'order' => 4,
+            'position' => 4,
         ]);
         $this->assertDatabaseHas('project_issue_project_sprint', [
             'project_sprint_id' =>  $sprint->id,
             'project_issue_id' => $youngerIssue->id,
-            'order' => 2,
+            'position' => 2,
         ]);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project, $issue) {

@@ -214,6 +214,7 @@
           item-key="id"
           :component-data="{name:'fade'}"
           handle=".handle"
+          @change="updateOrder"
         >
           <template #item="{ element }">
             <div v-if="!element.is_separator" class="bb bb-gray bb-gray-hover issue-list-item">
@@ -340,6 +341,7 @@ export default {
         title: null,
         description: null,
         is_separator: false,
+        order: 0,
       },
     };
   },
@@ -406,12 +408,14 @@ export default {
 
           this.loadingState = null;
           this.hideAddSeparatorModal();
+          this.form.is_separator = false;
 
           this.localIssues.push(response.data.data);
         })
         .catch(error => {
           this.loadingState = null;
           this.errors = error.response.data;
+          this.form.is_separator = false;
         });
     },
 
@@ -427,6 +431,25 @@ export default {
           this.errors = error.response.data;
         });
     },
+
+    updateOrder(event) {
+      // the event object comes from the draggable component
+      this.form.order = event.moved.newIndex;
+      console.log('id' + event.moved.element.id);
+      console.log('new position' + event.moved.newIndex);
+
+      axios.post(event.moved.element.url.reorder, this.form)
+        .then(response => {
+          // this.flash(this.$t('project.separator_destroyed'), 'success');
+          // var id = this.localIssues.findIndex(x => x.id === issue.id);
+          // this.localIssues.splice(id, 1);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.errors = error.response.data;
+        });
+
+    }
   }
 };
 

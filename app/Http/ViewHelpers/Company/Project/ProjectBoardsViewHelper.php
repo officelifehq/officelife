@@ -116,7 +116,7 @@ class ProjectBoardsViewHelper
         $activeSprints->push($backlog);
 
         foreach ($activeSprints as $sprint) {
-            $issues = $sprint->issues()->with('type')->orderBy('order')->get();
+            $issues = $sprint->issues()->with('type')->orderBy('position')->get();
 
             $issueCollection = collect();
             foreach ($issues as $issue) {
@@ -137,6 +137,13 @@ class ProjectBoardsViewHelper
                             'company' => $company,
                             'issue' => $issue->key,
                             'slug' => $issue->slug,
+                        ]),
+                        'reorder' => route('projects.issues.store.order', [
+                            'company' => $company,
+                            'project' => $project,
+                            'board' => $projectBoard,
+                            'sprint' => $sprint,
+                            'issue' => $issue->id,
                         ]),
                         'destroy' => route('projects.issues.destroy', [
                             'company' => $company,

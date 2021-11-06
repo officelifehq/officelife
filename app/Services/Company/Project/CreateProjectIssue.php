@@ -118,8 +118,6 @@ class CreateProjectIssue extends BaseService
             'story_points' => $this->valueOrNull($this->data, 'points'),
             'is_separator' => $this->valueOrFalse($this->data, 'is_separator'),
         ]);
-
-        $this->projectIssue->sprints()->syncWithoutDetaching([$this->projectSprint->id]);
     }
 
     /**
@@ -130,12 +128,12 @@ class CreateProjectIssue extends BaseService
     {
         $currentMaxPosition = DB::table('project_issue_project_sprint')
             ->where('project_sprint_id', $this->projectSprint->id)
-            ->max('order');
+            ->max('position');
 
         DB::table('project_issue_project_sprint')->insert([
             'project_sprint_id' => $this->projectSprint->id,
             'project_issue_id' => $this->projectIssue->id,
-            'order' => $currentMaxPosition + 1,
+            'position' => $currentMaxPosition + 1,
         ]);
     }
 

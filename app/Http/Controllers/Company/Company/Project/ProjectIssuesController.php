@@ -133,6 +133,7 @@ class ProjectIssuesController extends Controller
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
+            'project_sprint_id' => $sprintId,
             'project_issue_id' => $issueId,
         ];
 
