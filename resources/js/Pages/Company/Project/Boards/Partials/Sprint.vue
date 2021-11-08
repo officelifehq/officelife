@@ -214,7 +214,7 @@
           item-key="id"
           :component-data="{name:'fade'}"
           handle=".handle"
-          @change="updateOrder"
+          @change="updatePosition"
         >
           <template #item="{ element }">
             <div v-if="!element.is_separator" class="bb bb-gray bb-gray-hover issue-list-item">
@@ -341,7 +341,7 @@ export default {
         title: null,
         description: null,
         is_separator: false,
-        order: 0,
+        position: 0,
       },
     };
   },
@@ -432,9 +432,9 @@ export default {
         });
     },
 
-    updateOrder(event) {
+    updatePosition(event) {
       // the event object comes from the draggable component
-      this.form.order = event.moved.newIndex;
+      this.form.position = event.moved.newIndex;
       console.log('id' + event.moved.element.id);
       console.log('new position' + event.moved.newIndex);
 

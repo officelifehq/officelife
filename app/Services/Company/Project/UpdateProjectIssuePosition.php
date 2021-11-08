@@ -81,19 +81,35 @@ class UpdateProjectIssuePosition extends BaseService
     private function updateOrder(): void
     {
         if ($this->data['new_position'] > $this->pastPosition) {
-            DB::table('project_issue_project_sprint')
-                ->where('project_sprint_id', $this->projectSprint->id)
-                ->where('position', '>', $this->pastPosition)
-                ->where('position', '<=', $this->data['new_position'])
-                ->decrement('position');
-
-            DB::table('project_issue_project_sprint')
-                ->where('project_sprint_id', $this->projectSprint->id)
-                ->where('project_issue_id', $this->projectIssue->id)
-                ->update([
-                    'position' => $this->data['new_position'],
-                ]);
+            $this->updateAscendingPosition();
+        } else {
+            $this->updateDescendingPosition();
         }
+
+        DB::table('project_issue_project_sprint')
+            ->where('project_sprint_id', $this->projectSprint->id)
+            ->where('project_issue_id', $this->projectIssue->id)
+            ->update([
+                'position' => $this->data['new_position'],
+            ]);
+    }
+
+    private function updateAscendingPosition(): void
+    {
+        DB::table('project_issue_project_sprint')
+            ->where('project_sprint_id', $this->projectSprint->id)
+            ->where('position', '>', $this->pastPosition)
+            ->where('position', '<=', $this->data['new_position'])
+            ->decrement('position');
+    }
+
+    private function updateDescendingPosition(): void
+    {
+        DB::table('project_issue_project_sprint')
+            ->where('project_sprint_id', $this->projectSprint->id)
+            ->where('position', '>=', $this->data['new_position'])
+            ->where('position', '<', $this->pastPosition)
+            ->increment('position');
     }
 
     private function logActivity(): void
