@@ -15,7 +15,7 @@ class CreateSprintStoryOrderTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::table('project_sprints', function (Blueprint $table) {
-            $table->boolean('is_board_backlog')->default(false);
+            $table->boolean('is_board_backlog')->after('project_board_id')->default(false);
         });
 
         Schema::create('project_sprint_issue_order', function (Blueprint $table) {

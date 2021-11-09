@@ -168,6 +168,12 @@ class ProjectBoardsViewHelper
                         'board' => $projectBoard,
                         'sprint' => $sprint,
                     ]),
+                    'toggle' => route('projects.sprints.toggle', [
+                        'company' => $company,
+                        'project' => $project,
+                        'board' => $projectBoard,
+                        'sprint' => $sprint,
+                    ]),
                 ],
             ]);
         }

@@ -21,6 +21,7 @@ class ProjectSprint extends Model
     protected $fillable = [
         'project_id',
         'project_board_id',
+        'position',
         'name',
         'active',
         'started_at',

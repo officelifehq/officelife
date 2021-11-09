@@ -129,6 +129,11 @@
   left: -9px;
   top: 3px;
 }
+
+.icon-sprint {
+  width: 14px;
+  top: 2px;
+}
 </style>
 
 <template>
@@ -163,8 +168,8 @@
 
           <text-area v-model="form.description"
                      :required="false"
-                     :rows="10"
-                     :help="$t('account.company_news_new_content_help')"
+                     :rows="6"
+                     :placeholder="'Add description'"
                      @esc-key-pressed="hideAddModal"
           />
         </div>
@@ -180,11 +185,25 @@
       <!-- cycle -->
       <div class="flex justify-between items-center">
         <h3 class="normal mt0 mb2 f5 relative">
+          <!-- arrow right -->
+          <svg v-if="collapsed" xmlns="http://www.w3.org/2000/svg" class="icon-sprint inline mr1 relative pointer" fill="none" viewBox="0 0 24 24"
+               stroke="currentColor" @click="toggle"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+
+          <!-- arrow down -->
+          <svg v-if="!collapsed" xmlns="http://www.w3.org/2000/svg" class="icon-sprint inline mr1 relative pointer" fill="none" viewBox="0 0 24 24"
+               stroke="currentColor" @click="toggle"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+
           <span v-if="sprint.active" class="dib dot br-100 relative mr1">
 &nbsp;
           </span>
 
-          Backlog
+          Sprint 45
         </h3>
 
         <div class="mb2">
@@ -208,7 +227,7 @@
       </div>
 
       <!-- issue list -->
-      <div class="bg-white box issue-list">
+      <div v-if="!collapsed" class="bg-white box issue-list">
         <draggable
           :list="localIssues"
           item-key="id"
@@ -288,7 +307,7 @@
           </form>
         </div>
       </div>
-      <ul class="list pl0 mt1 mb4">
+      <ul v-if="!collapsed" class="list pl0 mt1 mb4">
         <li class="di mr3"><span class="f7 pointer b--dotted bb bt-0 br-0 bl-0" @click="displayAddModal">+ New issue</span></li>
         <li v-if="!showSeparatorModal" class="di mr2"><span class="f7 pointer b--dotted bb bt-0 br-0 bl-0" @click="displayAddSeparatorModal">+ New separator</span></li>
       </ul>
@@ -334,6 +353,7 @@ export default {
       loadingState: '',
       localIssues: [],
       errors: null,
+      collapsed: false,
       drag: false,
       showModal: false,
       showSeparatorModal: false,
@@ -435,20 +455,25 @@ export default {
     updatePosition(event) {
       // the event object comes from the draggable component
       this.form.position = event.moved.newIndex;
-      console.log('id' + event.moved.element.id);
-      console.log('new position' + event.moved.newIndex);
 
       axios.post(event.moved.element.url.reorder, this.form)
         .then(response => {
-          // this.flash(this.$t('project.separator_destroyed'), 'success');
-          // var id = this.localIssues.findIndex(x => x.id === issue.id);
-          // this.localIssues.splice(id, 1);
         })
         .catch(error => {
           this.loadingState = null;
           this.errors = error.response.data;
         });
+    },
 
+    toggle() {
+      axios.post(this.sprint.url.toggle)
+        .then(response => {
+          this.collapsed = !this.collapsed;
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.errors = error.response.data;
+        });
     }
   }
 };
