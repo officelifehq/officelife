@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Project\UpdateProjectIssueposition;
+use App\Services\Company\Project\UpdateProjectIssuePosition;
 
 class UpdateProjectIssuePositionTest extends TestCase
 {
@@ -107,7 +107,7 @@ class UpdateProjectIssuePositionTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new UpdateProjectIssueposition)->execute($request);
+        (new UpdateProjectIssuePosition)->execute($request);
     }
 
     private function executeService(Employee $michael, Project $project, ProjectSprint $sprint, ProjectIssue $issue, int $newposition): void
@@ -141,7 +141,7 @@ class UpdateProjectIssuePositionTest extends TestCase
             'new_position' => $newposition,
         ];
 
-        $issue = (new UpdateProjectIssueposition)->execute($request);
+        $issue = (new UpdateProjectIssuePosition)->execute($request);
 
         $this->assertDatabaseHas('project_issue_project_sprint', [
             'project_issue_id' => $issue->id,
