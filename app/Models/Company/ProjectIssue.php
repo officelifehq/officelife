@@ -40,6 +40,7 @@ class ProjectIssue extends Model
      */
     protected $casts = [
         'is_separator' => 'boolean',
+        'story_points' => 'integer',
     ];
 
     /**

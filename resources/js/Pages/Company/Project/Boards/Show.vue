@@ -26,8 +26,8 @@
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
       <breadcrumb :has-more="true"
-                  :previous-url="route('projects.index', { company: $page.props.auth.company.id})"
-                  :previous="project.name"
+                  :previous-url="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/boards'"
+                  :previous="$t('app.breadcrumb_project_board_list')"
                   :custom-class="'mt0-l'"
                   :center-box="false"
                   :custom-margin-top="'mt1'"
@@ -84,6 +84,7 @@
         <div>
           <!-- cycle -->
           <div v-for="sprint in localSprints" :key="sprint.id">
+            <sprint :board="data.board" :sprint="sprint" :issue-types="issueTypes" />
             <sprint :board="data.board" :sprint="sprint" :issue-types="issueTypes" />
           </div>
 

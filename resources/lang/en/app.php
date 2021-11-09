@@ -136,6 +136,7 @@ return [
     'breadcrumb_project_message' => 'Message',
     'breadcrumb_project_message_list' => 'Messages list',
     'breadcrumb_project_message_edit' => 'Edit message',
+    'breadcrumb_project_board_list' => 'All boards',
     'breadcrumb_dashboard_one_on_one' => 'One on One',
     'breadcrumb_dashboard_manager_timesheets' => 'All timesheets',
     'breadcrumb_team_list' => 'All teams',

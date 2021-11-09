@@ -7,6 +7,8 @@ use App\Models\Company\Company;
 use App\Models\Company\Project;
 use App\Models\Company\IssueType;
 use App\Models\Company\ProjectBoard;
+use App\Models\Company\ProjectIssue;
+use App\Models\Company\ProjectSprint;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Company\Project\ProjectBoardsViewHelper;
 
@@ -92,6 +94,50 @@ class ProjectBoardsViewHelperTest extends TestCase
                 ],
             ],
             $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_information_about_the_backlog(): void
+    {
+        $company = Company::factory()->create();
+        $project = Project::factory()->create([
+            'company_id' => $company->id,
+        ]);
+        $projectBoard = ProjectBoard::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $backlog = ProjectSprint::factory()->create([
+            'project_board_id' => $projectBoard->id,
+            'name' => 'Backlog',
+            'is_board_backlog' => true,
+        ]);
+        $otherSprint = ProjectSprint::factory()->create([
+            'project_board_id' => $projectBoard->id,
+            'is_board_backlog' => false,
+        ]);
+        for ($i = 0; $i < 3; $i++) {
+            $issue = ProjectIssue::factory()->create([
+                'project_id' => $project->id,
+                'project_board_id' => $projectBoard->id,
+            ]);
+            $backlog->issues()->syncWithoutDetaching($issue->id);
+            $otherSprint->issues()->syncWithoutDetaching($issue->id);
+        }
+
+        $array = ProjectBoardsViewHelper::backlog($project, $projectBoard);
+
+        $this->assertEquals(
+            [
+                'id' => $projectBoard->id,
+                'name' => $projectBoard->name,
+            ],
+            $array['board']
+        );
+
+        $this->assertEquals(
+            2,
+            $array['sprints']->count()
         );
     }
 }

@@ -181,10 +181,10 @@
       </form>
     </vue-final-modal>
 
-    <div>
+    <div :class="collapsed ? 'mb3' : ''">
       <!-- cycle -->
       <div class="flex justify-between items-center">
-        <h3 class="normal mt0 mb2 f5 relative">
+        <h3 class="fw6 mt0 mb2 f5 relative">
           <!-- arrow right -->
           <svg v-if="collapsed" xmlns="http://www.w3.org/2000/svg" class="icon-sprint inline mr1 relative pointer" fill="none" viewBox="0 0 24 24"
                stroke="currentColor" @click="toggle"

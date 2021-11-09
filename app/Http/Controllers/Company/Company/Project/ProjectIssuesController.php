@@ -99,7 +99,6 @@ class ProjectIssuesController extends Controller
                 'url' => [
                     'show' => route('projects.issues.show', [
                         'company' => $loggedCompany,
-                        'issue' => $issue->key,
                         'slug' => $issue->slug,
                     ]),
                     'destroy' => route('projects.issues.destroy', [
