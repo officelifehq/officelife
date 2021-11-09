@@ -150,4 +150,8 @@ return [
     'board_title' => 'Boards',
     'board_cta' => 'Create a board',
     'board_cta_success' => 'The board has been created.',
+    'separator_created' => 'The separator has been added.',
+    'issue_created' => 'The issue has been created.',
+    'issue_destroyed' => 'The issue has been deleted.',
+    'separator_destroyed' => 'The separator has been deleted.',
 ];

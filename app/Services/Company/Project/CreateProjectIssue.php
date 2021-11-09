@@ -38,10 +38,11 @@ class CreateProjectIssue extends BaseService
             'project_id' => 'required|integer|exists:projects,id',
             'project_board_id' => 'required|integer|exists:project_boards,id',
             'project_sprint_id' => 'required|integer|exists:project_sprints,id',
-            'issue_type_id' => 'required|integer|exists:issue_types,id',
+            'issue_type_id' => 'nullable|integer|exists:issue_types,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:16777215',
             'points' => 'nullable|integer|max:100',
+            'is_separator' => 'nullable|boolean',
         ];
     }
 
@@ -76,8 +77,10 @@ class CreateProjectIssue extends BaseService
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
 
-        $this->issueType = IssueType::where('company_id', $this->data['company_id'])
-            ->findOrFail($this->data['issue_type_id']);
+        if ($this->valueOrNull($this->data, 'issue_type_id')) {
+            $this->issueType = IssueType::where('company_id', $this->data['company_id'])
+                ->findOrFail($this->data['issue_type_id']);
+        }
 
         $this->projectBoard = ProjectBoard::where('project_id', $this->data['project_id'])
             ->findOrFail($this->data['project_board_id']);
@@ -113,9 +116,8 @@ class CreateProjectIssue extends BaseService
             'slug' => Str::of($this->data['title'])->slug('-'),
             'description' => $this->valueOrNull($this->data, 'description'),
             'story_points' => $this->valueOrNull($this->data, 'points'),
+            'is_separator' => $this->valueOrFalse($this->data, 'is_separator'),
         ]);
-
-        $this->projectIssue->sprints()->syncWithoutDetaching([$this->projectSprint->id]);
     }
 
     /**
@@ -124,14 +126,14 @@ class CreateProjectIssue extends BaseService
      */
     private function setIssuePositionInSprint(): void
     {
-        $currentMaxPosition = DB::table('project_sprint_issue_order')
+        $currentMaxPosition = DB::table('project_issue_project_sprint')
             ->where('project_sprint_id', $this->projectSprint->id)
-            ->max('order');
+            ->max('position');
 
-        DB::table('project_sprint_issue_order')->insert([
+        DB::table('project_issue_project_sprint')->insert([
             'project_sprint_id' => $this->projectSprint->id,
             'project_issue_id' => $this->projectIssue->id,
-            'order' => $currentMaxPosition + 1,
+            'position' => $currentMaxPosition + 1,
         ]);
     }
 

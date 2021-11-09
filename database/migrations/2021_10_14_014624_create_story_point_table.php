@@ -11,6 +11,9 @@ class CreateStoryPointTable extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::table('project_issues', function (Blueprint $table) {
             $table->integer('story_points')->after('description')->nullable();
         });

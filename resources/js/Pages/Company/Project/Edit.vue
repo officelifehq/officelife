@@ -44,6 +44,7 @@
             <text-input :id="'short_code'"
                         v-model="form.short_code"
                         :name="'short_code'"
+                        :required="true"
                         :errors="$page.props.errors.title"
                         :label="$t('project.create_input_short_code')"
                         :help="$t('project.create_input_short_code_help')"

@@ -2,8 +2,6 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
-use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
 use Illuminate\Support\Facades\DB;
@@ -11,13 +9,13 @@ use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectSprint;
 use App\Models\Company\ProjectMemberActivity;
 
-class DestroyProjectIssue extends BaseService
+class UpdateProjectIssuePosition extends BaseService
 {
     protected array $data;
     protected Project $project;
-    protected ProjectSprint $projectSprint;
     protected ProjectIssue $projectIssue;
-    protected int $issuePosition;
+    protected ProjectSprint $projectSprint;
+    protected int $pastPosition;
 
     /**
      * Get the validation rules that apply to the service.
@@ -29,25 +27,27 @@ class DestroyProjectIssue extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'project_id' => 'nullable|integer|exists:projects,id',
+            'project_id' => 'required|integer|exists:projects,id',
             'project_sprint_id' => 'required|integer|exists:project_sprints,id',
-            'project_issue_id' => 'nullable|integer|exists:project_issues,id',
+            'project_issue_id' => 'required|integer|exists:project_issues,id',
+            'new_position' => 'required|integer',
         ];
     }
 
     /**
-     * Delete the project issue.
+     * Update the project issue order.
      *
      * @param array $data
+     * @return ProjectIssue
      */
-    public function execute(array $data): void
+    public function execute(array $data): ProjectIssue
     {
         $this->data = $data;
         $this->validate();
-        $this->destroy();
-        $this->reorderIssuesInSprint();
+        $this->updateOrder();
         $this->logActivity();
-        $this->log();
+
+        return $this->projectIssue;
     }
 
     private function validate(): void
@@ -65,31 +65,51 @@ class DestroyProjectIssue extends BaseService
         $this->projectIssue = ProjectIssue::where('project_id', $this->project->id)
             ->findOrFail($this->data['project_issue_id']);
 
-        $this->projectSprint = ProjectSprint::where('project_id', $this->data['project_id'])
+        $this->projectSprint = ProjectSprint::where('project_id', $this->project->id)
             ->findOrFail($this->data['project_sprint_id']);
 
-        $this->issuePosition = DB::table('project_issue_project_sprint')
+        $this->pastPosition = DB::table('project_issue_project_sprint')
             ->where('project_sprint_id', $this->projectSprint->id)
             ->where('project_issue_id', $this->projectIssue->id)
             ->select('position')
             ->first()->position;
     }
 
-    private function destroy(): void
+    /**
+     * Update the order of the all the issues affected by the new order.
+     */
+    private function updateOrder(): void
     {
-        $this->projectIssue->delete();
+        if ($this->data['new_position'] > $this->pastPosition) {
+            $this->updateAscendingPosition();
+        } else {
+            $this->updateDescendingPosition();
+        }
+
+        DB::table('project_issue_project_sprint')
+            ->where('project_sprint_id', $this->projectSprint->id)
+            ->where('project_issue_id', $this->projectIssue->id)
+            ->update([
+                'position' => $this->data['new_position'],
+            ]);
     }
 
-    /**
-     * An issue has a position in the sprint (backlog or "real" sprint).
-     * Position 0 is the highest position in the sprint.
-     */
-    private function reorderIssuesInSprint(): void
+    private function updateAscendingPosition(): void
     {
         DB::table('project_issue_project_sprint')
             ->where('project_sprint_id', $this->projectSprint->id)
-            ->where('position', '>', $this->issuePosition)
+            ->where('position', '>', $this->pastPosition)
+            ->where('position', '<=', $this->data['new_position'])
             ->decrement('position');
+    }
+
+    private function updateDescendingPosition(): void
+    {
+        DB::table('project_issue_project_sprint')
+            ->where('project_sprint_id', $this->projectSprint->id)
+            ->where('position', '>=', $this->data['new_position'])
+            ->where('position', '<', $this->pastPosition)
+            ->increment('position');
     }
 
     private function logActivity(): void
@@ -98,21 +118,5 @@ class DestroyProjectIssue extends BaseService
             'project_id' => $this->project->id,
             'employee_id' => $this->author->id,
         ]);
-    }
-
-    private function log(): void
-    {
-        LogAccountAudit::dispatch([
-            'company_id' => $this->data['company_id'],
-            'action' => 'project_issue_destroyed',
-            'author_id' => $this->author->id,
-            'author_name' => $this->author->name,
-            'audited_at' => Carbon::now(),
-            'objects' => json_encode([
-                'project_id' => $this->project->id,
-                'project_name' => $this->project->name,
-                'project_issue_title' => $this->projectIssue->title,
-            ]),
-        ])->onQueue('low');
     }
 }

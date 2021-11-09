@@ -59,6 +59,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         // get the list of the positions in the company
         Route::get('positions', 'Company\\Company\\PositionController@index');
 
+        // get the issue - an issue should have the shortest link possible
+        Route::get('issues/{slug}', 'Company\\Company\\Project\\ProjectIssuesController@show')->name('projects.issues.show');
+
         Route::prefix('dashboard')->group(function () {
             Route::get('', 'Company\\Dashboard\\DashboardController@index')->name('dashboard');
 
@@ -348,14 +351,23 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                     Route::get('{project}/files', 'Company\\Company\\Project\\ProjectFilesController@index');
                     Route::post('{project}/files', 'Company\\Company\\Project\\ProjectFilesController@store');
                     Route::delete('{project}/files/{file}', 'Company\\Company\\Project\\ProjectFilesController@destroy');
-                });
 
-                // boards
-                Route::get('{project}/boards', 'Company\\Company\\Project\\ProjectBoardsController@index')->name('projects.boards.index');
-                Route::post('{project}/boards', 'Company\\Company\\Project\\ProjectBoardsController@store')->name('projects.boards.store');
-                Route::get('{project}/boards/{board}', 'Company\\Company\\Project\\ProjectBoardsController@show')->name('projects.boards.show');
-                Route::put('{project}/boards/{board}', 'Company\\Company\\Project\\ProjectBoardsController@update')->name('projects.boards.update');
-                Route::delete('{project}/boards/{board}', 'Company\\Company\\Project\\ProjectBoardsController@destroy')->name('projects.boards.destroy');
+                    // boards
+                    Route::get('{project}/boards', 'Company\\Company\\Project\\ProjectBoardsController@index')->name('projects.boards.index');
+                    Route::post('{project}/boards', 'Company\\Company\\Project\\ProjectBoardsController@store')->name('projects.boards.store');
+
+                    Route::middleware(['board'])->prefix('{project}/boards')->group(function () {
+                        Route::get('{board}', 'Company\\Company\\Project\\ProjectBoardsController@show')->name('projects.boards.show');
+                        Route::put('{board}', 'Company\\Company\\Project\\ProjectBoardsController@update')->name('projects.boards.update');
+                        Route::delete('{board}', 'Company\\Company\\Project\\ProjectBoardsController@destroy')->name('projects.boards.destroy');
+                        Route::get('{board}/backlog', 'Company\\Company\\Project\\ProjectBoardsBacklogController@show')->name('projects.boards.show.backlog');
+                        Route::post('{board}/sprints/{sprint}/start', 'Company\\Company\\Project\\ProjectSprintController@start')->name('projects.sprints.start');
+                        Route::post('{board}/sprints/{sprint}/toggle', 'Company\\Company\\Project\\ProjectSprintController@toggle')->name('projects.sprints.toggle');
+                        Route::post('{board}/sprints/{sprint}/issues', 'Company\\Company\\Project\\ProjectIssuesController@store')->name('projects.issues.store');
+                        Route::post('{board}/sprints/{sprint}/issues/{issue}/order', 'Company\\Company\\Project\\ProjectSprintController@storePosition')->name('projects.issues.store.order');
+                        Route::delete('{board}/sprints/{sprint}/issues/{issue}', 'Company\\Company\\Project\\ProjectIssuesController@destroy')->name('projects.issues.destroy');
+                    });
+                });
             });
 
             // Groups

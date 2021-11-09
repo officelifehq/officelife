@@ -203,10 +203,10 @@ class CreateProjectIssueTest extends TestCase
             'project_sprint_id' => $sprint->id,
         ]);
 
-        $this->assertDatabaseHas('project_sprint_issue_order', [
+        $this->assertDatabaseHas('project_issue_project_sprint', [
             'project_sprint_id' => $sprint->id,
             'project_issue_id' => $projectIssue->id,
-            'order' => 1,
+            'position' => 1,
         ]);
 
         $this->assertDatabaseHas('project_member_activities', [

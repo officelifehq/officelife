@@ -24,12 +24,23 @@ class ProjectIssue extends Model
         'project_board_id',
         'reporter_id',
         'issue_type_id',
+        'is_separator',
         'id_in_project',
         'key',
         'slug',
         'title',
         'description',
         'story_points',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_separator' => 'boolean',
+        'story_points' => 'integer',
     ];
 
     /**
@@ -79,7 +90,7 @@ class ProjectIssue extends Model
      */
     public function sprints()
     {
-        return $this->belongsToMany(ProjectSprint::class, 'project_issue_project_sprint', 'project_issue_id', 'project_sprint_id');
+        return $this->belongsToMany(ProjectSprint::class, 'project_issue_project_sprint', 'project_issue_id', 'project_sprint_id')->withPivot('position');
     }
 
     /**

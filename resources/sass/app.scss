@@ -6,6 +6,7 @@
 @import 'form';
 @import 'register';
 @import 'header';
+@import 'grid';
 
 body {
   background-color: $body-bg;
@@ -71,6 +72,10 @@ hr {
   background: url('/img/brush-orange.svg');
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.cursor-grab {
+  cursor: grab;
 }
 
 // breadcrumb

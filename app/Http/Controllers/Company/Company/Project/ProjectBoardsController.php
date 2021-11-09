@@ -11,7 +11,6 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Project\CreateProjectBoard;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
 use App\Http\ViewHelpers\Company\Project\ProjectBoardsViewHelper;
 
@@ -31,13 +30,8 @@ class ProjectBoardsController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        try {
-            $project = Project::where('company_id', $loggedCompany->id)
-                ->with('boards')
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
+        // project comes from the CheckProject middleware
+        $project = $request->get('project');
 
         return Inertia::render('Company/Project/Boards/Index', [
             'tab' => 'boards',
@@ -81,5 +75,32 @@ class ProjectBoardsController extends Controller
                 ]),
             ],
         ], 201);
+    }
+
+    /**
+     * Display the board summary.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @param int $boardId
+     *
+     * @return \Illuminate\Http\RedirectResponse|Response
+     */
+    public function show(Request $request, int $companyId, int $projectId, int $boardId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        // board comes from the CheckBoard middleware
+        $board = $request->get('board');
+
+        return Inertia::render('Company/Project/Boards/Show', [
+            'tab' => 'boards',
+            'project' => ProjectViewHelper::info($board->project),
+            'data' => ProjectBoardsViewHelper::backlog($board->project, $board),
+            'issueTypes' => ProjectBoardsViewHelper::issueTypes($loggedCompany),
+            'notifications' => NotificationHelper::getNotifications($loggedEmployee),
+        ]);
     }
 }
