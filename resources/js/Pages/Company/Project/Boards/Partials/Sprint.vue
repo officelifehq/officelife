@@ -24,7 +24,6 @@
   font-weight: 600;
   line-height: 16px;
   background-color: #dfe1e6;
-  color: #172b4d;
   height: 16px;
   max-height: 16px;
   min-width: 12px;
@@ -87,7 +86,7 @@
   background-color: rgb(193 193 193 / 50%);
 }
 ::v-deep(.modal-body) {
-  padding: 10px 12px 12px 12px;tyrw
+  padding: 10px 12px 12px 12px;
 
   .board-name {
     background-color: #f5f7f8;
