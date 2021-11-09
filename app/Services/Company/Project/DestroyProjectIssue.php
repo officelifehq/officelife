@@ -17,7 +17,7 @@ class DestroyProjectIssue extends BaseService
     protected Project $project;
     protected ProjectSprint $projectSprint;
     protected ProjectIssue $projectIssue;
-    protected int $issuPosition;
+    protected int $issuePosition;
 
     /**
      * Get the validation rules that apply to the service.
