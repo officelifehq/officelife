@@ -5,6 +5,7 @@ namespace Tests\Unit\ViewHelpers\Company\Project;
 use Tests\TestCase;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
 use App\Models\Company\IssueType;
 use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectIssue;
@@ -101,6 +102,9 @@ class ProjectBoardsViewHelperTest extends TestCase
     public function it_gets_information_about_the_backlog(): void
     {
         $company = Company::factory()->create();
+        $michael = Employee::factory()->create([
+            'company_id' => $company->id,
+        ]);
         $project = Project::factory()->create([
             'company_id' => $company->id,
         ]);
@@ -125,7 +129,7 @@ class ProjectBoardsViewHelperTest extends TestCase
             $otherSprint->issues()->syncWithoutDetaching($issue->id);
         }
 
-        $array = ProjectBoardsViewHelper::backlog($project, $projectBoard);
+        $array = ProjectBoardsViewHelper::backlog($project, $projectBoard, $michael);
 
         $this->assertEquals(
             [

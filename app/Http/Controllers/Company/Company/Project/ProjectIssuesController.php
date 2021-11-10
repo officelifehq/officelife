@@ -14,7 +14,6 @@ use App\Services\Company\Project\CreateProjectIssue;
 use App\Services\Company\Project\DestroyProjectIssue;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
-use App\Http\ViewHelpers\Company\Project\ProjectBoardsViewHelper;
 
 class ProjectIssuesController extends Controller
 {
@@ -22,24 +21,26 @@ class ProjectIssuesController extends Controller
      * Display the issue.
      *
      * @param Request $request
+     * @param int $companyId
      * @param string $issueKey
      * @param string $issueSlug
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
-    public function show(Request $request, string $issueKey, string $issueSlug)
+    public function show(Request $request, int $companyId, string $issueKey, string $issueSlug)
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         try {
-            $issue = ProjectIssue::where('key', $issueKey)->where('slug', $issueSlug)
-                ->findOrFail();
+            $issue = ProjectIssue::where('key', $issueKey)
+                ->where('slug', $issueSlug)
+                ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
 
-        if ($issue->project->company_id == $loggedCompany->id) {
+        if ($issue->project->company_id != $loggedCompany->id) {
             return redirect('home');
         }
 
@@ -49,8 +50,6 @@ class ProjectIssuesController extends Controller
         return Inertia::render('Company/Project/Boards/Show', [
             'tab' => 'boards',
             'project' => ProjectViewHelper::info($board->project),
-            'data' => ProjectBoardsViewHelper::backlog($board->project, $board),
-            'issueTypes' => ProjectBoardsViewHelper::issueTypes($loggedCompany),
             'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }

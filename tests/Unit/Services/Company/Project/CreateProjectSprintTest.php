@@ -98,6 +98,14 @@ class CreateProjectSprintTest extends TestCase
     {
         Queue::fake();
 
+        // create another sprint to make sure that when the sprint is created
+        // in the board, the newly added sprint takes the position 0
+        $existingSprint = ProjectSprint::factory()->create([
+            'project_id' => $project->id,
+            'project_board_id' => $board->id,
+            'position' => 0,
+        ]);
+
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
@@ -113,6 +121,14 @@ class CreateProjectSprintTest extends TestCase
             'project_id' => $project->id,
             'project_board_id' => $board->id,
             'name' => 'board name',
+            'position' => 0,
+        ]);
+
+        $this->assertDatabaseHas('project_sprints', [
+            'id' => $existingSprint->id,
+            'project_id' => $project->id,
+            'project_board_id' => $board->id,
+            'position' => 1,
         ]);
 
         $this->assertDatabaseHas('project_member_activities', [

@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Helpers\DateHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
 use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectSprint;
@@ -20,6 +21,7 @@ class ProjectSprintsViewHelperTest extends TestCase
     public function it_gets_information_about_the_sprint(): void
     {
         $company = Company::factory()->create();
+        $michael = Employee::factory()->create(['company_id' => $company->id]);
         $project = Project::factory()->create([
             'company_id' => $company->id,
         ]);
@@ -37,10 +39,10 @@ class ProjectSprintsViewHelperTest extends TestCase
         ]);
         $backlog->issues()->syncWithoutDetaching($issue->id);
 
-        $array = ProjectSprintsViewHelper::sprintData($project, $projectBoard, $backlog);
+        $array = ProjectSprintsViewHelper::sprintData($project, $projectBoard, $backlog, $michael);
 
         $this->assertEquals(
-            5,
+            7,
             count($array)
         );
 
@@ -55,6 +57,14 @@ class ProjectSprintsViewHelperTest extends TestCase
         $this->assertEquals(
             true,
             $array['active']
+        );
+        $this->assertEquals(
+            false,
+            $array['collapsed']
+        );
+        $this->assertEquals(
+            true,
+            $array['is_board_backlog']
         );
         $this->assertEquals(
             [
@@ -78,9 +88,9 @@ class ProjectSprintsViewHelperTest extends TestCase
                         'icon_hex_color' => $issue->type->icon_hex_color,
                     ] : null,
                     'url' => [
-                        'show' => env('APP_URL') . '/' . $company->id . '/issues/' . $issue->slug,
-                        'reorder' => env('APP_URL') . '/' . $company->id . '/company/projects/' . $project->id . '/boards/' . $projectBoard->id . '/sprints/' . $backlog->id . '/issues/'.$issue->id.'/order',
-                        'destroy' => env('APP_URL') . '/' . $company->id . '/company/projects/' . $project->id . '/boards/' . $projectBoard->id . '/sprints/' . $backlog->id . '/issues/'.$issue->id,
+                        'show' => env('APP_URL').'/'.$company->id.'/issues/'.$issue->key.'/'.$issue->slug,
+                        'reorder' => env('APP_URL').'/'.$company->id.'/company/projects/'.$project->id.'/boards/'.$projectBoard->id.'/sprints/'.$backlog->id.'/issues/'.$issue->id.'/order',
+                        'destroy' => env('APP_URL').'/'.$company->id.'/company/projects/'.$project->id.'/boards/'.$projectBoard->id.'/sprints/'.$backlog->id.'/issues/'.$issue->id,
                     ],
                 ],
             ],

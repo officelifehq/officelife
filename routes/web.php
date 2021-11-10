@@ -60,7 +60,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('positions', 'Company\\Company\\PositionController@index');
 
         // get the issue - an issue should have the shortest link possible
-        Route::get('issues/{slug}', 'Company\\Company\\Project\\ProjectIssuesController@show')->name('projects.issues.show');
+        Route::get('issues/{key}/{slug}', 'Company\\Company\\Project\\ProjectIssuesController@show')->name('projects.issues.show');
 
         Route::prefix('dashboard')->group(function () {
             Route::get('', 'Company\\Dashboard\\DashboardController@index')->name('dashboard');

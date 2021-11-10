@@ -32,7 +32,7 @@ class ProjectIssueFactory extends Factory
             'issue_type_id' => IssueType::factory(),
             'id_in_project' => 0,
             'slug' => 'awesome',
-            'key' => $this->faker->name,
+            'key' => $this->faker->slug(3),
             'title' => $this->faker->name,
             'description' => $this->faker->name,
             'story_points' => $this->faker->numberBetween(1, 10),

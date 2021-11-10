@@ -78,6 +78,14 @@
               <inertia-link>My issues</inertia-link>
             </li>
           </ul>
+
+          <!-- actions -->
+          <div class="bg-white ba bb-gray">
+            <ul>
+              <li>New issue</li>
+              <li>New cycle</li>
+            </ul>
+          </div>
         </div>
 
         <!-- right column -->
@@ -85,27 +93,6 @@
           <!-- cycle -->
           <div v-for="sprint in localSprints" :key="sprint.id">
             <sprint :board="data.board" :sprint="sprint" :issue-types="issueTypes" />
-            <sprint :board="data.board" :sprint="sprint" :issue-types="issueTypes" />
-          </div>
-
-          <!-- cycle -->
-          <div class="flex justify-between items-center">
-            <h3 class="normal mt0 mb2 f5">
-              Backlog
-            </h3>
-
-            <div class="mb2">
-              <span class="story-points">
-                32
-              </span>
-            </div>
-          </div>
-          <div class="bg-white box issue-list">
-            <p class="tc measure center mb4 lh-copy">
-              {{ $t('account.project_management_blank') }}
-            </p>
-
-            <img loading="lazy" class="db center mb4" alt="team" src="/img/streamline-icon-extrinsic-drive-5@100x100.png" />
           </div>
         </div>
       </div>

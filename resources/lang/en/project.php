@@ -154,4 +154,5 @@ return [
     'issue_created' => 'The issue has been created.',
     'issue_destroyed' => 'The issue has been deleted.',
     'separator_destroyed' => 'The separator has been deleted.',
+    'sprint_blank_state' => 'Add an issue, create cycles and start creating magic.',
 ];
