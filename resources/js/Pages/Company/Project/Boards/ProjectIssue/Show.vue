@@ -30,11 +30,6 @@
               <div class="parsed-content" v-html="issue.parsed_description"></div>
             </div>
           </div>
-
-          <comments
-            :comments="issue.comments"
-            :post-url="`/${$page.props.auth.company.id}/company/projects/${project.id}/messages/${issue.id}/comments/`"
-          />
         </div>
 
         <!-- RIGHT COLUMN -->
@@ -112,7 +107,6 @@
 <script>
 import Layout from '@/Shared/Layout';
 import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Comments from '@/Shared/Comments';
 import Avatar from '@/Shared/Avatar';
 
 export default {
@@ -120,7 +114,6 @@ export default {
     Layout,
     Breadcrumb,
     Avatar,
-    Comments,
   },
 
   props: {

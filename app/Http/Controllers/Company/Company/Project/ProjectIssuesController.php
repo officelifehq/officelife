@@ -13,7 +13,7 @@ use App\Models\Company\ProjectIssue;
 use App\Services\Company\Project\CreateProjectIssue;
 use App\Services\Company\Project\DestroyProjectIssue;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectIssuesViewHelper;
 
 class ProjectIssuesController extends Controller
 {
@@ -44,12 +44,16 @@ class ProjectIssuesController extends Controller
             return redirect('home');
         }
 
+        if ($issue->is_separator) {
+            return redirect('home');
+        }
+
         // board comes from the CheckBoard middleware
         $board = $request->get('board');
 
         return Inertia::render('Company/Project/Boards/Show', [
             'tab' => 'boards',
-            'project' => ProjectViewHelper::info($board->project),
+            'data' => ProjectIssuesViewHelper::issueData($issue),
             'notifications' => NotificationHelper::getNotifications($loggedEmployee),
         ]);
     }
