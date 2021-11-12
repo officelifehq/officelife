@@ -376,6 +376,16 @@ class Company extends Model
     }
 
     /**
+     * Get all discipline cases in the company.
+     *
+     * @return HasMany
+     */
+    public function disciplineCases()
+    {
+        return $this->hasMany(DisciplineCase::class);
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
      * @return object|null
