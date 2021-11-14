@@ -107,4 +107,20 @@ class DashboardHRViewHelperTest extends TestCase
             $array
         );
     }
+
+    /** @test */
+    public function it_gets_the_url_of_the_discipline_cases_index(): void
+    {
+        $company = Company::factory()->create();
+        $array = DashboardHRViewHelper::disciplineCases($company);
+
+        $this->assertEquals(
+            [
+                'url' => [
+                    'index' => env('APP_URL').'/'.$company->id.'/dashboard/hr/discipline-cases',
+                ],
+            ],
+            $array
+        );
+    }
 }
