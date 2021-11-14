@@ -326,4 +326,6 @@ return [
     'ask_me_anything_new_help' => 'Everyone in the company will be able to read your question, but they will not know who posted this question, unless you want to.',
     'ask_me_anything_total_questions' => 'You have already submitted {count} question.|You have already submitted {count} questions.',
     'ask_me_anything_success' => 'The question has been submitted.',
+    'hr_discipline_cases_summary_blank' => 'Discipline cases are there to help employees be better employees.',
+    'view_all_cases' => 'View all open and closed cases',
 ];

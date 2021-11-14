@@ -143,6 +143,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('timesheets/{timesheet}', 'Company\\Dashboard\\HR\\DashboardHRTimesheetController@show')->name('dashboard.hr.timesheet.show');
                 Route::post('timesheets/{timesheet}/approve', 'Company\\Dashboard\\HR\\DashboardHRTimesheetController@approve');
                 Route::post('timesheets/{timesheet}/reject', 'Company\\Dashboard\\HR\\DashboardHRTimesheetController@reject');
+
+                // discipline cases
+                Route::get('discipline-cases', 'Company\\Dashboard\\HR\\DashboardDisciplineCasesController@index')->name('dashboard.hr.disciplinecase.index');
             });
         });
 
