@@ -146,6 +146,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
                 // discipline cases
                 Route::get('discipline-cases', 'Company\\Dashboard\\HR\\DashboardDisciplineCasesController@index')->name('dashboard.hr.disciplinecase.index');
+                Route::get('discipline-cases/closed', 'Company\\Dashboard\\HR\\DashboardDisciplineCasesController@closed')->name('dashboard.hr.disciplinecase.index.closed');
+                Route::post('discipline-cases/employees', 'Company\\Dashboard\\HR\\DashboardDisciplineCasesController@search')->name('dashboard.hr.disciplinecase.search.employees');
             });
         });
 
