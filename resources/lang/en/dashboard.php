@@ -335,5 +335,6 @@ return [
     'hr_discipline_cases_open_cases' => 'Open cases ({count})',
     'hr_discipline_cases_closed_cases' => 'Closed cases ({count})',
     'hr_discipline_cases_create_case' => 'Create case',
+    'hr_discipline_cases_create_case_label' => 'Choose an employee to create a case for:',
 
 ];

@@ -27,6 +27,7 @@ class DisciplineCaseFactory extends Factory
             'company_id' => Company::factory(),
             'employee_id' => Employee::factory(),
             'opened_by_employee_id' => Employee::factory(),
+            'opened_by_employee_name' => $this->faker->name(),
             'active' => $this->faker->boolean(),
         ];
     }

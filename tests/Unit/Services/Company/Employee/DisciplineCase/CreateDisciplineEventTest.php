@@ -101,6 +101,7 @@ class CreateDisciplineEventTest extends TestCase
             'id' => $event->id,
             'discipline_case_id' => $case->id,
             'author_id' => $michael->id,
+            'author_name' => $michael->name,
             'happened_at' => '2010-10-10 00:00:00',
             'description' => 'this is a description',
         ]);

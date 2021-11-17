@@ -83,6 +83,7 @@ class CreateDisciplineCaseTest extends TestCase
             'id' => $case->id,
             'company_id' => $michael->company_id,
             'opened_by_employee_id' => $michael->id,
+            'opened_by_employee_name' => $michael->name,
             'employee_id' => $dwight->id,
         ]);
 

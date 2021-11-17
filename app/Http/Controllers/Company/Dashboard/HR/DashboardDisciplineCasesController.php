@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Company\Dashboard\HR;
 
 use Inertia\Inertia;
-use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;
@@ -72,36 +71,7 @@ class DashboardDisciplineCasesController extends Controller
         ]);
 
         return response()->json([
-            'data' => [
-                'id' => $case->id,
-                'number_of_events' => (int) $case->number_of_events,
-                'author' => [
-                    'id' => $case->author->id,
-                    'name' => $case->author->name,
-                    'avatar' => ImageHelper::getAvatar($case->author),
-                    'position' => (! $case->author->position) ? null : $case->author->position->title,
-                    'url' => route('employees.show', [
-                        'company' => $loggedCompany,
-                        'employee' => $case->author,
-                    ]),
-                ],
-                'employee' => [
-                    'id' => $case->employee->id,
-                    'name' => $case->employee->name,
-                    'avatar' => ImageHelper::getAvatar($case->employee),
-                    'position' => (! $case->employee->position) ? null : $case->employee->position->title,
-                    'url' => route('employees.show', [
-                        'company' => $loggedCompany,
-                        'employee' => $case->employee,
-                    ]),
-                ],
-                'url' => [
-                    'show' => route('dashboard.hr.disciplinecase.show', [
-                        'company' => $loggedCompany,
-                        'case' => $case,
-                    ]),
-                ],
-            ],
+            'data' => DashboardHRDisciplineCaseViewHelper::dto($loggedCompany, $case),
         ]);
     }
 

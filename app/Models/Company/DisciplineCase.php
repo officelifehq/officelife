@@ -22,6 +22,7 @@ class DisciplineCase extends Model
         'company_id',
         'employee_id',
         'opened_by_employee_id',
+        'opened_by_employee_name',
         'active',
     ];
 

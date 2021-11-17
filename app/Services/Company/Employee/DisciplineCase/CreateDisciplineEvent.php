@@ -47,6 +47,7 @@ class CreateDisciplineEvent extends BaseService
             'company_id' => $data['company_id'],
             'discipline_case_id' => $data['discipline_case_id'],
             'author_id' => $data['author_id'],
+            'author_name' => $this->author->name,
             'happened_at' => $data['happened_at'],
             'description' => $data['description'],
         ]);

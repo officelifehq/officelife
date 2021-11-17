@@ -26,6 +26,7 @@ class DisciplineEventFactory extends Factory
         return [
             'discipline_case_id' => DisciplineCase::factory(),
             'author_id' => Employee::factory(),
+            'author_name' => $this->faker->name(),
             'happened_at' => $this->faker->dateTimeThisCentury(),
             'description' => $this->faker->text(),
         ];

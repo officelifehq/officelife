@@ -21,6 +21,7 @@ class DisciplineEvent extends Model
     protected $fillable = [
         'discipline_case_id',
         'author_id',
+        'author_name',
         'happened_at',
         'description',
     ];

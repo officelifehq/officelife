@@ -24,13 +24,9 @@ class DashboardHRDisciplineCaseViewHelperTest extends TestCase
             'company_id' => $michael->company_id,
             'active' => true,
         ]);
-        $closedCase = DisciplineCase::factory()->create([
+        DisciplineCase::factory()->create([
             'company_id' => $michael->company_id,
             'active' => false,
-        ]);
-
-        DisciplineEvent::factory()->count(3)->create([
-            'discipline_case_id' => $openCase->id,
         ]);
 
         $array = DashboardHRDisciplineCaseViewHelper::index($michael->company);
@@ -45,33 +41,6 @@ class DashboardHRDisciplineCaseViewHelperTest extends TestCase
                 'store' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases',
             ],
             $array['url']
-        );
-        $this->assertEquals(
-            [
-                0 => [
-                    'id' => $openCase->id,
-                    'number_of_events' => 3,
-                    'opened_at' => 'Jan 01, 2018',
-                    'author' => [
-                        'id' => $openCase->author->id,
-                        'name' => $openCase->author->name,
-                        'avatar' => ImageHelper::getAvatar($openCase->author, 40),
-                        'position' => $openCase->author->position->title,
-                        'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$openCase->author->id,
-                    ],
-                    'employee' => [
-                        'id' => $openCase->employee->id,
-                        'name' => $openCase->employee->name,
-                        'avatar' => ImageHelper::getAvatar($openCase->employee, 40),
-                        'position' => $openCase->employee->position->title,
-                        'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$openCase->employee->id,
-                    ],
-                    'url' => [
-                        'show' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases/'.$openCase->id,
-                    ],
-                ],
-            ],
-            $array['open_cases']->toArray()
         );
     }
 
@@ -100,6 +69,47 @@ class DashboardHRDisciplineCaseViewHelperTest extends TestCase
         $this->assertEquals(
             [],
             $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_dto_about_the_case(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $michael = $this->createAdministrator();
+        $case = DisciplineCase::factory()->create([
+            'company_id' => $michael->company_id,
+            'active' => false,
+        ]);
+        DisciplineEvent::factory()->count(3)->create([
+            'discipline_case_id' => $case->id,
+        ]);
+
+        $array = DashboardHRDisciplineCaseViewHelper::dto($michael->company, $case);
+
+        $this->assertEquals(
+            [
+                'id' => $case->id,
+                'opened_at' => 'Jan 01, 2018',
+                'author' => [
+                    'id' => $case->author->id,
+                    'name' => $case->author->name,
+                    'avatar' => ImageHelper::getAvatar($case->author, 40),
+                    'position' => $case->author->position->title,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$case->author->id,
+                ],
+                'employee' => [
+                    'id' => $case->employee->id,
+                    'name' => $case->employee->name,
+                    'avatar' => ImageHelper::getAvatar($case->employee, 40),
+                    'position' => $case->employee->position->title,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$case->employee->id,
+                ],
+                'url' => [
+                    'show' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases/'.$case->id,
+                ],
+            ],
+            $array
         );
     }
 }

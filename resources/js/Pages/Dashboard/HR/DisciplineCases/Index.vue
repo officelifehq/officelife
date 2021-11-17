@@ -69,7 +69,7 @@
 
             <!-- search form -->
             <div class="mb3 relative">
-              <p class="mt0 relative">Choose an employee to create a case for: <a href="#" class="absolute right-0 f6" @click.prevent="showModal = false">{{ $t('app.cancel') }}</a></p>
+              <p class="mt0 relative">{{ $t('dashboard.hr_discipline_cases_create_case_label') }} <a href="#" class="absolute right-0 f6" @click.prevent="showModal = false">{{ $t('app.cancel') }}</a></p>
               <div class="relative">
                 <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
                        :placeholder="$t('group.members_add_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required
@@ -97,6 +97,7 @@
         </div>
       </div>
 
+      <!-- list of cases -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <ul v-if="localCases.length > 0" class="ma0 pl0 case-list">
           <li v-for="localCase in localCases" :key="localCase.id" class="flex items-center justify-between pa3 bb bb-gray bb-gray-hover">
@@ -112,7 +113,8 @@
             <!-- number of events + date + reporter -->
             <div class="f6 gray">
               <span class="db mb1">{{ $t('dashboard.hr_discipline_cases_opened_at', {date: localCase.opened_at}) }}</span>
-              <span>{{ $t('dashboard.hr_discipline_cases_by', {name: localCase.author.name }) }}</span>
+              <inertia-link v-if="localCase.author.id" :href="localCase.author.url">{{ $t('dashboard.hr_discipline_cases_by', {name: localCase.author.name }) }}</inertia-link>
+              <span v-else>{{ $t('dashboard.hr_discipline_cases_by', {name: localCase.author.name }) }}</span>
             </div>
           </li>
         </ul>

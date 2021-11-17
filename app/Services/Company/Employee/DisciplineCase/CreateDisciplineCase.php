@@ -45,6 +45,7 @@ class CreateDisciplineCase extends BaseService
             'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
             'opened_by_employee_id' => $data['author_id'],
+            'opened_by_employee_name' => $this->author->name,
             'active' => true,
         ]);
 
