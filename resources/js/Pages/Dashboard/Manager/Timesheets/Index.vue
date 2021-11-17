@@ -53,7 +53,7 @@
         <h2 class="pa3 mt2 mb3 center tc normal">
           {{ $t('dashboard.manager_timesheet_index_title') }}
 
-          <help :url="$page.props.help_links.one_on_ones" :top="'0px'" />
+          <help :url="$page.props.help_links.time_tracking" />
         </h2>
 
         <!-- BLANK STATE -->
