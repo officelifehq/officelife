@@ -1,4 +1,25 @@
 <style lang="scss" scoped>
+.employees-list {
+  li:last-child {
+    border-bottom: 0;
+  }
+}
+
+.case-list {
+  li:first-child:hover {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  li:last-child {
+    border-bottom: 0;
+
+    &:hover {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+  }
+}
 </style>
 
 <template>
@@ -16,16 +37,16 @@
 
       <!-- BODY -->
       <h2 class="pa3 mt2 mb3 center tc normal">
-        All the discipline cases
+        {{ $t('dashboard.hr_discipline_cases_index_tile') }}
       </h2>
 
       <div class="tc mb4">
         <div class="cf dib btn-group">
-          <inertia-link :href="data.url.open" class="f6 fl ph3 pv2 dib pointer no-underline">
-            Open cases
+          <inertia-link :href="data.url.open" class="selected f6 fl ph3 pv2 dib pointer no-underline">
+            {{ $t('dashboard.hr_discipline_cases_open_cases', {count: data.open_cases_count}) }}
           </inertia-link>
           <inertia-link :href="data.url.closed" class="f6 fl ph3 pv2 dib pointer no-underline">
-            Closed cases
+            {{ $t('dashboard.hr_discipline_cases_closed_cases', {count: data.closed_cases_count}) }}
           </inertia-link>
         </div>
       </div>
@@ -34,7 +55,6 @@
       <div class="mw7 center">
         <div v-if="!showModal" class="tr mb2">
           <a href="#" class="btn dib-l db mb3 mb0-ns" @click.prevent="displayAddModal()">Open a case</a>
-          <avatar :avatar="currentEmployee.avatar" :size="64" :class="'w2 h2 w3-ns h3-ns br-100'" />
         </div>
 
         <!-- add a new member -->
@@ -62,11 +82,11 @@
 
           <!-- RESULTS -->
           <div class="pl0 list ma0">
-            <ul v-if="potentialEmployees.length > 0" class="list ma0 pl0">
-              <li v-for="member in potentialEmployees" :key="member.id" class="bb relative pv2 ph1 bb-gray bb-gray-hover">
-                {{ member.name }}
-                <a class="absolute right-1 pointer" :data-cy="'potential-group-member-' + member.id" @click.prevent="store(member)">
-                  {{ $t('app.choose') }}
+            <ul v-if="potentialEmployees.length > 0" class="ba bb-gray list ma0 pl0 employees-list">
+              <li v-for="employee in potentialEmployees" :key="employee.id" class="bb relative pv2 ph1 bb-gray bb-gray-hover">
+                {{ employee.name }}
+                <a class="absolute right-1 pointer" @click.prevent="store(employee)">
+                  {{ $t('dashboard.hr_discipline_cases_create_case') }}
                 </a>
               </li>
             </ul>
@@ -78,8 +98,27 @@
       </div>
 
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
+        <ul v-if="localCases.length > 0" class="ma0 pl0 case-list">
+          <li v-for="localCase in localCases" :key="localCase.id" class="flex items-center justify-between pa3 bb bb-gray bb-gray-hover">
+            <!-- avatar + name + position -->
+            <div class="flex items-center">
+              <avatar :avatar="localCase.employee.avatar" :url="localCase.employee.url" :size="40" :class="'br-100 mr2'" />
+              <div>
+                <inertia-link :href="localCase.url.show" class="dib mb1">{{ localCase.employee.name }}</inertia-link>
+                <span class="gray f6 db">{{ localCase.employee.position }}</span>
+              </div>
+            </div>
+
+            <!-- number of events + date + reporter -->
+            <div class="f6 gray">
+              <span class="db mb1">{{ $t('dashboard.hr_discipline_cases_opened_at', {date: localCase.opened_at}) }}</span>
+              <span>{{ $t('dashboard.hr_discipline_cases_by', {name: localCase.author.name }) }}</span>
+            </div>
+          </li>
+        </ul>
+
         <!-- BLANK STATE -->
-        <div>
+        <div v-if="localCases.length == 0">
           <img loading="lazy" class="db center mb4 mt3" alt="no timesheets to validate" src="/img/streamline-icon-employee-checklist-6@140x140.png" height="80"
                width="80"
           />
@@ -123,12 +162,17 @@ export default {
       showModal: false,
       processingSearch: false,
       potentialEmployees: [],
+      localCases: [],
       form: {
         searchTerm: null,
         employee: null,
         errors: [],
       },
     };
+  },
+
+  mounted() {
+    this.localCases = this.data.open_cases;
   },
 
   methods: {
@@ -157,6 +201,23 @@ export default {
             });
         }
       }, 500),
+
+    store(employee) {
+      this.form.employee = employee.id;
+
+      axios.post(this.data.url.store, this.form)
+        .then(response => {
+          this.showModal = false;
+          this.localCases.unshift(response.data.data);
+
+          this.flash(this.$t('dashboard.hr_discipline_cases_creation_success'), 'success');
+          this.form.employee = null;
+          this.form.searchTerm = null;
+          this.potentialEmployees = [];
+        })
+        .catch(error => {
+        });
+    },
   },
 };
 </script>

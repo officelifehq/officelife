@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard\HR;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Employee;
@@ -17,6 +18,7 @@ class DashboardHRDisciplineCaseViewHelperTest extends TestCase
     /** @test */
     public function it_gets_an_array_about_the_opened_cases(): void
     {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = $this->createAdministrator();
         $openCase = DisciplineCase::factory()->create([
             'company_id' => $michael->company_id,
@@ -39,6 +41,8 @@ class DashboardHRDisciplineCaseViewHelperTest extends TestCase
             [
                 'open' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases',
                 'closed' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases/closed',
+                'search' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases/employees',
+                'store' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases',
             ],
             $array['url']
         );
@@ -47,19 +51,23 @@ class DashboardHRDisciplineCaseViewHelperTest extends TestCase
                 0 => [
                     'id' => $openCase->id,
                     'number_of_events' => 3,
+                    'opened_at' => 'Jan 01, 2018',
                     'author' => [
                         'id' => $openCase->author->id,
                         'name' => $openCase->author->name,
-                        'avatar' => ImageHelper::getAvatar($openCase->author),
+                        'avatar' => ImageHelper::getAvatar($openCase->author, 40),
                         'position' => $openCase->author->position->title,
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$openCase->author->id,
                     ],
                     'employee' => [
                         'id' => $openCase->employee->id,
                         'name' => $openCase->employee->name,
-                        'avatar' => ImageHelper::getAvatar($openCase->employee),
+                        'avatar' => ImageHelper::getAvatar($openCase->employee, 40),
                         'position' => $openCase->employee->position->title,
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$openCase->employee->id,
+                    ],
+                    'url' => [
+                        'show' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases/'.$openCase->id,
                     ],
                 ],
             ],

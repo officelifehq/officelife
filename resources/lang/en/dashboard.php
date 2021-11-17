@@ -327,5 +327,13 @@ return [
     'ask_me_anything_total_questions' => 'You have already submitted {count} question.|You have already submitted {count} questions.',
     'ask_me_anything_success' => 'The question has been submitted.',
     'hr_discipline_cases_summary_blank' => 'Discipline cases are there to help employees be better employees.',
+    'hr_discipline_cases_creation_success' => 'The case has been created.',
     'view_all_cases' => 'View all open and closed cases',
+    'hr_discipline_cases_opened_at' => 'Case opened at {date}',
+    'hr_discipline_cases_by' => 'By {name}',
+    'hr_discipline_cases_index_tile' => 'All the discipline cases',
+    'hr_discipline_cases_open_cases' => 'Open cases ({count})',
+    'hr_discipline_cases_closed_cases' => 'Closed cases ({count})',
+    'hr_discipline_cases_create_case' => 'Create case',
+
 ];

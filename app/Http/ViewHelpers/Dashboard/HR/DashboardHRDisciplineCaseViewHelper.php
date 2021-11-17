@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Dashboard\HR;
 
+use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
@@ -34,10 +35,11 @@ class DashboardHRDisciplineCaseViewHelper
             $openCasesCollection->push([
                 'id' => $openCase->id,
                 'number_of_events' => (int) $openCase->number_of_events,
+                'opened_at' => DateHelper::formatDate($openCase->created_at),
                 'author' => [
                     'id' => $openCase->author->id,
                     'name' => $openCase->author->name,
-                    'avatar' => ImageHelper::getAvatar($openCase->author),
+                    'avatar' => ImageHelper::getAvatar($openCase->author, 40),
                     'position' => (! $openCase->author->position) ? null : $openCase->author->position->title,
                     'url' => route('employees.show', [
                         'company' => $company,
@@ -47,11 +49,17 @@ class DashboardHRDisciplineCaseViewHelper
                 'employee' => [
                     'id' => $openCase->employee->id,
                     'name' => $openCase->employee->name,
-                    'avatar' => ImageHelper::getAvatar($openCase->employee),
+                    'avatar' => ImageHelper::getAvatar($openCase->employee, 40),
                     'position' => (! $openCase->employee->position) ? null : $openCase->employee->position->title,
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $openCase->employee,
+                    ]),
+                ],
+                'url' => [
+                    'show' => route('dashboard.hr.disciplinecase.show', [
+                        'company' => $company,
+                        'case' => $openCase,
                     ]),
                 ],
             ]);
@@ -73,6 +81,9 @@ class DashboardHRDisciplineCaseViewHelper
                     'company' => $company,
                 ]),
                 'search' => route('dashboard.hr.disciplinecase.search.employees', [
+                    'company' => $company,
+                ]),
+                'store' => route('dashboard.hr.disciplinecase.store', [
                     'company' => $company,
                 ]),
             ],
