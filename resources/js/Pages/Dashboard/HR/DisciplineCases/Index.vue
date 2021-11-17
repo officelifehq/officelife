@@ -28,8 +28,8 @@
       <breadcrumb :with-box="false"
                   :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
                   :root="$t('app.breadcrumb_dashboard')"
-                  :previous-url="'/' + $page.props.auth.company.id + '/dashboard/manager'"
-                  :previous="$t('app.breadcrumb_dashboard_manager')"
+                  :previous-url="'/' + $page.props.auth.company.id + '/dashboard/hr'"
+                  :previous="$t('app.breadcrumb_hr')"
                   :has-more="false"
       >
         {{ $t('app.breadcrumb_dashboard_hr_discipline_cases') }}

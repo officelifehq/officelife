@@ -135,7 +135,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             });
 
             // hr tab
-            Route::prefix('hr')->group(function () {
+            Route::prefix('hr')->middleware(['hr'])->group(function () {
                 Route::get('', 'Company\\Dashboard\\HR\\DashboardHRController@index')->name('dashboard.hr');
 
                 // timesheets

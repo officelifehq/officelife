@@ -4,10 +4,12 @@ namespace App\Http\ViewHelpers\Dashboard\HR;
 
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
+use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
 use App\Models\Company\DisciplineCase;
 use App\Models\Company\DisciplineEvent;
+use Illuminate\Support\Facades\Date;
 
 class DashboardHRDisciplineCaseViewHelper
 {
@@ -121,5 +123,61 @@ class DashboardHRDisciplineCaseViewHelper
         }
 
         return $potentialEmployeesCollection;
+    }
+
+    public static function show(Company $company, DisciplineCase $case)
+    {
+        $events = $case->events()
+            ->with('author')->with('files')
+            ->orderBy('happened_at', 'desc')
+            ->get();
+
+        $eventsCollection = collect();
+        foreach ($events as $event) {
+            $eventsCollection->push([
+                'id' => $event->id,
+                'happened_at' => DateHelper::formatDate($event->happened_at),
+                'description' => StringHelper::parse($event->description),
+                'author' => [
+                    'id' => $event->author->id,
+                    'name' => $event->author->name,
+                    'avatar' => ImageHelper::getAvatar($event->author, 40),
+                    'position' => (!$event->author->position) ? null : $event->author->position->title,
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $event->author,
+                    ]),
+                ],
+                'url' => [
+                    'edit' => ,
+                    'delete' => ,
+                ],
+            ]);
+        }
+
+        return [
+            'events' => $eventsCollection,
+            'opened_at' => DateHelper::formatDate($case->created_at),
+            'author' => [
+                'id' => $case->author->id,
+                'name' => $case->author->name,
+                'avatar' => ImageHelper::getAvatar($case->author, 40),
+                'position' => (!$case->author->position) ? null : $case->author->position->title,
+                'url' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $case->author,
+                ]),
+            ],
+            'employee' => [
+                'id' => $case->employee->id,
+                'name' => $case->employee->name,
+                'avatar' => ImageHelper::getAvatar($case->employee, 40),
+                'position' => (!$case->employee->position) ? null : $case->employee->position->title,
+                'url' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $case->employee,
+                ]),
+            ],
+        ];
     }
 }

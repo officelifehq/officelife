@@ -104,4 +104,22 @@ class DashboardDisciplineCasesController extends Controller
             ],
         ]);
     }
+
+    /**
+     * Show the discipline case.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $caseId
+     */
+    public function show(Request $request, int $companyId, int $caseId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        return Inertia::render('Dashboard/HR/DisciplineCases/Index', [
+            'data' => DashboardHRDisciplineCaseViewHelper::index($company),
+            'notifications' => NotificationHelper::getNotifications($employee),
+        ]);
+    }
 }
