@@ -119,11 +119,11 @@
 
         <!-- BLANK STATE -->
         <div v-if="localCases.length == 0">
-          <img loading="lazy" class="db center mb4 mt3" alt="no timesheets to validate" src="/img/streamline-icon-employee-checklist-6@140x140.png" height="80"
+          <img loading="lazy" class="db center mb4 mt3" alt="no timesheets to validate" src="/img/streamline-icon-prisoner-2-5@100x100.png" height="80"
                width="80"
           />
 
-          <p class="fw5 mt3 tc">{{ $t('dashboard.manager_timesheet_blank_state') }}</p>
+          <p class="fw5 mt3 tc">{{ $t('dashboard.hr_discipline_cases_summary_blank') }}</p>
         </div>
       </div>
     </div>
