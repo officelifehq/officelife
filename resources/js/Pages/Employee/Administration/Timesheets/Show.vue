@@ -49,11 +49,11 @@
           <h2 class="tc fw5 mt0">
             {{ $t('employee.timesheets_details_show') }}
 
+            <help :url="$page.props.help_links.time_tracking" class="di" />
+
             <span class="db f6 mt3 mb4 fw4">
               {{ timesheet.start_date }} → {{ timesheet.end_date }}
             </span>
-
-            <help :url="$page.props.help_links.one_on_ones" :top="'0px'" />
           </h2>
 
           <!-- information to display when timesheet was approved or rejected -->
