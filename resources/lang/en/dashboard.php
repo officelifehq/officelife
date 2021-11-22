@@ -336,5 +336,11 @@ return [
     'hr_discipline_cases_closed_cases' => 'Closed cases ({count})',
     'hr_discipline_cases_create_case' => 'Create case',
     'hr_discipline_cases_create_case_label' => 'Choose an employee to create a case for:',
+    'hr_discipline_case_show_name' => 'Name',
+    'hr_discipline_case_show_position' => 'Position',
+    'hr_discipline_case_show_team' => 'Team',
+    'hr_discipline_case_show_hired_at' => 'Hired on',
+    'hr_discipline_case_show_case_opened' => 'Case opened',
+    'hr_discipline_case_show_case_opened_by' => 'Opened by',
 
 ];

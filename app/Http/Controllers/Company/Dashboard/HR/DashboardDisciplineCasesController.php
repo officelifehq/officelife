@@ -8,6 +8,8 @@ use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Models\Company\DisciplineCase;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\DisciplineCase\CreateDisciplineCase;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRDisciplineCaseViewHelper;
 
@@ -87,8 +89,15 @@ class DashboardDisciplineCasesController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        return Inertia::render('Dashboard/HR/DisciplineCases/Index', [
-            'data' => DashboardHRDisciplineCaseViewHelper::index($company),
+        try {
+            $case = DisciplineCase::where('company_id', $company->id)
+                ->findOrFail($caseId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        return Inertia::render('Dashboard/HR/DisciplineCases/Show', [
+            'data' => DashboardHRDisciplineCaseViewHelper::show($company, $case),
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }

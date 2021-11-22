@@ -112,4 +112,65 @@ class DashboardHRDisciplineCaseViewHelperTest extends TestCase
             $array
         );
     }
+
+    /** @test */
+    public function it_gets_the_details_of_a_case(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $michael = $this->createAdministrator();
+        $case = DisciplineCase::factory()->create([
+            'company_id' => $michael->company_id,
+            'active' => true,
+        ]);
+        $event = DisciplineEvent::factory()->create([
+            'discipline_case_id' => $case->id,
+        ]);
+
+        $array = DashboardHRDisciplineCaseViewHelper::show($michael->company, $case);
+
+        $this->assertEquals(
+            [
+                'events' => [
+                    'store' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases/'.$case->id.'/events',
+                ],
+            ],
+            $array['url']
+        );
+        $this->assertEquals(
+            [
+                'id' => $case->employee->id,
+                'name' => $case->employee->name,
+                'avatar' => ImageHelper::getAvatar($case->employee, 200),
+                'position' => (! $case->employee->position) ? null : $case->employee->position->title,
+                'teams' => null,
+                'hired_at' => null,
+                'url' => route('employees.show', [
+                    'company' => $michael->company,
+                    'employee' => $case->employee,
+                ]),
+            ],
+            $array['employee']
+        );
+        $this->assertEquals(
+            [
+                'id' => $case->author->id,
+                'name' => $case->author->name,
+                'avatar' => ImageHelper::getAvatar($case->author, 40),
+                'position' => (! $case->author->position) ? null : $case->author->position->title,
+                'url' => route('employees.show', [
+                    'company' => $michael->company,
+                    'employee' => $case->author,
+                ]),
+            ],
+            $array['author']
+        );
+        $this->assertEquals(
+            'Jan 01, 2018',
+            $array['opened_at']
+        );
+        $this->assertEquals(
+            1,
+            $array['events']->count()
+        );
+    }
 }

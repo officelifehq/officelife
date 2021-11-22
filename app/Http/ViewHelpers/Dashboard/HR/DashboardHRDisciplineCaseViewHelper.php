@@ -146,10 +146,23 @@ class DashboardHRDisciplineCaseViewHelper
             );
         }
 
+        // get the teams the employee belongs to
+        $teamsCollection = collect([]);
+        foreach ($case->employee->teams as $team) {
+            $teamsCollection->push([
+                'id' => $team->id,
+                'name' => $team->name,
+                'url' => route('team.show', [
+                    'company' => $company,
+                    'team' => $team,
+                ]),
+            ]);
+        }
+
         return [
             'events' => $eventsCollection,
             'opened_at' => DateHelper::formatDate($case->created_at),
-            'author' => [
+            'author' => $case->author ? [
                 'id' => $case->author->id,
                 'name' => $case->author->name,
                 'avatar' => ImageHelper::getAvatar($case->author, 40),
@@ -158,12 +171,16 @@ class DashboardHRDisciplineCaseViewHelper
                     'company' => $company,
                     'employee' => $case->author,
                 ]),
+            ] : [
+                'name' => $case->author_name,
             ],
             'employee' => [
                 'id' => $case->employee->id,
                 'name' => $case->employee->name,
-                'avatar' => ImageHelper::getAvatar($case->employee, 40),
+                'avatar' => ImageHelper::getAvatar($case->employee, 200),
                 'position' => (! $case->employee->position) ? null : $case->employee->position->title,
+                'teams' => $teamsCollection->count() ? $teamsCollection : null,
+                'hired_at' => $case->employee->hired_at ? DateHelper::formatDate($case->employee->hired_at) : null,
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $case->employee,
