@@ -33,6 +33,24 @@ class DashboardDisciplineCasesController extends Controller
     }
 
     /**
+     * Show the list of discipline cases, opened or closed.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @return mixed
+     */
+    public function closed(Request $request, int $companyId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        return Inertia::render('Dashboard/HR/DisciplineCases/Index', [
+            'data' => DashboardHRDisciplineCaseViewHelper::index($company, false),
+            'notifications' => NotificationHelper::getNotifications($employee),
+        ]);
+    }
+
+    /**
      * Get the list of potential employees to have a discipline case.
      *
      * @param Request $request

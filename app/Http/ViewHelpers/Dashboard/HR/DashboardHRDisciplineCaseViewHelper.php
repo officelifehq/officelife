@@ -14,12 +14,13 @@ class DashboardHRDisciplineCaseViewHelper
      * Get the information about all the discipline cases.
      *
      * @param Company $company
+     * @param bool $active
      * @return array|null
      */
-    public static function index(Company $company): ?array
+    public static function index(Company $company, bool $active = true): ?array
     {
         $openCases = DisciplineCase::where('company_id', $company->id)
-            ->where('active', true)
+            ->where('active', $active)
             ->orderBy('created_at', 'desc')
             ->with('author')
             ->with('employee')
