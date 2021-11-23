@@ -19,28 +19,28 @@ class DashboardHRDisciplineCaseViewHelper
      */
     public static function index(Company $company, bool $active = true): ?array
     {
-        $openCases = DisciplineCase::where('company_id', $company->id)
+        $cases = DisciplineCase::where('company_id', $company->id)
             ->where('active', $active)
             ->orderBy('created_at', 'desc')
             ->with('author')
             ->with('employee')
             ->get();
 
-        $openCasesCollection = collect([]);
-        foreach ($openCases as $openCase) {
-            $openCasesCollection->push(
+        $casesCollection = collect([]);
+        foreach ($cases as $openCase) {
+            $casesCollection->push(
                 self::dto($company, $openCase)
             );
         }
 
-        $closedCasesCount = DisciplineCase::where('company_id', $company->id)
-            ->where('active', false)
+        $otherCases = DisciplineCase::where('company_id', $company->id)
+            ->where('active', ! $active)
             ->count();
 
         return [
-            'open_cases' => $openCasesCollection,
-            'open_cases_count' => $openCasesCollection->count(),
-            'closed_cases_count' => $closedCasesCount,
+            'open_cases' => $casesCollection,
+            'open_cases_count' => $casesCollection->count(),
+            'closed_cases_count' => $otherCases,
             'url' => [
                 'open' => route('dashboard.hr.disciplinecase.index', [
                     'company' => $company,
