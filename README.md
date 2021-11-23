@@ -40,30 +40,30 @@ We've created OfficeLife to provide a single source of truth for everything an e
 
 OfficeLife has the following features, in 5 major domains:
 
-* Recruit
+* 👋 Recruit
    * Applicant tracking system
    * Onboarding / offboarding (coming soon)
 
-* Manage
+* 🥸 Manage
     * Employee management
     * Team management
     * Company management
 
-* Operate
+* 👷‍♀️ Operate
     * Time tracking
     * PTOs (ie holidays and time offs) (coming soon)
     * Expenses management
     * Hardware and software licenses
     * Project management
 
-* Communicate
+* ☎️ Communicate
     * Work logs
     * Recent ships
     * Team and company news
     * Get to know your colleagues
     * Wikis
 
-* Grow
+* 🥳 Grow
     Employee and team morale
     * One on Ones
     * Rate your manager
@@ -80,6 +80,12 @@ To have more information about the project, check the documentation: https://doc
 OfficeLife is aimed at small and medium size businesses, ranging from 10 to 500 employees. It's not suited for smaller teams, because it's collaborative. Also, it's not meant for huge companies as those companies usually have enough resources to manage a lot of different dedicated, specialized softwares.
 
 OfficeLife is for companies that want one tool, simple enough for everybody, and hackable so it can fit your custom needs.
+
+## Why did I create this software?
+
+I'm ([https://twitter.com/djaiss](@djaiss)) a manager in a big corporation. We have a lot of tools that are not interconnected. And despite all those tools, I don't know what's going on inside the company, or how is an employee doing. OfficeLife is born out of my frustration with the lack of a single source of truth.
+
+I wanted to open source this tool because I believe that collectively, we can build a better tool that everyone will benefit from. A lot of companies can't afford expensive softwares like Workday. By providing a free tool like OfficeLife, I wish employees around the world will enjoy their work more, and managers will be better at being managers.
 
 ## Get started
 
@@ -115,6 +121,16 @@ The project is in beta right now, accessible from https://beta.officelife.io. Th
 OfficeLife is made by [@djaiss](https://github.com/djaiss) and [@asbiin](https://github.com/asbiin).
 
 We've made another project called [@monicahq](https://github.com/monicahq/monica).
+
+## Contributors
+
+This project wouldn't exist if not because of all the people who contribute. Would you like to contribute? [Here is where you can start](CONTRIBUTING.md).
+
+<div align="center">
+    <a href="https://github.com/officelifehq/officelife/graphs/contributors">
+        <img src="https://contrib.rocks/image?repo=officelifehq/officelife" />
+    </a>
+</div>
 
 ## License
 
