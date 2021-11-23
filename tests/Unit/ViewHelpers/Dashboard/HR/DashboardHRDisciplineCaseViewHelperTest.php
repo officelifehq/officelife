@@ -91,6 +91,7 @@ class DashboardHRDisciplineCaseViewHelperTest extends TestCase
             [
                 'id' => $case->id,
                 'opened_at' => 'Jan 01, 2018',
+                'active' => $case->active,
                 'author' => [
                     'id' => $case->author->id,
                     'name' => $case->author->name,
@@ -130,6 +131,9 @@ class DashboardHRDisciplineCaseViewHelperTest extends TestCase
 
         $this->assertEquals(
             [
+                'case' => [
+                    'toggle' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases/'.$case->id,
+                ],
                 'events' => [
                     'store' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases/'.$case->id.'/events',
                 ],

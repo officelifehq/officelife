@@ -35,7 +35,7 @@
     <div class="cf mw7 center mb2 fw5 relative">
       <span class="mr1">
         🚨
-      </span> Discipline cases
+      </span> {{ $t('dashboard.hr_discipline_cases_index_title') }}
 
       <help :url="$page.props.help_links.contract_renewal_dashboard" />
     </div>

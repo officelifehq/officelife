@@ -62,6 +62,7 @@ class DashboardHRDisciplineCaseViewHelper
         return [
             'id' => $case->id,
             'opened_at' => DateHelper::formatDate($case->created_at),
+            'active' => $case->active,
             'author' => $case->author ? [
                 'id' => $case->author->id,
                 'name' => $case->author->name,
@@ -187,6 +188,12 @@ class DashboardHRDisciplineCaseViewHelper
                 ]),
             ],
             'url' => [
+                'case' => [
+                    'toggle' => route('dashboard.hr.disciplinecase.toggle', [
+                        'company' => $company,
+                        'case' => $case,
+                    ]),
+                ],
                 'events' => [
                     'store' => route('dashboard.hr.disciplineevent.store', [
                         'company' => $company,

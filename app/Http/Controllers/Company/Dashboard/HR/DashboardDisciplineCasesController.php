@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company\DisciplineCase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\DisciplineCase\CreateDisciplineCase;
+use App\Services\Company\Employee\DisciplineCase\ToggleDisciplineCase;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRDisciplineCaseViewHelper;
 
 class DashboardDisciplineCasesController extends Controller
@@ -99,6 +100,31 @@ class DashboardDisciplineCasesController extends Controller
         return Inertia::render('Dashboard/HR/DisciplineCases/Show', [
             'data' => DashboardHRDisciplineCaseViewHelper::show($company, $case),
             'notifications' => NotificationHelper::getNotifications($employee),
+        ]);
+    }
+
+    /**
+     * Close a new discipline case.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $caseId
+     *
+     * @return JsonResponse
+     */
+    public function toggle(Request $request, int $companyId, int $caseId): JsonResponse
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $case = (new ToggleDisciplineCase)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'discipline_case_id' => $caseId,
+        ]);
+
+        return response()->json([
+            'data' => DashboardHRDisciplineCaseViewHelper::dto($loggedCompany, $case),
         ]);
     }
 }

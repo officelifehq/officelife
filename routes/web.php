@@ -150,6 +150,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('discipline-cases/closed', 'Company\\Dashboard\\HR\\DashboardDisciplineCasesController@closed')->name('dashboard.hr.disciplinecase.index.closed');
                 Route::post('discipline-cases/employees', 'Company\\Dashboard\\HR\\DashboardDisciplineCasesController@search')->name('dashboard.hr.disciplinecase.search.employees');
                 Route::get('discipline-cases/{case}', 'Company\\Dashboard\\HR\\DashboardDisciplineCasesController@show')->name('dashboard.hr.disciplinecase.show');
+                Route::put('discipline-cases/{case}', 'Company\\Dashboard\\HR\\DashboardDisciplineCasesController@toggle')->name('dashboard.hr.disciplinecase.toggle');
 
                 // discipline events
                 Route::post('discipline-cases/{case}/events', 'Company\\Dashboard\\HR\\DashboardDisciplineEventsController@store')->name('dashboard.hr.disciplineevent.store');
