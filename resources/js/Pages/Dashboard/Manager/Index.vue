@@ -24,6 +24,11 @@
       :contract-renewals="contractRenewals"
     />
 
+    <discipline-case
+      v-if="disciplinesCases.length != 0"
+      :cases="disciplinesCases"
+    />
+
     <expense
       :expenses="pendingExpenses"
       :default-currency="defaultCurrency"
@@ -36,6 +41,7 @@ import Expense from '@/Pages/Dashboard/Manager/Partials/Expense';
 import OneOnOneWithDirectReport from '@/Pages/Dashboard/Manager/Partials/OneOnOneWithDirectReport';
 import ContractRenewal from '@/Pages/Dashboard/Manager/Partials/ContractRenewal';
 import TimesheetApprovals from '@/Pages/Dashboard/Manager/Partials/TimesheetApprovals';
+import DisciplineCase from '@/Pages/Dashboard/Manager/Partials/DisciplineCase';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -47,6 +53,7 @@ export default {
     DashboardMenu,
     ContractRenewal,
     TimesheetApprovals,
+    DisciplineCase,
   },
 
   props: {
@@ -71,6 +78,10 @@ export default {
       default: null,
     },
     timesheetsStats: {
+      type: Object,
+      default: null,
+    },
+    disciplinesCases: {
       type: Object,
       default: null,
     },

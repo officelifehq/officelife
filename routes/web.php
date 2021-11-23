@@ -132,6 +132,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::get('timesheets/{timesheet}', 'Company\\Dashboard\\Manager\\DashboardManagerTimesheetController@show')->name('dashboard.manager.timesheet.show');
                 Route::post('timesheets/{timesheet}/approve', 'Company\\Dashboard\\Manager\\DashboardManagerTimesheetController@approve');
                 Route::post('timesheets/{timesheet}/reject', 'Company\\Dashboard\\Manager\\DashboardManagerTimesheetController@reject');
+
+                // discipline cases
+                Route::get('discipline-cases/{case}', 'Company\\Dashboard\\Manager\\DashboardManagerDisciplineCaseController@show')->name('dashboard.manager.disciplinecase.show');
             });
 
             // hr tab
@@ -151,6 +154,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                 Route::post('discipline-cases/employees', 'Company\\Dashboard\\HR\\DashboardDisciplineCasesController@search')->name('dashboard.hr.disciplinecase.search.employees');
                 Route::get('discipline-cases/{case}', 'Company\\Dashboard\\HR\\DashboardDisciplineCasesController@show')->name('dashboard.hr.disciplinecase.show');
                 Route::put('discipline-cases/{case}', 'Company\\Dashboard\\HR\\DashboardDisciplineCasesController@toggle')->name('dashboard.hr.disciplinecase.toggle');
+                Route::delete('discipline-cases/{case}', 'Company\\Dashboard\\HR\\DashboardDisciplineCasesController@destroy')->name('dashboard.hr.disciplinecase.destroy');
 
                 // discipline events
                 Route::post('discipline-cases/{case}/events', 'Company\\Dashboard\\HR\\DashboardDisciplineEventsController@store')->name('dashboard.hr.disciplineevent.store');

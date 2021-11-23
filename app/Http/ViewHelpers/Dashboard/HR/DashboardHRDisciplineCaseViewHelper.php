@@ -235,6 +235,10 @@ class DashboardHRDisciplineCaseViewHelper
                         'company' => $company,
                         'case' => $case,
                     ]),
+                    'destroy' => route('dashboard.hr.disciplinecase.destroy', [
+                        'company' => $company,
+                        'case' => $case,
+                    ]),
                 ],
                 'events' => [
                     'store' => route('dashboard.hr.disciplineevent.store', [

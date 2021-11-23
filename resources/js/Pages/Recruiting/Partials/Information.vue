@@ -131,7 +131,7 @@ export default {
         });
     },
 
-    destroy(stageId) {
+    destroy() {
       axios.delete('/' + this.$page.props.auth.company.id + '/recruiting/job-openings/' + this.jobOpening.id)
         .then(response => {
           localStorage.success = this.$t('dashboard.job_opening_show_delete_success');

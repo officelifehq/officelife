@@ -83,9 +83,9 @@
           <!-- RESULTS -->
           <div class="pl0 list ma0">
             <ul v-if="potentialEmployees.length > 0" class="ba bb-gray list ma0 pl0 employees-list">
-              <li v-for="employee in potentialEmployees" :key="employee.id" class="bb relative pv2 ph1 bb-gray bb-gray-hover">
-                {{ employee.name }}
-                <a class="absolute right-1 pointer" @click.prevent="store(employee)">
+              <li v-for="potentialEmployee in potentialEmployees" :key="potentialEmployee.id" class="bb relative pv2 ph1 bb-gray bb-gray-hover">
+                {{ potentialEmployee.name }}
+                <a class="absolute right-1 pointer" @click.prevent="store(potentialEmployee)">
                   {{ $t('dashboard.hr_discipline_cases_create_case') }}
                 </a>
               </li>

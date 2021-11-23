@@ -12,6 +12,7 @@ use App\Models\Company\DisciplineCase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\DisciplineCase\CreateDisciplineCase;
 use App\Services\Company\Employee\DisciplineCase\ToggleDisciplineCase;
+use App\Services\Company\Employee\DisciplineCase\DestroyDisciplineCase;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRDisciplineCaseViewHelper;
 
 class DashboardDisciplineCasesController extends Controller
@@ -122,7 +123,7 @@ class DashboardDisciplineCasesController extends Controller
     }
 
     /**
-     * Close a new discipline case.
+     * Close a discipline case.
      *
      * @param Request $request
      * @param int $companyId
@@ -143,6 +144,35 @@ class DashboardDisciplineCasesController extends Controller
 
         return response()->json([
             'data' => DashboardHRDisciplineCaseViewHelper::dto($loggedCompany, $case),
+        ]);
+    }
+
+    /**
+     * Delete a discipline case.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $caseId
+     *
+     * @return JsonResponse
+     */
+    public function destroy(Request $request, int $companyId, int $caseId): JsonResponse
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        (new DestroyDisciplineCase)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'discipline_case_id' => $caseId,
+        ]);
+
+        return response()->json([
+            'data' => [
+                'url' => route('dashboard.hr.disciplinecase.index', [
+                    'company' => $loggedCompany,
+                ]),
+            ],
         ]);
     }
 }

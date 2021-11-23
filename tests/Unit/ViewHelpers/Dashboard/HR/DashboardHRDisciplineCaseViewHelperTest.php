@@ -160,6 +160,7 @@ class DashboardHRDisciplineCaseViewHelperTest extends TestCase
             [
                 'case' => [
                     'toggle' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases/'.$case->id,
+                    'destroy' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases/'.$case->id,
                 ],
                 'events' => [
                     'store' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases/'.$case->id.'/events',

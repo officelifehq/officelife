@@ -11,6 +11,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
 use App\Models\Company\ProjectTask;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\DisciplineCase;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\TimeTrackingEntry;
 use GrahamCampbell\TestBenchCore\HelperTrait;
@@ -299,6 +300,48 @@ class DashboardManagerViewHelperTest extends TestCase
         $this->assertEquals(
             env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
             $array['employees']->toArray()[0]['url']
+        );
+    }
+
+    /** @test */
+    public function it_gets_an_array_about_the_opened_cases(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $dwight = Employee::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        (new AssignManager)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'manager_id' => $michael->id,
+        ]);
+
+        $openCase = DisciplineCase::factory()->create([
+            'company_id' => $michael->company_id,
+            'active' => true,
+            'employee_id' => $dwight->id,
+        ]);
+
+        $collection = DashboardManagerViewHelper::activeDisciplineCases($michael->company, $michael->directReports);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $openCase->id,
+                    'employee' => [
+                        'id' => $dwight->id,
+                        'name' => $dwight->name,
+                        'avatar' => ImageHelper::getAvatar($dwight, 40),
+                        'position' => (! $dwight->position) ? null : $dwight->position->title,
+                        'url' =>env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
+                    ],
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/manager/discipline-cases/'.$openCase->id,
+                ],
+            ],
+            $collection->toArray()
         );
     }
 }

@@ -34,7 +34,7 @@
       <breadcrumb :with-box="true"
                   :root-url="'/' + $page.props.auth.company.id + '/dashboard'"
                   :root="$t('app.breadcrumb_dashboard')"
-                  :previous-url="'/' + $page.props.auth.company.id + '/dashboard/manager'"
+                  :previous-url="'/' + $page.props.auth.company.id + '/dashboard/hr/discipline-cases'"
                   :previous="$t('app.breadcrumb_dashboard_hr_discipline_cases')"
       >
         {{ $t('app.breadcrumb_hr_discipline_case_show') }}
@@ -110,6 +110,17 @@
             </ul>
           </div>
         </div>
+
+        <!-- actions -->
+        <div class="pa3 actions">
+          <div class="flex justify-center">
+            <form @submit.prevent="toggle">
+              <loading-button v-if="localCase.active" :class="'btn mr2 w-auto-ns w-100 pv2 ph3'" :state="loadingToggleState" :text="$t('dashboard.hr_discipline_case_show_case_closed_cta')" />
+              <loading-button v-else :class="'btn mr2 w-auto-ns w-100 pv2 ph3'" :state="loadingToggleState" :text="$t('dashboard.hr_discipline_case_show_case_open_cta')" />
+            </form>
+            <a class="btn dib tc w-auto-ns w-100 pv2 ph3 mr2 destroy" @click.prevent="destroy()">{{ $t('dashboard.hr_discipline_case_show_case_deleted_cta') }}</a>
+          </div>
+        </div>
       </div>
 
       <!-- events -->
@@ -161,7 +172,7 @@
               <!-- delete option -->
               <li v-if="idToDelete == event.id" class="di f6">
                 {{ $t('app.sure') }}
-                <a class="c-delete mr1 pointer" @click.prevent="destroy(event)">
+                <a class="c-delete mr1 pointer" @click.prevent="destroyEvent(event)">
                   {{ $t('app.yes') }}
                 </a>
                 <a class="pointer" @click.prevent="idToDelete = 0">
@@ -215,6 +226,7 @@ export default {
   data() {
     return {
       showAddMode: false,
+      loadingToggleState: false,
       loadingState: false,
       localCase: [],
       localEvents: [],
@@ -259,7 +271,21 @@ export default {
         });
     },
 
-    destroy(event) {
+    toggle() {
+      this.loadingToggleState = 'loading';
+
+      axios.put(this.data.url.case.toggle)
+        .then(response => {
+          this.flash(this.$t('dashboard.hr_discipline_case_show_case_toggled'), 'success');
+          this.loadingToggleState = null;
+          this.localCase.active = !this.localCase.active;
+        })
+        .catch(error => {
+          this.loadingState = null;
+        });
+    },
+
+    destroyEvent(event) {
       axios.delete(event.url.delete)
         .then(response => {
           this.flash(this.$t('dashboard.hr_discipline_case_show_case_event_deleted'), 'success');
@@ -271,6 +297,18 @@ export default {
         .catch(error => {
           this.form.errors = error.response.data;
         });
+    },
+
+    destroy() {
+      if (confirm(this.$t('dashboard.hr_discipline_cases_confirm_destroy'))) {
+        axios.delete(this.localCase.url.case.destroy)
+          .then(response => {
+            this.$inertia.visit(response.data.data.url);
+          })
+          .catch(error => {
+            this.form.errors = error.response.data;
+          });
+      }
     },
   },
 };
