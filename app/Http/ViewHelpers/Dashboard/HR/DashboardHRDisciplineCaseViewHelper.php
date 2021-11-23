@@ -162,6 +162,7 @@ class DashboardHRDisciplineCaseViewHelper
 
         return [
             'events' => $eventsCollection,
+            'active' => $case->active,
             'opened_at' => DateHelper::formatDate($case->created_at),
             'author' => $case->author ? [
                 'id' => $case->author->id,

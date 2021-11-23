@@ -346,6 +346,7 @@ return [
     'hr_discipline_case_show_case_happened_at_by' => '{date} by {name}',
     'hr_discipline_case_show_case_event_cta' => 'Add event',
     'hr_discipline_case_show_case_closed_cta' => 'Close case',
+    'hr_discipline_case_show_case_closed' => 'Case closed',
     'hr_discipline_case_show_case_open_cta' => 'Open case',
     'hr_discipline_case_show_case_deleted_cta' => 'Delete case',
     'hr_discipline_case_show_case_event_what_happened' => 'What happened?',

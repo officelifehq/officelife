@@ -176,5 +176,9 @@ class DashboardHRDisciplineCaseViewHelperTest extends TestCase
             1,
             $array['events']->count()
         );
+        $this->assertEquals(
+            true,
+            $array['active']
+        );
     }
 }

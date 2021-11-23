@@ -7,7 +7,17 @@
   filter: grayscale(80%) sepia(10%) brightness(90%);
 }
 
+.closed-lane {
+  background-color: #f9f9fa;
+}
+
 .icon-date {
+  width: 17px;
+  height: 17px;
+  top: 2px;
+}
+
+.icon-closed {
   width: 17px;
   height: 17px;
   top: 2px;
@@ -32,6 +42,15 @@
 
       <!-- BODY -->
       <div class="cf mw7 center br3 mb4 bg-white box relative">
+        <!-- case closed -->
+        <div v-if="!localCase.active" class="ph3 pv2 bb bb-gray relative tc closed-lane">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-closed relative mr1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+
+          <span>{{ $t('dashboard.hr_discipline_case_show_case_closed') }}</span>
+        </div>
+
         <div class="flex-ns items-center pa3 bb bb-gray">
           <!-- avatar -->
           <div class="mr3 db">
@@ -106,7 +125,7 @@
 
       <!-- events -->
       <div>
-        <div v-if="!showAddMode" class="cf mw7 center tc mb5">
+        <div v-if="!showAddMode && localCase.active" class="cf mw7 center tc mb5">
           <a href="#" class="btn dib" @click.prevent="displayAddMode">+ {{ $t('dashboard.hr_discipline_case_show_case_event_cta') }}</a>
         </div>
 
@@ -209,7 +228,7 @@ export default {
       showAddMode: false,
       loadingToggleState: false,
       loadingState: false,
-      localCase: null,
+      localCase: [],
       localEvents: [],
       idToDelete: 0,
       form: {
@@ -219,7 +238,7 @@ export default {
     };
   },
 
-  mounted() {
+  created() {
     this.localCase = this.data;
     this.localEvents = this.data.events;
 
