@@ -45,7 +45,7 @@ class DashboardDisciplineCasesController extends Controller
         $employee = InstanceHelper::getLoggedEmployee();
 
         return Inertia::render('Dashboard/HR/DisciplineCases/Closed', [
-            'data' => DashboardHRDisciplineCaseViewHelper::index($company, false),
+            'data' => DashboardHRDisciplineCaseViewHelper::closed($company),
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }

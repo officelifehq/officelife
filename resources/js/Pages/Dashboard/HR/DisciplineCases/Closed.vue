@@ -120,7 +120,7 @@ export default {
   },
 
   mounted() {
-    this.localCases = this.data.open_cases;
+    this.localCases = this.data.closed_cases;
   },
 
   methods: {

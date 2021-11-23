@@ -11,36 +11,35 @@ use App\Models\Company\DisciplineCase;
 class DashboardHRDisciplineCaseViewHelper
 {
     /**
-     * Get the information about all the discipline cases.
+     * Get the information about the opened discipline cases.
      *
      * @param Company $company
-     * @param bool $active
      * @return array|null
      */
-    public static function index(Company $company, bool $active = true): ?array
+    public static function index(Company $company): ?array
     {
-        $cases = DisciplineCase::where('company_id', $company->id)
-            ->where('active', $active)
+        $openCases = DisciplineCase::where('company_id', $company->id)
+            ->where('active', true)
             ->orderBy('created_at', 'desc')
             ->with('author')
             ->with('employee')
             ->get();
 
-        $casesCollection = collect([]);
-        foreach ($cases as $openCase) {
-            $casesCollection->push(
+        $openCasesCollection = collect([]);
+        foreach ($openCases as $openCase) {
+            $openCasesCollection->push(
                 self::dto($company, $openCase)
             );
         }
 
-        $otherCases = DisciplineCase::where('company_id', $company->id)
-            ->where('active', ! $active)
+        $closedCasesCount = DisciplineCase::where('company_id', $company->id)
+            ->where('active', false)
             ->count();
 
         return [
-            'open_cases' => $casesCollection,
-            'open_cases_count' => $casesCollection->count(),
-            'closed_cases_count' => $otherCases,
+            'open_cases' => $openCasesCollection,
+            'open_cases_count' => $openCasesCollection->count(),
+            'closed_cases_count' => $closedCasesCount,
             'url' => [
                 'open' => route('dashboard.hr.disciplinecase.index', [
                     'company' => $company,
@@ -52,6 +51,47 @@ class DashboardHRDisciplineCaseViewHelper
                     'company' => $company,
                 ]),
                 'store' => route('dashboard.hr.disciplinecase.store', [
+                    'company' => $company,
+                ]),
+            ],
+        ];
+    }
+
+    /**
+     * Get the information about the closed discipline cases.
+     *
+     * @param Company $company
+     * @return array|null
+     */
+    public static function closed(Company $company): ?array
+    {
+        $closed = DisciplineCase::where('company_id', $company->id)
+            ->where('active', false)
+            ->orderBy('updated_at', 'desc')
+            ->with('author')
+            ->with('employee')
+            ->get();
+
+        $closedCollection = collect([]);
+        foreach ($closed as $openCase) {
+            $closedCollection->push(
+                self::dto($company, $openCase)
+            );
+        }
+
+        $openedCasesCount = DisciplineCase::where('company_id', $company->id)
+            ->where('active', true)
+            ->count();
+
+        return [
+            'closed_cases' => $closedCollection,
+            'closed_cases_count' => $closedCollection->count(),
+            'open_cases_count' => $openedCasesCount,
+            'url' => [
+                'open' => route('dashboard.hr.disciplinecase.index', [
+                    'company' => $company,
+                ]),
+                'closed' => route('dashboard.hr.disciplinecase.index.closed', [
                     'company' => $company,
                 ]),
             ],

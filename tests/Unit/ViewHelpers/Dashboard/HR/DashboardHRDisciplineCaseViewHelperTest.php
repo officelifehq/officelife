@@ -45,6 +45,33 @@ class DashboardHRDisciplineCaseViewHelperTest extends TestCase
     }
 
     /** @test */
+    public function it_gets_an_array_about_the_closed_cases(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $michael = $this->createAdministrator();
+        $openCase = DisciplineCase::factory()->create([
+            'company_id' => $michael->company_id,
+            'active' => false,
+        ]);
+        DisciplineCase::factory()->create([
+            'company_id' => $michael->company_id,
+            'active' => true,
+        ]);
+
+        $array = DashboardHRDisciplineCaseViewHelper::closed($michael->company);
+
+        $this->assertEquals(1, $array['closed_cases_count']);
+        $this->assertEquals(1, $array['open_cases_count']);
+        $this->assertEquals(
+            [
+                'open' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases',
+                'closed' => env('APP_URL').'/'.$michael->company_id.'/dashboard/hr/discipline-cases/closed',
+            ],
+            $array['url']
+        );
+    }
+
+    /** @test */
     public function it_gets_a_collection_of_potential_new_employees(): void
     {
         $michael = $this->createAdministrator();
