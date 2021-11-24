@@ -470,7 +470,7 @@ export default {
 
     updatePosition(event) {
       // the event object comes from the draggable component
-      this.form.position = event.moved.newIndex;
+      this.form.position = event.moved.newIndex + 1;
 
       axios.post(event.moved.element.url.reorder, this.form)
         .then(response => {
