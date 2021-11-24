@@ -37,7 +37,7 @@
         🚨
       </span> {{ $t('dashboard.hr_discipline_cases_index_title') }}
 
-      <help :url="$page.props.help_links.contract_renewal_dashboard" />
+      <help :url="$page.props.help_links.discipline" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box relative">

@@ -38,6 +38,8 @@
       <!-- BODY -->
       <h2 class="pa3 mt2 mb3 center tc normal">
         {{ $t('dashboard.hr_discipline_cases_index_tile') }}
+
+        <help :url="$page.props.help_links.discipline" />
       </h2>
 
       <div class="tc mb4">
@@ -136,12 +138,14 @@
 import Layout from '@/Shared/Layout';
 import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import Avatar from '@/Shared/Avatar';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
     Layout,
     Breadcrumb,
     Avatar,
+    Help,
   },
 
   props: {

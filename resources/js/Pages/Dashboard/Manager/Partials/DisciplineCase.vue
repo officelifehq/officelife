@@ -37,7 +37,7 @@
         🚨
       </span> {{ $t('dashboard.manager_discipline_cases_index_title') }}
 
-      <help :url="$page.props.help_links.one_on_ones" />
+      <help :url="$page.props.help_links.discipline" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box relative">
