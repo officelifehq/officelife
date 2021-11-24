@@ -125,7 +125,7 @@
 
               <div class="fl-ns w-two-thirds-ns w-100">
                 <!-- birthdate -->
-                <a-date-picker v-model="form.birthdate" />
+                <a-date-picker v-model:value="form.birthdate" />
               </div>
             </div>
 
@@ -161,7 +161,7 @@
 
               <div class="fl-ns w-two-thirds-ns w-100">
                 <!-- hired_at -->
-                <a-date-picker v-model="form.hired_at" />
+                <a-date-picker v-model:value="form.hired_at" />
               </div>
             </div>
 

@@ -42,6 +42,7 @@ class DashboardHRController extends Controller
             'notifications' => NotificationHelper::getNotifications($employee),
             'employeesWithoutManagersWithPendingTimesheets' => $employeesWithoutManagersWithPendingTimesheets,
             'statisticsAboutTimesheets' => $statisticsAboutTimesheets,
+            'disciplineCases' => DashboardHRViewHelper::disciplineCases($company),
         ]);
     }
 }

@@ -39,6 +39,7 @@ use App\Models\Company\ProjectIssue;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\ConsultantRate;
+use App\Models\Company\DisciplineCase;
 use App\Models\Company\ProjectDecision;
 use App\Models\Company\CompanyPTOPolicy;
 use App\Models\Company\GuessEmployeeGame;
@@ -764,6 +765,17 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($author->comments()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_discipline_cases(): void
+    {
+        $employee = Employee::factory()->create();
+        DisciplineCase::factory()->create([
+            'employee_id' => $employee->id,
+        ]);
+
+        $this->assertTrue($employee->disciplineCases()->exists());
     }
 
     /** @test */

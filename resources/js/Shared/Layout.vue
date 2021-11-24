@@ -98,7 +98,7 @@ nav {
             </inertia-link>
           </div>
         </div>
-        <div class="flex-grow pa2 flex items-center">
+        <div class="pa2 flex items-center">
           <notifications-component :notifications="notifications" />
 
           <user-menu :show-help-on-page="showHelpOnPage" />

@@ -30,6 +30,7 @@ use App\Models\Company\CompanyNews;
 use App\Models\Company\DirectReport;
 use App\Models\Company\CompanyInvoice;
 use App\Models\Company\ConsultantRate;
+use App\Models\Company\DisciplineCase;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Models\Company\CompanyPTOPolicy;
@@ -381,6 +382,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->issueTypes()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_discipline_cases(): void
+    {
+        $company = Company::factory()->create();
+        DisciplineCase::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->disciplineCases()->exists());
     }
 
     /** @test */
