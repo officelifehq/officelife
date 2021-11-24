@@ -70,6 +70,7 @@ OfficeLife has the following features, in 5 major domains:
     * Skills
     * Objectives Key Results (OKR) (coming soon)
     * e-Coffees
+    * Discipline cases
 
 <img src="docs/img/profile.png" alt="OfficeLife company" title="OfficeLife" />
 

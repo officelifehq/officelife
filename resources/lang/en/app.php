@@ -189,6 +189,8 @@ return [
     'breadcrumb_ama_show' => 'Detail of a session',
     'breadcrumb_ama_edit' => 'Edit a session',
     'breadcrumb_ama_delete' => 'Delete a session',
+    'breadcrumb_dashboard_hr_discipline_cases' => 'All the discipline cases',
+    'breadcrumb_hr_discipline_case_show' => 'Discipline case',
     'header_welcome' => 'Welcome',
     'header_home' => 'Summary',
     'header_find' => 'Find',

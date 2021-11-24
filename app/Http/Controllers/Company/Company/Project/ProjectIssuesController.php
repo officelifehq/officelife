@@ -34,7 +34,7 @@ class ProjectIssuesController extends Controller
 
         try {
             $issue = ProjectIssue::where('key', $issueKey)->where('slug', $issueSlug)
-                ->findOrFail();
+                ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }

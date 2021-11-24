@@ -57,6 +57,7 @@ class DashboardManagerController extends Controller
         $oneOnOnes = DashboardManagerViewHelper::oneOnOnes($employee, $directReports);
         $contractRenewals = DashboardManagerViewHelper::contractRenewals($employee, $directReports);
         $timesheetsStats = DashboardManagerViewHelper::employeesWithTimesheetsToApprove($employee, $directReports);
+        $disciplineCases = DashboardManagerViewHelper::activeDisciplineCases($company, $directReports);
 
         return Inertia::render('Dashboard/Manager/Index', [
             'employee' => DashboardViewHelper::information($employee, 'manager'),
@@ -66,6 +67,7 @@ class DashboardManagerController extends Controller
             'contractRenewals' => $contractRenewals,
             'timesheetsStats' => $timesheetsStats,
             'defaultCompanyCurrency' => $company->currency,
+            'disciplinesCases' => $disciplineCases,
         ]);
     }
 

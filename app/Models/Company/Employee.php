@@ -623,6 +623,16 @@ class Employee extends Model
     }
 
     /**
+     * Get all discipline cases about the employee.
+     *
+     * @return HasMany
+     */
+    public function disciplineCases()
+    {
+        return $this->hasMany(DisciplineCase::class);
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query
