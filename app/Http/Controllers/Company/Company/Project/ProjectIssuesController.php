@@ -51,7 +51,7 @@ class ProjectIssuesController extends Controller
         // board comes from the CheckBoard middleware
         $board = $request->get('board');
 
-        return Inertia::render('Company/Project/Boards/Show', [
+        return Inertia::render('Company/Project/Boards/ProjectIssue/Show', [
             'tab' => 'boards',
             'data' => ProjectIssuesViewHelper::issueData($issue),
             'notifications' => NotificationHelper::getNotifications($loggedEmployee),
