@@ -4,6 +4,23 @@
   top: 5px;
   width: 35px;
 }
+
+.issue-dropdown {
+  border: 1px solid transparent;
+  padding: 4px 4px 2px;
+
+  &:hover {
+    background-color: #fff;
+    border: 1px solid #dae1e7;
+
+    svg {
+      display: inline;
+      top: 9px;
+      right: 7px;
+      width: 16px;
+    }
+  }
+}
 </style>
 
 <template>
@@ -18,23 +35,64 @@
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative cf">
-        <h2 class="mt0 mb3 fw5" data-cy="project-title">
-          {{ localIssue.title }}
+        <h2 class="mt0 mb3 fw5">
+          {{ localIssue.title }} <span class="fw3 f6">
+            {{ localIssue.key }}
+          </span>
         </h2>
 
         <!-- LEFT COLUMN -->
         <div class="fl w-70-l w-100">
           <!-- issue content -->
           <div class="bg-white box mb4">
-            <div class="pa3 pb3" data-cy="project-content">
-              <div class="parsed-content" v-html="localIssue.parsed_description"></div>
+            <div class="pa3 pb3">
+              <div v-if="localIssue.parsed_description" class="parsed-content" v-html="localIssue.parsed_description"></div>
+
+              <!-- blank state -->
+              <div class="tc">
+                <img loading="lazy" src="/img/streamline-icon-open-book-3@100x100.png" alt="" class="" height="100"
+                     width="100"
+                />
+              </div>
             </div>
           </div>
         </div>
 
         <!-- RIGHT COLUMN -->
         <div class="fl w-30-l w-100 pl4-l">
-          <!-- written by -->
+          <!-- assigned to -->
+          <h3 v-if="localIssue.author" class="ttc f7 gray mt0 mb2 fw4">
+            Assigned to
+          </h3>
+          <div v-if="localIssue.author" class="flex items-center relative mb4 issue-dropdown br2 pa2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="dn absolute" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+
+            <div class="mr2">
+              <avatar :avatar="localIssue.author.avatar" :size="25" :class="'br-100'" />
+            </div>
+
+            <div>
+              <inertia-link :href="localIssue.author.url" class="dib">{{ localIssue.author.name }}</inertia-link>
+            </div>
+          </div>
+
+          <!-- created by -->
+          <h3 v-if="localIssue.author" class="ttc f7 gray mt0 mb2 fw4">
+            Created by
+          </h3>
+          <div v-if="localIssue.author" class="flex mb4">
+            <div class="mr2">
+              <avatar :avatar="localIssue.author.avatar" :size="25" :class="'br-100'" />
+            </div>
+
+            <div>
+              <inertia-link :href="localIssue.author.url" class="mb2 dib">{{ localIssue.author.name }}</inertia-link>
+            </div>
+          </div>
+
+          <!-- created on -->
           <h3 v-if="localIssue.author" class="ttc f7 gray mt0 mb2 fw4">
             {{ $t('project.message_show_written_by') }}
           </h3>
@@ -74,9 +132,9 @@
 
           <!-- written on -->
           <h3 class="ttc f7 gray mt0 mb2 fw4">
-            {{ $t('project.message_show_written_on') }}
+            Created on {{ localIssue.created_at }}
           </h3>
-          <p class="mt0 mb4">{{ localIssue.written_at }} <span class="f6 gray">({{ localIssue.written_at_human }})</span></p>
+          <p class="mt0 mb4">{{ localIssue.created_at }} <span class="f6 gray">({{ localIssue.created_at_human }})</span></p>
 
           <!-- actions -->
           <h3 class="ttc f7 gray mt0 mb2 fw4">
@@ -134,7 +192,7 @@ export default {
     };
   },
 
-  mounted() {
+  created() {
     this.localIssue = this.data;
 
     if (localStorage.success) {
