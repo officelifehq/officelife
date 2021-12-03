@@ -23,6 +23,16 @@
 
 .popupmenu {
   right: -4px;
+
+  &:after {
+    left: auto;
+    right: 10px;
+  }
+
+  &:before {
+    left: auto;
+    right: 9px;
+  }
 }
 </style>
 
@@ -54,7 +64,7 @@
 
           <!-- REMOVE PROJECT LEADER MENU -->
           <template v-if="removeMode">
-            <div v-click-outside="hideRemovalMode" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn">
+            <div v-click-outside="hideRemovalMode" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3">
               <ul class="list ma0 pa0">
 
                 <!-- click to remove -->
@@ -132,7 +142,7 @@
 import Errors from '@/Shared/Errors';
 import IconDelete from '@/Shared/IconDelete';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
-import vClickOutside from 'v-click-outside';
+import vClickOutside from 'click-outside-vue3';
 import Avatar from '@/Shared/Avatar';
 
 export default {
