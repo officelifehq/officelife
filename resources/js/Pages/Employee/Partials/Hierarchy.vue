@@ -19,9 +19,9 @@
   top: 15px;
 }
 
-.list-employees-modal {
-  right: -6px;
-  top: 27px;
+.list-employees-modal.popupmenu {
+  right: -5px;
+  top: 33px;
 }
 
 .icon-delete {
