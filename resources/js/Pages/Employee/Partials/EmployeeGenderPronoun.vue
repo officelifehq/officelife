@@ -124,8 +124,6 @@ export default {
       search: '',
       localEmployee: Object,
       showPopup: false,
-      timer: '',
-      isInPopover: false,
     };
   },
 
@@ -149,7 +147,6 @@ export default {
 
   methods: {
     hidePopover: function() {
-      this.isInPopover = false;
       this.showPopup = false;
     },
 
