@@ -3,20 +3,13 @@
   max-height: 150px;
 }
 
+.popover {
+  width: 300px;
+}
+
 .popupmenu {
-  right: -270px;
-  top: -4px;
-  width: 280px;
-
-  &::before {
-    left: 9px;
-    right: auto;
-  }
-
-  &::after {
-    left: 10px;
-    right: auto;
-  }
+  left: 0;
+  top: 33px;
 }
 
 .c-delete:hover {
@@ -42,7 +35,7 @@
 <template>
   <div class="mb4 relative">
     <div class="db fw4 mb3 relative">
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+      <svg class="icon mr1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
         <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
       </svg>
       <span class="f6 title">
@@ -51,7 +44,7 @@
     </div>
 
     <!-- Modal -->
-    <div v-if="modal" v-click-outside="toggleModal" class="popupmenu absolute br2 bg-white z-max tl bounceIn faster">
+    <div v-if="showPopup" v-click-outside="hidePopover" class="absolute popupmenu popover bg-white z-max">
       <!-- Shown when there is at least one status in the account -->
       <div v-if="statuses">
         <p class="pa2 ma0 bb bb-gray">
@@ -62,7 +55,7 @@
           <div class="relative pv2 ph2 bb bb-gray">
             <input id="search" v-model="search" type="text" name="search"
                    :placeholder="$t('employee.status_modal_filter')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
-                   @keydown.esc="toggleModal"
+                   @keydown.esc="hidePopover"
             />
           </div>
         </form>
@@ -105,7 +98,7 @@
       <li class="mb2" data-cy="status-name-right-permission">
         {{ localEmployee.status.name }}
 
-        <a v-show="permissions.can_manage_status" data-cy="edit-status-button" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="displayModal()">{{ $t('app.edit') }}</a>
+        <a v-show="permissions.can_manage_status" data-cy="edit-status-button" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="showPopover()">{{ $t('app.edit') }}</a>
       </li>
 
       <!-- contract renewed at date -->
@@ -125,13 +118,13 @@
     <span v-if="!localEmployee.status" class="f6">
       {{ $t('employee.status_modal_blank') }}
 
-      <a v-show="permissions.can_manage_status" data-cy="edit-status-button" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="displayModal()">{{ $t('app.edit') }}</a>
+      <a v-show="permissions.can_manage_status" data-cy="edit-status-button" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="showPopover()">{{ $t('app.edit') }}</a>
     </span>
   </div>
 </template>
 
 <script>
-import vClickOutside from 'v-click-outside';
+import vClickOutside from 'click-outside-vue3';
 
 export default {
   directives: {
@@ -155,6 +148,7 @@ export default {
       modal: false,
       search: '',
       localEmployee: Object,
+      showPopup: false,
     };
   },
 
@@ -179,13 +173,13 @@ export default {
   },
 
   methods: {
-    displayModal() {
-      this.load();
-      this.modal = true;
+    hidePopover: function() {
+      this.showPopup = false;
     },
 
-    toggleModal() {
-      this.modal = false;
+    showPopover: function() {
+      this.load();
+      this.showPopup = true;
     },
 
     load() {

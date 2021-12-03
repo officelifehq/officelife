@@ -215,9 +215,9 @@
 </template>
 
 <script>
-import vClickOutside from 'v-click-outside';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import IconDelete from '@/Shared/IconDelete';
+import vClickOutside from 'click-outside-vue3';
 
 export default {
   components: {

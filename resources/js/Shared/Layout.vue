@@ -232,7 +232,6 @@ nav {
 </template>
 
 <script>
-import vClickOutside from 'v-click-outside';
 import UserMenu from '@/Shared/UserMenu';
 import LoadingButton from '@/Shared/LoadingButton';
 import NotificationsComponent from '@/Shared/Notifications';
@@ -246,10 +245,6 @@ export default {
     NotificationsComponent,
     Toaster,
     'ball-pulse-loader': BallPulseLoader.component,
-  },
-
-  directives: {
-    clickOutside: vClickOutside.directive
   },
 
   props: {
