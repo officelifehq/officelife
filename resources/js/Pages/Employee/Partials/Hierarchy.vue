@@ -1,4 +1,4 @@
-<style scoped>
+<style lang="scss" scoped>
 @import 'vue-loaders/dist/vue-loaders.css';
 
 .list-employees > ul {
@@ -33,21 +33,38 @@
   top: 10px;
   position: absolute;
 }
+
+.popupmenu {
+  right: 22px;
+  top: 63px;
+
+  &:after {
+    left: auto;
+    right: 10px;
+  }
+
+  &:before {
+    left: auto;
+    right: 9px;
+  }
+}
 </style>
 
 <template>
   <div class="mb4 relative">
     <span class="db fw5 mb2">
-      👨‍✈️ {{ $t('employee.hierarchy_title') }}
+      <span class="mr1">
+        👨‍✈️
+      </span> {{ $t('employee.hierarchy_title') }}
     </span>
     <img v-show="permissions.can_manage_hierarchy" loading="lazy" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button"
          width="22"
          height="22" alt="add button"
-         @click.prevent="toggleModals()"
+         @click.prevent="showPopover()"
     />
 
     <!-- MENU TO CHOOSE FROM -->
-    <div v-if="modal == 'menu'" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
+    <div v-if="modal == 'menu'" v-click-outside="hidePopover" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3">
       <ul class="list ma0 pa0">
         <li class="pv2">
           <a class="pointer" data-cy="add-manager-button" @click.prevent="displayManagerModal()">
@@ -63,7 +80,7 @@
     </div>
 
     <!-- ADD MANAGER -->
-    <div v-if="modal == 'manager'" v-click-outside="toggleModals" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
+    <div v-if="modal == 'manager'" v-click-outside="hidePopover" class="absolute popupmenu popover bg-white z-max tl pv2 ph3">
       <!-- FORM to search -->
       <form @submit.prevent="search">
         <div class="mb3 relative">
@@ -71,7 +88,7 @@
           <div class="relative">
             <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
                    :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required data-cy="search-manager"
-                   @keyup="search" @keydown.esc="toggleModals()"
+                   @keyup="search" @keydown.esc="hidePopover()"
             />
             <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
           </div>
@@ -100,7 +117,7 @@
     </div>
 
     <!-- ADD DIRECT REPORT -->
-    <div v-if="modal == 'directReport'" v-click-outside="toggleModals" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
+    <div v-if="modal == 'directReport'" v-click-outside="hidePopover" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3">
       <!-- FORM to search -->
       <form @submit.prevent="search">
         <div class="mb3 relative">
@@ -108,7 +125,7 @@
           <div class="relative">
             <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
                    :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required data-cy="search-direct-report"
-                   @keyup="search" @keydown.esc="toggleModals()"
+                   @keyup="search" @keydown.esc="hidePopover()"
             />
             <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
           </div>
@@ -258,7 +275,7 @@
 <script>
 import IconDelete from '@/Shared/IconDelete';
 import Avatar from '@/Shared/Avatar';
-import vClickOutside from 'v-click-outside';
+import vClickOutside from 'click-outside-vue3';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
@@ -330,12 +347,12 @@ export default {
   },
 
   methods: {
-    toggleModals() {
-      if (this.modal == 'hide') {
-        this.modal = 'menu';
-      } else {
-        this.modal = 'hide';
-      }
+    hidePopover: function() {
+      this.modal = 'hide';
+    },
+
+    showPopover: function() {
+      this.modal = 'menu';
       this.searchManagers = [];
       this.searchDirectReports = [];
       this.form.searchTerm = null;
