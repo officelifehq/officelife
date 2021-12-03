@@ -7,11 +7,19 @@
   width: 35px;
 }
 
-.team-member {
-  padding-left: 44px;
+.team-list-item {
+  &:first-child:hover {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
 
-  .avatar {
-    top: 2px;
+  &:last-child {
+    border-bottom: 0;
+
+    &:hover {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
   }
 }
 
@@ -69,35 +77,33 @@
       </div>
 
       <!-- list of employees -->
-      <div v-if="listOfEmployees.length > 0" class="pa3 flex flex-wrap employee-list">
-        <div v-for="employee in listOfEmployees" :key="employee.id" class="mb4 mr3" data-cy="members-list">
-          <span class="pl3 db relative team-member">
-            <avatar :avatar="employee.avatar" :size="35" :class="'br-100 absolute avatar'" />
+      <div v-if="listOfEmployees.length > 0">
+        <ul class="list pl0 ma0">
+          <li v-for="employee in listOfEmployees" :key="employee.id" class="pa3 bb bb-gray bb-gray-hover team-list-item flex justify-between items-center">
+            <div class="flex items-center">
+              <avatar :avatar="employee.avatar" :size="35" :class="'br-100 mr1 avatar'" />
 
-            <!-- normal mode -->
-            <inertia-link v-show="!editMode" :href="employee.url" class="mb2">
-              {{ employee.name }}
-            </inertia-link>
+              <div>
+                <inertia-link :href="employee.url" class="mb2">
+                  {{ employee.name }}
+                </inertia-link>
 
-            <!-- position -->
-            <span v-show="!editMode" v-if="employee.position" class="title db f7 mt1">
-              {{ employee.position.title }}
-            </span>
-            <span v-show="!editMode" v-else class="title db f7 mt1">
-              {{ $t('app.no_position_defined') }}
-            </span>
-
-            <!-- edit mode -->
-            <span v-show="editMode" class="mb2">
-              {{ employee.name }}
-            </span>
+                <!-- position -->
+                <span v-if="employee.position" class="db f7 mt1">
+                  {{ employee.position.title }}
+                </span>
+                <span v-else class="db f7 mt1">
+                  {{ $t('app.no_position_defined') }}
+                </span>
+              </div>
+            </div>
 
             <!-- remove from team -->
-            <a v-show="editMode" href="" class="title db f7 mt1 c-delete dib" :data-cy="'remove-employee-' + employee.id" @click.prevent="detach(employee)">
+            <a v-show="editMode" href="#" class="f7 c-delete" :data-cy="'remove-employee-' + employee.id" @click.prevent="detach(employee)">
               {{ $t('team.members_remove') }}
             </a>
-          </span>
-        </div>
+          </li>
+        </ul>
       </div>
 
       <!-- blank state -->
