@@ -66,6 +66,7 @@
         "@vue/compiler-sfc": "3.0.11",
         "ant-design-vue": "^2.2.8",
         "axios": "^0.21",
+        "click-outside-vue3": "^4.0.1",
         "donutty": "^2.3.0",
         "lodash": "^4.17.20",
         "sass": "^1.27.0",

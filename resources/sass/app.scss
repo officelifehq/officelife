@@ -119,8 +119,8 @@ textarea {
 .popupmenu {
   border: 1px solid rgba(27, 31, 35, 0.15);
   box-shadow: 0 3px 12px rgba(27, 31, 35, 0.15);
-  right: 22px;
-  top: 46px;
+  right: 29px;
+  top: 33px;
 }
 
 .popupmenu:after,
@@ -133,16 +133,14 @@ textarea {
 .popupmenu:after {
   border: 7px solid transparent;
   border-bottom-color: #fff;
-  left: auto;
-  right: 10px;
+  left: 10px;
   top: -14px;
 }
 
 .popupmenu:before {
   border: 8px solid transparent;
   border-bottom-color: rgba(27, 31, 35, 0.15);
-  left: auto;
-  right: 9px;
+  left: 9px;
   top: -16px;
 }
 
