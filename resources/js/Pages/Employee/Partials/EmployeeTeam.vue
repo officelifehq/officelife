@@ -3,10 +3,13 @@
   max-height: 150px;
 }
 
+.popover {
+  width: 300px;
+}
+
 .popupmenu {
-  right: 2px;
-  top: 26px;
-  width: 280px;
+  left: 0;
+  top: 33px;
 }
 
 .c-delete:hover {
@@ -37,7 +40,7 @@
             </span>
           </template>
         </li>
-        <li v-if="permissions.can_manage_teams" data-cy="open-team-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7" @click.prevent="displayModal()">
+        <li v-if="permissions.can_manage_teams" data-cy="open-team-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7" @click.prevent="showPopover()">
           {{ $t('app.edit') }}
         </li>
       </ul>
@@ -45,7 +48,7 @@
 
     <!-- Action when there is no team defined -->
     <div v-if="!localEmployeeTeams" class="di">
-      <a v-if="permissions.can_manage_teams" class="bb b--dotted bt-0 bl-0 br-0 pointer f7" data-cy="open-team-modal-blank" @click.prevent="displayModal()">
+      <a v-if="permissions.can_manage_teams" class="bb b--dotted bt-0 bl-0 br-0 pointer f7" data-cy="open-team-modal-blank" @click.prevent="showPopover()">
         {{ $t('employee.team_no_team_yet_with_right') }}
       </a>
 
@@ -56,7 +59,7 @@
     </div>
 
     <!-- Modal -->
-    <div v-if="modal" v-click-outside="toggleModal" class="popupmenu absolute br2 bg-white z-max tl bounceIn faster">
+    <div v-if="showPopup" v-click-outside="hidePopover" class="absolute popupmenu popover bg-white z-max">
       <!-- Shown when there is at least one team in the account -->
       <div v-if="teamsInCompany.length != 0">
         <p class="pa2 ma0 bb bb-gray">
@@ -103,7 +106,7 @@
 </template>
 
 <script>
-import vClickOutside from 'v-click-outside';
+import vClickOutside from 'click-outside-vue3';
 
 export default {
   directives: {
@@ -127,6 +130,7 @@ export default {
       modal: false,
       search: '',
       localEmployeeTeams: null,
+      showPopup: false,
     };
   },
 
@@ -151,13 +155,13 @@ export default {
   },
 
   methods: {
-    displayModal() {
-      this.load();
-      this.modal = true;
+    hidePopover: function() {
+      this.showPopup = false;
     },
 
-    toggleModal() {
-      this.modal = false;
+    showPopover: function() {
+      this.load();
+      this.showPopup = true;
     },
 
     load() {
