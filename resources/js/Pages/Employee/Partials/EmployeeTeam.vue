@@ -70,7 +70,7 @@
           <div class="relative pv2 ph2 bb bb-gray">
             <input id="search" v-model="search" type="text" name="search"
                    :placeholder="$t('employee.team_modal_filter')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
-                   @keydown.esc="toggleModal"
+                   @keydown.esc="hidePopover"
             />
           </div>
         </form>
