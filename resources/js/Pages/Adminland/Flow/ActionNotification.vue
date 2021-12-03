@@ -215,7 +215,6 @@
 </template>
 
 <script>
-import vClickOutside from 'v-click-outside';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import IconDelete from '@/Shared/IconDelete';
 
@@ -223,10 +222,6 @@ export default {
   components: {
     IconDelete,
     'ball-pulse-loader': BallPulseLoader.component,
-  },
-
-  directives: {
-    clickOutside: vClickOutside.directive
   },
 
   props: {
