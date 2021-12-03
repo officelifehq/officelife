@@ -217,11 +217,16 @@
 <script>
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import IconDelete from '@/Shared/IconDelete';
+import vClickOutside from 'click-outside-vue3';
 
 export default {
   components: {
     IconDelete,
     'ball-pulse-loader': BallPulseLoader.component,
+  },
+
+  directives: {
+    clickOutside: vClickOutside.directive
   },
 
   props: {
