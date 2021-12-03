@@ -3,10 +3,13 @@
   max-height: 150px;
 }
 
-.popupmenu {
-  right: 2px;
-  top: 26px;
+.popover {
   width: 300px;
+}
+
+.popupmenu {
+  left: 0;
+  top: 33px;
 }
 
 .c-delete:hover {
@@ -24,13 +27,13 @@
       <span class="special-color">
         {{ title }}
       </span>
-      <span v-if="permissions.can_manage_position" data-cy="open-position-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="toggleModal()">
+      <span v-if="permissions.can_manage_position" data-cy="open-position-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="showPopover">
         {{ $t('app.edit') }}
       </span>
     </span>
 
     <!-- Action when there is no title defined + has the right to set one -->
-    <a v-show="title == ''" v-if="permissions.can_manage_position" data-cy="open-position-modal-blank" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7" @click.prevent="toggleModal()">{{ $t('employee.position_modal_title') }}</a>
+    <a v-show="title == ''" v-if="permissions.can_manage_position" data-cy="open-position-modal-blank" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7" @click="showPopover">{{ $t('employee.position_modal_title') }}</a>
 
     <!-- Action when there is no title defined + doesn't have the right to set one -->
     <span v-else v-show="title == ''">
@@ -38,7 +41,7 @@
     </span>
 
     <!-- Modal -->
-    <div v-if="modal" v-click-outside="toggleModal" class="popupmenu absolute br2 bg-white z-max tl bounceIn faster">
+    <div v-if="showPopup" v-click-outside="hidePopover" class="absolute popupmenu popover z-max">
       <p class="pa2 ma0 bb bb-gray">
         {{ $t('employee.position_modal_title') }}
       </p>
@@ -70,7 +73,7 @@
 </template>
 
 <script>
-import vClickOutside from 'v-click-outside';
+import vClickOutside from 'click-outside-vue3';
 
 export default {
   directives: {
@@ -90,11 +93,11 @@ export default {
 
   data() {
     return {
-      modal: false,
       positions: null,
       search: '',
       title: '',
       updatedEmployee: Object,
+      showPopup: false,
     };
   },
 
@@ -121,9 +124,13 @@ export default {
   },
 
   methods: {
-    toggleModal() {
+    hidePopover: function() {
+      this.showPopup = false;
+    },
+
+    showPopover: function() {
       this.load();
-      this.modal = !this.modal;
+      this.showPopup = true;
     },
 
     load() {
@@ -145,7 +152,6 @@ export default {
 
           this.title = response.data.data.position.title;
           this.updatedEmployee = response.data.data;
-          this.modal = false;
         })
         .catch(error => {
           this.form.errors = error.response.data;
@@ -158,7 +164,6 @@ export default {
           this.flash(this.$t('employee.position_modal_unassign_success'), 'success');
 
           this.title = '';
-          this.modal = false;
           this.updatedEmployee = response.data.data;
         })
         .catch(error => {
