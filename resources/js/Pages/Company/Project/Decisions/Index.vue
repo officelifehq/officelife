@@ -45,6 +45,18 @@
   border-color: #60995c;
   color: #60995c;
 }
+
+.popupmenu {
+  &:after {
+    left: auto;
+    right: 10px;
+  }
+
+  &:before {
+    left: auto;
+    right: 9px;
+  }
+}
 </style>
 
 <template>
@@ -237,7 +249,7 @@ import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
-import vClickOutside from 'v-click-outside';
+import vClickOutside from 'click-outside-vue3';
 import IconDelete from '@/Shared/IconDelete';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import LoadingButton from '@/Shared/LoadingButton';

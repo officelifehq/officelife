@@ -23,6 +23,16 @@
 
 .popupmenu {
   right: -4px;
+
+  &:after {
+    left: auto;
+    right: 10px;
+  }
+
+  &:before {
+    left: auto;
+    right: 9px;
+  }
 }
 </style>
 
@@ -132,7 +142,7 @@ import Errors from '@/Shared/Errors';
 import Avatar from '@/Shared/Avatar';
 import IconDelete from '@/Shared/IconDelete';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
-import vClickOutside from 'v-click-outside';
+import vClickOutside from 'click-outside-vue3';
 
 export default {
   components: {

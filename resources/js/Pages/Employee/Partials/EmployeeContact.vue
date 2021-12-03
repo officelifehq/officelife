@@ -40,13 +40,7 @@
 </template>
 
 <script>
-import vClickOutside from 'v-click-outside';
-
 export default {
-  directives: {
-    clickOutside: vClickOutside.directive
-  },
-
   props: {
     employee: {
       type: Object,
