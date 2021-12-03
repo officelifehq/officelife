@@ -2,10 +2,11 @@
 .base-popover {
   position: relative;
   z-index: 50;
+  top: 13px;
 
  &__overlay {
     position: absolute;
-    top: 0;
+    top: 13px;
     left: 0;
     z-index: 40;
     width: calc(100vw - 1rem);
