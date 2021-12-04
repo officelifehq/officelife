@@ -21,112 +21,182 @@
     }
   }
 }
+
+.issue-label {
+  padding: 3px 6px;
+  color: #4d4d4f;
+
+  &:hover {
+    border-bottom: 1px solid #dae1e7;
+  }
+}
+
+.icon-type {
+  top: 0px;
+}
+
+.icon-task {
+  width: 15px;
+  top: 3px;
+}
+
+.story-point {
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,'Fira Sans','Droid Sans','Helvetica Neue',sans-serif;
+  color: #5e6c84;
+  border-radius: 2em;
+  padding: 3px 5px 2px 5px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  background-color: #dfe1e6;
+  height: 16px;
+  max-height: 16px;
+  min-width: 12px;
+  padding-left: 7px;
+  padding-right: 7px;
+}
 </style>
 
 <template>
   <layout :notifications="notifications">
     <div class="ph2 ph5-ns">
-      <breadcrumb :has-more="false"
-                  :previous-url="route('projects.index', { company: $page.props.auth.company.id})"
-                  :previous="$t('app.breadcrumb_project_list')"
+      <breadcrumb :has-more="true"
+                  :previous-url="localIssue.project.url"
+                  :previous="localIssue.project.name"
+                  :custom-class="'mt0-l'"
+                  :center-box="false"
+                  :custom-margin-top="'mt1'"
+                  :custom-margin-bottom="'mb3'"
       >
-        {{ $t('app.breadcrumb_project_detail') }}
+        test
       </breadcrumb>
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative cf">
-        <h2 class="mt0 mb3 fw5">
-          {{ localIssue.title }} <span class="fw3 f6">
+        <div class="flex items-center mt0 mb3 fw5">
+          <icon-issue-type :background-color="localIssue.type.icon_hex_color" />
+
+          <h2 class="mh2 mv0 pa0">
+            {{ localIssue.title }}
+          </h2>
+
+          <span class="fw3 f6">
             {{ localIssue.key }}
           </span>
-        </h2>
+        </div>
 
         <!-- LEFT COLUMN -->
         <div class="fl w-70-l w-100">
           <!-- issue content -->
-          <div class="bg-white box mb4">
+          <div class="bg-white box mb2">
             <div class="pa3 pb3">
               <div v-if="localIssue.parsed_description" class="parsed-content" v-html="localIssue.parsed_description"></div>
 
               <!-- blank state -->
-              <div class="tc">
+              <div v-else class="tc">
                 <img loading="lazy" src="/img/streamline-icon-open-book-3@100x100.png" alt="" class="" height="100"
                      width="100"
                 />
               </div>
             </div>
           </div>
+
+          <!-- actions -->
+          <ul class="list pl0 ma0 mb4">
+            <li class="di mr2"><span class="f7 pointer b--dotted bb bt-0 br-0 bl-0">+ Add tasks</span></li>
+            <li class="di mr2"><span class="f7 pointer b--dotted bb bt-0 br-0 bl-0">Reference another issue</span></li>
+          </ul>
+
+          <!-- tasks  -->
+          <div class="mb4">
+            <div class="flex justify-between mb2 f6">
+              <p class="ma0 fw5 relative">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-task relative" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                </svg>
+                Tasks
+              </p>
+              <span class="f7 pointer b--dotted bb bt-0 br-0 bl-0">
+                + Add tasks
+              </span>
+            </div>
+            <div class="ma0 pl0 ba bg-white box br3">
+              <div class="bb bb-gray bb-gray-hover task-list-item">
+                <div class="ph3 pv2">
+                  <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
+
+                  <inertia-link :href="''" class="f7 project-key mr2 code">slkfjals</inertia-link>
+
+                  <!-- title -->
+                  <span>sdlkjfls</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <comments
+            :comments="localIssue.comments"
+            :post-url="''"
+          />
         </div>
 
         <!-- RIGHT COLUMN -->
         <div class="fl w-30-l w-100 pl4-l">
           <!-- assigned to -->
-          <h3 v-if="localIssue.author" class="ttc f7 gray mt0 mb2 fw4">
-            Assigned to
-          </h3>
-          <div v-if="localIssue.author" class="flex items-center relative mb4 issue-dropdown br2 pa2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="dn absolute" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
+          <assignee :assignees="localIssue.assignees" />
 
-            <div class="mr2">
-              <avatar :avatar="localIssue.author.avatar" :size="25" :class="'br-100'" />
+          <!-- story points -->
+          <div class="mb3 bb bb-gray pb3">
+            <h3 class="ttc f7 gray mt0 mb1 fw4">
+              Points
+            </h3>
+            <span class="story-point">
+              8
+            </span>
+          </div>
+
+          <!-- labels -->
+          <div class="mb3 bb bb-gray pb3">
+            <h3 class="ttc f7 gray mt0 mb1 fw4">
+              Labels
+            </h3>
+            <div class="flex flex-wrap">
+              <inertia-link class="inline-flex items-center relative issue-label mr2 mb2 f6 ba bb-gray br3 bg-white">
+                orgy
+              </inertia-link>
+              <inertia-link class="inline-flex items-center relative issue-label mr2 mb2 f6 ba bb-gray br3 bg-white">
+                test utilisateur
+              </inertia-link>
+              <inertia-link class="inline-flex items-center relative issue-label mr2 mb2 f6 ba bb-gray br3 bg-white">
+                this is a test because it's insane
+              </inertia-link>
+              <inertia-link class="inline-flex items-center relative issue-label mr2 mb2 f6 ba bb-gray br3 bg-white">
+                orgy
+              </inertia-link>
             </div>
+          </div>
 
+          <!-- cycle -->
+          <div class="mb3 bb bb-gray pb3">
+            <h3 class="ttc f7 gray mt0 mb1 fw4">
+              Cycle
+            </h3>
             <div>
-              <inertia-link :href="localIssue.author.url" class="dib">{{ localIssue.author.name }}</inertia-link>
+              Cycle 32
             </div>
           </div>
 
           <!-- created by -->
-          <h3 v-if="localIssue.author" class="ttc f7 gray mt0 mb2 fw4">
+          <h3 v-if="localIssue.author" class="ttc f7 gray mt0 mb1 fw4">
             Created by
           </h3>
-          <div v-if="localIssue.author" class="flex mb4">
+          <div v-if="localIssue.author" class="flex mb3">
             <div class="mr2">
               <avatar :avatar="localIssue.author.avatar" :size="25" :class="'br-100'" />
             </div>
 
             <div>
               <inertia-link :href="localIssue.author.url" class="mb2 dib">{{ localIssue.author.name }}</inertia-link>
-            </div>
-          </div>
-
-          <!-- created on -->
-          <h3 v-if="localIssue.author" class="ttc f7 gray mt0 mb2 fw4">
-            {{ $t('project.message_show_written_by') }}
-          </h3>
-
-          <div v-if="localIssue.author" class="flex mb4">
-            <div class="mr3">
-              <avatar :avatar="localIssue.author.avatar" :size="64" :class="'br-100'" />
-            </div>
-
-            <div>
-              <inertia-link :href="localIssue.author.url" class="mb2 dib">{{ localIssue.author.name }}</inertia-link>
-
-              <span v-if="localIssue.author.role" class="db f7 mb2 relative">
-
-                <ul class="list pa0 ma0">
-                  <li class="mb2">
-                    <!-- role -->
-                    {{ localIssue.author.role }}
-                  </li>
-
-                  <li>
-                    <!-- in the project since -->
-                    <span class="gray">
-                      {{ $t('project.members_index_role', { date: localIssue.author.added_at }) }}
-                    </span>
-                  </li>
-                </ul>
-              </span>
-              <span v-if="localIssue.author.position && localIssue.author.role" class="db f7 gray">
-                {{ $t('project.members_index_position_with_role', { role: localIssue.author.position.title }) }}
-              </span>
-              <span v-if="localIssue.author.position && !localIssue.author.role" class="db f7 gray">
-                {{ localIssue.author.position.title }}
-              </span>
             </div>
           </div>
 
@@ -166,12 +236,18 @@
 import Layout from '@/Shared/Layout';
 import Breadcrumb from '@/Shared/Layout/Breadcrumb';
 import Avatar from '@/Shared/Avatar';
+import IconIssueType from '@/Shared/IconIssueType';
+import Comments from '@/Shared/Comments';
+import Assignee from '@/Pages/Company/Project/Boards/ProjectIssue/Partials/Assignee';
 
 export default {
   components: {
     Layout,
     Breadcrumb,
     Avatar,
+    IconIssueType,
+    Comments,
+    Assignee,
   },
 
   props: {

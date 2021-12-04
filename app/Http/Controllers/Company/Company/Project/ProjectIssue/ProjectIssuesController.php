@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Company\Company\Project;
+namespace App\Http\Controllers\Company\Company\Project\ProjectIssue;
 
 use Inertia\Inertia;
 use Inertia\Response;
