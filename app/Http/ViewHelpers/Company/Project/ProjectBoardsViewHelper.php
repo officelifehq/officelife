@@ -4,6 +4,7 @@ namespace App\Http\ViewHelpers\Company\Project;
 
 use App\Models\Company\Company;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use App\Models\Company\ProjectBoard;
 
@@ -94,9 +95,10 @@ class ProjectBoardsViewHelper
      *
      * @param Project $project
      * @param ProjectBoard $projectBoard
+     * @param Employee $employee
      * @return array
      */
-    public static function backlog(Project $project, ProjectBoard $projectBoard): array
+    public static function backlog(Project $project, ProjectBoard $projectBoard, Employee $employee): array
     {
         $sprintCollection = collect();
 
@@ -114,7 +116,7 @@ class ProjectBoardsViewHelper
         $activeSprints->push($backlog);
 
         foreach ($activeSprints as $sprint) {
-            $data = ProjectSprintsViewHelper::sprintData($project, $projectBoard, $sprint);
+            $data = ProjectSprintsViewHelper::sprintData($project, $projectBoard, $sprint, $employee);
             $sprintCollection->push($data);
         }
 

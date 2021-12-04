@@ -60,7 +60,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('positions', 'Company\\Company\\PositionController@index');
 
         // get the issue - an issue should have the shortest link possible
-        Route::get('issues/{slug}', 'Company\\Company\\Project\\ProjectIssuesController@show')->name('projects.issues.show');
+        Route::get('issues/{key}/{slug}', 'Company\\Company\\Project\\ProjectIssue\\ProjectIssuesController@show')->name('projects.issues.show');
 
         Route::prefix('dashboard')->group(function () {
             Route::get('', 'Company\\Dashboard\\DashboardController@index')->name('dashboard');
@@ -380,9 +380,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                         Route::get('{board}/backlog', 'Company\\Company\\Project\\ProjectBoardsBacklogController@show')->name('projects.boards.show.backlog');
                         Route::post('{board}/sprints/{sprint}/start', 'Company\\Company\\Project\\ProjectSprintController@start')->name('projects.sprints.start');
                         Route::post('{board}/sprints/{sprint}/toggle', 'Company\\Company\\Project\\ProjectSprintController@toggle')->name('projects.sprints.toggle');
-                        Route::post('{board}/sprints/{sprint}/issues', 'Company\\Company\\Project\\ProjectIssuesController@store')->name('projects.issues.store');
+
+                        // issues
+                        Route::post('{board}/sprints/{sprint}/issues', 'Company\\Company\\Project\\ProjectIssue\\ProjectIssuesController@store')->name('projects.issues.store');
                         Route::post('{board}/sprints/{sprint}/issues/{issue}/order', 'Company\\Company\\Project\\ProjectSprintController@storePosition')->name('projects.issues.store.order');
-                        Route::delete('{board}/sprints/{sprint}/issues/{issue}', 'Company\\Company\\Project\\ProjectIssuesController@destroy')->name('projects.issues.destroy');
+                        Route::get('{board}/members', 'Company\\Company\\Project\\ProjectIssue\\ProjectIssueAssigneesController@index')->name('projects.members');
+                        Route::post('{board}/issues/{issue}/assignees', 'Company\\Company\\Project\\ProjectIssue\\ProjectIssueAssigneesController@store')->name('projects.issues.assignees.store');
+                        Route::delete('{board}/issues/{issue}/assignees/{assignee}', 'Company\\Company\\Project\\ProjectIssue\\ProjectIssueAssigneesController@destroy')->name('projects.issues.assignees.destroy');
+                        Route::delete('{board}/sprints/{sprint}/issues/{issue}', 'Company\\Company\\Project\\ProjectIssue\\ProjectIssuesController@destroy')->name('projects.issues.destroy');
                     });
                 });
             });

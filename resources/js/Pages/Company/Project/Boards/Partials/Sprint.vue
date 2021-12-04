@@ -183,6 +183,7 @@
     <div :class="collapsed ? 'mb3' : ''">
       <!-- cycle -->
       <div class="flex justify-between items-center">
+        <!-- cycle name and actions -->
         <h3 class="fw6 mt0 mb2 f5 relative">
           <!-- arrow right -->
           <svg v-if="collapsed" xmlns="http://www.w3.org/2000/svg" class="icon-sprint inline mr1 relative pointer" fill="none" viewBox="0 0 24 24"
@@ -202,10 +203,12 @@
 &nbsp;
           </span>
 
-          Sprint 45
+          {{ sprint.name }}
         </h3>
 
-        <div class="mb2">
+        <!-- actions for cycles not being the backlog -->
+        <div v-if="!sprint.is_board_backlog" class="mb2">
+          <!-- start cycle -->
           <span class="pointer mr2 relative ba bb-gray f7 button-metrics">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon-metrics relative" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
@@ -213,6 +216,8 @@
             </svg>
             Start cycle
           </span>
+
+          <!-- view metrics -->
           <span class="pointer mr2 relative ba bb-gray f7 button-metrics">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon-metrics relative" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -226,7 +231,7 @@
       </div>
 
       <!-- issue list -->
-      <div v-if="!collapsed" class="bg-white box issue-list">
+      <div v-if="!collapsed && localIssues.length != 0" class="bg-white box issue-list">
         <draggable
           :list="localIssues"
           item-key="id"
@@ -247,9 +252,9 @@
                   <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
 
                   <!-- key -->
-                  <span class="f7 project-key mr2 code">
+                  <inertia-link :href="element.url.show" class="f7 project-key mr2 code">
                     {{ element.key }}
-                  </span>
+                  </inertia-link>
 
                   <!-- title -->
                   <span>{{ element.title }}</span>
@@ -306,6 +311,17 @@
           </form>
         </div>
       </div>
+
+      <!-- blank state -->
+      <div v-if="localIssues.length == 0" class="bg-white box issue-list">
+        <p class="tc measure center mb4 lh-copy">
+          {{ $t('project.sprint_blank_state') }}
+        </p>
+
+        <img loading="lazy" class="db center mb4" alt="team" src="/img/streamline-icon-extrinsic-drive-5@100x100.png" />
+      </div>
+
+      <!-- cycle actions -->
       <ul v-if="!collapsed" class="list pl0 mt1 mb4">
         <li class="di mr3"><span class="f7 pointer b--dotted bb bt-0 br-0 bl-0" @click="displayAddModal">+ New issue</span></li>
         <li v-if="!showSeparatorModal" class="di mr2"><span class="f7 pointer b--dotted bb bt-0 br-0 bl-0" @click="displayAddSeparatorModal">+ New separator</span></li>
@@ -367,6 +383,7 @@ export default {
 
   mounted() {
     this.localIssues = this.sprint.issues;
+    this.collapsed = this.sprint.collapsed;
   },
 
   methods: {
@@ -453,7 +470,7 @@ export default {
 
     updatePosition(event) {
       // the event object comes from the draggable component
-      this.form.position = event.moved.newIndex;
+      this.form.position = event.moved.newIndex + 1;
 
       axios.post(event.moved.element.url.reorder, this.form)
         .then(response => {

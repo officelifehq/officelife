@@ -37,14 +37,17 @@ class AssignAssigneeToProjectIssue extends BaseService
      * Assign an employeee as the project issue assignee.
      *
      * @param array $data
+     * @return Employee
      */
-    public function execute(array $data): void
+    public function execute(array $data): Employee
     {
         $this->data = $data;
         $this->validate();
         $this->assign();
         $this->logActivity();
         $this->log();
+
+        return $this->employee;
     }
 
     private function validate(): void

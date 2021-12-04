@@ -54,7 +54,7 @@ class ProjectIssue extends Model
     }
 
     /**
-     * Get the reported (employee) record associated with the project issues.
+     * Get the employee who created the issue.
      *
      * @return BelongsTo
      */

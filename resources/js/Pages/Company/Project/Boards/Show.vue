@@ -2,15 +2,25 @@
 .grid {
   display: grid;
 }
+
 .column-gap-10 {
   column-gap: 10px;
 }
+
 .board-menu {
   svg {
     width: 16px;
     top: 3px;
   }
 }
+
+.action-menu {
+  svg {
+    width: 16px;
+    top: 3px;
+  }
+}
+
 .cycle {
   grid-template-columns: 200px 3fr;
 }
@@ -40,7 +50,23 @@
       <div class="grid column-gap-10 grid-cols-2 br3 mb5 relative z-1 cycle">
         <!-- left column -->
         <div>
+          <ul class="list pl0 ma0 action-menu mb4">
+            <li class="mb3 relative f6">
+              <svg xmlns="http://www.w3.org/2000/svg" class="relative mr1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span class="pointer b--dotted bb bt-0 br-0 bl-0">New issue</span>
+            </li>
+            <li class="mb3 relative f6">
+              <svg xmlns="http://www.w3.org/2000/svg" class="relative mr1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span class="pointer b--dotted bb bt-0 br-0 bl-0">New cycle</span>
+            </li>
+          </ul>
+
           <ul class="list pl0 ma0 board-menu">
+            <li class="mb1 f7 ttu">Links</li>
             <li class="mb3 relative f6">
               <svg xmlns="http://www.w3.org/2000/svg" class="relative mr2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
@@ -85,27 +111,6 @@
           <!-- cycle -->
           <div v-for="sprint in localSprints" :key="sprint.id">
             <sprint :board="data.board" :sprint="sprint" :issue-types="issueTypes" />
-            <sprint :board="data.board" :sprint="sprint" :issue-types="issueTypes" />
-          </div>
-
-          <!-- cycle -->
-          <div class="flex justify-between items-center">
-            <h3 class="normal mt0 mb2 f5">
-              Backlog
-            </h3>
-
-            <div class="mb2">
-              <span class="story-points">
-                32
-              </span>
-            </div>
-          </div>
-          <div class="bg-white box issue-list">
-            <p class="tc measure center mb4 lh-copy">
-              {{ $t('account.project_management_blank') }}
-            </p>
-
-            <img loading="lazy" class="db center mb4" alt="team" src="/img/streamline-icon-extrinsic-drive-5@100x100.png" />
           </div>
         </div>
       </div>

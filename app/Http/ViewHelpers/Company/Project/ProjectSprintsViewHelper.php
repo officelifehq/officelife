@@ -4,6 +4,8 @@ namespace App\Http\ViewHelpers\Company\Project;
 
 use App\Helpers\DateHelper;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
+use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectSprint;
 
@@ -15,9 +17,10 @@ class ProjectSprintsViewHelper
      * @param Project $project
      * @param ProjectBoard $projectBoard
      * @param ProjectSprint $sprint
+     * @param Employee $employee
      * @return array
      */
-    public static function sprintData(Project $project, ProjectBoard $projectBoard, ProjectSprint $sprint): array
+    public static function sprintData(Project $project, ProjectBoard $projectBoard, ProjectSprint $sprint, Employee $employee): array
     {
         $company = $project->company;
         $issues = $sprint->issues()->with('type')->orderBy('position')->get();
@@ -39,6 +42,7 @@ class ProjectSprintsViewHelper
                 'url' => [
                     'show' => route('projects.issues.show', [
                         'company' => $company,
+                        'key' => $issue->key,
                         'slug' => $issue->slug,
                     ]),
                     'reorder' => route('projects.issues.store.order', [
@@ -59,10 +63,18 @@ class ProjectSprintsViewHelper
             ]);
         }
 
+        // check if the sprint is collapsed in the board
+        $isCollapsed = DB::table('project_sprint_employee_settings')
+            ->where('project_sprint_id', $sprint->id)
+            ->where('employee_id', $employee->id)
+            ->first();
+
         $sprintData = [
             'id' => $sprint->id,
             'name' => $sprint->name,
             'active' => $sprint->active,
+            'is_board_backlog' => $sprint->is_board_backlog,
+            'collapsed' => $isCollapsed ? $isCollapsed->collapsed : false,
             'issues' => $issueCollection,
             'url' => [
                 'store' =>  route('projects.issues.store', [
