@@ -3,6 +3,7 @@
 namespace App\Http\ViewHelpers\Company\Project;
 
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
@@ -23,10 +24,28 @@ class ProjectSprintsViewHelper
     public static function sprintData(Project $project, ProjectBoard $projectBoard, ProjectSprint $sprint, Employee $employee): array
     {
         $company = $project->company;
-        $issues = $sprint->issues()->with('type')->orderBy('position')->get();
+        $issues = $sprint->issues()
+            ->with('type')
+            ->with('assignees')
+            ->orderBy('position')->get();
 
         $issueCollection = collect();
         foreach ($issues as $issue) {
+            $assigneesCollection = collect();
+            foreach ($issue->assignees as $assignee) {
+                $assigneesCollection->push([
+                    'id' => $assignee->id,
+                    'name' => $assignee->name,
+                    'avatar' => ImageHelper::getAvatar($assignee, 25),
+                    'url' => [
+                        'show' => route('employees.show', [
+                            'company' => $assignee->company_id,
+                            'employee' => $assignee,
+                        ]),
+                    ],
+                ]);
+            }
+
             $issueCollection->push([
                 'id' => $issue->id,
                 'key' => $issue->key,

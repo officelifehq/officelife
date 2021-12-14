@@ -39,22 +39,6 @@
   width: 15px;
   top: 3px;
 }
-
-.story-point {
-  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,'Fira Sans','Droid Sans','Helvetica Neue',sans-serif;
-  color: #5e6c84;
-  border-radius: 2em;
-  padding: 3px 5px 2px 5px;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 16px;
-  background-color: #dfe1e6;
-  height: 16px;
-  max-height: 16px;
-  min-width: 12px;
-  padding-left: 7px;
-  padding-right: 7px;
-}
 </style>
 
 <template>
@@ -146,14 +130,7 @@
           <assignee :assignees="localIssue.assignees" />
 
           <!-- story points -->
-          <div class="mb3 bb bb-gray pb3">
-            <h3 class="ttc f7 gray mt0 mb1 fw4">
-              Points
-            </h3>
-            <span class="story-point">
-              8
-            </span>
-          </div>
+          <story-points :data="localIssue.story_points" />
 
           <!-- labels -->
           <div class="mb3 bb bb-gray pb3">
@@ -239,6 +216,7 @@ import Avatar from '@/Shared/Avatar';
 import IconIssueType from '@/Shared/IconIssueType';
 import Comments from '@/Shared/Comments';
 import Assignee from '@/Pages/Company/Project/Boards/ProjectIssue/Partials/Assignee';
+import StoryPoints from '@/Pages/Company/Project/Boards/ProjectIssue/Partials/StoryPoints';
 
 export default {
   components: {
@@ -248,6 +226,7 @@ export default {
     IconIssueType,
     Comments,
     Assignee,
+    StoryPoints,
   },
 
   props: {

@@ -47,9 +47,19 @@ class ProjectIssuesViewHelper
             'title' => $issue->title,
             'slug' => $issue->slug,
             'description' => $issue->description,
-            'parsed_description' => StringHelper::parse($issue->description),
+            'parsed_description' => $issue->description ? StringHelper::parse($issue->description) : null,
             'created_at' => DateHelper::formatDate($issue->created_at),
-            'story_points' => $issue->story_points,
+            'story_points' => [
+                'points' => $issue->story_points,
+                'url' => [
+                    'store' => route('projects.issues.points.store', [
+                        'company' => $issue->project->company_id,
+                        'project' => $issue->project->id,
+                        'board' => $issue->board->id,
+                        'issue' => $issue->id,
+                    ]),
+                ],
+            ],
             'type' => $issue->type ? [
                 'name' => $issue->type->name,
                 'icon_hex_color' => $issue->type->icon_hex_color,
