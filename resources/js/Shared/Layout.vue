@@ -226,7 +226,7 @@ nav {
       </span> Welcome to OfficeLife beta! <a href="https://github.com/officelifehq/officelife/discussions/944" class="mr2">Contact us to send feedback</a>
       <span class="mr1">
         🎉
-      </span><a href="https://twitter.com/djaiss/status/1306414432340373504">What's new</a>
+      </span>Thanks for using our tool!
     </div>
   </div>
 </template>
