@@ -65,24 +65,26 @@
     </form>
 
 
-    <div v-if="providers.length > 0" class="db">
+    <div v-if="providers.length > 0 && enableExternalLoginProviders" class="db">
       <div class="b--black-10 bb mt2"></div>
       <p class="f4">
         {{ $t('auth.login_with') }}
       </p>
     </div>
-    <div v-for="provider in providers" :key="provider" class="di">
-      <a class="dib ph1 btn w-43 mb2 pv2 mh3 f6 relative"
-         :href="route('login.provider', { driver: provider })" @click.prevent="open(provider)"
-      >
-        <img :src="`/img/auth/${provider}.svg`" alt="" class="auth-provider relative" />
-        <template v-if="providersName[provider]">
-          {{ providersName[provider] }}
-        </template>
-        <template v-else>
-          {{ $t(`auth.login_provider_${provider}`) }}
-        </template>
-      </a>
+    <div v-if="enableExternalLoginProviders">
+      <div v-for="provider in providers" :key="provider" class="di">
+        <a class="dib ph1 btn w-43 mb2 pv2 mh3 f6 relative"
+           :href="route('login.provider', { driver: provider })" @click.prevent="open(provider)"
+        >
+          <img :src="`/img/auth/${provider}.svg`" alt="" class="auth-provider relative" />
+          <template v-if="providersName[provider]">
+            {{ providersName[provider] }}
+          </template>
+          <template v-else>
+            {{ $t(`auth.login_provider_${provider}`) }}
+          </template>
+        </a>
+      </div>
     </div>
 
     <template #footer>
@@ -134,6 +136,10 @@ export default {
     providersName: {
       type: Object,
       default: () => {return {};},
+    },
+    enableExternalLoginProviders: {
+      type: String,
+      default: '',
     }
   },
 
