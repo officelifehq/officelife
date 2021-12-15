@@ -22,14 +22,12 @@ class InstanceHelper
 
     /**
      * Return the employee as set in the cache.
-     *
-     * @return mixed
      */
     public static function getLoggedEmployee()
     {
-        $employee = Employee::where('user_id', Auth::user()->id)
+        $loggedEmployee = Employee::where('user_id', Auth::user()->id)
             ->firstOrFail();
 
-        return $employee;
+        return $loggedEmployee;
     }
 }
