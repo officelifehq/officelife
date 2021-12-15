@@ -4,27 +4,22 @@ namespace Tests\Unit\Models\Company;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Models\User\User;
-use App\Helpers\ImageHelper;
 use App\Models\Company\File;
 use App\Models\Company\Ship;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
-use App\Models\User\Pronoun;
 use App\Models\Company\Group;
 use App\Models\Company\Place;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
 use App\Models\Company\Morale;
 use App\Models\Company\Comment;
-use App\Models\Company\Company;
 use App\Models\Company\Expense;
 use App\Models\Company\Meeting;
 use App\Models\Company\Project;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
-use App\Models\Company\Position;
 use App\Models\Company\Software;
 use App\Models\Company\TeamNews;
 use App\Models\Company\Timesheet;
@@ -638,76 +633,6 @@ class EmployeeTest extends TestCase
         $this->assertEquals(
             'Dwight Schrute',
             $dwight->name
-        );
-    }
-
-    /** @test */
-    public function it_returns_an_object(): void
-    {
-        Carbon::setTestNow(Carbon::create(2018, 1, 1));
-
-        $dunder = Company::factory()->create([]);
-        $dwight = User::factory()->create([]);
-        $position = Position::factory()->create([
-            'company_id' => $dunder->id,
-            'title' => 'developer',
-        ]);
-        $pronoun = Pronoun::factory()->create([]);
-        $michael = Employee::factory()->create([
-            'company_id' => $dunder->id,
-            'first_name' => 'michael',
-            'last_name' => 'scott',
-            'permission_level' => '100',
-            'position_id' => $position->id,
-            'description' => 'awesome employee',
-            'pronoun_id' => $pronoun->id,
-            'user_id' => $dwight->id,
-            'birthdate' => '2010-01-01 00:00:00',
-            'created_at' => '2020-01-12 00:00:00',
-        ]);
-
-        $this->assertEquals(
-            [
-                'id' => $michael->id,
-                'company' => [
-                    'id' => $dunder->id,
-                ],
-                'name' => 'michael scott',
-                'first_name' => 'michael',
-                'last_name' => 'scott',
-                'avatar' => ImageHelper::getAvatar($michael),
-                'email' => 'dwigth@dundermifflin.com',
-                'locked' => false,
-                'birthdate' => [
-                    'full' => 'Jan 01, 2010',
-                    'partial' => 'January 1st',
-                    'year' => 2010,
-                    'month' => 1,
-                    'day' => 1,
-                    'age' => 8,
-                ],
-                'permission_level' => 'Administrator',
-                'raw_description' => 'awesome employee',
-                'parsed_description' => '<p>awesome employee</p>',
-                'address' => null,
-                'status' => [
-                    'id' => $michael->status->id,
-                    'name' => $michael->status->name,
-                ],
-                'position' => [
-                    'id' => $position->id,
-                    'title' => 'developer',
-                ],
-                'pronoun' => [
-                    'id' => $pronoun->id,
-                    'label' => $pronoun->label,
-                ],
-                'user' => [
-                    'id' => $dwight->id,
-                ],
-                'created_at' => '2020-01-12 00:00:00',
-            ],
-            $michael->toObject()
         );
     }
 
