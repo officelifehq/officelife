@@ -22,8 +22,6 @@ class InstanceHelper
 
     /**
      * Return the employee as set in the cache.
-     *
-     * @return mixed
      */
     public static function getLoggedEmployee()
     {
