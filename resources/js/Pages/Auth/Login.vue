@@ -95,6 +95,7 @@
         {{ $t('auth.login_no_account') }}
         <inertia-link :href="route('register')">{{ $t('auth.login_register') }}</inertia-link>
       </p>
+      <p class="f7">Latest commit: {{ $page.props.git }}</p>
     </template>
   </authentication-card>
 </template>

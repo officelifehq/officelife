@@ -63,6 +63,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'demo_mode' => fn () => config('officelife.demo_mode'),
             'help_links' => fn () => config('officelife.help_links'),
+            'git' => fn () => InstanceHelper::getCurrentGitCommitHash(),
             'flash' => [
                 'message' => fn () => $request->session()->get('message'),
                 'success' => fn () => $request->session()->get('success'),

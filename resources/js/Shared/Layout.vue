@@ -220,13 +220,13 @@ nav {
 
     <toaster />
 
-    <div class="mt5 mb4 cf mw6 center tc f7">
+    <div class="mt6 mb4 cf mw6 center tc f7">
       <span class="mr1">
         🎡
       </span> Welcome to OfficeLife beta! <a href="https://github.com/officelifehq/officelife/discussions/944" class="mr2">Contact us to send feedback</a>
-      <span class="mr1">
-        🎉
-      </span><a href="https://twitter.com/djaiss/status/1306414432340373504">What's new</a>
+      <span class="f7">
+        Latest commit: {{ $page.props.git }}
+      </span>
     </div>
   </div>
 </template>

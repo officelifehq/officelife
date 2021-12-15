@@ -31,4 +31,22 @@ class InstanceHelper
             return Cache::get('cachedEmployeeObject_'.Auth::user()->id);
         }
     }
+
+    /**
+     * Attempt to Retrieve Current Git Commit Hash in PHP.
+     *
+     * @return mixed
+     */
+    public static function getCurrentGitCommitHash()
+    {
+        $path = base_path('.git/');
+
+        if (! file_exists($path)) {
+            return null;
+        }
+
+        $head = trim(substr(file_get_contents($path . 'HEAD'), 4));
+        $hash = trim(file_get_contents(sprintf($path . $head)));
+        return $hash;
+    }
 }
