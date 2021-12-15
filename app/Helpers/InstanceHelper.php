@@ -29,6 +29,7 @@ class InstanceHelper
     {
         $employee = Employee::where('user_id', Auth::user()->id)
             ->firstOrFail();
+
         return $employee;
     }
 }
