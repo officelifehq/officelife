@@ -22,13 +22,11 @@ class InstanceHelper
 
     /**
      * Return the employee as set in the cache.
-     *
-     * @return mixed
      */
     public static function getLoggedEmployee()
     {
         if (Auth::check()) {
-            return Cache::get('cachedEmployeeObject_'.Auth::user()->id);
+            return Cache::get('cachedEmployeeObject_' . Auth::user()->id);
         }
     }
 }
