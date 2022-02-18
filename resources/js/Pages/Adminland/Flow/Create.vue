@@ -10,11 +10,29 @@
 }
 
 .green-box {
-  border: 2px solid #1cbb70;
+  border: 3px solid #1cbb70;
 }
 
 .lh0 {
   line-height: 0;
+}
+
+.steps-before {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.steps-after {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.time-period {
+  width: 80px;
+}
+
+.larger-width {
+  max-width: 40em;
 }
 </style>
 
@@ -58,12 +76,21 @@
             <!-- Flow -->
             <div class="mb3 flow pv4">
               <div v-for="step in orderedSteps" :key="step.id">
-                <!-- PLUS BUTTON -->
-                <div v-show="oldestStep == step.id" class="tc lh0">
-                  <img loading="lazy" src="/img/company/account/flow_plus_top.svg" class="center pointer" alt="add flow at the top" @click="addStepBefore()" />
+                <!-- DIVIDER AND PLUS BUTTON -->
+                <div v-if="allowSteps">
+                  <!-- PLUS BUTTON -->
+                  <div v-show="oldestStep == step.id" class="tc lh0">
+                    <img loading="lazy" src="/img/company/account/flow_plus_top.svg" class="center pointer" alt="add flow at the top" @click="addStepBefore()" />
+                  </div>
+
+                  <div v-show="step.id == 0" class="tc">
+                    <div class="pa2 bt br bl bb-gray dib f7 fw5 steps-before">
+                      Steps to execute before ↑
+                    </div>
+                  </div>
                 </div>
 
-                <div class="step tc measure center bg-white br3 ma3 mt0 mb0 relative" :class="{'green-box':(numberOfSteps > 1 && step.type == 'same_day')}">
+                <div class="step tc measure center bg-white br3 ma3 mt0 mb0 relative" :class="{'green-box':(numberOfSteps > 1 && step.type == 'same_day'), 'larger-width': step.id == 0}">
                   <!-- DELETE BUTTON -->
                   <img v-show="step.type != 'same_day'" loading="lazy" src="/img/trash_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" alt="remove flow"
                        @click.prevent="removeStep(step)"
@@ -74,7 +101,7 @@
                     <ul class="list ma0 pa0 mb2">
                       <li class="di mr2">
                         <input id="" v-model="step.number" type="number" min="1" max="100"
-                               name="" class="tc br2 f5 ba b--black-40 pa2 outline-0"
+                               name="" class="time-period br2 f5 ba b--black-40 pa2 outline-0"
                                required
                         />
                       </li>
@@ -101,50 +128,17 @@
                       </li>
                     </ul>
 
-                    <p class="ma0 pa0">
-                      {{ $t('account.flow_new_before') }} <span class="brush-blue">
-                        {{ $t('account.flow_new_type_' + form.type) }}
-                      </span>
+                    <p class="ma0 pa0 f6">
+                      {{ $t('account.flow_new_before') }}
                     </p>
                   </div>
 
-                  <!-- CASE OF "SAME DAY" STEP -->
+                  <!-- STEP THE DAY THE EVENT HAPPENS -->
                   <div v-show="step.type == 'same_day'" class="condition pa3 bb bb-gray">
-                    <p class="ma0 pa0 mb2">
+                    <p class="ma0 pa0 mb2 f6 gray">
                       {{ $t('account.flow_new_the_day_event_happens') }}
                     </p>
-                    <select v-model="form.type" @update:model-value="checkComplete">
-                      <option value="employee_joins_company">
-                        {{ $t('account.flow_new_type_employee_joins_company') }}
-                      </option>
-                      <option value="employee_leaves_company">
-                        {{ $t('account.flow_new_type_employee_leaves_company') }}
-                      </option>
-                      <option value="employee_birthday">
-                        {{ $t('account.flow_new_type_employee_birthday') }}
-                      </option>
-                      <option value="employee_joins_team">
-                        {{ $t('account.flow_new_type_employee_joins_team') }}
-                      </option>
-                      <option value="employee_leaves_team">
-                        {{ $t('account.flow_new_type_employee_leaves_team') }}
-                      </option>
-                      <option value="employee_becomes_manager">
-                        {{ $t('account.flow_new_type_employee_becomes_manager') }}
-                      </option>
-                      <option value="employee_new_position">
-                        {{ $t('account.flow_new_type_employee_new_position') }}
-                      </option>
-                      <option value="employee_leaves_holidays">
-                        {{ $t('account.flow_new_type_employee_leaves_holidays') }}
-                      </option>
-                      <option value="employee_returns_holidays">
-                        {{ $t('account.flow_new_type_employee_returns_holidays') }}
-                      </option>
-                      <option value="employee_returns_leave">
-                        {{ $t('account.flow_new_type_employee_returns_leave') }}
-                      </option>
-                    </select>
+                    <p class="mb0 fw5">{{ $t('account.flow_new_type_' + type) }}</p>
                   </div>
 
                   <!-- CASE OF "AFTER" STEP -->
@@ -152,7 +146,7 @@
                     <ul class="list ma0 pa0 mb2">
                       <li class="di mr2">
                         <input id="" v-model="step.number" type="number" min="1" max="100"
-                               name="" class="tc br2 f5 ba b--black-40 pa2 outline-0"
+                               name="" class="time-period br2 f5 ba b--black-40 pa2 outline-0"
                                required
                         />
                       </li>
@@ -179,10 +173,8 @@
                       </li>
                     </ul>
 
-                    <p class="ma0 pa0">
-                      {{ $t('account.flow_new_after') }} <span class="brush-blue">
-                        {{ $t('account.flow_new_type_' + form.type) }}
-                      </span>
+                    <p class="ma0 pa0 f6">
+                      {{ $t('account.flow_new_after') }}
                     </p>
                   </div>
 
@@ -190,20 +182,29 @@
                   <actions v-model="step.actions" @completed="checkComplete" />
                 </div>
 
-                <!-- DIVIDER -->
-                <div v-if="notFirstAndLastStep(step.id)" class="tc lh0">
-                  <img loading="lazy" src="/img/company/account/flow_line.svg" class="center pointer" alt="divider between steps" />
-                </div>
+                <!-- DIVIDER AND PLUS BUTTON -->
+                <div v-if="allowSteps">
+                  <div v-show="step.id == 0" class="tc">
+                    <div class="pa2 bb br bl bb-gray dib f7 fw5 steps-after">
+                      Steps to execute after ↓
+                    </div>
+                  </div>
 
-                <!-- PLUS BUTTON -->
-                <div v-show="newestStep == step.id" class="tc">
-                  <img loading="lazy" src="/img/company/account/flow_plus_bottom.svg" class="center pointer" alt="plus button to add a new step" @click="addStepAfter()" />
+                  <!-- DIVIDER -->
+                  <div v-if="notFirstAndLastStep(step.id)" class="tc lh0">
+                    <img loading="lazy" src="/img/company/account/flow_line.svg" class="center pointer" alt="divider between steps" />
+                  </div>
+
+                  <!-- PLUS BUTTON -->
+                  <div v-show="newestStep == step.id" class="tc">
+                    <img loading="lazy" src="/img/company/account/flow_plus_bottom.svg" class="center pointer" alt="plus button to add a new step" @click="addStepAfter()" />
+                  </div>
                 </div>
               </div>
             </div>
 
             <!-- Actions -->
-            <div class="mv4">
+            <div class="mt4">
               <div class="flex-ns justify-between">
                 <div>
                   <a :href="'/' + $page.props.auth.company.id + '/account/employees'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
@@ -241,6 +242,14 @@ export default {
       type: Array,
       default: null,
     },
+    type: {
+      type: String,
+      default: null,
+    },
+    allowSteps: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -253,7 +262,6 @@ export default {
       newestStep: 0,
       form: {
         name: null,
-        type: null,
         steps: [],
         errors: [],
       },
@@ -273,7 +281,7 @@ export default {
       id: 0,
       type: 'same_day',
       frequency: 'days',
-      number: 1,
+      number: 0,
       actions: [],
     });
   },

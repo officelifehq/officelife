@@ -55,7 +55,7 @@ class AddActionToStepTest extends TestCase
             'company_id' => $employee->company_id,
             'author_id' => $employee->user_id,
             'flow_id' => $step->flow_id,
-            'specific_recipient_information' => '{manager_id:1}',
+            'specific_recipient_information' => json_encode(['team_id' => 1]),
         ];
 
         $this->expectException(ValidationException::class);
@@ -76,9 +76,8 @@ class AddActionToStepTest extends TestCase
             'author_id' => $michael->id,
             'flow_id' => $flow->id,
             'step_id' => $step->id,
-            'type' => 'notification',
-            'recipient' => 'manager',
-            'specific_recipient_information' => '{manager_id:1}',
+            'type' => Action::TYPE_CREATE_TASK,
+            'content' => json_encode(['team_id' => 1]),
         ];
 
         $this->expectException(ModelNotFoundException::class);
@@ -94,14 +93,15 @@ class AddActionToStepTest extends TestCase
             'flow_id' => $flow->id,
         ]);
 
+        $json = json_encode(['team_id' => 1]);
+
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'flow_id' => $step->flow_id,
             'step_id' => $step->id,
-            'type' => 'notification',
-            'recipient' => 'manager',
-            'specific_recipient_information' => '{manager_id:1}',
+            'type' => Action::TYPE_CREATE_TASK,
+            'content' => $json,
         ];
 
         $action = (new AddActionToStep)->execute($request);
@@ -109,9 +109,7 @@ class AddActionToStepTest extends TestCase
         $this->assertDatabaseHas('actions', [
             'id' => $action->id,
             'step_id' => $step->id,
-            'type' => 'notification',
-            'recipient' => 'manager',
-            'specific_recipient_information' => '{manager_id:1}',
+            'type' => Action::TYPE_CREATE_TASK,
         ]);
 
         $this->assertInstanceOf(

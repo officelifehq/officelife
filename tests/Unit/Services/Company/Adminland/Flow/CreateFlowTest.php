@@ -58,7 +58,9 @@ class CreateFlowTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'name' => 'Selling team',
-            'type' => 'employee_joins_company',
+            'type' => Flow::DATE_BASED,
+            'trigger' => Flow::TRIGGER_HIRING_DATE,
+            'is_triggered_on_anniversary' => false,
         ];
 
         $flow = (new CreateFlow)->execute($request);
@@ -67,7 +69,9 @@ class CreateFlowTest extends TestCase
             'id' => $flow->id,
             'company_id' => $michael->company_id,
             'name' => 'Selling team',
-            'type' => 'employee_joins_company',
+            'type' => Flow::DATE_BASED,
+            'trigger' => Flow::TRIGGER_HIRING_DATE,
+            'paused' => true,
         ]);
 
         $this->assertInstanceOf(

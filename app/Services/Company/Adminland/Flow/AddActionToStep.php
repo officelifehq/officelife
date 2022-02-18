@@ -5,6 +5,7 @@ namespace App\Services\Company\Adminland\Flow;
 use App\Models\Company\Step;
 use App\Services\BaseService;
 use App\Models\Company\Action;
+use Illuminate\Validation\Rule;
 
 class AddActionToStep extends BaseService
 {
@@ -20,9 +21,14 @@ class AddActionToStep extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'flow_id' => 'required|integer|exists:flows,id',
             'step_id' => 'required|integer|exists:steps,id',
-            'type' => 'required|string',
-            'recipient' => 'required|string',
-            'specific_recipient_information' => 'required|string',
+            'type' => [
+                'required',
+                Rule::in([
+                    Action::TYPE_CREATE_TASK,
+                    Action::TYPE_CREATE_PROJECT,
+                ]),
+            ],
+            'content' => 'required|json',
         ];
     }
 
@@ -48,8 +54,7 @@ class AddActionToStep extends BaseService
         $action = Action::create([
             'step_id' => $data['step_id'],
             'type' => $data['type'],
-            'recipient' => $data['recipient'],
-            'specific_recipient_information' => $data['specific_recipient_information'],
+            'content' => $data['content'],
         ]);
 
         return $action;

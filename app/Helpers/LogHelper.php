@@ -152,6 +152,18 @@ class LogHelper
                 ]);
                 break;
 
+            case 'flow_started':
+                $sentence = trans('account.log_flow_started', [
+                    'name' => $log->object->{'flow_name'},
+                ]);
+                break;
+
+            case 'flow_paused':
+                $sentence = trans('account.log_flow_paused', [
+                    'name' => $log->object->{'flow_name'},
+                ]);
+                break;
+
             case 'employee_worklog_logged':
                 $sentence = trans('account.log_employee_worklog_logged');
                 break;

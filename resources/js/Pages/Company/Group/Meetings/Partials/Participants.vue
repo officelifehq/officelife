@@ -206,7 +206,6 @@ export default {
           this.form.id = null;
         })
         .catch(error => {
-          console.log(error);
         });
     },
 
