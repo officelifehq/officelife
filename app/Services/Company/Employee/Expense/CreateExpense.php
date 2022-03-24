@@ -12,7 +12,6 @@ use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use App\Models\Company\ExpenseCategory;
 
 class CreateExpense extends BaseService

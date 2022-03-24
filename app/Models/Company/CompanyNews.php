@@ -5,14 +5,12 @@ namespace App\Models\Company;
 use App\Helpers\DateHelper;
 use App\Helpers\StringHelper;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CompanyNews extends Model
 {
-    use LogsActivity,
-        HasFactory;
+    use HasFactory;
 
     protected $table = 'company_news';
 
@@ -28,16 +26,6 @@ class CompanyNews extends Model
         'title',
         'content',
         'created_at',
-    ];
-
-    /**
-     * The attributes that are logged when changed.
-     *
-     * @var array
-     */
-    protected static $logAttributes = [
-        'title',
-        'content',
     ];
 
     /**

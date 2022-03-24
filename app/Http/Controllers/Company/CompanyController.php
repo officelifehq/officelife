@@ -9,7 +9,6 @@ use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Redirect;
 use App\Services\Company\Adminland\Company\JoinCompany;
 use App\Services\Company\Adminland\Company\CreateCompany;
 

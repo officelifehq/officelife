@@ -4,7 +4,6 @@ namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -13,8 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Task extends Model
 {
-    use LogsActivity,
-        HasFactory;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -27,16 +25,6 @@ class Task extends Model
         'completed',
         'due_at',
         'completed_at',
-    ];
-
-    /**
-     * The attributes that are logged when changed.
-     *
-     * @var array
-     */
-    protected static $logAttributes = [
-        'title',
-        'completed',
     ];
 
     /**

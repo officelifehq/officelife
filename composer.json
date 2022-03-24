@@ -9,16 +9,14 @@
     ],
     "license": "BSD-3-Clause",
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
         "ext-intl": "*",
         "doctrine/dbal": "^3.0",
-        "facade/ignition": "^2.0",
-        "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0",
         "inertiajs/inertia-laravel": "^0",
         "laravel/fortify": "^1.7",
-        "laravel/framework": "^8.0",
+        "laravel/framework": "^9.0",
         "laravel/helpers": "^1.1",
         "laravel/jetstream": "^2.3",
         "laravel/sanctum": "^2.9",
@@ -27,7 +25,7 @@
         "laravel/ui": "^3.0",
         "mariuzzo/laravel-js-localization": "^1.7",
         "moneyphp/money": "^3.3",
-        "monicahq/laravel-cloudflare": "^1.8",
+        "monicahq/laravel-cloudflare": "^3.2",
         "parsedown/laravel": "^1.2",
         "sentry/sentry-laravel": "^2.3",
         "socialiteproviders/github": "^4.1",
@@ -35,10 +33,9 @@
         "socialiteproviders/laravelpassport": "^4.1",
         "socialiteproviders/linkedin": "^4.1",
         "socialiteproviders/microsoft-azure": "^4.2",
-        "socialiteproviders/saml2": "^4.0",
         "socialiteproviders/slack": "^4.1",
         "socialiteproviders/twitter": "^4.1",
-        "spatie/laravel-activitylog": "^3.1",
+        "spatie/laravel-ignition": "^1.0",
         "spatie/simple-excel": "^1.13",
         "tightenco/ziggy": "^1.0",
         "uploadcare/uploadcare-php": "^3.0",
@@ -56,22 +53,24 @@
         "laravel/legacy-factories": "^1.0",
         "laravel/sail": "^1.12",
         "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^5.0",
+        "nunomaduro/collision": "^6.1",
         "nunomaduro/larastan": "^0.7",
         "nunomaduro/phpinsights": "^2.0",
         "phpstan/phpstan-deprecation-rules": "^0.12",
         "phpstan/phpstan-phpunit": "^0.12",
         "phpunit/phpunit": "^9.0",
-        "psalm/plugin-laravel": "^1.4",
         "roave/security-advisories": "dev-master",
         "thecodingmachine/phpstan-safe-rule": "^1.0",
-        "vimeo/psalm": "^4.0"
+        "vimeo/psalm": "^4.22"
     },
     "config": {
         "apcu-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "extra": {
         "laravel": {

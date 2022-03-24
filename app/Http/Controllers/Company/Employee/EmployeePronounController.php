@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Company\Employee;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
