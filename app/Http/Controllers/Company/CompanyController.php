@@ -45,7 +45,7 @@ class CompanyController extends Controller
      * Show the Join company screen.
      *
      * @param Request $request
-     * @return \Illuminate\Routing\Redirector|RedirectResponse
+     * @return Response
      */
     public function join(Request $request)
     {
