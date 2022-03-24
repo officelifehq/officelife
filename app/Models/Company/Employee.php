@@ -743,6 +743,7 @@ class Employee extends Model
     /**
      * Get the list of direct reports of this employee.
      *
+     * @psalm-suppress InvalidTemplateParam
      * @return Collection
      */
     public function getListOfDirectReports(): Collection
