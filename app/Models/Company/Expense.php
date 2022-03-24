@@ -3,14 +3,12 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Expense extends Model
 {
-    use LogsActivity,
-        HasFactory;
+    use HasFactory;
 
     /**
      * Possible status of an expense.
@@ -50,20 +48,6 @@ class Expense extends Model
         'accounting_approver_name',
         'accounting_approver_approved_at',
         'accounting_rejection_explanation',
-    ];
-
-    /**
-     * The attributes that are logged when changed.
-     *
-     * @var array
-     */
-    protected static $logAttributes = [
-        'status',
-        'title',
-        'amount',
-        'currency',
-        'description',
-        'expense_date',
     ];
 
     /**

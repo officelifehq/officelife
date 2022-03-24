@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Company\Company;
 
-use Inertia\Response;
 use App\Models\Company\Company;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;

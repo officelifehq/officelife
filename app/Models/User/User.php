@@ -7,7 +7,6 @@ use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,7 +16,7 @@ use Illuminate\Contracts\Translation\HasLocalePreference;
 
 class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
 {
-    use Notifiable, LogsActivity, HasFactory, HasApiTokens, TwoFactorAuthenticatable;
+    use Notifiable, HasFactory, HasApiTokens, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -34,19 +33,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
         'uuid',
         'show_help',
         'locale',
-    ];
-
-    /**
-     * The attributes that are logged when changed.
-     *
-     * @var array
-     */
-    protected static $logAttributes = [
-        'email',
-        'first_name',
-        'last_name',
-        'middle_name',
-        'nickname',
     ];
 
     /**

@@ -3,15 +3,13 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Position extends Model
 {
-    use LogsActivity,
-        HasFactory;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -20,15 +18,6 @@ class Position extends Model
      */
     protected $fillable = [
         'company_id',
-        'title',
-    ];
-
-    /**
-     * The attributes that are logged when changed.
-     *
-     * @var array
-     */
-    protected static $logAttributes = [
         'title',
     ];
 

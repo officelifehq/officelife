@@ -5,15 +5,13 @@ namespace App\Models\Company;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Company extends Model
 {
-    use LogsActivity,
-        HasFactory;
+    use HasFactory;
 
     protected $table = 'companies';
 
@@ -33,16 +31,6 @@ class Company extends Model
         'work_from_home_enabled',
         'founded_at',
         'code_to_join_company',
-    ];
-
-    /**
-     * The attributes that are logged when changed.
-     *
-     * @var array
-     */
-    protected static $logAttributes = [
-        'name',
-        'currency',
     ];
 
     /**

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Company\Dashboard\Teams;
 
 use Carbon\Carbon;
 use Inertia\Inertia;
-use Inertia\Response;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;

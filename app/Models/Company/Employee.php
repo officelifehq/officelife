@@ -15,7 +15,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,8 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Employee extends Model
 {
-    use LogsActivity,
-        HasFactory;
+    use HasFactory;
 
     protected $table = 'employees';
 
@@ -63,17 +61,6 @@ class Employee extends Model
         'can_manage_expenses',
         'display_welcome_message',
         'contract_renewed_at',
-    ];
-
-    /**
-     * The attributes that are logged when changed.
-     *
-     * @var array
-     */
-    protected static $logAttributes = [
-        'permission_level',
-        'position_id',
-        'employee_status_id',
     ];
 
     /**
@@ -756,6 +743,7 @@ class Employee extends Model
     /**
      * Get the list of direct reports of this employee.
      *
+     * @psalm-suppress InvalidTemplateParam
      * @return Collection
      */
     public function getListOfDirectReports(): Collection

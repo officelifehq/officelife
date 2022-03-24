@@ -30,7 +30,6 @@ class EventServiceProvider extends ServiceProvider
             'App\\Providers\\Auth\\MonicaExtendSocialite@handle',
             'SocialiteProviders\\LinkedIn\\LinkedInExtendSocialite@handle',
             'SocialiteProviders\\Slack\\SlackExtendSocialite@handle',
-            'SocialiteProviders\\Saml2\\Saml2ExtendSocialite@handle',
             'SocialiteProviders\\Twitter\\TwitterExtendSocialite@handle',
         ],
     ];
