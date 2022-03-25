@@ -14,6 +14,39 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Licence key server
+    |--------------------------------------------------------------------------
+    |
+    | We need to check if the user has a valid licence key to unlock paid
+    | features. Licence keys are managed on our own customer portal.
+    |
+    */
+    'customer_portal_url' => env('CUSTOMER_PORTAL_URL', ''),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Licence key encryption key
+    |--------------------------------------------------------------------------
+    |
+    | All licence keys are encrypted with this key on the customer portal when
+    | the key is generated.
+    |
+    */
+    'licence_key_encryption_key' => env('LICENCE_KEY_ENCRYPTION_KEY', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Secret key to communicate with the customer portal
+    |--------------------------------------------------------------------------
+    |
+    | We need to communicate with the customer portal to check licence keys.
+    | This is done through an HTTP call that we need to secure.
+    |
+    */
+    'customer_portal_secret_key' => env('CUSTOMER_PORTAL_SECRET_KEY', null),
+
+    /*
+    |--------------------------------------------------------------------------
     | Demo mode
     |--------------------------------------------------------------------------
     |

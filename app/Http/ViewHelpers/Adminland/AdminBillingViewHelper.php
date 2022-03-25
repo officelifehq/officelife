@@ -4,7 +4,6 @@ namespace App\Http\ViewHelpers\Adminland;
 
 use App\Helpers\DateHelper;
 use App\Models\Company\Company;
-use Illuminate\Support\Collection;
 use App\Models\Company\CompanyInvoice;
 
 class AdminBillingViewHelper
@@ -13,11 +12,22 @@ class AdminBillingViewHelper
      * Get all the information about the account usage.
      *
      * @param Company $company
-     * @return Collection|null
+     * @return array|null
      */
-    public static function index(Company $company): ?Collection
+    public static function index(Company $company): ?array
     {
-        return $company->invoices()
+        // billing information
+        $billingInformation = [
+            'licence_key' => $company->licence_key,
+            'frequency' => $company->frequency == 'annual' ? trans('account.billing_annual') : trans('account.billing_monthly'),
+            'valid_until_at' => DateHelper::formatDate($company->valid_until_at),
+            'purchaser_email' => $company->purchaser_email,
+            'seats' => $company->quantity,
+            'customer_portal_url' => config('officelife.customer_portal_url'),
+        ];
+
+        // list of invoices
+        $invoicesCollection = $company->invoices()
             ->with('companyUsageHistory')
             ->latest()
             ->get()
@@ -32,6 +42,11 @@ class AdminBillingViewHelper
                     ]),
                 ];
             });
+
+        return [
+            'invoices' => $invoicesCollection,
+            'billing_information' => $billingInformation,
+        ];
     }
 
     /**
