@@ -125,7 +125,11 @@
 
               <div class="fl-ns w-two-thirds-ns w-100">
                 <!-- birthdate -->
-                <a-date-picker v-model:value="form.birthdate" />
+                <v-date-picker v-model="form.birthdate" class="inline-block h-full" :model-config="modelConfig">
+                  <template #default="{ inputValue, inputEvents }">
+                    <input class="rounded border bg-white px-2 py-1" :value="inputValue" v-on="inputEvents" />
+                  </template>
+                </v-date-picker>
               </div>
             </div>
 
@@ -161,7 +165,11 @@
 
               <div class="fl-ns w-two-thirds-ns w-100">
                 <!-- hired_at -->
-                <a-date-picker v-model:value="form.hired_at" />
+                <v-date-picker v-model="form.hired_at" class="inline-block h-full" :model-config="modelConfig">
+                  <template #default="{ inputValue, inputEvents }">
+                    <input class="rounded border bg-white px-2 py-1" :value="inputValue" v-on="inputEvents" />
+                  </template>
+                </v-date-picker>
               </div>
             </div>
 
@@ -268,6 +276,10 @@ export default {
         twitter: null,
         slack: null,
         errors: [],
+      },
+      modelConfig: {
+        type: 'string',
+        mask: 'YYYY-MM-DD',
       },
       loadingState: '',
     };
