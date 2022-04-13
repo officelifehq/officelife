@@ -51,7 +51,7 @@
           <span>{{ $t('dashboard.hr_discipline_case_show_case_closed') }}</span>
         </div>
 
-        <div class="flex-ns items-center pa3 bb bb-gray">
+        <div class="flex-ns items-center pa3">
           <!-- avatar -->
           <div class="mr3 db">
             <avatar :avatar="localCase.employee.avatar" :size="200" :class="'br3 police-photo'" />
@@ -134,7 +134,11 @@
           <form @submit.prevent="submit">
             <div class="mb2">
               <p class="mt0">{{ $t('dashboard.hr_discipline_case_show_case_event_take_place') }}</p>
-              <a-date-picker v-model:value="form.happened_at" />
+              <v-date-picker v-model="form.happened_at" class="inline-block h-full" :model-config="modelConfig">
+                <template #default="{ inputValue, inputEvents }">
+                  <input class="rounded border bg-white px-2 py-1" :value="inputValue" v-on="inputEvents" />
+                </template>
+              </v-date-picker>
             </div>
 
             <text-area v-model="form.description"
@@ -231,6 +235,10 @@ export default {
       localCase: [],
       localEvents: [],
       idToDelete: 0,
+      modelConfig: {
+        type: 'string',
+        mask: 'YYYY-MM-DD',
+      },
       form: {
         happened_at: null,
         description: null,
