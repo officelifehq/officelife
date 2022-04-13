@@ -37,9 +37,9 @@
             <help :url="$page.props.help_links.billing" :top="'1px'" />
           </h2>
 
-          <p class="mb2 lh-copy">OfficeLife requires a licence key to be fully functional, that you can purchase on our subscription portal.</p>
+          <p class="mb2 lh-copy">{{ $t('account.billing_help') }}</p>
 
-          <p class="mb4"><a :href="localData.billing_information.customer_portal_url" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">Get your licence key</a></p>
+          <p class="mb4"><a :href="localData.billing_information.customer_portal_url" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">{{ $t('account.billing_cta') }}</a></p>
 
           <div class="flex bb-gray ba br2 mb5">
             <ul class="list ma0 pa0 w-100">
@@ -47,7 +47,7 @@
               <li v-if="!enterLicenceKeyMode" class="bb-gray bb pa3 flex items-center">
                 <span class="fw5 mr2">Licence key:</span>
                 <span v-if="localData.billing_information.licence_key" class="truncate w5 dib">{{ localData.billing_information.licence_key }}</span>
-                <span v-else class="bb b--dotted bt-0 bl-0 br-0 pointer" @click="enterLicenceKeyMode = true">+ Enter your licence key</span>
+                <span v-else class="bb b--dotted bt-0 bl-0 br-0 pointer" @click="enterLicenceKeyMode = true">{{ $t('account.billing_enter_licence') }}</span>
               </li>
 
               <!-- enter a licence key -->
@@ -81,22 +81,22 @@
 
               <!-- frequency -->
               <li v-if="localData.billing_information.licence_key" class="bb-gray bb pa3">
-                <span class="fw5 mr2">Subscription type:</span> <span>{{ localData.billing_information.frequency }}</span>
+                <span class="fw5 mr2">{{ $t('account.billing_subscription_type') }}</span> <span>{{ localData.billing_information.frequency }}</span>
               </li>
 
               <!-- renewed at -->
               <li v-if="localData.billing_information.licence_key" class="bb-gray bb pa3">
-                <span class="fw5 mr2">Will renew at:</span> <span>{{ localData.billing_information.valid_until_at }}</span>
+                <span class="fw5 mr2">{{ $t('account.billing_renew_at') }}</span> <span>{{ localData.billing_information.valid_until_at }}</span>
               </li>
 
               <!-- number of seats -->
               <li v-if="localData.billing_information.licence_key" class="bb-gray bb pa3">
-                <span class="fw5 mr2">Number of seats in the instance:</span> <span>{{ localData.billing_information.seats }}</span>
+                <span class="fw5 mr2">{{ $t('account.billing_seats') }}</span> <span>{{ localData.billing_information.seats }}</span>
               </li>
 
               <!-- purchaser email -->
               <li v-if="localData.billing_information.licence_key" class="bb-gray pa3">
-                <span class="fw5 mr2">Purchased by:</span> <span>{{ localData.billing_information.purchaser_email }}</span>
+                <span class="fw5 mr2">{{ $t('account.billing_purchased_by') }}</span> <span>{{ localData.billing_information.purchaser_email }}</span>
               </li>
             </ul>
           </div>
