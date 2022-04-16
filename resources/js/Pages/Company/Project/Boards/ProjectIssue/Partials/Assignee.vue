@@ -34,9 +34,9 @@
 
 <template>
   <div class="mb3 bb bb-gray pb3 relative">
-    <div class="flex items-center justify-between mb1">
+    <div class="flex items-center justify-between mb2">
       <h3 class="ttc f7 gray ma0 fw4">
-        Assigned to
+        {{ $t('project.issue_assignee_title') }}
       </h3>
       <svg xmlns="http://www.w3.org/2000/svg" class="cog-icon pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor"
            @click.prevent="showPopover()"

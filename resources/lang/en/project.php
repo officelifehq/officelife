@@ -155,7 +155,12 @@ return [
     'issue_destroyed' => 'The issue has been deleted.',
     'separator_destroyed' => 'The separator has been deleted.',
     'sprint_blank_state' => 'Add an issue, create cycles and start creating magic.',
+    'issue_assignee_title' => 'Assigned to',
     'issue_assignee_blank' => 'No assignee.',
     'issue_assignee_success' => 'The assignee has been set.',
     'issue_assignee_destroy_success' => 'The assignee has been removed.',
+    'issue_point_title' => 'Points',
+    'issue_point_blank' => 'No story points yet.',
+    'issue_point_question' => 'How difficult is this task?',
+    'issue_point_set' => 'The points have been set.',
 ];

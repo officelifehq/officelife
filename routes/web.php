@@ -386,6 +386,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                         Route::post('{board}/sprints/{sprint}/issues/{issue}/order', 'Company\\Company\\Project\\ProjectSprintController@storePosition')->name('projects.issues.store.order');
                         Route::get('{board}/members', 'Company\\Company\\Project\\ProjectIssue\\ProjectIssueAssigneesController@index')->name('projects.members');
                         Route::post('{board}/issues/{issue}/assignees', 'Company\\Company\\Project\\ProjectIssue\\ProjectIssueAssigneesController@store')->name('projects.issues.assignees.store');
+                        Route::post('{board}/issues/{issue}/points', 'Company\\Company\\Project\\ProjectIssue\\ProjectIssuePointsController@store')->name('projects.issues.points.store');
                         Route::delete('{board}/issues/{issue}/assignees/{assignee}', 'Company\\Company\\Project\\ProjectIssue\\ProjectIssueAssigneesController@destroy')->name('projects.issues.assignees.destroy');
                         Route::delete('{board}/sprints/{sprint}/issues/{issue}', 'Company\\Company\\Project\\ProjectIssue\\ProjectIssuesController@destroy')->name('projects.issues.destroy');
                     });
