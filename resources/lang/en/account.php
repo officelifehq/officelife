@@ -702,7 +702,6 @@ return [
     'cancel_account_company_subscription' => 'If you are a subscriber, your subscription will be immediately cancelled.',
     'cancel_account_data_lost_forever' => 'This process is irreversible. You will lose all the data associated with this company, forever.',
     'cancel_cta' => 'Cancel the account',
-
     'software_new_title' => 'Add a new software to {name}',
     'software_new_basic_information' => 'Essential information',
     'software_new_name' => 'Name of the software',
