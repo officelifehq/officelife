@@ -85,6 +85,7 @@
                         :label="$t('project.create_input_short_code')"
                         :help="$t('project.create_input_short_code_help')"
                         :maxlength="3"
+                        :required="true"
                         @esc-key-pressed="showCode = false"
             />
 

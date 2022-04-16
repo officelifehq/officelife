@@ -150,4 +150,12 @@ return [
     'board_title' => 'Boards',
     'board_cta' => 'Create a board',
     'board_cta_success' => 'The board has been created.',
+    'separator_created' => 'The separator has been added.',
+    'issue_created' => 'The issue has been created.',
+    'issue_destroyed' => 'The issue has been deleted.',
+    'separator_destroyed' => 'The separator has been deleted.',
+    'sprint_blank_state' => 'Add an issue, create cycles and start creating magic.',
+    'issue_assignee_blank' => 'No assignee.',
+    'issue_assignee_success' => 'The assignee has been set.',
+    'issue_assignee_destroy_success' => 'The assignee has been removed.',
 ];

@@ -4,6 +4,7 @@ namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -23,11 +24,23 @@ class ProjectIssue extends Model
         'project_board_id',
         'reporter_id',
         'issue_type_id',
+        'is_separator',
         'id_in_project',
         'key',
         'slug',
         'title',
         'description',
+        'story_points',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_separator' => 'boolean',
+        'story_points' => 'integer',
     ];
 
     /**
@@ -41,7 +54,7 @@ class ProjectIssue extends Model
     }
 
     /**
-     * Get the reported (employee) record associated with the project issues.
+     * Get the employee who created the issue.
      *
      * @return BelongsTo
      */
@@ -77,7 +90,7 @@ class ProjectIssue extends Model
      */
     public function sprints()
     {
-        return $this->belongsToMany(ProjectSprint::class, 'project_issue_project_sprint', 'project_issue_id', 'project_sprint_id');
+        return $this->belongsToMany(ProjectSprint::class, 'project_issue_project_sprint', 'project_issue_id', 'project_sprint_id')->withPivot('position');
     }
 
     /**
@@ -118,5 +131,15 @@ class ProjectIssue extends Model
     public function children()
     {
         return $this->belongsToMany(ProjectIssue::class, 'project_issue_parents', 'parent_project_issue_id', 'child_project_issue_id');
+    }
+
+    /**
+     * Get all of the comments associated with the project issue.
+     *
+     * @return MorphMany
+     */
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

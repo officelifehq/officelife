@@ -236,7 +236,11 @@ class ProjectTasksViewHelperTest extends TestCase
             $array['created_at']
         );
         $this->assertEquals(
-            env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
+            [
+                'show' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
+                'toggle' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id.'/toggle',
+                'entries' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id.'/timeTrackingEntries',
+            ],
             $array['url']
         );
         $this->assertEquals(

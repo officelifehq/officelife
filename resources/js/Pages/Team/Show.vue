@@ -17,6 +17,17 @@
   }
 }
 
+.popupmenu {
+  &:after {
+    left: auto;
+    right: 10px;
+  }
+
+  &:before {
+    left: auto;
+    right: 9px;
+  }
+}
 </style>
 
 <template>
@@ -134,7 +145,6 @@
 <script>
 import Layout from '@/Shared/Layout';
 import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import vClickOutside from 'v-click-outside';
 import Members from '@/Pages/Team/Partials/Members';
 import TeamDescription from '@/Pages/Team/Partials/TeamDescription';
 import NewHiresNextWeek from '@/Pages/Team/Partials/NewHiresNextWeek';
@@ -158,10 +168,6 @@ export default {
     RecentShips,
     Birthdays,
     Morale,
-  },
-
-  directives: {
-    clickOutside: vClickOutside.directive
   },
 
   props: {

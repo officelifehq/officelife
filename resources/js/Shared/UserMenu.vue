@@ -93,7 +93,7 @@ svg {
           </li>
 
           <!-- Show profile -->
-          <li class="pa2 relative bb bb-gray bb-gray-hover">
+          <li v-if="!$page.props.demo_mode" class="pa2 relative bb bb-gray bb-gray-hover">
             <span class="dib icon relative">
               <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 19 19" width="19" height="19">
                 <g transform="matrix(1.3571428571428572,0,0,1.3571428571428572,0,0)">

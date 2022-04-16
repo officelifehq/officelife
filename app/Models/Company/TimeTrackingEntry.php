@@ -3,14 +3,12 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TimeTrackingEntry extends Model
 {
-    use LogsActivity,
-        HasFactory;
+    use HasFactory;
 
     protected $table = 'time_tracking_entries';
 
@@ -27,15 +25,6 @@ class TimeTrackingEntry extends Model
         'duration',
         'happened_at',
         'description',
-    ];
-
-    /**
-     * The attributes that are logged when changed.
-     *
-     * @var array
-     */
-    protected static $logAttributes = [
-        'duration',
     ];
 
     /**

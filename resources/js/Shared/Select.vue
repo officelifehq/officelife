@@ -1,6 +1,4 @@
 <style lang="scss" scoped>
-@import 'vue-select/src/scss/vue-select.scss';
-
 .optional-badge {
   border-radius: 4px;
   color: #283e59;
@@ -8,12 +6,31 @@
   padding: 3px 4px;
 }
 
-.style-chooser .vs__search::placeholder,
-.style-chooser .vs__dropdown-toggle,
-.style-chooser .vs__dropdown-menu {
-  border: 0;
+.icon-dropdown {
+  top: 10px;
+  right: 8px;
+  width: 15px;
 }
 
+.dropdown {
+  width: 300px;
+  max-height: 300px;
+
+  li:hover {
+    background-color: #4364c8;
+    color: #fff;
+  }
+
+  li:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  li:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+}
 </style>
 
 <template>
@@ -24,25 +41,19 @@
         {{ $t('app.optional') }}
       </span>
     </label>
-    <v-select v-model="proxyValue"
-              :input-id="realId"
-              :options="options"
-              :label="customLabelKey"
-              :placeholder="placeholder"
-              class="style-chooser"
-              :data-cy="datacy"
-              :close-on-select="true"
-    >
-      <!-- all this complex code below just to make sure the select box is required -->
-      <template #search="{ attributes, events }">
-        <input
-          class="vs__search"
-          :required="required && !proxyValue"
-          v-bind="attributes"
-          v-on="events"
-        />
-      </template>
-    </v-select>
+    <a-select
+      v-model="form.country_id"
+      show-search
+      :placeholder="$t('app.choose')"
+      filter-option="true"
+      style="width: 200px"
+      :options="countries"
+      :dropdown-style="'mb-4'"
+      @focus="handleFocus"
+      @blur="handleBlur"
+      @change="handleChange"
+    />
+
     <div v-if="errors.length" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
     </div>
@@ -53,14 +64,7 @@
 </template>
 
 <script>
-
-import vSelect from 'vue-select/src/index.js';
-
 export default {
-  components: {
-    vSelect,
-  },
-
   model: {
     prop: 'modelValue',
     event: 'update:modelValue'
@@ -131,23 +135,6 @@ export default {
     };
   },
 
-  computed: {
-    proxyValue: {
-      get() {
-        return this.options[this.options.findIndex(p => p[this.customValueKey] === this.modelValue)];
-      },
-      set(value) {
-        this.$emit('update:modelValue', value[this.customValueKey]);
-      }
-    },
-    labelValue() {
-      return this.proxyValue[this.customLabelKey];
-    },
-    realId() {
-      return this.id + this._.uid;
-    },
-  },
-
   watch: {
     errors(value) {
       this.localErrors = value;
@@ -160,6 +147,7 @@ export default {
 
   methods: {
     sendEscKey() {
+      this.searchMode = false;
       this.$emit('esc-key-pressed');
     },
   },

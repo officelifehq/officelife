@@ -30,6 +30,7 @@ class UpdateProjectIssue extends BaseService
             'project_issue_id' => 'nullable|integer|exists:project_issues,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:16777215',
+            'points' => 'nullable|integer|max:100',
         ];
     }
 
@@ -71,6 +72,7 @@ class UpdateProjectIssue extends BaseService
         $this->projectIssue->title = $this->data['title'];
         $this->projectIssue->slug = Str::of($this->data['title'])->slug('-');
         $this->projectIssue->description = $this->valueOrNull($this->data, 'description');
+        $this->projectIssue->story_points = $this->valueOrNull($this->data, 'story_points');
         $this->projectIssue->save();
     }
 

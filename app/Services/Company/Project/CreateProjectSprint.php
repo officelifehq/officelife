@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
+use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectSprint;
 use App\Models\Company\ProjectMemberActivity;
@@ -16,6 +17,7 @@ class CreateProjectSprint extends BaseService
     protected Project $project;
     protected ProjectSprint $projectSprint;
     protected ProjectBoard $projectBoard;
+    protected int $position;
 
     /**
      * Get the validation rules that apply to the service.
@@ -43,6 +45,7 @@ class CreateProjectSprint extends BaseService
     {
         $this->data = $data;
         $this->validate();
+        $this->determinePosition();
         $this->createSprint();
         $this->logActivity();
         $this->log();
@@ -73,7 +76,28 @@ class CreateProjectSprint extends BaseService
             'project_board_id' => $this->data['project_board_id'],
             'author_id' => $this->data['author_id'],
             'name' => $this->data['name'],
+            'position' => $this->position,
         ]);
+    }
+
+    /**
+     * Position in the board is as follow: 0 is the highest position in the
+     * backlog view.
+     * New sprints are added at the top of the list - so they take position 0.
+     * The sprint called "backlog" is always at the bottom of the page.
+     * Only non started sprints are taken into account.
+     */
+    private function determinePosition(): void
+    {
+        // increment the position of all the existing sprints in the board
+        DB::table('project_sprints')
+            ->where('project_id', $this->project->id)
+            ->where('project_board_id', $this->projectBoard->id)
+            ->whereNull('started_at')
+            ->whereNull('completed_at')
+            ->increment('position');
+
+        $this->position = 0;
     }
 
     private function logActivity(): void

@@ -19,3 +19,4 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .DS_Store
+docker-compose.yml

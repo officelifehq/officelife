@@ -3,15 +3,13 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Timesheet extends Model
 {
-    use LogsActivity,
-        HasFactory;
+    use HasFactory;
 
     /**
      * Possible status of a timesheet.
@@ -35,15 +33,6 @@ class Timesheet extends Model
         'approved_at',
         'approver_id',
         'approver_name',
-    ];
-
-    /**
-     * The attributes that are logged when changed.
-     *
-     * @var array
-     */
-    protected static $logAttributes = [
-        'status',
     ];
 
     /**

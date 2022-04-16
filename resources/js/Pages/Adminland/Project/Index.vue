@@ -52,7 +52,7 @@
                 <div class="flex justify-between">
                   <text-input :ref="'newIssueType'"
                               v-model="form.name"
-                              :label="'Name'"
+                              :label="$t('account.issue_type_name')"
                               :required="true"
                               :errors="$page.props.errors.name"
                               :extra-class-upper-div="'mb0 mr2'"
@@ -60,8 +60,8 @@
                   />
                   <text-input :ref="'newIssueType'"
                               v-model="form.icon_hex_color"
-                              :label="'Color of the icon'"
-                              :help="'Represented in hexadecimal.'"
+                              :label="$t('account.issue_type_color')"
+                              :help="$t('account.issue_type_color_help')"
                               :placeholder="'#ae4111'"
                               :maxlength="7"
                               :required="true"

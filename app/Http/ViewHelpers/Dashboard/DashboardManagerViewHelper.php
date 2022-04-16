@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\MoneyHelper;
+use App\Models\Company\Company;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
@@ -261,5 +262,42 @@ class DashboardManagerViewHelper
                 'company' => $manager->company,
             ]),
         ];
+    }
+
+    /**
+     * Get the information about the opened discipline cases for this manager.
+     *
+     * @param Company $company
+     * @param Collection $directReports
+     * @return SupportCollection
+     */
+    public static function activeDisciplineCases(Company $company, Collection $directReports): SupportCollection
+    {
+        $disciplineCaseCollection = collect();
+        foreach ($directReports as $directReport) {
+            $cases = $directReport->directReport->disciplineCases()->where('active', true)->get();
+
+            foreach ($cases as $case) {
+                $disciplineCaseCollection->push([
+                    'id' => $case->id,
+                    'employee' => [
+                        'id' => $directReport->directReport->id,
+                        'name' => $directReport->directReport->name,
+                        'avatar' => ImageHelper::getAvatar($directReport->directReport, 40),
+                        'position' => (! $directReport->directReport->position) ? null : $directReport->directReport->position->title,
+                        'url' => route('employees.show', [
+                            'company' => $company,
+                            'employee' => $directReport->directReport,
+                        ]),
+                    ],
+                    'url' => route('dashboard.manager.disciplinecase.show', [
+                        'company' => $company,
+                        'case' => $case,
+                    ]),
+                ]);
+            }
+        }
+
+        return $disciplineCaseCollection;
     }
 }

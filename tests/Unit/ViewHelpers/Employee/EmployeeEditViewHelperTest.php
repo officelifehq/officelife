@@ -19,6 +19,8 @@ class EmployeeEditViewHelperTest extends TestCase
 
         $michael = Employee::factory()->create([
             'timezone' => 'Africa/Banjul',
+            'hired_at' => '1900-01-01',
+            'birthdate' => '1900-01-01',
         ]);
 
         $array = EmployeeEditViewHelper::show($michael);
@@ -31,16 +33,8 @@ class EmployeeEditViewHelperTest extends TestCase
                 'name' => $michael->name,
                 'email' => $michael->email,
                 'phone' => $michael->phone_number,
-                'birthdate' => (! $michael->birthdate) ? null : [
-                    'year' => $michael->birthdate->year,
-                    'month' => $michael->birthdate->month,
-                    'day' => $michael->birthdate->day,
-                ],
-                'hired_at' => (! $michael->hired_at) ? null : [
-                    'year' => $michael->hired_at->year,
-                    'month' => $michael->hired_at->month,
-                    'day' => $michael->hired_at->day,
-                ],
+                'birthdate' => (! $michael->birthdate) ? null : '1900-01-01',
+                'hired_at' => (! $michael->birthdate) ? null : '1900-01-01',
                 'twitter_handle' => $michael->twitter_handle,
                 'slack_handle' => $michael->slack_handle,
                 'max_year' => 2018,

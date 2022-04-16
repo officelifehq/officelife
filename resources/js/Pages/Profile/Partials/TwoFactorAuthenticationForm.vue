@@ -18,16 +18,16 @@
     </template>
 
     <template #content>
-      <p v-if="twoFactorEnabled" class="fw6">
+      <p v-if="twoFactorEnabled" class="fw6 mt0">
         {{ $t('profile.2fa_message_enabled') }}
       </p>
 
-      <h3 v-else class="fw6">
+      <p v-else class="fw6 mt0">
         {{ $t('profile.2fa_message_disabled') }}
-      </h3>
+      </p>
 
       <div class="mt3 f6">
-        <p>
+        <p class="lh-copy">
           {{ $t('profile.2fa_disclaimer') }}
         </p>
       </div>

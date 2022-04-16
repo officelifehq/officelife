@@ -78,4 +78,18 @@ class DashboardHRViewHelper
             'rejected' => $totals->rejected,
         ];
     }
+
+    /**
+     * Get information about the discipline cases.
+     */
+    public static function disciplineCases(Company $company)
+    {
+        return [
+            'url' => [
+                'index' => route('dashboard.hr.disciplinecase.index', [
+                    'company' => $company,
+                ]),
+            ],
+        ];
+    }
 }

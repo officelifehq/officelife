@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Company\Employee\Presentation;
 
 use Inertia\Inertia;
-use Inertia\Response;
 use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;

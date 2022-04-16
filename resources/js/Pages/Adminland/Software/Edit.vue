@@ -139,19 +139,16 @@ input[type=radio] {
                   </div>
                   <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- currency -->
-                    <select-box
-                      :id="'currency'"
-                      v-model="form.currency"
-                      :options="currencies"
-                      :name="'currency'"
-                      :errors="$page.props.errors.currency"
-                      :label="$t('dashboard.expense_create_currency')"
-                      :custom-label-key="'code'"
-                      :custom-value-key="'id'"
+                    <label class="db mb-2">
+                      {{ $t('dashboard.expense_create_currency') }}
+                    </label>
+                    <a-select
+                      v-model:value="form.currency"
                       :placeholder="$t('dashboard.expense_create_currency')"
-                      :required="false"
-                      :value="form.currency"
-                      :datacy="'expense-currency'"
+                      style="width: 200px"
+                      :options="currencies"
+                      show-search
+                      option-filter-prop="label"
                     />
                   </div>
                 </div>
@@ -161,10 +158,7 @@ input[type=radio] {
             <!-- Purchase date -->
             <div class="cf pa3 bb bb-gray pb4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                <strong>{{ $t('account.software_new_purchased_date') }}</strong>
-                <p class="f7 silver lh-copy pr3-ns">
-                  {{ $t('employee.edit_information_timezone_help') }}
-                </p>
+                <strong>{{ $t('account.software_new_purchase_date') }}</strong>
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
                 <div class="dt-ns dt--fixed di">
@@ -235,7 +229,6 @@ import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
 import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import SelectBox from '@/Shared/Select';
 import TextArea from '@/Shared/TextArea';
 
 export default {
@@ -245,7 +238,6 @@ export default {
     TextInput,
     Errors,
     LoadingButton,
-    SelectBox,
     TextArea,
   },
 

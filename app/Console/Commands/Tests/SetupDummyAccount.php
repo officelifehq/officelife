@@ -1725,6 +1725,7 @@ class SetupDummyAccount extends Command
             'project_lead_id' => $this->jim->id,
             'name' => 'Dunder Mifflin Infinity',
             'code' => 'dun-76',
+            'short_code' => 'DUN',
             'summary' => 'Revitalize the company with new technology',
             'description' => 'We aim to replace all our old technology with something much more powerful: a website with a complete set of instructions. The goal is to replace the sales people by a machine learning algorithm.',
         ]);

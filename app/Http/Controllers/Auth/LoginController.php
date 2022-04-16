@@ -31,6 +31,7 @@ class LoginController extends Controller
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
+            'enableExternalLoginProviders' => config('auth.enable_external_login_providers'),
             'providers' => $providers,
             'providersName' => $providersName,
         ]);

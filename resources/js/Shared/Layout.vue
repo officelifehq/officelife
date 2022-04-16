@@ -98,7 +98,7 @@ nav {
             </inertia-link>
           </div>
         </div>
-        <div class="flex-grow pa2 flex items-center">
+        <div class="pa2 flex items-center">
           <notifications-component :notifications="notifications" />
 
           <user-menu :show-help-on-page="showHelpOnPage" />
@@ -226,13 +226,12 @@ nav {
       </span> Welcome to OfficeLife beta! <a href="https://github.com/officelifehq/officelife/discussions/944" class="mr2">Contact us to send feedback</a>
       <span class="mr1">
         🎉
-      </span><a href="https://twitter.com/djaiss/status/1306414432340373504">What's new</a>
+      </span>Thanks for using our tool!
     </div>
   </div>
 </template>
 
 <script>
-import vClickOutside from 'v-click-outside';
 import UserMenu from '@/Shared/UserMenu';
 import LoadingButton from '@/Shared/LoadingButton';
 import NotificationsComponent from '@/Shared/Notifications';
@@ -246,10 +245,6 @@ export default {
     NotificationsComponent,
     Toaster,
     'ball-pulse-loader': BallPulseLoader.component,
-  },
-
-  directives: {
-    clickOutside: vClickOutside.directive
   },
 
   props: {

@@ -99,15 +99,17 @@
                   </div>
                 </div>
 
-                <select-box :id="'country_id'"
-                            v-model="form.country_id"
-                            :options="countries"
-                            :name="'country_id'"
-                            :errors="$page.props.errors.country_id"
-                            :label="$t('employee.edit_information_country')"
-                            :placeholder="$t('app.choose_value')"
-                            :required="true"
-                            :datacy="'country_selector'"
+
+                <label class="db mb-2">
+                  {{ $t('employee.edit_information_country') }}
+                </label>
+                <a-select
+                  v-model:value="form.country_id"
+                  :placeholder="$t('app.choose')"
+                  style="width: 200px"
+                  :options="countries"
+                  show-search
+                  option-filter-prop="label"
                 />
               </div>
             </div>
@@ -132,7 +134,6 @@
 
 <script>
 import TextInput from '@/Shared/TextInput';
-import SelectBox from '@/Shared/Select';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
@@ -144,7 +145,6 @@ export default {
     Breadcrumb,
     TextInput,
     Errors,
-    SelectBox,
     LoadingButton,
   },
 

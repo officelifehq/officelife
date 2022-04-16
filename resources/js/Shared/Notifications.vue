@@ -13,6 +13,7 @@
   box-shadow: 0 1px 15px rgba(27,31,35,.15);
   right: 12px;
   top: 17px;
+  max-height: 380px;
 }
 </style>
 
@@ -36,7 +37,7 @@
     </div>
 
     <!-- content modal -->
-    <ul v-if="showMenu" v-click-outside="toggleModal" class="popupmenu absolute right-0 content-menu list z-999 bg-white ba bb-gray br3 pa0">
+    <ul v-if="showMenu" v-click-outside="toggleModal" class="popupmenu absolute overflow-auto right-0 content-menu list z-999 bg-white ba bb-gray br3 pa0">
       <li v-for="notification in notifications" :key="notification.id" class="pv2 ph3 bb bb-gray lh-copy" data-cy="notification-modal-content">
         {{ notification.localized_content }}
       </li>
@@ -49,7 +50,7 @@
 </template>
 
 <script>
-import vClickOutside from 'v-click-outside';
+import vClickOutside from 'click-outside-vue3';
 
 export default {
   directives: {
