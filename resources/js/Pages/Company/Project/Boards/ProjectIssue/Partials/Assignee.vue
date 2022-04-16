@@ -34,7 +34,7 @@
 
 <template>
   <div class="mb3 bb bb-gray pb3 relative">
-    <div class="flex items-center justify-between mb1">
+    <div class="flex items-center justify-between mb2">
       <h3 class="ttc f7 gray ma0 fw4">
         {{ $t('project.issue_assignee_title') }}
       </h3>

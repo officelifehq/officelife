@@ -75,6 +75,7 @@ class UpdateProjectIssueStoryPoint extends BaseService
             'project_issue_id' => $this->projectIssue->id,
             'employee_id' => $this->author->id,
             'story_points' => $this->valueOrNull($this->data, 'points'),
+            'created_at' => Carbon::now(),
         ]);
     }
 

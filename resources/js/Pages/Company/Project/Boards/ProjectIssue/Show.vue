@@ -139,7 +139,7 @@
             </h3>
             <div class="flex flex-wrap">
               <inertia-link class="inline-flex items-center relative issue-label mr2 mb2 f6 ba bb-gray br3 bg-white">
-                orgy
+                sdfksldk
               </inertia-link>
               <inertia-link class="inline-flex items-center relative issue-label mr2 mb2 f6 ba bb-gray br3 bg-white">
                 test utilisateur
@@ -148,7 +148,7 @@
                 this is a test because it's insane
               </inertia-link>
               <inertia-link class="inline-flex items-center relative issue-label mr2 mb2 f6 ba bb-gray br3 bg-white">
-                orgy
+                sdfksldk
               </inertia-link>
             </div>
           </div>

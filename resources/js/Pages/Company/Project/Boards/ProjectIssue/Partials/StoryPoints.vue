@@ -29,7 +29,7 @@
   <div class="mb3 bb bb-gray pb3 relative">
     <div class="flex items-center justify-between mb1">
       <h3 class="ttc f7 gray ma0 fw4">
-        Points
+        {{ $t('project.issue_point_title') }}
       </h3>
       <svg xmlns="http://www.w3.org/2000/svg" class="cog-icon pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor"
            @click.prevent="toggleEditMode()"
@@ -43,12 +43,12 @@
       {{ localPoints }}
     </span>
     <span v-if="!editMode && !localPoints" class="">
-      No story points yet.
+      {{ $t('project.issue_point_blank') }}
     </span>
 
     <!-- list of available points -->
     <div v-if="editMode">
-      <p class="mt2 mb2 f6">How difficult is this task?</p>
+      <p class="mt2 mb2 f6">{{ $t('project.issue_point_question') }}</p>
       <ul class="ma0 pl0 list">
         <li class="di mr2"><span class="story-point pointer" @click="submit(0)">0</span></li>
         <li class="di mr2"><span class="story-point pointer" @click="submit(1)">1</span></li>
@@ -98,7 +98,7 @@ export default {
 
       axios.post(this.data.url.store, this.form)
         .then(response => {
-          this.flash(this.$t('project.issue_assignee_success'), 'success');
+          this.flash(this.$t('project.issue_point_set'), 'success');
 
           this.localPoints = points;
           this.toggleEditMode();

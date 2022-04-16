@@ -1,4 +1,4 @@
-b
+<?php
 
 namespace App\Models\Company;
 
