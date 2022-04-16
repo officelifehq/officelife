@@ -220,13 +220,15 @@ nav {
 
     <toaster />
 
-    <div class="mt5 mb4 cf mw6 center tc f7">
-      <span class="mr1">
-        🎡
-      </span> Welcome to OfficeLife beta! <a href="https://github.com/officelifehq/officelife/discussions/944" class="mr2">Contact us to send feedback</a>
-      <span class="mr1">
-        🎉
-      </span>Thanks for using our tool!
+    <div class="mt5 mb4 cf mw7 center tc f7">
+      <ul class="list ma0">
+        <li class="di mr2">
+          <span class="mr1">🎡</span>
+          Welcome to OfficeLife beta!
+        </li>
+        <li class="di mr2"><a href="https://docs.officelife.io" class="mr2">Read our documentation</a></li>
+        <li class="di">Thanks for using our tool!</li>
+      </ul>
     </div>
   </div>
 </template>
