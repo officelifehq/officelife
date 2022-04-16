@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Company\Dashboard\Me;
 
 use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Company\Employee\Presentation;
 
 use Illuminate\Http\Request;
 use App\Models\Company\Skill;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;

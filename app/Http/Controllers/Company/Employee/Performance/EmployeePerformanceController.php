@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Company\Employee\Performance;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\PermissionHelper;
@@ -22,7 +22,7 @@ class EmployeePerformanceController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function show(Request $request, int $companyId, int $employeeId)
     {

@@ -8,7 +8,7 @@ const purgeCssOptions = {
     standard: [/^ball-pulse/, /^ball-clip-rotate/, /^vs__/, /^dot-/, /^expense-badge-/, /^timesheet-badge-/, /^failed/],
     // List of regex of CSS class name whose child path CSS class will not be removed
     //  ex: to exclude "jane" in "mary jane": add "mary")
-    deep: [/^vue-loaders/, /^vs-/],
+    deep: [/^vue-loaders/, /^vs-/, /^ant-/, /^vc-/],
   }
 };
 

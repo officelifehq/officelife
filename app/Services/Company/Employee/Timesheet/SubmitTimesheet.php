@@ -9,7 +9,6 @@ use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
-use Illuminate\Support\Facades\Log;
 
 class SubmitTimesheet extends BaseService
 {

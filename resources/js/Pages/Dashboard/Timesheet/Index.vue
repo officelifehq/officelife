@@ -137,7 +137,7 @@
               <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/create'">{{ $t('dashboard.timesheet_create_project') }}</inertia-link>
             </div>
 
-            <span v-else class="bb b--dotted bt-0 bl-0 br-0 pointer">
+            <div v-else>
               <label class="db mb-2">
                 {{ $t('dashboard.timesheet_create_choose_project') }}
               </label>
@@ -167,7 +167,7 @@
                   @change="setTaskDetails"
                 />
               </div>
-            </span>
+            </div>
 
             <!-- Actions -->
             <div v-if="projects.length != 0">

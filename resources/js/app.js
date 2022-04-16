@@ -5,9 +5,10 @@ import { createApp, h } from 'vue';
 import { App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
 import Antd from 'ant-design-vue';
-import 'ant-design-vue/lib/date-picker/style/index.css';
 import 'ant-design-vue/lib/select/style/index.css';
 import Sentry from './sentry';
+import 'v-calendar/dist/style.css';
+import VCalendar from 'v-calendar';
 
 const langs = require('./langs').default;
 
@@ -42,6 +43,7 @@ langs.loadLanguage(document.querySelector('html').getAttribute('lang'), true)
     .use(InertiaPlugin)
     .use(langs.i18n)
     .use(Antd)
+    .use(VCalendar)
     .mount(el);
 
   InertiaProgress.init({ color: '#4B5563' });

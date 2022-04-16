@@ -3,14 +3,12 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Answer extends Model
 {
-    use LogsActivity,
-        HasFactory;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -20,15 +18,6 @@ class Answer extends Model
     protected $fillable = [
         'question_id',
         'employee_id',
-        'body',
-    ];
-
-    /**
-     * The attributes that are logged when changed.
-     *
-     * @var array
-     */
-    protected static $logAttributes = [
         'body',
     ];
 

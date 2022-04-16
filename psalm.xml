@@ -2,7 +2,6 @@
 <psalm
     name="Example Psalm config with recommended defaults"
     useDocblockTypes="true"
-    totallyTyped="false"
 >
     <projectFiles>
         <directory name="database/seeds" />
@@ -104,6 +103,7 @@
         <UndefinedMagicPropertyFetch errorLevel="suppress" />
         <InvalidPropertyAssignmentValue errorLevel="suppress" />
         <PossibleRawObjectIteration errorLevel="suppress" />
+        <PossiblyInvalidArrayOffset errorLevel="suppress" />
 
         <UnsafeInstantiation>
             <errorLevel type="suppress">

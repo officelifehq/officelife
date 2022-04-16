@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Company\Team;
 
-use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;

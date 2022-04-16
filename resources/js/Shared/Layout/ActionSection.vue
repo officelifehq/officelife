@@ -10,7 +10,9 @@
     </section-title>
 
     <div class="fl-ns w-two-thirds-ns w-100">
-      <slot name="content"></slot>
+      <div class="ml2">
+        <slot name="content"></slot>
+      </div>
     </div>
   </div>
 </template>
