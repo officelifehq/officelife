@@ -68,7 +68,12 @@ class ProjectIssuesViewHelperTest extends TestCase
             $array['created_at']
         );
         $this->assertEquals(
-            $issue->story_points,
+            [
+                'points' => $issue->story_points,
+                'url' => [
+                    'store' => env('APP_URL').'/'.$issue->project->company_id.'/company/projects/'.$issue->project->id.'/boards/'.$issue->board->id. '/issues/'.$issue->id.'/points',
+                ],
+            ],
             $array['story_points']
         );
         $this->assertEquals(
