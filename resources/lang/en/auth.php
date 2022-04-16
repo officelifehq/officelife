@@ -47,7 +47,7 @@ return [
     'login_provider_google' => 'Google',
     'login_provider_linkedin' => 'LinkedIn',
     'login_provider_monica' => 'Monica',
-    'login_provider_saml2' => 'Saml2 provider',
+    'login_provider_saml2' => 'SAML 2.0 provider',
     'login_provider_slack' => 'Slack',
     'login_provider_twitter' => 'Twitter',
     'provider_already_used' => 'This provider is already associated with another account',

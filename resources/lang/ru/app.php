@@ -110,8 +110,6 @@ return [
     'breadcrumb_project_create' => 'Add a new project',
     'breadcrumb_project_edit' => 'Edit project',
     'breadcrumb_project_delete' => 'Delete project',
-    'breadcrumb_project_create_message' => 'Add a new message',
-    'breadcrumb_project_edit_message' => 'Edit message',
     'breadcrumb_dashboard_one_on_one' => 'One on One',
     'breadcrumb_dashboard_manager_timesheets' => 'All timesheets',
     'breadcrumb_team_list' => 'All teams',
