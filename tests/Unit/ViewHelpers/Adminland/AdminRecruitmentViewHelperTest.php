@@ -28,19 +28,19 @@ class AdminRecruitmentViewHelperTest extends ApiTestCase
             'position' => 2,
         ]);
 
-        $collection = AdminRecruitmentViewHelper::index($michael->company);
+        $array = AdminRecruitmentViewHelper::index($michael->company);
 
         $this->assertEquals(
             $template->id,
-            $collection->toArray()[0]['id']
+            $array['templates']->toArray()[0]['id']
         );
         $this->assertEquals(
             $template->name,
-            $collection->toArray()[0]['name']
+            $array['templates']->toArray()[0]['name']
         );
         $this->assertEquals(
             env('APP_URL').'/'.$michael->company_id.'/account/recruitment/'.$template->id,
-            $collection->toArray()[0]['url']
+            $array['templates']->toArray()[0]['url']
         );
         $this->assertEquals(
             [
@@ -55,7 +55,13 @@ class AdminRecruitmentViewHelperTest extends ApiTestCase
                     'position' => 2,
                 ],
             ],
-            $collection->toArray()[0]['stages']->toArray()
+            $array['templates']->toArray()[0]['stages']->toArray()
+        );
+        $this->assertEquals(
+            [
+                'store' => env('APP_URL').'/'.$michael->company_id.'/account/recruitment',
+            ],
+            $array['url']
         );
     }
 

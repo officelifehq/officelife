@@ -133,7 +133,7 @@ export default {
       type: Array,
       default: null,
     },
-    templates: {
+    data: {
       type: Array,
       default: null,
     },
@@ -160,7 +160,7 @@ export default {
   },
 
   created() {
-    this.localTemplates = this.templates;
+    this.localTemplates = this.data.templates;
   },
 
   methods: {
@@ -175,7 +175,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/account/recruitment/', this.form)
+      axios.post(this.data.url.store, this.form)
         .then(response => {
           this.flash(this.$t('account.recruitment_index_new_success'), 'success');
 
