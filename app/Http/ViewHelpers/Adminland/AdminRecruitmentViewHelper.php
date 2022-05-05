@@ -3,7 +3,6 @@
 namespace App\Http\ViewHelpers\Adminland;
 
 use App\Models\Company\Company;
-use Illuminate\Support\Collection;
 use App\Models\Company\RecruitingStageTemplate;
 
 class AdminRecruitmentViewHelper
@@ -12,9 +11,9 @@ class AdminRecruitmentViewHelper
      * Get all the recruiting stage templates in the company.
      *
      * @param Company $company
-     * @return Collection
+     * @return array
      */
-    public static function index(Company $company): ?Collection
+    public static function index(Company $company): ?array
     {
         $templates = $company->recruitingStageTemplates()
             ->with('stages')
@@ -44,7 +43,14 @@ class AdminRecruitmentViewHelper
             ]);
         }
 
-        return $templatesCollection;
+        return [
+            'templates' => $templatesCollection,
+            'url' => [
+                'store' => route('recruitment.store', [
+                    'company' => $company,
+                ]),
+            ],
+        ];
     }
 
     /**

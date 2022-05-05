@@ -632,7 +632,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
             // recruiting stage templates
             Route::get('account/recruitment', 'Company\\Adminland\\AdminRecruitmentController@index');
-            Route::post('account/recruitment', 'Company\\Adminland\\AdminRecruitmentController@store');
+            Route::post('account/recruitment', 'Company\\Adminland\\AdminRecruitmentController@store')->name('recruitment.store');
             Route::get('account/recruitment/{template}', 'Company\\Adminland\\AdminRecruitmentController@show')->name('recruitment.show');
             Route::post('account/recruitment/{template}', 'Company\\Adminland\\AdminRecruitmentController@storeStage');
             Route::put('account/recruitment/{template}/stage/{stage}', 'Company\\Adminland\\AdminRecruitmentController@updateStage');

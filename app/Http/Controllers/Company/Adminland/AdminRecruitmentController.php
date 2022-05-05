@@ -28,11 +28,11 @@ class AdminRecruitmentController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
 
-        $templates = AdminRecruitmentViewHelper::index($company);
+        $data = AdminRecruitmentViewHelper::index($company);
 
         return Inertia::render('Adminland/Recruitment/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'templates' => $templates,
+            'data' => $data,
         ]);
     }
 
