@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company\CompanyInvoice;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Adminland\AdminBillingViewHelper;
+use App\Services\Company\Adminland\Subscription\ActivateLicenceKey;
 
 class AdminBillingController extends Controller
 {
@@ -28,7 +29,7 @@ class AdminBillingController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
         return Inertia::render('Adminland/Billing/Index', [
-            'invoices' => AdminBillingViewHelper::index($loggedCompany),
+            'data' => AdminBillingViewHelper::index($loggedCompany),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -60,5 +61,32 @@ class AdminBillingController extends Controller
             'invoice' => AdminBillingViewHelper::show($invoice),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
+    }
+
+    /**
+     * Store the licence key.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @return mixed
+     */
+    public function store(Request $request, int $companyId)
+    {
+        if (! config('officelife.enable_paid_plan')) {
+            return redirect('home');
+        }
+
+        $company = InstanceHelper::getLoggedCompany();
+
+        $data = [
+            'company_id' => $company->id,
+            'licence_key' => $request->input('licence_key'),
+        ];
+
+        (new ActivateLicenceKey)->execute($data);
+
+        return response()->json([
+            'data' => AdminBillingViewHelper::index($company->refresh()),
+        ], 200);
     }
 }

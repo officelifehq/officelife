@@ -72,6 +72,7 @@ class CreateAskMeAnythingSession extends BaseService
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'ask_me_anything_session_id' => $this->session->id,
+                'ask_me_anything_session_theme' => $this->valueOrNull($this->data, 'theme'),
             ]),
         ])->onQueue('low');
     }

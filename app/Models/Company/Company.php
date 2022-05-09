@@ -31,6 +31,11 @@ class Company extends Model
         'work_from_home_enabled',
         'founded_at',
         'code_to_join_company',
+        'licence_key',
+        'valid_until_at',
+        'purchaser_email',
+        'frequency',
+        'quantity',
     ];
 
     /**
@@ -51,6 +56,7 @@ class Company extends Model
      */
     protected $dates = [
         'founded_at',
+        'valid_until_at',
     ];
 
     /**
