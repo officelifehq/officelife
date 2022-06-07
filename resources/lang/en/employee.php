@@ -209,6 +209,7 @@ return [
     'e_coffee_show_title' => 'All the eCoffee sessions',
     'stat_hiring' => '{percent}% employees have been hired after {name}',
     'past_position_history_title' => 'Position history in the company',
+    'past_position_history_present' => 'Present',
     'groups_title' => 'Groups {name} is part of',
     'groups_blank' => 'This person is not associated with a group yet.',
     'worklog_year_selector' => 'Choose a year',

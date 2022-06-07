@@ -209,6 +209,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
             Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index')->name('employee.show.logs');
 
+            Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
+                Route::get('{employee}/whatsup', 'Company\\Employee\\Whatsup\\EmployeeWhatsupController@index')->name('employee.show.whatsup');
+                Route::get('{employee}/whatsup/{year}', 'Company\\Employee\\Whatsup\\EmployeeWhatsupController@index')->name('employee.show.whatsup.year');
+            });
+
             // administration tab
             Route::prefix('{employee}/administration')->group(function () {
                 Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {

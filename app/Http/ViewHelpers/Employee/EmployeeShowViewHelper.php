@@ -120,6 +120,10 @@ class EmployeeShowViewHelper
                     'company' => $company,
                     'employee' => $employee,
                 ]),
+                'whatsup' => route('employee.show.whatsup', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
             ],
         ];
     }
