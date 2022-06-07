@@ -5,9 +5,36 @@ namespace App\Helpers;
 use App\Models\Company\TeamLog;
 use App\Models\Company\AuditLog;
 use App\Models\Company\EmployeeLog;
+use App\Models\Company\Logger;
 
 class LogHelper
 {
+    private static function processLog(Logger $log, string $prefix): string
+    {
+        $key = "account.{$prefix}_{$log->action}";
+
+        /** @var \Illuminate\Translation\Translator $translator */
+        $translator = trans();
+        if (! $translator->has($key)) {
+            throw new \Exception('missing message');
+        }
+        $text = trans($key, [], config('app.locale'));
+
+        preg_match_all('/\:(?<replace>[^ .]+)/', $text, $matched);
+
+        $replace = [];
+        foreach ($matched['replace'] as $match) {
+            if ($match !== '') {
+                if (!isset($log->object->{$match})) {
+                    throw new \Exception('missing key');
+                }
+                $replace[$match] = $log->object->{$match};
+            }
+        }
+
+        return trans($key, $replace);
+    }
+
     /**
      * Return an sentence explaining what the log contains.
      * A log is stored in a json file and needs some kind of processing to make
@@ -19,6 +46,11 @@ class LogHelper
      */
     public static function processAuditLog(AuditLog $log): string
     {
+        try {
+            return self::processLog($log, 'log');
+        } catch (\Exception $e) {
+        }
+
         switch ($log->action) {
             case 'account_created':
                 $sentence = trans('account.log_account_created');
@@ -50,7 +82,7 @@ class LogHelper
 
             case 'team_created':
                 $sentence = trans('account.log_team_created', [
-                    'name' => $log->object->{'team_name'},
+                    'team_name' => $log->object->{'team_name'},
                 ]);
                 break;
 
@@ -1840,6 +1872,11 @@ class LogHelper
      */
     public static function processEmployeeLog(EmployeeLog $log): string
     {
+        try {
+            return self::processLog($log, 'employee_log');
+        } catch (\Exception $e) {
+        }
+
         switch ($log->action) {
             case 'employee_created':
                 $sentence = trans('account.employee_log_employee_created');
@@ -2424,10 +2461,15 @@ class LogHelper
      */
     public static function processTeamLog(TeamLog $log): string
     {
+        try {
+            return self::processLog($log, 'team_log');
+        } catch (\Exception $e) {
+        }
+
         switch ($log->action) {
             case 'team_created':
                 $sentence = trans('account.team_log_team_created', [
-                    'name' => $log->object->{'team_name'},
+                    'team_name' => $log->object->{'team_name'},
                 ]);
                 break;
 
