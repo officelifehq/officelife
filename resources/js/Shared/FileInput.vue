@@ -37,7 +37,7 @@
            :autofocus="autofocus"
            :value="value"
            :data-cy="datacy"
-           @change="$emit('update:modelValue', $event.target.value)"
+
     />
     <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}

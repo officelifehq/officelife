@@ -28,6 +28,9 @@
 
 </div>
 
+## New features
+- Added expense file upload for mail (You should add MAIL_EXPENSE_TO_ADDRESS variable in .env file)
+
 ## What is OfficeLife
 
 <img src="docs/img/company.png" alt="OfficeLife company" title="OfficeLife" />

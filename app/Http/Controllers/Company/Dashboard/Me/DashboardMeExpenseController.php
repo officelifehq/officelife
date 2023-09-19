@@ -10,6 +10,9 @@ use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Expense\CreateExpense;
+use App\Mail\SendExpenseMail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\UploadedFile;
 
 class DashboardMeExpenseController extends Controller
 {
@@ -36,8 +39,14 @@ class DashboardMeExpenseController extends Controller
             'expensed_at' => Carbon::now()->format('Y-m-d'),
         ];
 
+
         $expense = (new CreateExpense)->execute($data);
 
+        $data['name'] = $employee->name;
+        $data['amount'] = MoneyHelper::format($expense->amount, $expense->currency);
+        $attachment = $request->input('receipt');
+        $data['attachment'] = $attachment;
+        Mail::to(env('MAIL_EXPENSE_TO_ADDRESS', 'hello@example.com'))->queue(new SendExpenseMail($data));
         return response()->json([
             'data' => [
                 'id' => $expense->id,
