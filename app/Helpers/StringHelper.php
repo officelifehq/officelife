@@ -18,6 +18,7 @@ class StringHelper
     {
         $parsedown = new Parsedown();
         $parsedown->setSafeMode(true);
+        $parsedown->setBreaksEnabled(true);
 
         return $parsedown->text($content);
     }

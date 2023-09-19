@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Helpers\StringHelper;
 
 class Team extends Model
 {
@@ -137,7 +138,7 @@ class Team extends Model
                 ['employee_team.team_id', '=', $this->id],
                 ['employees.locked', '=', false],
             ])
-            ->select('worklogs.content', 'worklogs.id as worklog_id', 'employees.id', 'employees.first_name', 'employees.email', 'employees.last_name', 'employees.avatar_file_id')
+            ->select('worklogs.content', 'worklogs.created_at as worklog_date', 'worklogs.id as worklog_id', 'employees.id', 'employees.first_name', 'employees.email', 'employees.last_name', 'employees.avatar_file_id')
             ->get();
 
         $worklogCollection = collect();
@@ -154,7 +155,8 @@ class Team extends Model
             $canDeleteWorklog = PermissionHelper::permissions($loggedEmployee, $employee)['can_delete_worklog'];
 
             $worklogCollection->push([
-                'content' => $worklog->content,
+                'content' => $worklog->content ? StringHelper::parse($worklog->content) : null,
+                'date' => Carbon::parse($worklog->worklog_date)->format('H:i:s'),
                 'id' => $worklog->worklog_id,
                 'employee_id' => $employee->id,
                 'first_name' => $employee->first_name,

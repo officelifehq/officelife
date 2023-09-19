@@ -116,16 +116,16 @@ k<style lang="scss" scoped>
               />
 
               <!-- receipt -->
-              <!-- <file-input :id="'title'"
+              <file-input :id="'receipt'"
                           :ref="'expenseReceipt'"
                           :datacy="'expense-receipt'"
-                          :name="'title'"
+                          :name="'receipt'"
                           :type="'file'"
                           :errors="$page.props.errors.title"
                           :label="$t('dashboard.expense_create_title')"
                           :required="true"
-                          @change="selectFile()"
-              /> -->
+                          @change="uploadImage"
+              />
             </div>
             <div class="fl-ns w-third-ns w-100 mb3 mb0-ns pl3-ns">
               <strong>{{ $t('dashboard.expense_create_help_title') }}</strong>
@@ -181,6 +181,7 @@ k<style lang="scss" scoped>
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
+import FileInput from '@/Shared/FileInput';
 import Help from '@/Shared/Help';
 
 export default {
@@ -188,6 +189,7 @@ export default {
     Errors,
     LoadingButton,
     TextInput,
+    FileInput,
     Help,
   },
 
@@ -232,6 +234,13 @@ export default {
   },
 
   watch: {
+    orderattachment(value) {
+      let fr = new FileReader()
+      fr.addEventListener("load", function (e) {
+        this.form.receipt = e.target.result;
+      });
+      fr.readAsDataURL(value)
+    },
     expenses: {
       handler(value) {
         this.localExpenses = value;
@@ -253,6 +262,7 @@ export default {
       this.form.currency = null;
       this.form.description = null;
       this.form.category = null;
+      this.form.receipt = null;
     },
 
     displayAddMode() {
@@ -265,8 +275,17 @@ export default {
 
     selectFile(event) {
       // `files` is always an array because the file input may be in multiple mode
-      this.form.receipt = event;
+      this.form.receipt = event.target.files[0];
     },
+
+    uploadImage(event) {
+        const image = event.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(image);
+        reader.onload = (event) => {
+        this.form.receipt = event.target.result;
+       };
+     }, 
 
     submit() {
       this.loadingState = 'loading';
