@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Helpers\StringHelper;
 
 class Team extends Model
 {
@@ -154,7 +155,8 @@ class Team extends Model
             $canDeleteWorklog = PermissionHelper::permissions($loggedEmployee, $employee)['can_delete_worklog'];
 
             $worklogCollection->push([
-                'content' => $worklog->content,
+                'content' => $worklog->content ? StringHelper::parse($worklog->content) : null,
+                'date' => Carbon::parse($worklog->worklog_date)->format('H:i:s'),
                 'id' => $worklog->worklog_id,
                 'employee_id' => $employee->id,
                 'first_name' => $employee->first_name,
