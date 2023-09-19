@@ -138,7 +138,7 @@ class Team extends Model
                 ['employee_team.team_id', '=', $this->id],
                 ['employees.locked', '=', false],
             ])
-            ->select('worklogs.content', 'worklogs.id as worklog_id', 'employees.id', 'employees.first_name', 'employees.email', 'employees.last_name', 'employees.avatar_file_id')
+            ->select('worklogs.content', 'worklogs.created_at as worklog_date', 'worklogs.id as worklog_id', 'employees.id', 'employees.first_name', 'employees.email', 'employees.last_name', 'employees.avatar_file_id')
             ->get();
 
         $worklogCollection = collect();

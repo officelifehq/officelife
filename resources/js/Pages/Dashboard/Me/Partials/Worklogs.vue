@@ -39,8 +39,26 @@
 
           <text-area
             ref="editor"
-            v-model="form.content"
+            v-model="form.content_before_day"
             :datacy="'worklog-content'"
+            :required="true"
+            :label="$t('dashboard.worklog_title_the_before_day')"
+            @esc-key-pressed="editMode = false"
+          />
+          <text-area
+            ref="editor"
+            v-model="form.content_today"
+            :datacy="'worklog-content'"
+            :label="$t('dashboard.worklog_title_today')"
+            :required="true"
+            @esc-key-pressed="editMode = false"
+          />
+          <text-area
+            ref="editor"
+            v-model="form.content_blocking"
+            :datacy="'worklog-content'"
+            :required="true"
+            :label="$t('dashboard.worklog_title_blocking')"
             @esc-key-pressed="editMode = false"
           />
           <p class="db lh-copy f6">
@@ -117,7 +135,7 @@ export default {
     store() {
       this.loadingState = 'loading';
       this.editMode = false;
-
+      this.form.content = "**Before:** "+this.form.content_before_day+"\n **Today:** "+this.form.content_today+"\n **Blocking:** "+this.form.content_blocking; 
       axios.post(`${this.$page.props.auth.company.id}/dashboard/worklog`, this.form)
         .then(response => {
           this.flash(this.$t('dashboard.worklog_success_message'), 'success');

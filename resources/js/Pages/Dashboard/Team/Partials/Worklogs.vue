@@ -109,6 +109,9 @@
               :name="worklogEntry.name"
               :avatar="worklogEntry.avatar"
             />
+            <span class="f6 gray bb b--dotted bt-0 bl-0 br-0">
+              🕘 {{ worklogEntry.date }}
+            </span>
 
             <span v-if="worklogEntry.can_delete_worklog && idToDelete !== worklogEntry.id" class="f6 gray bb b--dotted bt-0 bl-0 br-0 pointer di c-delete" @click="showDeleteMode(worklogEntry.id)">
               {{ $t('app.delete') }}
