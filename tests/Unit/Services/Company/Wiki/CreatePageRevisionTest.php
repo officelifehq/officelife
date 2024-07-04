@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Wiki;
 
-use Tests\TestCase;
-use App\Models\Company\Page;
-use App\Models\Company\Wiki;
 use App\Models\Company\Employee;
+use App\Models\Company\Page;
 use App\Models\Company\PageRevision;
+use App\Models\Company\Wiki;
+use App\Services\Company\Wiki\CreatePageRevision;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Wiki\CreatePageRevision;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class CreatePageRevisionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_page_revision_as_administrator(): void
     {

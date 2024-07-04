@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\ViewHelpers\Company;
 
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Team;
-use App\Models\Company\Employee;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Company\HeaderSearchViewHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\Team;
+use Tests\TestCase;
 
 class HeaderSearchViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_handles_an_empty_employees_search(): void
     {

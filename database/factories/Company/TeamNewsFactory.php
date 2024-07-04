@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\Team;
 use App\Models\Company\Employee;
+use App\Models\Company\Team;
 use App\Models\Company\TeamNews;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

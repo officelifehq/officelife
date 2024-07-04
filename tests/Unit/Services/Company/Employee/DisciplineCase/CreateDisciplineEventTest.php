@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Employee\DisciplineCase;
 
-use Tests\TestCase;
-use App\Models\Company\Employee;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Models\Company\DisciplineCase;
 use App\Models\Company\DisciplineEvent;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Company\Employee;
 use App\Services\Company\Employee\DisciplineCase\CreateDisciplineEvent;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateDisciplineEventTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_discipline_event_as_administrator(): void
     {

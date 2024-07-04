@@ -2,17 +2,15 @@
 
 namespace App\Services\Company\Adminland\ECoffee;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Company;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class ToggleECoffeeProcess extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -24,9 +22,6 @@ class ToggleECoffeeProcess extends BaseService
 
     /**
      * Toggle the e-coffee process in the company.
-     *
-     * @param array $data
-     * @return Company
      */
     public function execute(array $data): Company
     {

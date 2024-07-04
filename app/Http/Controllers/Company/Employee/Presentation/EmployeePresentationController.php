@@ -2,28 +2,25 @@
 
 namespace App\Http\Controllers\Company\Employee\Presentation;
 
-use Inertia\Inertia;
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use App\Helpers\PermissionHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
+use App\Helpers\PermissionHelper;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Employee\Manager\AssignManager;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
+use App\Models\Company\Employee;
+use App\Services\Company\Employee\Manager\AssignManager;
 use App\Services\Company\Employee\Manager\UnassignManager;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class EmployeePresentationController extends Controller
 {
     /**
      * Display the detail of an employee.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return mixed
      */
     public function show(Request $request, int $companyId, int $employeeId)
@@ -91,11 +88,6 @@ class EmployeePresentationController extends Controller
 
     /**
      * Assign a manager to the employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function assignManager(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -129,11 +121,6 @@ class EmployeePresentationController extends Controller
 
     /**
      * Assign a direct report to the employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function assignDirectReport(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -151,7 +138,7 @@ class EmployeePresentationController extends Controller
         $directReport = Employee::findOrFail($request->input('id'));
 
         return response()->json([
-            'data' =>[
+            'data' => [
                 'id' => $directReport->id,
                 'name' => $directReport->name,
                 'avatar' => ImageHelper::getAvatar($directReport),
@@ -169,11 +156,6 @@ class EmployeePresentationController extends Controller
 
     /**
      * Unassign a manager.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function unassignManager(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -197,11 +179,6 @@ class EmployeePresentationController extends Controller
 
     /**
      * Unassign a direct report.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $managerId
-     * @return JsonResponse
      */
     public function unassignDirectReport(Request $request, int $companyId, int $managerId): JsonResponse
     {

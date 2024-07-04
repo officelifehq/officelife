@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\ViewHelpers\Adminland;
 
+use App\Http\ViewHelpers\Adminland\AdminBillingViewHelper;
+use App\Models\Company\CompanyDailyUsageHistory;
+use App\Models\Company\CompanyInvoice;
+use App\Models\Company\CompanyUsageHistoryDetails;
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Models\Company\CompanyInvoice;
-use App\Models\Company\CompanyDailyUsageHistory;
-use App\Models\Company\CompanyUsageHistoryDetails;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Adminland\AdminBillingViewHelper;
 
 class AdminBillingViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_list_of_months(): void
     {

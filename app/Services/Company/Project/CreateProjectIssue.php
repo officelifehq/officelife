@@ -2,33 +2,38 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Models\Company\Project;
 use App\Models\Company\IssueType;
-use Illuminate\Support\Facades\DB;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectIssue;
-use App\Models\Company\ProjectSprint;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\ProjectSprint;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CreateProjectIssue extends BaseService
 {
     protected array $data;
+
     protected ProjectIssue $projectIssue;
+
     protected ProjectBoard $projectBoard;
+
     protected ProjectSprint $projectSprint;
+
     protected IssueType $issueType;
+
     protected Project $project;
+
     protected ?int $newIdInProject;
+
     protected string $key;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -48,9 +53,6 @@ class CreateProjectIssue extends BaseService
 
     /**
      * Create a project issue.
-     *
-     * @param array $data
-     * @return ProjectIssue
      */
     public function execute(array $data): ProjectIssue
     {

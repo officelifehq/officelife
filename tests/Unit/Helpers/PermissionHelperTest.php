@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Helpers;
 
-use Tests\TestCase;
-use App\Models\Company\Employee;
 use App\Helpers\PermissionHelper;
+use App\Models\Company\Employee;
 use App\Models\Company\EmployeeStatus;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class PermissionHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_lets_the_employee_see_the_full_birthdate(): void
     {

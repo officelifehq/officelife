@@ -28,9 +28,10 @@
 </template>
 
 <script>
-import LoadingButton from '@/Shared/LoadingButton';
-import FormSection from '@/Shared/Layout/FormSection';
-import { useForm } from '@inertiajs/inertia-vue3';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import FormSection from '@/Shared/Layout/FormSection.vue';
+import { useForm } from '@inertiajs/vue3';
+import _ from 'lodash';
 
 export default {
   components: {

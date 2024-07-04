@@ -2,16 +2,16 @@
 
 namespace App\Services\Company\Team\Ship;
 
-use Carbon\Carbon;
+use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
 use App\Jobs\NotifyEmployee;
+use App\Models\Company\Employee;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
-use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Employee;
-use App\Services\QueuableService;
 use App\Services\DispatchableService;
+use App\Services\QueuableService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AttachEmployeeToShip extends BaseService implements QueuableService
@@ -28,8 +28,6 @@ class AttachEmployeeToShip extends BaseService implements QueuableService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -43,10 +41,6 @@ class AttachEmployeeToShip extends BaseService implements QueuableService
 
     /**
      * Associate an employee with a recent ship entry.
-     *
-     * @param array $data
-     *
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

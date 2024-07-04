@@ -9,7 +9,7 @@ on:
     types: [completed]
 
 env:
-  php-version: '8.0'
+  php-version: '8.3'
 
 
 jobs:
@@ -43,7 +43,7 @@ jobs:
         run: composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Fix PHP code to follow standards
-        run: vendor/bin/php-cs-fixer fix
+        run: vendor/bin/pint
 
   psalm:
     runs-on: ubuntu-latest

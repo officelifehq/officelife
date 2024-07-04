@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
+use App\Notifications\EmailMessaging;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
-use App\Notifications\EmailMessaging;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Auth\Notifications\VerifyEmail;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -41,7 +41,5 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register()
-    {
-    }
+    public function register() {}
 }

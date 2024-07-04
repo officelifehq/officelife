@@ -88,7 +88,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" />
                 </svg>
                 <span class="relative">
-                  <inertia-link :href="jobOpenings.fulfilled_job_openings.url">{{ $tc('dashboard.job_opening_index_sidebar_fulfilled', jobOpenings.fulfilled_job_openings.count, {count: jobOpenings.fulfilled_job_openings.count}) }}</inertia-link>
+                  <Link :href="jobOpenings.fulfilled_job_openings.url">{{ $tc('dashboard.job_opening_index_sidebar_fulfilled', jobOpenings.fulfilled_job_openings.count, {count: jobOpenings.fulfilled_job_openings.count}) }}</Link>
                 </span>
               </li>
             </ul>
@@ -103,7 +103,7 @@
 
                 <help :url="$page.props.help_links.project_messages" :top="'3px'" />
               </span>
-              <inertia-link :href="jobOpenings.url_create" class="btn f5">{{ $t('dashboard.job_opening_index_cta') }}</inertia-link>
+              <Link :href="jobOpenings.url_create" class="btn f5">{{ $t('dashboard.job_opening_index_cta') }}</Link>
             </p>
 
             <div class="bg-white box mb4">
@@ -118,11 +118,11 @@
                   <!-- title and ref number -->
                   <div>
                     <div :class="jobOpening.team ? 'mb2': ''" class="db">
-                      <inertia-link :href="jobOpening.url" class="mr2">{{ jobOpening.title }}</inertia-link>
+                      <Link :href="jobOpening.url" class="mr2">{{ jobOpening.title }}</Link>
                       <span v-if="jobOpening.reference_number" class="reference-number f7 code fw4">{{ jobOpening.reference_number }}</span>
                     </div>
 
-                    <p v-if="jobOpening.team" class="ma0 f7 gray"><inertia-link :href="jobOpening.team.url">{{ jobOpening.team.name }}</inertia-link></p>
+                    <p v-if="jobOpening.team" class="ma0 f7 gray"><Link :href="jobOpening.team.url">{{ jobOpening.team.name }}</Link></p>
                   </div>
                 </li>
               </ul>
@@ -133,7 +133,7 @@
                   {{ $t('dashboard.job_opening_index_blank') }}
                 </p>
 
-                <img loading="lazy" src="/img/streamline-icon-nomad-freelance-2-5@140x140.png" alt="add email symbol" class="db center mb4" height="80"
+                <img loading="lazy" :src="'/img/streamline-icon-nomad-freelance-2-5@140x140.png'" alt="add email symbol" class="db center mb4" height="80"
                      width="80"
                 />
               </div>
@@ -146,7 +146,7 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
+import Layout from '@/Shared/Layout.vue';
 
 export default {
   components: {

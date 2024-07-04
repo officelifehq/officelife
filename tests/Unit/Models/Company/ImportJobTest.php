@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\TestCase;
 use App\Models\Company\ImportJob;
 use App\Models\Company\ImportJobReport;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class ImportJobTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_company(): void
     {

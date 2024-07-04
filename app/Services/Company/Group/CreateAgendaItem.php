@@ -2,27 +2,29 @@
 
 namespace App\Services\Company\Group;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Group;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Meeting;
-use App\Models\Company\Employee;
 use App\Models\Company\AgendaItem;
+use App\Models\Company\Employee;
+use App\Models\Company\Group;
+use App\Models\Company\Meeting;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateAgendaItem extends BaseService
 {
     protected array $data;
+
     protected Group $group;
+
     protected Meeting $meeting;
+
     protected AgendaItem $agendaItem;
+
     protected Employee $presenter;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -39,9 +41,6 @@ class CreateAgendaItem extends BaseService
 
     /**
      * Create an agenda item in a meeting.
-     *
-     * @param array $data
-     * @return AgendaItem
      */
     public function execute(array $data): AgendaItem
     {

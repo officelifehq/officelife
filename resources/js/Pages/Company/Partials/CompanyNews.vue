@@ -22,7 +22,9 @@
           </li>
         </ul>
         <div class="ph3 pv2 tc f6 bt bb-gray">
-          <inertia-link :href="news.view_all_url">{{ $t('company.news_view_all') }}</inertia-link>
+          <Link :href="news.view_all_url">
+            {{ $t('company.news_view_all') }}
+          </Link>
         </div>
       </div>
 

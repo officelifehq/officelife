@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
-use Carbon\Carbon;
-use Tests\TestCase;
+use App\Http\ViewHelpers\Employee\EmployeePerformanceViewHelper;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Employee\EmployeePerformanceViewHelper;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class EmployeePerformanceViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_latest_surveys_about_the_manager(): void
     {

@@ -2,18 +2,16 @@
 
 namespace App\Services\Company\Adminland\Hardware;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Hardware;
 use App\Models\Company\Position;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyHardware extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -26,10 +24,6 @@ class DestroyHardware extends BaseService
 
     /**
      * Destroy a position.
-     *
-     * @param array $data
-     *
-     * @return bool
      */
     public function execute(array $data): bool
     {

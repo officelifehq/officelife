@@ -2,9 +2,9 @@
 
 namespace App\Models\Company;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Expense extends Model
 {
@@ -14,10 +14,15 @@ class Expense extends Model
      * Possible status of an expense.
      */
     const CREATED = 'created';
+
     const AWAITING_MANAGER_APPROVAL = 'manager_approval';
+
     const AWAITING_ACCOUTING_APPROVAL = 'accounting_approval';
+
     const REJECTED_BY_MANAGER = 'rejected_by_manager';
+
     const REJECTED_BY_ACCOUNTING = 'rejected_by_accounting';
+
     const ACCEPTED = 'accepted';
 
     /**
@@ -57,18 +62,10 @@ class Expense extends Model
      */
     protected $casts = [
         'employee_id' => 'integer',
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'expensed_at',
-        'manager_approver_approved_at',
-        'accounting_approver_approved_at',
-        'converted_at',
+        'expensed_at' => 'datetime',
+        'manager_approver_approved_at' => 'datetime',
+        'accounting_approver_approved_at' => 'datetime',
+        'converted_at' => 'datetime',
     ];
 
     /**

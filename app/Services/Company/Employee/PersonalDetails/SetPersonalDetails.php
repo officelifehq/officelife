@@ -2,22 +2,21 @@
 
 namespace App\Services\Company\Employee\PersonalDetails;
 
-use Carbon\Carbon;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
-use App\Exceptions\NotEnoughPermissionException;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class SetPersonalDetails extends BaseService
 {
     private Employee $employee;
+
     private array $data;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -36,9 +35,7 @@ class SetPersonalDetails extends BaseService
     /**
      * Set the name and email address of an employee.
      *
-     * @param array $data
      * @throws NotEnoughPermissionException
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Models\Company\Employee;
 use App\Jobs\CalculateTimeOffBalance;
+use App\Models\Company\Employee;
+use Illuminate\Console\Command;
 
 class CalculateTimeOffBalanceForAllEmployees extends Command
 {

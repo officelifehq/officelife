@@ -2,13 +2,13 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
-use Illuminate\Validation\Rule;
 use App\Models\Company\ProjectLink;
 use App\Models\Company\ProjectMemberActivity;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 
 class CreateProjectLink extends BaseService
 {
@@ -20,8 +20,6 @@ class CreateProjectLink extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -44,9 +42,6 @@ class CreateProjectLink extends BaseService
 
     /**
      * Create a project link.
-     *
-     * @param array $data
-     * @return ProjectLink
      */
     public function execute(array $data): ProjectLink
     {

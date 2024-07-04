@@ -2,10 +2,10 @@
 
 namespace App\Models\Company;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ImportJob extends Model
 {
@@ -17,16 +17,22 @@ class ImportJob extends Model
      * Possible status of an import job.
      */
     const CREATED = 'created';
+
     const STARTED = 'started';
+
     const UPLOADED = 'uploaded';
+
     const IMPORTING = 'importing';
+
     const IMPORTED = 'imported';
+
     const FAILED = 'failed';
 
     /**
      * Possible skip reasons.
      */
     const INVALID_EMAIL = 'invalid_email';
+
     const EMAIL_ALREADY_TAKEN = 'email_already_taken';
 
     /**
@@ -48,9 +54,9 @@ class ImportJob extends Model
      *
      * @var array
      */
-    protected $dates = [
-        'import_started_at',
-        'import_ended_at',
+    protected $casts = [
+        'import_started_at' => 'datetime',
+        'import_ended_at' => 'datetime',
     ];
 
     /**

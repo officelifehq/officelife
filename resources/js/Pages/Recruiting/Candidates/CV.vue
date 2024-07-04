@@ -54,9 +54,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Information from '@/Pages/Recruiting/Candidates/Partials/Information';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Information from '@/Pages/Recruiting/Candidates/Partials/Information.vue';
 
 export default {
   components: {

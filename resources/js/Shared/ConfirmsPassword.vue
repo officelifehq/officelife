@@ -39,10 +39,10 @@
 </template>
 
 <script>
-import LoadingButton from './LoadingButton';
-import DialogModal from './DialogModal';
-import TextInput from './TextInput';
-import { useForm } from '@inertiajs/inertia-vue3';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import DialogModal from '@/Shared/DialogModal.vue';
+import TextInput from '@/Shared/TextInput.vue';
+import { useForm } from '@inertiajs/vue3';
 
 export default {
 

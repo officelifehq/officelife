@@ -2,18 +2,16 @@
 
 namespace Tests\Unit\ViewHelpers\Company;
 
-use Tests\TestCase;
-use App\Models\Company\Team;
+use App\Http\ViewHelpers\Company\CompanyQuestionViewHelper;
 use App\Models\Company\Answer;
 use App\Models\Company\Question;
+use App\Models\Company\Team;
 use GrahamCampbell\TestBenchCore\HelperTrait;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\CompanyQuestionViewHelper;
+use Tests\TestCase;
 
 class CompanyQuestionViewHelperTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_a_null_if_there_are_no_questions_in_the_company(): void

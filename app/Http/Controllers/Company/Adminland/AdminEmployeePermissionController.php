@@ -2,24 +2,21 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Company\Employee;
 use App\Services\Company\Adminland\Employee\ChangePermissionLevel;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AdminEmployeePermissionController extends Controller
 {
     /**
      * Show the Change permission view.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return mixed
      */
     public function show(Request $request, int $companyId, int $employeeId)
@@ -54,11 +51,6 @@ class AdminEmployeePermissionController extends Controller
 
     /**
      * Change permission.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $employeeId): JsonResponse
     {

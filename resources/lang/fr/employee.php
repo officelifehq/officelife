@@ -1,4 +1,5 @@
 <?php
+
 return [
     'menu_changelog' => 'Afficher l’historique',
     'account_locked' => 'Le profil de l’employé·e est verrouillé.',

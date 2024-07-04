@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Adminland\JobOpening;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\JobOpening;
+use App\Services\Company\Adminland\JobOpening\ToggleJobOpening;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\JobOpening\ToggleJobOpening;
+use Tests\TestCase;
 
 class ToggleJobOpeningTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_toggles_the_job_opening_as_administrator(): void
     {

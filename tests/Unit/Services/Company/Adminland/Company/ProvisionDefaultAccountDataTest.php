@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Company;
 
+use App\Models\Company\CompanyCalendar;
+use App\Models\Company\CompanyPTOPolicy;
+use App\Models\Company\ExpenseCategory;
+use App\Services\Company\Adminland\Company\ProvisionDefaultAccountData;
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Models\Company\CompanyCalendar;
-use App\Models\Company\ExpenseCategory;
-use App\Models\Company\CompanyPTOPolicy;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Company\ProvisionDefaultAccountData;
 
 class ProvisionDefaultAccountDataTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_populates_default_data_in_the_account(): void
     {

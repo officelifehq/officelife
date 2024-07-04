@@ -171,7 +171,7 @@
     </div>
 
     <!-- Image to trigger actions -->
-    <img loading="lazy" src="/img/common/triple-dots.svg" alt="triple dot symbol" class="absolute right-0 pointer actions-dots" @click="actionsModal = true" />
+    <img loading="lazy" :src="'/img/common/triple-dots.svg'" alt="triple dot symbol" class="absolute right-0 pointer actions-dots" @click="actionsModal = true" />
 
     <!-- Actions available -->
     <div v-if="actionsModal" v-click-outside="toggleModals" class="popupmenu action-menu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
@@ -216,8 +216,9 @@
 
 <script>
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
-import IconDelete from '@/Shared/IconDelete';
+import IconDelete from '@/Shared/IconDelete.vue';
 import vClickOutside from 'click-outside-vue3';
+import _ from 'lodash';
 
 export default {
   components: {

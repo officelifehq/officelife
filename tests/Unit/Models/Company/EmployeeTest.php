@@ -2,53 +2,50 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Carbon\Carbon;
-use Tests\TestCase;
-use App\Models\Company\File;
-use App\Models\Company\Ship;
-use App\Models\Company\Task;
-use App\Models\Company\Team;
-use App\Models\Company\Group;
-use App\Models\Company\Place;
-use App\Models\Company\Skill;
-use App\Models\Company\Answer;
-use App\Models\Company\Morale;
-use App\Models\Company\Comment;
-use App\Models\Company\Expense;
-use App\Models\Company\Meeting;
-use App\Models\Company\Project;
-use App\Models\Company\Worklog;
-use App\Models\Company\Employee;
-use App\Models\Company\Hardware;
-use App\Models\Company\Software;
-use App\Models\Company\TeamNews;
-use App\Models\Company\Timesheet;
 use App\Models\Company\AgendaItem;
-use App\Models\Company\JobOpening;
+use App\Models\Company\Answer;
+use App\Models\Company\Comment;
 use App\Models\Company\CompanyNews;
-use App\Models\Company\EmployeeLog;
-use App\Models\Company\ProjectTask;
-use App\Models\Company\DirectReport;
-use App\Models\Company\Notification;
-use App\Models\Company\ProjectIssue;
-use App\Models\Company\WorkFromHome;
-use App\Models\Company\OneOnOneEntry;
-use App\Models\Company\ConsultantRate;
-use App\Models\Company\DisciplineCase;
-use App\Models\Company\ProjectDecision;
 use App\Models\Company\CompanyPTOPolicy;
-use App\Models\Company\GuessEmployeeGame;
-use App\Models\Company\RateYourManagerAnswer;
-use App\Models\Company\RateYourManagerSurvey;
+use App\Models\Company\ConsultantRate;
+use App\Models\Company\DirectReport;
+use App\Models\Company\DisciplineCase;
+use App\Models\Company\Employee;
+use App\Models\Company\EmployeeDailyCalendarEntry;
+use App\Models\Company\EmployeeLog;
 use App\Models\Company\EmployeePlannedHoliday;
 use App\Models\Company\EmployeePositionHistory;
-use App\Models\Company\EmployeeDailyCalendarEntry;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Expense;
+use App\Models\Company\File;
+use App\Models\Company\Group;
+use App\Models\Company\GuessEmployeeGame;
+use App\Models\Company\Hardware;
+use App\Models\Company\JobOpening;
+use App\Models\Company\Meeting;
+use App\Models\Company\Morale;
+use App\Models\Company\Notification;
+use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\Place;
+use App\Models\Company\Project;
+use App\Models\Company\ProjectDecision;
+use App\Models\Company\ProjectIssue;
+use App\Models\Company\ProjectTask;
+use App\Models\Company\RateYourManagerAnswer;
+use App\Models\Company\RateYourManagerSurvey;
+use App\Models\Company\Ship;
+use App\Models\Company\Skill;
+use App\Models\Company\Software;
+use App\Models\Company\Task;
+use App\Models\Company\Team;
+use App\Models\Company\TeamNews;
+use App\Models\Company\Timesheet;
+use App\Models\Company\WorkFromHome;
+use App\Models\Company\Worklog;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class EmployeeTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_user(): void
     {

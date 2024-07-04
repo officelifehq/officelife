@@ -2,18 +2,16 @@
 
 namespace App\Services\Company\Adminland\CompanyNews;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\CompanyNews;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class UpdateCompanyNews extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,10 +26,6 @@ class UpdateCompanyNews extends BaseService
 
     /**
      * Update a company news.
-     *
-     * @param array $data
-     *
-     * @return CompanyNews
      */
     public function execute(array $data): CompanyNews
     {

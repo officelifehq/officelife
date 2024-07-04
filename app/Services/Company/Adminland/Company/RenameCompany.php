@@ -2,10 +2,10 @@
 
 namespace App\Services\Company\Adminland\Company;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Company;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class RenameCompany extends BaseService
 {
@@ -15,8 +15,6 @@ class RenameCompany extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,10 +27,6 @@ class RenameCompany extends BaseService
 
     /**
      * Rename the company.
-     *
-     * @param array $data
-     *
-     * @return Company
      */
     public function execute(array $data): Company
     {
@@ -73,8 +67,6 @@ class RenameCompany extends BaseService
 
     /**
      * Add an audit log entry for this action.
-     *
-     * @param string $oldName
      */
     private function log(string $oldName): void
     {

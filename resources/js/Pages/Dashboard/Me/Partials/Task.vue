@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import Checkbox from '@/Shared/Checkbox';
+import Checkbox from '@/Shared/Checkbox.vue';
 
 export default {
   components: {

@@ -2,16 +2,14 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
-use App\Services\BaseService;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
+use App\Services\BaseService;
 
 class DestroyCandidateDuringApplicationProcess extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -24,9 +22,6 @@ class DestroyCandidateDuringApplicationProcess extends BaseService
 
     /**
      * Destroy a candidate.
-     *
-     * @param array $data
-     * @return bool
      */
     public function execute(array $data): bool
     {

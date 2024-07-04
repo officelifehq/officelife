@@ -2,24 +2,24 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
+use App\Exceptions\LabelAlreadyExistException;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectLabel;
 use App\Models\Company\ProjectMemberActivity;
-use App\Exceptions\LabelAlreadyExistException;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateProjectLabel extends BaseService
 {
     protected array $data;
+
     protected Project $project;
+
     protected ProjectLabel $projectLabel;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -33,9 +33,6 @@ class CreateProjectLabel extends BaseService
 
     /**
      * Create a project label.
-     *
-     * @param array $data
-     * @return ProjectLabel
      */
     public function execute(array $data): ProjectLabel
     {

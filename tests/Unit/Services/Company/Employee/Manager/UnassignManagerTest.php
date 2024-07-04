@@ -2,24 +2,21 @@
 
 namespace Tests\Unit\Services\Company\Employee\Manager;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
+use App\Jobs\CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Company;
-use App\Models\Company\Employee;
 use App\Models\Company\DirectReport;
+use App\Models\Company\Employee;
+use App\Services\Company\Employee\Manager\UnassignManager;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\Manager\UnassignManager;
-use App\Jobs\CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges;
+use Tests\TestCase;
 
 class UnassignManagerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_unassigns_a_manager_as_administrator(): void
     {

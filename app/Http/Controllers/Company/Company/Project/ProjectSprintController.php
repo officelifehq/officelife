@@ -2,23 +2,16 @@
 
 namespace App\Http\Controllers\Company\Company\Project;
 
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Project\ToggleProjectSprint;
 use App\Services\Company\Project\UpdateProjectIssuePosition;
+use Illuminate\Http\Request;
 
 class ProjectSprintController extends Controller
 {
     /**
      * Store the position of the issues in the sprint.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $boardId
-     * @param int $sprintId
-     * @param int $storyId
      */
     public function storePosition(Request $request, int $companyId, int $projectId, int $boardId, int $sprintId, int $storyId)
     {
@@ -43,12 +36,6 @@ class ProjectSprintController extends Controller
 
     /**
      * Collapse or expand the sprint for the user.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $boardId
-     * @param int $sprintId
      */
     public function toggle(Request $request, int $companyId, int $projectId, int $boardId, int $sprintId)
     {

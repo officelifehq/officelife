@@ -39,7 +39,9 @@ svg {
         <div v-for="company in companies" :key="company.id" class="pa3 flex items-center bb bb-gray bb-gray-hover companies-list">
           <img v-if="company.logo" :src="company.logo" class="mr3" :alt="company.name" />
           <div>
-            <inertia-link :href="company.url" class="mb2 dib f4 fw4">{{ company.name }}</inertia-link>
+            <Link :href="company.url" class="mb2 dib f4 fw4">
+              {{ company.name }}
+            </Link>
             <ul class="list pl0 ma0 f7 gray">
               <li v-if="company.location" class="di mr3 relative">
                 <svg xmlns="http://www.w3.org/2000/svg" class="mr1 relative" viewBox="0 0 20 20" fill="currentColor">
@@ -64,9 +66,7 @@ svg {
       <p class="tc measure center mb4 lh-copy">
         There are currently no job openings available.
       </p>
-      <img loading="lazy" class="db center mb4" alt="add a position symbol" srcset="/img/company/account/blank-position-1x.png,
-                                    /img/company/account/blank-position-2x.png 2x"
-      />
+      <img loading="lazy" class="db center mb4" alt="add a position symbol" :srcset="'/img/company/account/blank-position-1x.png, /img/company/account/blank-position-2x.png 2x'" />
     </div>
   </div>
 </template>

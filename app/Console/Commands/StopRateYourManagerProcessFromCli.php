@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Jobs\StopRateYourManagerProcess;
+use Illuminate\Console\Command;
 
 class StopRateYourManagerProcessFromCli extends Command
 {

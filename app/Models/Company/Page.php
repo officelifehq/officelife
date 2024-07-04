@@ -4,10 +4,10 @@ namespace App\Models\Company;
 
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Page extends Model
 {
@@ -59,11 +59,8 @@ class Page extends Model
      * Get the author (employee) who initially wrote the page.
      * If the author doesn't exist in the system anymore, we simply use the
      * name that was saved in the table instead.
-     *
-     * @param int $imageSize
-     * @return array|null
      */
-    public function getOriginalAuthor(int $imageSize = null): ?array
+    public function getOriginalAuthor(?int $imageSize = null): ?array
     {
         $firstRevision = $this->revisions()->with('employee')->first();
         if (! $firstRevision) {
@@ -94,11 +91,8 @@ class Page extends Model
 
     /**
      * Get the most recent editor (employee) of the page.
-     *
-     * @param int $imageSize
-     * @return array|null
      */
-    public function getMostRecentAuthor(int $imageSize = null): ?array
+    public function getMostRecentAuthor(?int $imageSize = null): ?array
     {
         $lastRevision = $this->revisions()->with('employee')->orderByDesc('id')->first();
         if (! $lastRevision) {

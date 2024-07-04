@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Services\Company\Adminland\File;
 
-use Tests\TestCase;
-use App\Models\Company\File;
-use App\Models\Company\Employee;
 use App\Exceptions\EnvVariablesNotSetException;
+use App\Models\Company\Employee;
+use App\Models\Company\File;
 use App\Services\Company\Adminland\File\UploadFile;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class UploadFileTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_file_object_as_administrator(): void
     {

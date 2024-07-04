@@ -2,23 +2,23 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
-use App\Models\Company\File;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
+use App\Models\Company\File;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectMemberActivity;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class AddFileToProject extends BaseService
 {
     protected array $data;
+
     protected Project $project;
+
     protected File $file;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -32,9 +32,6 @@ class AddFileToProject extends BaseService
 
     /**
      * Add the given file to the project.
-     *
-     * @param array $data
-     * @return File
      */
     public function execute(array $data): File
     {

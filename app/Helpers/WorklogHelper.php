@@ -2,24 +2,18 @@
 
 namespace App\Helpers;
 
-use Carbon\Carbon;
+use App\Models\Company\Employee;
 use App\Models\Company\Morale;
 use App\Models\Company\Worklog;
-use App\Models\Company\Employee;
+use Carbon\Carbon;
 
 class WorklogHelper
 {
     /**
      * Prepares an array containing all the information regarding the worklogs
      * logged on the given day, along with the morale (if logged).
-     *
-     * @param Carbon $date
-     * @param Worklog|null $worklog
-     * @param Morale|null $morale
-     * @param Employee $loggedEmployee
-     * @return array
      */
-    public static function getDailyInformationForEmployee(Carbon $date, Worklog $worklog = null, Morale $morale = null, Employee $loggedEmployee): array
+    public static function getDailyInformationForEmployee(Carbon $date, ?Worklog $worklog, ?Morale $morale, Employee $loggedEmployee): array
     {
         return [
             'date' => DateHelper::formatShortDateWithTime($date, $loggedEmployee->timezone),

@@ -2,24 +2,21 @@
 
 namespace Tests\Unit\Services\Company\Employee\Team;
 
-use Tests\TestCase;
-use App\Jobs\LogTeamAudit;
-use App\Jobs\NotifyEmployee;
-use App\Models\Company\Team;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
+use App\Jobs\LogTeamAudit;
+use App\Jobs\NotifyEmployee;
 use App\Models\Company\Employee;
+use App\Models\Company\Team;
+use App\Services\Company\Employee\Team\AddEmployeeToTeam;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\Team\AddEmployeeToTeam;
+use Tests\TestCase;
 
 class AddEmployeeToTeamTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_adds_an_employee_to_a_team_as_administrator(): void
     {

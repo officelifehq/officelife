@@ -11,10 +11,6 @@ class DashboardOneOnOneViewHelper
 {
     /**
      * Get the details of a one on one.
-     *
-     * @param OneOnOneEntry $entry
-     * @param Employee $employee
-     * @return array
      */
     public static function details(OneOnOneEntry $entry, Employee $employee): array
     {

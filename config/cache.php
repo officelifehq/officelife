@@ -116,7 +116,7 @@ if (env('APP_SECRETS')) {
             'weight' => 100,
         ]];
         if ($secrets['MEMCACHE']['COUNT'] > 1) {
-            $servers [] = [
+            $servers[] = [
                 'host' => $secrets['MEMCACHE']['HOST2'],
                 'port' => $secrets['MEMCACHE']['PORT2'],
                 'weight' => 100,
@@ -133,23 +133,23 @@ if (extension_loaded('memcached')) {
         \Memcached::OPT_REMOVE_FAILED_SERVERS => true,
 
         // ... retried after a short while (here: 2 seconds)
-        \Memcached::OPT_RETRY_TIMEOUT         => 2,
+        \Memcached::OPT_RETRY_TIMEOUT => 2,
 
         // KETAMA must be enabled so that replication can be used
-        \Memcached::OPT_LIBKETAMA_COMPATIBLE  => true,
+        \Memcached::OPT_LIBKETAMA_COMPATIBLE => true,
 
         // Replicate the data, write it to both memcached servers
-        \Memcached::OPT_NUMBER_OF_REPLICAS    => 1,
+        \Memcached::OPT_NUMBER_OF_REPLICAS => 1,
 
         // Those values assure that a dead (due to increased latency or
         // really unresponsive) memcached server is dropped fast
-        \Memcached::OPT_POLL_TIMEOUT          => $timeout_ms,        // milliseconds
-        \Memcached::OPT_SEND_TIMEOUT          => $timeout_ms * 1000, // microseconds
-        \Memcached::OPT_RECV_TIMEOUT          => $timeout_ms * 1000, // microseconds
-        \Memcached::OPT_CONNECT_TIMEOUT       => $timeout_ms,        // milliseconds
+        \Memcached::OPT_POLL_TIMEOUT => $timeout_ms,        // milliseconds
+        \Memcached::OPT_SEND_TIMEOUT => $timeout_ms * 1000, // microseconds
+        \Memcached::OPT_RECV_TIMEOUT => $timeout_ms * 1000, // microseconds
+        \Memcached::OPT_CONNECT_TIMEOUT => $timeout_ms,        // milliseconds
 
         // Further performance tuning
-        \Memcached::OPT_NO_BLOCK              => true,
+        \Memcached::OPT_NO_BLOCK => true,
     ];
     Arr::set($config, 'stores.memcached.options', $options);
 }

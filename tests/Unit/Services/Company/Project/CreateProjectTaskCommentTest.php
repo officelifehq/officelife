@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Comment;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectTask;
+use App\Services\Company\Project\CreateProjectTaskComment;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Project\CreateProjectTaskComment;
+use Tests\TestCase;
 
 class CreateProjectTaskCommentTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_adds_a_comment_to_a_task_as_administrator(): void
     {

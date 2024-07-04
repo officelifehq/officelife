@@ -2,11 +2,11 @@
 
 namespace App\Http\ViewHelpers\Employee;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\OneOnOneEntry;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as SupportCollection;
 
@@ -14,9 +14,6 @@ class EmployeeOneOnOneViewHelper
 {
     /**
      * Array containing the main statistics about the one on ones of this employee.
-     *
-     * @param Collection $entries
-     * @return array
      */
     public static function stats(Collection $entries): array
     {
@@ -44,11 +41,6 @@ class EmployeeOneOnOneViewHelper
 
     /**
      * Array containing all the one on ones done.
-     *
-     * @param Collection $oneOnOnes
-     * @param Employee $employee
-     * @param Employee $loggedEmployee
-     * @return SupportCollection
      */
     public static function list(Collection $oneOnOnes, Employee $employee, Employee $loggedEmployee): SupportCollection
     {
@@ -84,10 +76,6 @@ class EmployeeOneOnOneViewHelper
 
     /**
      * Get the details of a one on one.
-     *
-     * @param OneOnOneEntry $entry
-     * @param Employee $employee
-     * @return array
      */
     public static function details(OneOnOneEntry $entry, Employee $employee): array
     {

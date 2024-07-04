@@ -2,33 +2,30 @@
 
 namespace App\Http\Controllers\Company\Dashboard\Teams;
 
-use Carbon\Carbon;
-use Inertia\Inertia;
-use App\Models\Company\Team;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Jobs\UpdateDashboardPreference;
-use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\Worklog\DestroyWorklog;
 use App\Http\ViewHelpers\Dashboard\DashboardTeamViewHelper;
+use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
+use App\Jobs\UpdateDashboardPreference;
+use App\Models\Company\Employee;
+use App\Models\Company\Team;
+use App\Services\Company\Employee\Worklog\DestroyWorklog;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DashboardTeamController extends Controller
 {
     /**
      * Displays the Team page on the dashboard.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int|null $teamId
-     * @param mixed $requestedDate
+     * @param  mixed  $requestedDate
      * @return mixed
      */
-    public function index(Request $request, int $companyId, int $teamId = null, $requestedDate = null)
+    public function index(Request $request, int $companyId, ?int $teamId = null, $requestedDate = null)
     {
         if (! is_null($teamId)) {
             try {
@@ -138,11 +135,7 @@ class DashboardTeamController extends Controller
     /**
      * Displays the details of the worklogs for a given date.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param mixed $requestedDate
-     * @return JsonResponse
+     * @param  mixed  $requestedDate
      */
     public function worklogDetails(Request $request, int $companyId, int $teamId, $requestedDate): JsonResponse
     {
@@ -162,13 +155,6 @@ class DashboardTeamController extends Controller
 
     /**
      * Delete the worklog.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $worklogId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function destroyWorkLog(Request $request, int $companyId, int $teamId, int $worklogId, int $employeeId): JsonResponse
     {

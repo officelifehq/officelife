@@ -2,10 +2,10 @@
 
 namespace App\Services\Company\Adminland\Company;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Company;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class UpdateCompanyFoundedDate extends BaseService
 {
@@ -15,8 +15,6 @@ class UpdateCompanyFoundedDate extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,9 +27,6 @@ class UpdateCompanyFoundedDate extends BaseService
 
     /**
      * Update the company's founded at date.
-     *
-     * @param array $data
-     * @return Company
      */
     public function execute(array $data): Company
     {

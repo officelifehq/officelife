@@ -2,31 +2,28 @@
 
 namespace App\Http\Controllers\Company\Company\Project;
 
-use Carbon\Carbon;
-use Inertia\Inertia;
-use Inertia\Response;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Project;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Project\AddEmployeeToProject;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
-use App\Services\Company\Project\RemoveEmployeeFromProject;
 use App\Http\ViewHelpers\Company\Project\ProjectMembersViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
+use App\Models\Company\Project;
+use App\Services\Company\Project\AddEmployeeToProject;
+use App\Services\Company\Project\RemoveEmployeeFromProject;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ProjectMembersController extends Controller
 {
     /**
      * Display the list of members in the project.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -47,12 +44,6 @@ class ProjectMembersController extends Controller
 
     /**
      * Returns all potential members, displayed in the Add member modal.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function search(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -75,12 +66,6 @@ class ProjectMembersController extends Controller
 
     /**
      * Add an employee to the project.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -118,13 +103,6 @@ class ProjectMembersController extends Controller
 
     /**
      * Remove an employee from the project.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $employeeId
-     *
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $projectId, int $employeeId): JsonResponse
     {

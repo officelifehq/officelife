@@ -2,28 +2,25 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\TestCase;
-use App\Models\Company\File;
-use App\Models\Company\Team;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
-use App\Models\Company\ProjectLink;
-use App\Models\Company\ProjectTask;
+use App\Models\Company\File;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectBoard;
+use App\Models\Company\ProjectDecision;
 use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectLabel;
+use App\Models\Company\ProjectLink;
+use App\Models\Company\ProjectMessage;
 use App\Models\Company\ProjectSprint;
 use App\Models\Company\ProjectStatus;
-use App\Models\Company\ProjectMessage;
-use App\Models\Company\ProjectDecision;
+use App\Models\Company\ProjectTask;
 use App\Models\Company\ProjectTaskList;
+use App\Models\Company\Team;
 use App\Models\Company\TimeTrackingEntry;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class ProjectTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_company(): void
     {

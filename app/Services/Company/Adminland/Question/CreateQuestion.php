@@ -2,18 +2,16 @@
 
 namespace App\Services\Company\Adminland\Question;
 
-use Carbon\Carbon;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Models\Company\Question;
 use App\Exceptions\NotEnoughPermissionException;
+use App\Jobs\LogAccountAudit;
+use App\Models\Company\Question;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateQuestion extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,11 +27,8 @@ class CreateQuestion extends BaseService
      * Create a question.
      * Only one question can be active at a time.
      *
-     * @param array $data
      *
      * @throws NotEnoughPermissionException
-     *
-     * @return Question
      */
     public function execute(array $data): Question
     {

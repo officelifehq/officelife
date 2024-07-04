@@ -3,11 +3,11 @@
 namespace App\Models\Company;
 
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Collection;
 
 class Company extends Model
 {
@@ -42,15 +42,7 @@ class Company extends Model
         'has_dummy_data' => 'boolean',
         'e_coffee_enabled' => 'boolean',
         'work_from_home_enabled' => 'boolean',
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'founded_at',
+        'founded_at' => 'datetime',
     ];
 
     /**
@@ -375,8 +367,6 @@ class Company extends Model
 
     /**
      * Return the PTO policy for the current year.
-     *
-     * @return object|null
      */
     public function getCurrentPTOPolicy(): ?object
     {
@@ -387,8 +377,6 @@ class Company extends Model
 
     /**
      * Get the list of managers in this company.
-     *
-     * @return Collection
      */
     public function getListOfManagers(): Collection
     {

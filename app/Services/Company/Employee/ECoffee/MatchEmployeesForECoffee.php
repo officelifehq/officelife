@@ -2,10 +2,10 @@
 
 namespace App\Services\Company\Employee\ECoffee;
 
-use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Employee;
+use App\Services\BaseService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -27,8 +27,6 @@ class MatchEmployeesForECoffee extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -45,8 +43,6 @@ class MatchEmployeesForECoffee extends BaseService
      * and with the power of collections, we'll match them, and eventually,
      * we'll save all the associations in one update query - making it really
      * fast and efficient.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

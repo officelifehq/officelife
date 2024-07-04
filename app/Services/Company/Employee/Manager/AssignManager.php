@@ -2,21 +2,19 @@
 
 namespace App\Services\Company\Employee\Manager;
 
-use Carbon\Carbon;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Employee;
-use App\Exceptions\SameIdsException;
-use App\Models\Company\DirectReport;
 use App\Exceptions\NotEnoughPermissionException;
+use App\Exceptions\SameIdsException;
+use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
+use App\Models\Company\DirectReport;
+use App\Models\Company\Employee;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class AssignManager extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -31,12 +29,9 @@ class AssignManager extends BaseService
     /**
      * Set an employee as being the manager of the given employee.
      *
-     * @param array $data
      *
      * @throws SameIdsException
      * @throws NotEnoughPermissionException
-     *
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

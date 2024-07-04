@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\Meeting;
 use App\Models\Company\AgendaItem;
+use App\Models\Company\Meeting;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AgendaItemFactory extends Factory

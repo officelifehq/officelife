@@ -3,8 +3,8 @@
 namespace Database\Factories\Company;
 
 use App\Models\Company\Company;
-use App\Models\Company\CompanyInvoice;
 use App\Models\Company\CompanyDailyUsageHistory;
+use App\Models\Company\CompanyInvoice;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CompanyInvoiceFactory extends Factory

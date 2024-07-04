@@ -2,13 +2,13 @@
 
 namespace App\Services\Company\Employee\OneOnOne;
 
-use Carbon\Carbon;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\OneOnOneEntry;
-use App\Models\Company\OneOnOneActionItem;
 use App\Exceptions\NotEnoughPermissionException;
+use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
+use App\Models\Company\OneOnOneActionItem;
+use App\Models\Company\OneOnOneEntry;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateOneOnOneActionItem extends BaseService
 {
@@ -20,8 +20,6 @@ class CreateOneOnOneActionItem extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,9 +33,6 @@ class CreateOneOnOneActionItem extends BaseService
 
     /**
      * Create a one on one action item for a one on one meeting.
-     *
-     * @param array $data
-     * @return OneOnOneActionItem
      */
     public function execute(array $data): OneOnOneActionItem
     {

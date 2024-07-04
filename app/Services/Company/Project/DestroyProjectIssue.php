@@ -2,27 +2,29 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
-use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectIssue;
-use App\Models\Company\ProjectSprint;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\ProjectSprint;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DestroyProjectIssue extends BaseService
 {
     protected array $data;
+
     protected Project $project;
+
     protected ProjectSprint $projectSprint;
+
     protected ProjectIssue $projectIssue;
+
     protected int $issuePosition;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -37,8 +39,6 @@ class DestroyProjectIssue extends BaseService
 
     /**
      * Delete the project issue.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

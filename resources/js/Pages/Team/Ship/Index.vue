@@ -27,7 +27,7 @@
 
           <!-- List of recent ships -->
           <div v-for="recentShip in ships" :key="recentShip.id" data-cy="recent-ships-list" class="flex justify-between ba bb-gray br3 bb-gray-hover pa3 mb3">
-            <p class="pa0 ma0 f4"><inertia-link :href="recentShip.url">{{ recentShip.title }}</inertia-link></p>
+            <p class="pa0 ma0 f4"><Link :href="recentShip.url">{{ recentShip.title }}</Link></p>
 
             <!-- list of employees -->
             <ul class="list ma0">
@@ -43,9 +43,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Avatar from '@/Shared/Avatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

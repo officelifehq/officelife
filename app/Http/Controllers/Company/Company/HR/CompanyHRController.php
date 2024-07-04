@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers\Company\Company\HR;
 
-use Inertia\Inertia;
-use Inertia\Response;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Company;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Company\CompanyViewHelper;
 use App\Http\ViewHelpers\Company\HR\CompanyHRViewHelper;
+use App\Models\Company\Company;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class CompanyHRController extends Controller
 {
     /**
      * Show the HR main page on the Company tab.
-     *
-     * @return Response
      */
     public function index(): Response
     {

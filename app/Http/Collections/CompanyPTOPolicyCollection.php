@@ -9,9 +9,7 @@ class CompanyPTOPolicyCollection
     /**
      * Prepare a collection of company news.
      *
-     * @param mixed $statuses
-     *
-     * @return Collection
+     * @param  mixed  $statuses
      */
     public static function prepare($statuses): Collection
     {

@@ -2,14 +2,11 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\ApiTestCase;
 use App\Models\Company\AuditLog;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\ApiTestCase;
 
 class AuditLogTest extends ApiTestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_company(): void
     {

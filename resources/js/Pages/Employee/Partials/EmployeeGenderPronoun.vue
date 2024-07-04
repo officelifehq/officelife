@@ -63,7 +63,7 @@
             <div v-if="isAssigned(pronoun.id)" class="pv2 ph3 bb bb-gray-hover bb-gray pointer relative" @click="reset(pronoun)">
               {{ pronoun.label }}
 
-              <img loading="lazy" src="/img/check.svg" class="pr1 absolute right-1" alt="check symbol" />
+              <img loading="lazy" :src="'/img/check.svg'" class="pr1 absolute right-1" alt="check symbol" />
             </div>
 
             <!-- case if the pronoun is not yet selected -->
@@ -102,6 +102,7 @@
 
 <script>
 import vClickOutside from 'click-outside-vue3';
+import _ from 'lodash';
 
 export default {
   directives: {

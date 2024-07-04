@@ -133,9 +133,9 @@
 </template>
 
 <script>
-import TextArea from '@/Shared/TextArea';
-import LoadingButton from '@/Shared/LoadingButton';
-import ProjectTaskCheckbox from '@/Pages/Company/Project/Tasks/Partials/ProjectTaskCheckbox';
+import TextArea from '@/Shared/TextArea.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import ProjectTaskCheckbox from '@/Pages/Company/Project/Tasks/Partials/ProjectTaskCheckbox.vue';
 
 export default {
   components: {

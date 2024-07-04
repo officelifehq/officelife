@@ -93,9 +93,9 @@
 </template>
 
 <script>
-import ActionSection from '@/Shared/Layout/ActionSection';
-import LoadingButton from '@/Shared/LoadingButton';
-import ConfirmsPassword from '@/Shared/ConfirmsPassword';
+import ActionSection from '@/Shared/Layout/ActionSection.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import ConfirmsPassword from '@/Shared/ConfirmsPassword.vue';
 
 export default {
   components: {

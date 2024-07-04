@@ -2,22 +2,22 @@
 
 namespace App\Services\Company\Wiki;
 
-use Carbon\Carbon;
+use App\Jobs\LogAccountAudit;
 use App\Models\Company\Page;
 use App\Models\Company\Wiki;
-use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyPage extends BaseService
 {
     protected array $data;
+
     protected Wiki $wiki;
+
     protected Page $page;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -31,8 +31,6 @@ class DestroyPage extends BaseService
 
     /**
      * Delete a page in a wiki.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

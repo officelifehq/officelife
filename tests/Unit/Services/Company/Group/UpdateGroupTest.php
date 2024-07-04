@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Group;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Group;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
-use App\Services\Company\Group\UpdateGroup;
-use Illuminate\Validation\ValidationException;
+use App\Models\Company\Group;
 use App\Services\Company\Group\RemoveGuestFromMeeting;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Group\UpdateGroup;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class UpdateGroupTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_the_details_of_the_group_as_administrator(): void
     {

@@ -42,12 +42,12 @@
         <!-- tabs -->
         <div class="cf mw7 center br3 mb5 tc">
           <div class="cf dib btn-group">
-            <inertia-link :href="data.url.unanswered_tab" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{ selected: tab === 'unanswered' }">
+            <Link :href="data.url.unanswered_tab" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{ selected: tab === 'unanswered' }">
               {{ $t('company.hr_ama_show_questions_tab_unanswered') }}
-            </inertia-link>
-            <inertia-link :href="data.url.answered_tab" class="f6 fl ph3 pv2 dib pointer" :class="{ selected : tab === 'answered' }">
+            </Link>
+            <Link :href="data.url.answered_tab" class="f6 fl ph3 pv2 dib pointer" :class="{ selected : tab === 'answered' }">
               {{ $t('company.hr_ama_show_questions_tab_answered') }}
-            </inertia-link>
+            </Link>
           </div>
         </div>
 
@@ -79,7 +79,7 @@
           <p class="mb4 lh-copy">
             {{ $t('company.hr_ama_show_questions_blank') }}
           </p>
-          <img loading="lazy" src="/img/streamline-icon-singer-record-14@400x400.png" alt="mic symbol" class="mr2" height="140"
+          <img loading="lazy" :src="'/img/streamline-icon-singer-record-14@400x400.png'" alt="mic symbol" class="mr2" height="140"
                width="140"
           />
         </div>
@@ -89,10 +89,10 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Help from '@/Shared/Help';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Help from '@/Shared/Help.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
 
 export default {
   components: {

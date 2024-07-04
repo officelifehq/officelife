@@ -2,30 +2,26 @@
 
 namespace App\Http\Controllers\Company\Company\KB;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use App\Models\Company\Wiki;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Wiki\CreateWiki;
-use App\Services\Company\Wiki\UpdateWiki;
-use App\Services\Company\Wiki\DestroyWiki;
 use App\Http\ViewHelpers\Company\CompanyViewHelper;
-use App\Http\ViewHelpers\Company\KB\WikiViewHelper;
 use App\Http\ViewHelpers\Company\KB\WikiShowViewHelper;
+use App\Http\ViewHelpers\Company\KB\WikiViewHelper;
+use App\Models\Company\Wiki;
+use App\Services\Company\Wiki\CreateWiki;
+use App\Services\Company\Wiki\DestroyWiki;
+use App\Services\Company\Wiki\UpdateWiki;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class KnowledgeBaseController extends Controller
 {
     /**
      * Display the list of wikis.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return Response
      */
     public function index(Request $request, int $companyId): Response
     {
@@ -42,10 +38,6 @@ class KnowledgeBaseController extends Controller
 
     /**
      * Show the Create wiki page.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return Response
      */
     public function create(Request $request, int $companyId): Response
     {
@@ -56,10 +48,6 @@ class KnowledgeBaseController extends Controller
 
     /**
      * Actually create the wiki.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {
@@ -87,9 +75,6 @@ class KnowledgeBaseController extends Controller
     /**
      * Display a wiki.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $wikiId
      * @return mixed
      */
     public function show(Request $request, int $companyId, int $wikiId)
@@ -112,9 +97,6 @@ class KnowledgeBaseController extends Controller
     /**
      * Show the Update wiki page.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $wikiId
      * @return mixed
      */
     public function edit(Request $request, int $companyId, int $wikiId)
@@ -136,11 +118,6 @@ class KnowledgeBaseController extends Controller
 
     /**
      * Update the wiki.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $wikiId
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $wikiId): JsonResponse
     {
@@ -168,11 +145,6 @@ class KnowledgeBaseController extends Controller
 
     /**
      * Delete the wiki.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $wikiId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $wikiId): JsonResponse
     {

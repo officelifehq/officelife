@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers\Company\Dashboard\Manager;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Company;
-use App\Models\Company\Expense;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Company\DirectReport;
-use App\Jobs\UpdateDashboardPreference;
-use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Dashboard\DashboardManagerViewHelper;
+use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
+use App\Jobs\UpdateDashboardPreference;
+use App\Models\Company\Company;
+use App\Models\Company\DirectReport;
+use App\Models\Company\Employee;
+use App\Models\Company\Expense;
 use App\Services\Company\Employee\Expense\AcceptExpenseAsManager;
 use App\Services\Company\Employee\Expense\RejectExpenseAsManager;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class DashboardManagerController extends Controller
 {
@@ -73,9 +73,7 @@ class DashboardManagerController extends Controller
 
     /**
      * Check that the current employee has access to this method.
-     * @param Company $company
-     * @param int $expenseId
-     * @param Employee $employee
+     *
      * @return mixed
      */
     private function canAccess(Company $company, int $expenseId, Employee $employee)
@@ -113,11 +111,6 @@ class DashboardManagerController extends Controller
 
     /**
      * Display the expense.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $expenseId
-     * @return Response
      */
     public function showExpense(Request $request, int $companyId, int $expenseId): Response
     {
@@ -137,11 +130,6 @@ class DashboardManagerController extends Controller
 
     /**
      * Accept the expense.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $expenseId
-     * @return JsonResponse
      */
     public function accept(Request $request, int $companyId, int $expenseId): JsonResponse
     {
@@ -165,11 +153,6 @@ class DashboardManagerController extends Controller
 
     /**
      * Reject the expense.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $expenseId
-     * @return JsonResponse
      */
     public function reject(Request $request, int $companyId, int $expenseId): JsonResponse
     {

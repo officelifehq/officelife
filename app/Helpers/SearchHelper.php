@@ -8,11 +8,6 @@ class SearchHelper
 {
     /**
      * Build a query based on the array that contains column names.
-     *
-     * @param array $array
-     * @param string $searchTerm
-     *
-     * @return string
      */
     public static function buildQuery(array $array, string $searchTerm): string
     {

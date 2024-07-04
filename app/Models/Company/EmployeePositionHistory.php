@@ -2,9 +2,9 @@
 
 namespace App\Models\Company;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class EmployeePositionHistory extends Model
 {
@@ -29,9 +29,9 @@ class EmployeePositionHistory extends Model
      *
      * @var array
      */
-    protected $dates = [
-        'started_at',
-        'ended_at',
+    protected $casts = [
+        'started_at' => 'datetime',
+        'ended_at' => 'datetime',
     ];
 
     /**

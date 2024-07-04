@@ -42,14 +42,16 @@
 
     <div class="cf mw7 center br3 mb3 bg-white box relative">
       <div class="flex items-center pa3">
-        <img loading="lazy" src="/img/streamline-icon-general-honor-3@100x100.png" width="100" alt="meeting" class="di-ns dn top-1 left-1 mr2" />
+        <img loading="lazy" :src="'/img/streamline-icon-general-honor-3@100x100.png'" width="100" alt="meeting" class="di-ns dn top-1 left-1 mr2" />
 
         <div class="mb4">
           <p class="pl0-ns pl3 pb2 pr3 mb2">
             {{ $t('dashboard.hr_discipline_cases_summary_blank') }}
           </p>
 
-          <inertia-link :href="data.url.index" class="btn w-auto-ns w-100 mr2 pv2 ph3 mr3">{{ $t('dashboard.view_all_cases') }}</inertia-link>
+          <Link :href="data.url.index" class="btn w-auto-ns w-100 mr2 pv2 ph3 mr3">
+            {{ $t('dashboard.view_all_cases') }}
+          </Link>
         </div>
       </div>
     </div>
@@ -57,7 +59,7 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

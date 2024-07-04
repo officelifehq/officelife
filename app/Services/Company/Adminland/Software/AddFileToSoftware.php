@@ -2,22 +2,22 @@
 
 namespace App\Services\Company\Adminland\Software;
 
-use Carbon\Carbon;
-use App\Models\Company\File;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
+use App\Models\Company\File;
 use App\Models\Company\Software;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class AddFileToSoftware extends BaseService
 {
     protected array $data;
+
     protected Software $software;
+
     protected File $file;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -31,9 +31,6 @@ class AddFileToSoftware extends BaseService
 
     /**
      * Add the given file to the software.
-     *
-     * @param array $data
-     * @return File
      */
     public function execute(array $data): File
     {

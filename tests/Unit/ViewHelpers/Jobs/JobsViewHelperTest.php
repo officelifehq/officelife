@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\ViewHelpers\Jobs;
 
-use Tests\TestCase;
+use App\Http\ViewHelpers\Jobs\JobsViewHelper;
 use App\Models\Company\Company;
 use App\Models\Company\JobOpening;
-use App\Http\ViewHelpers\Jobs\JobsViewHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class JobsViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_all_the_companies_with_open_job_openings_in_the_instance(): void
     {

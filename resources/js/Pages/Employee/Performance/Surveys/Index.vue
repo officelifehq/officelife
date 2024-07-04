@@ -34,7 +34,7 @@
 
         <div class="flex-ns justify-around dn">
           <div>
-            <img loading="lazy" class="db center mb4" alt="total of expenses" src="/img/streamline-icon-gift-balloons-1@60x60.png" />
+            <img loading="lazy" class="db center mb4" alt="total of expenses" :src="'/img/streamline-icon-gift-balloons-1@60x60.png'" />
           </div>
           <div>
             <p class="mt0 f3 mb2">{{ surveys.number_of_completed_surveys }}</p>
@@ -55,7 +55,7 @@
             <!-- date -->
             <div class="date">
               <span v-if="survey.active" class="db mb2 f3 fw3">{{ survey.month }}</span>
-              <span v-else class="db mb2"><inertia-link :href="survey.url" :data-cy="'survey-' + survey.id" class="f3 fw3">{{ survey.month }}</inertia-link></span>
+              <span v-else class="db mb2"><Link :href="survey.url" :data-cy="'survey-' + survey.id" class="f3 fw3">{{ survey.month }}</Link></span>
               <span v-if="survey.employees" class="gray f6">{{ $t('dashboard.manager_rate_manager_respondants', {respondants: survey.employees}) }}</span>
             </div>
 
@@ -82,9 +82,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Help from '@/Shared/Help';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

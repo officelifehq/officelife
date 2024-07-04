@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers\Company\Dashboard\Me;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
-use App\Helpers\MoneyHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
+use App\Helpers\MoneyHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Expense\CreateExpense;
+use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class DashboardMeExpenseController extends Controller
 {
     /**
      * Log an expense.
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function store(Request $request): JsonResponse
     {

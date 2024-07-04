@@ -8,13 +8,6 @@ class MapHelper
 {
     /**
      * Return the URL for a static image for the given place.
-     *
-     * @param Place $place
-     * @param int $width
-     * @param int $height
-     * @param int $zoom
-     *
-     * @return string|null
      */
     public static function getStaticImage(Place $place, int $width, int $height, int $zoom = 7): ?string
     {

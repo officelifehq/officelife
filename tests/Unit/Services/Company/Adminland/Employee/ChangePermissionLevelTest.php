@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Employee;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
+use App\Services\Company\Adminland\Employee\ChangePermissionLevel;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\Employee\ChangePermissionLevel;
+use Tests\TestCase;
 
 class ChangePermissionLevelTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_changes_permission_as_administrator(): void
     {

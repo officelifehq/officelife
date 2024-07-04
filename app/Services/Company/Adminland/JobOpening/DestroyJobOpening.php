@@ -2,17 +2,15 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\JobOpening;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyJobOpening extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -25,9 +23,6 @@ class DestroyJobOpening extends BaseService
 
     /**
      * Destroy a job opening.
-     *
-     * @param array $data
-     * @return bool
      */
     public function execute(array $data): bool
     {

@@ -42,7 +42,7 @@
     <div class="cf mw7 center br3 mb3 bg-white box pa3 relative">
       <!-- BLANK STATE -->
       <div v-if="expenses.length == 0" data-cy="expense-list-blank-state">
-        <img loading="lazy" class="db center mb4" alt="no expenses to validate" src="/img/streamline-icon-cheer-party-4@140x140.png" />
+        <img loading="lazy" class="db center mb4" alt="no expenses to validate" :src="'/img/streamline-icon-cheer-party-4@140x140.png'" />
 
         <p class="fw5 mt3 tc">{{ $t('dashboard.manager_expense_blank_state') }}</p>
       </div>
@@ -68,7 +68,7 @@
 
             <div class="dt-row-ns">
               <div class="dtc-ns db mb3 mb0-ns">
-                <inertia-link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</inertia-link>
+                <Link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</Link>
                 <ul class="f7 fw3 grey list pl0">
                   <li class="mr2 di">{{ expense.expensed_at }}</li>
                   <li v-if="expense.category" class="di">{{ expense.category }}</li>
@@ -90,8 +90,8 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import Help from '@/Shared/Help.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
 
 export default {
   components: {

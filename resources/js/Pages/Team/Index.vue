@@ -14,7 +14,9 @@
         <!-- list of teams -->
         <div v-for="team in teams" v-show="teams.length > 0" :key="team.id" class="bg-white box mb4 pa3">
           <div class="mb2">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id" class="mr1">{{ team.name }}</inertia-link>
+            <Link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id" class="mr1">
+              {{ team.name }}
+            </Link>
             <span class="f7">
               ({{ $tc('team.index_count', team.employees.length, { count: team.employees.length}) }})
             </span>
@@ -37,7 +39,7 @@
             {{ $t('team.team_list_blank') }}
           </p>
 
-          <img loading="lazy" height="140" class="db center mb4" alt="no teams in account" src="/img/streamline-icon-designer-team-6@140x140.png" />
+          <img loading="lazy" height="140" class="db center mb4" alt="no teams in account" :src="'/img/streamline-icon-designer-team-6@140x140.png'" />
         </div>
       </div>
     </div>
@@ -45,9 +47,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Avatar from '@/Shared/Avatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

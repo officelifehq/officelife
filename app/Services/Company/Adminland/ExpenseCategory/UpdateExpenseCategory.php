@@ -2,17 +2,15 @@
 
 namespace App\Services\Company\Adminland\ExpenseCategory;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\ExpenseCategory;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class UpdateExpenseCategory extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -26,10 +24,6 @@ class UpdateExpenseCategory extends BaseService
 
     /**
      * Update an expense category.
-     *
-     * @param array $data
-     *
-     * @return ExpenseCategory
      */
     public function execute(array $data): ExpenseCategory
     {

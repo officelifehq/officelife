@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Company;
 
-use Tests\TestCase;
 use App\Models\Company\Company;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Company\UpdateCompanySlug;
+use Tests\TestCase;
 
 class UpdateCompanySlugTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_a_slug(): void
     {

@@ -8,10 +8,6 @@ class SQLHelper
 {
     /**
      * Performs a concatenation in SQL.
-     *
-     * @param string $firstParam
-     * @param string $secondParam
-     * @return string
      */
     public static function concat(string $firstParam, string $secondParam): string
     {
@@ -37,9 +33,6 @@ class SQLHelper
 
     /**
      * Extract the year.
-     *
-     * @param string $dateColumnName
-     * @return string
      */
     public static function year(string $dateColumnName): string
     {
@@ -65,9 +58,6 @@ class SQLHelper
 
     /**
      * Extract the month.
-     *
-     * @param string $dateColumnName
-     * @return string
      */
     public static function month(string $dateColumnName): string
     {

@@ -32,107 +32,107 @@
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   🤖
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employees'" data-cy="employee-admin-link">
+                </span> <Link :href="'/' + $page.props.auth.company.id + '/account/employees'" data-cy="employee-admin-link">
                   {{ $t('account.home_manage_employees') }}
-                </inertia-link>
+                </Link>
               </div>
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   💂‍♀
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/positions'" data-cy="position-admin-link">
+                </span> <Link :href="'/' + $page.props.auth.company.id + '/account/positions'" data-cy="position-admin-link">
                   {{ $t('account.home_manage_positions') }}
-                </inertia-link>
+                </Link>
               </div>
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   👯‍♀️
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/teams'" data-cy="team-admin-link">
+                </span> <Link :href="'/' + $page.props.auth.company.id + '/account/teams'" data-cy="team-admin-link">
                   {{ $t('account.home_manage_teams') }}
-                </inertia-link>
+                </Link>
               </div>
               <!-- <div class="pa2 pl0 relative">
                 <span class="mr1">
                   🏄‍♂️
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/flows'" data-cy="flow-admin-link">
+                </span> <Link :href="'/' + $page.props.auth.company.id + '/account/flows'" data-cy="flow-admin-link">
                   {{ $t('account.home_manage_flows') }}
-                </inertia-link>
+                </Link>
               </div> -->
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   ⛑
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employeestatuses'" data-cy="employee-statuses-admin-link">
+                </span> <Link :href="'/' + $page.props.auth.company.id + '/account/employeestatuses'" data-cy="employee-statuses-admin-link">
                   {{ $t('account.home_manage_employee_statuses') }}
-                </inertia-link>
+                </Link>
               </div>
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   📇
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/news'" data-cy="news-admin-link">
+                </span> <Link :href="'/' + $page.props.auth.company.id + '/account/news'" data-cy="news-admin-link">
                   {{ $t('account.home_company_news') }}
-                </inertia-link>
+                </Link>
               </div>
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   🥷
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/recruitment'" data-cy="news-admin-link">
+                </span> <Link :href="'/' + $page.props.auth.company.id + '/account/recruitment'" data-cy="news-admin-link">
                   {{ $t('account.home_manage_recruitment') }}
-                </inertia-link>
+                </Link>
               </div>
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   🎲
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/project'">
+                </span> <Link :href="'/' + $page.props.auth.company.id + '/account/project'">
                   {{ $t('account.home_manage_project') }}
-                </inertia-link>
+                </Link>
               </div>
             </div>
             <div class="ph3">
               <!-- <div class="pa2 pl0 relative">
-                <span class="mr1">🌴</span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/ptopolicies'" data-cy="pto-policies-admin-link">
+                <span class="mr1">🌴</span> <Link :href="'/' + $page.props.auth.company.id + '/account/ptopolicies'" data-cy="pto-policies-admin-link">
                   {{ $t('account.home_manage_pto') }}
-                </inertia-link>
+                </Link>
               </div> -->
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   🌈
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/questions'" data-cy="questions-admin-link">
+                </span> <Link :href="'/' + $page.props.auth.company.id + '/account/questions'" data-cy="questions-admin-link">
                   {{ $t('account.home_manage_questions') }}
-                </inertia-link>
+                </Link>
               </div>
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   💾
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/softwares'" data-cy="software-admin-link">
+                </span> <Link :href="'/' + $page.props.auth.company.id + '/account/softwares'" data-cy="software-admin-link">
                   {{ $t('account.home_manage_software') }}
-                </inertia-link>
+                </Link>
               </div>
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   💻
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/hardware'" data-cy="hardware-admin-link">
+                </span> <Link :href="'/' + $page.props.auth.company.id + '/account/hardware'" data-cy="hardware-admin-link">
                   {{ $t('account.home_manage_hardware') }}
-                </inertia-link>
+                </Link>
               </div>
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   💵
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/expenses'" data-cy="expenses-admin-link">
+                </span> <Link :href="'/' + $page.props.auth.company.id + '/account/expenses'" data-cy="expenses-admin-link">
                   {{ $t('account.home_manage_expenses') }}
-                </inertia-link>
+                </Link>
               </div>
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   ☕️
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/ecoffee'">
+                </span> <Link :href="'/' + $page.props.auth.company.id + '/account/ecoffee'">
                   {{ $t('account.home_manage_ecoffee') }}
-                </inertia-link>
+                </Link>
               </div>
               <div class="pa2 pl0 relative">
                 <span class="mr1">
                   🏡
-                </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/workFromHome'">
+                </span> <Link :href="'/' + $page.props.auth.company.id + '/account/workFromHome'">
                   {{ $t('account.home_manage_work_from_home') }}
-                </inertia-link>
+                </Link>
               </div>
             </div>
           </div>
@@ -145,32 +145,32 @@
                 <div class="pa2 pl0 relative">
                   <span class="mr1">
                     ⚙️
-                  </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/general'" data-cy="general-admin-link">
+                  </span> <Link :href="'/' + $page.props.auth.company.id + '/account/general'" data-cy="general-admin-link">
                     {{ $t('account.home_general_settings') }}
-                  </inertia-link>
+                  </Link>
                 </div>
                 <div class="pa2 pl0 relative">
                   <span class="mr1">
                     📡
-                  </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/audit'" data-cy="audit-admin-link">
+                  </span> <Link :href="'/' + $page.props.auth.company.id + '/account/audit'" data-cy="audit-admin-link">
                     {{ $t('account.home_audit_log') }}
-                  </inertia-link>
+                  </Link>
                 </div>
               </div>
               <div class="ph3 relative">
                 <div v-if="paidPlanEnabled" class="pa2 pl0 relative">
                   <span class="mr1">
                     💸
-                  </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/billing'">
+                  </span> <Link :href="'/' + $page.props.auth.company.id + '/account/billing'">
                     {{ $t('account.home_account_usage') }}
-                  </inertia-link>
+                  </Link>
                 </div>
                 <div class="pa2 pl0 relative">
                   <span class="mr1">
                     🗑
-                  </span> <inertia-link :href="'/' + $page.props.auth.company.id + '/account/cancel'" data-cy="audit-cancel-link">
+                  </span> <Link :href="'/' + $page.props.auth.company.id + '/account/cancel'" data-cy="audit-cancel-link">
                     {{ $t('account.home_cancel_account') }}
-                  </inertia-link>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -182,8 +182,8 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
 
 export default {
   components: {

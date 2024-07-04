@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectLink;
+use App\Services\Company\Project\DestroyProjectLink;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Project\DestroyProjectLink;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class DestroyProjectLinkTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_a_link_to_a_project_as_administrator(): void
     {

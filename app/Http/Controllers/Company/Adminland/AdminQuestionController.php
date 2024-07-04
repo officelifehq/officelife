@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
+use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
+use App\Http\Collections\QuestionCollection;
+use App\Http\Controllers\Controller;
+use App\Services\Company\Adminland\Question\ActivateQuestion;
+use App\Services\Company\Adminland\Question\CreateQuestion;
+use App\Services\Company\Adminland\Question\DeactivateQuestion;
+use App\Services\Company\Adminland\Question\DestroyQuestion;
+use App\Services\Company\Adminland\Question\UpdateQuestion;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Http\Request;
-use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
-use App\Helpers\NotificationHelper;
-use App\Http\Controllers\Controller;
-use App\Http\Collections\QuestionCollection;
-use App\Services\Company\Adminland\Question\CreateQuestion;
-use App\Services\Company\Adminland\Question\UpdateQuestion;
-use App\Services\Company\Adminland\Question\DestroyQuestion;
-use App\Services\Company\Adminland\Question\ActivateQuestion;
-use App\Services\Company\Adminland\Question\DeactivateQuestion;
 
 class AdminQuestionController extends Controller
 {
     /**
      * Show the list of questions.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -38,10 +36,6 @@ class AdminQuestionController extends Controller
 
     /**
      * Create the question.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {
@@ -64,11 +58,6 @@ class AdminQuestionController extends Controller
 
     /**
      * Update the question.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $questionId
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $questionId): JsonResponse
     {
@@ -91,11 +80,6 @@ class AdminQuestionController extends Controller
 
     /**
      * Delete the question.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $questionId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $questionId): JsonResponse
     {
@@ -116,11 +100,6 @@ class AdminQuestionController extends Controller
 
     /**
      * Activate the question.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $questionId
-     * @return JsonResponse
      */
     public function activate(Request $request, int $companyId, int $questionId): JsonResponse
     {
@@ -145,11 +124,6 @@ class AdminQuestionController extends Controller
 
     /**
      * Deactivate the question.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $questionId
-     * @return JsonResponse
      */
     public function deactivate(Request $request, int $companyId, int $questionId): JsonResponse
     {

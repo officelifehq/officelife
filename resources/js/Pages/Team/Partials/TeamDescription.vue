@@ -52,9 +52,9 @@
 </template>
 
 <script>
-import TextArea from '@/Shared/TextArea';
-import LoadingButton from '@/Shared/LoadingButton';
-import Errors from '@/Shared/Errors';
+import TextArea from '@/Shared/TextArea.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Errors from '@/Shared/Errors.vue';
 
 export default {
   components: {

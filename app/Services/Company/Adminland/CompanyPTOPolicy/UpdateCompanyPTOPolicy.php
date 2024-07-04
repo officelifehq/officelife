@@ -2,20 +2,18 @@
 
 namespace App\Services\Company\Adminland\CompanyPTOPolicy;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\CompanyCalendar;
 use App\Models\Company\CompanyPTOPolicy;
+use App\Services\BaseService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UpdateCompanyPTOPolicy extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -32,10 +30,6 @@ class UpdateCompanyPTOPolicy extends BaseService
 
     /**
      * Update a company PTO policy.
-     *
-     * @param array $data
-     *
-     * @return CompanyPTOPolicy
      */
     public function execute(array $data): CompanyPTOPolicy
     {
@@ -78,10 +72,6 @@ class UpdateCompanyPTOPolicy extends BaseService
 
     /**
      * Mark all the days as off for the given pto policy.
-     *
-     * @param array $data
-     *
-     * @return int
      */
     private function markDaysOff(array $data): int
     {

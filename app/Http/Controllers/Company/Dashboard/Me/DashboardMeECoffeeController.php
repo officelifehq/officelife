@@ -2,22 +2,16 @@
 
 namespace App\Http\Controllers\Company\Dashboard\Me;
 
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\ECoffee\MarkECoffeeSessionAsHappened;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class DashboardMeECoffeeController extends Controller
 {
     /**
      * Mark an e-coffee match as happened.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $eCoffeeId
-     * @param int $eCoffeeMatchId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $eCoffeeId, int $eCoffeeMatchId): JsonResponse
     {

@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers\Company\Dashboard\Me;
 
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Worklog\LogWorklog;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class DashboardWorklogController extends Controller
 {
     /**
      * Create a worklog.
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function store(Request $request): JsonResponse
     {

@@ -4,6 +4,4 @@ namespace App\Exceptions;
 
 use Exception;
 
-class UserAlreadyInvitedException extends Exception
-{
-}
+class UserAlreadyInvitedException extends Exception {}

@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Employee\OneOnOne;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\OneOnOneEntry;
-use Illuminate\Support\Facades\Queue;
 use App\Models\Company\OneOnOneTalkingPoint;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\OneOnOne\DestroyOneOnOneTalkingPoint;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class DestroyOneOnOneTalkingPointTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_deletes_a_talking_point_as_administrator(): void
     {

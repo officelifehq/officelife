@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\ApiTestCase;
 use App\Models\Company\Company;
 use App\Models\Company\CompanyCalendar;
 use App\Models\Company\CompanyPTOPolicy;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\ApiTestCase;
 
 class CompanyPTOPolicyTest extends ApiTestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_company(): void
     {

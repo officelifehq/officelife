@@ -2,16 +2,16 @@
 
 namespace App\Services\Company\Employee\OneOnOne;
 
-use Carbon\Carbon;
+use App\Exceptions\NotEnoughPermissionException;
+use App\Exceptions\NotTheManagerException;
+use App\Exceptions\SameIdsException;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
-use App\Exceptions\SameIdsException;
 use App\Models\Company\OneOnOneEntry;
-use App\Exceptions\NotTheManagerException;
 use App\Models\Company\OneOnOneTalkingPoint;
-use App\Exceptions\NotEnoughPermissionException;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateOneOnOneEntry extends BaseService
 {
@@ -25,8 +25,6 @@ class CreateOneOnOneEntry extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -41,9 +39,6 @@ class CreateOneOnOneEntry extends BaseService
 
     /**
      * Create a one on one entry.
-     *
-     * @param array $data
-     * @return OneOnOneEntry
      */
     public function execute(array $data): OneOnOneEntry
     {

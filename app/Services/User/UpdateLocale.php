@@ -9,12 +9,11 @@ use Illuminate\Validation\Rule;
 class UpdateLocale extends BaseService
 {
     protected array $data;
+
     protected User $user;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -23,16 +22,13 @@ class UpdateLocale extends BaseService
             'locale' => [
                 'required',
                 'string',
-                Rule::in(config('lang-detector.languages')),
+                Rule::in(['en', 'fr']),
             ],
         ];
     }
 
     /**
      * Update the user locale.
-     *
-     * @param array $data
-     * @return User
      */
     public function execute(array $data): User
     {

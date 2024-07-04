@@ -70,7 +70,7 @@
         </div>
       </div>
 
-      <img loading="lazy" src="/img/streamline-icon-singer-record-14@400x400.png" alt="mic symbol" class="mr2 absolute top-1 right-1" height="80"
+      <img loading="lazy" :src="'/img/streamline-icon-singer-record-14@400x400.png'" alt="mic symbol" class="mr2 absolute top-1 right-1" height="80"
            width="80"
       />
     </div>
@@ -78,11 +78,11 @@
 </template>
 
 <script>
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import TextArea from '@/Shared/TextArea';
-import Help from '@/Shared/Help';
-import Checkbox from '@/Shared/Checkbox';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import TextArea from '@/Shared/TextArea.vue';
+import Help from '@/Shared/Help.vue';
+import Checkbox from '@/Shared/Checkbox.vue';
 
 export default {
   components: {

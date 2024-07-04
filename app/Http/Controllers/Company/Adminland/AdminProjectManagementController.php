@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Project\CreateIssueType;
-use App\Services\Company\Project\UpdateIssueType;
-use App\Services\Company\Project\DestroyIssueType;
 use App\Http\ViewHelpers\Adminland\AdminProjectManagementViewHelper;
+use App\Services\Company\Project\CreateIssueType;
+use App\Services\Company\Project\DestroyIssueType;
+use App\Services\Company\Project\UpdateIssueType;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminProjectManagementController extends Controller
 {
     /**
      * Show the project management page.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -34,10 +32,6 @@ class AdminProjectManagementController extends Controller
 
     /**
      * Create the issue type.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {
@@ -74,11 +68,6 @@ class AdminProjectManagementController extends Controller
 
     /**
      * Update the issue typpe.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $issueTypeId
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $issueTypeId): JsonResponse
     {
@@ -116,11 +105,6 @@ class AdminProjectManagementController extends Controller
 
     /**
      * Delete the issue type.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $issueTypeId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $issueTypeId): JsonResponse
     {

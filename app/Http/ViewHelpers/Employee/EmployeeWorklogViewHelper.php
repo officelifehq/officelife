@@ -2,8 +2,8 @@
 
 namespace App\Http\ViewHelpers\Employee;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
+use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Collection;
 
@@ -12,11 +12,6 @@ class EmployeeWorklogViewHelper
     /**
      * Prepare a yearly calendar containing all the days in a year along with the
      * information whether the employee has a worklog for that day or not.
-     *
-     * @param Collection $worklogs
-     * @param int $year
-     *
-     * @return Collection
      */
     public static function dataForYearlyCalendar(Collection $worklogs, int $year): Collection
     {
@@ -51,10 +46,6 @@ class EmployeeWorklogViewHelper
     /**
      * Get a collection representing all the years the employee has logged a
      * worklog for.
-     *
-     * @param Collection $worklogs
-     *
-     * @return Collection
      */
     public static function yearsWithEntries(Collection $worklogs): Collection
     {
@@ -75,11 +66,6 @@ class EmployeeWorklogViewHelper
     /**
      * Get a collection representing all the months the employee has logged a
      * worklog for, for a given year.
-     *
-     * @param Collection $worklogs
-     * @param int $year
-     *
-     * @return Collection
      */
     public static function monthsWithEntries(Collection $worklogs, int $year): Collection
     {

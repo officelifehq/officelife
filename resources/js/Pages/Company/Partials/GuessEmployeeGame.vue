@@ -72,7 +72,7 @@
         <p v-else class="f6 gray mt0"><span class="mr1">👎</span> {{ $t('company.guess_employee_game_failure') }}</p>
 
         <!-- name of the employee -->
-        <p class="mb1"><inertia-link :href="result.url">{{ result.name }}</inertia-link></p>
+        <p class="mb1"><Link :href="result.url">{{ result.name }}</Link></p>
         <p v-if="result.position" class="f7 gray mt0">{{ result.position }}</p>
 
         <!-- replay button -->
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import Avatar from '@/Shared/Avatar';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

@@ -43,7 +43,7 @@
       </li>
       <li v-show="notifications == 0" class="pv2 ph3 bb bb-gray lh-copy">{{ $t('app.notification_blank_state') }} 🎉</li>
       <li class="pv2 ph3 f6 tc">
-        <inertia-link :href="'/' + $page.props.auth.company.id + '/notifications'">{{ $t('app.notification_view_all') }}</inertia-link>
+        <Link :href="'/' + $page.props.auth.company.id + '/notifications'">{{ $t('app.notification_view_all') }}</Link>
       </li>
     </ul>
   </div>

@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\Company;
 use App\Models\Company\AskMeAnythingSession;
+use App\Models\Company\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AskMeAnythingSessionFactory extends Factory

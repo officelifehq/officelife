@@ -2,10 +2,10 @@
 
 namespace App\Services\Company\Adminland\Company;
 
-use App\Services\BaseService;
-use App\Models\Company\Company;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\Company\SendAccountCancellationToAdministratorMail;
+use App\Models\Company\Company;
+use App\Services\BaseService;
+use Illuminate\Support\Facades\Mail;
 
 class DestroyCompany extends BaseService
 {
@@ -15,8 +15,6 @@ class DestroyCompany extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,8 +26,6 @@ class DestroyCompany extends BaseService
 
     /**
      * Destroy the company.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

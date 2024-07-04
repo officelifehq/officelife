@@ -58,7 +58,7 @@
           </h2>
 
           <ul class="list pb3 pr3 pl3 mb2 mt0 f6">
-            <li class="di mr3"><inertia-link :href="'/' + $page.props.auth.company.id + '/account/softwares/' + software.id + '/edit'">{{ $t('app.edit') }}</inertia-link></li>
+            <li class="di mr3"><Link :href="'/' + $page.props.auth.company.id + '/account/softwares/' + software.id + '/edit'">{{ $t('app.edit') }}</Link></li>
 
             <!-- DELETE AN ITEM -->
             <li v-if="deleteSoftware" class="di">
@@ -333,14 +333,15 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import TextInput from '@/Shared/TextInput';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import TextInput from '@/Shared/TextInput.vue';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
-import LoadingButton from '@/Shared/LoadingButton';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
-import Uploadcare from 'uploadcare-vue/src/Uploadcare.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
+import Uploadcare from '@/Shared/Uploadcare.vue';
+import _ from 'lodash';
 
 export default {
   components: {

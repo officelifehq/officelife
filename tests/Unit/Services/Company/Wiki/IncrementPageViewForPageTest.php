@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\Services\Company\Wiki;
 
-use Tests\TestCase;
-use App\Models\Company\Page;
 use App\Models\Company\Employee;
+use App\Models\Company\Page;
+use App\Services\Company\Wiki\IncrementPageViewForPage;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Wiki\IncrementPageViewForPage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class IncrementPageViewForPageTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_increments_the_page_view_on_a_page_as_admin(): void
     {

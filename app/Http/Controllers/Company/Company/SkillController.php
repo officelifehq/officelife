@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers\Company\Company;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
-use App\Models\Company\Skill;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Company;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Employee\Skill\UpdateSkill;
-use App\Services\Company\Employee\Skill\DestroySkill;
 use App\Http\ViewHelpers\Company\CompanySkillViewHelper;
+use App\Models\Company\Company;
+use App\Models\Company\Skill;
+use App\Services\Company\Employee\Skill\DestroySkill;
+use App\Services\Company\Employee\Skill\UpdateSkill;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class SkillController extends Controller
 {
     /**
      * All the skills in the company, for public use.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -38,9 +36,6 @@ class SkillController extends Controller
     /**
      * Get the detail of a given skill.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $skillId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -67,12 +62,6 @@ class SkillController extends Controller
 
     /**
      * Update the skill.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $skillId
-     *
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $skillId): JsonResponse
     {
@@ -94,12 +83,6 @@ class SkillController extends Controller
 
     /**
      * Delete the skill.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $skillId
-     *
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $skillId): JsonResponse
     {

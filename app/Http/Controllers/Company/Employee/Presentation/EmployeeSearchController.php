@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Company\Employee\Presentation;
 
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Employee\EmployeeHierarchyViewHelper;
+use App\Models\Company\Employee;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class EmployeeSearchController extends Controller
 {
@@ -18,11 +18,6 @@ class EmployeeSearchController extends Controller
      * - the list should not contain the current employee
      * - the list should not contain the current managers of this employee
      * - the list should not contain the current direct reports of this employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function hierarchy(Request $request, int $companyId, int $employeeId): JsonResponse
     {

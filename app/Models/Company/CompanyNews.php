@@ -4,9 +4,9 @@ namespace App\Models\Company;
 
 use App\Helpers\DateHelper;
 use App\Helpers\StringHelper;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CompanyNews extends Model
 {
@@ -50,8 +50,6 @@ class CompanyNews extends Model
 
     /**
      * Transform the object to an array representing this object.
-     *
-     * @return array
      */
     public function toObject(): array
     {

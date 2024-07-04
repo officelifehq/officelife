@@ -2,12 +2,12 @@
 
 namespace App\Services\Company\Adminland\Employee;
 
-use Throwable;
-use App\Services\BaseService;
 use App\Models\Company\ImportJob;
-use App\Services\QueuableService;
-use App\Services\DispatchableService;
 use App\Models\Company\ImportJobReport;
+use App\Services\BaseService;
+use App\Services\DispatchableService;
+use App\Services\QueuableService;
+use Throwable;
 
 class ImportEmployeesFromTemporaryTable extends BaseService implements QueuableService
 {
@@ -15,15 +15,10 @@ class ImportEmployeesFromTemporaryTable extends BaseService implements QueuableS
 
     private array $data;
 
-    /**
-     * @var ImportJob|null
-     */
     private ?ImportJob $importJob = null;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -90,8 +85,6 @@ class ImportEmployeesFromTemporaryTable extends BaseService implements QueuableS
 
     /**
      * Handle a job failure.
-     *
-     * @param  \Throwable  $exception
      */
     public function failed(Throwable $exception): void
     {

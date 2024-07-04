@@ -2,13 +2,13 @@
 
 namespace App\Http\ViewHelpers\Employee;
 
-use Carbon\Carbon;
-use App\Helpers\SQLHelper;
 use App\Helpers\DateHelper;
+use App\Helpers\SQLHelper;
 use App\Helpers\TimeHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -16,11 +16,6 @@ class EmployeeTimesheetViewHelper
 {
     /**
      * Gets a collection of timesheets.
-     *
-     * @param Collection $timesheets
-     * @param Employee $employee
-     * @param Company $company
-     * @return array
      */
     public static function timesheets(Collection $timesheets, Employee $employee, Company $company): array
     {
@@ -65,10 +60,6 @@ class EmployeeTimesheetViewHelper
     /**
      * Get a collection representing all the years the employee has been
      * submitting a timesheet.
-     *
-     * @param Employee $employee
-     * @param Company $company
-     * @return Collection
      */
     public static function yearsWithTimesheets(Employee $employee, Company $company): Collection
     {
@@ -96,11 +87,6 @@ class EmployeeTimesheetViewHelper
     /**
      * Get a collection representing all the months the employee has a timesheet,
      * for a given year.
-     *
-     * @param Employee $employee
-     * @param Company $company
-     * @param int $year
-     * @return Collection
      */
     public static function monthsWithTimesheets(Employee $employee, Company $company, int $year): Collection
     {

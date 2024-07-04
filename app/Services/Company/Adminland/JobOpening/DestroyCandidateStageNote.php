@@ -2,29 +2,32 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
-use Carbon\Carbon;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
-use App\Models\Company\JobOpening;
 use App\Models\Company\CandidateStage;
 use App\Models\Company\CandidateStageNote;
-use App\Exceptions\NotEnoughPermissionException;
+use App\Models\Company\Employee;
+use App\Models\Company\JobOpening;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyCandidateStageNote extends BaseService
 {
     protected array $data;
+
     protected JobOpening $jobOpening;
+
     protected Candidate $candidate;
+
     protected Employee $participant;
+
     protected CandidateStage $candidateStage;
+
     protected CandidateStageNote $candidateStageNote;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -40,8 +43,6 @@ class DestroyCandidateStageNote extends BaseService
 
     /**
      * Remove a note from the candidate stage.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

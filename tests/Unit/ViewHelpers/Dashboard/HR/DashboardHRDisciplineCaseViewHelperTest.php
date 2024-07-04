@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard\HR;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Employee;
+use App\Http\ViewHelpers\Dashboard\HR\DashboardHRDisciplineCaseViewHelper;
 use App\Models\Company\DisciplineCase;
 use App\Models\Company\DisciplineEvent;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Dashboard\HR\DashboardHRDisciplineCaseViewHelper;
+use App\Models\Company\Employee;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class DashboardHRDisciplineCaseViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_an_array_about_the_opened_cases(): void
     {

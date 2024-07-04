@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\ApiTestCase;
-use App\Models\Company\Step;
 use App\Models\Company\Action;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Step;
+use Tests\ApiTestCase;
 
 class StepTest extends ApiTestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_flow(): void
     {

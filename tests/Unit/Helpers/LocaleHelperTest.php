@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Helpers;
 
-use Tests\TestCase;
-use App\Models\User\User;
 use App\Helpers\LocaleHelper;
+use App\Models\User\User;
 use Illuminate\Support\Facades\App;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class LocaleHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_returns_locale_english_by_default()
     {
@@ -68,9 +65,11 @@ class LocaleHelperTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider localeHelperGetLangProvider
-     * @param mixed $locale
-     * @param mixed $expect
+     *
+     * @param  mixed  $locale
+     * @param  mixed  $expect
      */
     public function it_return_languages($locale, $expect)
     {
@@ -82,7 +81,7 @@ class LocaleHelperTest extends TestCase
         );
     }
 
-    public function localeHelperGetLangProvider()
+    public static function localeHelperGetLangProvider()
     {
         return [
             ['en', 'en'],

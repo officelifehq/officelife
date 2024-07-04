@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Project;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectFilesViewHelper;
 use App\Models\Company\File;
 use App\Models\Company\Project;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Project\ProjectFilesViewHelper;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class ProjectFilesViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_files(): void
     {

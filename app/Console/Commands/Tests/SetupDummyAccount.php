@@ -2,181 +2,236 @@
 
 namespace App\Console\Commands\Tests;
 
-use Carbon\Carbon;
-use Carbon\CarbonImmutable;
-use Faker\Factory as Faker;
 use App\Jobs\LogTeamsMorale;
-use App\Models\Company\File;
-use App\Models\Company\Team;
-use App\Models\User\Pronoun;
+use App\Models\Company\AskMeAnythingSession;
 use App\Models\Company\Company;
-use App\Models\Company\Project;
-use Illuminate\Console\Command;
-use App\Models\Company\Employee;
-use App\Models\Company\Position;
-use App\Models\Company\Question;
-use Illuminate\Support\Facades\DB;
-use App\Models\Company\ECoffeeMatch;
-use App\Services\User\CreateAccount;
-use App\Models\Company\ProjectStatus;
+use App\Models\Company\CompanyDailyUsageHistory;
 use App\Models\Company\CompanyInvoice;
+use App\Models\Company\CompanyUsageHistoryDetails;
+use App\Models\Company\ECoffeeMatch;
+use App\Models\Company\Employee;
+use App\Models\Company\EmployeePositionHistory;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
-use App\Services\Company\Wiki\CreateWiki;
-use App\Services\Company\Team\SetTeamLead;
-use App\Services\Company\Group\CreateGroup;
-use App\Models\Company\AskMeAnythingSession;
-use App\Services\Company\Wiki\AddPageToWiki;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\Company\File;
+use App\Models\Company\Position;
+use App\Models\Company\Project;
+use App\Models\Company\ProjectStatus;
+use App\Models\Company\Question;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
-use App\Services\Company\Group\CreateMeeting;
-use App\Services\Company\Project\StartProject;
-use App\Services\Company\Team\Ship\CreateShip;
-use App\Models\Company\EmployeePositionHistory;
 use App\Models\Company\RecruitingStageTemplate;
-use App\Services\Company\Project\CreateProject;
-use App\Models\Company\CompanyDailyUsageHistory;
-use App\Services\Company\Group\CreateAgendaItem;
-use App\Services\Company\Group\UpdateMeetingDate;
-use Symfony\Component\Console\Helper\ProgressBar;
-use App\Models\Company\CompanyUsageHistoryDetails;
-use App\Services\Company\Adminland\Team\CreateTeam;
-use App\Services\Company\Employee\Morale\LogMorale;
-use App\Services\Company\Project\CreateProjectLink;
-use App\Services\Company\Project\CreateProjectTask;
-use App\Services\Company\Employee\Worklog\LogWorklog;
-use App\Services\Company\Group\CreateMeetingDecision;
-use App\Services\Company\Project\CreateProjectStatus;
-use App\Services\Company\Employee\Answer\CreateAnswer;
-use App\Services\Company\Project\AddEmployeeToProject;
-use App\Services\Company\Project\CreateProjectMessage;
-use App\Services\Company\Project\CreateProjectDecision;
-use App\Services\Company\Project\CreateProjectTaskList;
-use App\Services\Company\Employee\Expense\CreateExpense;
-use App\Services\Company\Employee\Manager\AssignManager;
+use App\Models\Company\Team;
+use App\Models\User\Pronoun;
+use App\Services\Company\Adminland\AskMeAnything\CreateAskMeAnythingQuestion;
+use App\Services\Company\Adminland\AskMeAnything\CreateAskMeAnythingSession;
+use App\Services\Company\Adminland\AskMeAnything\ToggleAskMeAnythingSession;
 use App\Services\Company\Adminland\Company\CreateCompany;
-use App\Services\Company\Adminland\Hardware\LendHardware;
-use App\Services\Company\Employee\Birthdate\SetBirthdate;
-use App\Services\Company\Employee\Team\AddEmployeeToTeam;
-use App\Services\Company\Project\MarkProjectMessageasRead;
+use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
+use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
+use App\Services\Company\Adminland\Expense\AllowEmployeeToManageExpenses;
 use App\Services\Company\Adminland\Hardware\CreateHardware;
+use App\Services\Company\Adminland\Hardware\LendHardware;
+use App\Services\Company\Adminland\JobOpening\CreateJobOpening;
+use App\Services\Company\Adminland\JobOpening\CreateRecruitingStage;
+use App\Services\Company\Adminland\JobOpening\CreateRecruitingStageTemplate;
+use App\Services\Company\Adminland\JobOpening\ToggleJobOpening;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Adminland\Software\CreateSoftware;
+use App\Services\Company\Adminland\Software\GiveSeatToEmployee;
+use App\Services\Company\Adminland\Team\CreateTeam;
+use App\Services\Company\Employee\Answer\CreateAnswer;
+use App\Services\Company\Employee\Birthdate\SetBirthdate;
+use App\Services\Company\Employee\Contract\SetContractRenewalDate;
+use App\Services\Company\Employee\Description\SetPersonalDescription;
+use App\Services\Company\Employee\ECoffee\MatchEmployeesForECoffee;
+use App\Services\Company\Employee\EmployeeStatus\AssignEmployeeStatusToEmployee;
+use App\Services\Company\Employee\Expense\CreateExpense;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
+use App\Services\Company\Employee\Manager\AssignManager;
+use App\Services\Company\Employee\Morale\LogMorale;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneTalkingPoint;
+use App\Services\Company\Employee\OneOnOne\MarkOneOnOneEntryAsHappened;
+use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneActionItem;
+use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneTalkingPoint;
+use App\Services\Company\Employee\Position\AssignPositionToEmployee;
+use App\Services\Company\Employee\Pronoun\AssignPronounToEmployee;
+use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
+use App\Services\Company\Employee\Team\AddEmployeeToTeam;
+use App\Services\Company\Employee\Timesheet\ApproveTimesheet;
+use App\Services\Company\Employee\Timesheet\CreateOrGetTimesheet;
+use App\Services\Company\Employee\Timesheet\CreateTimeTrackingEntry;
 use App\Services\Company\Employee\Timesheet\RejectTimesheet;
 use App\Services\Company\Employee\Timesheet\SubmitTimesheet;
-use App\Services\Company\Employee\Timesheet\ApproveTimesheet;
-use App\Services\Company\Project\AssignProjectTaskToEmployee;
-use App\Services\Company\Team\Description\SetTeamDescription;
-use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
-use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
-use App\Services\Company\Adminland\JobOpening\CreateJobOpening;
-use App\Services\Company\Adminland\JobOpening\ToggleJobOpening;
-use App\Services\Company\Adminland\Software\GiveSeatToEmployee;
-use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
-use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
-use App\Services\Company\Employee\Timesheet\CreateOrGetTimesheet;
-use App\Services\Company\Employee\Contract\SetContractRenewalDate;
-use App\Services\Company\Employee\Pronoun\AssignPronounToEmployee;
-use App\Services\Company\Employee\ECoffee\MatchEmployeesForECoffee;
-use App\Services\Company\Adminland\JobOpening\CreateRecruitingStage;
-use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
-use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneActionItem;
-use App\Services\Company\Employee\Position\AssignPositionToEmployee;
-use App\Services\Company\Employee\Timesheet\CreateTimeTrackingEntry;
-use App\Services\Company\Employee\Description\SetPersonalDescription;
-use App\Services\Company\Employee\OneOnOne\CreateOneOnOneTalkingPoint;
-use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneTalkingPoint;
-use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
-use App\Services\Company\Employee\OneOnOne\MarkOneOnOneEntryAsHappened;
-use App\Services\Company\Adminland\Expense\AllowEmployeeToManageExpenses;
-use App\Services\Company\Adminland\AskMeAnything\CreateAskMeAnythingSession;
-use App\Services\Company\Adminland\AskMeAnything\ToggleAskMeAnythingSession;
-use App\Services\Company\Adminland\JobOpening\CreateRecruitingStageTemplate;
-use App\Services\Company\Adminland\AskMeAnything\CreateAskMeAnythingQuestion;
 use App\Services\Company\Employee\WorkFromHome\UpdateWorkFromHomeInformation;
-use App\Services\Company\Employee\EmployeeStatus\AssignEmployeeStatusToEmployee;
+use App\Services\Company\Employee\Worklog\LogWorklog;
+use App\Services\Company\Group\CreateAgendaItem;
+use App\Services\Company\Group\CreateGroup;
+use App\Services\Company\Group\CreateMeeting;
+use App\Services\Company\Group\CreateMeetingDecision;
+use App\Services\Company\Group\UpdateMeetingDate;
+use App\Services\Company\Project\AddEmployeeToProject;
+use App\Services\Company\Project\AssignProjectTaskToEmployee;
+use App\Services\Company\Project\CreateProject;
+use App\Services\Company\Project\CreateProjectDecision;
+use App\Services\Company\Project\CreateProjectLink;
+use App\Services\Company\Project\CreateProjectMessage;
+use App\Services\Company\Project\CreateProjectStatus;
+use App\Services\Company\Project\CreateProjectTask;
+use App\Services\Company\Project\CreateProjectTaskList;
+use App\Services\Company\Project\MarkProjectMessageasRead;
+use App\Services\Company\Project\StartProject;
+use App\Services\Company\Team\Description\SetTeamDescription;
+use App\Services\Company\Team\SetTeamLead;
+use App\Services\Company\Team\Ship\CreateShip;
+use App\Services\Company\Wiki\AddPageToWiki;
+use App\Services\Company\Wiki\CreateWiki;
+use App\Services\User\CreateAccount;
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
+use Faker\Factory as Faker;
+use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class SetupDummyAccount extends Command
 {
     protected ProgressBar $progress;
+
     protected Company $company;
+
     protected Collection $employees;
+
     protected Collection $teams;
 
     // All the employees
     protected Employee $jan;
+
     protected Employee $michael;
+
     protected Employee $dwight;
+
     protected Employee $phyllis;
+
     protected Employee $jim;
+
     protected Employee $kelly;
+
     protected Employee $angela;
+
     protected Employee $oscar;
+
     protected Employee $dakota;
+
     protected Employee $toby;
+
     protected Employee $kevin;
+
     protected Employee $erin;
+
     protected Employee $pete;
+
     protected Employee $meredith;
+
     protected Employee $val;
+
     protected Employee $nate;
+
     protected Employee $glenn;
+
     protected Employee $philip;
+
     protected Employee $debra;
 
     // The employee statuses
     protected EmployeeStatus $employeeStatusPartTime;
+
     protected EmployeeStatus $employeeStatusFullTime;
+
     protected EmployeeStatus $employeeStatusConsultant;
 
     // Positions
     protected Position $positionRegionalManager;
+
     protected Position $positionAssistantToTheRegionalManager;
+
     protected Position $positionRegionalDirectorOfSales;
+
     protected Position $positionSalesRep;
+
     protected Position $positionTravelingSalesRepresentative;
+
     protected Position $positionSeniorAccountant;
+
     protected Position $positionHeadOfAccounting;
+
     protected Position $positionAccountant;
+
     protected Position $positionHRRep;
+
     protected Position $positionReceptionist;
+
     protected Position $positionCustomerServiceRepresentative;
+
     protected Position $positionSupplierRelationsRep;
+
     protected Position $positionQualityAssurance;
+
     protected Position $positionWarehouseForeman;
+
     protected Position $positionWarehouseStaff;
 
     // Teams
     protected Team $teamManagement;
+
     protected Team $teamSales;
+
     protected Team $teamAccounting;
+
     protected Team $teamHumanResources;
+
     protected Team $teamReception;
+
     protected Team $teamProductOversight;
+
     protected Team $teamWarehouse;
 
     // Pronouns
     protected Pronoun $pronounHeHim;
+
     protected Pronoun $pronounSheHer;
+
     protected Pronoun $pronounTheyThem;
 
     // Expense categories
     protected ExpenseCategory $expenseCategoryMaintenanceAndRepairs;
+
     protected ExpenseCategory $expenseCategoryMealsAndEntertainment;
+
     protected ExpenseCategory $expenseCategoryOfficeExpense;
+
     protected ExpenseCategory $expenseCategoryTravel;
+
     protected ExpenseCategory $expenseCategoryMotorVehicleExpenses;
 
     // Questions
     protected Question $questionWhatIsYourFavoriteAnimal;
+
     protected Question $questionWhatIsTheBestMovieYouHaveSeenThisYear;
+
     protected Question $questionCareToShareYourBestRestaurantInTown;
+
     protected Question $questionWhatIsYourFavoriteBand;
+
     protected Question $questionWhatAreTheCurrentHighlightsOfThisYearForYou;
+
     protected Question $questionDoYouHaveAnyPersonalGoalsThatYouWouldLikeToShareWithUsThisWeek;
+
     protected Question $questionWhatIsTheBestTVShowOfThisYearSoFar;
 
     // Projects
@@ -824,7 +879,7 @@ class SetupDummyAccount extends Command
         $this->employees = Employee::all();
     }
 
-    private function addSpecificDataToEmployee(Employee $employee, ?string $description, Pronoun $pronoun, Team $team, EmployeeStatus $status, Position $position, string $birthdate = null, Employee $manager = null, Team $leaderOfTeam = null): void
+    private function addSpecificDataToEmployee(Employee $employee, ?string $description, Pronoun $pronoun, Team $team, EmployeeStatus $status, Position $position, ?string $birthdate = null, ?Employee $manager = null, ?Team $leaderOfTeam = null): void
     {
         (new AddEmployeeToTeam)->execute([
             'company_id' => $this->company->id,
@@ -1067,11 +1122,13 @@ class SetupDummyAccount extends Command
             while (! $twoYearsAgo->isTomorrow()) {
                 if ($twoYearsAgo->isSaturday() || $twoYearsAgo->isSunday()) {
                     $twoYearsAgo->addDay();
+
                     continue;
                 }
 
                 if (rand(1, 3) != 1) {
                     $twoYearsAgo->addDay();
+
                     continue;
                 }
 
@@ -1272,11 +1329,13 @@ class SetupDummyAccount extends Command
         while (! $twoYearsAgo->isSameDay(Carbon::now())) {
             if ($twoYearsAgo->isSaturday() || $twoYearsAgo->isSunday()) {
                 $twoYearsAgo->addDay();
+
                 continue;
             }
 
             if (rand(1, 3) != 1 && $twoYearsAgo->diffInDays(Carbon::now()) >= 7) {
                 $twoYearsAgo->addDay();
+
                 continue;
             }
 

@@ -2,22 +2,22 @@
 
 namespace App\Services\Company\Wiki;
 
-use Carbon\Carbon;
+use App\Jobs\LogAccountAudit;
 use App\Models\Company\Page;
 use App\Models\Company\Wiki;
-use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use Carbon\Carbon;
 
 class UpdatePage extends BaseService
 {
     protected array $data;
+
     protected Wiki $wiki;
+
     protected Page $page;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -33,9 +33,6 @@ class UpdatePage extends BaseService
 
     /**
      * Edit a page in a wiki.
-     *
-     * @param array $data
-     * @return Page
      */
     public function execute(array $data): Page
     {

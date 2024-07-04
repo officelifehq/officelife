@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Wiki;
 
-use Tests\TestCase;
-use App\Models\Company\Page;
-use App\Models\Company\Wiki;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
+use App\Models\Company\Page;
+use App\Models\Company\Wiki;
 use App\Services\Company\Wiki\AddPageToWiki;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class AddPageToWikiTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_adds_a_page_to_a_wiki_as_administrator(): void
     {

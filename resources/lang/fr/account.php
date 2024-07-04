@@ -1,4 +1,5 @@
 <?php
+
 return [
     'home_title' => 'Administration de votre compte OfficeLife',
     'home_role_administrator' => 'En tant que <span class="fw5 brush-blue">représentant·e des ressources humaines</span>, vous pouvez…',

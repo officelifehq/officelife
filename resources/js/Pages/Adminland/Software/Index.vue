@@ -44,17 +44,17 @@
             <span class="dib mb3 di-l" :class="{ white: localSoftwares.length === 0 }">
               {{ $tc('account.software_index_count', localSoftwares.length, { company: $page.props.auth.company.name, count: localSoftwares.length}) }}
             </span>
-            <inertia-link :href="softwares.url_new" class="btn absolute-l relative dib-l db right-0">
+            <Link :href="softwares.url_new" class="btn absolute-l relative dib-l db right-0">
               {{ $t('account.software_index_cta') }}
-            </inertia-link>
+            </Link>
           </p>
 
           <!-- LIST OF EXISTING SOFTWARES -->
           <ul v-if="localSoftwares.length != 0" class="list pl0 mv0 center ba br2 bb-gray">
             <li v-for="software in localSoftwares" :key="software.id" class="pv3 ph3 bb bb-gray bb-gray-hover flex justify-between items-center software-item">
-              <inertia-link :href="software.url" class="di f4">
+              <Link :href="software.url" class="di f4">
                 {{ software.name }}
-              </inertia-link>
+              </Link>
               <div class="flex justify-between">
                 <div class="mr3">
                   <p class="ma0 f6 gray mb2">Total seats</p>
@@ -70,7 +70,7 @@
 
           <!-- BLANK STATE -->
           <div v-else class="tc">
-            <img loading="lazy" src="/img/streamline-icon-code-developer-1-3@140x140.png" alt="project symbol" height="140"
+            <img loading="lazy" :src="'/img/streamline-icon-code-developer-1-3@140x140.png'" alt="project symbol" height="140"
                  width="140"
             />
             <p class="mb3">
@@ -84,9 +84,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Help from '@/Shared/Help';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

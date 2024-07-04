@@ -2,13 +2,13 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectMemberActivity;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class UpdateProjectLead extends BaseService
 {
@@ -20,8 +20,6 @@ class UpdateProjectLead extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,9 +33,6 @@ class UpdateProjectLead extends BaseService
 
     /**
      * Update project lead.
-     *
-     * @param array $data
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

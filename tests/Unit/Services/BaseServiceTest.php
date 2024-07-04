@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services;
 
-use Carbon\Carbon;
-use Tests\TestCase;
-use App\Models\User\User;
-use App\Models\Company\Team;
-use App\Services\BaseService;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Team;
+use App\Models\User\User;
+use App\Services\BaseService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class BaseServiceTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_returns_an_empty_rule_array(): void
     {
@@ -37,8 +34,8 @@ class BaseServiceTest extends TestCase
         $stub = $this->getMockForAbstractClass(BaseService::class, [], '', true, true, true, ['rules']);
 
         $stub->expects($this->any())
-             ->method('rules')
-             ->will($this->returnValue($rules));
+            ->method('rules')
+            ->will($this->returnValue($rules));
 
         $this->assertTrue(
             $stub->validateRules([
@@ -57,8 +54,8 @@ class BaseServiceTest extends TestCase
         $stub = $this->getMockForAbstractClass(BaseService::class, [], '', true, true, true, ['rules']);
 
         $stub->expects($this->any())
-             ->method('rules')
-             ->will($this->returnValue($rules));
+            ->method('rules')
+            ->will($this->returnValue($rules));
 
         $this->expectException(\Illuminate\Validation\ValidationException::class);
         $this->assertFalse(

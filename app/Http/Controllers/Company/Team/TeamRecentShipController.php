@@ -2,28 +2,25 @@
 
 namespace App\Http\Controllers\Company\Team;
 
-use Inertia\Inertia;
-use Inertia\Response;
+use App\Helpers\InstanceHelper;
+use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Team\TeamRecentShipViewHelper;
+use App\Models\Company\Employee;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
-use Illuminate\Http\Request;
-use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
 use App\Services\Company\Team\Ship\CreateShip;
 use App\Services\Company\Team\Ship\DestroyShip;
-use App\Http\ViewHelpers\Team\TeamRecentShipViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class TeamRecentShipController extends Controller
 {
     /**
      * Show the Recent ships page.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
@@ -57,10 +54,6 @@ class TeamRecentShipController extends Controller
 
     /**
      * Search an employee to add to the recent ship entry.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function search(Request $request, int $companyId): JsonResponse
     {
@@ -75,9 +68,6 @@ class TeamRecentShipController extends Controller
     /**
      * Show the Create recent ship form.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
@@ -100,11 +90,6 @@ class TeamRecentShipController extends Controller
 
     /**
      * Show the Post recent ship form.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $teamId): JsonResponse
     {
@@ -139,10 +124,6 @@ class TeamRecentShipController extends Controller
     /**
      * Show the details of a recent ship.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $recentShipId
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
@@ -153,7 +134,7 @@ class TeamRecentShipController extends Controller
 
         try {
             $team = Team::where('company_id', $loggedCompany->id)
-            ->findOrFail($teamId);
+                ->findOrFail($teamId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
@@ -180,12 +161,6 @@ class TeamRecentShipController extends Controller
 
     /**
      * Delete the recent ship.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $shipId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $teamId, int $shipId): JsonResponse
     {

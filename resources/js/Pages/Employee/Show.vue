@@ -74,16 +74,16 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import ProfileHeader from '@/Pages/Employee/Partials/ProfileHeader';
-import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar';
-import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
-import Hierarchy from '@/Pages/Employee/Partials/Hierarchy';
-import Question from '@/Pages/Employee/Partials/Question';
-import Skills from '@/Pages/Employee/Partials/Skills';
-import ECoffee from '@/Pages/Employee/Partials/ECoffee';
-import EmployeePastPositions from '@/Pages/Employee/Partials/EmployeePastPositions';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import ProfileHeader from '@/Pages/Employee/Partials/ProfileHeader.vue';
+import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar.vue';
+import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher.vue';
+import Hierarchy from '@/Pages/Employee/Partials/Hierarchy.vue';
+import Question from '@/Pages/Employee/Partials/Question.vue';
+import Skills from '@/Pages/Employee/Partials/Skills.vue';
+import ECoffee from '@/Pages/Employee/Partials/ECoffee.vue';
+import EmployeePastPositions from '@/Pages/Employee/Partials/EmployeePastPositions.vue';
 
 export default {
   components: {

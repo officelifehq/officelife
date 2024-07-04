@@ -10,8 +10,6 @@ class JobsViewHelper
 {
     /**
      * Get all the companies in the instance.
-     *
-     * @return array
      */
     public static function index(): array
     {

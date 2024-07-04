@@ -2,20 +2,16 @@
 
 namespace App\Helpers;
 
-use Carbon\Carbon;
 use App\Models\Company\CompanyPTOPolicy;
+use Carbon\Carbon;
 
 class DateHelper
 {
     /**
      * Return a date according to the timezone of the user, in a
      * short format like "Oct 29, 1981".
-     *
-     * @param Carbon $date
-     * @param string $timezone
-     * @return string
      */
-    public static function formatDate(Carbon $date, string $timezone = null): string
+    public static function formatDate(Carbon $date, ?string $timezone = null): string
     {
         if ($timezone) {
             $date->setTimezone($timezone);
@@ -27,12 +23,8 @@ class DateHelper
     /**
      * Return a date and the time according to the timezone of the user, in a
      * short format like "Oct 29, 1981 19:32".
-     *
-     * @param Carbon $date
-     * @param string $timezone
-     * @return string
      */
-    public static function formatShortDateWithTime(Carbon $date, string $timezone = null): string
+    public static function formatShortDateWithTime(Carbon $date, ?string $timezone = null): string
     {
         if ($timezone) {
             $date->setTimezone($timezone);
@@ -43,9 +35,6 @@ class DateHelper
 
     /**
      * Return the day and the month in a format like "July 29th".
-     *
-     * @param Carbon $date
-     * @return string
      */
     public static function formatMonthAndDay(Carbon $date): string
     {
@@ -54,9 +43,6 @@ class DateHelper
 
     /**
      * Return the short month and the year in a format like "Jul 2020".
-     *
-     * @param Carbon $date
-     * @return string
      */
     public static function formatMonthAndYear(Carbon $date): string
     {
@@ -65,9 +51,6 @@ class DateHelper
 
     /**
      * Return the day and the month in a format like "Jul 29".
-     *
-     * @param Carbon $date
-     * @return string
      */
     public static function formatShortMonthAndDay(Carbon $date): string
     {
@@ -76,12 +59,8 @@ class DateHelper
 
     /**
      * Return the day and the month in a format like "Monday (July 29th)".
-     *
-     * @param Carbon $date
-     * @param string $timezone
-     * @return string
      */
-    public static function formatDayAndMonthInParenthesis(Carbon $date, string $timezone = null): string
+    public static function formatDayAndMonthInParenthesis(Carbon $date, ?string $timezone = null): string
     {
         if ($timezone) {
             $date->setTimezone($timezone);
@@ -92,9 +71,6 @@ class DateHelper
 
     /**
      * Return the complete date like "Monday, July 29th 2020".
-     *
-     * @param Carbon $date
-     * @return string
      */
     public static function formatFullDate(Carbon $date): string
     {
@@ -103,9 +79,6 @@ class DateHelper
 
     /**
      * Translate the given month to a string using the locale of the app.
-     *
-     * @param Carbon $date
-     * @return string
      */
     public static function translateMonth(Carbon $date): string
     {
@@ -114,9 +87,6 @@ class DateHelper
 
     /**
      * Return the day as a string like "Wednesday".
-     *
-     * @param Carbon $date
-     * @return string
      */
     public static function day(Carbon $date): string
     {
@@ -125,9 +95,6 @@ class DateHelper
 
     /**
      * Return the day as a string like "Jul. 29th".
-     *
-     * @param Carbon $date
-     * @return string
      */
     public static function dayWithShortMonth(Carbon $date): string
     {
@@ -136,9 +103,6 @@ class DateHelper
 
     /**
      * Calculate the next occurence in the future for this date.
-     *
-     * @param Carbon $date
-     * @return Carbon
      */
     public static function getNextOccurence(Carbon $date): Carbon
     {
@@ -157,9 +121,6 @@ class DateHelper
 
     /**
      * Get the number of days in a given year.
-     *
-     * @param Carbon $date
-     * @return int
      */
     public static function getNumberOfDaysInYear(Carbon $date): int
     {
@@ -168,9 +129,6 @@ class DateHelper
 
     /**
      * Determine if the date is in the future, in the present or in the past.
-     *
-     * @param Carbon $date
-     * @return string
      */
     public static function determineDateStatus(Carbon $date): string
     {
@@ -191,19 +149,25 @@ class DateHelper
     /**
      * Return a string indicating the number of days or hours left, like
      * `3 hours left` or `1 day left`, depending on the given date.
-     *
-     * @param Carbon $date
-     * @return string
      */
     public static function hoursOrDaysLeft(Carbon $date): string
     {
         $now = Carbon::now();
         $hoursLeft = $now->diffInHours($date);
 
+        if ($hoursLeft < 0) {
+            $hoursLeft = $hoursLeft * -1;
+        }
+
         if ($hoursLeft < 24) {
-            $timeLeft = trans_choice('app.hours_left', $hoursLeft);
+            $timeLeft = trans_choice('app.hours_left', floor($hoursLeft));
         } else {
-            $timeLeft = trans_choice('app.days_left', $now->diffInDays($date));
+            $days = $now->diffInDays($date);
+            if ($days < 0) {
+                $days = $days * -1;
+            }
+
+            $timeLeft = trans_choice('app.days_left', floor($days));
         }
 
         return $timeLeft;
@@ -214,10 +178,6 @@ class DateHelper
      * This array contains a row for each month. The first entry in this array
      * is the current month.
      * This is used to populate the PTO policies in the Adminland page.
-     *
-     * @param CompanyPTOPolicy $ptoPolicy
-     * @param string $locale
-     * @return array
      */
     public static function prepareCalendar(CompanyPTOPolicy $ptoPolicy, string $locale = 'en'): array
     {

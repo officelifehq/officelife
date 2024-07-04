@@ -2,18 +2,16 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\InstanceHelper;
 use Closure;
 use Illuminate\Http\Request;
-use App\Helpers\InstanceHelper;
 
 class CheckAdministratorRole
 {
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
-     * @param \Closure $next
-     *
+     * @param  Request  $request
      * @return mixed
      */
     public function handle($request, Closure $next)

@@ -2,25 +2,23 @@
 
 namespace App\Http\Controllers\Company\Company;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Company;
-use App\Helpers\PaginatorHelper;
-use App\Models\Company\Question;
 use App\Helpers\NotificationHelper;
+use App\Helpers\PaginatorHelper;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Company\CompanyNewsViewHelper;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\CompanyQuestionViewHelper;
+use App\Models\Company\Company;
+use App\Models\Company\Question;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class CompanyNewsController extends Controller
 {
     /**
      * All the company news in the company.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -38,9 +36,6 @@ class CompanyNewsController extends Controller
     /**
      * Get the detail of a given question.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $questionId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -62,7 +57,7 @@ class CompanyNewsController extends Controller
         $answersCollection = CompanyQuestionViewHelper::question($question, $answers, $employee);
 
         return Inertia::render('Company/Question/Show', [
-            'teams' =>$teams,
+            'teams' => $teams,
             'question' => $answersCollection,
             'notifications' => NotificationHelper::getNotifications($employee),
             'paginator' => PaginatorHelper::getData($answers),

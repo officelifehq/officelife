@@ -2,14 +2,11 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\TestCase;
 use App\Models\Company\Answer;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class AnswerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_question(): void
     {

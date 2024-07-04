@@ -31,19 +31,19 @@
           <div class="cf w-100">
             <ul class="list pl0 db tc bb bb-gray pa2 edit-information-menu">
               <li class="di mr2">
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/edit'" data-cy="menu-profile-link" class="no-underline bb-0 ph3 pv2 selected">
+                <Link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/edit'" data-cy="menu-profile-link" class="no-underline bb-0 ph3 pv2 selected">
                   {{ $t('employee.edit_information_menu') }}
-                </inertia-link>
+                </Link>
               </li>
               <li v-if="permissions.can_see_edit_contract_information_tab" class="di mr2">
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/contract/edit'" data-cy="menu-contract-link" class="no-underline bb-0 ph3 pv2 ">
+                <Link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/contract/edit'" data-cy="menu-contract-link" class="no-underline bb-0 ph3 pv2 ">
                   {{ $t('employee.edit_information_menu_contract') }}
-                </inertia-link>
+                </Link>
               </li>
               <li class="di">
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/address/edit'" data-cy="menu-address-link" class="no-underline bb-0 ph3 pv2 ">
+                <Link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/address/edit'" data-cy="menu-address-link" class="no-underline bb-0 ph3 pv2 ">
                   {{ $t('employee.edit_information_menu_address') }}
-                </inertia-link>
+                </Link>
               </li>
             </ul>
           </div>
@@ -214,9 +214,9 @@
             <div class="cf pa3">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
+                  <Link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
                     {{ $t('app.cancel') }}
-                  </inertia-link>
+                  </Link>
                 </div>
                 <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-edit-employee-button'" />
               </div>
@@ -229,11 +229,11 @@
 </template>
 
 <script>
-import TextInput from '@/Shared/TextInput';
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
+import TextInput from '@/Shared/TextInput.vue';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
 
 export default {
   components: {

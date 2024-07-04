@@ -63,7 +63,7 @@
 
             <help :url="$page.props.help_links.project_messages" :top="'3px'" />
           </span>
-          <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages/create'" class="btn f5" data-cy="add-message">{{ $t('project.message_cta') }}</inertia-link>
+          <Link :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages/create'" class="btn f5" data-cy="add-message">{{ $t('project.message_cta') }}</Link>
         </p>
 
         <!-- list of messages -->
@@ -73,7 +73,7 @@
               <div class="ma0 fw4 message">
                 <p class="mt0 mb2" :class="!message.read_status ? 'fw5' : ''">
                   <span v-if="!message.read_status" class="dib relative mr2 br-100 dot"></span>
-                  <inertia-link :href="message.url" class="lh-copy">{{ message.title }}</inertia-link>
+                  <Link :href="message.url" class="lh-copy">{{ message.title }}</Link>
                 </p>
                 <ul class="list pl0 mt0 mb0 f6 gray">
                   <li class="di mr2 f7 gray">{{ message.written_at }}</li>
@@ -96,7 +96,7 @@
 
         <!-- blank state -->
         <div v-else data-cy="messages-blank-state" class="bg-white box pa3 tc">
-          <img loading="lazy" src="/img/streamline-icon-morning-news-1@140x140.png" width="140" height="140" alt="meeting"
+          <img loading="lazy" :src="'/img/streamline-icon-morning-news-1@140x140.png'" width="140" height="140" alt="meeting"
                class=""
           />
           <p class="lh-copy measure center">{{ $t('project.message_blank') }}</p>
@@ -107,11 +107,11 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
-import Help from '@/Shared/Help';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

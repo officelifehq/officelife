@@ -2,16 +2,14 @@
 
 namespace App\Services\Company\Adminland\Flow;
 
+use App\Models\Company\Action;
 use App\Models\Company\Step;
 use App\Services\BaseService;
-use App\Models\Company\Action;
 
 class AddActionToStep extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,10 +26,6 @@ class AddActionToStep extends BaseService
 
     /**
      * Add an action to a step.
-     *
-     * @param array $data
-     *
-     * @return Action
      */
     public function execute(array $data): Action
     {

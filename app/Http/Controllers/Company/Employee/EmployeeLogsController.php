@@ -2,27 +2,24 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
-use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Helpers\PaginatorHelper;
-use App\Models\Company\Employee;
-use Illuminate\Routing\Redirector;
 use App\Helpers\NotificationHelper;
+use App\Helpers\PaginatorHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
 use App\Http\ViewHelpers\Employee\EmployeeLogViewHelper;
+use App\Models\Company\Employee;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class EmployeeLogsController extends Controller
 {
     /**
      * Show the employee log.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      *
      * @return \Inertia\Response|Redirector|RedirectResponse
      */

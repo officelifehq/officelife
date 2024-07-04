@@ -1,4 +1,5 @@
 <?php
+
 return [
     'menu_employees' => 'Employees & teams',
     'menu_projects' => 'Projects',

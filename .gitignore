@@ -3,6 +3,7 @@
 /public/js
 /public/css
 /public/storage
+/public/build
 /public/mix-manifest.json
 /results
 /storage/*.key
@@ -12,6 +13,7 @@
 .env
 .env.cypress.local
 .phpunit.result.cache
+.phpunit.cache
 .php_cs.cache
 .php-cs-fixer.cache
 Homestead.json

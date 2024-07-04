@@ -2,19 +2,17 @@
 
 namespace App\Services\Company\Team\TeamNews;
 
-use Carbon\Carbon;
+use App\Jobs\LogAccountAudit;
 use App\Jobs\LogTeamAudit;
 use App\Models\Company\Team;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\TeamNews;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateTeamNews extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -30,10 +28,6 @@ class CreateTeamNews extends BaseService
 
     /**
      * Create a team news.
-     *
-     * @param array $data
-     *
-     * @return TeamNews
      */
     public function execute(array $data): TeamNews
     {

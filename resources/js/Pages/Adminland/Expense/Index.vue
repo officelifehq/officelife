@@ -40,10 +40,10 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Categories from '@/Pages/Adminland/Expense/Partials/Categories';
-import Employees from '@/Pages/Adminland/Expense/Partials/Employees';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Categories from '@/Pages/Adminland/Expense/Partials/Categories.vue';
+import Employees from '@/Pages/Adminland/Expense/Partials/Employees.vue';
 
 export default {
   components: {

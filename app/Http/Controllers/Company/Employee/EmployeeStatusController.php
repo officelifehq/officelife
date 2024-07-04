@@ -2,24 +2,19 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
+use App\Models\Company\Employee;
 use App\Services\Company\Employee\EmployeeStatus\AssignEmployeeStatusToEmployee;
 use App\Services\Company\Employee\EmployeeStatus\RemoveEmployeeStatusFromEmployee;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class EmployeeStatusController extends Controller
 {
     /**
      * Return the list of employee statuses in the company.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function index(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -34,11 +29,6 @@ class EmployeeStatusController extends Controller
 
     /**
      * Assign an employee status to the given employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -60,12 +50,6 @@ class EmployeeStatusController extends Controller
 
     /**
      * Remove the employee status for the given employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param int $employeeStatusId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $employeeId, int $employeeStatusId): JsonResponse
     {

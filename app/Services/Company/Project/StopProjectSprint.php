@@ -2,23 +2,23 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
-use App\Models\Company\ProjectSprint;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\ProjectSprint;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class StopProjectSprint extends BaseService
 {
     protected array $data;
+
     protected Project $project;
+
     protected ProjectSprint $projectSprint;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -32,9 +32,6 @@ class StopProjectSprint extends BaseService
 
     /**
      * Mark the project sprint as complete.
-     *
-     * @param array $data
-     * @return ProjectSprint
      */
     public function execute(array $data): ProjectSprint
     {

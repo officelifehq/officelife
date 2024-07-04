@@ -16,8 +16,6 @@ interface QueuableService
 
     /**
      * Handle a job failure.
-     *
-     * @param  \Throwable  $exception
      */
     public function failed(Throwable $exception): void;
 }

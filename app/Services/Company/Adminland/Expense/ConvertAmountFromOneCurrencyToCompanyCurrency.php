@@ -2,26 +2,32 @@
 
 namespace App\Services\Company\Adminland\Expense;
 
-use Carbon\Carbon;
-use ErrorException;
-use Illuminate\Support\Str;
+use App\Exceptions\ConvertAmountException;
+use App\Exceptions\WrongCurrencyLayerApiKeyException;
 use App\Helpers\MoneyHelper;
 use App\Services\BaseService;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Cache;
-use App\Exceptions\ConvertAmountException;
+use Carbon\Carbon;
+use ErrorException;
 use Illuminate\Http\Client\HttpClientException;
-use App\Exceptions\WrongCurrencyLayerApiKeyException;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
 {
     private int $amount;
+
     private string $amountCurrency;
+
     private string $companyCurrency;
+
     private float $convertedAmount;
+
     private Carbon $amountDate;
+
     private float $rate;
+
     private string $query;
 
     /**
@@ -80,13 +86,14 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
             'date' => $this->amountDate->format('Y-m-d'),
         ]);
 
-        $this->query = Str::finish($uri, '?') . $query;
+        $this->query = Str::finish($uri, '?').$query;
     }
 
     private function getConversionRate(): void
     {
         if (Cache::has($this->cachedKey())) {
             $this->rate = Cache::get($this->cachedKey());
+
             return;
         }
 
@@ -126,8 +133,6 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
      * Returns the name of the key that can be in the cache for the given
      * exchange rate.
      * Format is `exchange-rate-eur-usd-1990-01-01`.
-     *
-     * @return string
      */
     private function cachedKey(): string
     {

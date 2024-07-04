@@ -58,14 +58,14 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Name from '@/Pages/Adminland/General/Partials/Name';
-import Currency from '@/Pages/Adminland/General/Partials/Currency';
-import Stat from '@/Pages/Adminland/General/Partials/Stat';
-import Location from '@/Pages/Adminland/General/Partials/Location';
-import Logo from '@/Pages/Adminland/General/Partials/Logo';
-import FoundedDate from '@/Pages/Adminland/General/Partials/FoundedDate';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Name from '@/Pages/Adminland/General/Partials/Name.vue';
+import Currency from '@/Pages/Adminland/General/Partials/Currency.vue';
+import Stat from '@/Pages/Adminland/General/Partials/Stat.vue';
+import Location from '@/Pages/Adminland/General/Partials/Location.vue';
+import Logo from '@/Pages/Adminland/General/Partials/Logo.vue';
+import FoundedDate from '@/Pages/Adminland/General/Partials/FoundedDate.vue';
 
 export default {
   components: {

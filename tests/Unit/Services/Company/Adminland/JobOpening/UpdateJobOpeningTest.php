@@ -2,24 +2,21 @@
 
 namespace Tests\Unit\Services\Company\Adminland\JobOpening;
 
-use Tests\TestCase;
-use App\Models\Company\Team;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use App\Models\Company\Position;
 use App\Models\Company\JobOpening;
+use App\Models\Company\Position;
+use App\Models\Company\RecruitingStageTemplate;
+use App\Models\Company\Team;
+use App\Services\Company\Adminland\JobOpening\UpdateJobOpening;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Models\Company\RecruitingStageTemplate;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\JobOpening\UpdateJobOpening;
+use Tests\TestCase;
 
 class UpdateJobOpeningTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_a_job_opening_as_administrator(): void
     {

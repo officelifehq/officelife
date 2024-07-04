@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
+use App\Http\ViewHelpers\Employee\EmployeeExpenseViewHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\Expense;
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Models\Company\Expense;
-use App\Models\Company\Employee;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Employee\EmployeeExpenseViewHelper;
 
 class EmployeeExpenseViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_an_array_of_statistics_about_the_expenses_of_this_employee(): void
     {

@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Employee\Skill;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Skill;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Models\Company\Skill;
+use App\Services\Company\Employee\Skill\RemoveSkillFromEmployee;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\Skill\RemoveSkillFromEmployee;
+use Tests\TestCase;
 
 class RemoveSkillFromEmployeeTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_removes_a_skill_as_administrator(): void
     {

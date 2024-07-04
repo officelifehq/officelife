@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Group;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Group;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Models\Company\Group;
+use App\Services\Company\Group\AddEmployeeToGroup;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Group\AddEmployeeToGroup;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class AddEmployeeToGroupTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_adds_an_employee_to_a_group_as_administrator(): void
     {

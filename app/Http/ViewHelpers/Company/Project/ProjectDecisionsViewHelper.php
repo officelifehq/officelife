@@ -5,18 +5,14 @@ namespace App\Http\ViewHelpers\Company\Project;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use Illuminate\Support\Collection;
 
 class ProjectDecisionsViewHelper
 {
     /**
      * Array containing the information about the decisions made in the project.
-     *
-     * @param Project $project
-     * @param Employee $employee
-     * @return Collection
      */
     public static function decisions(Project $project, Employee $employee): Collection
     {
@@ -56,10 +52,6 @@ class ProjectDecisionsViewHelper
 
     /**
      * Search all employees matching a given criteria.
-     *
-     * @param Company $company
-     * @param string|null $criteria
-     * @return Collection
      */
     public static function searchDeciders(Company $company, ?string $criteria): Collection
     {

@@ -2,25 +2,26 @@
 
 namespace App\Services\Company\Employee\Position;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
-use App\Models\Company\Position;
 use App\Models\Company\EmployeePositionHistory;
+use App\Models\Company\Position;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class AssignPositionToEmployee extends BaseService
 {
     private Employee $employee;
+
     private array $data;
+
     private Position $position;
+
     private int $previousPositionId;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -34,9 +35,6 @@ class AssignPositionToEmployee extends BaseService
 
     /**
      * Set an employee's position.
-     *
-     * @param array $data
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

@@ -2,24 +2,21 @@
 
 namespace Tests\Unit\Services\Company\Team\Ship;
 
-use Tests\TestCase;
+use App\Jobs\LogAccountAudit;
 use App\Jobs\LogTeamAudit;
 use App\Jobs\ServiceQueue;
+use App\Models\Company\Employee;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
-use App\Jobs\LogAccountAudit;
-use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
-use App\Services\Company\Team\Ship\CreateShip;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Team\Ship\AttachEmployeeToShip;
+use App\Services\Company\Team\Ship\CreateShip;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateShipTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_recent_ship_entry_as_administrator(): void
     {
@@ -96,7 +93,7 @@ class CreateShipTest extends TestCase
         (new CreateShip)->execute($request);
     }
 
-    private function executeService(Employee $michael, Team $team, array $employees = null): void
+    private function executeService(Employee $michael, Team $team, ?array $employees = null): void
     {
         Queue::fake();
 

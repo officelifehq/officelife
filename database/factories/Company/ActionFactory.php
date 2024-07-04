@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\Step;
 use App\Models\Company\Action;
+use App\Models\Company\Step;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ActionFactory extends Factory

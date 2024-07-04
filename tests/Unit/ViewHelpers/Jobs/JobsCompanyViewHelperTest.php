@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\ViewHelpers\Jobs;
 
-use Tests\TestCase;
-use App\Models\Company\Team;
+use App\Http\ViewHelpers\Jobs\JobsCompanyViewHelper;
 use App\Models\Company\Company;
 use App\Models\Company\JobOpening;
-use App\Http\ViewHelpers\Jobs\JobsCompanyViewHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Team;
+use Tests\TestCase;
 
 class JobsCompanyViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_all_the_active_job_openings_in_the_company(): void
     {
@@ -48,7 +45,7 @@ class JobsCompanyViewHelperTest extends TestCase
                     'team' => [
                         'name' => $team->name,
                     ],
-                    'url' => env('APP_URL') . '/jobs/' . $company->slug . '/jobs/' . $opening->slug,
+                    'url' => env('APP_URL').'/jobs/'.$company->slug.'/jobs/'.$opening->slug,
                 ],
             ],
             $array['job_openings']->toArray()
@@ -78,7 +75,7 @@ class JobsCompanyViewHelperTest extends TestCase
                 'name' => $company->name,
                 'location' => $company->location,
                 'logo' => null,
-                'url' => env('APP_URL') . '/jobs/' . $company->slug,
+                'url' => env('APP_URL').'/jobs/'.$company->slug,
             ],
             $array['company']
         );
@@ -97,7 +94,7 @@ class JobsCompanyViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            env('APP_URL') . '/jobs/' . $company->slug . '/jobs/' . $opening->slug.'/apply',
+            env('APP_URL').'/jobs/'.$company->slug.'/jobs/'.$opening->slug.'/apply',
             $array['url_apply']
         );
     }
@@ -141,17 +138,17 @@ class JobsCompanyViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            env('APP_URL') . '/jobs',
+            env('APP_URL').'/jobs',
             $array['url_all']
         );
 
         $this->assertEquals(
-            env('APP_URL') . '/jobs/' . $company->slug,
+            env('APP_URL').'/jobs/'.$company->slug,
             $array['url_company']
         );
 
         $this->assertEquals(
-            env('APP_URL') . '/jobs/' . $company->slug . '/jobs/' . $opening->slug,
+            env('APP_URL').'/jobs/'.$company->slug.'/jobs/'.$opening->slug,
             $array['url_back']
         );
     }

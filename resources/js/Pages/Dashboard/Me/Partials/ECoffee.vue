@@ -33,7 +33,7 @@
         {{ $t('dashboard.e_coffee_match_desc_teams', { firstname: localeCoffee.other_employee.first_name }) }}
         <ul v-if="localeCoffee.other_employee.teams" class="list di ma0 pl0">
           <li v-for="team in localeCoffee.other_employee.teams" :key="team.id" class="di">
-            <inertia-link :href="team.url">{{ team.name }}</inertia-link>
+            <Link :href="team.url">{{ team.name }}</Link>
           </li>
         </ul>
       </p>
@@ -45,7 +45,7 @@
 
       <!-- avatars -->
       <div class="absolute-ns avatars tc">
-        <img class="avatar br-100" loading="lazy" src="/img/streamline-icon-coffee-idea-sparking@140x140.png" alt="avatar" />
+        <img class="avatar br-100" loading="lazy" :src="'/img/streamline-icon-coffee-idea-sparking@140x140.png'" alt="avatar" />
         <avatar :avatar="localeCoffee.other_employee.avatar" :size="55" :class="'avatar br-100'" />
       </div>
     </div>
@@ -57,7 +57,7 @@
 
       <!-- avatars -->
       <div class="absolute-ns avatars tc">
-        <img class="avatar br-100" loading="lazy" src="/img/streamline-icon-coffee-idea-sparking@140x140.png" alt="avatar" />
+        <img class="avatar br-100" loading="lazy" :src="'/img/streamline-icon-coffee-idea-sparking@140x140.png'" alt="avatar" />
         <avatar :avatar="localeCoffee.other_employee.avatar" :size="55" :class="'avatar br-100'" />
       </div>
     </div>
@@ -65,9 +65,9 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
-import Avatar from '@/Shared/Avatar';
-import LoadingButton from '@/Shared/LoadingButton';
+import Help from '@/Shared/Help.vue';
+import Avatar from '@/Shared/Avatar.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
 
 export default {
   components: {

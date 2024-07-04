@@ -2,50 +2,40 @@
 
 namespace App\Listeners;
 
-use Uploadcare\Api;
 use App\Events\FileDeleted;
-use App\Models\Company\File;
-use Uploadcare\Configuration;
-use Http\Client\Exception\HttpException;
-use Uploadcare\File\File as UploadcareFile;
 use App\Exceptions\EnvVariablesNotSetException;
-use Uploadcare\Interfaces\File\FileInfoInterface;
+use App\Models\Company\File;
+use Http\Client\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Uploadcare\Api;
+use Uploadcare\Configuration;
+use Uploadcare\File\File as UploadcareFile;
+use Uploadcare\Interfaces\File\FileInfoInterface;
 
 class DeleteFileInStorage
 {
     /**
      * The file instance.
-     *
-     * @var File
      */
     public File $file;
 
     /**
      * The file in Uploadcare instance.
-     *
-     * @var FileInfoInterface
      */
     public FileInfoInterface $fileInUploadcare;
 
     /**
      * The API used to query Uploadcare.
-     *
-     * @var Api
      */
     public Api $api;
 
     /**
      * Create the event listener.
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Handle the event.
-     *
-     * @param  FileDeleted  $event
      */
     public function handle(FileDeleted $event)
     {

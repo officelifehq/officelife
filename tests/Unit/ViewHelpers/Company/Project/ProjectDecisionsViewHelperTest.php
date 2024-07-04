@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Project;
 
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectDecisionsViewHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\ProjectDecision;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Project\ProjectDecisionsViewHelper;
+use Tests\TestCase;
 
 class ProjectDecisionsViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_decisions(): void
     {

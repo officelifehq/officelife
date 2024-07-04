@@ -6,8 +6,8 @@ use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\MoneyHelper;
 use App\Models\Company\Company;
-use App\Models\Company\Expense;
 use App\Models\Company\Employee;
+use App\Models\Company\Expense;
 use Illuminate\Support\Collection;
 
 class DashboardExpenseViewHelper
@@ -15,10 +15,6 @@ class DashboardExpenseViewHelper
     /**
      * Get all the expenses that are waiting for accounting approval in the
      * company.
-     *
-     * @param Company $company
-     * @param Employee $loggedEmployee
-     * @return Collection|null
      */
     public static function waitingForAccountingApproval(Company $company, Employee $loggedEmployee): ?Collection
     {
@@ -68,10 +64,6 @@ class DashboardExpenseViewHelper
     /**
      * Get all the expenses that are waiting for manager
      * approval in the company.
-     *
-     * @param Company $company
-     * @param Employee $loggedEmployee
-     * @return Collection|null
      */
     public static function waitingForManagerApproval(Company $company, Employee $loggedEmployee): ?Collection
     {
@@ -128,10 +120,6 @@ class DashboardExpenseViewHelper
     /**
      * Get all the expenses that have been either accepted or
      * rejected.
-     *
-     * @param Company $company
-     * @param Employee $loggedEmployee
-     * @return Collection|null
      */
     public static function acceptedAndRejected(Company $company, Employee $loggedEmployee): ?Collection
     {
@@ -176,10 +164,6 @@ class DashboardExpenseViewHelper
 
     /**
      * Get all the information about the given expense.
-     *
-     * @param Expense $expense
-     * @param Employee $loggedEmployee
-     * @return array
      */
     public static function expense(Expense $expense, Employee $loggedEmployee): array
     {

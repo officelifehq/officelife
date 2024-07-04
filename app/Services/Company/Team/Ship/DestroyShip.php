@@ -2,19 +2,17 @@
 
 namespace App\Services\Company\Team\Ship;
 
-use Carbon\Carbon;
+use App\Jobs\LogAccountAudit;
 use App\Jobs\LogTeamAudit;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
-use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyShip extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -27,10 +25,6 @@ class DestroyShip extends BaseService
 
     /**
      * Destroy a ship.
-     *
-     * @param array $data
-     *
-     * @return bool
      */
     public function execute(array $data): bool
     {

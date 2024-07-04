@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Employee\Holiday;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Models\Company\EmployeePlannedHoliday;
+use App\Services\Company\Employee\Holiday\DestroyTimeOff;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
-use App\Models\Company\EmployeePlannedHoliday;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\Holiday\DestroyTimeOff;
+use Tests\TestCase;
 
 class DestroyTimeOffTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_a_time_off_as_administrator(): void
     {

@@ -3,18 +3,14 @@
 namespace App\Http\ViewHelpers\Company\Group;
 
 use App\Helpers\ImageHelper;
-use App\Models\Company\Group;
 use App\Models\Company\Company;
+use App\Models\Company\Group;
 use Illuminate\Support\Collection;
 
 class GroupCreateViewHelper
 {
     /**
      * Search all potential members for the group.
-     *
-     * @param Company $company
-     * @param string|null $criteria
-     * @return Collection
      */
     public static function search(Company $company, ?string $criteria): Collection
     {

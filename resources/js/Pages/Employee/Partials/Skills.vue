@@ -55,7 +55,7 @@
 
       <help :url="$page.props.help_links.skills" :datacy="'help-icon-skills'" />
     </span>
-    <img v-if="permissions.can_manage_skills && !editMode" loading="lazy" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="manage-skill-button"
+    <img v-if="permissions.can_manage_skills && !editMode" loading="lazy" :src="'/img/edit_button.svg'" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="manage-skill-button"
          width="22"
          height="22" alt="manage skills"
          @click.prevent="toggleEditMode()"
@@ -72,7 +72,7 @@
     <div v-if="localSkills.length > 0 && !editMode" class="br3 bg-white box z-1 pa3" data-cy="list-skills">
       <ul class="list mv0 pl0">
         <li v-for="skill in localSkills" :key="skill.id" class="relative dib fw5 mr2 mb2 existing-skill" :data-cy="'non-edit-skill-list-item-' + skill.id">
-          <inertia-link :href="skill.url" class="skill no-underline">{{ skill.name }}</inertia-link>
+          <Link :href="skill.url" class="skill no-underline">{{ skill.name }}</Link>
         </li>
       </ul>
     </div>
@@ -134,9 +134,10 @@
 </template>
 
 <script>
-import TextInput from '@/Shared/TextInput';
+import TextInput from '@/Shared/TextInput.vue';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
-import Help from '@/Shared/Help';
+import Help from '@/Shared/Help.vue';
+import _ from 'lodash';
 
 export default {
   components: {

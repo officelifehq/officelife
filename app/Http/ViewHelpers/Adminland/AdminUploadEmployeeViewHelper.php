@@ -12,10 +12,6 @@ class AdminUploadEmployeeViewHelper
 {
     /**
      * Get all the CSV imports in the account.
-     *
-     * @param Company $company
-     * @param Employee $loggedEmployee
-     * @return array|null
      */
     public static function index(Company $company, Employee $loggedEmployee): ?array
     {
@@ -48,18 +44,14 @@ class AdminUploadEmployeeViewHelper
         return [
             'entries' => $importJobsCollection,
             'url_new' => route('account.employees.upload', [
-                    'company' => $company,
-                ]),
+                'company' => $company,
+            ]),
         ];
     }
 
     /**
      * Get all the details about a specific import job.
      * This page shows the first five imports, and all the reports that failed.
-     *
-     * @param ImportJob $importJob
-     * @param Employee $loggedEmployee
-     * @return array|null
      */
     public static function show(ImportJob $importJob, Employee $loggedEmployee): ?array
     {

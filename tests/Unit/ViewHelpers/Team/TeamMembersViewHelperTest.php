@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\ViewHelpers\Team;
 
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Team;
-use App\Models\Company\Employee;
 use App\Http\ViewHelpers\Team\TeamMembersViewHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Employee;
+use App\Models\Company\Team;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
+use Tests\TestCase;
 
 class TeamMembersViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_potential_team_members(): void
     {

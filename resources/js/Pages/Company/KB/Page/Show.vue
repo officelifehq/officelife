@@ -67,7 +67,7 @@
 
             <div class="f7">
               <ul class="ma0 pl0 list">
-                <li class="di"><inertia-link :href="page.url_edit" class="bb b--dotted bt-0 bl-0 br-0 pointer mr3">{{ $t('app.edit') }}</inertia-link></li>
+                <li class="di"><Link :href="page.url_edit" class="bb b--dotted bt-0 bl-0 br-0 pointer mr3">{{ $t('app.edit') }}</Link></li>
                 <li v-if="!showDeleteMode" class="di"><a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click="showDeleteMode = true">{{ $t('app.delete') }}</a></li>
                 <li v-else class="di">
                   {{ $t('app.sure') }}
@@ -96,9 +96,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Avatar from '@/Shared/Avatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

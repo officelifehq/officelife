@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import Checkbox from '@/Shared/Checkbox';
-import Errors from '@/Shared/Errors';
-import Help from '@/Shared/Help';
+import Checkbox from '@/Shared/Checkbox.vue';
+import Errors from '@/Shared/Errors.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

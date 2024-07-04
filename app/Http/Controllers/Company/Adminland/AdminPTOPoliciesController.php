@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Inertia\Response;
 use App\Helpers\DateHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
+use App\Http\Collections\CompanyPTOPolicyCollection;
 use App\Http\Controllers\Controller;
 use App\Models\Company\CompanyPTOPolicy;
-use App\Http\Collections\CompanyPTOPolicyCollection;
 use App\Services\Company\Adminland\CompanyPTOPolicy\UpdateCompanyPTOPolicy;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminPTOPoliciesController extends Controller
 {
     /**
      * Show the list of company news.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -36,11 +34,6 @@ class AdminPTOPoliciesController extends Controller
 
     /**
      * Update the pto policy.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $ptoPolicyId
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $ptoPolicyId): JsonResponse
     {
@@ -66,10 +59,6 @@ class AdminPTOPoliciesController extends Controller
 
     /**
      * Get the holidays for a given PTO policy.
-     *
-     * @param int $companyId
-     * @param int $companyPTOPolicyId
-     * @return array
      */
     public function getHolidays(int $companyId, int $companyPTOPolicyId): array
     {

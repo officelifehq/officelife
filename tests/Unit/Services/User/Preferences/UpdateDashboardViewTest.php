@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\Services\User\Preferences;
 
-use Tests\TestCase;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use Illuminate\Validation\ValidationException;
 use App\Services\User\Preferences\UpdateDashboardView;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class UpdateDashboardViewTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_the_default_dashboard_view_parameter(): void
     {

@@ -26,7 +26,7 @@ class InstanceHelper
     public static function getLoggedEmployee()
     {
         if (Auth::check()) {
-            return Cache::get('cachedEmployeeObject_' . Auth::user()->id);
+            return Cache::get('cachedEmployeeObject_'.Auth::user()->id);
         }
     }
 }

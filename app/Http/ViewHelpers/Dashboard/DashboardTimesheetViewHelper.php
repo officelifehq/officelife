@@ -2,15 +2,15 @@
 
 namespace App\Http\ViewHelpers\Dashboard;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
-use App\Helpers\TimeHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Project;
+use App\Helpers\TimeHelper;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\Timesheet;
-use Illuminate\Support\Collection;
 use App\Services\Company\Employee\Timesheet\CreateOrGetTimesheet;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class DashboardTimesheetViewHelper
 {
@@ -20,9 +20,6 @@ class DashboardTimesheetViewHelper
      * Each row is a task from a project.
      * Each row is split into 7 days, each one being the entry for the task
      * for the given day.
-     *
-     * @param Timesheet $timesheet
-     * @return array
      */
     public static function show(Timesheet $timesheet): array
     {
@@ -98,10 +95,6 @@ class DashboardTimesheetViewHelper
     /**
      * Get the information about the approver, if the timesheet has been either
      * approved or rejected.
-     *
-     * @param Timesheet $timesheet
-     * @param Employee $employee
-     * @return array
      */
     public static function approverInformation(Timesheet $timesheet, Employee $employee): array
     {
@@ -228,9 +221,6 @@ class DashboardTimesheetViewHelper
 
     /**
      * Array containing information about projects the employee is part of.
-     *
-     * @param Employee $employee
-     * @return Collection
      */
     public static function projects(Employee $employee): Collection
     {
@@ -252,10 +242,6 @@ class DashboardTimesheetViewHelper
      * Array containing all the tasks in a given project, that are not in
      * the given timesheet already.
      * This method is used when we add a new timesheet row.
-     *
-     * @param Project $project
-     * @param Timesheet $timesheet
-     * @return Collection
      */
     public static function availableTasks(Project $project, Timesheet $timesheet): Collection
     {
@@ -286,9 +272,6 @@ class DashboardTimesheetViewHelper
 
     /**
      * Get a collection of all the timesheets rejected for this employee.
-     *
-     * @param Employee $employee
-     * @return Collection
      */
     public static function rejectedTimesheets(Employee $employee): Collection
     {

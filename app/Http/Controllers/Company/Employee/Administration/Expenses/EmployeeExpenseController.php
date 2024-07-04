@@ -2,26 +2,23 @@
 
 namespace App\Http\Controllers\Company\Employee\Administration\Expenses;
 
-use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Expense;
-use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\Expense\DestroyExpense;
-use App\Http\ViewHelpers\Employee\EmployeeExpenseViewHelper;
 use App\Http\ViewHelpers\Dashboard\DashboardExpenseViewHelper;
+use App\Http\ViewHelpers\Employee\EmployeeExpenseViewHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\Expense;
+use App\Services\Company\Employee\Expense\DestroyExpense;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class EmployeeExpenseController extends Controller
 {
     /**
      * Display the list of expenses of this employee.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return mixed
      */
     public function index(Request $request, int $companyId, int $employeeId)
@@ -55,10 +52,6 @@ class EmployeeExpenseController extends Controller
     /**
      * Display a single expense.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param int $expenseId
      * @return mixed
      */
     public function show(Request $request, int $companyId, int $employeeId, int $expenseId)
@@ -85,10 +78,6 @@ class EmployeeExpenseController extends Controller
     /**
      * Display a single expense.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param int $expenseId
      * @return mixed
      */
     public function destroy(Request $request, int $companyId, int $employeeId, int $expenseId)

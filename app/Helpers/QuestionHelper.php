@@ -11,10 +11,6 @@ class QuestionHelper
 {
     /**
      * Get the answer made by the employee for the given question.
-     *
-     * @param  Question    $question
-     * @param  Employee    $employee
-     * @return Answer|null
      */
     public static function getAnswer(Question $question, Employee $employee): ?Answer
     {

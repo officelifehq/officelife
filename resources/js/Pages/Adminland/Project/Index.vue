@@ -154,7 +154,7 @@
               {{ $t('account.project_management_blank') }}
             </p>
 
-            <img loading="lazy" class="db center mb4" alt="team" src="/img/streamline-icon-package-worker-5@100x100.png" />
+            <img loading="lazy" class="db center mb4" alt="team" :src="'/img/streamline-icon-package-worker-5@100x100.png'" />
           </div>
         </div>
       </div>
@@ -163,12 +163,12 @@
 </template>
 
 <script>
-import TextInput from '@/Shared/TextInput';
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import IconIssueType from '@/Shared/IconIssueType';
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
+import TextInput from '@/Shared/TextInput.vue';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import IconIssueType from '@/Shared/IconIssueType.vue';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
 
 export default {
   components: {

@@ -42,8 +42,8 @@ svg {
     <div class="mw7 center box bg-white mb4">
       <div class="bg-gray pa3 f7 box-top">
         <ul class="list pl0 ma0 breadcrumb">
-          <li class="mr2 di"><inertia-link :href="data.url_all">All jobs</inertia-link></li>
-          <li class="mr2 di"><inertia-link :href="data.url_company">{{ data.company.name }}</inertia-link></li>
+          <li class="mr2 di"><Link :href="data.url_all">All jobs</Link></li>
+          <li class="mr2 di"><Link :href="data.url_company">{{ data.company.name }}</Link></li>
           <li class="di">{{ data.job_opening.title }}</li>
         </ul>
       </div>
@@ -110,7 +110,7 @@ svg {
 
               <!-- blank state -->
               <div v-else class="tc pa3">
-                <img loading="lazy" src="/img/streamline-icon-content-filter@140x140.png" alt="file symbol to upload" height="140"
+                <img loading="lazy" :src="'/img/streamline-icon-content-filter@140x140.png'" alt="file symbol to upload" height="140"
                      width="140"
                 />
                 <p class="mb3">
@@ -165,9 +165,9 @@ svg {
 </template>
 
 <script>
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import Uploadcare from 'uploadcare-vue/src/Uploadcare.vue';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Uploadcare from '@/Shared/Uploadcare.vue';
 
 export default {
   components: {

@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Str;
 use App\Models\Company\Company;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class AddCompanySlugToCompanies extends Migration
 {

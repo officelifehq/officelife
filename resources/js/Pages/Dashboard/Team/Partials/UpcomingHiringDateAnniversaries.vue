@@ -28,9 +28,9 @@
           <avatar :avatar="employee.avatar" :size="35" :class="'br-100 absolute avatar'" />
 
           <!-- normal mode -->
-          <inertia-link :href="employee.url" class="mb2">
+          <Link :href="employee.url" class="mb2">
             {{ employee.name }}
-          </inertia-link>
+          </Link>
 
           <span class="title db f7 mt1">
             {{ $t('dashboard.team_hired_at_anniversary_detail', { age: employee.anniversary_age, date: employee.anniversary_date, company: $page.props.auth.company.name }) }}
@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
-import Avatar from '@/Shared/Avatar';
+import Help from '@/Shared/Help.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

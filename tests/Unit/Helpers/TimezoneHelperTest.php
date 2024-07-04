@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Helpers;
 
+use App\Helpers\TimezoneHelper;
 use DateTimeZone;
 use Tests\TestCase;
-use App\Helpers\TimezoneHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TimezoneHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_list_of_timezones(): void
     {

@@ -2,23 +2,20 @@
 
 namespace Tests\Unit\Services\Company\Team\Ship;
 
-use Tests\TestCase;
-use App\Jobs\NotifyEmployee;
-use App\Models\Company\Ship;
-use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
+use App\Jobs\NotifyEmployee;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Ship;
+use App\Models\Company\Team;
 use App\Services\Company\Team\Ship\AttachEmployeeToShip;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class AttachEmployeeToShipTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_attaches_an_employee_to_a_recent_ship_as_administrator(): void
     {

@@ -5,9 +5,9 @@ namespace App\Providers;
 use App\Events\FileDeleted;
 use App\Listeners\DeleteFileInStorage;
 use Illuminate\Auth\Events\Registered;
-use SocialiteProviders\Manager\SocialiteWasCalled;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class EventServiceProvider extends ServiceProvider
 {

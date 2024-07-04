@@ -3,11 +3,11 @@
 namespace App\Console\Commands\Demo;
 
 use Illuminate\Console\Command;
+use Illuminate\Console\ConfirmableTrait;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Console\ConfirmableTrait;
 
 class ResetDemo extends Command
 {
@@ -35,6 +35,7 @@ class ResetDemo extends Command
     {
         if (! config('officelife.demo_mode')) {
             $this->line('This command is only available in demo mode.');
+
             return;
         }
 

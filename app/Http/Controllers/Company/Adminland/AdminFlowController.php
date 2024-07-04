@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use App\Models\Company\Flow;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\View;
-use App\Services\Company\Adminland\Flow\CreateFlow;
-use App\Services\Company\Adminland\Flow\AddStepToFlow;
+use App\Models\Company\Flow;
 use App\Services\Company\Adminland\Flow\AddActionToStep;
+use App\Services\Company\Adminland\Flow\AddStepToFlow;
+use App\Services\Company\Adminland\Flow\CreateFlow;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminFlowController extends Controller
 {
@@ -32,9 +32,6 @@ class AdminFlowController extends Controller
     /**
      * Display the detail of a flow.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $flowId
      * @return mixed
      */
     public function show(Request $request, int $companyId, int $flowId)
@@ -57,8 +54,6 @@ class AdminFlowController extends Controller
 
     /**
      * Show the Create flow view.
-     *
-     * @return Response
      */
     public function create(): Response
     {
@@ -69,10 +64,6 @@ class AdminFlowController extends Controller
 
     /**
      * Save the flow.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {

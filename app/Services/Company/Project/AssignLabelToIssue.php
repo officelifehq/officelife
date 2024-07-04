@@ -2,25 +2,26 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectLabel;
 use App\Models\Company\ProjectMemberActivity;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class AssignLabelToIssue extends BaseService
 {
     protected array $data;
+
     protected ProjectIssue $projectIssue;
+
     protected ProjectLabel $projectLabel;
+
     protected Project $project;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,8 +36,6 @@ class AssignLabelToIssue extends BaseService
 
     /**
      * Assign a project label to a project issue.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Helpers\PaginatorHelper;
 use App\Helpers\NotificationHelper;
+use App\Helpers\PaginatorHelper;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Adminland\AdminAuditLogViewHelper;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminAuditController extends Controller
 {
     /**
      * Show the audit log.
-     *
-     * @param Request $request
-     * @return Response
      */
     public function index(Request $request): Response
     {

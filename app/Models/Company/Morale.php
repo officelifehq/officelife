@@ -2,9 +2,9 @@
 
 namespace App\Models\Company;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Morale extends Model
 {
@@ -29,8 +29,8 @@ class Morale extends Model
      *
      * @var array
      */
-    protected $dates = [
-        'created_at',
+    protected $casts = [
+        'created_at' => 'datetime',
     ];
 
     /**
@@ -46,9 +46,7 @@ class Morale extends Model
     /**
      * Returns the emotion in a readable format.
      *
-     * @param mixed $value
-     *
-     * @return string
+     * @param  mixed  $value
      */
     public function getTranslatedEmotionAttribute($value): string
     {
@@ -58,8 +56,7 @@ class Morale extends Model
     /**
      * Returns the emotion in a readable format.
      *
-     * @param mixed $value
-     *
+     * @param  mixed  $value
      * @return string
      */
     public function getEmojiAttribute($value)

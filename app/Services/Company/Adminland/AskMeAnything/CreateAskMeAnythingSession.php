@@ -2,20 +2,19 @@
 
 namespace App\Services\Company\Adminland\AskMeAnything;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\AskMeAnythingSession;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateAskMeAnythingSession extends BaseService
 {
     private array $data;
+
     private AskMeAnythingSession $session;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,9 +28,6 @@ class CreateAskMeAnythingSession extends BaseService
 
     /**
      * Create a AMA session.
-     *
-     * @param array $data
-     * @return AskMeAnythingSession
      */
     public function execute(array $data): AskMeAnythingSession
     {

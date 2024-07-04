@@ -44,7 +44,7 @@
           </h2>
 
           <div class="relative">
-            <img loading="lazy" src="/img/streamline-icon-workspace-imac-coffee-1@140x140.png" alt="add email symbol" class="absolute left-1 mr1" height="80"
+            <img loading="lazy" :src="'/img/streamline-icon-workspace-imac-coffee-1@140x140.png'" alt="add email symbol" class="absolute left-1 mr1" height="80"
                  width="80"
             />
 
@@ -76,11 +76,11 @@
 </template>
 
 <script>
-import LoadingButton from '@/Shared/LoadingButton';
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Errors from '@/Shared/Errors';
-import Help from '@/Shared/Help';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Errors from '@/Shared/Errors.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

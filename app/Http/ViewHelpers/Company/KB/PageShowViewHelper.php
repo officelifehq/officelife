@@ -2,16 +2,13 @@
 
 namespace App\Http\ViewHelpers\Company\KB;
 
-use App\Models\Company\Page;
 use App\Helpers\StringHelper;
+use App\Models\Company\Page;
 
 class PageShowViewHelper
 {
     /**
      * Get the detail of a page.
-     *
-     * @param Page $page
-     * @return array
      */
     public static function show(Page $page): array
     {

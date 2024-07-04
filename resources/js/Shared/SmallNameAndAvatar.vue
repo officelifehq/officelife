@@ -10,7 +10,9 @@ span {
     <img loading="lazy" :src="avatar.normal" :srcset="avatar.normal + ' 1x,' + avatar.retina + ' 2x'" class="absolute br-100" alt="avatar"
          :style="style"
     />
-    <inertia-link v-if="url" :href="url" :class="fontSize" :style="avatarMarginLeft" v-bind="$attrs">{{ name }}</inertia-link>
+    <Link v-if="url" :href="url" :class="fontSize" :style="avatarMarginLeft" v-bind="$attrs">
+      {{ name }}
+    </Link>
     <span v-else :class="fontSize" :style="avatarMarginLeft" v-bind="$attrs">
       {{ name }}
     </span>

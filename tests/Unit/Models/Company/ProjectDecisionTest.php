@@ -2,14 +2,11 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\TestCase;
 use App\Models\Company\ProjectDecision;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class ProjectDecisionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_project(): void
     {

@@ -1,4 +1,5 @@
 <?php
+
 return [
     'welcome_title' => 'Hi {name}!',
     'welcome_message' => 'Here is a quick summary of what’s happening for you and the teams you are part of, and the actions you have to take.',

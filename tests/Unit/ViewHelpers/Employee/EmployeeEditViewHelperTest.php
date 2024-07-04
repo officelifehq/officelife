@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
+use App\Http\ViewHelpers\Employee\EmployeeEditViewHelper;
+use App\Models\Company\Employee;
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Models\Company\Employee;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Employee\EmployeeEditViewHelper;
 
 class EmployeeEditViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_information_about_the_employee(): void
     {

@@ -6,11 +6,8 @@ class TimeHelper
 {
     /**
      * Convert a number of minutes to their equivalent in hours + minutes.
-     *
-     * @param int $minutes
-     * @return array
      */
-    public static function convertToHoursAndMinutes(int $minutes = null): array
+    public static function convertToHoursAndMinutes(?int $minutes = null): array
     {
         if (! $minutes || $minutes == 0) {
             return [
@@ -34,9 +31,6 @@ class TimeHelper
 
     /**
      * Gets a sentence representing the time, like '2h12'.
-     *
-     * @param int $duration
-     * @return string
      */
     public static function durationInHumanFormat(int $duration): string
     {

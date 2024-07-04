@@ -6,8 +6,6 @@ class RandomHelper
 {
     /**
      * Generate a random number, large enough.
-     *
-     * @return int
      */
     public static function getNumber(): int
     {

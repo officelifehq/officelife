@@ -2,16 +2,14 @@
 
 namespace App\Services\Company\Employee\Notification;
 
+use App\Models\Company\Notification;
 use App\Services\BaseService;
 use Illuminate\Validation\Rule;
-use App\Models\Company\Notification;
 
 class AddNotificationInUIForEmployee extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -46,10 +44,6 @@ class AddNotificationInUIForEmployee extends BaseService
      * Create a notification for the employee.
      * A notification is a small warning in the UI that the user will see when
      * he logs in.
-     *
-     * @param array $data
-     *
-     * @return Notification
      */
     public function execute(array $data): Notification
     {

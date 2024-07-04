@@ -2,18 +2,16 @@
 
 namespace App\Services\Company\Adminland\Flow;
 
-use Carbon\Carbon;
-use App\Models\Company\Flow;
 use App\Jobs\LogAccountAudit;
+use App\Models\Company\Flow;
 use App\Services\BaseService;
+use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 
 class CreateFlow extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -41,10 +39,6 @@ class CreateFlow extends BaseService
 
     /**
      * Create a flow.
-     *
-     * @param array $data
-     *
-     * @return Flow
      */
     public function execute(array $data): Flow
     {

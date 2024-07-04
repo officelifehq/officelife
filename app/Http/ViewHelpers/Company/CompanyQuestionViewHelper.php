@@ -4,8 +4,8 @@ namespace App\Http\ViewHelpers\Company;
 
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Answer;
 use App\Helpers\QuestionHelper;
+use App\Models\Company\Answer;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
@@ -15,10 +15,6 @@ class CompanyQuestionViewHelper
 {
     /**
      * Array containing all the information about the questions.
-     *
-     * @param Company $company
-     *
-     * @return Collection|null
      */
     public static function questions(Company $company): ?Collection
     {
@@ -57,11 +53,7 @@ class CompanyQuestionViewHelper
      * Detail of a question, along with all the answers and the answer of the
      * employee passed in parameter.
      *
-     * @param Question $question
-     * @param mixed $answers
-     * @param Employee $employee
-     *
-     * @return array|null
+     * @param  mixed  $answers
      */
     public static function question(Question $question, $answers, Employee $employee): ?array
     {
@@ -102,10 +94,6 @@ class CompanyQuestionViewHelper
 
     /**
      * Array containing information about the teams.
-     *
-     * @param Collection $teams
-     *
-     * @return Collection
      */
     public static function teams(Collection $teams): Collection
     {
@@ -120,11 +108,6 @@ class CompanyQuestionViewHelper
         return $teamsCollection;
     }
 
-    /**
-     * @param Question $question
-     *
-     * @return string|null
-     */
     private static function getInformationAboutActivationDate(Question $question): ?string
     {
         // building the sentence `This question was asked from Jan 20, 2020 to Mar 21, 2020`

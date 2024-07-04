@@ -2,10 +2,10 @@
 
 namespace App\Models\Company;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * A task can be either associated with a team, with an employee or both.
@@ -34,16 +34,8 @@ class Task extends Model
      */
     protected $casts = [
         'completed' => 'boolean',
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'completed_at',
-        'due_at',
+        'completed_at' => 'datetime',
+        'due_at' => 'datetime',
     ];
 
     /**
@@ -60,7 +52,6 @@ class Task extends Model
      * Scope a query to only include popular users.
      *
      * @param  Builder  $query
-     * @return Builder
      */
     public function scopeInProgress($query): Builder
     {

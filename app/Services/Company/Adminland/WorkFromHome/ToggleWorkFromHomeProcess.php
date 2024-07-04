@@ -2,17 +2,15 @@
 
 namespace App\Services\Company\Adminland\WorkFromHome;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Company;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class ToggleWorkFromHomeProcess extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -24,9 +22,6 @@ class ToggleWorkFromHomeProcess extends BaseService
 
     /**
      * Toggle the work from home process in the company.
-     *
-     * @param array $data
-     * @return Company
      */
     public function execute(array $data): Company
     {

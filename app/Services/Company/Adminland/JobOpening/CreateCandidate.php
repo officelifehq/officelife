@@ -2,22 +2,22 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
-use Illuminate\Support\Str;
-use App\Services\BaseService;
 use App\Models\Company\Candidate;
-use App\Models\Company\JobOpening;
 use App\Models\Company\CandidateStage;
+use App\Models\Company\JobOpening;
+use App\Services\BaseService;
+use Illuminate\Support\Str;
 
 class CreateCandidate extends BaseService
 {
     protected array $data;
+
     protected JobOpening $jobOpening;
+
     protected Candidate $candidate;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -34,9 +34,6 @@ class CreateCandidate extends BaseService
 
     /**
      * Create a candidate.
-     *
-     * @param array $data
-     * @return Candidate
      */
     public function execute(array $data): Candidate
     {

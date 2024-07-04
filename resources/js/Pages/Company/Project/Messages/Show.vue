@@ -56,7 +56,9 @@
             </div>
 
             <div>
-              <inertia-link :href="message.author.url" class="mb2 dib">{{ message.author.name }}</inertia-link>
+              <Link :href="message.author.url" class="mb2 dib">
+                {{ message.author.name }}
+              </Link>
 
               <span v-if="message.author.role" class="db f7 mb2 relative">
 
@@ -95,7 +97,7 @@
           </h3>
           <ul class="list pl0 ma0">
             <!-- edit -->
-            <li class="mb2"><inertia-link :href="message.url_edit" data-cy="project-edit" class="f6 gray">{{ $t('project.message_show_edit') }}</inertia-link></li>
+            <li class="mb2"><Link :href="message.url_edit" data-cy="project-edit" class="f6 gray">{{ $t('project.message_show_edit') }}</Link></li>
 
             <!-- delete -->
             <li v-if="!removalConfirmation"><a href="#" data-cy="project-delete" class="f6 gray bb b--dotted bt-0 bl-0 br-0 pointer di c-delete" @click.prevent="removalConfirmation = true">{{ $t('project.message_show_destroy') }}</a></li>
@@ -116,11 +118,11 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
-import Comments from '@/Shared/Comments';
-import Avatar from '@/Shared/Avatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu.vue';
+import Comments from '@/Shared/Comments.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

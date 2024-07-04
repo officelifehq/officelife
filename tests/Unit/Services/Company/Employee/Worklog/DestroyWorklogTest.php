@@ -2,22 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Employee\Worklog;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use App\Models\Company\Worklog;
+use App\Services\Company\Employee\Worklog\DestroyWorklog;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\Worklog\DestroyWorklog;
+use Tests\TestCase;
 
 class DestroyWorklogTest extends TestCase
 {
-    use DatabaseTransactions;
-
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_a_worklog_as_administrator(): void
     {

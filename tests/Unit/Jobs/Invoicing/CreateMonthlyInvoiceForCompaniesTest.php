@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Jobs\Invoicing;
 
-use Carbon\Carbon;
-use Tests\TestCase;
+use App\Jobs\Invoicing\CreateMonthlyInvoiceForCompanies;
 use App\Models\Company\Company;
 use App\Models\Company\CompanyDailyUsageHistory;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Jobs\Invoicing\CreateMonthlyInvoiceForCompanies;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class CreateMonthlyInvoiceForCompaniesTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_the_monthly_invoice_for_a_company(): void
     {

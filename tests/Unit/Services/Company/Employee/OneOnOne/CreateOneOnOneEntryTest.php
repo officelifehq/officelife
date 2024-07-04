@@ -2,24 +2,21 @@
 
 namespace Tests\Unit\Services\Company\Employee\OneOnOne;
 
-use Tests\TestCase;
+use App\Exceptions\SameIdsException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Exceptions\SameIdsException;
-use App\Models\Company\OneOnOneEntry;
-use Illuminate\Support\Facades\Queue;
 use App\Models\Company\OneOnOneActionItem;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Company\OneOnOneEntry;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateOneOnOneEntryTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_an_entry_as_administrator(): void
     {
@@ -120,7 +117,7 @@ class CreateOneOnOneEntryTest extends TestCase
         $this->executeService($michael, $dwight);
     }
 
-    private function executeService(Employee $manager, Employee $employee, OneOnOneEntry $oldEntry = null): void
+    private function executeService(Employee $manager, Employee $employee, ?OneOnOneEntry $oldEntry = null): void
     {
         Queue::fake();
 

@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Group;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Company\Group\GroupMeetingsViewHelper;
+use App\Models\Company\Employee;
 use App\Models\Company\Group;
 use App\Models\Company\Meeting;
-use App\Models\Company\Employee;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Group\GroupMeetingsViewHelper;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class GroupMeetingsViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_list_of_meetings(): void
     {

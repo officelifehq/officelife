@@ -2,22 +2,22 @@
 
 namespace App\Services\Company\Project;
 
-use App\Services\BaseService;
 use App\Models\Company\Project;
-use Illuminate\Support\Facades\DB;
-use App\Models\Company\ProjectSprint;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\ProjectSprint;
+use App\Services\BaseService;
+use Illuminate\Support\Facades\DB;
 
 class ToggleProjectSprint extends BaseService
 {
     protected array $data;
+
     protected Project $project;
+
     protected ProjectSprint $projectSprint;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -31,8 +31,6 @@ class ToggleProjectSprint extends BaseService
 
     /**
      * Collapse or expand the project sprint.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

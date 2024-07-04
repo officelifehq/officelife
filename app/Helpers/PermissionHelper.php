@@ -10,10 +10,6 @@ class PermissionHelper
     /**
      * Get all the permissions about what the logged employee can do
      * against another employee.
-     *
-     * @param Employee $loggedEmployee
-     * @param Employee $employee
-     * @return array
      */
     public static function permissions(Employee $loggedEmployee, Employee $employee): array
     {

@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Adminland\ECoffee;
 
-use Tests\TestCase;
-use App\Models\User\User;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Models\User\User;
+use App\Services\Company\Adminland\ECoffee\ToggleECoffeeProcess;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\ECoffee\ToggleECoffeeProcess;
+use Tests\TestCase;
 
 class ToggleECoffeeProcessTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_toggles_the_ecoffee_process_as_administrator(): void
     {

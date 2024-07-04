@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Services\User;
 
-use Tests\TestCase;
 use App\Models\User\User;
-use Illuminate\Support\Facades\Hash;
 use App\Services\User\UpdateUserPassword;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class UpdateUserPasswordTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_update_the_password(): void
     {

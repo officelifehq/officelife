@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Position;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
+use App\Services\Company\Adminland\Position\CreatePosition;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Position\CreatePosition;
+use Tests\TestCase;
 
 class CreatePositionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_position_as_administrator(): void
     {

@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Adminland\AdminECoffeeViewHelper;
 use App\Services\Company\Adminland\ECoffee\ToggleECoffeeProcess;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminECoffeeController extends Controller
 {
     /**
      * Show the eCoffee page.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -33,10 +31,6 @@ class AdminECoffeeController extends Controller
 
     /**
      * Toggle the eCoffee session in the company.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {

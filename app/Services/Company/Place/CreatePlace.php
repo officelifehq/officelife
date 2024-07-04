@@ -2,20 +2,18 @@
 
 namespace App\Services\Company\Place;
 
-use Carbon\Carbon;
+use App\Jobs\FetchAddressGeocoding;
 use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Place;
 use App\Services\BaseService;
-use App\Jobs\LogEmployeeAudit;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use App\Jobs\FetchAddressGeocoding;
 
 class CreatePlace extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,9 +33,6 @@ class CreatePlace extends BaseService
 
     /**
      * Create a place.
-     *
-     * @param array $data
-     * @return Place
      */
     public function execute(array $data): Place
     {
@@ -65,10 +60,6 @@ class CreatePlace extends BaseService
 
     /**
      * Actually create the place.
-     *
-     * @param array $data
-     *
-     * @return Place
      */
     private function addPlace(array $data): Place
     {
@@ -87,8 +78,6 @@ class CreatePlace extends BaseService
     /**
      * Set a place as active for the placable object.
      * Check all the previous places for this entity and set them to inactive.
-     *
-     * @param Place $place
      */
     private function setActive(Place $place): void
     {
@@ -102,8 +91,6 @@ class CreatePlace extends BaseService
     /**
      * Fetch the longitude/latitude for the new place.
      * This is placed on a queue so it doesn't slow down the app.
-     *
-     * @param Place $place
      */
     private function geocodePlace(Place $place): void
     {
@@ -112,9 +99,6 @@ class CreatePlace extends BaseService
 
     /**
      * Add logs.
-     *
-     * @param array $data
-     * @param Place $place
      */
     private function addLog(array $data, Place $place): void
     {

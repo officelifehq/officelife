@@ -2,19 +2,17 @@
 
 namespace App\Services\Company\Place;
 
-use Illuminate\Support\Str;
 use App\Models\Company\Place;
 use App\Services\BaseService;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\HttpClientException;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class GetGPSCoordinate extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,7 +27,6 @@ class GetGPSCoordinate extends BaseService
      * Should always be done through a job, and not be called directly.
      * You should use the FetchAddressGeocoding job for this.
      *
-     * @param array        $data
      *
      * @return Place|null
      */
@@ -44,10 +41,6 @@ class GetGPSCoordinate extends BaseService
 
     /**
      * Build the query to send with the API call.
-     *
-     * @param Place $place
-     *
-     * @return string|null
      */
     private function buildQuery(Place $place): ?string
     {
@@ -66,10 +59,6 @@ class GetGPSCoordinate extends BaseService
 
     /**
      * Actually make the call to the reverse geocoding API.
-     *
-     * @param Place $place
-     *
-     * @return Place|null
      */
     private function query(Place $place): ?Place
     {

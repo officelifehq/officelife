@@ -11,9 +11,6 @@ class TeamIndexViewHelper
 {
     /**
      * Get all the teams in the company.
-     *
-     * @param Company $company
-     * @return Collection
      */
     public static function index(Company $company): Collection
     {

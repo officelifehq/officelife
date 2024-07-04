@@ -2,14 +2,11 @@
 
 namespace Tests\Integration;
 
-use Tests\TestCase;
 use App\Models\User\User;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class SetupFrontEndTestUserTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_user_for_frontend_tests(): void
     {

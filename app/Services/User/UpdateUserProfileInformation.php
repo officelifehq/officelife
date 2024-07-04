@@ -3,8 +3,8 @@
 namespace App\Services\User;
 
 use App\Services\BaseService;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 
 class UpdateUserProfileInformation extends BaseService implements UpdatesUserProfileInformation
@@ -13,7 +13,6 @@ class UpdateUserProfileInformation extends BaseService implements UpdatesUserPro
      * Validate and update the given user's profile information.
      *
      * @param  mixed  $user
-     * @param  array  $input
      */
     public function update($user, array $input)
     {
@@ -44,7 +43,6 @@ class UpdateUserProfileInformation extends BaseService implements UpdatesUserPro
      * Update the given verified user's profile information.
      *
      * @param  mixed  $user
-     * @param  array  $input
      */
     protected function updateVerifiedUser($user, array $input)
     {

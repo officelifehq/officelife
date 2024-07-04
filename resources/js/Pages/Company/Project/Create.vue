@@ -154,9 +154,9 @@
             <div class="mb4 mt5">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <Link :href="'/' + $page.props.auth.company.id + '/company/projects/'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
-                  </inertia-link>
+                  </Link>
                 </div>
                 <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.create')" :cypress-selector="'submit-create-project-button'" />
               </div>
@@ -169,15 +169,16 @@
 </template>
 
 <script>
-import TextInput from '@/Shared/TextInput';
-import TextArea from '@/Shared/TextArea';
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Avatar from '@/Shared/Avatar';
+import TextInput from '@/Shared/TextInput.vue';
+import TextArea from '@/Shared/TextArea.vue';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Avatar from '@/Shared/Avatar.vue';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
-import Help from '@/Shared/Help';
+import Help from '@/Shared/Help.vue';
+import _ from 'lodash';
 
 export default {
   components: {

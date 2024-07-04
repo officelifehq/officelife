@@ -61,7 +61,7 @@
 
           <!-- current position indicator -->
           <template v-if="updatedEmployee.position">
-            <img v-if="position.id == updatedEmployee.position.id" loading="lazy" src="/img/check.svg" class="pr1 absolute right-1" alt="check symbol" />
+            <img v-if="position.id == updatedEmployee.position.id" loading="lazy" :src="'/img/check.svg'" class="pr1 absolute right-1" alt="check symbol" />
           </template>
         </li>
       </ul>
@@ -74,6 +74,7 @@
 
 <script>
 import vClickOutside from 'click-outside-vue3';
+import _ from 'lodash';
 
 export default {
   directives: {

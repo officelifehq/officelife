@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Place;
 
-use Tests\TestCase;
-use App\Models\Company\Place;
+use App\Jobs\FetchAddressGeocoding;
 use App\Models\Company\Country;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\DB;
-use App\Jobs\FetchAddressGeocoding;
-use Illuminate\Support\Facades\Queue;
+use App\Models\Company\Place;
 use App\Services\Company\Place\CreatePlace;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class CreatePlaceTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_place_as_administrator(): void
     {

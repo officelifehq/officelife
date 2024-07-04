@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\ViewHelpers\Adminland;
 
-use Tests\TestCase;
-use App\Models\Company\Position;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Adminland\AdminPositionViewHelper;
+use App\Models\Company\Position;
+use Tests\TestCase;
 
 class AdminPositionViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_positions(): void
     {

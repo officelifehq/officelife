@@ -2,12 +2,12 @@
 
 namespace App\Services\User;
 
-use App\Models\User\User;
-use Illuminate\Support\Str;
 use App\Helpers\LocaleHelper;
+use App\Models\User\User;
 use App\Services\BaseService;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class CreateAccount extends BaseService implements CreatesNewUsers
@@ -18,8 +18,6 @@ class CreateAccount extends BaseService implements CreatesNewUsers
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -45,9 +43,6 @@ class CreateAccount extends BaseService implements CreatesNewUsers
 
     /**
      * Validate and create a newly registered user.
-     *
-     * @param  array  $input
-     * @return User
      */
     public function create(array $input): User
     {
@@ -56,10 +51,6 @@ class CreateAccount extends BaseService implements CreatesNewUsers
 
     /**
      * Create a user and send a confirmation email.
-     *
-     * @param array $data
-     *
-     * @return User
      */
     public function execute(array $data): User
     {
@@ -77,8 +68,6 @@ class CreateAccount extends BaseService implements CreatesNewUsers
 
     /**
      * Create the user.
-     *
-     * @param array $data
      */
     private function createUser(array $data): void
     {

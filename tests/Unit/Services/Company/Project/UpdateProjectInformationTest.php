@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
+use App\Exceptions\ProjectCodeAlreadyExistException;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
+use App\Services\Company\Project\UpdateProjectInformation;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\ProjectCodeAlreadyExistException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Project\UpdateProjectInformation;
+use Tests\TestCase;
 
 class UpdateProjectInformationTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_project_information_as_administrator(): void
     {

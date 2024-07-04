@@ -18,7 +18,7 @@
 
           <!-- avatar if the employee is no longer in the system -->
           <div v-else>
-            <img loading="lazy" src="/img/streamline-icon-avatar-neutral@100x100.png" alt="anonymous avatar" class="br-100 mr3" height="32"
+            <img loading="lazy" :src="'/img/streamline-icon-avatar-neutral@100x100.png'" alt="anonymous avatar" class="br-100 mr3" height="32"
                  width="32"
             />
           </div>
@@ -31,7 +31,7 @@
             <!-- comment info -->
             <div class="bg-gray ph3 pv2 f7 box-bottom">
               <ul class="ma0 list pl0">
-                <li v-if="comment.author.id" class="di">{{ $t('app.message_comment_written_by') }} <inertia-link :href="comment.author.url">{{ comment.author.name }}</inertia-link> <span class="gray">({{ comment.written_at }})</span></li>
+                <li v-if="comment.author.id" class="di">{{ $t('app.message_comment_written_by') }} <Link :href="comment.author.url">{{ comment.author.name }}</Link> <span class="gray">({{ comment.written_at }})</span></li>
                 <li v-else class="di">{{ $t('app.message_comment_written_by') }} comment.author <span class="gray">({{ comment.written_at }})</span>()</li>
 
                 <!-- edit -->
@@ -101,9 +101,9 @@
 </template>
 
 <script>
-import Avatar from '@/Shared/Avatar';
-import TextArea from '@/Shared/TextArea';
-import LoadingButton from '@/Shared/LoadingButton';
+import Avatar from '@/Shared/Avatar.vue';
+import TextArea from '@/Shared/TextArea.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
 
 export default {
   components: {

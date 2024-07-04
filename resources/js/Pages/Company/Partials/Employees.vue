@@ -43,14 +43,16 @@
       </div>
 
       <div class="ph3 pv2 tc f6 bt bb-gray">
-        <inertia-link :href="employees.view_all_url">{{ $t('company.employees_view_all') }}</inertia-link>
+        <Link :href="employees.view_all_url">
+          {{ $t('company.employees_view_all') }}
+        </Link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Avatar from '@/Shared/Avatar';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

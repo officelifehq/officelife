@@ -42,13 +42,13 @@
 </template>
 
 <script>
-import PersonalDescription from '@/Pages/Employee/Partials/PersonalDescription';
-import EmployeeImportantDates from '@/Pages/Employee/Partials/EmployeeImportantDates';
-import EmployeeStatus from '@/Pages/Employee/Partials/EmployeeStatus';
-import EmployeeContact from '@/Pages/Employee/Partials/EmployeeContact';
-import EmployeeGenderPronoun from '@/Pages/Employee/Partials/EmployeeGenderPronoun';
-import ProfileActions from '@/Pages/Employee/Partials/ProfileActions';
-import Avatar from '@/Pages/Employee/Partials/Avatar';
+import PersonalDescription from '@/Pages/Employee/Partials/PersonalDescription.vue';
+import EmployeeImportantDates from '@/Pages/Employee/Partials/EmployeeImportantDates.vue';
+import EmployeeStatus from '@/Pages/Employee/Partials/EmployeeStatus.vue';
+import EmployeeContact from '@/Pages/Employee/Partials/EmployeeContact.vue';
+import EmployeeGenderPronoun from '@/Pages/Employee/Partials/EmployeeGenderPronoun.vue';
+import ProfileActions from '@/Pages/Employee/Partials/ProfileActions.vue';
+import Avatar from '@/Pages/Employee/Partials/Avatar.vue';
 
 export default {
   components: {

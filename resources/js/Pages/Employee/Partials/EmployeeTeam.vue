@@ -33,7 +33,7 @@
     <div v-if="localEmployeeTeams" class="di">
       <ul class="di list ma0 pa0 existing-teams">
         <li v-for="team in localEmployeeTeams" :key="team.id" class="di team-item">
-          <inertia-link :href="team.url" class="mr1">{{ team.name }}</inertia-link>
+          <Link :href="team.url" class="mr1">{{ team.name }}</Link>
           <template v-if="team.team_leader">
             <span v-if="team.team_leader.id == employee.id">
               ({{ $t('employee.team_leader') }})
@@ -82,7 +82,7 @@
             <div v-if="isAssigned(team.id)" class="pv2 ph3 bb bb-gray-hover bb-gray pointer relative" @click="reset(team)">
               {{ team.name }}
 
-              <img loading="lazy" src="/img/check.svg" class="pr1 absolute right-1" alt="check symbol" />
+              <img loading="lazy" :src="'/img/check.svg'" class="pr1 absolute right-1" alt="check symbol" />
             </div>
 
             <!-- case if the team is not yet selected -->
@@ -96,9 +96,9 @@
       <!-- Shown if there is no teams setup in the account yet -->
       <div v-else>
         <p class="pa2 tc lh-copy" data-cy="modal-blank-state-copy">
-          {{ $t('employee.team_modal_blank_title') }} <inertia-link :href="'/' + $page.props.auth.company.id + '/account/teams'" data-cy="modal-blank-state-cta">
+          {{ $t('employee.team_modal_blank_title') }} <Link :href="'/' + $page.props.auth.company.id + '/account/teams'" data-cy="modal-blank-state-cta">
             {{ $t('employee.team_modal_blank_cta') }}
-          </inertia-link>
+          </Link>
         </p>
       </div>
     </div>
@@ -107,6 +107,7 @@
 
 <script>
 import vClickOutside from 'click-outside-vue3';
+import _ from 'lodash';
 
 export default {
   directives: {

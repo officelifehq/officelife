@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Models\Company\ProjectBoard;
+use Closure;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CheckBoard
@@ -11,9 +11,7 @@ class CheckBoard
     /**
      * Check that the board can be access.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
     public function handle($request, Closure $next)

@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Jobs;
 
+use App\Jobs\CalculateTimeOffBalance;
+use App\Models\Company\Employee;
+use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Models\Company\Employee;
-use App\Jobs\CalculateTimeOffBalance;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
 
 class CalculateTimeOffBalanceTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_triggers_the_service(): void
     {

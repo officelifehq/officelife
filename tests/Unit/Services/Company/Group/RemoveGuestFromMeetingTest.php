@@ -2,23 +2,20 @@
 
 namespace Tests\Unit\Services\Company\Group;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Group;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Meeting;
 use App\Models\Company\Employee;
+use App\Models\Company\Group;
+use App\Models\Company\Meeting;
+use App\Services\Company\Group\RemoveGuestFromMeeting;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Group\RemoveGuestFromMeeting;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class RemoveGuestFromMeetingTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_removes_an_employee_from_a_meeting_as_administrator(): void
     {
@@ -143,7 +140,7 @@ class RemoveGuestFromMeetingTest extends TestCase
                 $job->auditLog['objects'] === json_encode([
                     'group_id' => $group->id,
                     'group_name' => $group->name,
-                'meeting_id' => $meeting->id,
+                    'meeting_id' => $meeting->id,
                 ]);
         });
     }

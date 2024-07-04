@@ -37,11 +37,11 @@
         <li v-for="jobOpening in jobOpenings" :key="jobOpening.id" class="pa3 job-opening-item bb bb-gray bb-gray-hover">
           <div>
             <div :class="jobOpening.team ? 'mb2': ''" class="db">
-              <inertia-link :href="jobOpening.url" class="mr2">{{ jobOpening.title }}</inertia-link>
+              <Link :href="jobOpening.url" class="mr2">{{ jobOpening.title }}</Link>
               <span v-if="jobOpening.reference_number" class="reference-number f7 code fw4">{{ jobOpening.reference_number }}</span>
             </div>
 
-            <p v-if="jobOpening.team" class="ma0 f7 gray">For <inertia-link :href="jobOpening.team.url">{{ jobOpening.team.name }}</inertia-link></p>
+            <p v-if="jobOpening.team" class="ma0 f7 gray">For <Link :href="jobOpening.team.url">{{ jobOpening.team.name }}</Link></p>
           </div>
         </li>
       </ul>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

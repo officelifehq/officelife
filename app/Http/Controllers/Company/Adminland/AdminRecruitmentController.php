@@ -2,27 +2,25 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Company\RecruitingStageTemplate;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Adminland\AdminRecruitmentViewHelper;
+use App\Models\Company\RecruitingStageTemplate;
 use App\Services\Company\Adminland\JobOpening\CreateRecruitingStage;
-use App\Services\Company\Adminland\JobOpening\UpdateRecruitingStage;
-use App\Services\Company\Adminland\JobOpening\DestroyRecruitingStage;
 use App\Services\Company\Adminland\JobOpening\CreateRecruitingStageTemplate;
+use App\Services\Company\Adminland\JobOpening\DestroyRecruitingStage;
+use App\Services\Company\Adminland\JobOpening\UpdateRecruitingStage;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminRecruitmentController extends Controller
 {
     /**
      * Show the recruitment page.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -38,10 +36,6 @@ class AdminRecruitmentController extends Controller
 
     /**
      * Create the template.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {
@@ -72,9 +66,6 @@ class AdminRecruitmentController extends Controller
     /**
      * Show the template content.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $templateId
      * @return mixed
      */
     public function show(Request $request, int $companyId, int $templateId)
@@ -98,11 +89,6 @@ class AdminRecruitmentController extends Controller
 
     /**
      * Create the stage.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $templateId
-     * @return JsonResponse
      */
     public function storeStage(Request $request, int $companyId, int $templateId): JsonResponse
     {
@@ -129,12 +115,6 @@ class AdminRecruitmentController extends Controller
 
     /**
      * Update the stage.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $templateId
-     * @param int $stageId
-     * @return JsonResponse
      */
     public function updateStage(Request $request, int $companyId, int $templateId, int $stageId): JsonResponse
     {
@@ -163,12 +143,6 @@ class AdminRecruitmentController extends Controller
 
     /**
      * Delete the stage.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $templateId
-     * @param int $stageId
-     * @return JsonResponse
      */
     public function destroyStage(Request $request, int $companyId, int $templateId, int $stageId): JsonResponse
     {

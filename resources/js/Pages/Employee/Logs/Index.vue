@@ -49,7 +49,7 @@
               <div>
                 <div class="db f7 mb2">
                   <!-- log author -->
-                  <inertia-link v-if="log.author.id" :href="log.author.url">{{ log.author.name }}</inertia-link>
+                  <Link v-if="log.author.id" :href="log.author.url">{{ log.author.name }}</Link>
                   <span v-else>
                     {{ log.author.name }}
                   </span>
@@ -69,12 +69,12 @@
 
           <!-- Pagination -->
           <div class="center cf pa3">
-            <inertia-link v-show="paginator.previousPageUrl" class="fl dib" :href="paginator.previousPageUrl" title="Previous">
+            <Link v-show="paginator.previousPageUrl" class="fl dib" :href="paginator.previousPageUrl" title="Previous">
               &larr; {{ $t('app.previous') }}
-            </inertia-link>
-            <inertia-link v-show="paginator.nextPageUrl" class="fr dib" :href="paginator.nextPageUrl" title="Next">
+            </Link>
+            <Link v-show="paginator.nextPageUrl" class="fr dib" :href="paginator.nextPageUrl" title="Next">
               {{ $t('app.next') }} &rarr;
-            </inertia-link>
+            </Link>
           </div>
         </div>
       </div>
@@ -83,9 +83,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Avatar from '@/Shared/Avatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

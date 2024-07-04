@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Group;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Group;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Meeting;
 use App\Models\Company\Employee;
+use App\Models\Company\Group;
+use App\Models\Company\Meeting;
+use App\Services\Company\Group\ToggleEmployeeParticipationInMeeting;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Group\ToggleEmployeeParticipationInMeeting;
+use Tests\TestCase;
 
 class ToggleEmployeeParticipationInMeetingTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_toggles_a_participation_to_a_meeting_as_administrator(): void
     {
@@ -151,7 +148,7 @@ class ToggleEmployeeParticipationInMeetingTest extends TestCase
                 $job->auditLog['objects'] === json_encode([
                     'group_id' => $group->id,
                     'group_name' => $group->name,
-                'meeting_id' => $meeting->id,
+                    'meeting_id' => $meeting->id,
                 ]);
         });
     }

@@ -2,11 +2,11 @@
 
 namespace App\Services\Company\Adminland\Hardware;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class RegainHardware extends BaseService
 {
@@ -14,8 +14,6 @@ class RegainHardware extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,9 +26,6 @@ class RegainHardware extends BaseService
 
     /**
      * Lend a piece of hardware to an employee.
-     *
-     * @param  array    $data
-     * @return Hardware
      */
     public function execute(array $data): Hardware
     {
@@ -57,9 +52,6 @@ class RegainHardware extends BaseService
 
     /**
      * Create an audit log.
-     *
-     * @param array    $data
-     * @param Hardware $hardware
      */
     private function log(array $data, Hardware $hardware): void
     {

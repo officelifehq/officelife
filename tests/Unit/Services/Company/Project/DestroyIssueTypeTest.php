@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\IssueType;
+use App\Services\Company\Project\DestroyIssueType;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use App\Services\Company\Project\DestroyIssueType;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class DestroyIssueTypeTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_deletes_the_issue_type_as_administrator(): void
     {

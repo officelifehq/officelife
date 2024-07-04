@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Commands;
 
-use Tests\TestCase;
-use Illuminate\Support\Facades\Artisan;
 use App\Console\Commands\Helpers\Command;
+use Illuminate\Support\Facades\Artisan;
+use Tests\TestCase;
 
 class SetupCommandTest extends TestCase
 {

@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Company\Dashboard\HR;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
+use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
+use App\Http\ViewHelpers\Dashboard\HR\DashboardHRTimesheetViewHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
-use Illuminate\Http\JsonResponse;
-use App\Helpers\NotificationHelper;
-use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\Timesheet\RejectTimesheet;
 use App\Services\Company\Employee\Timesheet\ApproveTimesheet;
-use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
-use App\Http\ViewHelpers\Dashboard\HR\DashboardHRTimesheetViewHelper;
+use App\Services\Company\Employee\Timesheet\RejectTimesheet;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class DashboardHRTimesheetController extends Controller
 {
@@ -49,9 +49,6 @@ class DashboardHRTimesheetController extends Controller
     /**
      * Show the timesheet to validate.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $timesheetId
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
@@ -80,11 +77,6 @@ class DashboardHRTimesheetController extends Controller
 
     /**
      * Approve the timesheet.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $timesheetId
-     * @return JsonResponse
      */
     public function approve(Request $request, int $companyId, int $timesheetId): JsonResponse
     {
@@ -109,11 +101,6 @@ class DashboardHRTimesheetController extends Controller
 
     /**
      * Reject the timesheet.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $timesheetId
-     * @return JsonResponse
      */
     public function reject(Request $request, int $companyId, int $timesheetId): JsonResponse
     {
@@ -138,9 +125,7 @@ class DashboardHRTimesheetController extends Controller
 
     /**
      * Check that the current employee has access to this method.
-     * @param Company $company
-     * @param int $timesheetId
-     * @param Employee $employee
+     *
      * @return mixed
      */
     private function canAccess(Company $company, int $timesheetId, Employee $employee)

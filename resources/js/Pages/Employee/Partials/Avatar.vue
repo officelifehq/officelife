@@ -45,8 +45,8 @@
 </template>
 
 <script>
-import Uploadcare from 'uploadcare-vue/src/Uploadcare.vue';
-import TheAvatar from '@/Shared/Avatar';
+import Uploadcare from '@/Shared/Uploadcare.vue';
+import TheAvatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

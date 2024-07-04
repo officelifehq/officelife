@@ -66,7 +66,7 @@ return [
     ],
 
     'monica' => [
-        'host' =>  env('MONICA_HOST', 'https://app.monicahq.com'),
+        'host' => env('MONICA_HOST', 'https://app.monicahq.com'),
         'client_id' => env('MONICA_CLIENT_ID'),
         'client_secret' => env('MONICA_CLIENT_SECRET'),
         'redirect' => env('MONICA_REDIRECT_URI', '/auth/monica/callback'),

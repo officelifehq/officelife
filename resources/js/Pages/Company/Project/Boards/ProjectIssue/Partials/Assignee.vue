@@ -66,7 +66,7 @@
           <div v-if="isAssigned(member.id)" class="pv2 ph3 bb bb-gray-hover bb-gray pointer relative" @click="destroy(member)">
             {{ member.name }}
 
-            <img loading="lazy" src="/img/check.svg" class="pr1 absolute right-1" alt="check symbol" />
+            <img loading="lazy" :src="'/img/check.svg'" class="pr1 absolute right-1" alt="check symbol" />
           </div>
 
           <div v-else class="pv2 ph3 bb bb-gray-hover bb-gray pointer relative" @click="assign(member)">
@@ -84,7 +84,9 @@
         </div>
 
         <div>
-          <inertia-link :href="assignee.url.show" class="dib">{{ assignee.name }}</inertia-link>
+          <Link :href="assignee.url.show" class="dib">
+            {{ assignee.name }}
+          </Link>
         </div>
       </div>
     </div>
@@ -103,8 +105,9 @@
 </template>
 
 <script>
-import Avatar from '@/Shared/Avatar';
+import Avatar from '@/Shared/Avatar.vue';
 import vClickOutside from 'click-outside-vue3';
+import _ from 'lodash';
 
 export default {
   components: {

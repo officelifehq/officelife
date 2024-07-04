@@ -2,21 +2,21 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\RecruitingStageTemplate;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyRecruitingStageTemplate extends BaseService
 {
     protected array $data;
+
     protected RecruitingStageTemplate $template;
+
     protected int $startPosition;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,8 +29,6 @@ class DestroyRecruitingStageTemplate extends BaseService
 
     /**
      * Delete a recruiting stage template.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

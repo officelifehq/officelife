@@ -2,22 +2,22 @@
 
 namespace App\Services\Company\Adminland\Software;
 
-use Carbon\Carbon;
-use App\Models\Company\File;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
+use App\Models\Company\File;
 use App\Models\Company\Software;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroySoftwareFile extends BaseService
 {
     protected array $data;
+
     protected File $file;
+
     protected Software $software;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -31,8 +31,6 @@ class DestroySoftwareFile extends BaseService
 
     /**
      * Destroy a file associated with the software.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

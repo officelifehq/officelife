@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\TestCase;
-use App\Models\Company\Place;
 use App\Models\Company\Country;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Place;
+use Tests\TestCase;
 
 class PlaceTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_has_one_country(): void
     {

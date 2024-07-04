@@ -2,10 +2,10 @@
 
 namespace App\Services\Company\Employee\Skill;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Skill;
 use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroySkill extends BaseService
 {
@@ -15,8 +15,6 @@ class DestroySkill extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,8 +27,6 @@ class DestroySkill extends BaseService
 
     /**
      * Destroy a skill.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

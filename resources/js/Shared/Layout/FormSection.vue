@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import SectionTitle from './SectionTitle';
+import SectionTitle from '@/Shared/Layout/SectionTitle.vue';
 
 export default {
 

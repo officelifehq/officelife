@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\OneOnOneNote;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\OneOnOneNote;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OneOnOneNoteFactory extends Factory

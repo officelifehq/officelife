@@ -2,22 +2,20 @@
 
 namespace App\Services\Company\Employee\Holiday;
 
-use Exception;
-use Carbon\Carbon;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Helpers\HolidayHelper;
+use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
-use Illuminate\Validation\Rule;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeePlannedHoliday;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Validation\Rule;
 
 class CreateTimeOff extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -27,11 +25,11 @@ class CreateTimeOff extends BaseService
             'employee_id' => 'required|integer|exists:employees,id',
             'date' => 'required|date_format:Y-m-d',
             'type' => 'required',
-                Rule::in([
-                    'holiday',
-                    'sick',
-                    'pto',
-                ]),
+            Rule::in([
+                'holiday',
+                'sick',
+                'pto',
+            ]),
             'full' => 'required|boolean',
         ];
     }
@@ -44,7 +42,6 @@ class CreateTimeOff extends BaseService
      * wants to take. That means he can take one half day of sick day, and the
      * other half day as holiday, for instance.
      *
-     * @param array $data
      *
      * @return EmployeePlannedHoliday|string
      */
@@ -91,11 +88,6 @@ class CreateTimeOff extends BaseService
 
     /**
      * Get the planned holiday object for this date, if it already exists.
-     *
-     * @param Employee $employee
-     * @param Carbon   $date
-     *
-     * @return EmployeePlannedHoliday|null
      */
     private function getExistingPlannedHoliday(Employee $employee, Carbon $date): ?EmployeePlannedHoliday
     {
@@ -111,11 +103,6 @@ class CreateTimeOff extends BaseService
 
     /**
      * Validate wether we can create a new holiday.
-     *
-     * @param EmployeePlannedHoliday $holiday
-     * @param array $data
-     *
-     * @return bool
      */
     private function validateCreationHoliday(EmployeePlannedHoliday $holiday, array $data): bool
     {
@@ -135,11 +122,6 @@ class CreateTimeOff extends BaseService
 
     /**
      * Create a new planned holiday.
-     *
-     * @param array  $data
-     * @param Carbon $date
-     *
-     * @return EmployeePlannedHoliday
      */
     private function createPlannedHoliday(array $data, Carbon $date): EmployeePlannedHoliday
     {
@@ -153,9 +135,6 @@ class CreateTimeOff extends BaseService
 
     /**
      * Create the audit logs.
-     *
-     * @param Employee               $employee
-     * @param EmployeePlannedHoliday $plannedHoliday
      */
     private function createLogs(Employee $employee, EmployeePlannedHoliday $plannedHoliday): void
     {

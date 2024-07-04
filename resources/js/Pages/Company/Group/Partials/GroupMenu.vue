@@ -34,22 +34,22 @@
 
     <div class="center br3 mb5 tc">
       <div class="cf dib btn-group">
-        <inertia-link :class="{'selected':(tab == 'info')}" :href="'/' + $page.props.auth.company.id + '/company/groups/' + group.id + ''" class="f6 fl ph3 pv2 dib pointer no-underline">
+        <Link :class="{'selected':(tab == 'info')}" :href="'/' + $page.props.auth.company.id + '/company/groups/' + group.id + ''" class="f6 fl ph3 pv2 dib pointer no-underline">
           {{ $t('group.index_menu_summary') }}
-        </inertia-link>
-        <inertia-link :class="{'selected':(tab == 'meetings')}" :href="'/' + $page.props.auth.company.id + '/company/groups/' + group.id + '/meetings'" class="f6 fl ph3 pv2 dib pointer">
+        </Link>
+        <Link :class="{'selected':(tab == 'meetings')}" :href="'/' + $page.props.auth.company.id + '/company/groups/' + group.id + '/meetings'" class="f6 fl ph3 pv2 dib pointer">
           {{ $t('group.index_menu_meetings') }}
-        </inertia-link>
-        <inertia-link :class="{'selected':(tab == 'members')}" :href="'/' + $page.props.auth.company.id + '/company/groups/' + group.id + '/members'" class="f6 fl ph3 pv2 dib pointer">
+        </Link>
+        <Link :class="{'selected':(tab == 'members')}" :href="'/' + $page.props.auth.company.id + '/company/groups/' + group.id + '/members'" class="f6 fl ph3 pv2 dib pointer">
           {{ $t('group.index_menu_members') }}
-        </inertia-link>
+        </Link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Avatar from '@/Shared/Avatar';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

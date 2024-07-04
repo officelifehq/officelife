@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Comment;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectTask;
+use App\Services\Company\Project\DestroyProjectTaskComment;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Project\DestroyProjectTaskComment;
+use Tests\TestCase;
 
 class DestroyProjectTaskCommentTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_deletes_a_comment_to_a_project_as_administrator(): void
     {

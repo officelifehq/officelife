@@ -3,18 +3,14 @@
 namespace App\Http\ViewHelpers\Company;
 
 use App\Helpers\ImageHelper;
-use App\Models\Company\Skill;
 use App\Models\Company\Company;
+use App\Models\Company\Skill;
 use Illuminate\Support\Collection;
 
 class CompanySkillViewHelper
 {
     /**
      * Array containing all the information about the skills.
-     *
-     * @param Company $company
-     *
-     * @return Collection|null
      */
     public static function skills(Company $company): ?Collection
     {
@@ -53,9 +49,6 @@ class CompanySkillViewHelper
     /**
      * Array containing all the information about the employees who have a given
      * skill.
-     *
-     * @param Skill $skill
-     * @return Collection|null
      */
     public static function employeesWithSkill(Skill $skill): ?Collection
     {

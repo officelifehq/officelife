@@ -2,14 +2,14 @@
 
 namespace App\Jobs;
 
-use Carbon\Carbon;
-use Illuminate\Bus\Queueable;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Carbon\Carbon;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class LogCompaniesMorale implements ShouldQueue
 {
@@ -19,8 +19,6 @@ class LogCompaniesMorale implements ShouldQueue
 
     /**
      * Create a new job instance.
-     *
-     * @param Carbon $date
      */
     public function __construct(Carbon $date)
     {
@@ -37,9 +35,9 @@ class LogCompaniesMorale implements ShouldQueue
         Company::select('id')->chunk(100, function ($companies) {
             $companies->each(function (Company $company) {
                 ProcessCompanyMorale::dispatch([
-                        'company_id' => $company->id,
-                        'date' => $this->date,
-                    ])->onQueue('low');
+                    'company_id' => $company->id,
+                    'date' => $this->date,
+                ])->onQueue('low');
             });
         });
     }

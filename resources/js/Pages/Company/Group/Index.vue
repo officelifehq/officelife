@@ -22,9 +22,9 @@
               <span class="pr2">
                 {{ $t('group.index_title') }}
               </span>
-              <inertia-link :href="groups.url_create" class="btn absolute db-l dn">
+              <Link :href="groups.url_create" class="btn absolute db-l dn">
                 {{ $t('group.index_cta') }}
-              </inertia-link>
+              </Link>
             </p>
           </div>
 
@@ -33,7 +33,7 @@
             <li v-for="group in groups.data" :key="group.id" class="w-100 bg-white box pa3 mb3 mr3 flex justify-between items-center">
               <div>
                 <h2 class="fw4 f4 mt0 mb2 lh-copy relative">
-                  <inertia-link :href="group.url">{{ group.name }}</inertia-link>
+                  <Link :href="group.url">{{ group.name }}</Link>
                 </h2>
                 <p class="mv0 lh-copy f6 parsed-content">{{ group.mission }}</p>
               </div>
@@ -55,12 +55,12 @@
 
         <!-- blank state -->
         <div v-else class="tc">
-          <img loading="lazy" src="/img/streamline-icon-projector-pie-chart@140x140.png" alt="project symbol" height="140"
+          <img loading="lazy" :src="'/img/streamline-icon-projector-pie-chart@140x140.png'" alt="project symbol" height="140"
                width="140"
           />
           <p class="mb3">
             <span class="db mb4">{{ $t('group.index_blank_title') }}</span>
-            <inertia-link :href="groups.url_create" class="btn dib">{{ $t('group.index_cta') }}</inertia-link>
+            <Link :href="groups.url_create" class="btn dib">{{ $t('group.index_cta') }}</Link>
           </p>
         </div>
       </div>
@@ -69,10 +69,10 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Avatar from '@/Shared/Avatar';
-import Tab from '@/Pages/Company/Partials/Tab';
-import HeaderComponent from '@/Pages/Company/Partials/Header';
+import Layout from '@/Shared/Layout.vue';
+import Avatar from '@/Shared/Avatar.vue';
+import Tab from '@/Pages/Company/Partials/Tab.vue';
+import HeaderComponent from '@/Pages/Company/Partials/Header.vue';
 
 export default {
   components: {

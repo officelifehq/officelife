@@ -2,18 +2,16 @@
 
 namespace App\Services\Company\Employee\Worklog;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Worklog;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyWorklog extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -27,9 +25,6 @@ class DestroyWorklog extends BaseService
 
     /**
      * Destroy a work log.
-     *
-     * @param array $data
-     * @return bool
      */
     public function execute(array $data): bool
     {

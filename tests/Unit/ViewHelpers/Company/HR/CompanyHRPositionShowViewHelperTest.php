@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\ViewHelpers\Company\HR;
 
-use Tests\TestCase;
+use App\Http\ViewHelpers\Company\HR\CompanyHRPositionShowViewHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\HR\CompanyHRPositionShowViewHelper;
+use Tests\TestCase;
 
 class CompanyHRPositionShowViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_detail_about_a_specific_position(): void
     {

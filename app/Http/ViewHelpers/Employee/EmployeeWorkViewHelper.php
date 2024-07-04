@@ -2,18 +2,18 @@
 
 namespace App\Http\ViewHelpers\Employee;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
-use Illuminate\Support\Str;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Company;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
+use App\Models\Company\ProjectMessage;
+use App\Models\Company\ProjectTask;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Models\Company\ProjectTask;
-use App\Models\Company\ProjectMessage;
+use Illuminate\Support\Str;
 
 class EmployeeWorkViewHelper
 {
@@ -23,12 +23,6 @@ class EmployeeWorkViewHelper
      * - list of 4 previous weeks
      * - for each week, the worklogs of the 5 working days + the morale of the
      * employee (if the logged employee has the right to view this information).
-     *
-     * @param Employee $employee
-     * @param Employee $loggedEmployee
-     * @param Carbon $startOfWeek
-     * @param Carbon $selectedDay
-     * @return array
      */
     public static function worklog(Employee $employee, Employee $loggedEmployee, Carbon $startOfWeek, Carbon $selectedDay): array
     {
@@ -70,9 +64,6 @@ class EmployeeWorkViewHelper
 
     /**
      * Get the current week date, and the three weeks prior to that.
-     *
-     * @param Employee $loggedEmployee
-     * @return Collection
      */
     public static function weeks(Employee $loggedEmployee): Collection
     {
@@ -122,25 +113,21 @@ class EmployeeWorkViewHelper
 
     /**
      * List all the projects of the employee.
-     *
-     * @param Employee $employee
-     * @param Company $company
-     * @return Collection|null
      */
     public static function projects(Employee $employee, Company $company): ?Collection
     {
         /** Going through a raw query coupled with eloquent to drastically reduce the number of hydrated models */
         $projects = Project::join('employee_project', 'employee_project.project_id', '=', 'projects.id')
-                ->select('employee_project.role', 'employee_project.created_at', 'employee_project.project_id', 'projects.id as project_id', 'projects.name', 'projects.code', 'projects.status')
+            ->select('employee_project.role', 'employee_project.created_at', 'employee_project.project_id', 'projects.id as project_id', 'projects.name', 'projects.code', 'projects.status')
             ->addSelect([
                 'messages_count' => ProjectMessage::select(DB::raw('count(id)'))
-                ->whereColumn('author_id', 'employee_id')
-                ->whereColumn('project_id', 'projects.id'),
+                    ->whereColumn('author_id', 'employee_id')
+                    ->whereColumn('project_id', 'projects.id'),
             ])
             ->addSelect([
                 'tasks_count' => ProjectTask::select(DB::raw('count(id)'))
-                ->whereColumn('assignee_id', 'employee_id')
-                ->whereColumn('project_id', 'projects.id'),
+                    ->whereColumn('assignee_id', 'employee_id')
+                    ->whereColumn('project_id', 'projects.id'),
             ])
             ->where('employee_project.employee_id', $employee->id)
             ->orderBy('projects.id', 'desc')

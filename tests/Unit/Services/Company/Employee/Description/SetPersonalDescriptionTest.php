@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Employee\Description;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Services\Company\Employee\Description\SetPersonalDescription;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\Description\SetPersonalDescription;
+use Tests\TestCase;
 
 class SetPersonalDescriptionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_sets_a_personal_description_as_administrator(): void
     {

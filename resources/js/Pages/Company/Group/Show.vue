@@ -58,9 +58,9 @@
               <ul class="list pl0 ma0">
                 <li v-for="meeting in meetings" :key="meeting.id" class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between meeting-item">
                   <div class="mb1 relative">
-                    <inertia-link :href="meeting.url" class="employee-name db">
+                    <Link :href="meeting.url" class="employee-name db">
                       {{ meeting.happened_at }}
-                    </inertia-link>
+                    </Link>
                   </div>
 
                   <span v-if="meeting.preview_members" class="ma0 mb0 f7 grey">
@@ -91,8 +91,8 @@
             </div>
 
             <ul class="list pl0">
-              <li class="mb2 pl2"><inertia-link :href="localGroup.url_edit" class="f6 gray">{{ $t('group.summary_edit') }}</inertia-link></li>
-              <li class="pl2"><inertia-link :href="localGroup.url_delete" class="f6 gray c-delete">{{ $t('group.summary_delete') }}</inertia-link></li>
+              <li class="mb2 pl2"><Link :href="localGroup.url_edit" class="f6 gray">{{ $t('group.summary_edit') }}</Link></li>
+              <li class="pl2"><Link :href="localGroup.url_delete" class="f6 gray c-delete">{{ $t('group.summary_delete') }}</Link></li>
             </ul>
           </div>
         </div>
@@ -102,10 +102,10 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Avatar from '@/Shared/Avatar';
-import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Avatar from '@/Shared/Avatar.vue';
+import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu.vue';
 
 export default {
   components: {

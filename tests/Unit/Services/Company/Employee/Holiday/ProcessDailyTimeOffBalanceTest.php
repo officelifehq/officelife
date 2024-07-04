@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\Services\Company\Employee\Holiday;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Models\Company\Employee;
-use Illuminate\Validation\ValidationException;
 use App\Models\Company\EmployeeDailyCalendarEntry;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\Holiday\ProcessDailyTimeOffBalance;
 use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
+use App\Services\Company\Employee\Holiday\ProcessDailyTimeOffBalance;
+use Carbon\Carbon;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class ProcessDailyTimeOffBalanceTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_calculates_the_daily_time_off_balance(): void
     {

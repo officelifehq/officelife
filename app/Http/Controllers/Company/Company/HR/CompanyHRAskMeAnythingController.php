@@ -2,29 +2,27 @@
 
 namespace App\Http\Controllers\Company\Company\HR;
 
-use Carbon\Carbon;
-use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Company\AskMeAnythingSession;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\HR\CompanyHRAskMeAnythingViewHelper;
+use App\Models\Company\AskMeAnythingSession;
+use App\Services\Company\Adminland\AskMeAnything\AnswerAskMeAnythingQuestion;
 use App\Services\Company\Adminland\AskMeAnything\CreateAskMeAnythingSession;
+use App\Services\Company\Adminland\AskMeAnything\DestroyAskMeAnythingSession;
 use App\Services\Company\Adminland\AskMeAnything\ToggleAskMeAnythingSession;
 use App\Services\Company\Adminland\AskMeAnything\UpdateAskMeAnythingSession;
-use App\Services\Company\Adminland\AskMeAnything\AnswerAskMeAnythingQuestion;
-use App\Services\Company\Adminland\AskMeAnything\DestroyAskMeAnythingSession;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CompanyHRAskMeAnythingController extends Controller
 {
     /**
      * Show the list of Ask Me Anything sessions.
      *
-     * @param Request $request
-     * @param int $companyId
      * @return mixed
      */
     public function index(Request $request, int $companyId)
@@ -43,8 +41,6 @@ class CompanyHRAskMeAnythingController extends Controller
     /**
      * Show the create Ask Me Anything session screen.
      *
-     * @param Request $request
-     * @param int $companyId
      * @return mixed
      */
     public function create(Request $request, int $companyId)
@@ -62,10 +58,6 @@ class CompanyHRAskMeAnythingController extends Controller
 
     /**
      * Create the session.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {
@@ -98,9 +90,6 @@ class CompanyHRAskMeAnythingController extends Controller
     /**
      * Show the Ask Me Anything session.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $sessionId
      * @return mixed
      */
     public function show(Request $request, int $companyId, int $sessionId)
@@ -128,9 +117,6 @@ class CompanyHRAskMeAnythingController extends Controller
     /**
      * Show the Edit Ask Me Anything session screen.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $sessionId
      * @return mixed
      */
     public function edit(Request $request, int $companyId, int $sessionId)
@@ -155,11 +141,6 @@ class CompanyHRAskMeAnythingController extends Controller
 
     /**
      * Update the session.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $sessionId
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $sessionId): JsonResponse
     {
@@ -193,9 +174,6 @@ class CompanyHRAskMeAnythingController extends Controller
     /**
      * Show the Ask Me Anything session for the answered questions.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $sessionId
      * @return mixed
      */
     public function showAnswered(Request $request, int $companyId, int $sessionId)
@@ -222,12 +200,6 @@ class CompanyHRAskMeAnythingController extends Controller
 
     /**
      * Toggle the question.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $sessionId
-     * @param int $questionId
-     * @return JsonResponse
      */
     public function toggle(Request $request, int $companyId, int $sessionId, int $questionId): JsonResponse
     {
@@ -250,11 +222,6 @@ class CompanyHRAskMeAnythingController extends Controller
 
     /**
      * Toggle the session.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $sessionId
-     * @return JsonResponse
      */
     public function toggleStatus(Request $request, int $companyId, int $sessionId): JsonResponse
     {
@@ -277,9 +244,6 @@ class CompanyHRAskMeAnythingController extends Controller
     /**
      * Show the Delete Ask Me Anything session screen.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $sessionId
      * @return mixed
      */
     public function delete(Request $request, int $companyId, int $sessionId)
@@ -304,11 +268,6 @@ class CompanyHRAskMeAnythingController extends Controller
 
     /**
      * Destroy the session.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $sessionId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $sessionId): JsonResponse
     {

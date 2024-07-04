@@ -106,10 +106,10 @@
 </template>
 
 <script>
-import ActionSection from '@/Shared/Layout/ActionSection';
-import LoadingButton from '@/Shared/LoadingButton';
-import TextInput from '@/Shared/TextInput';
-import DialogModal from '@/Shared/DialogModal';
+import ActionSection from '@/Shared/Layout/ActionSection.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import TextInput from '@/Shared/TextInput.vue';
+import DialogModal from '@/Shared/DialogModal.vue';
 
 export default {
   components: {

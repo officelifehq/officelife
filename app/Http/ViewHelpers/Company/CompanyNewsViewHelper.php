@@ -13,10 +13,6 @@ class CompanyNewsViewHelper
 {
     /**
      * Get all the company news in the company.
-     *
-     * @param Company $company
-     * @param Employee $employee
-     * @return Collection|null
      */
     public static function index(Company $company, Employee $employee): ?Collection
     {

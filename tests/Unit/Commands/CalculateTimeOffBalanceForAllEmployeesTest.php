@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Commands;
 
-use Tests\TestCase;
-use RuntimeException;
+use App\Jobs\CalculateTimeOffBalance;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Bus;
-use App\Jobs\CalculateTimeOffBalance;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use RuntimeException;
+use Tests\TestCase;
 
 class CalculateTimeOffBalanceForAllEmployeesTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_triggers_the_job(): void
     {

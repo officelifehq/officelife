@@ -2,13 +2,13 @@
   <div :class="localClasses">
     <ul class="list ph0 tl" :class="centerBox ? 'tc-l' : ''">
       <li class="di">
-        <inertia-link :href="cRootUrl">{{ cRoot }}</inertia-link>
+        <Link :href="cRootUrl">{{ cRoot }}</Link>
       </li>
       <li v-if="hasMore" class="di">
         …
       </li>
       <li v-if="previous" class="di">
-        <inertia-link :href="previousUrl">{{ previous }}</inertia-link>
+        <Link :href="previousUrl">{{ previous }}</Link>
       </li>
       <li class="di">
         <slot></slot>

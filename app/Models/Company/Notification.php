@@ -3,9 +3,9 @@
 namespace App\Models\Company;
 
 use App\Helpers\NotificationHelper;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Notification extends Model
 {
@@ -45,8 +45,7 @@ class Notification extends Model
     /**
      * Get the JSON object.
      *
-     * @param mixed $value
-     *
+     * @param  mixed  $value
      * @return array
      */
     public function getObjectAttribute($value)
@@ -57,9 +56,7 @@ class Notification extends Model
     /**
      * Get the content of the notification, if defined.
      *
-     * @param mixed $value
-     *
-     * @return string
+     * @param  mixed  $value
      */
     public function getContentAttribute($value): string
     {

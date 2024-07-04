@@ -2,10 +2,10 @@
 
 namespace App\Services\Company\Adminland\Company;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Company;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class UpdateCompanyCurrency extends BaseService
 {
@@ -15,8 +15,6 @@ class UpdateCompanyCurrency extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,10 +27,6 @@ class UpdateCompanyCurrency extends BaseService
 
     /**
      * Update the company's company.
-     *
-     * @param array $data
-     *
-     * @return Company
      */
     public function execute(array $data): Company
     {
@@ -67,8 +61,6 @@ class UpdateCompanyCurrency extends BaseService
 
     /**
      * Add an audit log entry for this action.
-     *
-     * @param string $oldCurrency*
      */
     private function log(string $oldCurrency): void
     {

@@ -9,9 +9,6 @@ class AdminRecruitmentViewHelper
 {
     /**
      * Get all the recruiting stage templates in the company.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function index(Company $company): ?array
     {
@@ -55,9 +52,6 @@ class AdminRecruitmentViewHelper
 
     /**
      * Get the information about the given template.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function show(Company $company, RecruitingStageTemplate $template): ?array
     {

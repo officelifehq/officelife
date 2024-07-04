@@ -2,9 +2,9 @@
 
 namespace App\Models\Company;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProjectStatus extends Model
 {
@@ -16,7 +16,9 @@ class ProjectStatus extends Model
      * Possible statuses.
      */
     const ON_TRACK = 'on_track';
+
     const LATE = 'late';
+
     const AT_RISK = 'at_risk';
 
     /**

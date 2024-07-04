@@ -53,9 +53,9 @@ input[type=radio] {
             <div class="mv4">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <Link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
-                  </inertia-link>
+                  </Link>
                 </div>
                 <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'submit-add-news-button'" />
               </div>
@@ -68,12 +68,12 @@ input[type=radio] {
 </template>
 
 <script>
-import TextInput from '@/Shared/TextInput';
-import TextArea from '@/Shared/TextArea';
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
+import TextInput from '@/Shared/TextInput.vue';
+import TextArea from '@/Shared/TextArea.vue';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
 
 export default {
   components: {

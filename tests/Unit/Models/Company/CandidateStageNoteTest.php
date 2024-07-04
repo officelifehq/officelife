@@ -2,14 +2,11 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\TestCase;
 use App\Models\Company\CandidateStageNote;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class CandidateStageNoteTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_candidate_stage(): void
     {

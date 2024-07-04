@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectTaskList;
-use Illuminate\Validation\ValidationException;
 use App\Services\Company\Project\CreateProjectTaskList;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateProjectTaskListTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_adds_a_task_list_to_a_project_as_administrator(): void
     {

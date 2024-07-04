@@ -8,9 +8,6 @@ class AdminProjectManagementViewHelper
 {
     /**
      * Get all the issue types in the company.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function issueTypes(Company $company): array
     {

@@ -41,11 +41,15 @@
             />
           </div>
           <div>
-            <inertia-link :href="oneOnOne.url" class="ma0 pa0" :data-cy="'entry-item-' + oneOnOne.id">{{ $t('app.view') }}</inertia-link>
+            <Link :href="oneOnOne.url" class="ma0 pa0" :data-cy="'entry-item-' + oneOnOne.id">
+              {{ $t('app.view') }}
+            </Link>
           </div>
         </div>
         <div class="ph3 pv2 tc f6">
-          <inertia-link :href="oneOnOnes.view_all_url" data-cy="view-all-one-on-ones">{{ $t('employee.one_on_one_view_all') }}</inertia-link>
+          <Link :href="oneOnOnes.view_all_url" data-cy="view-all-one-on-ones">
+            {{ $t('employee.one_on_one_view_all') }}
+          </Link>
         </div>
       </div>
 
@@ -58,8 +62,8 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import Help from '@/Shared/Help.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
 
 export default {
   components: {

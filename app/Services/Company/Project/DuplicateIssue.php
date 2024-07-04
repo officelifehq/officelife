@@ -2,24 +2,25 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectMemberActivity;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DuplicateIssue extends BaseService
 {
     protected array $data;
+
     protected ProjectIssue $projectIssue;
+
     protected ProjectIssue $duplicatedProjectIssue;
+
     protected Project $project;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -33,9 +34,6 @@ class DuplicateIssue extends BaseService
 
     /**
      * Duplicate an issue.
-     *
-     * @param array $data
-     * @return ProjectIssue
      */
     public function execute(array $data): ProjectIssue
     {

@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectTask;
+use App\Services\Company\Project\AssignProjectTaskToEmployee;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Project\AssignProjectTaskToEmployee;
+use Tests\TestCase;
 
 class AssignProjectTaskToEmployeeTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_assigns_a_task_to_an_employee_as_administrator(): void
     {

@@ -2,20 +2,19 @@
 
 namespace App\Services\Company\Group;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Group;
 use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateGroup extends BaseService
 {
     protected array $data;
+
     protected Group $group;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,9 +28,6 @@ class CreateGroup extends BaseService
 
     /**
      * Create a group.
-     *
-     * @param array $data
-     * @return Group
      */
     public function execute(array $data): Group
     {

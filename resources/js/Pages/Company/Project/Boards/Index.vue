@@ -77,7 +77,7 @@
             <li v-for="board in localBoards" :key="board.id" class="bb bb-gray bb-gray-hover pa3 relative flex justify-between items-center">
               <div class="ma0 fw4 board">
                 <p class="mt0 mb0">
-                  <inertia-link :href="board.url" class="lh-copy">{{ board.name }}</inertia-link>
+                  <Link :href="board.url" class="lh-copy">{{ board.name }}</Link>
                 </p>
               </div>
             </li>
@@ -86,7 +86,7 @@
 
         <!-- blank state -->
         <div v-else data-cy="messages-blank-state" class="bg-white box pa3 tc">
-          <img loading="lazy" src="/img/streamline-icon-storyboard@100x100.png" width="100" height="100" alt="meeting"
+          <img loading="lazy" :src="'/img/streamline-icon-storyboard@100x100.png'" width="100" height="100" alt="meeting"
                class=""
           />
           <p class="lh-copy measure center">{{ $t('project.board_blank_state') }}</p>
@@ -97,11 +97,11 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
-import TextInput from '@/Shared/TextInput';
-import LoadingButton from '@/Shared/LoadingButton';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu.vue';
+import TextInput from '@/Shared/TextInput.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
 
 export default {
   components: {

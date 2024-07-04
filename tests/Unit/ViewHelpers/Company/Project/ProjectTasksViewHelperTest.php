@@ -2,24 +2,23 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Project;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectTasksViewHelper;
 use App\Models\Company\Comment;
 use App\Models\Company\Project;
-use App\Models\Company\Timesheet;
 use App\Models\Company\ProjectTask;
 use App\Models\Company\ProjectTaskList;
+use App\Models\Company\Timesheet;
 use App\Models\Company\TimeTrackingEntry;
+use Carbon\Carbon;
 use GrahamCampbell\TestBenchCore\HelperTrait;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Project\ProjectTasksViewHelper;
+use Tests\TestCase;
 
 class ProjectTasksViewHelperTest extends TestCase
 {
-    use DatabaseTransactions, HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_a_collection_of_tasks_without_task_lists(): void
@@ -264,7 +263,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'id' => $michael->id,
                 'name' => $michael->name,
                 'avatar' => ImageHelper::getAvatar($michael, 35),
-                'url' => env('APP_URL') . '/' . $michael->company_id . '/employees/' . $michael->id,
+                'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
             ],
             $array['assignee']
         );

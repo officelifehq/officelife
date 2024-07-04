@@ -2,10 +2,10 @@
 
 namespace Database\Factories\Company;
 
-use Carbon\Carbon;
 use App\Models\Company\Employee;
-use App\Models\Company\Position;
 use App\Models\Company\EmployeePositionHistory;
+use App\Models\Company\Position;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EmployeePositionHistoryFactory extends Factory

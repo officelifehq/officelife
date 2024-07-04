@@ -2,23 +2,23 @@
 
 namespace App\Services\Company\GuessEmployeeGame;
 
-use OutOfRangeException;
-use App\Services\BaseService;
 use App\Models\Company\Answer;
 use App\Models\Company\Employee;
 use App\Models\Company\GuessEmployeeGame;
+use App\Services\BaseService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use OutOfRangeException;
 
 class CreateGuessEmployeeGame extends BaseService
 {
     protected array $data;
+
     protected GuessEmployeeGame $game;
+
     protected Employee $employee;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -38,9 +38,6 @@ class CreateGuessEmployeeGame extends BaseService
      *  - the player has to find the name of the employee
      *  - the players to find should all have the same gender
      *  - whatever the answer, another game loads once it's played.
-     *
-     * @param array $data
-     * @return GuessEmployeeGame
      */
     public function execute(array $data): GuessEmployeeGame
     {
@@ -70,8 +67,8 @@ class CreateGuessEmployeeGame extends BaseService
     {
         try {
             $this->game = GuessEmployeeGame::where('employee_who_played_id', $this->data['employee_id'])
-            ->where('played', false)
-            ->firstOrFail();
+                ->where('played', false)
+                ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return false;
         }

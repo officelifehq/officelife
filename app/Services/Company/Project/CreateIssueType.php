@@ -2,20 +2,19 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\IssueType;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateIssueType extends BaseService
 {
     protected array $data;
+
     protected IssueType $type;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,9 +28,6 @@ class CreateIssueType extends BaseService
 
     /**
      * Create an issue type.
-     *
-     * @param array $data
-     * @return IssueType
      */
     public function execute(array $data): IssueType
     {

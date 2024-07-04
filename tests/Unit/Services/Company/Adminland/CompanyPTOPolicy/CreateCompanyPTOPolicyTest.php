@@ -2,23 +2,20 @@
 
 namespace Tests\Unit\Services\Company\Adminland\CompanyPTOPolicy;
 
-use Tests\TestCase;
+use App\Exceptions\CompanyPTOPolicyAlreadyExistException;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
-use Illuminate\Support\Carbon;
-use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
 use App\Models\Company\CompanyCalendar;
 use App\Models\Company\CompanyPTOPolicy;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Exceptions\CompanyPTOPolicyAlreadyExistException;
+use App\Models\Company\Employee;
 use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateCompanyPTOPolicyTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_company_pto_policy_as_administrator(): void
     {

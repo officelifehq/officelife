@@ -57,10 +57,10 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Help from '@/Shared/Help';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Help from '@/Shared/Help.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
 
 export default {
   components: {

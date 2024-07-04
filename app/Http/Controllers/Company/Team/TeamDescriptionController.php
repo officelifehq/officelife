@@ -2,22 +2,17 @@
 
 namespace App\Http\Controllers\Company\Team;
 
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Team\TeamShowViewHelper;
 use App\Services\Company\Team\Description\SetTeamDescription;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TeamDescriptionController extends Controller
 {
     /**
      * Update the information about the team's description.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $teamId): JsonResponse
     {

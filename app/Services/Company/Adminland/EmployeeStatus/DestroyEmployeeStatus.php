@@ -2,17 +2,15 @@
 
 namespace App\Services\Company\Adminland\EmployeeStatus;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\EmployeeStatus;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyEmployeeStatus extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -25,10 +23,6 @@ class DestroyEmployeeStatus extends BaseService
 
     /**
      * Destroy an employee status.
-     *
-     * @param array $data
-     *
-     * @return bool
      */
     public function execute(array $data): bool
     {

@@ -27,7 +27,9 @@
       <!-- list of employees -->
       <div v-show="ships.length > 0">
         <div v-for="ship in ships" :key="ship.id" class="pa3 bb bb-gray w-100 flex justify-between ships-list">
-          <inertia-link :href="ship.url" class="ma0 pa0" :data-cy="'ship-list-item-' + ship.id">{{ ship.title }}</inertia-link>
+          <Link :href="ship.url" class="ma0 pa0" :data-cy="'ship-list-item-' + ship.id">
+            {{ ship.title }}
+          </Link>
           <ul class="list ma0">
             <li v-for="employee in ship.employees" :key="employee.id" class="mr1 di">
               <avatar :avatar="employee.avatar" :url="employee.url" :size="22" :class="'br-100 relative mr1 dib-ns dn'" />
@@ -45,8 +47,8 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
-import Avatar from '@/Shared/Avatar';
+import Help from '@/Shared/Help.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

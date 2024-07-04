@@ -3,17 +3,13 @@
 namespace App\Helpers;
 
 use App\Models\Company\Employee;
-use Illuminate\Support\Collection;
 use App\Models\Company\Notification;
+use Illuminate\Support\Collection;
 
 class NotificationHelper
 {
     /**
      * Returns the notifications for this employee.
-     *
-     * @param Employee $employee
-     *
-     * @return Collection
      */
     public static function getNotifications(Employee $employee): Collection
     {
@@ -37,10 +33,6 @@ class NotificationHelper
 
     /**
      * Return an sentence explaining what the notification contains.
-     *
-     * @param Notification $notification
-     *
-     * @return string
      */
     public static function process(Notification $notification): string
     {
@@ -110,7 +102,7 @@ class NotificationHelper
                 $sentence = trans('account.notification_expense_rejected_by_manager', [
                     'title' => $notification->object->{'title'},
                 ]);
-               break;
+                break;
 
             case 'expense_accepted_by_accounting':
                 $sentence = trans('account.notification_expense_accepted_by_accounting', [

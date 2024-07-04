@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\CreateNewECoffeeSession;
 use App\Models\Company\Company;
 use Illuminate\Console\Command;
-use App\Jobs\CreateNewECoffeeSession;
 
 class GenerateNewECoffeeSession extends Command
 {

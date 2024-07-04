@@ -2,31 +2,28 @@
 
 namespace App\Http\Controllers\Company\Employee\Administration\Timesheets;
 
-use Carbon\Carbon;
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use App\Models\Company\Timesheet;
-use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\DB;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use App\Models\Company\TimeTrackingEntry;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Employee\EmployeeTimesheetViewHelper;
 use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
+use App\Http\ViewHelpers\Employee\EmployeeTimesheetViewHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\Timesheet;
+use App\Models\Company\TimeTrackingEntry;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class EmployeeTimesheetController extends Controller
 {
     /**
      * Show the employee's timesheets, for the current year.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return Redirector|RedirectResponse|Response
      */
     public function index(Request $request, int $companyId, int $employeeId)
@@ -76,10 +73,6 @@ class EmployeeTimesheetController extends Controller
     /**
      * Show the employee's worklogs page, for the given year.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param int $year
      * @return Redirector|RedirectResponse|Response
      */
     public function year(Request $request, int $companyId, int $employeeId, int $year)
@@ -127,11 +120,6 @@ class EmployeeTimesheetController extends Controller
     /**
      * Show the employee's worklogs page, for the given month of the given year.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param int $year
-     * @param int $month
      * @return Redirector|RedirectResponse|Response
      */
     public function month(Request $request, int $companyId, int $employeeId, int $year, int $month)
@@ -153,8 +141,8 @@ class EmployeeTimesheetController extends Controller
             ->whereMonth('started_at', (string) $month)
             ->addSelect([
                 'duration' => TimeTrackingEntry::select(DB::raw('SUM(duration) as duration'))
-                ->whereColumn('timesheet_id', 'timesheets.id')
-                ->groupBy('timesheet_id'),
+                    ->whereColumn('timesheet_id', 'timesheets.id')
+                    ->groupBy('timesheet_id'),
             ])
             ->get();
 
@@ -180,10 +168,6 @@ class EmployeeTimesheetController extends Controller
     /**
      * Show a specific employee's timesheet.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param int $timesheetId
      * @return Redirector|RedirectResponse|Response
      */
     public function show(Request $request, int $companyId, int $employeeId, int $timesheetId)

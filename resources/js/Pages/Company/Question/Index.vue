@@ -34,7 +34,7 @@
                 class="pa3-l pa1 ph0-l bb b--black-10 question-item"
             >
               <!-- normal case (ie not rename mode) -->
-              <inertia-link :href="question.url" class="mb2-ns mb2 di-ns dib mt0-ns mt2" :data-cy="'list-question-' + question.id">{{ question.title }}</inertia-link>
+              <Link :href="question.url" class="mb2-ns mb2 di-ns dib mt0-ns mt2" :data-cy="'list-question-' + question.id">{{ question.title }}</Link>
               <span class="ml2-ns ml0 f6 grey di-ns db mb2 mb0-ns">{{ $tc('company.question_number_of_answers', question.number_of_answers, { number: question.number_of_answers }) }}</span>
             </li>
           </ul>
@@ -44,7 +44,7 @@
             <p class="tc measure center mb4 lh-copy" data-cy="questions-blank-message">
               {{ $t('account.questions_blank') }}
             </p>
-            <img loading="lazy" class="db center mb4" alt="team" src="/img/streamline-icon-work-desk-sofa-3-1@140x140.png" />
+            <img loading="lazy" class="db center mb4" alt="team" :src="'/img/streamline-icon-work-desk-sofa-3-1@140x140.png'" />
           </div>
         </div>
       </div>
@@ -53,9 +53,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Help from '@/Shared/Help';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

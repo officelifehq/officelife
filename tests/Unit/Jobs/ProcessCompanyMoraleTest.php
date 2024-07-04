@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Jobs;
 
+use App\Jobs\ProcessCompanyMorale;
+use App\Models\Company\Morale;
+use App\Models\Company\MoraleCompanyHistory;
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Models\Company\Morale;
-use App\Jobs\ProcessCompanyMorale;
-use App\Models\Company\MoraleCompanyHistory;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProcessCompanyMoraleTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_logs_the_statistics_about_how_employees_feel(): void
     {

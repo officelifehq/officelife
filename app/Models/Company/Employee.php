@@ -2,26 +2,26 @@
 
 namespace App\Models\Company;
 
-use Carbon\Carbon;
-use App\Models\User\User;
-use App\Helpers\DateHelper;
-use App\Helpers\ImageHelper;
-use App\Models\User\Pronoun;
-use App\Helpers\StringHelper;
-use App\Helpers\HolidayHelper;
 use App\Helpers\BirthdayHelper;
+use App\Helpers\DateHelper;
+use App\Helpers\HolidayHelper;
+use App\Helpers\ImageHelper;
 use App\Helpers\InstanceHelper;
+use App\Helpers\StringHelper;
+use App\Models\User\Pronoun;
+use App\Models\User\User;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Employee extends Model
 {
@@ -73,18 +73,10 @@ class Employee extends Model
         'locked' => 'boolean',
         'can_manage_expenses' => 'boolean',
         'display_welcome_message' => 'boolean',
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'invitation_used_at',
-        'hired_at',
-        'contract_renewed_at',
-        'birthdate',
+        'invitation_used_at' => 'datetime',
+        'hired_at' => 'datetime',
+        'contract_renewed_at' => 'datetime',
+        'birthdate' => 'datetime',
     ];
 
     /**
@@ -621,9 +613,6 @@ class Employee extends Model
 
     /**
      * Scope a query to only include unlocked users.
-     *
-     * @param  Builder $query
-     * @return Builder
      */
     public function scopeNotLocked(Builder $query): Builder
     {
@@ -632,8 +621,6 @@ class Employee extends Model
 
     /**
      * Transform the object to an array representing this object.
-     *
-     * @return array
      */
     public function toObject(): array
     {
@@ -684,8 +671,6 @@ class Employee extends Model
 
     /**
      * Get the permission level of the employee.
-     *
-     * @return string
      */
     public function getPermissionLevel(): string
     {
@@ -696,8 +681,7 @@ class Employee extends Model
      * Returns the email attribute of the employee.
      *
      *
-     * @param mixed $value
-     *
+     * @param  mixed  $value
      * @return string
      */
     public function getEmailAttribute($value)
@@ -709,9 +693,7 @@ class Employee extends Model
      * Returns the name attribute of the employee.
      *
      *
-     * @param mixed $value
-     *
-     * @return string|null
+     * @param  mixed  $value
      */
     public function getNameAttribute($value): ?string
     {
@@ -730,8 +712,6 @@ class Employee extends Model
 
     /**
      * Get the list of managers of this employee.
-     *
-     * @return Collection
      */
     public function getListOfManagers(): Collection
     {
@@ -744,7 +724,6 @@ class Employee extends Model
      * Get the list of direct reports of this employee.
      *
      * @psalm-suppress InvalidTemplateParam
-     * @return Collection
      */
     public function getListOfDirectReports(): Collection
     {
@@ -755,8 +734,6 @@ class Employee extends Model
 
     /**
      * Get the fully qualified path to confirm account invitation.
-     *
-     * @return string
      */
     public function getPathInvitationLink(): string
     {
@@ -765,8 +742,6 @@ class Employee extends Model
 
     /**
      * Check if the employee has already logged something today.
-     *
-     * @return bool
      */
     public function hasAlreadyLoggedWorklogToday(): bool
     {
@@ -779,8 +754,6 @@ class Employee extends Model
 
     /**
      * Check if the employee has already logged his morale today.
-     *
-     * @return bool
      */
     public function hasAlreadyLoggedMoraleToday(): bool
     {
@@ -793,8 +766,6 @@ class Employee extends Model
 
     /**
      * Get the current address of the employee.
-     *
-     * @return Place|null
      */
     public function getCurrentAddress(): ?Place
     {
@@ -809,8 +780,6 @@ class Employee extends Model
 
     /**
      * Get the statistics of the holidays for the current year.
-     *
-     * @return array
      */
     public function getHolidaysInformation(): array
     {
@@ -836,9 +805,6 @@ class Employee extends Model
 
     /**
      * Check wether the employee is part of the given team.
-     *
-     * @param int $teamId
-     * @return bool
      */
     public function isInTeam(int $teamId): bool
     {
@@ -853,9 +819,6 @@ class Employee extends Model
 
     /**
      * Check wether the current employee is the manager of the given employee.
-     *
-     * @param int $employeeId
-     * @return bool
      */
     public function isManagerOf(int $employeeId): bool
     {
@@ -869,9 +832,6 @@ class Employee extends Model
 
     /**
      * Check wether the employee is part of the given project.
-     *
-     * @param int $projectId
-     * @return bool
      */
     public function isInProject(int $projectId): bool
     {

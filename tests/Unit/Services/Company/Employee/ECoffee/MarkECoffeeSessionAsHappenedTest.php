@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Employee\ECoffee;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\ECoffee;
-use App\Models\Company\Employee;
 use App\Models\Company\ECoffeeMatch;
+use App\Models\Company\Employee;
+use App\Services\Company\Employee\ECoffee\MarkECoffeeSessionAsHappened;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\ECoffee\MarkECoffeeSessionAsHappened;
+use Tests\TestCase;
 
 class MarkECoffeeSessionAsHappenedTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_marks_an_ecoffee_session_as_happened_as_administrator(): void
     {

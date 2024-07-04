@@ -2,11 +2,11 @@
 
 namespace Database\Factories\Company;
 
-use Carbon\Carbon;
 use App\Models\Company\Company;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectDecision;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProjectDecisionFactory extends Factory

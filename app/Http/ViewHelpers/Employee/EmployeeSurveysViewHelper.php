@@ -2,21 +2,18 @@
 
 namespace App\Http\ViewHelpers\Employee;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\DB;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeSurveysViewHelper
 {
     /**
      * Get all the Rate your manager surveys about this manager.
-     *
-     * @param Employee $employee
-     * @return array|null
      */
     public static function rateYourManagerSurveys(Employee $employee): ?array
     {
@@ -102,9 +99,6 @@ class EmployeeSurveysViewHelper
 
     /**
      * Get information about the given survey.
-     *
-     * @param int $surveyId
-     * @return array|null
      */
     public static function informationAboutSurvey(int $surveyId): ?array
     {

@@ -2,26 +2,23 @@
 
 namespace App\Http\Controllers\Company\Employee\Performance;
 
+use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
+use App\Helpers\PermissionHelper;
+use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Employee\EmployeePerformanceViewHelper;
+use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
+use App\Models\Company\Employee;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Http\Request;
-use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use App\Helpers\PermissionHelper;
-use App\Helpers\NotificationHelper;
-use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
-use App\Http\ViewHelpers\Employee\EmployeePerformanceViewHelper;
 
 class EmployeePerformanceController extends Controller
 {
     /**
      * Display the performance of an employee.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function show(Request $request, int $companyId, int $employeeId)

@@ -114,10 +114,10 @@
                 <!-- list of actions -->
                 <ul class="f6 list pl0">
                   <li class="di pr2">
-                    <inertia-link :href="team.url">{{ $t('account.team_visit_page') }}</inertia-link>
+                    <Link :href="team.url">{{ $t('account.team_visit_page') }}</Link>
                   </li>
                   <li class="di pr2">
-                    <inertia-link :href="'/' + $page.props.auth.company.id + '/account/teams/' + team.id + '/logs'">{{ $t('account.team_view_audit_logs') }}</inertia-link>
+                    <Link :href="'/' + $page.props.auth.company.id + '/account/teams/' + team.id + '/logs'">{{ $t('account.team_view_audit_logs') }}</Link>
                   </li>
                   <li class="di pr2">
                     <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'team-rename-link-' + team.id" @click.prevent="showRenameModal(team)">{{ $t('app.rename') }}</a>
@@ -185,7 +185,7 @@
 
         <!-- NO TEAMS -->
         <div v-show="localTeams.length == 0" class="pa3">
-          <img loading="lazy" height="140" class="db center mb4" alt="no expenses to validate" src="/img/streamline-icon-designer-team-6@140x140.png" />
+          <img loading="lazy" height="140" class="db center mb4" alt="no expenses to validate" :src="'/img/streamline-icon-designer-team-6@140x140.png'" />
 
           <p class="tc measure center mb4 lh-copy">
             {{ $t('account.teams_blank') }}
@@ -197,11 +197,11 @@
 </template>
 
 <script>
-import TextInput from '@/Shared/TextInput';
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
+import TextInput from '@/Shared/TextInput.vue';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
 
 export default {
   components: {

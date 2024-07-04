@@ -2,24 +2,21 @@
 
 namespace Tests\Unit\Services\Company\Employee\Contract;
 
-use Exception;
-use Carbon\Carbon;
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Services\Company\Employee\Contract\SetContractRenewalDate;
+use App\Services\Company\Employee\HiringDate\SetHiringDate;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\HiringDate\SetHiringDate;
-use App\Services\Company\Employee\Contract\SetContractRenewalDate;
+use Tests\TestCase;
 
 class SetContractRenewalDateTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_sets_the_contract_renewal_date_of_the_employee_as_administrator(): void
     {

@@ -2,26 +2,23 @@
 
 namespace App\Http\Controllers\Company\Company\Project;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Project;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Project\CreateProjectBoard;
-use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
 use App\Http\ViewHelpers\Company\Project\ProjectBoardsViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
+use App\Models\Company\Project;
+use App\Services\Company\Project\CreateProjectBoard;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ProjectBoardsController extends Controller
 {
     /**
      * Display the list of boards in the project.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -43,12 +40,6 @@ class ProjectBoardsController extends Controller
 
     /**
      * Add a board to the project.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -80,10 +71,6 @@ class ProjectBoardsController extends Controller
     /**
      * Display the board summary.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $boardId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */

@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Employee;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\ServiceQueue;
 use App\Models\Company\File;
-use Illuminate\Support\Facades\Queue;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\Employee\ImportEmployeesFromCSV;
 use App\Services\Company\Adminland\Employee\StoreEmployeesFromCSVInTemporaryTable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Tests\TestCase;
 
 class StoreEmployeesFromCSVInTemporaryTableTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_store_employees_from_csv(): void
     {

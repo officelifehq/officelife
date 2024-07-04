@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Collections;
 
-use Tests\TestCase;
-use App\Models\Company\CompanyNews;
 use App\Http\Collections\CompanyNewsCollection;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\CompanyNews;
+use Tests\TestCase;
 
 class CompanyNewsCollectionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_returns_a_collection(): void
     {

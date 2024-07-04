@@ -1,4 +1,5 @@
 <?php
+
 return [
     'hide_message_forever' => 'Skjul denne velkomstfanen for alltid',
     'thanks' => 'Takk for at du bruker OfficeLife.',

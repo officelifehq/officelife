@@ -2,17 +2,15 @@
 
 namespace App\Services\Company\Adminland\CompanyNews;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\CompanyNews;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyCompanyNews extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -25,10 +23,6 @@ class DestroyCompanyNews extends BaseService
 
     /**
      * Destroy a company news.
-     *
-     * @param array $data
-     *
-     * @return bool
      */
     public function execute(array $data): bool
     {

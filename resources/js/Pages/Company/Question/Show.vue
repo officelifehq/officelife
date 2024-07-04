@@ -56,12 +56,12 @@
 
           <!-- Pagination -->
           <div class="center cf mt3">
-            <inertia-link v-if="paginator.previousPageUrl" class="fl dib" :href="paginator.previousPageUrl" title="Previous">
+            <Link v-if="paginator.previousPageUrl" class="fl dib" :href="paginator.previousPageUrl" title="Previous">
               &larr; {{ $t('app.previous') }}
-            </inertia-link>
-            <inertia-link v-if="paginator.nextPageUrl" class="fr dib" :href="paginator.nextPageUrl" title="Next">
+            </Link>
+            <Link v-if="paginator.nextPageUrl" class="fr dib" :href="paginator.nextPageUrl" title="Next">
               {{ $t('app.next') }} &rarr;
-            </inertia-link>
+            </Link>
           </div>
 
           <!-- Blank state -->
@@ -73,9 +73,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
 
 export default {
   components: {

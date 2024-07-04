@@ -3,23 +3,18 @@
 namespace App\Http\Controllers\Company\Team;
 
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Team\TeamShowViewHelper;
 use App\Services\Company\Team\SetTeamLead;
 use App\Services\Company\Team\UnsetTeamLead;
-use App\Http\ViewHelpers\Team\TeamShowViewHelper;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TeamLeadController extends Controller
 {
     /**
      * Search all possible team leads for this team.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @return JsonResponse
      */
     public function search(Request $request, int $companyId, int $teamId): JsonResponse
     {
@@ -33,11 +28,6 @@ class TeamLeadController extends Controller
 
     /**
      * Update the information about the team's lead.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $teamId): JsonResponse
     {
@@ -67,12 +57,6 @@ class TeamLeadController extends Controller
 
     /**
      * Remove the current team lead.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $teamLeadId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $teamId, int $teamLeadId): JsonResponse
     {

@@ -22,8 +22,8 @@
     <div class="mw7 center box bg-white mb4">
       <div class="bg-gray pa3 f7 box-top">
         <ul class="list pl0 ma0 breadcrumb">
-          <li class="mr2 di"><inertia-link :href="data.url_all">All jobs</inertia-link></li>
-          <li class="mr2 di"><inertia-link :href="data.url_company">{{ data.company.name }}</inertia-link></li>
+          <li class="mr2 di"><Link :href="data.url_all">All jobs</Link></li>
+          <li class="mr2 di"><Link :href="data.url_company">{{ data.company.name }}</Link></li>
           <li class="di">{{ data.job_opening.title }}</li>
         </ul>
       </div>
@@ -44,7 +44,7 @@
       <p class="tc measure center mb4 lh-copy">
         You've successfully applied! We'll keep in touch soon.
       </p>
-      <img loading="lazy" src="/img/streamline-icon-promotion-medal-2-1@200x200.png" width="200" height="200" alt="meeting"
+      <img loading="lazy" :src="'/img/streamline-icon-promotion-medal-2-1@200x200.png'" width="200" height="200" alt="meeting"
            class=""
       />
     </div>

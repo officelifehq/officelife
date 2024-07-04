@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use Closure;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
 class CheckEmployeeOrManagerOrAtLeastRH
 {
@@ -15,9 +15,7 @@ class CheckEmployeeOrManagerOrAtLeastRH
      * or his manager
      * or someone with RH or admin role.
      *
-     * @param Request $request
-     * @param \Closure $next
-     *
+     * @param  Request  $request
      * @return mixed
      */
     public function handle($request, Closure $next)

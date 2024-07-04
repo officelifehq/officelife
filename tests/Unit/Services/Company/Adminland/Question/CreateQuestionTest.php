@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Question;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
+use App\Services\Company\Adminland\Question\CreateQuestion;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Question\CreateQuestion;
+use Tests\TestCase;
 
 class CreateQuestionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_question_as_administrator(): void
     {

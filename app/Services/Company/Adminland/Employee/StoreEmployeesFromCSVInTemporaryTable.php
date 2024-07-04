@@ -3,8 +3,8 @@
 namespace App\Services\Company\Adminland\Employee;
 
 use App\Models\Company\File;
-use App\Services\BaseService;
 use App\Models\Company\ImportJob;
+use App\Services\BaseService;
 
 class StoreEmployeesFromCSVInTemporaryTable extends BaseService
 {
@@ -16,8 +16,6 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -30,9 +28,6 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
 
     /**
      * Import a CSV file, containing employees, and store them in an Import Job.
-     *
-     * @param array $data
-     * @return ImportJob
      */
     public function execute(array $data): ImportJob
     {

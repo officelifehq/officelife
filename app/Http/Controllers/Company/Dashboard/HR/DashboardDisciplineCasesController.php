@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Company\Dashboard\HR;
 
-use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Company\DisciplineCase;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\DisciplineCase\CreateDisciplineCase;
-use App\Services\Company\Employee\DisciplineCase\ToggleDisciplineCase;
-use App\Services\Company\Employee\DisciplineCase\DestroyDisciplineCase;
 use App\Http\ViewHelpers\Dashboard\HR\DashboardHRDisciplineCaseViewHelper;
+use App\Models\Company\DisciplineCase;
+use App\Services\Company\Employee\DisciplineCase\CreateDisciplineCase;
+use App\Services\Company\Employee\DisciplineCase\DestroyDisciplineCase;
+use App\Services\Company\Employee\DisciplineCase\ToggleDisciplineCase;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DashboardDisciplineCasesController extends Controller
 {
@@ -36,8 +36,6 @@ class DashboardDisciplineCasesController extends Controller
     /**
      * Show the list of discipline cases, opened or closed.
      *
-     * @param Request $request
-     * @param int $companyId
      * @return mixed
      */
     public function closed(Request $request, int $companyId)
@@ -53,11 +51,6 @@ class DashboardDisciplineCasesController extends Controller
 
     /**
      * Get the list of potential employees to have a discipline case.
-     *
-     * @param Request $request
-     * @param int $companyId
-     *
-     * @return JsonResponse
      */
     public function search(Request $request, int $companyId): JsonResponse
     {
@@ -75,11 +68,6 @@ class DashboardDisciplineCasesController extends Controller
 
     /**
      * Create a new discipline case.
-     *
-     * @param Request $request
-     * @param int $companyId
-     *
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {
@@ -99,10 +87,6 @@ class DashboardDisciplineCasesController extends Controller
 
     /**
      * Show the discipline case.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $caseId
      */
     public function show(Request $request, int $companyId, int $caseId)
     {
@@ -124,12 +108,6 @@ class DashboardDisciplineCasesController extends Controller
 
     /**
      * Close a discipline case.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $caseId
-     *
-     * @return JsonResponse
      */
     public function toggle(Request $request, int $companyId, int $caseId): JsonResponse
     {
@@ -149,12 +127,6 @@ class DashboardDisciplineCasesController extends Controller
 
     /**
      * Delete a discipline case.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $caseId
-     *
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $caseId): JsonResponse
     {

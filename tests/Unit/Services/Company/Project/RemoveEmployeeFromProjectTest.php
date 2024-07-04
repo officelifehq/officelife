@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
+use App\Services\Company\Project\RemoveEmployeeFromProject;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Project\RemoveEmployeeFromProject;
+use Tests\TestCase;
 
 class RemoveEmployeeFromProjectTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_removes_an_employee_as_administrator(): void
     {

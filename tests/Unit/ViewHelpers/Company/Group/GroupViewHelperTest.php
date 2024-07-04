@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Group;
 
+use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Company\Group\GroupViewHelper;
+use App\Models\Company\Group;
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\ImageHelper;
-use App\Models\Company\Group;
-use App\Http\ViewHelpers\Company\Group\GroupViewHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GroupViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_list_of_groups(): void
     {
@@ -27,7 +24,7 @@ class GroupViewHelperTest extends TestCase
         $array = GroupViewHelper::index($michael->company);
 
         $this->assertEquals(
-            env('APP_URL') . '/' . $michael->company_id . '/company/groups/create',
+            env('APP_URL').'/'.$michael->company_id.'/company/groups/create',
             $array['url_create']
         );
 

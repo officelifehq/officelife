@@ -13,8 +13,6 @@ class UpdateUserPassword extends BaseService implements UpdatesUserPasswords
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,7 +26,6 @@ class UpdateUserPassword extends BaseService implements UpdatesUserPasswords
      * Validate and update the user's password.
      *
      * @param  mixed  $user
-     * @param  array  $input
      */
     public function update($user, array $input)
     {

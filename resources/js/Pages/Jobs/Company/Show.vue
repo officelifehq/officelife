@@ -30,7 +30,7 @@ svg {
           <div class="parsed-content mb4" v-html="data.job_opening.description"></div>
 
           <p>
-            <inertia-link :href="data.url_apply" class="btn add">Apply now</inertia-link>
+            <Link :href="data.url_apply" class="btn add">Apply now</Link>
           </p>
         </div>
 
@@ -38,7 +38,7 @@ svg {
         <div class="fl w-30-l w-100 pl4-l">
           <!-- cta -->
           <p class="mb4 tc mt0">
-            <inertia-link :href="data.url_apply" class="btn add w-100 db">Apply now</inertia-link>
+            <Link :href="data.url_apply" class="btn add w-100 db">Apply now</Link>
           </p>
 
           <div class="bg-white box mb4 pa3">
@@ -58,7 +58,7 @@ svg {
                   {{ data.company.location }}
                 </li>
               </ul>
-              <p class="mb0 f7"><inertia-link :href="data.company.url">View all jobs</inertia-link></p>
+              <p class="mb0 f7"><Link :href="data.company.url">View all jobs</Link></p>
             </div>
           </div>
         </div>

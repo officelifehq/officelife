@@ -2,14 +2,11 @@
 
 namespace Tests\Unit\Helpers;
 
-use Tests\TestCase;
 use App\Helpers\SearchHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class SearchHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_builds_a_sql_query(): void
     {

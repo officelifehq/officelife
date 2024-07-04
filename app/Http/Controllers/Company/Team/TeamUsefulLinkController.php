@@ -2,22 +2,17 @@
 
 namespace App\Http\Controllers\Company\Team;
 
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Team\Links\CreateTeamUsefulLink;
 use App\Services\Company\Team\Links\DestroyTeamUsefulLink;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TeamUsefulLinkController extends Controller
 {
     /**
      * Add a new useful link to the team.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $teamId): JsonResponse
     {
@@ -41,12 +36,6 @@ class TeamUsefulLinkController extends Controller
 
     /**
      * Remove the new useful link from the team.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $linkId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $teamId, int $linkId): JsonResponse
     {

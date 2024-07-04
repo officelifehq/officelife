@@ -2,18 +2,16 @@
 
 namespace Tests\Unit\ViewHelpers\Company;
 
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Team;
-use App\Models\Company\Skill;
-use GrahamCampbell\TestBenchCore\HelperTrait;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Company\CompanySkillViewHelper;
+use App\Models\Company\Skill;
+use App\Models\Company\Team;
+use GrahamCampbell\TestBenchCore\HelperTrait;
+use Tests\TestCase;
 
 class CompanySkillViewHelperTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_the_information_about_skills_in_the_company(): void

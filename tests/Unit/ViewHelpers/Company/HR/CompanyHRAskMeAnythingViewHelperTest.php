@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\ViewHelpers\Company\HR;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Company\HR\CompanyHRAskMeAnythingViewHelper;
+use App\Models\Company\AskMeAnythingQuestion;
+use App\Models\Company\AskMeAnythingSession;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Models\Company\AskMeAnythingSession;
-use App\Models\Company\AskMeAnythingQuestion;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\HR\CompanyHRAskMeAnythingViewHelper;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class CompanyHRAskMeAnythingViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_list_of_all_the_ama_sessions(): void
     {

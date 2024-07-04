@@ -2,20 +2,19 @@
 
 namespace App\Services\Company\Adminland\AskMeAnything;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\AskMeAnythingSession;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyAskMeAnythingSession extends BaseService
 {
     private array $data;
+
     private AskMeAnythingSession $session;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,7 +27,6 @@ class DestroyAskMeAnythingSession extends BaseService
 
     /**
      * Delete a AMA session.
-     * @param array $data
      */
     public function execute(array $data): void
     {

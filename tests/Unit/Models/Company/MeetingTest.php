@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\TestCase;
-use App\Models\Company\Meeting;
-use App\Models\Company\Employee;
 use App\Models\Company\AgendaItem;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Employee;
+use App\Models\Company\Meeting;
+use Tests\TestCase;
 
 class MeetingTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_group(): void
     {

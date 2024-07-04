@@ -84,9 +84,9 @@
               <avatar :avatar="employee.avatar" :size="35" :class="'br-100 mr1 avatar'" />
 
               <div>
-                <inertia-link :href="employee.url" class="mb2">
+                <Link :href="employee.url" class="mb2">
                   {{ employee.name }}
-                </inertia-link>
+                </Link>
 
                 <!-- position -->
                 <span v-if="employee.position" class="db f7 mt1">
@@ -115,9 +115,10 @@
 </template>
 
 <script>
-import TextInput from '@/Shared/TextInput';
-import Avatar from '@/Shared/Avatar';
+import TextInput from '@/Shared/TextInput.vue';
+import Avatar from '@/Shared/Avatar.vue';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
+import _ from 'lodash';
 
 export default {
   components: {

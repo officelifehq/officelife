@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\Services\Company\GuessEmployeeGame;
 
-use Tests\TestCase;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
 use App\Models\Company\GuessEmployeeGame;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\GuessEmployeeGame\VoteGuessEmployeeGame;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class VoteGuessEmployeeGameTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_votes_a_game_as_administrator(): void
     {

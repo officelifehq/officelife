@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Services\Company\Place;
 
-use Tests\TestCase;
 use App\Models\Company\Place;
+use App\Services\Company\Place\GetGPSCoordinate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Place\GetGPSCoordinate;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class GetGPSCoordinateTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_returns_null_if_geolocation_is_disabled()
     {

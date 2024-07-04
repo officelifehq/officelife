@@ -2,23 +2,21 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
-use Carbon\Carbon;
-use Tests\TestCase;
-use App\Models\Company\Project;
+use App\Http\ViewHelpers\Employee\EmployeeTimesheetViewHelper;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
+use App\Models\Company\ProjectTask;
 use App\Models\Company\Timesheet;
+use App\Models\Company\TimeTrackingEntry;
+use Carbon\Carbon;
+use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Models\Company\ProjectTask;
-use App\Models\Company\TimeTrackingEntry;
-use GrahamCampbell\TestBenchCore\HelperTrait;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Employee\EmployeeTimesheetViewHelper;
+use Tests\TestCase;
 
 class EmployeeTimesheetViewHelperTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_a_collection_of_employee_timesheets(): void

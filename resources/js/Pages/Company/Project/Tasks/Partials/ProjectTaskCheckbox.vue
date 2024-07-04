@@ -181,7 +181,7 @@ input[type=checkbox] {
 </template>
 
 <script>
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
 
 export default {
   components: {

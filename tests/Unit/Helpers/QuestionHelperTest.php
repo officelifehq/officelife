@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Helpers;
 
-use Tests\TestCase;
-use App\Models\Company\Answer;
 use App\Helpers\QuestionHelper;
+use App\Models\Company\Answer;
 use App\Models\Company\Question;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class QuestionHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_answer_of_the_question_made_by_the_employee(): void
     {

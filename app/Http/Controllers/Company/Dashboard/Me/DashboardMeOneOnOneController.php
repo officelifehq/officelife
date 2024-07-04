@@ -2,37 +2,34 @@
 
 namespace App\Http\Controllers\Company\Dashboard\Me;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Company\OneOnOneEntry;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
-use App\Services\Company\Employee\OneOnOne\UpdateOneOnOneNote;
 use App\Http\ViewHelpers\Dashboard\DashboardOneOnOneViewHelper;
-use App\Services\Company\Employee\OneOnOne\DestroyOneOnOneNote;
+use App\Models\Company\OneOnOneEntry;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
-use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneActionItem;
-use App\Services\Company\Employee\OneOnOne\UpdateOneOnOneActionItem;
-use App\Services\Company\Employee\OneOnOne\DestroyOneOnOneActionItem;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneTalkingPoint;
-use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneTalkingPoint;
-use App\Services\Company\Employee\OneOnOne\UpdateOneOnOneTalkingPoint;
+use App\Services\Company\Employee\OneOnOne\DestroyOneOnOneActionItem;
+use App\Services\Company\Employee\OneOnOne\DestroyOneOnOneNote;
 use App\Services\Company\Employee\OneOnOne\DestroyOneOnOneTalkingPoint;
 use App\Services\Company\Employee\OneOnOne\MarkOneOnOneEntryAsHappened;
+use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneActionItem;
+use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneTalkingPoint;
+use App\Services\Company\Employee\OneOnOne\UpdateOneOnOneActionItem;
+use App\Services\Company\Employee\OneOnOne\UpdateOneOnOneNote;
+use App\Services\Company\Employee\OneOnOne\UpdateOneOnOneTalkingPoint;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class DashboardMeOneOnOneController extends Controller
 {
     /**
      * Show the One on One entry.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $entryId
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
@@ -65,11 +62,6 @@ class DashboardMeOneOnOneController extends Controller
 
     /**
      * Mark an entry as happened.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $entryId
-     * @return JsonResponse
      */
     public function markHappened(Request $request, int $companyId, int $entryId): JsonResponse
     {
@@ -102,11 +94,6 @@ class DashboardMeOneOnOneController extends Controller
 
     /**
      * Create a talking point.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $entryId
-     * @return JsonResponse
      */
     public function storeTalkingPoint(Request $request, int $companyId, int $entryId): JsonResponse
     {
@@ -137,11 +124,6 @@ class DashboardMeOneOnOneController extends Controller
 
     /**
      * Create an action item.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $entryId
-     * @return JsonResponse
      */
     public function storeActionItem(Request $request, int $companyId, int $entryId): JsonResponse
     {
@@ -172,11 +154,6 @@ class DashboardMeOneOnOneController extends Controller
 
     /**
      * Create a note.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $entryId
-     * @return JsonResponse
      */
     public function storeNote(Request $request, int $companyId, int $entryId): JsonResponse
     {
@@ -206,12 +183,6 @@ class DashboardMeOneOnOneController extends Controller
 
     /**
      * Update a talking point.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $entryId
-     * @param int $talkingPointId
-     * @return JsonResponse
      */
     public function updateTalkingPoint(Request $request, int $companyId, int $entryId, int $talkingPointId): JsonResponse
     {
@@ -239,12 +210,6 @@ class DashboardMeOneOnOneController extends Controller
 
     /**
      * Update an action item.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $entryId
-     * @param int $actionItemId
-     * @return JsonResponse
      */
     public function updateActionItem(Request $request, int $companyId, int $entryId, int $actionItemId): JsonResponse
     {
@@ -272,12 +237,6 @@ class DashboardMeOneOnOneController extends Controller
 
     /**
      * Update a note.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $entryId
-     * @param int $noteId
-     * @return JsonResponse
      */
     public function updateNote(Request $request, int $companyId, int $entryId, int $noteId): JsonResponse
     {
@@ -304,12 +263,6 @@ class DashboardMeOneOnOneController extends Controller
 
     /**
      * Toggle a talking point.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $entryId
-     * @param int $talkingPointId
-     * @return JsonResponse
      */
     public function toggleTalkingPoint(Request $request, int $companyId, int $entryId, int $talkingPointId): JsonResponse
     {
@@ -336,12 +289,6 @@ class DashboardMeOneOnOneController extends Controller
 
     /**
      * Toggle an action item.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $entryId
-     * @param int $actionItemId
-     * @return JsonResponse
      */
     public function toggleActionItem(Request $request, int $companyId, int $entryId, int $actionItemId): JsonResponse
     {
@@ -368,12 +315,6 @@ class DashboardMeOneOnOneController extends Controller
 
     /**
      * Delete a talking point.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $entryId
-     * @param int $talkingPointId
-     * @return JsonResponse
      */
     public function destroyTalkingPoint(Request $request, int $companyId, int $entryId, int $talkingPointId): JsonResponse
     {
@@ -396,12 +337,6 @@ class DashboardMeOneOnOneController extends Controller
 
     /**
      * Delete an action item.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $entryId
-     * @param int $talkingPointId
-     * @return JsonResponse
      */
     public function destroyActionItem(Request $request, int $companyId, int $entryId, int $talkingPointId): JsonResponse
     {
@@ -424,12 +359,6 @@ class DashboardMeOneOnOneController extends Controller
 
     /**
      * Delete a note.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $entryId
-     * @param int $noteId
-     * @return JsonResponse
      */
     public function destroyNote(Request $request, int $companyId, int $entryId, int $noteId): JsonResponse
     {

@@ -2,9 +2,9 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\IssueType;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectIssue;
 use Illuminate\Database\Eloquent\Factories\Factory;

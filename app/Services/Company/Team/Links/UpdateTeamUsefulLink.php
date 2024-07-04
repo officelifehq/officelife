@@ -2,20 +2,18 @@
 
 namespace App\Services\Company\Team\Links;
 
-use Carbon\Carbon;
+use App\Jobs\LogAccountAudit;
 use App\Jobs\LogTeamAudit;
 use App\Models\Company\Team;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use Illuminate\Validation\Rule;
 use App\Models\Company\TeamUsefulLink;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 
 class UpdateTeamUsefulLink extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -39,10 +37,6 @@ class UpdateTeamUsefulLink extends BaseService
      * Update a team useful link.
      * A useful link is a link that provides information to someone visiting
      * the team page.
-     *
-     * @param array $data
-     *
-     * @return TeamUsefulLink
      */
     public function execute(array $data): TeamUsefulLink
     {
@@ -71,10 +65,6 @@ class UpdateTeamUsefulLink extends BaseService
 
     /**
      * Add logs.
-     *
-     * @param array          $data
-     * @param TeamUsefulLink $link
-     * @param Team           $team
      */
     private function log(array $data, TeamUsefulLink $link, Team $team): void
     {

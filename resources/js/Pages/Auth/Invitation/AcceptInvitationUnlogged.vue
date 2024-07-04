@@ -8,14 +8,14 @@
         {{ $t('auth.invitation_unlogged_desc') }}
       </p>
       <p v-show="displayCreateAccount">
-        <inertia-link class="pointer" @click="displaySignin = true; displayCreateAccount = false">
+        <Link class="pointer" @click="displaySignin = true; displayCreateAccount = false">
           &larr; {{ $t('auth.invitation_unlogged_create_account_instead') }}
-        </inertia-link>
+        </Link>
       </p>
       <p v-show="displaySignin">
-        <inertia-link class="pointer" @click="displayCreateAccount = true; displaySignin = false">
+        <Link class="pointer" @click="displayCreateAccount = true; displaySignin = false">
           &larr; {{ $t('auth.invitation_unlogged_login_instead') }}
-        </inertia-link>
+        </Link>
       </p>
     </div>
 
@@ -112,9 +112,9 @@
 </template>
 
 <script>
-import LoadingButton from '@/Shared/LoadingButton';
-import Errors from '@/Shared/Errors';
-import TextInput from '@/Shared/TextInput';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Errors from '@/Shared/Errors.vue';
+import TextInput from '@/Shared/TextInput.vue';
 
 export default {
   components: {

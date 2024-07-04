@@ -47,10 +47,10 @@
 </template>
 
 <script>
-import LoadingButton from '@/Shared/LoadingButton';
-import FormSection from '@/Shared/Layout/FormSection';
-import TextInput from '@/Shared/TextInput';
-import { useForm } from '@inertiajs/inertia-vue3';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import FormSection from '@/Shared/Layout/FormSection.vue';
+import TextInput from '@/Shared/TextInput.vue';
+import { useForm } from '@inertiajs/vue3';
 
 export default {
   components: {

@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Controllers;
 
-use Tests\TestCase;
-use App\Models\User\User;
-use App\Models\Company\Employee;
-use App\Http\Controllers\Controller;
 use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Http\Controllers\Controller;
+use App\Models\Company\Employee;
+use App\Models\User\User;
+use Tests\TestCase;
 
 class ControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_validates_permission_level(): void
     {

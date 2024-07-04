@@ -2,12 +2,12 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
-use App\Services\BaseService;
 use App\Models\Company\Project;
-use Illuminate\Support\Facades\DB;
-use App\Models\Company\ProjectMessage;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\ProjectMessage;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class MarkProjectMessageasRead extends BaseService
 {
@@ -19,8 +19,6 @@ class MarkProjectMessageasRead extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -34,8 +32,6 @@ class MarkProjectMessageasRead extends BaseService
 
     /**
      * Mark a project message as read.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

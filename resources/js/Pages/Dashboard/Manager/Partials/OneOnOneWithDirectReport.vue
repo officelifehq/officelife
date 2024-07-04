@@ -41,7 +41,7 @@
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box relative">
-      <img loading="lazy" src="/img/streamline-icon-work-desk-sofa-3-3@140x140.png" width="90" alt="meeting" class="absolute-ns di-ns dn top-1 left-1" />
+      <img loading="lazy" :src="'/img/streamline-icon-work-desk-sofa-3-3@140x140.png'" width="90" alt="meeting" class="absolute-ns di-ns dn top-1 left-1" />
 
       <ul class="pl6-ns pl3 pb3 pt3 pr3 ma0">
         <li v-for="directReport in oneOnOnes" :key="directReport.id" class="flex justify-between items-center br bl bb bb-gray bb-gray-hover pa3 entry-item">
@@ -49,7 +49,7 @@
           <div>
             <span class="pl3 db relative team-member">
               <avatar :avatar="directReport.avatar" :size="35" :class="'br-100 absolute avatar'" />
-              <inertia-link :href="directReport.url" class="mb2">{{ directReport.name }}</inertia-link>
+              <Link :href="directReport.url" class="mb2">{{ directReport.name }}</Link>
               <span class="title db f7 mt1">
                 {{ directReport.position }}
               </span>
@@ -58,7 +58,7 @@
 
           <!-- call to action -->
           <div class="tr">
-            <inertia-link :href="directReport.entry.url" :data-cy="'view-one-on-one-' + directReport.entry.id" class="btn dib-l db">{{ $t('dashboard.one_on_ones_cta') }}</inertia-link>
+            <Link :href="directReport.entry.url" :data-cy="'view-one-on-one-' + directReport.entry.id" class="btn dib-l db">{{ $t('dashboard.one_on_ones_cta') }}</Link>
           </div>
         </li>
       </ul>
@@ -67,8 +67,8 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
-import Avatar from '@/Shared/Avatar';
+import Help from '@/Shared/Help.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

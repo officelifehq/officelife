@@ -2,24 +2,25 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectMemberActivity;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class RemoveParentIssue extends BaseService
 {
     protected array $data;
+
     protected ProjectIssue $parentIssue;
+
     protected ProjectIssue $childIssue;
+
     protected Project $project;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -36,8 +37,6 @@ class RemoveParentIssue extends BaseService
      * Remove a parent issue from another project issue.
      * This only kills the relationships between those two. This does not
      * delete the issue itself.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

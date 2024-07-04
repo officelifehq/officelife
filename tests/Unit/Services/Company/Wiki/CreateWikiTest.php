@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\Services\Company\Wiki;
 
-use Tests\TestCase;
-use App\Models\Company\Wiki;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
+use App\Models\Company\Wiki;
 use App\Services\Company\Wiki\CreateWiki;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class CreateWikiTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_wiki_as_administrator(): void
     {

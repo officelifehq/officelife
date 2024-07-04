@@ -2,13 +2,13 @@
 
 namespace Database\Factories\Company;
 
-use Illuminate\Support\Str;
-use App\Models\Company\Team;
 use App\Models\Company\Company;
-use App\Models\Company\Position;
 use App\Models\Company\JobOpening;
+use App\Models\Company\Position;
 use App\Models\Company\RecruitingStageTemplate;
+use App\Models\Company\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class JobOpeningFactory extends Factory
 {

@@ -2,27 +2,24 @@
 
 namespace Tests\Unit\Services\Company\Employee\Expense;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Helpers\MoneyHelper;
 use App\Jobs\ConvertExpense;
-use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Expense;
+use App\Jobs\NotifyEmployee;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
+use App\Models\Company\Expense;
 use App\Models\Company\ExpenseCategory;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Expense\CreateExpense;
 use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateExpenseTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_an_expense_as_administrator(): void
     {
@@ -186,7 +183,7 @@ class CreateExpenseTest extends TestCase
         (new CreateExpense)->execute($request);
     }
 
-    private function executeService(Employee $michael, Employee $dwight, ExpenseCategory $category = null): void
+    private function executeService(Employee $michael, Employee $dwight, ?ExpenseCategory $category = null): void
     {
         Queue::fake();
 

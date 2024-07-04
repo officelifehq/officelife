@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Services\Company\Employee\Notification;
 
-use Tests\TestCase;
 use App\Models\Company\Employee;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Notification\AddNotificationInUIForEmployee;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class AddNotificationInUIForEmployeeTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_logs_a_notification(): void
     {

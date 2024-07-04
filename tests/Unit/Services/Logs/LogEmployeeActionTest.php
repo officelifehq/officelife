@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\Services\Logs;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeLog;
 use App\Services\Logs\LogEmployeeAction;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class LogEmployeeActionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_logs_an_action(): void
     {

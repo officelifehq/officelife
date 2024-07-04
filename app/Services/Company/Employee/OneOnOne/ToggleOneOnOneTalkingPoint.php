@@ -2,9 +2,9 @@
 
 namespace App\Services\Company\Employee\OneOnOne;
 
-use App\Services\BaseService;
-use App\Models\Company\OneOnOneTalkingPoint;
 use App\Exceptions\NotEnoughPermissionException;
+use App\Models\Company\OneOnOneTalkingPoint;
+use App\Services\BaseService;
 
 class ToggleOneOnOneTalkingPoint extends BaseService
 {
@@ -14,8 +14,6 @@ class ToggleOneOnOneTalkingPoint extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,9 +27,6 @@ class ToggleOneOnOneTalkingPoint extends BaseService
 
     /**
      * Toggle a one on one action item for a one on one meeting.
-     *
-     * @param array $data
-     * @return OneOnOneTalkingPoint
      */
     public function execute(array $data): OneOnOneTalkingPoint
     {

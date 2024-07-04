@@ -2,17 +2,15 @@
 
 namespace App\Services\Company\Adminland\Team;
 
-use Carbon\Carbon;
-use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
+use App\Models\Company\Team;
 use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyTeam extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -25,10 +23,6 @@ class DestroyTeam extends BaseService
 
     /**
      * Destroy a team.
-     *
-     * @param array $data
-     *
-     * @return bool
      */
     public function execute(array $data): bool
     {

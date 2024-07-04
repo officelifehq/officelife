@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\TestCase;
 use App\Models\Company\IssueType;
 use App\Models\Company\ProjectIssue;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class IssueTypeTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_company(): void
     {

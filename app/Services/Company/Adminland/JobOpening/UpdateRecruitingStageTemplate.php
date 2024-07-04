@@ -2,20 +2,19 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\RecruitingStageTemplate;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class UpdateRecruitingStageTemplate extends BaseService
 {
     protected array $data;
+
     protected RecruitingStageTemplate $template;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,9 +28,6 @@ class UpdateRecruitingStageTemplate extends BaseService
 
     /**
      * Update a recruiting stage template.
-     *
-     * @param array $data
-     * @return RecruitingStageTemplate
      */
     public function execute(array $data): RecruitingStageTemplate
     {

@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Adminland\JobOpening;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
+use App\Models\Company\RecruitingStageTemplate;
+use App\Services\Company\Adminland\JobOpening\DestroyRecruitingStageTemplate;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Models\Company\RecruitingStageTemplate;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\JobOpening\DestroyRecruitingStageTemplate;
+use Tests\TestCase;
 
 class DestroyRecruitingTemplateTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_deletes_a_recruiting_as_administrator(): void
     {

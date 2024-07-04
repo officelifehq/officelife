@@ -2,31 +2,29 @@
 
 namespace App\Http\Controllers\Jobs;
 
-use Inertia\Inertia;
 use App\Helpers\FileHelper;
-use App\Models\Company\File;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Jobs\JobsCompanyViewHelper;
+use App\Models\Company\Candidate;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Models\Company\Candidate;
-use Illuminate\Http\JsonResponse;
+use App\Models\Company\File;
 use App\Models\Company\JobOpening;
-use App\Http\Controllers\Controller;
 use App\Services\Company\Adminland\File\UploadFile;
-use App\Http\ViewHelpers\Jobs\JobsCompanyViewHelper;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\JobOpening\CreateCandidate;
 use App\Services\Company\Adminland\JobOpening\AddFileToCandidate;
+use App\Services\Company\Adminland\JobOpening\CreateCandidate;
 use App\Services\Company\Adminland\JobOpening\DestroyCandidateDuringApplicationProcess;
 use App\Services\Company\Adminland\JobOpening\DestroyCandidateFileDuringApplicationProcess;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class JobsCompanyController extends Controller
 {
     /**
      * Shows all the jobs openings in the given company.
      *
-     * @param Request $request
-     * @param string $slug
      * @return mixed
      */
     public function index(Request $request, string $slug)
@@ -47,9 +45,6 @@ class JobsCompanyController extends Controller
     /**
      * Shows the details of the job opening.
      *
-     * @param Request $request
-     * @param string $slug
-     * @param string $jobOpeningSlug
      * @return mixed
      */
     public function show(Request $request, string $slug, string $jobOpeningSlug)
@@ -82,9 +77,6 @@ class JobsCompanyController extends Controller
     /**
      * Shows the Apply to a job page.
      *
-     * @param Request $request
-     * @param string $slug
-     * @param string $jobOpeningSlug
      * @return mixed
      */
     public function apply(Request $request, string $slug, string $jobOpeningSlug)
@@ -113,9 +105,6 @@ class JobsCompanyController extends Controller
     /**
      * Store the candidate.
      *
-     * @param Request $request
-     * @param string $slug
-     * @param string $jobOpeningSlug
      * @return mixed
      */
     public function store(Request $request, string $slug, string $jobOpeningSlug)
@@ -158,10 +147,6 @@ class JobsCompanyController extends Controller
     /**
      * Shows the Upload documents page.
      *
-     * @param Request $request
-     * @param string $slug
-     * @param string $jobOpeningSlug
-     * @param string $candidateSlug
      * @return mixed
      */
     public function cv(Request $request, string $slug, string $jobOpeningSlug, string $candidateSlug)
@@ -202,12 +187,6 @@ class JobsCompanyController extends Controller
 
     /**
      * Store a document.
-     *
-     * @param Request $request
-     * @param string $slug
-     * @param string $jobOpeningSlug
-     * @param string $candidateSlug
-     * @return JsonResponse|null
      */
     public function storeCv(Request $request, string $slug, string $jobOpeningSlug, string $candidateSlug): ?JsonResponse
     {
@@ -268,13 +247,6 @@ class JobsCompanyController extends Controller
 
     /**
      * Destroy a document.
-     *
-     * @param Request $request
-     * @param string $slug
-     * @param string $jobOpeningSlug
-     * @param string $candidateSlug
-     * @param string $fileId
-     * @return JsonResponse|null
      */
     public function destroyCv(Request $request, string $slug, string $jobOpeningSlug, string $candidateSlug, string $fileId): ?JsonResponse
     {
@@ -320,12 +292,6 @@ class JobsCompanyController extends Controller
 
     /**
      * Destroy the candidate during the application process.
-     *
-     * @param Request $request
-     * @param string $slug
-     * @param string $jobOpeningSlug
-     * @param string $candidateSlug
-     * @return JsonResponse|null
      */
     public function destroy(Request $request, string $slug, string $jobOpeningSlug, string $candidateSlug): ?JsonResponse
     {
@@ -367,12 +333,6 @@ class JobsCompanyController extends Controller
 
     /**
      * Finalize the application process.
-     *
-     * @param Request $request
-     * @param string $slug
-     * @param string $jobOpeningSlug
-     * @param string $candidateSlug
-     * @return JsonResponse|null
      */
     public function finalizeApplication(Request $request, string $slug, string $jobOpeningSlug, string $candidateSlug): ?JsonResponse
     {
@@ -413,10 +373,6 @@ class JobsCompanyController extends Controller
     /**
      * Shows Success page.
      *
-     * @param Request $request
-     * @param string $slug
-     * @param string $jobOpeningSlug
-     * @param string $candidateSlug
      * @return mixed
      */
     public function success(Request $request, string $slug, string $jobOpeningSlug, string $candidateSlug)

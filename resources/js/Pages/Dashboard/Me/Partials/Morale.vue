@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import Errors from '@/Shared/Errors';
-import Help from '@/Shared/Help';
+import Errors from '@/Shared/Errors.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

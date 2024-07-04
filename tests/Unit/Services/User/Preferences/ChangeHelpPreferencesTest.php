@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Services\User\Preferences;
 
-use Tests\TestCase;
 use App\Models\User\User;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\User\Preferences\ChangeHelpPreferences;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class ChangeHelpPreferencesTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_sets_the_help_preference(): void
     {

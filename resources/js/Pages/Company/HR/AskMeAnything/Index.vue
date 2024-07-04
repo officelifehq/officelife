@@ -38,11 +38,13 @@
             <help :url="$page.props.help_links.ask_me_anything" :top="'2px'" />
           </div>
 
-          <inertia-link v-if="data.can_create" :href="data.url_new" class="btn f5">{{ $t('company.hr_ama_index_cta') }}</inertia-link>
+          <Link v-if="data.can_create" :href="data.url_new" class="btn f5">
+            {{ $t('company.hr_ama_index_cta') }}
+          </Link>
         </div>
         <div v-if="data.active_session" class="br3 mb5 bg-white box flex justify-between items-center pa3">
           <div class="relative flex items-center">
-            <img loading="lazy" src="/img/streamline-icon-microphone-19@400x400.png" alt="mic symbol" class="mr2" height="80"
+            <img loading="lazy" :src="'/img/streamline-icon-microphone-19@400x400.png'" alt="mic symbol" class="mr2" height="80"
                  width="80"
             />
 
@@ -56,7 +58,9 @@
           </div>
 
           <div class="tc">
-            <inertia-link :href="data.active_session.url" class="btn db mb2">{{ $t('app.view') }}</inertia-link>
+            <Link :href="data.active_session.url" class="btn db mb2">
+              {{ $t('app.view') }}
+            </Link>
             <p class="mv0 gray f7">{{ $tc('company.hr_ama_index_next_questions', data.active_session.questions_count, {count: data.active_session.questions_count }) }}</p>
           </div>
         </div>
@@ -79,9 +83,9 @@
           <ul v-if="data.inactive_sessions.length > 0" class="list pl0 ma0">
             <li v-for="session in data.inactive_sessions" :key="session.id" class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between session-item">
               <div class="mb1 relative">
-                <inertia-link :href="session.url" class="dib mb2">
+                <Link :href="session.url" class="dib mb2">
                   {{ session.happened_at }}
-                </inertia-link>
+                </Link>
 
                 <p class="mv0 f7 gray">{{ session.theme }}</p>
               </div>
@@ -95,7 +99,7 @@
             <p class="measure mb4 lh-copy">
               {{ $t('company.hr_ama_index_blank') }}
             </p>
-            <img loading="lazy" src="/img/streamline-icon-singer-record-14@400x400.png" alt="mic symbol" class="mr2" height="140"
+            <img loading="lazy" :src="'/img/streamline-icon-singer-record-14@400x400.png'" alt="mic symbol" class="mr2" height="140"
                  width="140"
             />
           </div>
@@ -106,9 +110,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Help from '@/Shared/Help';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

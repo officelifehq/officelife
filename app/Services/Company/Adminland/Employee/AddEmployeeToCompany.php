@@ -2,17 +2,17 @@
 
 namespace App\Services\Company\Adminland\Employee;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
-use App\Jobs\NotifyEmployee;
+use App\Exceptions\EmailAlreadyUsedException;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
+use App\Jobs\NotifyEmployee;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Services\QueuableService;
+use App\Services\BaseService;
 use App\Services\DispatchableService;
-use App\Exceptions\EmailAlreadyUsedException;
+use App\Services\QueuableService;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class AddEmployeeToCompany extends BaseService implements QueuableService
 {
@@ -24,8 +24,6 @@ class AddEmployeeToCompany extends BaseService implements QueuableService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -42,10 +40,6 @@ class AddEmployeeToCompany extends BaseService implements QueuableService
 
     /**
      * Add someone to the company.
-     *
-     * @param array $data
-     *
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

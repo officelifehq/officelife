@@ -139,6 +139,6 @@ return [
     */
 
     'enable_external_login_providers' => env('ENABLE_EXTERNAL_LOGIN_PROVIDERS', false),
-    'login_providers' => explode(',', env('LOGIN_PROVIDERS')),
+    'login_providers' => explode(',', env('LOGIN_PROVIDERS', '')),
 
 ];

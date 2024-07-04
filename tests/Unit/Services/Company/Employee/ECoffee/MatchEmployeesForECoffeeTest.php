@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Services\Company\Employee\ECoffee;
 
-use Tests\TestCase;
 use App\Models\Company\ECoffee;
-use App\Models\Company\Employee;
 use App\Models\Company\ECoffeeMatch;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Employee;
 use App\Services\Company\Employee\ECoffee\MatchEmployeesForECoffee;
+use Tests\TestCase;
 
 class MatchEmployeesForECoffeeTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_matches_employees(): void
     {

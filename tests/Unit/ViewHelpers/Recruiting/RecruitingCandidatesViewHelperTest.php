@@ -2,28 +2,25 @@
 
 namespace Tests\Unit\ViewHelpers\Recruiting;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\File;
 use App\Helpers\StringHelper;
+use App\Http\ViewHelpers\Recruiting\RecruitingCandidatesViewHelper;
+use App\Models\Company\Candidate;
+use App\Models\Company\CandidateStage;
+use App\Models\Company\CandidateStageNote;
+use App\Models\Company\CandidateStageParticipant;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Models\Company\Candidate;
+use App\Models\Company\File;
 use App\Models\Company\JobOpening;
-use App\Models\Company\CandidateStage;
 use App\Models\Company\RecruitingStage;
-use App\Models\Company\CandidateStageNote;
 use App\Models\Company\RecruitingStageTemplate;
-use App\Models\Company\CandidateStageParticipant;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Recruiting\RecruitingCandidatesViewHelper;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class RecruitingCandidatesViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_details_about_the_job_opening(): void
     {
@@ -61,7 +58,7 @@ class RecruitingCandidatesViewHelperTest extends TestCase
                     'count' => 0,
                     'url' => env('APP_URL').'/'.$company->id.'/teams/'.$opening->team->id,
                 ],
-                'url' => env('APP_URL').'/'.$company->id. '/recruiting/job-openings/'.$opening->id,
+                'url' => env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$opening->id,
             ],
             $array
         );
@@ -155,14 +152,14 @@ class RecruitingCandidatesViewHelperTest extends TestCase
                     'name' => $stage1->stage_name,
                     'position' => $stage1->stage_position,
                     'status' => CandidateStage::STATUS_PASSED,
-                    'url' => env('APP_URL').'/'.$company->id. '/recruiting/job-openings/'.$opening->id.'/candidates/'.$candidate->id.'/stages/'.$stage1->id,
+                    'url' => env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$opening->id.'/candidates/'.$candidate->id.'/stages/'.$stage1->id,
                 ],
                 1 => [
                     'id' => $stage2->id,
                     'name' => $stage2->stage_name,
                     'position' => $stage2->stage_position,
                     'status' => CandidateStage::STATUS_PENDING,
-                    'url' => env('APP_URL').'/'.$company->id. '/recruiting/job-openings/'.$opening->id.'/candidates/'.$candidate->id.'/stages/'.$stage2->id,
+                    'url' => env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$opening->id.'/candidates/'.$candidate->id.'/stages/'.$stage2->id,
                 ],
             ],
             $array['stages']->toArray()
@@ -269,7 +266,7 @@ class RecruitingCandidatesViewHelperTest extends TestCase
                         'id' => $stage->decider->position->id,
                         'title' => $stage->decider->position->title,
                     ],
-                    'url' =>  env('APP_URL').'/'.$stage->decider->company_id.'/employees/'.$stage->decider->id,
+                    'url' => env('APP_URL').'/'.$stage->decider->company_id.'/employees/'.$stage->decider->id,
                 ],
                 'decided_at' => 'Jan 01, 2018',
             ],
@@ -298,7 +295,7 @@ class RecruitingCandidatesViewHelperTest extends TestCase
                     'avatar' => ImageHelper::getAvatar($jim, 32),
                     'participated' => true,
                     'participant_id' => $candidateStageParticipant->id,
-                    'url' =>  env('APP_URL').'/'.$jim->company_id. '/employees/'.$jim->id,
+                    'url' => env('APP_URL').'/'.$jim->company_id.'/employees/'.$jim->id,
                 ],
             ],
             $collection->toArray()
@@ -453,7 +450,7 @@ class RecruitingCandidatesViewHelperTest extends TestCase
                         'id' => $candidateStageNoteB->author->id,
                         'name' => $candidateStageNoteB->author->name,
                         'avatar' => ImageHelper::getAvatar($candidateStageNoteB->author, 32),
-                        'url' =>  env('APP_URL').'/'.$michael->company_id.'/employees/'.$candidateStageNoteB->author->id,
+                        'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$candidateStageNoteB->author->id,
                     ],
                     'permissions' => [
                         'can_edit' => false,
@@ -469,7 +466,7 @@ class RecruitingCandidatesViewHelperTest extends TestCase
                         'id' => $candidateStageNote->author->id,
                         'name' => $candidateStageNote->author->name,
                         'avatar' => ImageHelper::getAvatar($michael, 32),
-                        'url' =>  env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                        'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                     'permissions' => [
                         'can_edit' => true,

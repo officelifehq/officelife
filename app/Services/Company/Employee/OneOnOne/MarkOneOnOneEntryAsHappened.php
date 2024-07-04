@@ -2,12 +2,12 @@
 
 namespace App\Services\Company\Employee\OneOnOne;
 
-use Carbon\Carbon;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\OneOnOneEntry;
-use App\Exceptions\NotEnoughPermissionException;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class MarkOneOnOneEntryAsHappened extends BaseService
 {
@@ -17,8 +17,6 @@ class MarkOneOnOneEntryAsHappened extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -32,9 +30,6 @@ class MarkOneOnOneEntryAsHappened extends BaseService
 
     /**
      * Mark a one on one entry as happened, and create a new entry for next time.
-     *
-     * @param array $data
-     * @return OneOnOneEntry
      */
     public function execute(array $data): OneOnOneEntry
     {

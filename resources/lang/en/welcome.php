@@ -1,4 +1,5 @@
 <?php
+
 return [
     'hide_message_forever' => 'Hide this welcome tab forever',
     'thanks' => 'Thanks for joining OfficeLife.',

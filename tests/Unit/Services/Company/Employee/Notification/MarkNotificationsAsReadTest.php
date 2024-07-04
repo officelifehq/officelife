@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\Services\Company\Employee\Notification;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Models\Company\Employee;
 use App\Models\Company\Notification;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Notification\MarkNotificationsAsRead;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class MarkNotificationsAsReadTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_marks_all_notifications_in_the_account_as_read_regardless_of_permission_level(): void
     {

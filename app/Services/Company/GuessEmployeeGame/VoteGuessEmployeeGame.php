@@ -2,20 +2,20 @@
 
 namespace App\Services\Company\GuessEmployeeGame;
 
-use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\GuessEmployeeGame;
+use App\Services\BaseService;
 
 class VoteGuessEmployeeGame extends BaseService
 {
     protected array $data;
+
     protected GuessEmployeeGame $game;
+
     protected Employee $employee;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -30,9 +30,6 @@ class VoteGuessEmployeeGame extends BaseService
 
     /**
      * Vote a Guess Employee Game.
-     *
-     * @param array $data
-     * @return GuessEmployeeGame
      */
     public function execute(array $data): GuessEmployeeGame
     {

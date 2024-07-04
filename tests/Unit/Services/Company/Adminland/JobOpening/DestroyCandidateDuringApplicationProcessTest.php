@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Services\Company\Adminland\JobOpening;
 
-use Tests\TestCase;
 use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\JobOpening\DestroyCandidateDuringApplicationProcess;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class DestroyCandidateDuringApplicationProcessTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_deletes_a_candidate(): void
     {

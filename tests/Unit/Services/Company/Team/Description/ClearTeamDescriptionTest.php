@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Team\Description;
 
-use Tests\TestCase;
-use App\Jobs\LogTeamAudit;
-use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
+use App\Jobs\LogTeamAudit;
 use App\Models\Company\Employee;
+use App\Models\Company\Team;
+use App\Services\Company\Team\Description\ClearTeamDescription;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Team\Description\ClearTeamDescription;
+use Tests\TestCase;
 
 class ClearTeamDescriptionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_clears_the_team_description_as_administrator(): void
     {

@@ -20,7 +20,9 @@
         </div>
 
         <div class="tc">
-          <inertia-link :href="data.session.url" class="btn db mb2">{{ $t('app.view') }}</inertia-link>
+          <Link :href="data.session.url" class="btn db mb2">
+            {{ $t('app.view') }}
+          </Link>
           <p class="mv0 gray f7">{{ $tc('company.hr_ama_widget_questions', data.session.questions_count, {count: data.session.questions_count} ) }}</p>
         </div>
       </div>
@@ -33,7 +35,9 @@
       </div>
 
       <div class="ph3 pv2 tc f6 bt bb-gray">
-        <inertia-link :href="data.url_view_all">{{ $t('company.hr_ama_widget_view_all') }}</inertia-link>
+        <Link :href="data.url_view_all">
+          {{ $t('company.hr_ama_widget_view_all') }}
+        </Link>
       </div>
     </div>
   </div>

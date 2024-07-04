@@ -212,7 +212,7 @@
         <h3 class="fw4 f5">
           {{ $t('group.meeting_show_blank') }}
         </h3>
-        <img loading="lazy" src="/img/streamline-icon-cyclist-1-4@140x140.png" width="140" height="140" alt="people hanging out"
+        <img loading="lazy" :src="'/img/streamline-icon-cyclist-1-4@140x140.png'" width="140" height="140" alt="people hanging out"
              class="di-ns dn top-1 left-1"
         />
         <div class="db mt3 mb3">
@@ -279,10 +279,10 @@
 </template>
 
 <script>
-import TextInput from '@/Shared/TextInput';
-import TextArea from '@/Shared/TextArea';
-import LoadingButton from '@/Shared/LoadingButton';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import TextInput from '@/Shared/TextInput.vue';
+import TextArea from '@/Shared/TextArea.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
 
 export default {
   components: {

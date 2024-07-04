@@ -27,29 +27,29 @@
           </h2>
 
           <ul class="list pl3">
-            <li class="mb3"><span class="mr1">🧸</span> <inertia-link :href="statistics.url_new" :data-cy="'add-employee-button'">{{ $t('account.employees_cta') }}</inertia-link></li>
-            <li class="mb5"><span class="mr1">👬</span> <inertia-link :href="statistics.url_upload" :data-cy="'import-employees-button'">{{ $t('account.employees_import') }}</inertia-link></li>
+            <li class="mb3"><span class="mr1">🧸</span> <Link :href="statistics.url_new" :data-cy="'add-employee-button'">{{ $t('account.employees_cta') }}</Link></li>
+            <li class="mb5"><span class="mr1">👬</span> <Link :href="statistics.url_upload" :data-cy="'import-employees-button'">{{ $t('account.employees_import') }}</Link></li>
 
             <li class="mb3 gray f6">{{ $t('account.employees_description_1') }}</li>
-            <li class="mb5"><span class="mr1">👉</span> <inertia-link :href="statistics.url_all" data-cy="all-employee-link">{{ $t('account.employees_cta_view_all_employees', { count: statistics.number_of_employees }) }}</inertia-link></li>
+            <li class="mb5"><span class="mr1">👉</span> <Link :href="statistics.url_all" data-cy="all-employee-link">{{ $t('account.employees_cta_view_all_employees', { count: statistics.number_of_employees }) }}</Link></li>
             <li class="mb3 gray f6">{{ $t('account.employees_description_2') }}</li>
             <li class="mb3">
               <span class="mr1">👉</span>
-              <inertia-link v-if="statistics.number_of_active_accounts != 0" :href="statistics.url_active">{{ $t('account.employees_cta_view_active_employees', { count: statistics.number_of_active_accounts }) }}</inertia-link>
+              <Link v-if="statistics.number_of_active_accounts != 0" :href="statistics.url_active">{{ $t('account.employees_cta_view_active_employees', { count: statistics.number_of_active_accounts }) }}</Link>
               <span v-else class="gray">{{ $t('account.employees_cta_view_active_employees', { count: 0 }) }}</span>
             </li>
             <li class="mb3">
               <span class="mr1">👉</span>
-              <inertia-link v-if="statistics.number_of_locked_accounts != 0" :href="statistics.url_locked">{{ $t('account.employees_cta_view_locked_employees', { count: statistics.number_of_locked_accounts }) }}</inertia-link>
+              <Link v-if="statistics.number_of_locked_accounts != 0" :href="statistics.url_locked">{{ $t('account.employees_cta_view_locked_employees', { count: statistics.number_of_locked_accounts }) }}</Link>
               <span v-else class="gray">{{ $t('account.employees_cta_view_locked_employees', { count: 0 }) }}</span>
             </li>
             <li class="mb5">
               <span class="mr1">👉</span>
-              <inertia-link v-if="statistics.number_of_employees_without_hire_date != 0" :href="statistics.url_no_hiring_date">{{ $t('account.employees_cta_view_employees_without_hiring_date', { count: statistics.number_of_employees_without_hire_date }) }}</inertia-link>
+              <Link v-if="statistics.number_of_employees_without_hire_date != 0" :href="statistics.url_no_hiring_date">{{ $t('account.employees_cta_view_employees_without_hiring_date', { count: statistics.number_of_employees_without_hire_date }) }}</Link>
               <span v-else class="gray">{{ $t('account.employees_cta_view_employees_without_hiring_date', { count: 0 }) }}</span>
             </li>
             <li class="mb3 gray f6">{{ $t('account.employees_description_3') }}</li>
-            <li class=""><span class="mr1">🗂</span> <inertia-link :href="statistics.url_upload_archive">{{ $t('account.employees_view_past_imports') }}</inertia-link></li>
+            <li class=""><span class="mr1">🗂</span> <Link :href="statistics.url_upload_archive">{{ $t('account.employees_view_past_imports') }}</Link></li>
           </ul>
         </div>
       </div>
@@ -58,8 +58,8 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
 
 export default {
   components: {

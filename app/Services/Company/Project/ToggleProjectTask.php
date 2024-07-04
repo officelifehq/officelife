@@ -2,12 +2,12 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
-use App\Models\Company\ProjectTask;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\ProjectTask;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class ToggleProjectTask extends BaseService
 {
@@ -19,8 +19,6 @@ class ToggleProjectTask extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -34,9 +32,6 @@ class ToggleProjectTask extends BaseService
 
     /**
      * Toggle the status of the project task.
-     *
-     * @param array $data
-     * @return ProjectTask
      */
     public function execute(array $data): ProjectTask
     {

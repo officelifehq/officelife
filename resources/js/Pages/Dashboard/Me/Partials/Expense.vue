@@ -40,7 +40,7 @@ k<style lang="scss" scoped>
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box pa3 relative">
-      <img loading="lazy" src="/img/dashboard/question_expense.png" alt="a group taking a selfie" class="absolute-ns right-1" :class="addMode ? 'dn' : 'di-ns'" />
+      <img loading="lazy" :src="'/img/dashboard/question_expense.png'" alt="a group taking a selfie" class="absolute-ns right-1" :class="addMode ? 'dn' : 'di-ns'" />
 
       <p v-if="!addMode" class="lh-copy measure">{{ $t('dashboard.expense_show_description') }}</p>
 
@@ -154,7 +154,7 @@ k<style lang="scss" scoped>
           <li v-for="expense in localExpenses" :key="expense.id" :data-cy="'expense-item-' + expense.id" class="expense-item dt-ns br bl bb bb-gray bb-gray-hover pa3 w-100">
             <div class="dt-row-ns">
               <div class="dtc-ns db mb3 mb0-ns">
-                <inertia-link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</inertia-link>
+                <Link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</Link>
                 <ul class="f7 fw3 grey list pl0">
                   <li class="mr2 di">{{ expense.expensed_at }}</li>
                   <li v-if="expense.category" class="di">{{ expense.category }}</li>
@@ -178,10 +178,10 @@ k<style lang="scss" scoped>
 </template>
 
 <script>
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import TextInput from '@/Shared/TextInput';
-import Help from '@/Shared/Help';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import TextInput from '@/Shared/TextInput.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

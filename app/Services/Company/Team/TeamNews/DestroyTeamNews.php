@@ -2,19 +2,17 @@
 
 namespace App\Services\Company\Team\TeamNews;
 
-use Exception;
-use Carbon\Carbon;
-use App\Jobs\LogTeamAudit;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
+use App\Jobs\LogTeamAudit;
 use App\Models\Company\TeamNews;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Exception;
 
 class DestroyTeamNews extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -27,10 +25,6 @@ class DestroyTeamNews extends BaseService
 
     /**
      * Destroy a team news.
-     *
-     * @param array $data
-     *
-     * @return bool
      */
     public function execute(array $data): bool
     {

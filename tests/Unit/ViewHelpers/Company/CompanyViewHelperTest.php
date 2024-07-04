@@ -2,28 +2,26 @@
 
 namespace Tests\Unit\ViewHelpers\Company;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\File;
-use App\Models\Company\Ship;
-use App\Models\Company\Team;
-use App\Models\Company\Skill;
+use App\Http\ViewHelpers\Company\CompanyViewHelper;
 use App\Models\Company\Answer;
 use App\Models\Company\Company;
+use App\Models\Company\CompanyNews;
 use App\Models\Company\Employee;
+use App\Models\Company\File;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
-use App\Models\Company\CompanyNews;
-use GrahamCampbell\TestBenchCore\HelperTrait;
-use App\Http\ViewHelpers\Company\CompanyViewHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Ship;
+use App\Models\Company\Skill;
+use App\Models\Company\Team;
 use App\Services\Company\GuessEmployeeGame\CreateGuessEmployeeGame;
+use Carbon\Carbon;
+use GrahamCampbell\TestBenchCore\HelperTrait;
+use Tests\TestCase;
 
 class CompanyViewHelperTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_information_about_the_company(): void
@@ -96,7 +94,7 @@ class CompanyViewHelperTest extends TestCase
                 'title' => 'Do you like Michael',
                 'number_of_answers' => 0,
                 'active' => true,
-                'url' => env('APP_URL') . '/' . $michael->company_id . '/company/questions/' . $questionB->id,
+                'url' => env('APP_URL').'/'.$michael->company_id.'/company/questions/'.$questionB->id,
             ],
             $response['active_question']
         );

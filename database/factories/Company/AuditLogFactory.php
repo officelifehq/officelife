@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\Company;
 use App\Models\Company\AuditLog;
+use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

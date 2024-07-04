@@ -204,12 +204,12 @@
 </template>
 
 <script>
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
-import TextArea from '@/Shared/TextArea';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
+import TextArea from '@/Shared/TextArea.vue';
 
 export default {
   components: {

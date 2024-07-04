@@ -71,10 +71,10 @@
 </template>
 
 <script>
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import Help from '@/Shared/Help';
-import TextInput from '@/Shared/TextInput';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Help from '@/Shared/Help.vue';
+import TextInput from '@/Shared/TextInput.vue';
 
 export default {
   components: {

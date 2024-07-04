@@ -2,27 +2,22 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use App\Models\Company\Employee;
+use App\Models\User\User;
+use App\Services\User\CreateAccount;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\User\User;
-use Illuminate\Http\Request;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
-use App\Services\User\CreateAccount;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserInvitationController extends Controller
 {
     /**
      * Validates the invitation page.
-     *
-     * @param Request $request
-     * @param string $invitationLink
-     *
-     * @return Response
      */
     public function check(Request $request, string $invitationLink): Response
     {
@@ -56,11 +51,6 @@ class UserInvitationController extends Controller
     /**
      * Create or login with a user account to accept the invitation.
      * We use the same route to check both actions.
-     *
-     * @param Request $request
-     * @param string $invitationLink
-     *
-     * @return JsonResponse
      */
     public function join(Request $request, string $invitationLink): JsonResponse
     {

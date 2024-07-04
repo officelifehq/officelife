@@ -11,9 +11,6 @@ class JobsCompanyViewHelper
 {
     /**
      * Get all the active job openings for a given company.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function index(Company $company): array
     {
@@ -54,9 +51,6 @@ class JobsCompanyViewHelper
 
     /**
      * Get the information about a job opening.
-     *
-     * @param Company $company
-     * @param JobOpening $jobOpening
      */
     public static function show(Company $company, JobOpening $jobOpening)
     {
@@ -92,9 +86,6 @@ class JobsCompanyViewHelper
 
     /**
      * Get the information about a job opening for the Apply page.
-     *
-     * @param Company $company
-     * @param JobOpening $jobOpening
      */
     public static function apply(Company $company, JobOpening $jobOpening)
     {

@@ -3,23 +3,18 @@
 namespace App\Http\Controllers\Company\Employee\Edit;
 
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\Company\Employee;
 use App\Services\Company\Adminland\File\UploadFile;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class EmployeeEditAvatarController extends Controller
 {
     /**
      * Update the avatar.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $employeeId): JsonResponse
     {

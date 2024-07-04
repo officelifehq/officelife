@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Helpers;
 
-use Tests\TestCase;
-use App\Models\Company\Team;
-use Illuminate\Support\Collection;
 use App\Helpers\NotificationHelper;
 use App\Models\Company\Notification;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Team;
+use Illuminate\Support\Collection;
+use Tests\TestCase;
 
 class NotificationHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_returns_the_notifications_for_this_employee_as_a_collection(): void
     {

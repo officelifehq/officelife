@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard\HR;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Dashboard\HR\DashboardHRDisciplineEventViewHelper;
 use App\Models\Company\DisciplineCase;
 use App\Models\Company\DisciplineEvent;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Dashboard\HR\DashboardHRDisciplineEventViewHelper;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class DashboardHRDisciplineEventViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_data_transfer_object(): void
     {

@@ -202,7 +202,7 @@
               </div>
 
               <!-- Image to trigger actions -->
-              <img :data-cy="'decision-display-menu-' + decision.id" loading="lazy" src="/img/common/triple-dots.svg" alt="triple dot symbol" class="absolute right-0 pointer actions-dots"
+              <img :data-cy="'decision-display-menu-' + decision.id" loading="lazy" :src="'/img/common/triple-dots.svg'" alt="triple dot symbol" class="absolute right-0 pointer actions-dots"
                    @click="showActionModal(decision)"
               />
 
@@ -232,7 +232,7 @@
 
         <!-- blank state -->
         <div v-if="decisions.length == 0" data-cy="decision-blank-state" class="bg-white box pa3 tc">
-          <img loading="lazy" src="/img/streamline-icon-factory-engineer-3@140x140.png" width="140" height="140" alt="meeting"
+          <img loading="lazy" :src="'/img/streamline-icon-factory-engineer-3@140x140.png'" width="140" height="140" alt="meeting"
                class=""
           />
           <p class="lh-copy">{{ $t('project.decision_index_blank') }}</p>
@@ -243,18 +243,19 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import TextInput from '@/Shared/TextInput';
-import Errors from '@/Shared/Errors';
-import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import TextInput from '@/Shared/TextInput.vue';
+import Errors from '@/Shared/Errors.vue';
+import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
 import vClickOutside from 'click-outside-vue3';
-import IconDelete from '@/Shared/IconDelete';
+import IconDelete from '@/Shared/IconDelete.vue';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
-import LoadingButton from '@/Shared/LoadingButton';
-import Help from '@/Shared/Help';
-import Avatar from '@/Shared/Avatar';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Help from '@/Shared/Help.vue';
+import Avatar from '@/Shared/Avatar.vue';
+import _ from 'lodash';
 
 export default {
   components: {

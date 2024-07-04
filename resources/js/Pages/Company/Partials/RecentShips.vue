@@ -23,7 +23,9 @@
       <!-- list of employees -->
       <div v-show="ships.length > 0" class="">
         <div v-for="ship in ships" :key="ship.id" class="pa3 bb bb-gray w-100 flex justify-between ships-list" :data-cy="'ships-list-' + ship.id">
-          <inertia-link :href="ship.url" class="ma0 pa0" :data-cy="'ship-list-item-' + ship.id">{{ ship.title }}</inertia-link>
+          <Link :href="ship.url" class="ma0 pa0" :data-cy="'ship-list-item-' + ship.id">
+            {{ ship.title }}
+          </Link>
         </div>
       </div>
 

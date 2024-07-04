@@ -67,7 +67,7 @@
             <div v-if="isAssigned(status.id)" class="pv2 ph3 bb bb-gray-hover bb-gray pointer relative" @click="reset(status)">
               {{ status.name }}
 
-              <img loading="lazy" src="/img/check.svg" class="pr1 absolute right-1" alt="check symbol" />
+              <img loading="lazy" :src="'/img/check.svg'" class="pr1 absolute right-1" alt="check symbol" />
             </div>
 
             <!-- case if the status is not yet selected -->
@@ -86,9 +86,9 @@
       <!-- Shown if there is no statuses setup in the account yet -->
       <div v-if="!statuses">
         <p class="pa2 tc lh-copy" data-cy="modal-blank-state-copy">
-          {{ $t('employee.status_modal_blank_title') }} <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employeestatuses'" data-cy="modal-blank-state-cta">
+          {{ $t('employee.status_modal_blank_title') }} <Link :href="'/' + $page.props.auth.company.id + '/account/employeestatuses'" data-cy="modal-blank-state-cta">
             {{ $t('employee.status_modal_blank_cta') }}
-          </inertia-link>
+          </Link>
         </p>
       </div>
     </div>
@@ -105,7 +105,7 @@
       <li v-if="localEmployee.contract_renewed_at && permissions.can_manage_status" class="lh-copy mb1" data-cy="employee-contract-renewal-date">
         {{ $t('employee.contract_renewal_date', { date: localEmployee.contract_renewed_at.date }) }}
 
-        <inertia-link :href="employee.url.edit_contract" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2">{{ $t('app.edit') }}</inertia-link>
+        <Link :href="employee.url.edit_contract" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2">{{ $t('app.edit') }}</Link>
       </li>
 
       <!-- contract rate -->
@@ -125,6 +125,7 @@
 
 <script>
 import vClickOutside from 'click-outside-vue3';
+import _ from 'lodash';
 
 export default {
   directives: {

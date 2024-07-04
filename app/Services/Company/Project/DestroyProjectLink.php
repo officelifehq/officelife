@@ -2,12 +2,12 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectLink;
 use App\Models\Company\ProjectMemberActivity;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyProjectLink extends BaseService
 {
@@ -19,8 +19,6 @@ class DestroyProjectLink extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -34,8 +32,6 @@ class DestroyProjectLink extends BaseService
 
     /**
      * Destroy a project link.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

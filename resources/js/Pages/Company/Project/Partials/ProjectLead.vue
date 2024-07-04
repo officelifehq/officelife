@@ -45,9 +45,9 @@
       <div class="lh-copy ma0">
         <span class="db project-lead relative">
           <avatar :avatar="localProject.project_lead.avatar" :size="35" :class="'br-100 absolute avatar'" />
-          <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + localProject.project_lead.id" class="mb2" data-cy="current-project-lead">
+          <Link :href="'/' + $page.props.auth.company.id + '/employees/' + localProject.project_lead.id" class="mb2" data-cy="current-project-lead">
             {{ localProject.project_lead.name }}
-          </inertia-link>
+          </Link>
 
           <span v-if="!localProject.project_lead.position" class="db f7 mt1">
             {{ $t('app.no_position_defined') }}
@@ -57,7 +57,7 @@
             {{ localProject.project_lead.position.title }}
           </span>
 
-          <img loading="lazy" src="/img/common/triple-dots.svg" class="absolute right-0 pointer project-lead-action" data-cy="display-remove-project-lead-modal"
+          <img loading="lazy" :src="'/img/common/triple-dots.svg'" class="absolute right-0 pointer project-lead-action" data-cy="display-remove-project-lead-modal"
                alt="display the menu"
                @click.prevent="removeMode = true"
           />
@@ -139,11 +139,12 @@
 </template>
 
 <script>
-import Errors from '@/Shared/Errors';
-import IconDelete from '@/Shared/IconDelete';
+import Errors from '@/Shared/Errors.vue';
+import IconDelete from '@/Shared/IconDelete.vue';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import vClickOutside from 'click-outside-vue3';
-import Avatar from '@/Shared/Avatar';
+import Avatar from '@/Shared/Avatar.vue';
+import _ from 'lodash';
 
 export default {
   components: {

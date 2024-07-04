@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\ViewHelpers\Adminland;
 
-use Tests\TestCase;
+use App\Http\ViewHelpers\Adminland\AdminUploadEmployeeViewHelper;
 use App\Models\Company\ImportJob;
 use App\Models\Company\ImportJobReport;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Adminland\AdminUploadEmployeeViewHelper;
+use Tests\TestCase;
 
 class AdminUploadEmployeeViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_information_about_past_csv_import_jobs(): void
     {

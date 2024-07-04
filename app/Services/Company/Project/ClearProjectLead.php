@@ -2,13 +2,13 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectMemberActivity;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class ClearProjectLead extends BaseService
 {
@@ -20,8 +20,6 @@ class ClearProjectLead extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -34,9 +32,6 @@ class ClearProjectLead extends BaseService
 
     /**
      * Remove an existing project lead from a project.
-     *
-     * @param array $data
-     * @return Project
      */
     public function execute(array $data): Project
     {

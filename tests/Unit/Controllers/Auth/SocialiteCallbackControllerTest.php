@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\Controllers\Auth;
 
-use Tests\TestCase;
 use App\Models\User\User;
-use Tests\Helpers\GuzzleMock;
 use App\Models\User\UserToken;
+use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\GithubProvider;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
+use Tests\Helpers\GuzzleMock;
+use Tests\TestCase;
 
 class SocialiteCallbackControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function mockSocialite($client = null): void
     {
         config(['auth.login_providers' => 'test']);
@@ -45,6 +42,7 @@ class SocialiteCallbackControllerTest extends TestCase
                 'login' => 'dwigth',
                 'name' => 'Dwight Schrute',
                 'avatar_url' => '',
+                'node_id' => '',
             ],
             'https://api.github.com/user/emails' => [[
                 'primary' => true,

@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\TestCase;
-use App\Models\Company\AskMeAnythingSession;
 use App\Models\Company\AskMeAnythingQuestion;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\AskMeAnythingSession;
+use Tests\TestCase;
 
 class AskMeAnythingSessionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_company(): void
     {

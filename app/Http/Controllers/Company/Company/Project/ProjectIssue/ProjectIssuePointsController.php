@@ -2,21 +2,15 @@
 
 namespace App\Http\Controllers\Company\Company\Project\ProjectIssue;
 
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Project\UpdateProjectIssueStoryPoint;
+use Illuminate\Http\Request;
 
 class ProjectIssuePointsController extends Controller
 {
     /**
      * Save the number of story points for the given task.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $boardId
-     * @param int $issueId
      */
     public function store(Request $request, int $companyId, int $projectId, int $boardId, int $issueId)
     {

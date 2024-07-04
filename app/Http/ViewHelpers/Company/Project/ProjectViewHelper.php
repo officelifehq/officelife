@@ -6,17 +6,14 @@ use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Company;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use Illuminate\Support\Collection;
 
 class ProjectViewHelper
 {
     /**
      * Array containing the information all the projects in the company.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function index(Company $company): array
     {
@@ -45,11 +42,6 @@ class ProjectViewHelper
     /**
      * Array containing the information about the project displayed on the
      * summary page.
-     *
-     * @param Project $project
-     * @param Company $company
-     * @param Employee $employee
-     * @return array
      */
     public static function summary(Project $project, Company $company, Employee $employee): array
     {
@@ -126,9 +118,6 @@ class ProjectViewHelper
 
     /**
      * Array containing the information needed to update the project details.
-     *
-     * @param Project $project
-     * @return array
      */
     public static function edit(Project $project): array
     {
@@ -144,10 +133,6 @@ class ProjectViewHelper
     /**
      * Array containing all the permissions a user can do on the different
      * pages of the project, depending on his role.
-     *
-     * @param Project $project
-     * @param Employee $employee
-     * @return array
      */
     public static function permissions(Project $project, Employee $employee): array
     {
@@ -172,9 +157,6 @@ class ProjectViewHelper
 
     /**
      * Array containing the information about the project itself.
-     *
-     * @param Project $project
-     * @return array
      */
     public static function info(Project $project): array
     {
@@ -213,10 +195,6 @@ class ProjectViewHelper
 
     /**
      * Search all employees matching a given criteria.
-     *
-     * @param Company $company
-     * @param string|null $criteria
-     * @return Collection
      */
     public static function searchProjectLead(Company $company, ?string $criteria): Collection
     {

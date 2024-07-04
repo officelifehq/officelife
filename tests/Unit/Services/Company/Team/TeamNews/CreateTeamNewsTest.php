@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Team\TeamNews;
 
-use Tests\TestCase;
-use App\Jobs\LogTeamAudit;
-use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
+use App\Jobs\LogTeamAudit;
 use App\Models\Company\Employee;
+use App\Models\Company\Team;
 use App\Models\Company\TeamNews;
+use App\Services\Company\Team\TeamNews\CreateTeamNews;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Team\TeamNews\CreateTeamNews;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class CreateTeamNewsTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_team_news_as_administrator(): void
     {

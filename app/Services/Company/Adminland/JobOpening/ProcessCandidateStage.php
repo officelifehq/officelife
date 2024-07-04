@@ -2,26 +2,27 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
-use App\Models\Company\JobOpening;
-use Illuminate\Support\Facades\DB;
 use App\Models\Company\CandidateStage;
+use App\Models\Company\Employee;
+use App\Models\Company\JobOpening;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ProcessCandidateStage extends BaseService
 {
     protected array $data;
+
     protected JobOpening $jobOpening;
+
     protected Candidate $candidate;
+
     protected CandidateStage $candidateStage;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -41,9 +42,6 @@ class ProcessCandidateStage extends BaseService
      * --> If it passes, the candidate goes to the next stage, if it exists. If it
      * doesn't exist, the candidate has won the job opening.
      * --> If it fails, the candidate is marked as rejected.
-     *
-     * @param array $data
-     * @return CandidateStage
      */
     public function execute(array $data): CandidateStage
     {

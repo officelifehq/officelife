@@ -1,4 +1,5 @@
 <?php
+
 return [
     'error_401' => 'Non autorisé',
     'error_404' => 'Page introuvable',

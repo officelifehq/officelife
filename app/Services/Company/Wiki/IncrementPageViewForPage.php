@@ -3,18 +3,17 @@
 namespace App\Services\Company\Wiki;
 
 use App\Models\Company\Page;
-use App\Services\BaseService;
 use App\Models\Company\Pageview;
+use App\Services\BaseService;
 
 class IncrementPageViewForPage extends BaseService
 {
     protected array $data;
+
     protected Page $page;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,8 +28,6 @@ class IncrementPageViewForPage extends BaseService
      * Increment the counter showing the number of times the page has been seen.
      * This is an internal service that should only be called inside another
      * service.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

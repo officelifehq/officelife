@@ -2,10 +2,10 @@
 
 namespace App\Models\Company;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Define the Paid Time Off (the holidays an employee can take during a
@@ -54,8 +54,6 @@ class CompanyPTOPolicy extends Model
 
     /**
      * Transform the object to an array representing this object.
-     *
-     * @return array
      */
     public function toObject(): array
     {

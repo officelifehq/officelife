@@ -2,18 +2,16 @@
 
 namespace App\Services\Company\Team\Description;
 
-use Carbon\Carbon;
+use App\Jobs\LogAccountAudit;
 use App\Jobs\LogTeamAudit;
 use App\Models\Company\Team;
-use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use Carbon\Carbon;
 
 class SetTeamDescription extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -30,10 +28,6 @@ class SetTeamDescription extends BaseService
      * The description should be saved as unparsed markdown content, and fetched
      * as unparsed markdown content. The UI is responsible for parsing and
      * displaying the proper content.
-     *
-     * @param array $data
-     *
-     * @return Team
      */
     public function execute(array $data): Team
     {

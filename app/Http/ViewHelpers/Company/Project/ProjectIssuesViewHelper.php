@@ -6,16 +6,13 @@ use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Project;
-use Illuminate\Support\Collection;
 use App\Models\Company\ProjectIssue;
+use Illuminate\Support\Collection;
 
 class ProjectIssuesViewHelper
 {
     /**
      * All the data about the given issue.
-     *
-     * @param ProjectIssue $issue
-     * @return array
      */
     public static function issueData(ProjectIssue $issue): array
     {
@@ -104,9 +101,6 @@ class ProjectIssuesViewHelper
 
     /**
      * Get all the members of the project.
-     *
-     * @param Project $project
-     * @return Collection
      */
     public static function members(Project $project): Collection
     {

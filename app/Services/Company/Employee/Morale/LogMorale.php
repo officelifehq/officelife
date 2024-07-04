@@ -2,21 +2,19 @@
 
 namespace App\Services\Company\Employee\Morale;
 
-use Carbon\Carbon;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Morale;
-use Illuminate\Validation\Rule;
-use App\Models\Company\Employee;
 use App\Exceptions\MoraleAlreadyLoggedTodayException;
+use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
+use App\Models\Company\Employee;
+use App\Models\Company\Morale;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 
 class LogMorale extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -25,11 +23,11 @@ class LogMorale extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'emotion' => 'required',
-                Rule::in([
-                    1,
-                    2,
-                    3,
-                ]),
+            Rule::in([
+                1,
+                2,
+                3,
+            ]),
             'comment' => 'nullable|string|max:65535',
             'date' => 'nullable|date_format:Y-m-d',
         ];
@@ -39,10 +37,6 @@ class LogMorale extends BaseService
      * Log how an employee feels on a specific day.
      * This can only happen once per day.
      * Logging can only be done by the employee.
-     *
-     * @param array $data
-     *
-     * @return Morale
      */
     public function execute(array $data): Morale
     {

@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use App\Services\User\Preferences\ChangeHelpPreferences;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HelpController extends Controller
 {
     /**
      * Toggle help preferences.
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function toggle(Request $request): JsonResponse
     {

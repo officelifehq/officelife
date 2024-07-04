@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectMessage;
-use Illuminate\Validation\ValidationException;
-use App\Services\Company\Project\CreateProjectStatus;
 use App\Services\Company\Project\CreateProjectMessage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Project\CreateProjectStatus;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateProjectMessageTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_adds_a_message_to_a_project_as_administrator(): void
     {

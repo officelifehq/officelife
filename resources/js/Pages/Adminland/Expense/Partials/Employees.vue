@@ -75,7 +75,9 @@
         <span class="pl3 db relative team-member">
           <avatar :avatar="employee.avatar" :size="23" :class="'br-100 absolute avatar'" />
 
-          <inertia-link :href="employee.url">{{ employee.name }}</inertia-link>
+          <Link :href="employee.url">
+            {{ employee.name }}
+          </Link>
 
           <!-- remove -->
           <a v-if="modal" href="#" class="f6 bb b--dotted bt-0 bl-0 br-0 pointer c-delete dib fr" :data-cy="'remove-employee-' + employee.id" @click.prevent="remove(employee)">
@@ -95,10 +97,11 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
-import Avatar from '@/Shared/Avatar';
-import TextInput from '@/Shared/TextInput';
+import Help from '@/Shared/Help.vue';
+import Avatar from '@/Shared/Avatar.vue';
+import TextInput from '@/Shared/TextInput.vue';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
+import _ from 'lodash';
 
 export default {
   components: {

@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Adminland\AskMeAnything;
 
-use Tests\TestCase;
-use App\Jobs\LogAccountAudit;
-use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
-use App\Models\Company\AskMeAnythingSession;
-use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Jobs\LogAccountAudit;
+use App\Models\Company\AskMeAnythingSession;
+use App\Models\Company\Employee;
 use App\Services\Company\Adminland\AskMeAnything\UpdateAskMeAnythingSession;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class UpdateAskMeAnythingSessionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_a_session_as_administrator(): void
     {

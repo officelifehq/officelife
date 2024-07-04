@@ -2,24 +2,21 @@
 
 namespace App\Http\Controllers\Company\Employee\Administration;
 
-use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use App\Helpers\PermissionHelper;
 use App\Helpers\NotificationHelper;
+use App\Helpers\PermissionHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
+use App\Models\Company\Employee;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class EmployeeAdministrationController extends Controller
 {
     /**
      * Display the detail of an employee’s administration panel.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return mixed
      */
     public function show(Request $request, int $companyId, int $employeeId)

@@ -2,24 +2,21 @@
 
 namespace App\Http\Controllers\Company\Employee\Performance\Surveys;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeSurveysViewHelper;
+use App\Models\Company\Employee;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class EmployeeSurveysController extends Controller
 {
     /**
      * Display all the surveys about the employee being a manager.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function index(Request $request, int $companyId, int $employeeId)
@@ -58,10 +55,6 @@ class EmployeeSurveysController extends Controller
     /**
      * Display a specific survey about a specific month.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param int $surveyId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */

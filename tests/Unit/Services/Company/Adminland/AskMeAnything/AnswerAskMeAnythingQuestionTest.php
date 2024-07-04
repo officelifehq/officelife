@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Adminland\AskMeAnything;
 
-use Tests\TestCase;
-use App\Jobs\LogAccountAudit;
-use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
-use App\Models\Company\AskMeAnythingSession;
-use App\Models\Company\AskMeAnythingQuestion;
-use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Jobs\LogAccountAudit;
+use App\Models\Company\AskMeAnythingQuestion;
+use App\Models\Company\AskMeAnythingSession;
+use App\Models\Company\Employee;
 use App\Services\Company\Adminland\AskMeAnything\AnswerAskMeAnythingQuestion;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class AnswerAskMeAnythingQuestionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_a_question_as_administrator(): void
     {

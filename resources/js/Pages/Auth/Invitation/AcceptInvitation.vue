@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import LoadingButton from '@/Shared/LoadingButton';
-import Layout from '@/Shared/Layout';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Layout from '@/Shared/Layout.vue';
 
 export default {
   components: {

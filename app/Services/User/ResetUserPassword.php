@@ -12,8 +12,6 @@ class ResetUserPassword extends BaseService implements ResetsUserPasswords
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -26,7 +24,6 @@ class ResetUserPassword extends BaseService implements ResetsUserPasswords
      * Validate and reset the user's forgotten password.
      *
      * @param  mixed  $user
-     * @param  array  $input
      */
     public function reset($user, array $input)
     {

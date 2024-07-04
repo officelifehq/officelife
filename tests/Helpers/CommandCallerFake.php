@@ -2,8 +2,8 @@
 
 namespace Tests\Helpers;
 
-use PHPUnit\Framework\Assert;
 use App\Console\Commands\Helpers\CommandCallerContract;
+use PHPUnit\Framework\Assert;
 
 class CommandCallerFake implements CommandCallerContract
 {
@@ -31,7 +31,7 @@ class CommandCallerFake implements CommandCallerContract
         foreach ($arguments as $key => $value) {
             $info = $info.' '.$key.'='.$value;
         }
-        $this->buffer->push(['message' =>$message, 'command' => 'php artisan '.$commandline.$info]);
+        $this->buffer->push(['message' => $message, 'command' => 'php artisan '.$commandline.$info]);
     }
 
     /**

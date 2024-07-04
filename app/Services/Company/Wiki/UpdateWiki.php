@@ -2,20 +2,19 @@
 
 namespace App\Services\Company\Wiki;
 
-use Carbon\Carbon;
-use App\Models\Company\Wiki;
 use App\Jobs\LogAccountAudit;
+use App\Models\Company\Wiki;
 use App\Services\BaseService;
+use Carbon\Carbon;
 
 class UpdateWiki extends BaseService
 {
     protected array $data;
+
     protected Wiki $wiki;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,9 +28,6 @@ class UpdateWiki extends BaseService
 
     /**
      * Update a wiki.
-     *
-     * @param array $data
-     * @return Wiki
      */
     public function execute(array $data): Wiki
     {

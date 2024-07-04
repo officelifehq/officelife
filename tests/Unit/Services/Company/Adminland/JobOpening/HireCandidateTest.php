@@ -2,24 +2,21 @@
 
 namespace Tests\Unit\Services\Company\Adminland\JobOpening;
 
-use Carbon\Carbon;
-use Tests\TestCase;
-use App\Jobs\LogAccountAudit;
-use App\Models\Company\Employee;
-use App\Models\Company\Candidate;
-use App\Models\Company\JobOpening;
-use Illuminate\Support\Facades\Queue;
-use App\Models\Company\CompanyPTOPolicy;
-use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Jobs\LogAccountAudit;
+use App\Models\Company\Candidate;
+use App\Models\Company\CompanyPTOPolicy;
+use App\Models\Company\Employee;
+use App\Models\Company\JobOpening;
 use App\Services\Company\Adminland\JobOpening\HireCandidate;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class HireCandidateTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_hires_a_candidate_as_administrator(): void
     {

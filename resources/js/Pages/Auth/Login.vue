@@ -76,7 +76,7 @@
         <a class="dib ph1 btn w-43 mb2 pv2 mh3 f6 relative"
            :href="route('login.provider', { driver: provider })" @click.prevent="open(provider)"
         >
-          <img :src="`/img/auth/${provider}.svg`" alt="" class="auth-provider relative" />
+          <img :src="'/img/auth/${provider}.svg'" alt="" class="auth-provider relative" />
           <template v-if="providersName[provider]">
             {{ providersName[provider] }}
           </template>
@@ -90,25 +90,25 @@
     <template #footer>
       <languages />
 
-      <inertia-link v-if="canResetPassword && !$page.props.demo_mode" :href="route('password.request')" class="f6">
+      <Link v-if="canResetPassword && !$page.props.demo_mode" :href="route('password.request')" class="f6">
         {{ $t('passwords.forgot_password_link') }}
-      </inertia-link>
+      </Link>
       <p v-if="$page.props.jetstream.enableSignups" class="f6">
         {{ $t('auth.login_no_account') }}
-        <inertia-link :href="route('register')">{{ $t('auth.login_register') }}</inertia-link>
+        <Link :href="route('register')">{{ $t('auth.login_register') }}</Link>
       </p>
     </template>
   </authentication-card>
 </template>
 
 <script>
-import AuthenticationCard from '@/Shared/Layout/AuthenticationCard';
-import AuthenticationCardLogo from '@/Shared/Layout/AuthenticationCardLogo';
-import TextInput from '@/Shared/TextInput';
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import { useForm } from '@inertiajs/inertia-vue3';
-import Languages from './Partials/Languages';
+import AuthenticationCard from '@/Shared/Layout/AuthenticationCard.vue';
+import AuthenticationCardLogo from '@/Shared/Layout/AuthenticationCardLogo.vue';
+import TextInput from '@/Shared/TextInput.vue';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import { useForm } from '@inertiajs/vue3';
+import Languages from '@/Pages/Auth/Partials/Languages.vue';
 
 export default {
   components: {
@@ -138,8 +138,8 @@ export default {
       default: () => {return {};},
     },
     enableExternalLoginProviders: {
-      type: String,
-      default: '',
+      type: Boolean,
+      default: true,
     }
   },
 

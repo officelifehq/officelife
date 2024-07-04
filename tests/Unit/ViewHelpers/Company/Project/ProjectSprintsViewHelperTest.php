@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Project;
 
-use Tests\TestCase;
 use App\Helpers\DateHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectSprintsViewHelper;
 use App\Models\Company\Company;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectSprint;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Project\ProjectSprintsViewHelper;
+use Tests\TestCase;
 
 class ProjectSprintsViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_information_about_the_sprint(): void
     {
@@ -68,8 +65,8 @@ class ProjectSprintsViewHelperTest extends TestCase
         );
         $this->assertEquals(
             [
-                'store' => env('APP_URL').'/'.$company->id. '/company/projects/'.$project->id.'/boards/'.$projectBoard->id.'/sprints/'.$backlog->id.'/issues',
-                'toggle' => env('APP_URL').'/'.$company->id. '/company/projects/'.$project->id.'/boards/'.$projectBoard->id.'/sprints/'.$backlog->id.'/toggle',
+                'store' => env('APP_URL').'/'.$company->id.'/company/projects/'.$project->id.'/boards/'.$projectBoard->id.'/sprints/'.$backlog->id.'/issues',
+                'toggle' => env('APP_URL').'/'.$company->id.'/company/projects/'.$project->id.'/boards/'.$projectBoard->id.'/sprints/'.$backlog->id.'/toggle',
             ],
             $array['url']
         );

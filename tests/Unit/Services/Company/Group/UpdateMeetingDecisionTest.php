@@ -2,25 +2,22 @@
 
 namespace Tests\Unit\Services\Company\Group;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Group;
-use App\Models\Company\Company;
-use App\Models\Company\Meeting;
-use App\Models\Company\Employee;
 use App\Models\Company\AgendaItem;
-use Illuminate\Support\Facades\Queue;
+use App\Models\Company\Company;
+use App\Models\Company\Employee;
+use App\Models\Company\Group;
+use App\Models\Company\Meeting;
 use App\Models\Company\MeetingDecision;
-use Illuminate\Validation\ValidationException;
 use App\Services\Company\Group\UpdateAgendaItem;
 use App\Services\Company\Group\UpdateMeetingDecision;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class UpdateMeetingDecisionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_a_meeting_decision_as_administrator(): void
     {

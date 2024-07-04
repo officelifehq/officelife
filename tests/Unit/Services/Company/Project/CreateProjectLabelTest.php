@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
-use App\Jobs\LogAccountAudit;
-use App\Models\Company\Project;
-use App\Models\Company\Employee;
-use App\Models\Company\ProjectLabel;
-use Illuminate\Support\Facades\Queue;
 use App\Exceptions\LabelAlreadyExistException;
-use Illuminate\Validation\ValidationException;
+use App\Jobs\LogAccountAudit;
+use App\Models\Company\Employee;
+use App\Models\Company\Project;
+use App\Models\Company\ProjectLabel;
 use App\Services\Company\Project\CreateProjectLabel;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateProjectLabelTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_label_in_a_project_as_administrator(): void
     {

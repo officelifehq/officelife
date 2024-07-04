@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\ApiTestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\WorkFromHome;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\ApiTestCase;
 
 class WorkFromHomeTest extends ApiTestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_an_employee(): void
     {

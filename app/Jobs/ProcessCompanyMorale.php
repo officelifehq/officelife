@@ -2,14 +2,14 @@
 
 namespace App\Jobs;
 
-use Illuminate\Bus\Queueable;
-use App\Models\Company\Morale;
 use App\Models\Company\Employee;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Models\Company\Morale;
+use App\Models\Company\MoraleCompanyHistory;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Models\Company\MoraleCompanyHistory;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class ProcessCompanyMorale implements ShouldQueue
 {
@@ -17,15 +17,11 @@ class ProcessCompanyMorale implements ShouldQueue
 
     /**
      * The parameter of the job.
-     *
-     * @var array
      */
     public array $parameters;
 
     /**
      * Create a new job instance.
-     *
-     * @param array $parameters
      */
     public function __construct(array $parameters)
     {
@@ -38,11 +34,11 @@ class ProcessCompanyMorale implements ShouldQueue
     public function handle()
     {
         $moraleCompanyHistory = MoraleCompanyHistory::whereBetween('created_at', [
-                    $this->parameters['date']->toDateString().' 00:00:00',
-                    $this->parameters['date']->toDateString().' 23:59:59',
-                ])
-                ->where('company_id', $this->parameters['company_id'])
-                ->first();
+            $this->parameters['date']->toDateString().' 00:00:00',
+            $this->parameters['date']->toDateString().' 23:59:59',
+        ])
+            ->where('company_id', $this->parameters['company_id'])
+            ->first();
 
         if (! is_null($moraleCompanyHistory)) {
             return;
@@ -52,9 +48,9 @@ class ProcessCompanyMorale implements ShouldQueue
             $query->whereBetween(
                 'created_at',
                 [
-                        $this->parameters['date']->toDateString().' 00:00:00',
-                        $this->parameters['date']->toDateString().' 23:59:59',
-                    ]
+                    $this->parameters['date']->toDateString().' 00:00:00',
+                    $this->parameters['date']->toDateString().' 23:59:59',
+                ]
             );
         })->select('id')
             ->where('company_id', $this->parameters['company_id'])

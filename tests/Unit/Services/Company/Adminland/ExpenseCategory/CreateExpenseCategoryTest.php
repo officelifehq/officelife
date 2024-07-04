@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Adminland\ExpenseCategory;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
 use App\Models\Company\ExpenseCategory;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\ExpenseCategory\CreateExpenseCategory;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateExpenseCategoryTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_an_expense_category_as_administrator(): void
     {

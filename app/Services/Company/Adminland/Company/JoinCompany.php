@@ -2,26 +2,27 @@
 
 namespace App\Services\Company\Adminland\Company;
 
-use Carbon\Carbon;
-use App\Models\User\User;
-use Illuminate\Support\Str;
+use App\Exceptions\UserAlreadyInvitedException;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Exceptions\UserAlreadyInvitedException;
+use App\Models\User\User;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class JoinCompany extends BaseService
 {
     private array $data;
+
     private Company $company;
+
     private User $user;
+
     private Employee $employee;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -33,9 +34,6 @@ class JoinCompany extends BaseService
 
     /**
      * Let a user join an existing company with an invitation code.
-     *
-     * @param array $data
-     * @return Company
      */
     public function execute(array $data): Company
     {

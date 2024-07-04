@@ -116,7 +116,7 @@
               <!-- actions -->
               <div v-if="!candidate.rejected && !stage.decision && !jobOpening.fulfilled" class="pa3 pb4 bb bb-gray">
                 <div class="tc">
-                  <img loading="lazy" src="/img/streamline-icon-gavel@100x100.png" width="100" height="100" alt="meeting"
+                  <img loading="lazy" :src="'/img/streamline-icon-gavel@100x100.png'" width="100" height="100" alt="meeting"
                        class="mb3"
                   />
                 </div>
@@ -194,13 +194,13 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import LoadingButton from '@/Shared/LoadingButton';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
-import Participants from '@/Pages/Recruiting/Candidates/Partials/Participants';
-import Notes from '@/Pages/Recruiting/Candidates/Partials/Notes';
-import Information from '@/Pages/Recruiting/Candidates/Partials/Information';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
+import Participants from '@/Pages/Recruiting/Candidates/Partials/Participants.vue';
+import Notes from '@/Pages/Recruiting/Candidates/Partials/Notes.vue';
+import Information from '@/Pages/Recruiting/Candidates/Partials/Information.vue';
 
 export default {
   components: {

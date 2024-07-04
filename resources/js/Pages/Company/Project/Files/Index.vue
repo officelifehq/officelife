@@ -92,7 +92,7 @@
 
           <!-- blank state -->
           <div v-else class="tc pa3">
-            <img loading="lazy" src="/img/streamline-icon-content-filter@140x140.png" alt="file symbol to upload" height="140"
+            <img loading="lazy" :src="'/img/streamline-icon-content-filter@140x140.png'" alt="file symbol to upload" height="140"
                  width="140"
             />
             <p class="mb3">
@@ -106,12 +106,12 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
-import Help from '@/Shared/Help';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
-import Uploadcare from 'uploadcare-vue/src/Uploadcare.vue';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu.vue';
+import Help from '@/Shared/Help.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
+import Uploadcare from '@/Shared/Uploadcare.vue';
 
 export default {
   components: {

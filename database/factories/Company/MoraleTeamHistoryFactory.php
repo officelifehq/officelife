@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\Team;
 use App\Models\Company\MoraleTeamHistory;
+use App\Models\Company\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MoraleTeamHistoryFactory extends Factory

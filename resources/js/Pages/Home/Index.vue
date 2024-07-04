@@ -40,26 +40,26 @@
       <!-- Blank state -->
       <div v-show="employees.length == 0" class="cf mt4 mt5-l mw7 center">
         <div class="fl w-100 w-25-m w-50-l pr2-l">
-          <inertia-link href="/company/create">
+          <Link href="/company/create">
             <div class="pa3-l">
               <div class="br3 mb3 bg-white box pa3 tc relative home-box" data-cy="create-company-blank-state">
                 <h3>{{ $t('home.create_company') }}</h3>
                 <p>{{ $t('home.create_company_desc') }}</p>
-                <img loading="lazy" src="/img/home/create-company.png" class="home-company absolute" alt="create company button" />
+                <img loading="lazy" :src="'/img/home/create-company.png'" class="home-company absolute" alt="create company button" />
               </div>
             </div>
-          </inertia-link>
+          </Link>
         </div>
         <div class="fl w-100 w-25-m w-50-l">
-          <inertia-link href="/company/join">
+          <Link href="/company/join">
             <div class="pa3-l">
               <div class="br3 mb3 bg-white box pa3 tc relative home-box">
                 <h3>{{ $t('home.join_company') }}</h3>
                 <p>{{ $t('home.join_company_desc') }}</p>
-                <img loading="lazy" src="/img/home/join-company.png" class="home-join absolute" alt="join company button" />
+                <img loading="lazy" :src="'/img/home/join-company.png'" class="home-join absolute" alt="join company button" />
               </div>
             </div>
-          </inertia-link>
+          </Link>
         </div>
       </div>
 
@@ -70,14 +70,14 @@
             <span class="pr2">
               {{ $t('home.companies_part_of') }}
             </span>
-            <inertia-link href="/company/create" class="btn absolute db-l dn">
+            <Link href="/company/create" class="btn absolute db-l dn">
               {{ $t('home.create_company_cta') }}
-            </inertia-link>
+            </Link>
           </p>
         </div>
         <div class="cf mt4 mw7 center">
           <div v-for="employee in employees" :key="employee.id" class="fl w-100 w-25-m w-third-l pr2">
-            <inertia-link :href="'/' + employee.company_id + '/welcome'">
+            <Link :href="'/' + employee.company_id + '/welcome'">
               <div class="br3 mb3 bg-white box pa3 home-index-company fw5 relative" :data-cy="'company-' + employee.company_id">
                 {{ employee.company_name }}
 
@@ -85,13 +85,13 @@
                   {{ $tc('home.number_of_employees', employee.number_of_employees, { count: employee.number_of_employees }) }}
                 </span>
               </div>
-            </inertia-link>
+            </Link>
           </div>
         </div>
         <div class="w-100 dn-ns db mt2">
-          <inertia-link href="/company/create" class="btn br3 pa3 white no-underline bb-0 db tc">
+          <Link href="/company/create" class="btn br3 pa3 white no-underline bb-0 db tc">
             {{ $t('home.create_company_cta') }}
-          </inertia-link>
+          </Link>
         </div>
       </div>
     </div>
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
+import Layout from '@/Shared/Layout.vue';
 
 export default {
   components: {

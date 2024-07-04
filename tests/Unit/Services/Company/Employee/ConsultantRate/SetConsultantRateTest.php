@@ -2,25 +2,22 @@
 
 namespace Tests\Unit\Services\Company\Employee\ConsultantRate;
 
-use Carbon\Carbon;
-use Tests\TestCase;
+use App\Exceptions\NotConsultantException;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
 use App\Models\Company\ConsultantRate;
+use App\Models\Company\Employee;
 use App\Models\Company\EmployeeStatus;
-use App\Exceptions\NotConsultantException;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\ConsultantRate\SetConsultantRate;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class SetConsultantRateTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_sets_the_consultant_rate_of_the_consultant_as_administrator(): void
     {

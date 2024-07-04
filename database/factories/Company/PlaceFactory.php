@@ -2,9 +2,9 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\Place;
 use App\Models\Company\Country;
 use App\Models\Company\Employee;
+use App\Models\Company\Place;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PlaceFactory extends Factory

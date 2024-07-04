@@ -58,7 +58,7 @@
           </div>
 
           <ul class="list pl0 mb5">
-            <li class="di mr2"><inertia-link :href="'/' + $page.props.auth.company.id + '/account/hardware/' + hardware.id + '/edit'" :data-cy="'hardware-edit-link-' + hardware.id">{{ $t('app.edit') }}</inertia-link></li>
+            <li class="di mr2"><Link :href="'/' + $page.props.auth.company.id + '/account/hardware/' + hardware.id + '/edit'" :data-cy="'hardware-edit-link-' + hardware.id">{{ $t('app.edit') }}</Link></li>
 
             <!-- DELETE AN ITEM -->
             <li v-if="idToDelete == hardware.id" class="di">
@@ -93,9 +93,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
 
 export default {
   components: {

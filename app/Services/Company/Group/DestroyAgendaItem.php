@@ -2,24 +2,25 @@
 
 namespace App\Services\Company\Group;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Group;
-use App\Services\BaseService;
-use App\Models\Company\Meeting;
 use App\Models\Company\AgendaItem;
+use App\Models\Company\Group;
+use App\Models\Company\Meeting;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyAgendaItem extends BaseService
 {
     protected array $data;
+
     protected Group $group;
+
     protected Meeting $meeting;
+
     protected AgendaItem $agendaItem;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -34,8 +35,6 @@ class DestroyAgendaItem extends BaseService
 
     /**
      * Delete an agenda item.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

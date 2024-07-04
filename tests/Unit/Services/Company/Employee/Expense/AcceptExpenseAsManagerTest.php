@@ -2,25 +2,22 @@
 
 namespace Tests\Unit\Services\Company\Employee\Expense;
 
-use ErrorException;
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Helpers\MoneyHelper;
-use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Expense;
+use App\Jobs\NotifyEmployee;
 use App\Models\Company\Employee;
+use App\Models\Company\Expense;
+use App\Services\Company\Employee\Expense\AcceptExpenseAsManager;
+use App\Services\Company\Employee\Manager\AssignManager;
+use ErrorException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\Manager\AssignManager;
-use App\Services\Company\Employee\Expense\AcceptExpenseAsManager;
+use Tests\TestCase;
 
 class AcceptExpenseAsManagerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_accepts_an_expense_as_the_manager(): void
     {
@@ -126,7 +123,7 @@ class AcceptExpenseAsManagerTest extends TestCase
         (new AcceptExpenseAsManager)->execute($request);
     }
 
-    private function executeService(Employee $manager, Employee $employee = null, Expense $expense): void
+    private function executeService(Employee $manager, ?Employee $employee, Expense $expense): void
     {
         Queue::fake();
 

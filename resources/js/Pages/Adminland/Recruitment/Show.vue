@@ -122,9 +122,7 @@
             <p class="tc measure center mb4 lh-copy">
               Stages let you define the order in which candidates are interviewed.
             </p>
-            <img loading="lazy" class="db center mb4" alt="add a position symbol" srcset="/img/company/account/blank-position-1x.png,
-                                          /img/company/account/blank-position-2x.png 2x"
-            />
+            <img loading="lazy" class="db center mb4" alt="add a position symbol" :srcset="'/img/company/account/blank-position-1x.png, /img/company/account/blank-position-2x.png 2x'" />
           </div>
 
           <!-- cta to add a stage -->
@@ -162,10 +160,10 @@
 </template>
 
 <script>
-import TextInput from '@/Shared/TextInput';
-import LoadingButton from '@/Shared/LoadingButton';
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
+import TextInput from '@/Shared/TextInput.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
 
 export default {
   components: {

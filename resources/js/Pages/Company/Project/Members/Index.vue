@@ -169,7 +169,7 @@
 
                   <!-- name + information -->
                   <div class="information">
-                    <inertia-link :href="member.url" class="mb2 dib">{{ member.name }}</inertia-link>
+                    <Link :href="member.url" class="mb2 dib">{{ member.name }}</Link>
 
                     <span v-if="member.role" class="db f7 mb2 relative">
                       <!-- icon role -->
@@ -217,7 +217,7 @@
               <h3 class="fw4 f5">
                 {{ $t('project.members_index_blank') }}
               </h3>
-              <img loading="lazy" src="/img/streamline-icon-cyclist-1-4@140x140.png" width="140" height="140" alt="people hanging out"
+              <img loading="lazy" :src="'/img/streamline-icon-cyclist-1-4@140x140.png'" width="140" height="140" alt="people hanging out"
                    class="di-ns dn top-1 left-1"
               />
             </div>
@@ -229,12 +229,13 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
-import TextInput from '@/Shared/TextInput';
-import LoadingButton from '@/Shared/LoadingButton';
-import Avatar from '@/Shared/Avatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu.vue';
+import TextInput from '@/Shared/TextInput.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Avatar from '@/Shared/Avatar.vue';
+import _ from 'lodash';
 
 export default {
   components: {

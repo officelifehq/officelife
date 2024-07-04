@@ -34,7 +34,7 @@
 
           <!-- view link -->
           <div>
-            <inertia-link :href="question.url" class="ma0 pa0 f6" :data-cy="'entry-item-' + question.id">{{ $t('app.view') }}</inertia-link>
+            <Link :href="question.url" class="ma0 pa0 f6" :data-cy="'entry-item-' + question.id">{{ $t('app.view') }}</Link>
           </div>
         </li>
       </ul>

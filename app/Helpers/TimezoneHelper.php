@@ -2,15 +2,13 @@
 
 namespace App\Helpers;
 
-use DateTimeZone;
 use Carbon\Carbon;
+use DateTimeZone;
 
 class TimezoneHelper
 {
     /**
      * Get the list of timezones.
-     *
-     * @return array
      */
     public static function getListOfTimezones(): array
     {
@@ -39,9 +37,6 @@ class TimezoneHelper
 
     /**
      * Format a timezone to be displayed (english locale only).
-     *
-     * @param string $timezone
-     * @return array
      */
     private static function formatTimezone(string $timezone): array
     {
@@ -87,9 +82,6 @@ class TimezoneHelper
 
     /**
      * Get the value/label combo of the timezone in an array based on its codename.
-     *
-     * @param string $timezoneName
-     * @return array
      */
     public static function getTimezoneKeyValue(string $timezoneName): array
     {

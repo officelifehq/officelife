@@ -2,28 +2,29 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
-use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Models\Company\Position;
 use App\Models\Company\JobOpening;
+use App\Models\Company\Position;
 use App\Models\Company\RecruitingStageTemplate;
+use App\Models\Company\Team;
+use App\Services\BaseService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Str;
 
 class CreateJobOpening extends BaseService
 {
     protected array $data;
+
     protected Position $position;
+
     protected JobOpening $jobOpening;
+
     protected Team $team;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -42,9 +43,6 @@ class CreateJobOpening extends BaseService
 
     /**
      * Create a job opening.
-     *
-     * @param array $data
-     * @return JobOpening
      */
     public function execute(array $data): JobOpening
     {

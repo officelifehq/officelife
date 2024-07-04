@@ -2,18 +2,16 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Expense;
-use GrahamCampbell\TestBenchCore\HelperTrait;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Dashboard\DashboardExpenseViewHelper;
+use App\Models\Company\Expense;
+use Carbon\Carbon;
+use GrahamCampbell\TestBenchCore\HelperTrait;
+use Tests\TestCase;
 
 class DashboardExpenseViewHelperTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_a_collection_of_expenses_that_are_awaiting_for_accounting_approval(): void

@@ -2,28 +2,25 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Employee;
 
-use Carbon\Carbon;
-use Tests\TestCase;
-use Faker\Factory as Faker;
+use App\Exceptions\EmailAlreadyUsedException;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Helpers\ImageHelper;
-use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
+use App\Jobs\NotifyEmployee;
+use App\Mail\Company\InviteEmployeeToBecomeUserMail;
+use App\Models\Company\CompanyPTOPolicy;
 use App\Models\Company\Employee;
+use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
+use Carbon\Carbon;
+use Faker\Factory as Faker;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
-use App\Models\Company\CompanyPTOPolicy;
-use App\Exceptions\EmailAlreadyUsedException;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use App\Mail\Company\InviteEmployeeToBecomeUserMail;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
+use Tests\TestCase;
 
 class AddEmployeeToCompanyTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_adds_an_employee_to_a_company_as_administrator(): void
     {

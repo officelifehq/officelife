@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Helpers;
 
-use Tests\TestCase;
 use App\Helpers\MapHelper;
 use App\Models\Company\Place;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class MapHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_returns_a_static_map_url(): void
     {

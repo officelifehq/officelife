@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Company\Recruiting;
 
-use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
-use App\Models\Company\JobOpening;
-use Illuminate\Support\Facades\DB;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\ViewHelpers\Recruiting\RecruitingJobOpeningsViewHelper;
+use App\Models\Company\JobOpening;
 use App\Services\Company\Adminland\JobOpening\CreateJobOpening;
+use App\Services\Company\Adminland\JobOpening\DestroyJobOpening;
 use App\Services\Company\Adminland\JobOpening\ToggleJobOpening;
 use App\Services\Company\Adminland\JobOpening\UpdateJobOpening;
-use App\Services\Company\Adminland\JobOpening\DestroyJobOpening;
-use App\Http\ViewHelpers\Recruiting\RecruitingJobOpeningsViewHelper;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class RecruitingJobOpeningController extends Controller
 {
@@ -68,8 +68,6 @@ class RecruitingJobOpeningController extends Controller
     /**
      * Show the Create job opening view.
      *
-     * @param Request $request
-     * @param int $companyId
      * @return mixed
      */
     public function create(Request $request, int $companyId)
@@ -96,11 +94,6 @@ class RecruitingJobOpeningController extends Controller
 
     /**
      * Get the list of potential sponsors for this job opening.
-     *
-     * @param Request $request
-     * @param int $companyId
-     *
-     * @return JsonResponse
      */
     public function sponsors(Request $request, int $companyId): JsonResponse
     {
@@ -118,10 +111,6 @@ class RecruitingJobOpeningController extends Controller
 
     /**
      * Store the new job opening.
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {
@@ -154,9 +143,6 @@ class RecruitingJobOpeningController extends Controller
     /**
      * Show the Edit job opening view.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $jobOpeningId
      * @return mixed
      */
     public function edit(Request $request, int $companyId, int $jobOpeningId)
@@ -195,11 +181,6 @@ class RecruitingJobOpeningController extends Controller
 
     /**
      * Update the job .
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $jobOpeningId): JsonResponse
     {
@@ -233,11 +214,6 @@ class RecruitingJobOpeningController extends Controller
 
     /**
      * Show the detail of a job opening.
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @return mixed
      */
     public function show(Request $request, int $companyId, int $jobOpeningId): mixed
     {
@@ -286,11 +262,6 @@ class RecruitingJobOpeningController extends Controller
 
     /**
      * Show the rejected candidates of a job opening.
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @return mixed
      */
     public function showRejected(Request $request, int $companyId, int $jobOpeningId): mixed
     {
@@ -339,11 +310,6 @@ class RecruitingJobOpeningController extends Controller
 
     /**
      * Show the selected candidates of a job opening.
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @return mixed
      */
     public function showSelected(Request $request, int $companyId, int $jobOpeningId): mixed
     {
@@ -392,11 +358,6 @@ class RecruitingJobOpeningController extends Controller
 
     /**
      * Toggle the job status (active/inactive).
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @return JsonResponse
      */
     public function toggle(Request $request, int $companyId, int $jobOpeningId): JsonResponse
     {
@@ -418,11 +379,6 @@ class RecruitingJobOpeningController extends Controller
 
     /**
      * Delete the job .
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $jobOpeningId): JsonResponse
     {

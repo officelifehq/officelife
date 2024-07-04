@@ -19,7 +19,9 @@
         </p>
       </div>
       <div v-if="permissions.can_see_work_from_home_history" class="ph3 pv2 tc f6 bt bb-gray">
-        <inertia-link :href="statistics.url" data-cy="view-all-work-from-home">{{ $t('employee.work_from_home_link') }}</inertia-link>
+        <Link :href="statistics.url" data-cy="view-all-work-from-home">
+          {{ $t('employee.work_from_home_link') }}
+        </Link>
       </div>
     </div>
   </div>

@@ -1,4 +1,5 @@
 <?php
+
 return [
     'create_title' => 'Opprett en wiki',
     'create_success' => 'Wiki opprettet.',

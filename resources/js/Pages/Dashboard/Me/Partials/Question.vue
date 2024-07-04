@@ -29,7 +29,7 @@
       <!-- employee hasnt already answered -->
       <template v-if="!hasAlreadyAnswered">
         <div class="cf mw7 center br3 mb3 bg-white box relative" data-cy="answer-employee-hasnt-answered">
-          <img loading="lazy" src="/img/dashboard/question_dashboard.png" alt="a group taking a selfie" class="absolute top-1" />
+          <img loading="lazy" :src="'/img/dashboard/question_dashboard.png'" alt="a group taking a selfie" class="absolute top-1" />
 
           <div class="pa3">
             <h2 class="f4 fw4 mt0 mb3 ml6 lh-copy">
@@ -144,11 +144,11 @@
 </template>
 
 <script>
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import TextArea from '@/Shared/TextArea';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
-import Help from '@/Shared/Help';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import TextArea from '@/Shared/TextArea.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

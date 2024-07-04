@@ -2,25 +2,21 @@
 
 namespace App\Http\ViewHelpers\Team;
 
-use Carbon\Carbon;
+use App\Helpers\BirthdayHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Team;
 use App\Helpers\StringHelper;
-use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use Illuminate\Support\Collection;
 use App\Models\Company\MoraleTeamHistory;
+use App\Models\Company\Team;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class TeamShowViewHelper
 {
     /**
      * Array containing all the basic information about the given team.
-     *
-     * @param Team $team
-     *
-     * @return array
      */
     public static function team(Team $team): array
     {
@@ -42,10 +38,6 @@ class TeamShowViewHelper
 
     /**
      * Collection containing all the employees in this team.
-     *
-     * @param Team $team
-     *
-     * @return Collection
      */
     public static function employees(Team $team): Collection
     {
@@ -78,10 +70,6 @@ class TeamShowViewHelper
 
     /**
      * Collection containing all the recent ships for this team.
-     *
-     * @param Team $team
-     *
-     * @return Collection
      */
     public static function recentShips(Team $team): Collection
     {
@@ -124,10 +112,6 @@ class TeamShowViewHelper
 
     /**
      * Search all potential leads for the team.
-     *
-     * @param Company $company
-     * @param string|null $criteria
-     * @return Collection
      */
     public static function searchPotentialLead(Company $company, ?string $criteria): Collection
     {
@@ -152,10 +136,6 @@ class TeamShowViewHelper
 
     /**
      * Get all the upcoming birthdays for employees in the given team.
-     *
-     * @param Team $team
-     * @param Company $company
-     * @return array
      */
     public static function birthdays(Team $team, Company $company): array
     {
@@ -200,10 +180,6 @@ class TeamShowViewHelper
      * - yesterday
      * - last week
      * - last month.
-     *
-     * @param Team $team
-     * @param Employee $loggedEmployee
-     * @return array
      */
     public static function morale(Team $team, Employee $loggedEmployee): array
     {
@@ -280,14 +256,11 @@ class TeamShowViewHelper
 
     /**
      * Get all hires who will start next week.
-     *
-     * @param Team $team
-     * @param Company $company
-     * @return Collection
      */
     public static function newHiresNextWeek(Team $team, Company $company): Collection
     {
         $now = Carbon::now();
+
         return $team->employees()
             ->notLocked()
             ->whereNotNull('hired_at')

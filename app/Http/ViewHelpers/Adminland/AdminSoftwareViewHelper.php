@@ -15,9 +15,7 @@ class AdminSoftwareViewHelper
     /**
      * Get all the softwares in the company.
      *
-     * @param mixed $softwares
-     * @param Company $company
-     * @return array
+     * @param  mixed  $softwares
      */
     public static function index($softwares, Company $company): array
     {
@@ -47,9 +45,6 @@ class AdminSoftwareViewHelper
 
     /**
      * Shows the details of a given software.
-     *
-     * @param Software $software
-     * @return array
      */
     public static function show(Software $software): array
     {
@@ -68,7 +63,7 @@ class AdminSoftwareViewHelper
             'order_number' => $software->order_number,
             'purchase_amount' => $software->purchase_amount / 100,
             'currency' => $software->currency,
-            'converted_purchase_amount' => $software->converted_purchase_amount,
+            'converted_purchase_amount' => $software->converted_purchase_amount / 10000,
             'converted_to_currency' => $software->converted_to_currency,
             'purchased_at' => $software->purchased_at ? DateHelper::formatDate($software->purchased_at) : null,
             'converted_at' => $software->converted_at ? DateHelper::formatDate($software->converted_at) : null,
@@ -78,9 +73,6 @@ class AdminSoftwareViewHelper
 
     /**
      * Edit a given software.
-     *
-     * @param Software $software
-     * @return array
      */
     public static function edit(Software $software): array
     {
@@ -104,9 +96,7 @@ class AdminSoftwareViewHelper
     /**
      * Get the employees who are assigned with this software.
      *
-     * @param mixed $employees
-     * @param Company $company
-     * @return Collection
+     * @param  mixed  $employees
      */
     public static function seats($employees, Company $company): Collection
     {
@@ -129,11 +119,6 @@ class AdminSoftwareViewHelper
 
     /**
      * Get the list of potential employees who can be assigned the software.
-     *
-     * @param Software $software
-     * @param Company $company
-     * @param string|null $criteria
-     * @return Collection
      */
     public static function getPotentialEmployees(Software $software, Company $company, ?string $criteria): Collection
     {
@@ -147,9 +132,9 @@ class AdminSoftwareViewHelper
             ->notLocked()
             ->whereNotIn('id', $employees)
             ->where(function ($query) use ($criteria) {
-                $query->where('first_name', 'LIKE', '%' . $criteria . '%')
-                    ->orWhere('last_name', 'LIKE', '%' . $criteria . '%')
-                    ->orWhere('email', 'LIKE', '%' . $criteria . '%');
+                $query->where('first_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('email', 'LIKE', '%'.$criteria.'%');
             })
             ->orderBy('last_name', 'asc')
             ->take(10)
@@ -165,10 +150,6 @@ class AdminSoftwareViewHelper
 
     /**
      * All the information about the files associated with the software.
-     *
-     * @param Software $software
-     * @param Employee $employee
-     * @return Collection
      */
     public static function files(Software $software, Employee $employee): Collection
     {

@@ -2,20 +2,18 @@
 
 namespace Tests\Unit\ViewHelpers\Adminland;
 
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Hardware;
-use GrahamCampbell\TestBenchCore\HelperTrait;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Hardware\LendHardware;
 use App\Http\ViewHelpers\Adminland\AdminHardwareViewHelper;
+use App\Models\Company\Hardware;
 use App\Services\Company\Adminland\Hardware\CreateHardware;
+use App\Services\Company\Adminland\Hardware\LendHardware;
 use App\Services\Company\Adminland\Hardware\UpdateHardware;
+use GrahamCampbell\TestBenchCore\HelperTrait;
+use Tests\TestCase;
 
 class AdminHardwareViewHelperTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_a_null_if_there_are_no_hardware_in_the_company(): void

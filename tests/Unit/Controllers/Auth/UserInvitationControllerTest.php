@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Controllers\Auth;
 
-use Tests\TestCase;
-use App\Models\User\User;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Notification;
+use App\Models\User\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Notification;
+use Tests\TestCase;
 
 class UserInvitationControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_user_invited(): void
     {

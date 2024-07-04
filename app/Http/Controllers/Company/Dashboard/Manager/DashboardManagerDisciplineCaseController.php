@@ -2,24 +2,20 @@
 
 namespace App\Http\Controllers\Company\Dashboard\Manager;
 
-use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Dashboard\HR\DashboardHRDisciplineCaseViewHelper;
 use App\Models\Company\DirectReport;
 use App\Models\Company\DisciplineCase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Dashboard\HR\DashboardHRDisciplineCaseViewHelper;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DashboardManagerDisciplineCaseController extends Controller
 {
     /**
      * Show the discipline case.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $caseId
      */
     public function show(Request $request, int $companyId, int $caseId)
     {

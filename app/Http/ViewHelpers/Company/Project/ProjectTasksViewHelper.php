@@ -2,27 +2,24 @@
 
 namespace App\Http\ViewHelpers\Company\Project;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
-use App\Helpers\TimeHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
+use App\Helpers\TimeHelper;
 use App\Models\Company\Company;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectTask;
 use App\Models\Company\ProjectTaskList;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ProjectTasksViewHelper
 {
     /**
      * Collection containing the information about the tasks in the project.
      * This collection contains all the tasks as well as all the tasks lists.
-     *
-     * @param Project $project
-     * @return array
      */
     public static function index(Project $project): array
     {
@@ -143,9 +140,6 @@ class ProjectTasksViewHelper
 
     /**
      * Array containing all the information about the given task list info.
-     *
-     * @param ProjectTaskList $taskList
-     * @return array
      */
     public static function getTaskListInfo(ProjectTaskList $taskList): array
     {
@@ -158,9 +152,6 @@ class ProjectTasksViewHelper
 
     /**
      * Collection containing all the potential project members.
-     *
-     * @param Project $project
-     * @return Collection|null
      */
     public static function members(Project $project): ?Collection
     {
@@ -176,11 +167,6 @@ class ProjectTasksViewHelper
 
     /**
      * Get the complete details about the task.
-     *
-     * @param ProjectTask $task
-     * @param Company $company
-     * @param Employee $employee
-     * @return array
      */
     public static function getTaskFullDetails(ProjectTask $task, Company $company, Employee $employee): array
     {
@@ -281,11 +267,6 @@ class ProjectTasksViewHelper
 
     /**
      * Array containing all the information about a specific project task.
-     *
-     * @param ProjectTask $projectTask
-     * @param Company $company
-     * @param Employee $employee
-     * @return array|null
      */
     public static function taskDetails(ProjectTask $projectTask, Company $company, Employee $employee): ?array
     {
@@ -306,11 +287,6 @@ class ProjectTasksViewHelper
 
     /**
      * Collection of time tracking entries for a given task.
-     *
-     * @param ProjectTask $projectTask
-     * @param Company $company
-     * @param Employee $employee
-     * @return Collection|null
      */
     public static function timeTrackingEntries(ProjectTask $projectTask, Company $company, Employee $employee): ?Collection
     {
@@ -348,9 +324,6 @@ class ProjectTasksViewHelper
 
     /**
      * Get all the task lists in the project.
-     *
-     * @param Project $project
-     * @return Collection|null
      */
     public static function taskLists(Project $project): ?Collection
     {

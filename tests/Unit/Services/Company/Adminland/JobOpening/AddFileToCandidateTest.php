@@ -2,18 +2,15 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
-use Tests\TestCase;
-use App\Models\Company\File;
 use App\Models\Company\Candidate;
+use App\Models\Company\File;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class AddFileToCandidateTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_adds_a_file_to_a_candidate(): void
     {

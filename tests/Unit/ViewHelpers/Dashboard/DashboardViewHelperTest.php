@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
 use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class DashboardViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_information_about_the_employee(): void
     {
@@ -27,7 +24,7 @@ class DashboardViewHelperTest extends TestCase
                 'can_manage_expenses' => false,
                 'is_manager' => false,
                 'can_manage_hr' => true,
-                'url' => env('APP_URL') . '/' . $michael->company_id . '/employees/' . $michael->id,
+                'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
             ],
             DashboardViewHelper::information($michael, 'info')
         );

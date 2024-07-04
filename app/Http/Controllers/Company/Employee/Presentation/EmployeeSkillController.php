@@ -2,25 +2,20 @@
 
 namespace App\Http\Controllers\Company\Employee\Presentation;
 
-use Illuminate\Http\Request;
-use App\Models\Company\Skill;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Employee\EmployeeSkillViewHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\Skill;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
 use App\Services\Company\Employee\Skill\RemoveSkillFromEmployee;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class EmployeeSkillController extends Controller
 {
     /**
      * Search an existing skill based on the name.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function search(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -39,11 +34,6 @@ class EmployeeSkillController extends Controller
 
     /**
      * Assign a skill to the given employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -73,12 +63,6 @@ class EmployeeSkillController extends Controller
 
     /**
      * Remove the skill from the given employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param int $skillId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $employeeId, int $skillId): JsonResponse
     {

@@ -2,12 +2,12 @@
 
 namespace App\Services\Company\Employee\Timesheet;
 
-use App\Services\BaseService;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
-use App\Models\Company\Timesheet;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectTask;
+use App\Models\Company\Timesheet;
 use App\Models\Company\TimeTrackingEntry;
+use App\Services\BaseService;
 
 class DestroyTimesheetRow extends BaseService
 {
@@ -23,8 +23,6 @@ class DestroyTimesheetRow extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -41,8 +39,6 @@ class DestroyTimesheetRow extends BaseService
     /**
      * Destroy all time tracking entries at a given date for a given project
      * task in a given timesheet.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

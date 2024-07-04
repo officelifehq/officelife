@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\ViewHelpers\Company\KB;
 
-use Tests\TestCase;
-use Illuminate\Support\Str;
+use App\Http\ViewHelpers\Company\KB\WikiViewHelper;
 use App\Models\Company\Page;
 use App\Models\Company\Wiki;
 use Illuminate\Support\Facades\DB;
-use App\Http\ViewHelpers\Company\KB\WikiViewHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class WikiViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_list_of_wikis(): void
     {
@@ -42,9 +39,9 @@ class WikiViewHelperTest extends TestCase
                     'most_recent_page' => [
                         'id' => $page->id,
                         'title' => $page->title,
-                        'url' => env('APP_URL').'/'.$michael->company_id. '/company/kb/'.$wiki->id.'/pages/'.$page->id,
+                        'url' => env('APP_URL').'/'.$michael->company_id.'/company/kb/'.$wiki->id.'/pages/'.$page->id,
                     ],
-                    'url' => env('APP_URL').'/'.$michael->company_id. '/company/kb/'.$wiki->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/kb/'.$wiki->id,
                 ],
             ],
             $array['data']->toArray()

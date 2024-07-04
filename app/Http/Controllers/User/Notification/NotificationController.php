@@ -2,23 +2,18 @@
 
 namespace App\Http\Controllers\User\Notification;
 
-use Inertia\Inertia;
-use Inertia\Response;
 use App\Helpers\DateHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class NotificationController extends Controller
 {
     /**
      * Display the list of notifications.
-     *
-     * @param Request $request
-     * @param int $companyId
-     *
-     * @return Response
      */
     public function index(Request $request, int $companyId): Response
     {

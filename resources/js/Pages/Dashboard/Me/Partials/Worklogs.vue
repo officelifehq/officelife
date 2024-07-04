@@ -64,10 +64,10 @@
 </template>
 
 <script>
-import LoadingButton from '@/Shared/LoadingButton';
-import TextArea from '@/Shared/TextArea';
-import Errors from '@/Shared/Errors';
-import Help from '@/Shared/Help';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import TextArea from '@/Shared/TextArea.vue';
+import Errors from '@/Shared/Errors.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

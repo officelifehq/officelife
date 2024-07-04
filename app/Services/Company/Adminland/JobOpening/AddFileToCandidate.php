@@ -2,20 +2,20 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
+use App\Models\Company\Candidate;
 use App\Models\Company\File;
 use App\Services\BaseService;
-use App\Models\Company\Candidate;
 
 class AddFileToCandidate extends BaseService
 {
     protected array $data;
+
     protected Candidate $candidate;
+
     protected File $file;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,9 +28,6 @@ class AddFileToCandidate extends BaseService
 
     /**
      * Add the given file to the candidate.
-     *
-     * @param array $data
-     * @return File
      */
     public function execute(array $data): File
     {

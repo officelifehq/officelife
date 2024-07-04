@@ -2,9 +2,9 @@
 
 namespace App\Mail\Company;
 
+use App\Models\Company\Company;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use App\Models\Company\Company;
 use Illuminate\Queue\SerializesModels;
 
 class SendAccountCancellationToAdministratorMail extends Mailable

@@ -1,4 +1,5 @@
 <?php
+
 return [
     'failed' => 'These credentials do not match our records.',
     'mismatch' => 'The provided password does not match your current password.',

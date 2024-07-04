@@ -2,11 +2,11 @@
 
 namespace App\Models\Company;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
 {
@@ -16,9 +16,13 @@ class Project extends Model
      * Possible statuses.
      */
     const CREATED = 'created';
+
     const STARTED = 'started';
+
     const PAUSED = 'paused';
+
     const CANCELLED = 'cancelled';
+
     const CLOSED = 'closed';
 
     /**
@@ -49,17 +53,9 @@ class Project extends Model
      */
     protected $casts = [
         'completed' => 'boolean',
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'started_at',
-        'planned_finished_at',
-        'actually_finished_at',
+        'started_at' => 'datetime',
+        'planned_finished_at' => 'datetime',
+        'actually_finished_at' => 'datetime',
     ];
 
     /**

@@ -2,41 +2,38 @@
 
 namespace App\Http\Controllers\Company\Company\Group;
 
-use Carbon\Carbon;
-use Inertia\Inertia;
-use Inertia\Response;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
-use App\Models\Company\Group;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Meeting;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Group\CreateMeeting;
-use App\Services\Company\Group\DestroyMeeting;
-use App\Services\Company\Group\CreateAgendaItem;
-use App\Services\Company\Group\UpdateAgendaItem;
+use App\Http\ViewHelpers\Company\Group\GroupMeetingsViewHelper;
+use App\Http\ViewHelpers\Company\Group\GroupShowViewHelper;
+use App\Models\Company\Group;
+use App\Models\Company\Meeting;
 use App\Services\Company\Group\AddGuestToMeeting;
-use App\Services\Company\Group\DestroyAgendaItem;
-use App\Services\Company\Group\UpdateMeetingDate;
+use App\Services\Company\Group\CreateAgendaItem;
+use App\Services\Company\Group\CreateMeeting;
 use App\Services\Company\Group\CreateMeetingDecision;
+use App\Services\Company\Group\DestroyAgendaItem;
+use App\Services\Company\Group\DestroyMeeting;
 use App\Services\Company\Group\DestroyMeetingDecision;
 use App\Services\Company\Group\RemoveGuestFromMeeting;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Group\GroupShowViewHelper;
-use App\Http\ViewHelpers\Company\Group\GroupMeetingsViewHelper;
 use App\Services\Company\Group\ToggleEmployeeParticipationInMeeting;
+use App\Services\Company\Group\UpdateAgendaItem;
+use App\Services\Company\Group\UpdateMeetingDate;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class GroupMeetingsController extends Controller
 {
     /**
      * Display the Meetings page.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -68,9 +65,6 @@ class GroupMeetingsController extends Controller
      * A meeting doesn't have a dedicated Create screen - viewing, creating
      * and editing is done on the same page.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -102,10 +96,6 @@ class GroupMeetingsController extends Controller
     /**
      * Show the meeting page.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     * @param int $meetingId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -142,10 +132,6 @@ class GroupMeetingsController extends Controller
     /**
      * Toggle the participation for a person in the meeting.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     * @param int $meetingId
      *
      * @return JsonResponse
      */
@@ -169,13 +155,6 @@ class GroupMeetingsController extends Controller
 
     /**
      * Get the list of potential participants for this meeting.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     * @param int $meetingId
-     *
-     * @return JsonResponse
      */
     public function search(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
@@ -208,13 +187,6 @@ class GroupMeetingsController extends Controller
 
     /**
      * Add participant to the meeting.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     * @param int $meetingId
-     *
-     * @return JsonResponse
      */
     public function addParticipant(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
@@ -242,13 +214,6 @@ class GroupMeetingsController extends Controller
 
     /**
      * Remove participant from the meeting.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     * @param int $meetingId
-     *
-     * @return JsonResponse
      */
     public function removeParticipant(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
@@ -270,13 +235,6 @@ class GroupMeetingsController extends Controller
 
     /**
      * Set the meeting date.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     * @param int $meetingId
-     *
-     * @return JsonResponse
      */
     public function setDate(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
@@ -300,13 +258,6 @@ class GroupMeetingsController extends Controller
 
     /**
      * Destroy the meeting.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     * @param int $meetingId
-     *
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
@@ -327,13 +278,6 @@ class GroupMeetingsController extends Controller
 
     /**
      * Create an agenda item.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     * @param int $meetingId
-     *
-     * @return JsonResponse
      */
     public function createAgendaItem(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
@@ -371,14 +315,6 @@ class GroupMeetingsController extends Controller
 
     /**
      * Update the agenda item summary.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     * @param int $meetingId
-     * @param int $agendaItemId
-     *
-     * @return JsonResponse
      */
     public function updateAgendaItem(Request $request, int $companyId, int $groupId, int $meetingId, int $agendaItemId): JsonResponse
     {
@@ -417,12 +353,6 @@ class GroupMeetingsController extends Controller
 
     /**
      * Destroy the agenda item.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     * @param int $meetingId
-     * @param int $agendaItemId
      */
     public function destroyAgendaItem(Request $request, int $companyId, int $groupId, int $meetingId, int $agendaItemId): JsonResponse
     {
@@ -444,13 +374,6 @@ class GroupMeetingsController extends Controller
 
     /**
      * Get the potential presenters of the agenda item.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     * @param int $meetingId
-     *
-     * @return JsonResponse
      */
     public function getPresenters(Request $request, int $companyId, int $groupId, int $meetingId): JsonResponse
     {
@@ -477,14 +400,6 @@ class GroupMeetingsController extends Controller
 
     /**
      * Create a decision.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     * @param int $meetingId
-     * @param int $agendaItemId
-     *
-     * @return JsonResponse
      */
     public function createDecision(Request $request, int $companyId, int $groupId, int $meetingId, int $agendaItemId): JsonResponse
     {
@@ -510,15 +425,6 @@ class GroupMeetingsController extends Controller
 
     /**
      * Destroy a decision.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     * @param int $meetingId
-     * @param int $agendaItemId
-     * @param int $decisionId
-     *
-     * @return JsonResponse
      */
     public function destroyDecision(Request $request, int $companyId, int $groupId, int $meetingId, int $agendaItemId, int $decisionId): JsonResponse
     {

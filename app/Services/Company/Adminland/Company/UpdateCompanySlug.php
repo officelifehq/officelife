@@ -2,9 +2,9 @@
 
 namespace App\Services\Company\Adminland\Company;
 
-use Illuminate\Support\Str;
-use App\Services\BaseService;
 use App\Models\Company\Company;
+use App\Services\BaseService;
+use Illuminate\Support\Str;
 
 class UpdateCompanySlug extends BaseService
 {
@@ -12,8 +12,6 @@ class UpdateCompanySlug extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -24,10 +22,6 @@ class UpdateCompanySlug extends BaseService
 
     /**
      * Updates the company slug.
-     *
-     * @param array $data
-     *
-     * @return Company
      */
     public function execute(array $data): Company
     {

@@ -2,21 +2,16 @@
 
 namespace App\Http\Controllers\Company\Dashboard\Me;
 
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Adminland\AskMeAnything\CreateAskMeAnythingQuestion;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class DashboardAskMeAnythingQuestionController extends Controller
 {
     /**
      * Submit a question.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $sessionId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $sessionId): JsonResponse
     {

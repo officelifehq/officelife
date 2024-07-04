@@ -11,7 +11,8 @@ class EmployeeLogViewHelper
 {
     /**
      * Collection containing all the audit log entries for this employee.
-     * @param mixed $logs
+     *
+     * @param  mixed  $logs
      */
     public static function list($logs, Company $company): Collection
     {

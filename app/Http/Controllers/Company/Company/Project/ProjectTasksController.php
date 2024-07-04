@@ -2,37 +2,34 @@
 
 namespace App\Http\Controllers\Company\Company\Project;
 
-use Carbon\Carbon;
-use Inertia\Inertia;
-use Inertia\Response;
-use App\Helpers\TimeHelper;
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Project;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 use App\Helpers\NotificationHelper;
-use App\Models\Company\ProjectTask;
+use App\Helpers\TimeHelper;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Company\Project\ProjectTasksViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
+use App\Models\Company\Project;
+use App\Models\Company\ProjectTask;
+use App\Services\Company\Employee\Timesheet\CreateTimeTrackingEntry;
+use App\Services\Company\Project\AssignProjectTaskToEmployee;
 use App\Services\Company\Project\CreateProjectTask;
+use App\Services\Company\Project\DestroyProjectTask;
 use App\Services\Company\Project\ToggleProjectTask;
 use App\Services\Company\Project\UpdateProjectTask;
-use App\Services\Company\Project\DestroyProjectTask;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
-use App\Services\Company\Project\AssignProjectTaskToEmployee;
-use App\Http\ViewHelpers\Company\Project\ProjectTasksViewHelper;
-use App\Services\Company\Employee\Timesheet\CreateTimeTrackingEntry;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ProjectTasksController extends Controller
 {
     /**
      * Display the list of tasks in the project.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -55,10 +52,6 @@ class ProjectTasksController extends Controller
     /**
      * Display the detail of a task.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $taskId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -91,12 +84,6 @@ class ProjectTasksController extends Controller
 
     /**
      * Create the task.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -151,13 +138,6 @@ class ProjectTasksController extends Controller
 
     /**
      * Actually update the task.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $taskId
-     *
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $projectId, int $taskId): JsonResponse
     {
@@ -217,13 +197,6 @@ class ProjectTasksController extends Controller
 
     /**
      * Actually update the message.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $projectTaskId
-     *
-     * @return JsonResponse
      */
     public function toggle(Request $request, int $companyId, int $projectId, int $projectTaskId): JsonResponse
     {
@@ -246,13 +219,6 @@ class ProjectTasksController extends Controller
 
     /**
      * Destroy the task.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $taskId
-     *
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $projectId, int $taskId): JsonResponse
     {
@@ -275,13 +241,6 @@ class ProjectTasksController extends Controller
 
     /**
      * Get the time tracking entries for the given task.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $taskId
-     *
-     * @return JsonResponse
      */
     public function timeTrackingEntries(Request $request, int $companyId, int $projectId, int $taskId): JsonResponse
     {
@@ -305,13 +264,6 @@ class ProjectTasksController extends Controller
 
     /**
      * Get the time tracking entries for the given task.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $taskId
-     *
-     * @return JsonResponse
      */
     public function logTime(Request $request, int $companyId, int $projectId, int $taskId): JsonResponse
     {

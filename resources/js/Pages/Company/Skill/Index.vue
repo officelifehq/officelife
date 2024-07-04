@@ -58,7 +58,7 @@
 
         <ul class="list pl0">
           <li v-for="skill in filteredList" :key="skill.id" class="dib skill pointer mr2 mb2">
-            <inertia-link :href="skill.url" class="dib no-underline bb-0" :data-cy="'skill-item-' + skill.id">{{ skill.name }} <span>{{ skill.number_of_employees }}</span></inertia-link>
+            <Link :href="skill.url" class="dib no-underline bb-0" :data-cy="'skill-item-' + skill.id">{{ skill.name }} <span>{{ skill.number_of_employees }}</span></Link>
           </li>
         </ul>
 
@@ -69,10 +69,10 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import TextInput from '@/Shared/TextInput';
-import Help from '@/Shared/Help';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import TextInput from '@/Shared/TextInput.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

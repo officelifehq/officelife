@@ -2,15 +2,13 @@
 
 namespace App\Services\Company\Employee\DisciplineCase;
 
-use App\Services\BaseService;
 use App\Models\Company\DisciplineCase;
+use App\Services\BaseService;
 
 class ToggleDisciplineCase extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -23,9 +21,6 @@ class ToggleDisciplineCase extends BaseService
 
     /**
      * Toggle the discipline case.
-     *
-     * @param array $data
-     * @return DisciplineCase
      */
     public function execute(array $data): DisciplineCase
     {

@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Collections;
 
-use Tests\TestCase;
+use App\Http\Collections\TeamUsefulLinkCollection;
 use App\Models\Company\Team;
 use App\Models\Company\TeamUsefulLink;
-use App\Http\Collections\TeamUsefulLinkCollection;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class TeamUsefulLinkCollectionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_returns_a_collection(): void
     {

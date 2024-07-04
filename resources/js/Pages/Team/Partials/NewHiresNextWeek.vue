@@ -32,9 +32,9 @@
           <avatar :avatar="hire.avatar" :size="35" :class="'br-100 absolute avatar'" />
 
           <!-- normal mode -->
-          <inertia-link :href="hire.url" class="mb2">
+          <Link :href="hire.url" class="mb2">
             {{ hire.name }}
-          </inertia-link>
+          </Link>
 
           <!-- position -->
           <span class="title db f7 mt1 lh-copy">
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import Avatar from '@/Shared/Avatar';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

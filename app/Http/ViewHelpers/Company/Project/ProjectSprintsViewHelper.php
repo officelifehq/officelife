@@ -4,22 +4,16 @@ namespace App\Http\ViewHelpers\Company\Project;
 
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\DB;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectSprint;
+use Illuminate\Support\Facades\DB;
 
 class ProjectSprintsViewHelper
 {
     /**
      * All the data about the sprint: issues and sprint info.
-     *
-     * @param Project $project
-     * @param ProjectBoard $projectBoard
-     * @param ProjectSprint $sprint
-     * @param Employee $employee
-     * @return array
      */
     public static function sprintData(Project $project, ProjectBoard $projectBoard, ProjectSprint $sprint, Employee $employee): array
     {
@@ -96,7 +90,7 @@ class ProjectSprintsViewHelper
             'collapsed' => $isCollapsed ? $isCollapsed->collapsed : false,
             'issues' => $issueCollection,
             'url' => [
-                'store' =>  route('projects.issues.store', [
+                'store' => route('projects.issues.store', [
                     'company' => $company,
                     'project' => $project,
                     'board' => $projectBoard,

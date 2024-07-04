@@ -2,47 +2,44 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Carbon\Carbon;
-use Tests\TestCase;
-use App\Models\Company\File;
-use App\Models\Company\Flow;
-use App\Models\Company\Team;
-use App\Models\Company\Wiki;
-use App\Models\Company\Group;
-use App\Models\Company\Skill;
+use App\Models\Company\AskMeAnythingSession;
+use App\Models\Company\AuditLog;
+use App\Models\Company\Candidate;
 use App\Models\Company\Comment;
 use App\Models\Company\Company;
+use App\Models\Company\CompanyDailyUsageHistory;
+use App\Models\Company\CompanyInvoice;
+use App\Models\Company\CompanyNews;
+use App\Models\Company\CompanyPTOPolicy;
+use App\Models\Company\ConsultantRate;
+use App\Models\Company\DirectReport;
+use App\Models\Company\DisciplineCase;
 use App\Models\Company\ECoffee;
-use App\Models\Company\Expense;
-use App\Models\Company\Project;
-use App\Models\Company\AuditLog;
 use App\Models\Company\Employee;
+use App\Models\Company\EmployeeStatus;
+use App\Models\Company\Expense;
+use App\Models\Company\ExpenseCategory;
+use App\Models\Company\File;
+use App\Models\Company\Flow;
+use App\Models\Company\Group;
 use App\Models\Company\Hardware;
-use App\Models\Company\Position;
-use App\Models\Company\Question;
-use App\Models\Company\Software;
-use App\Models\Company\Candidate;
 use App\Models\Company\ImportJob;
 use App\Models\Company\IssueType;
-use App\Models\Company\Timesheet;
 use App\Models\Company\JobOpening;
-use App\Models\Company\CompanyNews;
-use App\Models\Company\DirectReport;
-use App\Models\Company\CompanyInvoice;
-use App\Models\Company\ConsultantRate;
-use App\Models\Company\DisciplineCase;
-use App\Models\Company\EmployeeStatus;
-use App\Models\Company\ExpenseCategory;
-use App\Models\Company\CompanyPTOPolicy;
-use App\Models\Company\AskMeAnythingSession;
+use App\Models\Company\Position;
+use App\Models\Company\Project;
+use App\Models\Company\Question;
 use App\Models\Company\RecruitingStageTemplate;
-use App\Models\Company\CompanyDailyUsageHistory;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Skill;
+use App\Models\Company\Software;
+use App\Models\Company\Team;
+use App\Models\Company\Timesheet;
+use App\Models\Company\Wiki;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class CompanyTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_has_many_employees(): void
     {

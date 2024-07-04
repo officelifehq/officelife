@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use App\Models\Company\Worklog;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class WorklogFactory extends Factory

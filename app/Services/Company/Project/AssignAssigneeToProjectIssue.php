@@ -2,25 +2,26 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectMemberActivity;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class AssignAssigneeToProjectIssue extends BaseService
 {
     protected array $data;
+
     protected ProjectIssue $projectIssue;
+
     protected Project $project;
+
     protected Employee $employee;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,9 +36,6 @@ class AssignAssigneeToProjectIssue extends BaseService
 
     /**
      * Assign an employeee as the project issue assignee.
-     *
-     * @param array $data
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

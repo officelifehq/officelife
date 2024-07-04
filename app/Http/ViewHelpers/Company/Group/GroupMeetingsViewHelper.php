@@ -2,21 +2,18 @@
 
 namespace App\Http\ViewHelpers\Company\Group;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Group;
 use App\Models\Company\Company;
+use App\Models\Company\Group;
 use App\Models\Company\Meeting;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class GroupMeetingsViewHelper
 {
     /**
      * Get all the meetings in the group.
-     *
-     * @param Group $group
-     * @return array
      */
     public static function index(Group $group): array
     {
@@ -69,10 +66,6 @@ class GroupMeetingsViewHelper
 
     /**
      * Get information of a specific meeting.
-     *
-     * @param Meeting $meeting
-     * @param Company $company
-     * @return array
      */
     public static function show(Meeting $meeting, Company $company): array
     {
@@ -126,11 +119,6 @@ class GroupMeetingsViewHelper
 
     /**
      * Get potential guests of this meeting.
-     *
-     * @param Meeting $meeting
-     * @param Company $company
-     * @param string|null $criteria
-     * @return Collection
      */
     public static function potentialGuests(Meeting $meeting, Company $company, ?string $criteria): Collection
     {
@@ -160,10 +148,6 @@ class GroupMeetingsViewHelper
 
     /**
      * Get agenda of the meeting.
-     *
-     * @param Meeting $meeting
-     * @param Company $company
-     * @return Collection
      */
     public static function agenda(Meeting $meeting, Company $company): Collection
     {

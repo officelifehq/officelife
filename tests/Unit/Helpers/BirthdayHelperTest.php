@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Helpers;
 
+use App\Helpers\BirthdayHelper;
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\BirthdayHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class BirthdayHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_indicates_if_a_birthday_occurs_in_the_next_x_days(): void
     {

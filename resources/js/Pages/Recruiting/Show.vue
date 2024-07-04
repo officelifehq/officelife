@@ -93,7 +93,9 @@
 
             <div class="db">
               <span class="db mb0">
-                <inertia-link :href="jobOpening.position.url">{{ jobOpening.position.title }}</inertia-link>
+                <Link :href="jobOpening.position.url">
+                  {{ jobOpening.position.title }}
+                </Link>
               </span>
               <span class="fw3 gray f7">
                 {{ $tc('dashboard.job_opening_show_position_count', jobOpening.position.count_employees, {count: jobOpening.position.count_employees} ) }}
@@ -114,7 +116,9 @@
 
             <div class="db">
               <span class="db mb0">
-                <inertia-link :href="jobOpening.team.url">{{ jobOpening.team.name }}</inertia-link>
+                <Link :href="jobOpening.team.url">
+                  {{ jobOpening.team.name }}
+                </Link>
               </span>
               <span class="fw3 gray f7">
                 {{ $tc('dashboard.job_opening_show_team_count', jobOpening.team.count, {count: jobOpening.team.count} ) }}
@@ -158,7 +162,7 @@
               <div class="flex justify-between">
                 <div>
                   <span v-if="tab == 'to_sort'" class="dib relative mr2 br-100 dot"></span>
-                  <inertia-link :href="candidate.url">{{ candidate.name }}</inertia-link>
+                  <Link :href="candidate.url">{{ candidate.name }}</Link>
                 </div>
                 <span class="f7 gray">{{ candidate.received_at }}</span>
               </div>
@@ -188,7 +192,7 @@
               {{ $t('dashboard.job_opening_show_blank') }}
             </p>
 
-            <img loading="lazy" src="/img/streamline-icon-detective-1-5@140x140.png" alt="add email symbol" class="db center mb4" height="120"
+            <img loading="lazy" :src="'/img/streamline-icon-detective-1-5@140x140.png'" alt="add email symbol" class="db center mb4" height="120"
                  width="120"
             />
           </div>
@@ -199,11 +203,11 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Information from '@/Pages/Recruiting/Partials/Information';
-import Sponsors from '@/Pages/Recruiting/Partials/Sponsors';
-import Tabs from '@/Pages/Recruiting/Partials/Tabs';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Information from '@/Pages/Recruiting/Partials/Information.vue';
+import Sponsors from '@/Pages/Recruiting/Partials/Sponsors.vue';
+import Tabs from '@/Pages/Recruiting/Partials/Tabs.vue';
 
 export default {
   components: {

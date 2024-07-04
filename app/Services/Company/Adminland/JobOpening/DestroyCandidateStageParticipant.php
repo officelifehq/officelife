@@ -2,30 +2,33 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
-use Carbon\Carbon;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Models\Company\Employee;
-use App\Models\Company\Candidate;
-use App\Models\Company\JobOpening;
-use Illuminate\Support\Facades\DB;
-use App\Models\Company\CandidateStage;
 use App\Exceptions\NotEnoughPermissionException;
+use App\Jobs\LogAccountAudit;
+use App\Models\Company\Candidate;
+use App\Models\Company\CandidateStage;
 use App\Models\Company\CandidateStageParticipant;
+use App\Models\Company\Employee;
+use App\Models\Company\JobOpening;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DestroyCandidateStageParticipant extends BaseService
 {
     protected array $data;
+
     protected JobOpening $jobOpening;
+
     protected Candidate $candidate;
+
     protected Employee $participant;
+
     protected CandidateStage $candidateStage;
+
     protected CandidateStageParticipant $candidateStageParticipant;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -41,8 +44,6 @@ class DestroyCandidateStageParticipant extends BaseService
 
     /**
      * Remove a participant from the candidate stage.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

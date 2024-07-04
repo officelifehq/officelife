@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers\Company\Dashboard\Me;
 
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\WorkFromHome\UpdateWorkFromHomeInformation;
+use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class DashboardWorkFromHomeController extends Controller
 {
     /**
      * Change the status of Work from home.
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function store(Request $request): JsonResponse
     {

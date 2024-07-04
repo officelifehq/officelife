@@ -2,14 +2,14 @@
 
 namespace App\Jobs;
 
-use Throwable;
 use App\Services\BaseService;
-use Illuminate\Bus\Queueable;
 use App\Services\QueuableService;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Throwable;
 
 class ServiceQueue implements ShouldQueue
 {
@@ -17,8 +17,6 @@ class ServiceQueue implements ShouldQueue
 
     /**
      * The service to queue.
-     *
-     * @var QueuableService
      */
     public QueuableService $service;
 
@@ -31,8 +29,6 @@ class ServiceQueue implements ShouldQueue
 
     /**
      * Create a new job instance.
-     *
-     * @param BaseService $service
      */
     public function __construct(BaseService $service)
     {
@@ -52,8 +48,6 @@ class ServiceQueue implements ShouldQueue
 
     /**
      * Handle a job failure.
-     *
-     * @param  \Throwable  $exception
      */
     public function failed(Throwable $exception): void
     {

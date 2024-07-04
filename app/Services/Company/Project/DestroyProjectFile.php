@@ -2,23 +2,23 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
-use App\Models\Company\File;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
+use App\Models\Company\File;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectMemberActivity;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyProjectFile extends BaseService
 {
     protected array $data;
+
     protected File $file;
+
     protected Project $project;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -32,8 +32,6 @@ class DestroyProjectFile extends BaseService
 
     /**
      * Destroy a file in the project.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\Models\User;
 
-use Tests\TestCase;
-use App\Models\User\User;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Models\User\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
+use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_has_many_employees(): void
     {

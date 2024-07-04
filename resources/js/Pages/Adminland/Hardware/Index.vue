@@ -58,9 +58,9 @@
             <span v-if="hardwareCollection" class="dib mb3 di-l">
               {{ $t('account.hardware_description') }}
             </span>
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/hardware/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-hardware-button">
+            <Link :href="'/' + $page.props.auth.company.id + '/account/hardware/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-hardware-button">
               {{ $t('account.hardware_cta') }}
-            </inertia-link>
+            </Link>
           </p>
         </div>
 
@@ -82,7 +82,7 @@
                 {{ $t('account.hardware_all_hardware') }} <span data-cy="hardware-total">({{ countHardwareTotal }})</span>
               </li>
               <li v-else class="pa2 mr2">
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/account/hardware'">{{ $t('account.hardware_all_hardware') }}</inertia-link> <span data-cy="hardware-total">({{ countHardwareTotal }})</span>
+                <Link :href="'/' + $page.props.auth.company.id + '/account/hardware'">{{ $t('account.hardware_all_hardware') }}</Link> <span data-cy="hardware-total">({{ countHardwareTotal }})</span>
               </li>
 
               <!-- viewing only hardware not lent -->
@@ -90,7 +90,7 @@
                 {{ $t('account.hardware_available_hardware') }} <span data-cy="hardware-total">({{ countHardwareNotLent }})</span>
               </li>
               <li v-else class="pa2 mr2">
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/account/hardware/available'">{{ $t('account.hardware_available_hardware') }}</inertia-link> <span data-cy="hardware-count-not-lent">({{ countHardwareNotLent }})</span>
+                <Link :href="'/' + $page.props.auth.company.id + '/account/hardware/available'">{{ $t('account.hardware_available_hardware') }}</Link> <span data-cy="hardware-count-not-lent">({{ countHardwareNotLent }})</span>
               </li>
 
               <!-- viewing only hardware lent -->
@@ -98,7 +98,7 @@
                 {{ $t('account.hardware_lent_hardware') }} <span data-cy="hardware-count-lent">({{ countHardwareLent }})</span>
               </li>
               <li v-else class="pa2 mr2">
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/account/hardware/lent'">{{ $t('account.hardware_lent_hardware') }}</inertia-link> <span data-cy="hardware-count-lent">({{ countHardwareLent }})</span>
+                <Link :href="'/' + $page.props.auth.company.id + '/account/hardware/lent'">{{ $t('account.hardware_lent_hardware') }}</Link> <span data-cy="hardware-count-lent">({{ countHardwareLent }})</span>
               </li>
             </ul>
           </div>
@@ -162,11 +162,12 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
-import Help from '@/Shared/Help';
+import Help from '@/Shared/Help.vue';
+import _ from 'lodash';
 
 export default {
   components: {

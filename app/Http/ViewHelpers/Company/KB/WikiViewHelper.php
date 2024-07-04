@@ -2,16 +2,13 @@
 
 namespace App\Http\ViewHelpers\Company\KB;
 
-use Illuminate\Support\Str;
 use App\Models\Company\Company;
+use Illuminate\Support\Str;
 
 class WikiViewHelper
 {
     /**
      * Get all the wikis in the company.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function index(Company $company): array
     {
@@ -59,9 +56,7 @@ class WikiViewHelper
     /**
      * Get all the pages in the company sorted by latest edited at.
      *
-     * @param mixed $pages
-     * @param Company $company
-     * @return array
+     * @param  mixed  $pages
      */
     public static function pages($pages, Company $company): array
     {

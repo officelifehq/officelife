@@ -2,16 +2,14 @@
 
 namespace App\Services\Company\Employee\Notification;
 
-use App\Services\BaseService;
-use App\Models\Company\Notification;
 use App\Exceptions\NotEnoughPermissionException;
+use App\Models\Company\Notification;
+use App\Services\BaseService;
 
 class MarkNotificationsAsRead extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -25,10 +23,6 @@ class MarkNotificationsAsRead extends BaseService
     /**
      * Mark all notifications as read for the given employee.
      * Only the employee can mark the notifications as read.
-     *
-     * @param array $data
-     *
-     * @return bool
      */
     public function execute(array $data): bool
     {

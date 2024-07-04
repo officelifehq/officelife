@@ -2,20 +2,20 @@
 
 namespace App\Services\Company\Adminland\Employee;
 
-use Throwable;
-use Illuminate\Support\Str;
-use App\Models\Company\File;
-use App\Services\BaseService;
-use Illuminate\Support\Carbon;
-use App\Models\Company\ImportJob;
-use App\Services\QueuableService;
-use Illuminate\Support\Facades\Http;
-use App\Services\DispatchableService;
-use App\Models\Company\ImportJobReport;
-use Illuminate\Support\Facades\Storage;
 use App\Exceptions\MalformedCSVException;
+use App\Models\Company\File;
+use App\Models\Company\ImportJob;
+use App\Models\Company\ImportJobReport;
+use App\Services\BaseService;
+use App\Services\DispatchableService;
+use App\Services\QueuableService;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Spatie\SimpleExcel\SimpleExcelReader;
+use Throwable;
 
 class ImportEmployeesFromCSV extends BaseService implements QueuableService
 {
@@ -23,17 +23,12 @@ class ImportEmployeesFromCSV extends BaseService implements QueuableService
 
     private array $data;
 
-    /**
-     * @var ImportJob|null
-     */
     private ?ImportJob $importJob = null;
 
     private File $file;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -83,8 +78,6 @@ class ImportEmployeesFromCSV extends BaseService implements QueuableService
 
     /**
      * Handle a job failure.
-     *
-     * @param  \Throwable  $exception
      */
     public function failed(Throwable $exception): void
     {
@@ -132,8 +125,6 @@ class ImportEmployeesFromCSV extends BaseService implements QueuableService
 
     /**
      * Make sure the headers in the file are valid.
-     *
-     * @param string $filePath
      */
     private function checkHeaderValidity(string $filePath): void
     {

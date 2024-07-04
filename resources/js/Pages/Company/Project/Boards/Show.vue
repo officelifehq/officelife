@@ -71,37 +71,37 @@
               <svg xmlns="http://www.w3.org/2000/svg" class="relative mr2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
               </svg>
-              <inertia-link>Summary</inertia-link>
+              <Link>Summary</Link>
             </li>
             <li class="mb3 relative f6">
               <svg xmlns="http://www.w3.org/2000/svg" class="relative mr2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
               </svg>
-              <inertia-link>Backlog</inertia-link>
+              <Link>Backlog</Link>
             </li>
             <li class="mb3 relative f6">
               <svg xmlns="http://www.w3.org/2000/svg" class="relative mr2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
-              <inertia-link>Active cycle</inertia-link>
+              <Link>Active cycle</Link>
             </li>
             <li class="mb3 relative f6">
               <svg xmlns="http://www.w3.org/2000/svg" class="relative mr2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <inertia-link>Past cycles</inertia-link>
+              <Link>Past cycles</Link>
             </li>
             <li class="mb3 relative f6">
               <svg xmlns="http://www.w3.org/2000/svg" class="relative mr2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
               </svg>
-              <inertia-link>Refinement</inertia-link>
+              <Link>Refinement</Link>
             </li>
             <li class="mb3 relative f6">
               <svg xmlns="http://www.w3.org/2000/svg" class="relative mr2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <inertia-link>My issues</inertia-link>
+              <Link>My issues</Link>
             </li>
           </ul>
         </div>
@@ -119,9 +119,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Sprint from '@/Pages/Company/Project/Boards/Partials/Sprint';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Sprint from '@/Pages/Company/Project/Boards/Partials/Sprint.vue';
 
 export default {
   components: {

@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Jobs\Invoicing;
 
-use Tests\TestCase;
+use App\Jobs\Invoicing\LogDailyMaxNumberOfActiveEmployeesInCompanies;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Jobs\Invoicing\LogDailyMaxNumberOfActiveEmployeesInCompanies;
+use Tests\TestCase;
 
 class LogDailyMaxNumberOfActiveEmployeesInCompaniesTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_logs_the_number_of_employees_who_are_not_locked_in_all_the_companies_in_the_instance(): void
     {

@@ -43,7 +43,7 @@
           <ul class="list years tc" data-cy="worklog-year-selector">
             <li class="di">{{ $t('employee.worklog_year_selector') }}</li>
             <li v-for="singleYear in years" :key="singleYear.number" class="di mh2">
-              <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/work/workfromhome/' + singleYear.number" :class="{ selected: currentYear == singleYear.number }">{{ singleYear.number }}</inertia-link>
+              <Link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/work/workfromhome/' + singleYear.number" :class="{ selected: currentYear == singleYear.number }">{{ singleYear.number }}</Link>
             </li>
           </ul>
 
@@ -53,16 +53,16 @@
               <!-- list of months -->
               <p class="f6 mt0 silver">{{ $t('employee.worklog_filter_month') }}</p>
               <ul class="pl0 list months f6">
-                <li class="mb2"><inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/work/workfromhome/' + year">All</inertia-link></li>
+                <li class="mb2"><Link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/work/workfromhome/' + year">All</Link></li>
                 <li v-for="month in months" :key="month.month" class="mb2" :data-cy="'worklog-month-selector-' + month.month">
                   <!-- we are viewing a specific month, so we need to highlight the proper month in the UI -->
                   <template v-if="currentMonth">
-                    <inertia-link v-if="month.occurences != 0" :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/work/workfromhome/' + year + '/' + month.month" :class="{ selected: currentMonth == month.month }">{{ month.translation }} ({{ month.occurences }})</inertia-link>
+                    <Link v-if="month.occurences != 0" :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/work/workfromhome/' + year + '/' + month.month" :class="{ selected: currentMonth == month.month }">{{ month.translation }} ({{ month.occurences }})</Link>
                     <span v-if="month.occurences == 0">{{ month.translation }} ({{ month.occurences }})</span>
                   </template>
 
                   <template v-else>
-                    <inertia-link v-if="month.occurences != 0" :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/work/workfromhome/' + year + '/' + month.month">{{ month.translation }} ({{ month.occurences }})</inertia-link>
+                    <Link v-if="month.occurences != 0" :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/work/workfromhome/' + year + '/' + month.month">{{ month.translation }} ({{ month.occurences }})</Link>
                     <span v-if="month.occurences == 0">{{ month.translation }} ({{ month.occurences }})</span>
                   </template>
                 </li>
@@ -95,8 +95,8 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
 
 export default {
   components: {

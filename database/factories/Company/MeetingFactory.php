@@ -2,9 +2,9 @@
 
 namespace Database\Factories\Company;
 
-use Carbon\Carbon;
 use App\Models\Company\Group;
 use App\Models\Company\Meeting;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MeetingFactory extends Factory

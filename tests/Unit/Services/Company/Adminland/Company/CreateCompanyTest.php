@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Company;
 
-use Tests\TestCase;
-use App\Models\User\User;
 use App\Jobs\LogAccountAudit;
+use App\Jobs\ProvisionDefaultAccountData;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
-use App\Jobs\ProvisionDefaultAccountData;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\User\User;
 use App\Services\Company\Adminland\Company\CreateCompany;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateCompanyTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_company(): void
     {

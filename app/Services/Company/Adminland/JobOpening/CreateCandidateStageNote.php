@@ -2,29 +2,32 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
-use App\Models\Company\JobOpening;
-use Illuminate\Support\Facades\DB;
 use App\Models\Company\CandidateStage;
 use App\Models\Company\CandidateStageNote;
+use App\Models\Company\Employee;
+use App\Models\Company\JobOpening;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CreateCandidateStageNote extends BaseService
 {
     protected array $data;
+
     protected JobOpening $jobOpening;
+
     protected Candidate $candidate;
+
     protected CandidateStage $candidateStage;
+
     protected CandidateStageNote $candidateStageNote;
+
     protected bool $isParticipant;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -40,9 +43,6 @@ class CreateCandidateStageNote extends BaseService
 
     /**
      * Write a note for the given candidate stage.
-     *
-     * @param array $data
-     * @return CandidateStageNote
      */
     public function execute(array $data): CandidateStageNote
     {

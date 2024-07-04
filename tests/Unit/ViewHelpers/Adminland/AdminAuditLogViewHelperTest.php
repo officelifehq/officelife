@@ -2,17 +2,15 @@
 
 namespace Tests\Unit\ViewHelpers\Adminland;
 
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Adminland\AdminAuditLogViewHelper;
 use App\Models\Company\AuditLog;
 use GrahamCampbell\TestBenchCore\HelperTrait;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Adminland\AdminAuditLogViewHelper;
+use Tests\TestCase;
 
 class AdminAuditLogViewHelperTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_the_list_of_audit_logs(): void

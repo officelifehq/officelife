@@ -12,8 +12,7 @@ class AdminExpenseViewHelper
      * Collection containing all the information about the expense categories
      * used in the company.
      *
-     * @param mixed $company
-     * @return Collection|null
+     * @param  mixed  $company
      */
     public static function categories($company): ?Collection
     {
@@ -33,8 +32,7 @@ class AdminExpenseViewHelper
      * Collection containing all the employees who have the right to manage
      * expenses in the company.
      *
-     * @param mixed $company
-     * @return Collection|null
+     * @param  mixed  $company
      */
     public static function employees($company): ?Collection
     {
@@ -60,10 +58,6 @@ class AdminExpenseViewHelper
 
     /**
      * Search all employees matching a given criteria.
-     *
-     * @param Company $company
-     * @param string|null $criteria
-     * @return Collection
      */
     public static function search(Company $company, ?string $criteria): Collection
     {

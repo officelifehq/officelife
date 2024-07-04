@@ -122,10 +122,11 @@
 </template>
 
 <script>
-import Avatar from '@/Shared/Avatar';
-import TextInput from '@/Shared/TextInput';
+import Avatar from '@/Shared/Avatar.vue';
+import TextInput from '@/Shared/TextInput.vue';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
+import _ from 'lodash';
 
 export default {
   components: {

@@ -25,9 +25,9 @@
             {{ $t('dashboard.team_viewing') }}
           </li>
           <li v-for="team in teams" :key="team.id" class="di team-item pa2 br2 pointer" :class="{ selected: currentTeam == team.id }" :data-cy="'team-selector-' + team.id ">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/team/' + team.id">
+            <Link :href="'/' + $page.props.auth.company.id + '/dashboard/team/' + team.id">
               {{ team.name }}
-            </inertia-link>
+            </Link>
           </li>
         </ul>
       </div>
@@ -72,14 +72,14 @@
 </template>
 
 <script>
-import Worklogs from '@/Pages/Dashboard/Team/Partials/Worklogs';
-import Birthdays from '@/Pages/Dashboard/Team/Partials/Birthdays';
-import WorkFromHome from '@/Pages/Dashboard/Team/Partials/WorkFromHome';
-import RecentShips from '@/Pages/Dashboard/Team/Partials/RecentShips';
-import UpcomingNewHires from '@/Pages/Dashboard/Team/Partials/UpcomingNewHires';
-import UpcomingHiringDateAnniversaries from '@/Pages/Dashboard/Team/Partials/UpcomingHiringDateAnniversaries';
-import Layout from '@/Shared/Layout';
-import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
+import Worklogs from '@/Pages/Dashboard/Team/Partials/Worklogs.vue';
+import Birthdays from '@/Pages/Dashboard/Team/Partials/Birthdays.vue';
+import WorkFromHome from '@/Pages/Dashboard/Team/Partials/WorkFromHome.vue';
+import RecentShips from '@/Pages/Dashboard/Team/Partials/RecentShips.vue';
+import UpcomingNewHires from '@/Pages/Dashboard/Team/Partials/UpcomingNewHires.vue';
+import UpcomingHiringDateAnniversaries from '@/Pages/Dashboard/Team/Partials/UpcomingHiringDateAnniversaries.vue';
+import Layout from '@/Shared/Layout.vue';
+import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu.vue';
 
 export default {
   components: {

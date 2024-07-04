@@ -37,7 +37,7 @@
               <avatar :avatar="ecoffee.with_employee.avatar" :size="35" :class="'br-100 absolute avatar'" />
 
               <span class="employee-name db">
-                <inertia-link :href="ecoffee.with_employee.url" class="mb2">{{ ecoffee.with_employee.name }}</inertia-link>
+                <Link :href="ecoffee.with_employee.url" class="mb2">{{ ecoffee.with_employee.name }}</Link>
               </span>
               <span v-if="ecoffee.with_employee.position" class="position f7 mt1">{{ ecoffee.with_employee.position }}</span>
             </div>
@@ -53,10 +53,10 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Avatar from '@/Shared/Avatar';
-import Help from '@/Shared/Help';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Avatar from '@/Shared/Avatar.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

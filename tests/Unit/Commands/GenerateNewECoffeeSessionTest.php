@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Commands;
 
-use Tests\TestCase;
-use App\Models\Company\Company;
 use App\Jobs\CreateNewECoffeeSession;
-use Illuminate\Support\Facades\Queue;
+use App\Models\Company\Company;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Queue;
+use Tests\TestCase;
 
 class GenerateNewECoffeeSessionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_starts_the_generate_new_e_coffee_sessions(): void
     {

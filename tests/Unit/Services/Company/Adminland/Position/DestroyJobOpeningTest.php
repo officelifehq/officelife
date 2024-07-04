@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Position;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\JobOpening;
+use App\Services\Company\Adminland\JobOpening\DestroyJobOpening;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\JobOpening\DestroyJobOpening;
+use Tests\TestCase;
 
 class DestroyJobOpeningTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_a_job_opening_as_administrator(): void
     {

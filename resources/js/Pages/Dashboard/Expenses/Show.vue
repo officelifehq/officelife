@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import ExpenseStatus from '@/Shared/ExpenseStatus';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import ExpenseStatus from '@/Shared/ExpenseStatus.vue';
 
 export default {
   components: {

@@ -1,4 +1,5 @@
 <?php
+
 return [
     'menu_other_member' => '+ {count} others',
     'project_title_lead' => 'Project lead',

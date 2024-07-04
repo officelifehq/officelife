@@ -2,23 +2,20 @@
 
 namespace Tests\Unit\Services\Company\Group;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Group;
-use App\Models\Company\Company;
-use App\Models\Company\Meeting;
-use App\Models\Company\Employee;
 use App\Models\Company\AgendaItem;
+use App\Models\Company\Company;
+use App\Models\Company\Employee;
+use App\Models\Company\Group;
+use App\Models\Company\Meeting;
+use App\Services\Company\Group\CreateAgendaItem;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Group\CreateAgendaItem;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class CreateAgendaItemTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_an_agenda_item_as_administrator(): void
     {
@@ -131,7 +128,7 @@ class CreateAgendaItemTest extends TestCase
         $this->executeService($michael, $michael->company, $group, $meeting, $dwight);
     }
 
-    private function executeService(Employee $michael, Company $company, Group $group, Meeting $meeting, Employee $presenter = null): void
+    private function executeService(Employee $michael, Company $company, Group $group, Meeting $meeting, ?Employee $presenter = null): void
     {
         Queue::fake();
 

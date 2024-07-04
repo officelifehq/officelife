@@ -2,29 +2,26 @@
 
 namespace App\Http\Controllers\Company\Team;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use App\Models\Company\Team;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\PaginatorHelper;
-use App\Models\Company\TeamNews;
-use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
 use App\Http\Collections\TeamNewsCollection;
+use App\Http\Controllers\Controller;
+use App\Models\Company\Team;
+use App\Models\Company\TeamNews;
 use App\Services\Company\Team\TeamNews\CreateTeamNews;
-use App\Services\Company\Team\TeamNews\UpdateTeamNews;
 use App\Services\Company\Team\TeamNews\DestroyTeamNews;
+use App\Services\Company\Team\TeamNews\UpdateTeamNews;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class TeamNewsController extends Controller
 {
     /**
      * Show the Team News page.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
      * @return mixed
      */
     public function index(Request $request, int $companyId, int $teamId)
@@ -55,9 +52,6 @@ class TeamNewsController extends Controller
     /**
      * Show the Post team news form.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
      * @return mixed
      */
     public function create(Request $request, int $companyId, int $teamId)
@@ -79,11 +73,6 @@ class TeamNewsController extends Controller
 
     /**
      * Show the Post team news form.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $teamId): JsonResponse
     {
@@ -106,12 +95,6 @@ class TeamNewsController extends Controller
 
     /**
      * Show the Edit team news form.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $newsId
-     * @return Response
      */
     public function edit(Request $request, int $companyId, int $teamId, int $newsId): Response
     {
@@ -129,12 +112,6 @@ class TeamNewsController extends Controller
 
     /**
      * Update the company news.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $newsId
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $teamId, int $newsId): JsonResponse
     {
@@ -157,12 +134,6 @@ class TeamNewsController extends Controller
 
     /**
      * Delete the team news.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $newsId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $teamId, int $newsId): JsonResponse
     {

@@ -2,13 +2,13 @@
 
 namespace App\Services\Company\Employee\OneOnOne;
 
-use Carbon\Carbon;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\OneOnOneTalkingPoint;
-use App\Exceptions\NotEnoughPermissionException;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateOneOnOneTalkingPoint extends BaseService
 {
@@ -20,8 +20,6 @@ class CreateOneOnOneTalkingPoint extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,9 +33,6 @@ class CreateOneOnOneTalkingPoint extends BaseService
 
     /**
      * Create a one on one talking point for a one on one meeting.
-     *
-     * @param array $data
-     * @return OneOnOneTalkingPoint
      */
     public function execute(array $data): OneOnOneTalkingPoint
     {

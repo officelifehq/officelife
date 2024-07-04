@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Employee\OneOnOne;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
-use App\Models\Company\OneOnOneEntry;
-use Illuminate\Support\Facades\Queue;
 use App\Models\Company\OneOnOneActionItem;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\OneOnOneEntry;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateOneOnOneActionItemTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_action_item_as_administrator(): void
     {

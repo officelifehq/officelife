@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
-use Inertia\Inertia;
-use Inertia\Response;
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class EmployeeController extends Controller
 {
     /**
      * Display the list of employees.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return Response
      */
     public function index(Request $request, int $companyId): Response
     {

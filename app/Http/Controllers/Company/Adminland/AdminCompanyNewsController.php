@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
+use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
+use App\Http\Collections\CompanyNewsCollection;
+use App\Http\Controllers\Controller;
+use App\Models\Company\CompanyNews;
+use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
+use App\Services\Company\Adminland\CompanyNews\DestroyCompanyNews;
+use App\Services\Company\Adminland\CompanyNews\UpdateCompanyNews;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Http\Request;
-use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
-use App\Helpers\NotificationHelper;
-use App\Models\Company\CompanyNews;
-use App\Http\Controllers\Controller;
-use App\Http\Collections\CompanyNewsCollection;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
-use App\Services\Company\Adminland\CompanyNews\UpdateCompanyNews;
-use App\Services\Company\Adminland\CompanyNews\DestroyCompanyNews;
 
 class AdminCompanyNewsController extends Controller
 {
     /**
      * Show the list of company news.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -38,8 +36,6 @@ class AdminCompanyNewsController extends Controller
 
     /**
      * Show the Create news view.
-     *
-     * @return Response
      */
     public function create(): Response
     {
@@ -50,10 +46,6 @@ class AdminCompanyNewsController extends Controller
 
     /**
      * Create the company news.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {
@@ -77,9 +69,6 @@ class AdminCompanyNewsController extends Controller
     /**
      * Show the company news edit page.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $newsId
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
@@ -100,11 +89,6 @@ class AdminCompanyNewsController extends Controller
 
     /**
      * Update the company news.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $newsId
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $newsId): JsonResponse
     {
@@ -128,11 +112,6 @@ class AdminCompanyNewsController extends Controller
 
     /**
      * Delete the company news.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $companyNewsId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $companyNewsId): JsonResponse
     {

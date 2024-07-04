@@ -3,8 +3,8 @@
 namespace App\Http\ViewHelpers\Dashboard\Manager;
 
 use App\Helpers\DateHelper;
-use App\Helpers\TimeHelper;
 use App\Helpers\ImageHelper;
+use App\Helpers\TimeHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
 use Illuminate\Support\Collection;
@@ -14,10 +14,6 @@ class DashboardManagerTimesheetViewHelper
 {
     /**
      * Get the information about timesheets that need approval.
-     *
-     * @param Employee $manager
-     * @param Collection $directReports
-     * @return Collection|null
      */
     public static function timesheetApprovals(Employee $manager, Collection $directReports): ?Collection
     {
@@ -35,7 +31,7 @@ class DashboardManagerTimesheetViewHelper
             $timesheetCollection = collect([]);
             foreach ($pendingTimesheets as $timesheet) {
                 $totalWorkedInMinutes = DB::table('time_tracking_entries')
-                ->where('timesheet_id', $timesheet->id)
+                    ->where('timesheet_id', $timesheet->id)
                     ->sum('duration');
 
                 $arrayOfTime = TimeHelper::convertToHoursAndMinutes($totalWorkedInMinutes);

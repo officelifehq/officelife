@@ -4,26 +4,19 @@ namespace App\Http\Controllers\Company\Company\Project;
 
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
-use App\Helpers\StringHelper;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
+use App\Helpers\StringHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Project\CreateProjectMessageComment;
-use App\Services\Company\Project\UpdateProjectMessageComment;
 use App\Services\Company\Project\DestroyProjectMessageComment;
+use App\Services\Company\Project\UpdateProjectMessageComment;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ProjectMessagesCommentController extends Controller
 {
     /**
      * Create the message's comment.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $projectMessageId
-     *
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $projectId, int $projectMessageId): JsonResponse
     {
@@ -63,14 +56,6 @@ class ProjectMessagesCommentController extends Controller
 
     /**
      * Edit a comment.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $projectMessageId
-     * @param int $commentId
-     *
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $projectId, int $projectMessageId, int $commentId): JsonResponse
     {
@@ -111,14 +96,6 @@ class ProjectMessagesCommentController extends Controller
 
     /**
      * Destroy the message.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $projectMessageId
-     * @param int $commentId
-     *
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $projectId, int $projectMessageId, int $commentId): JsonResponse
     {

@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Adminland\AdminEmployeeStatusViewHelper;
 use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
-use App\Services\Company\Adminland\EmployeeStatus\UpdateEmployeeStatus;
 use App\Services\Company\Adminland\EmployeeStatus\DestroyEmployeeStatus;
+use App\Services\Company\Adminland\EmployeeStatus\UpdateEmployeeStatus;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminEmployeeStatusController extends Controller
 {
     /**
      * Show the list of employee statuses.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -35,10 +33,6 @@ class AdminEmployeeStatusController extends Controller
 
     /**
      * Create the employee status.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {
@@ -61,10 +55,7 @@ class AdminEmployeeStatusController extends Controller
     /**
      * Update the employee status.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeStatusId
-     * @return JsonResponse
+     * @param  int  $companyId
      */
     public function update(Request $request, $companyId, int $employeeStatusId): JsonResponse
     {
@@ -87,11 +78,6 @@ class AdminEmployeeStatusController extends Controller
 
     /**
      * Delete the employee status.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeStatusId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $employeeStatusId): JsonResponse
     {

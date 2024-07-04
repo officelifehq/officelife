@@ -2,12 +2,12 @@
 
 namespace App\Services\Company\Employee\Skill;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Skill;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Models\Company\Skill;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class RemoveSkillFromEmployee extends BaseService
 {
@@ -19,8 +19,6 @@ class RemoveSkillFromEmployee extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -34,8 +32,6 @@ class RemoveSkillFromEmployee extends BaseService
 
     /**
      * Detach a skill from an employee.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

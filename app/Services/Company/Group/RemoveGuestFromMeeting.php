@@ -2,25 +2,26 @@
 
 namespace App\Services\Company\Group;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Group;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Meeting;
 use App\Models\Company\Employee;
+use App\Models\Company\Group;
+use App\Models\Company\Meeting;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class RemoveGuestFromMeeting extends BaseService
 {
     private array $data;
+
     private Employee $employee;
+
     private Group $group;
+
     private Meeting $meeting;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,8 +36,6 @@ class RemoveGuestFromMeeting extends BaseService
 
     /**
      * Remove an employee as guest from a meeting.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

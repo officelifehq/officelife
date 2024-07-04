@@ -4,19 +4,15 @@ namespace App\Http\ViewHelpers\Employee;
 
 use App\Helpers\DateHelper;
 use App\Helpers\MoneyHelper;
-use App\Models\Company\Expense;
 use App\Models\Company\Employee;
-use Illuminate\Support\Collection;
+use App\Models\Company\Expense;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Collection;
 
 class EmployeeExpenseViewHelper
 {
     /**
      * Array containing the main statistics about the expenses of this employee.
-     *
-     * @param Employee $employee
-     * @param EloquentCollection $expenses
-     * @return array
      */
     public static function stats(Employee $employee, EloquentCollection $expenses): array
     {

@@ -2,23 +2,23 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
-use App\Models\Company\ProjectSprint;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\ProjectSprint;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyProjectSprint extends BaseService
 {
     protected array $data;
+
     protected ProjectSprint $projectSprint;
+
     protected Project $project;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -32,8 +32,6 @@ class DestroyProjectSprint extends BaseService
 
     /**
      * Destroy a project sprint.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

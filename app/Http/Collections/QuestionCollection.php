@@ -9,9 +9,7 @@ class QuestionCollection
     /**
      * Prepare a collection of questions.
      *
-     * @param mixed $questions
-     *
-     * @return Collection
+     * @param  mixed  $questions
      */
     public static function prepare($questions): Collection
     {

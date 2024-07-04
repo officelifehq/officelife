@@ -26,7 +26,7 @@
     <div class="cf mw7 center br3 mb3 bg-white box relative">
       <!-- BLANK STATE -->
       <div v-if="timesheetsStats.employees.length == 0" data-cy="expense-list-blank-state">
-        <img loading="lazy" class="db center mb4 mt3" alt="no timesheets to validate" src="/img/streamline-icon-employee-checklist-6@140x140.png" height="80"
+        <img loading="lazy" class="db center mb4 mt3" alt="no timesheets to validate" :src="'/img/streamline-icon-employee-checklist-6@140x140.png'" height="80"
              width="80"
         />
 
@@ -37,7 +37,7 @@
       <div v-else class="flex justify-between items-center">
         <!-- stats -->
         <div>
-          <img loading="lazy" src="/img/streamline-icon-employee-checklist-6@140x140.png" width="90" alt="meeting" class="absolute-ns di-ns dn top-1 left-1" />
+          <img loading="lazy" :src="'/img/streamline-icon-employee-checklist-6@140x140.png'" width="90" alt="meeting" class="absolute-ns di-ns dn top-1 left-1" />
 
           <p class="pl6-ns pl3 pb3 pt4 pr3 ma0">
             {{ $tc('dashboard.manager_timesheet_summary_count', timesheetsStats.totalNumberOfTimesheetsToValidate, { count: timesheetsStats.totalNumberOfTimesheetsToValidate}) }}
@@ -52,15 +52,17 @@
         </div>
 
         <!-- CTA -->
-        <inertia-link :href="timesheetsStats.url_view_all" class="btn w-auto-ns w-100 mr2 pv2 ph3 mr3">{{ $t('app.view') }}</inertia-link>
+        <Link :href="timesheetsStats.url_view_all" class="btn w-auto-ns w-100 mr2 pv2 ph3 mr3">
+          {{ $t('app.view') }}
+        </Link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Help from '@/Shared/Help';
-import Avatar from '@/Shared/Avatar';
+import Help from '@/Shared/Help.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

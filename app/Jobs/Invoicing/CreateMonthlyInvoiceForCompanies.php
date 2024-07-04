@@ -2,15 +2,15 @@
 
 namespace App\Jobs\Invoicing;
 
+use App\Models\Company\Company;
+use App\Models\Company\CompanyDailyUsageHistory;
+use App\Models\Company\CompanyInvoice;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use App\Models\Company\Company;
-use App\Models\Company\CompanyInvoice;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Models\Company\CompanyDailyUsageHistory;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class CreateMonthlyInvoiceForCompanies implements ShouldQueue
 {

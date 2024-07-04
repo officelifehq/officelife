@@ -3,8 +3,8 @@
 namespace Database\Factories\Company;
 
 use App\Models\Company\Company;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

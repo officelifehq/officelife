@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\Wiki;
 use App\Models\Company\Company;
+use App\Models\Company\Wiki;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class WikiFactory extends Factory

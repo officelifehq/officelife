@@ -2,19 +2,17 @@
 
 namespace Tests\Unit\Helpers;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\WorklogHelper;
+use App\Models\Company\Employee;
 use App\Models\Company\Morale;
 use App\Models\Company\Worklog;
-use App\Models\Company\Employee;
+use Carbon\Carbon;
 use GrahamCampbell\TestBenchCore\HelperTrait;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class WorklogHelperTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_the_content_of_the_worklog_for_a_given_employee_and_a_given_day(): void

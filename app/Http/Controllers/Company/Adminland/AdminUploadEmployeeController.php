@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\ImportJob;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Adminland\File\UploadFile;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Adminland\AdminUploadEmployeeViewHelper;
+use App\Models\Company\ImportJob;
 use App\Services\Company\Adminland\Employee\ImportEmployeesFromTemporaryTable;
 use App\Services\Company\Adminland\Employee\StoreEmployeesFromCSVInTemporaryTable;
+use App\Services\Company\Adminland\File\UploadFile;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminUploadEmployeeController extends Controller
 {
     /**
      * Show the list of past import employees by csv.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -38,8 +36,6 @@ class AdminUploadEmployeeController extends Controller
 
     /**
      * Show the Upload CSV of employees view.
-     *
-     * @return Response
      */
     public function upload(): Response
     {
@@ -51,10 +47,6 @@ class AdminUploadEmployeeController extends Controller
 
     /**
      * Upload the CSV.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {
@@ -89,10 +81,6 @@ class AdminUploadEmployeeController extends Controller
 
     /**
      * Show an import job.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $jobId
      */
     public function show(Request $request, int $companyId, int $jobId)
     {
@@ -116,11 +104,6 @@ class AdminUploadEmployeeController extends Controller
 
     /**
      * Import employees to the system.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $jobId
-     * @return JsonResponse
      */
     public function import(Request $request, int $companyId, int $jobId): JsonResponse
     {

@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\Services\Company\GuessEmployeeGame;
 
-use Tests\TestCase;
-use OutOfRangeException;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
 use App\Models\Company\GuessEmployeeGame;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\GuessEmployeeGame\CreateGuessEmployeeGame;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use OutOfRangeException;
+use Tests\TestCase;
 
 class CreateGuessEmployeeGameTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_game_as_administrator(): void
     {

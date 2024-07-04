@@ -2,25 +2,25 @@
 
 namespace App\Services\Company\Adminland\Company;
 
-use Carbon\Carbon;
-use App\Models\User\User;
-use Illuminate\Support\Str;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
+use App\Jobs\ProvisionDefaultAccountData;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Jobs\ProvisionDefaultAccountData;
+use App\Models\User\User;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class CreateCompany extends BaseService
 {
     private array $data;
+
     private Company $company;
+
     private Employee $employee;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -32,10 +32,6 @@ class CreateCompany extends BaseService
 
     /**
      * Create a company.
-     *
-     * @param array $data
-     *
-     * @return Company
      */
     public function execute(array $data): Company
     {

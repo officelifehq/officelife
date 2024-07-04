@@ -3,23 +3,19 @@
 namespace App\Http\Controllers\Company\Company\Project\ProjectIssue;
 
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Project;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Company\Project\ProjectIssuesViewHelper;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectIssue;
 use App\Services\Company\Project\AssignAssigneeToProjectIssue;
 use App\Services\Company\Project\RemoveAssigneeFromProjectIssue;
-use App\Http\ViewHelpers\Company\Project\ProjectIssuesViewHelper;
+use Illuminate\Http\Request;
 
 class ProjectIssueAssigneesController extends Controller
 {
     /**
      * Get the list of members in the project.
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $projectId
      */
     public function index(Request $request, int $companyId, int $projectId)
     {
@@ -35,12 +31,6 @@ class ProjectIssueAssigneesController extends Controller
 
     /**
      * Save the assignee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $boardId
-     * @param int $issueId
      */
     public function store(Request $request, int $companyId, int $projectId, int $boardId, int $issueId)
     {
@@ -83,13 +73,6 @@ class ProjectIssueAssigneesController extends Controller
 
     /**
      * Remove the assignee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $boardId
-     * @param int $issueId
-     * @param int $assigneeId
      */
     public function destroy(Request $request, int $companyId, int $projectId, int $boardId, int $issueId, int $assigneeId)
     {

@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Jobs;
 
-use Tests\TestCase;
-use App\Models\Company\Expense;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\Manager\AssignManager;
 use App\Jobs\CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges;
+use App\Models\Company\Expense;
+use App\Services\Company\Employee\Manager\AssignManager;
+use Tests\TestCase;
 
 class CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChangesTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_moves_all_expenses_for_employees_with_no_managers(): void
     {

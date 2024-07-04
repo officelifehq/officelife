@@ -2,20 +2,18 @@
 
 namespace App\Services\Company\Employee\Manager;
 
-use Carbon\Carbon;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Employee;
-use App\Models\Company\DirectReport;
 use App\Jobs\CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges;
+use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
+use App\Models\Company\DirectReport;
+use App\Models\Company\Employee;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class UnassignManager extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,10 +27,6 @@ class UnassignManager extends BaseService
 
     /**
      * Remove a manager for the given employee.
-     *
-     * @param array $data
-     *
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

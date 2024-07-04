@@ -6,10 +6,10 @@
 </style>
 
 <template>
-  <inertia-link :href="'/'">
+  <Link :href="'/'">
     <img loading="lazy" class="logo absolute left-0 right-0 mr-auto ml-auto"
          alt="officelife logo"
-         srcset="/img/logo.png 1x, /img/logo-2x.png 2x"
+         :srcset="'/img/logo.png 1x, /img/logo-2x.png 2x'"
     />
-  </inertia-link>
+  </Link>
 </template>

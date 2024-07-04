@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Adminland\AdminWorkFromHomeViewHelper;
 use App\Services\Company\Adminland\WorkFromHome\ToggleWorkFromHomeProcess;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminWorkFromHomeController extends Controller
 {
     /**
      * Show the work from home page.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -33,10 +31,6 @@ class AdminWorkFromHomeController extends Controller
 
     /**
      * Toggle the work from home setting in the company.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId): JsonResponse
     {

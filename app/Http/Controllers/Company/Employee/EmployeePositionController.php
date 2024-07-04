@@ -3,23 +3,18 @@
 namespace App\Http\Controllers\Company\Employee;
 
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\Company\Employee;
 use App\Services\Company\Employee\Position\AssignPositionToEmployee;
 use App\Services\Company\Employee\Position\RemovePositionFromEmployee;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class EmployeePositionController extends Controller
 {
     /**
      * Assign a position to the given employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -46,11 +41,6 @@ class EmployeePositionController extends Controller
 
     /**
      * Remove the position for the given employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $employeeId): JsonResponse
     {

@@ -9,8 +9,6 @@ class ApiTestCase extends TestCase
 {
     /**
      * Create a user and sign in as that user.
-     *
-     * @return User
      */
     public function signIn(User $user): User
     {
@@ -22,8 +20,6 @@ class ApiTestCase extends TestCase
 
     /**
      * Test that the response contains a not found notification.
-     *
-     * @param TestResponse $response
      */
     public function expectNotFound(TestResponse $response): void
     {
@@ -40,8 +36,7 @@ class ApiTestCase extends TestCase
     /**
      * Test that the response contains a data error notification.
      *
-     * @param TestResponse $response
-     * @param array|string $message
+     * @param  array|string  $message
      */
     public function expectDataError(TestResponse $response, $message = ''): void
     {
@@ -58,8 +53,7 @@ class ApiTestCase extends TestCase
     /**
      * Test that the response contains a non authorized response.
      *
-     * @param TestResponse $response
-     * @param array|string $message
+     * @param  array|string  $message
      */
     public function expectNotAuthorized(TestResponse $response, $message = ''): void
     {

@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Company;
 
-use Tests\TestCase;
-use App\Models\User\User;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
+use App\Models\User\User;
+use App\Services\Company\Adminland\Company\AddUserToCompany;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Company\AddUserToCompany;
+use Tests\TestCase;
 
 class AddUserToCompanyTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_adds_a_user_to_a_company_as_administrator(): void
     {

@@ -2,14 +2,14 @@
 
 namespace App\Services\Company\Group;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Group;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
-use App\Services\QueuableService;
+use App\Models\Company\Group;
+use App\Services\BaseService;
 use App\Services\DispatchableService;
+use App\Services\QueuableService;
+use Carbon\Carbon;
 
 class AddEmployeeToGroup extends BaseService implements QueuableService
 {
@@ -23,8 +23,6 @@ class AddEmployeeToGroup extends BaseService implements QueuableService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -50,8 +48,6 @@ class AddEmployeeToGroup extends BaseService implements QueuableService
 
     /**
      * Add an employee to a group.
-     *
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

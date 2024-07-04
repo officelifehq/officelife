@@ -2,9 +2,9 @@
 
 namespace App\Models\Company;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Keeps track of what happened during a day.
@@ -41,8 +41,8 @@ class EmployeeDailyCalendarEntry extends Model
      *
      * @var array
      */
-    protected $dates = [
-        'log_date',
+    protected $casts = [
+        'log_date' => 'datetime',
     ];
 
     /**

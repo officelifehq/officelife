@@ -2,19 +2,16 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
-use Tests\TestCase;
-use App\Models\Company\File;
-use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
+use App\Models\Company\Employee;
+use App\Models\Company\File;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class DestroyCandidateFileDuringApplicationProcessTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_removes_a_file_from_a_candidate(): void
     {

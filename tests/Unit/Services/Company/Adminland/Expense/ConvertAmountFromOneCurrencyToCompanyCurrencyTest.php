@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Expense;
 
-use Carbon\Carbon;
-use Tests\TestCase;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Log\Events\MessageLogged;
 use App\Exceptions\WrongCurrencyLayerApiKeyException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Expense\ConvertAmountFromOneCurrencyToCompanyCurrency;
+use Carbon\Carbon;
+use Illuminate\Log\Events\MessageLogged;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Tests\TestCase;
 
 class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_converts_an_amount_from_eur_to_cad_and_store_rate_in_cache(): void
     {

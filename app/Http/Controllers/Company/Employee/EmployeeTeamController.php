@@ -2,26 +2,21 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Employee\Team;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
+use App\Models\Company\Employee;
+use App\Services\Company\Employee\Team;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Employee\Team\RemoveEmployeeFromTeam;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class EmployeeTeamController extends Controller
 {
     /**
      * Return the list of teams in the company.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function index(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -39,9 +34,6 @@ class EmployeeTeamController extends Controller
     /**
      * Assign a team to the given employee.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return Collection
      */
     public function store(Request $request, int $companyId, int $employeeId)
@@ -64,10 +56,6 @@ class EmployeeTeamController extends Controller
     /**
      * Remove the team for the given employee.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param int $teamId
      * @return Collection
      */
     public function destroy(Request $request, int $companyId, int $employeeId, int $teamId)

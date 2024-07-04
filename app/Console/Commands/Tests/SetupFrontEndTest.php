@@ -3,8 +3,8 @@
 namespace App\Console\Commands\Tests;
 
 use App\Models\User\User;
-use Illuminate\Console\Command;
 use App\Services\User\CreateAccount;
+use Illuminate\Console\Command;
 
 class SetupFrontEndTest extends Command
 {

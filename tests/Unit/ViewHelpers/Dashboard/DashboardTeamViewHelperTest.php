@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Dashboard\DashboardTeamViewHelper;
+use App\Models\Company\Employee;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use App\Models\Company\Worklog;
-use App\Models\Company\Employee;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Dashboard\DashboardTeamViewHelper;
 use App\Services\Company\Employee\WorkFromHome\UpdateWorkFromHomeInformation;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class DashboardTeamViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_birthdates(): void
     {

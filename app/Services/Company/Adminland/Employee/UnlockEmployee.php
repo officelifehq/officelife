@@ -2,18 +2,16 @@
 
 namespace App\Services\Company\Adminland\Employee;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class UnlockEmployee extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -26,8 +24,6 @@ class UnlockEmployee extends BaseService
 
     /**
      * Unlock an employee's account.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

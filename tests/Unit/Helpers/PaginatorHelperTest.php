@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Helpers;
 
-use Tests\TestCase;
-use App\Models\Company\Company;
 use App\Helpers\PaginatorHelper;
+use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class PaginatorHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_returns_an_array_containing_everything_needed_for_a_pagination()
     {

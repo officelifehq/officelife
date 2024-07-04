@@ -2,16 +2,14 @@
 
 namespace App\Services\Company\Employee\DisciplineCase;
 
-use App\Services\BaseService;
 use App\Models\Company\DisciplineCase;
 use App\Models\Company\DisciplineEvent;
+use App\Services\BaseService;
 
 class DestroyDisciplineEvent extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -25,9 +23,6 @@ class DestroyDisciplineEvent extends BaseService
 
     /**
      * Destroy a discipline event.
-     *
-     * @param array $data
-     * @return bool
      */
     public function execute(array $data): bool
     {

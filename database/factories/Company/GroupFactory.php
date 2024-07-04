@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\Group;
 use App\Models\Company\Company;
+use App\Models\Company\Group;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GroupFactory extends Factory

@@ -58,10 +58,10 @@
 
           <!-- information to display when timesheet was approved or rejected -->
           <div v-if="timesheet.status == 'approved' || timesheet.status == 'rejected'" :class="'relative pa3 mb3 br3 flex items-center justify-around ' + timesheet.status">
-            <img v-if="timesheet.status == 'rejected'" src="/img/streamline-icon-stamp@140x140.png" alt="rejected" height="80" width="80"
+            <img v-if="timesheet.status == 'rejected'" :src="'/img/streamline-icon-stamp@140x140.png'" alt="rejected" height="80" width="80"
                  class="absolute stamp bg-white br-100 ba b--gray"
             />
-            <img v-else src="/img/streamline-icon-approve-document@140x140.png" alt="approved" height="80" width="80"
+            <img v-else ;src="'/img/streamline-icon-approve-document@140x140.png'" alt="approved" height="80" width="80"
                  class="absolute stamp bg-white br-100 ba b--gray"
             />
 
@@ -70,7 +70,9 @@
               <p v-if="timesheet.status == 'approved'" class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_approved_by') }}</p>
               <p v-else class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_rejected_by') }}</p>
 
-              <inertia-link v-if="hasID" :href="approverInformation.url" class="ma0">{{ approverInformation.name }}</inertia-link>
+              <Link v-if="hasID" :href="approverInformation.url" class="ma0">
+                {{ approverInformation.name }}
+              </Link>
               <p v-else class="ma0">{{ approverInformation.name }}</p>
             </div>
 
@@ -84,7 +86,7 @@
 
           <!-- information to display when timesheet is not yet approved or  -->
           <div v-if="timesheet.status == 'open' || timesheet.status == 'ready_to_submit'" :class="'relative pa3 mb3 br3 flex items-center ' + timesheet.status">
-            <img src="/img/streamline-icon-employee-planner-3@140x140.png" alt="stamp" height="80" width="80"
+            <img :src="'/img/streamline-icon-employee-planner-3@140x140.png'" alt="stamp" height="80" width="80"
                  class="relative stamp bg-white br-100 ba b--gray" style="top: 0;"
             />
 
@@ -108,9 +110,9 @@
                   <span class="db pb1 fw5 lh-copy">
                     {{ row.task_title }}
                   </span>
-                  <inertia-link :href="row.project_url" class="dib">
+                  <Link :href="row.project_url" class="dib">
                     {{ row.project_name }}
-                  </inertia-link>
+                  </Link>
                 </div>
                 <span class="f7 fw5">
                   {{ formatTime(row.total_this_week) }}
@@ -151,10 +153,10 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Help from '@/Shared/Help';
-import TimesheetHeader from '@/Pages/Dashboard/Timesheet/Partials/TimesheetHeader';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Help from '@/Shared/Help.vue';
+import TimesheetHeader from '@/Pages/Dashboard/Timesheet/Partials/TimesheetHeader.vue';
 
 export default {
   components: {

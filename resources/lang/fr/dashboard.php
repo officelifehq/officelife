@@ -1,4 +1,5 @@
 <?php
+
 return [
     'tab_me' => 'Vous',
     'tab_my_team' => 'Votre équipe',

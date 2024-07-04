@@ -2,17 +2,15 @@
 
 namespace App\Services\Company\Adminland\Position;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Position;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyPosition extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -25,10 +23,6 @@ class DestroyPosition extends BaseService
 
     /**
      * Destroy a position.
-     *
-     * @param array $data
-     *
-     * @return bool
      */
     public function execute(array $data): bool
     {

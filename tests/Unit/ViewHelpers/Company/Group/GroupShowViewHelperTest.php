@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Group;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Company\Group\GroupShowViewHelper;
 use App\Models\Company\Group;
 use App\Models\Company\Meeting;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Group\GroupShowViewHelper;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class GroupShowViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_information_about_the_group(): void
     {

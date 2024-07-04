@@ -10,10 +10,6 @@ class HeaderSearchViewHelper
 {
     /**
      * Get all the employees matching a given criteria.
-     *
-     * @param Company $company
-     * @param string|null $criteria
-     * @return Collection
      */
     public static function employees(Company $company, ?string $criteria): Collection
     {
@@ -44,10 +40,6 @@ class HeaderSearchViewHelper
 
     /**
      * Get all the teams matching a given criteria.
-     *
-     * @param Company $company
-     * @param string|null $criteria
-     * @return Collection
      */
     public static function teams(Company $company, ?string $criteria): Collection
     {

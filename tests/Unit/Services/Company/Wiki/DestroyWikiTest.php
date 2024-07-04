@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Wiki;
 
-use Tests\TestCase;
-use App\Models\Company\Wiki;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
+use App\Models\Company\Wiki;
 use App\Services\Company\Wiki\DestroyWiki;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class DestroyWikiTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_deletes_a_wiki_as_administrator(): void
     {

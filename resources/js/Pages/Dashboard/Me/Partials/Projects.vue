@@ -34,7 +34,9 @@
       <div v-for="project in projects" :key="project.id" class="project-list pa3 bb bb-gray flex justify-between items-center">
         <!-- project name -->
         <div class="flex items-center">
-          <inertia-link :href="project.url">{{ project.name }}</inertia-link>
+          <Link :href="project.url">
+            {{ project.name }}
+          </Link>
           <span v-if="project.code" class="ml2 ttu f7 project-code code br3 pv1 ph2 relative fw4">
             {{ project.code }}
           </span>
@@ -55,8 +57,8 @@
 </template>
 
 <script>
-import Avatar from '@/Shared/Avatar';
-import Help from '@/Shared/Help';
+import Avatar from '@/Shared/Avatar.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

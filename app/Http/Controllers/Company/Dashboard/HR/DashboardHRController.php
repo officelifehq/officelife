@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Company\Dashboard\HR;
 
-use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Jobs\UpdateDashboardPreference;
-use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
 use App\Http\ViewHelpers\Dashboard\DashboardHRViewHelper;
+use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
+use App\Jobs\UpdateDashboardPreference;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DashboardHRController extends Controller
 {

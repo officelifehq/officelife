@@ -2,17 +2,15 @@
 
 namespace App\Services\Logs;
 
-use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeLog;
+use App\Services\BaseService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LogEmployeeAction extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -30,10 +28,6 @@ class LogEmployeeAction extends BaseService
     /**
      * Log an action that happened to the employee.
      * This also creates an audit log.
-     *
-     * @param array $data
-     *
-     * @return EmployeeLog
      */
     public function execute(array $data): EmployeeLog
     {

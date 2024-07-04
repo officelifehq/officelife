@@ -4,17 +4,13 @@ namespace App\Http\ViewHelpers\Adminland;
 
 use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Collection;
 
 class AdminEmployeeViewHelper
 {
     /**
      * Get all the statistics about the employees.
-     *
-     * @param EloquentCollection $employees
-     * @param Company $company
-     * @return array
      */
     public static function index(EloquentCollection $employees, Company $company): array
     {

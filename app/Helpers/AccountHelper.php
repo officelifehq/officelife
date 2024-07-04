@@ -4,7 +4,7 @@ if (! function_exists('tenant')) {
     /**
      * Gets the URL prefixed by the account number.
      *
-     * @param string $route
+     * @param  string  $route
      * @return string
      */
     function tenant($route)

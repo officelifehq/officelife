@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers\Company\Company;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Company;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Company\CompanyViewHelper;
+use App\Models\Company\Company;
 use App\Services\Company\GuessEmployeeGame\VoteGuessEmployeeGame;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class CompanyController extends Controller
 {
     /**
      * All the information about the company, for public use.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -56,8 +54,6 @@ class CompanyController extends Controller
 
     /**
      * Record the vote made on a Guess Employee Game.
-     *
-     * @return JsonResponse
      */
     public function vote(Request $request, int $companyId): JsonResponse
     {
@@ -81,11 +77,6 @@ class CompanyController extends Controller
 
     /**
      * Create a new Guess Employee Game entry.
-     *
-     * @param Request $request
-     * @param int $companyId
-     *
-     * @return JsonResponse
      */
     public function replay(Request $request, int $companyId): JsonResponse
     {

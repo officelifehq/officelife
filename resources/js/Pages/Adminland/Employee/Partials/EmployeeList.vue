@@ -60,22 +60,22 @@
           <!-- actions -->
           <ul class="f6 list pl0">
             <li class="di pr3">
-              <inertia-link :href="currentEmployee.url_view" data-cy="employee-view">{{ $t('account.employees_view_profile') }}</inertia-link>
+              <Link :href="currentEmployee.url_view" data-cy="employee-view">{{ $t('account.employees_view_profile') }}</Link>
             </li>
             <li v-if="currentEmployee.id != $page.props.auth.employee.id && !currentEmployee.has_user_account" class="di pr3">
-              <inertia-link :href="currentEmployee.url_invite" data-cy="employee-email">{{ $t('account.employees_invite_user') }}</inertia-link>
+              <Link :href="currentEmployee.url_invite" data-cy="employee-email">{{ $t('account.employees_invite_user') }}</Link>
             </li>
             <li v-if="currentEmployee.id != $page.props.auth.employee.id" class="di pr3">
-              <inertia-link :href="currentEmployee.url_permission">{{ $t('account.employees_change_permission') }}</inertia-link>
+              <Link :href="currentEmployee.url_permission">{{ $t('account.employees_change_permission') }}</Link>
             </li>
             <li v-if="currentEmployee.id != $page.props.auth.employee.id && !currentEmployee.locked && !currentEmployee.invited" class="di pr3">
-              <inertia-link :href="currentEmployee.url_lock" :data-cy="'lock-account-' + currentEmployee.id">{{ $t('account.employees_lock_account') }}</inertia-link>
+              <Link :href="currentEmployee.url_lock" :data-cy="'lock-account-' + currentEmployee.id">{{ $t('account.employees_lock_account') }}</Link>
             </li>
             <li v-if="currentEmployee.id != $page.props.auth.employee.id && currentEmployee.locked" class="di pr3">
-              <inertia-link :href="currentEmployee.url_unlock" :data-cy="'unlock-account-' + currentEmployee.id">{{ $t('account.employees_unlock_account') }}</inertia-link>
+              <Link :href="currentEmployee.url_unlock" :data-cy="'unlock-account-' + currentEmployee.id">{{ $t('account.employees_unlock_account') }}</Link>
             </li>
             <li v-if="currentEmployee.id != $page.props.auth.employee.id" class="di">
-              <inertia-link :href="currentEmployee.url_delete" class="c-delete" data-cy="delete-account">{{ $t('app.delete') }}</inertia-link>
+              <Link :href="currentEmployee.url_delete" class="c-delete" data-cy="delete-account">{{ $t('app.delete') }}</Link>
             </li>
           </ul>
         </div>
@@ -85,7 +85,8 @@
 </template>
 
 <script>
-import Avatar from '@/Shared/Avatar';
+import Avatar from '@/Shared/Avatar.vue';
+import _ from 'lodash';
 
 export default {
   components: {

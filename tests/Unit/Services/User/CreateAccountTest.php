@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Services\User;
 
-use Tests\TestCase;
 use App\Models\User\User;
 use App\Services\User\CreateAccount;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class CreateAccountTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_user(): void
     {

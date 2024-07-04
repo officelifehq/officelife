@@ -2,11 +2,11 @@
 
 namespace App\Services\Company\Employee\PersonalDetails;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class SetSlackHandle extends BaseService
 {

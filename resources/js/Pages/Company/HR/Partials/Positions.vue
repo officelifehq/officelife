@@ -50,9 +50,9 @@
           <span class="fw5">
             {{ position.title }}
           </span>
-          <inertia-link :href="position.url" class="gray f6">
+          <Link :href="position.url" class="gray f6">
             {{ $tc('company.hr_positions_stat', position.number_of_employees, {number: position.number_of_employees}) }} ({{ position.percent }}%)
-          </inertia-link>
+          </Link>
         </div>
       </div>
     </div>

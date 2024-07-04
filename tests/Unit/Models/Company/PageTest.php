@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Page;
-use App\Models\Company\Pageview;
 use App\Models\Company\PageRevision;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Pageview;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class PageTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_wiki(): void
     {
@@ -64,7 +61,7 @@ class PageTest extends TestCase
                 'id' => $revisionA->employee->id,
                 'avatar' => ImageHelper::getAvatar($revisionA->employee, 10),
                 'name' => $revisionA->employee->name,
-                'url' => env('APP_URL') . '/' . $revisionA->employee->company_id . '/employees/' . $revisionA->employee->id,
+                'url' => env('APP_URL').'/'.$revisionA->employee->company_id.'/employees/'.$revisionA->employee->id,
                 'created_at' => 'Nov 01, 2017',
             ],
             $page->getOriginalAuthor(10)
@@ -94,7 +91,7 @@ class PageTest extends TestCase
                 'id' => $revisionC->employee->id,
                 'avatar' => ImageHelper::getAvatar($revisionC->employee, 10),
                 'name' => $revisionC->employee->name,
-                'url' => env('APP_URL') . '/' . $revisionC->employee->company_id . '/employees/' . $revisionC->employee->id,
+                'url' => env('APP_URL').'/'.$revisionC->employee->company_id.'/employees/'.$revisionC->employee->id,
                 'created_at' => 'Jan 01, 2018',
             ],
             $page->getMostRecentAuthor(10)

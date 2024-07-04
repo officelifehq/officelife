@@ -51,20 +51,20 @@
 
       <p class="f6">
         {{ $t('auth.register_already_an_account') }}
-        <inertia-link :href="route('login')">{{ $t('auth.register_sign_in') }}</inertia-link>
+        <Link :href="route('login')">{{ $t('auth.register_sign_in') }}</Link>
       </p>
     </template>
   </authentication-card>
 </template>
 
 <script>
-import AuthenticationCard from '@/Shared/Layout/AuthenticationCard';
-import AuthenticationCardLogo from '@/Shared/Layout/AuthenticationCardLogo';
-import Checkbox from '@/Shared/Checkbox';
-import TextInput from '@/Shared/TextInput';
-import LoadingButton from '@/Shared/LoadingButton';
-import { useForm } from '@inertiajs/inertia-vue3';
-import Languages from './Partials/Languages';
+import AuthenticationCard from '@/Shared/Layout/AuthenticationCard.vue';
+import AuthenticationCardLogo from '@/Shared/Layout/AuthenticationCardLogo.vue';
+import Checkbox from '@/Shared/Checkbox.vue';
+import TextInput from '@/Shared/TextInput.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import { useForm } from '@inertiajs/vue3';
+import Languages from '@/Pages/Auth/Partials/Languages.vue';
 
 export default {
   components: {

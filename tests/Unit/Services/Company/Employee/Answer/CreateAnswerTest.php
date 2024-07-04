@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Employee\Answer;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
+use App\Services\Company\Employee\Answer\CreateAnswer;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use App\Services\Company\Employee\Answer\CreateAnswer;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class CreateAnswerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_an_answer_as_administrator(): void
     {

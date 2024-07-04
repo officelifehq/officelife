@@ -30,7 +30,7 @@
         <li v-for="group in groups" :key="group.id" class="w-100 pa3 mr3 flex justify-between items-center bb bb-gray groups-list">
           <div>
             <p class="ma0 lh-copy relative">
-              <inertia-link :href="group.url">{{ group.name }}</inertia-link>
+              <Link :href="group.url">{{ group.name }}</Link>
             </p>
             <div v-if="group.mission" class="mt2 lh-copy f6 parsed-content" v-html="group.mission"></div>
           </div>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

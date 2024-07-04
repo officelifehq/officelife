@@ -2,31 +2,28 @@
 
 namespace App\Http\Controllers\Company\Company\Project;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Project;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Company\Project\ProjectMessagesViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectMessage;
 use App\Services\Company\Project\CreateProjectMessage;
-use App\Services\Company\Project\UpdateProjectMessage;
 use App\Services\Company\Project\DestroyProjectMessage;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Project\MarkProjectMessageasRead;
-use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
-use App\Http\ViewHelpers\Company\Project\ProjectMessagesViewHelper;
+use App\Services\Company\Project\UpdateProjectMessage;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ProjectMessagesController extends Controller
 {
     /**
      * Display the list of messages in the project.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -49,9 +46,6 @@ class ProjectMessagesController extends Controller
     /**
      * Display the Create message view.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -70,12 +64,6 @@ class ProjectMessagesController extends Controller
 
     /**
      * Create the message.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -100,10 +88,6 @@ class ProjectMessagesController extends Controller
     /**
      * Display the detail of a given message.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $messageId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -141,10 +125,6 @@ class ProjectMessagesController extends Controller
     /**
      * Display the edit message page.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $messageId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -173,13 +153,6 @@ class ProjectMessagesController extends Controller
 
     /**
      * Actually update the message.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $projectMessageId
-     *
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $projectId, int $projectMessageId): JsonResponse
     {
@@ -204,13 +177,6 @@ class ProjectMessagesController extends Controller
 
     /**
      * Destroy the message.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $projectMessageId
-     *
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $projectId, int $projectMessageId): JsonResponse
     {

@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Dashboard\DashboardHRViewHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
-use App\Http\ViewHelpers\Dashboard\DashboardHRViewHelper;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class DashboardHRViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_employees_without_managers_who_have_pending_timesheets(): void
     {

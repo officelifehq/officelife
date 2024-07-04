@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Employee\RateYourManager;
 
-use Tests\TestCase;
-use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
-use App\Models\Company\RateYourManagerAnswer;
-use App\Models\Company\RateYourManagerSurvey;
-use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
 use App\Exceptions\SurveyNotActiveAnymoreException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\RateYourManager\RateYourManager;
+use App\Models\Company\Employee;
+use App\Models\Company\RateYourManagerAnswer;
+use App\Models\Company\RateYourManagerSurvey;
 use App\Services\Company\Employee\RateYourManager\AddCommentToRatingAboutManager;
+use App\Services\Company\Employee\RateYourManager\RateYourManager;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class AddCommentToRatingAboutManagerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_adds_a_comment_about_the_rating_of_the_manager(): void
     {

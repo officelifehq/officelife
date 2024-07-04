@@ -2,28 +2,24 @@
 
 namespace App\Http\ViewHelpers\Dashboard;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\MoneyHelper;
 use App\Models\Company\Company;
-use App\Models\Company\Expense;
 use App\Models\Company\Employee;
-use App\Models\Company\Timesheet;
-use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
+use App\Models\Company\Expense;
+use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\Timesheet;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as SupportCollection;
-use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
 
 class DashboardManagerViewHelper
 {
     /**
      * Get all the expenses the manager needs to validate.
-     *
-     * @param Employee $manager
-     * @param Collection $directReports
-     * @return SupportCollection|null
      */
     public static function pendingExpenses(Employee $manager, Collection $directReports): ?SupportCollection
     {
@@ -71,10 +67,6 @@ class DashboardManagerViewHelper
 
     /**
      * Get all information about the given expense.
-     *
-     * @param Expense $expense
-     * @param Employee $loggedEmployee
-     * @return array
      */
     public static function expense(Expense $expense, Employee $loggedEmployee): array
     {
@@ -111,10 +103,6 @@ class DashboardManagerViewHelper
 
     /**
      * Get the one on ones with the direct report(s) if they exist.
-     *
-     * @param Employee $manager
-     * @param Collection $directReports
-     * @return SupportCollection|null
      */
     public static function oneOnOnes(Employee $manager, Collection $directReports): ?SupportCollection
     {
@@ -168,10 +156,6 @@ class DashboardManagerViewHelper
     /**
      * Get the information about employees who have a contract that ends in
      * the next 3 months or less.
-     *
-     * @param Employee $manager
-     * @param Collection $directReports
-     * @return SupportCollection|null
      */
     public static function contractRenewals(Employee $manager, Collection $directReports): ?SupportCollection
     {
@@ -200,6 +184,8 @@ class DashboardManagerViewHelper
                 continue;
             }
 
+            $number_of_days = floor($employee->contract_renewed_at->diffInDays($now) * -1);
+
             $collection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
@@ -211,7 +197,7 @@ class DashboardManagerViewHelper
                 ]),
                 'contract_information' => [
                     'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at, $manager->timezone),
-                    'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
+                    'number_of_days' => $number_of_days,
                     'late' => $employee->contract_renewed_at->isBefore($now),
                 ],
             ]);
@@ -222,10 +208,6 @@ class DashboardManagerViewHelper
 
     /**
      * Get the list of employees who have timesheets to approve by this manager.
-     *
-     * @param Employee $manager
-     * @param Collection $directReports
-     * @return array|null
      */
     public static function employeesWithTimesheetsToApprove(Employee $manager, Collection $directReports): ?array
     {
@@ -258,7 +240,7 @@ class DashboardManagerViewHelper
         return [
             'totalNumberOfTimesheetsToValidate' => $totalNumberOfTimesheetsToValidate,
             'employees' => $employeesCollection,
-            'url_view_all'=> route('dashboard.manager.timesheet.index', [
+            'url_view_all' => route('dashboard.manager.timesheet.index', [
                 'company' => $manager->company,
             ]),
         ];
@@ -266,10 +248,6 @@ class DashboardManagerViewHelper
 
     /**
      * Get the information about the opened discipline cases for this manager.
-     *
-     * @param Company $company
-     * @param Collection $directReports
-     * @return SupportCollection
      */
     public static function activeDisciplineCases(Company $company, Collection $directReports): SupportCollection
     {

@@ -2,24 +2,21 @@
 
 namespace Tests\Unit\Services\Company\Employee\Position;
 
-use Carbon\Carbon;
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Models\Company\EmployeePositionHistory;
 use App\Models\Company\Position;
+use App\Services\Company\Employee\Position\AssignPositionToEmployee;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Models\Company\EmployeePositionHistory;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\Position\AssignPositionToEmployee;
+use Tests\TestCase;
 
 class AssignPositionToEmployeeTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_assigns_a_position_as_administrator(): void
     {

@@ -2,12 +2,12 @@
 
 namespace App\Services\Company\Employee\Skill;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
+use App\Exceptions\SkillNameNotUniqueException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Skill;
 use App\Services\BaseService;
-use App\Exceptions\SkillNameNotUniqueException;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class UpdateSkill extends BaseService
 {
@@ -17,8 +17,6 @@ class UpdateSkill extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -32,10 +30,6 @@ class UpdateSkill extends BaseService
 
     /**
      * Update a skill.
-     *
-     * @param array $data
-     *
-     * @return Skill
      */
     public function execute(array $data): Skill
     {
@@ -75,8 +69,6 @@ class UpdateSkill extends BaseService
 
     /**
      * Add audit logs.
-     *
-     * @param string $oldName
      */
     private function log(string $oldName, string $newName): void
     {

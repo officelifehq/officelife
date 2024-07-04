@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard;
 
+use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
+use App\Models\Company\Project;
+use App\Models\Company\ProjectTask;
+use App\Models\Company\Timesheet;
+use App\Models\Company\TimeTrackingEntry;
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\ImageHelper;
-use App\Models\Company\Project;
-use App\Models\Company\Timesheet;
-use App\Models\Company\ProjectTask;
-use App\Models\Company\TimeTrackingEntry;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
 
 class DashboardTimesheetViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_details_of_a_timesheet(): void
     {

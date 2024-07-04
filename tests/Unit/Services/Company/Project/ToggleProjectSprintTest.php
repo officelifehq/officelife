@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectSprint;
+use App\Services\Company\Project\ToggleProjectSprint;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Project\ToggleProjectSprint;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class ToggleProjectSprintTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_toggles_the_project_sprint_as_administrator(): void
     {

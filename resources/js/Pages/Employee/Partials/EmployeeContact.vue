@@ -21,7 +21,9 @@
         {{ $t('employee.contacts_title') }}
       </span>
 
-      <inertia-link v-show="permissions.can_edit_profile" :href="employee.url.edit" data-cy="edit-contact-information-link" class="di f7 ml2">{{ $t('app.edit') }}</inertia-link>
+      <Link v-show="permissions.can_edit_profile" :href="employee.url.edit" data-cy="edit-contact-information-link" class="di f7 ml2">
+        {{ $t('app.edit') }}
+      </Link>
     </div>
 
     <ul class="list ma0 pl0">

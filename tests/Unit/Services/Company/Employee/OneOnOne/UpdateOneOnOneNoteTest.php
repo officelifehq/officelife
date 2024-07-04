@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\Services\Company\Employee\OneOnOne;
 
-use Tests\TestCase;
 use App\Models\Company\Employee;
-use App\Models\Company\OneOnOneNote;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\OneOnOneNote;
+use App\Services\Company\Employee\OneOnOne\UpdateOneOnOneNote;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\OneOnOne\UpdateOneOnOneNote;
+use Tests\TestCase;
 
 class UpdateOneOnOneNoteTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_a_note_as_administrator(): void
     {

@@ -2,23 +2,20 @@
 
 namespace Tests\Unit\ViewHelpers\Company\HR;
 
-use Carbon\Carbon;
-use Tests\TestCase;
-use App\Models\User\Pronoun;
+use App\Http\ViewHelpers\Company\HR\CompanyHRViewHelper;
+use App\Models\Company\AskMeAnythingQuestion;
+use App\Models\Company\AskMeAnythingSession;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
+use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
-use App\Models\Company\ECoffeeMatch;
-use App\Models\Company\AskMeAnythingSession;
-use App\Models\Company\AskMeAnythingQuestion;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\HR\CompanyHRViewHelper;
+use App\Models\User\Pronoun;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class CompanyHRViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_list_of_statistic_about_ecoffees_in_the_company(): void
     {

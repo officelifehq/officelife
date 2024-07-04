@@ -5,18 +5,14 @@ namespace App\Http\ViewHelpers\Company\Project;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use Illuminate\Support\Collection;
 
 class ProjectFilesViewHelper
 {
     /**
      * Collection containing the information about the files in the project.
-     *
-     * @param Project $project
-     * @param Employee $employee
-     * @return Collection
      */
     public static function index(Project $project, Employee $employee): Collection
     {

@@ -2,23 +2,20 @@
 
 namespace Tests\Unit\Services\Company\Group;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Group;
-use App\Models\Company\Company;
-use App\Models\Company\Meeting;
-use App\Models\Company\Employee;
 use App\Models\Company\AgendaItem;
+use App\Models\Company\Company;
+use App\Models\Company\Employee;
+use App\Models\Company\Group;
+use App\Models\Company\Meeting;
+use App\Services\Company\Group\UpdateAgendaItem;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Group\UpdateAgendaItem;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class UpdateAgendaItemTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_an_agenda_item_as_administrator(): void
     {
@@ -166,7 +163,7 @@ class UpdateAgendaItemTest extends TestCase
         $this->executeService($michael, $michael->company, $group, $meeting, $agendaItem, $dwight);
     }
 
-    private function executeService(Employee $michael, Company $company, Group $group, Meeting $meeting, AgendaItem $agendaItem, Employee $presenter = null): void
+    private function executeService(Employee $michael, Company $company, Group $group, Meeting $meeting, AgendaItem $agendaItem, ?Employee $presenter = null): void
     {
         Queue::fake();
 

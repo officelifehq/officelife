@@ -6,21 +6,17 @@ use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
+use App\Models\Company\Candidate;
+use App\Models\Company\CandidateStage;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 use Illuminate\Support\Collection;
-use App\Models\Company\CandidateStage;
 
 class RecruitingCandidatesViewHelper
 {
     /**
      * Get the information about the job opening.
-     *
-     * @param Company $company
-     * @param JobOpening $jobOpening
-     * @return array|null
      */
     public static function jobOpening(Company $company, JobOpening $jobOpening): ?array
     {
@@ -63,11 +59,6 @@ class RecruitingCandidatesViewHelper
 
     /**
      * Get the information about a candidate.
-     *
-     * @param Company $company
-     * @param JobOpening $jobOpening
-     * @param Candidate $candidate
-     * @return array|null
      */
     public static function candidate(Company $company, JobOpening $jobOpening, Candidate $candidate): ?array
     {
@@ -115,22 +106,17 @@ class RecruitingCandidatesViewHelper
     /**
      * Get the information about the other job openings the candidate might have
      * applied to over time.
-     *
-     * @param Company $company
-     * @param Candidate $candidate
-     * @param JobOpening $opening
-     * @return Collection|null
      */
     public static function otherJobOpenings(Company $company, Candidate $candidate, JobOpening $opening): ?Collection
     {
         // has the candidate applied to other job openings?
         $otherCandidatesWithTheSameEmail = Candidate::where('company_id', $company->id)
-                ->where('email', 'like', $candidate->email)
-                ->where('job_opening_id', '!=', $opening->id)
-                ->where('application_completed', true)
-                ->with('jobOpening')
-                ->select('job_opening_id')
-                ->get();
+            ->where('email', 'like', $candidate->email)
+            ->where('job_opening_id', '!=', $opening->id)
+            ->where('application_completed', true)
+            ->with('jobOpening')
+            ->select('job_opening_id')
+            ->get();
 
         $otherJobOpeningsCollection = collect();
         foreach ($otherCandidatesWithTheSameEmail as $candidate) {
@@ -153,9 +139,6 @@ class RecruitingCandidatesViewHelper
 
     /**
      * Get the information about a stage.
-     *
-     * @param CandidateStage $stage
-     * @return array|null
      */
     public static function stage(CandidateStage $stage): ?array
     {
@@ -166,21 +149,21 @@ class RecruitingCandidatesViewHelper
 
             $decision = [
                 'decider' => $decider ? [
-                        'id' => $decider->id,
-                        'name' => $decider->name,
-                        'avatar' => ImageHelper::getAvatar($decider, 32),
-                        'position' => (! $decider->position) ? null : [
-                            'id' => $decider->position->id,
-                            'title' => $decider->position->title,
-                        ],
-                        'url' => route('employees.show', [
-                            'company' => $decider->company,
-                            'employee' => $decider,
-                        ]),
-                    ] : [
-                        'id' => null,
-                        'name' => $stage->decider_name,
+                    'id' => $decider->id,
+                    'name' => $decider->name,
+                    'avatar' => ImageHelper::getAvatar($decider, 32),
+                    'position' => (! $decider->position) ? null : [
+                        'id' => $decider->position->id,
+                        'title' => $decider->position->title,
                     ],
+                    'url' => route('employees.show', [
+                        'company' => $decider->company,
+                        'employee' => $decider,
+                    ]),
+                ] : [
+                    'id' => null,
+                    'name' => $stage->decider_name,
+                ],
                 'decided_at' => $stage->decided_at ? DateHelper::formatDate($stage->decided_at) : null,
             ];
         }
@@ -194,9 +177,6 @@ class RecruitingCandidatesViewHelper
 
     /**
      * Get the information about the participants in a stage.
-     *
-     * @param CandidateStage $stage
-     * @return Collection|null
      */
     public static function participants(CandidateStage $stage): ?Collection
     {
@@ -221,9 +201,6 @@ class RecruitingCandidatesViewHelper
 
     /**
      * Determine the highest stage reached by the candidate.
-     *
-     * @param Candidate $candidate
-     * @return CandidateStage
      */
     public static function determineHighestStage(Candidate $candidate): CandidateStage
     {
@@ -251,11 +228,6 @@ class RecruitingCandidatesViewHelper
     /**
      * Returns the potential employees that can be added as participants.
      * This filters out the current participants for the given stage.
-     *
-     * @param Company $company
-     * @param CandidateStage $stage
-     * @param string $criteria
-     * @return Collection
      */
     public static function potentialParticipants(Company $company, CandidateStage $stage, string $criteria): Collection
     {
@@ -267,9 +239,9 @@ class RecruitingCandidatesViewHelper
             ->select('id', 'first_name', 'last_name', 'avatar_file_id')
             ->notLocked()
             ->where(function ($query) use ($criteria) {
-                $query->where('first_name', 'LIKE', '%' . $criteria . '%')
-                    ->orWhere('last_name', 'LIKE', '%' . $criteria . '%')
-                    ->orWhere('email', 'LIKE', '%' . $criteria . '%');
+                $query->where('first_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('email', 'LIKE', '%'.$criteria.'%');
             })
             ->whereNotIn('id', $currentParticipants)
             ->orderBy('last_name', 'asc')
@@ -290,9 +262,6 @@ class RecruitingCandidatesViewHelper
 
     /**
      * Get the information about the notes in a stage.
-     *
-     * @param Candidate $candidate
-     * @return Collection|null
      */
     public static function documents(Candidate $candidate): ?Collection
     {
@@ -308,11 +277,6 @@ class RecruitingCandidatesViewHelper
 
     /**
      * Get the information about the notes in a stage.
-     *
-     * @param Company $company
-     * @param CandidateStage $stage
-     * @param Employee $loggedEmployee
-     * @return Collection|null
      */
     public static function notes(Company $company, CandidateStage $stage, Employee $loggedEmployee): ?Collection
     {

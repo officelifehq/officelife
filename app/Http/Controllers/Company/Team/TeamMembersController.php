@@ -2,26 +2,21 @@
 
 namespace App\Http\Controllers\Company\Team;
 
-use App\Models\Company\Team;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Team\TeamMembersViewHelper;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Company\Employee;
+use App\Models\Company\Team;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Employee\Team\RemoveEmployeeFromTeam;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TeamMembersController extends Controller
 {
     /**
      * Search members that can be added to the team.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @return JsonResponse
      */
     public function index(Request $request, int $companyId, int $teamId): JsonResponse
     {
@@ -44,12 +39,6 @@ class TeamMembersController extends Controller
 
     /**
      * Add the employee to the team.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function attach(Request $request, int $companyId, int $teamId, int $employeeId): JsonResponse
     {
@@ -71,12 +60,6 @@ class TeamMembersController extends Controller
 
     /**
      * Remove the employee from the team.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function detach(Request $request, int $companyId, int $teamId, int $employeeId): JsonResponse
     {

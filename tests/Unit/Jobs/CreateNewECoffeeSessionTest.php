@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\Jobs;
 
-use Carbon\Carbon;
-use Tests\TestCase;
+use App\Jobs\CreateNewECoffeeSession;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Bus;
-use App\Jobs\CreateNewECoffeeSession;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class CreateNewECoffeeSessionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_launches_a_match_employee_for_ecoffee_process(): void
     {

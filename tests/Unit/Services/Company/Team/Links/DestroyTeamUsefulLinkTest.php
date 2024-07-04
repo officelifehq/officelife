@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Team\Links;
 
-use Tests\TestCase;
-use App\Jobs\LogTeamAudit;
-use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
+use App\Jobs\LogTeamAudit;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
+use App\Models\Company\Team;
 use App\Models\Company\TeamUsefulLink;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Team\Links\DestroyTeamUsefulLink;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class DestroyTeamUsefulLinkTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_a_team_useful_link_as_administrator(): void
     {

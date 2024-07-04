@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectMessage;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Project\DestroyProjectDecision;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Project\MarkProjectMessageasRead;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class MarkProjectMessageasReadTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_reads_a_message_from_a_project_as_administrator(): void
     {

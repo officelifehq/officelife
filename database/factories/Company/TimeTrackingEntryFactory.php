@@ -2,13 +2,13 @@
 
 namespace Database\Factories\Company;
 
-use Carbon\Carbon;
 use App\Models\Company\Company;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
-use App\Models\Company\Timesheet;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectTask;
+use App\Models\Company\Timesheet;
 use App\Models\Company\TimeTrackingEntry;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TimeTrackingEntryFactory extends Factory

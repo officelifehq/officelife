@@ -2,12 +2,12 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
-use App\Models\Company\ProjectMessage;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\ProjectMessage;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateProjectMessage extends BaseService
 {
@@ -19,8 +19,6 @@ class CreateProjectMessage extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,9 +33,6 @@ class CreateProjectMessage extends BaseService
 
     /**
      * Create a project message.
-     *
-     * @param array $data
-     * @return ProjectMessage
      */
     public function execute(array $data): ProjectMessage
     {

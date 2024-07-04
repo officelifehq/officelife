@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Employee\Pronoun;
 
-use Tests\TestCase;
-use App\Models\User\Pronoun;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Models\User\Pronoun;
+use App\Services\Company\Employee\Pronoun\AssignPronounToEmployee;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\Pronoun\AssignPronounToEmployee;
+use Tests\TestCase;
 
 class AssignPronounToEmployeeTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_assigns_a_pronoun_as_administrator(): void
     {

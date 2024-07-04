@@ -30,9 +30,9 @@
 
               <div class="pl3">
                 <!-- name -->
-                <inertia-link class="dib pointer mb1" :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id">
+                <Link class="dib pointer mb1" :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id">
                   {{ employee.name }}
-                </inertia-link>
+                </Link>
 
                 <!-- employee position -->
                 <ul class="f7 pl0">
@@ -52,9 +52,9 @@
                       <ul class="di list pl0">
                         <li class="di">Part of </li>
                         <li v-for="team in employee.teams" :key="team.id" class="di mr2">
-                          <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id">
+                          <Link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id">
                             {{ team.name }}
-                          </inertia-link>
+                          </Link>
                         </li>
                       </ul>
                     </li>
@@ -70,9 +70,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Avatar from '@/Shared/Avatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

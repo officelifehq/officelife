@@ -2,9 +2,9 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
 use App\Models\Company\CandidateStage;
+use App\Models\Company\Employee;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CandidateStageFactory extends Factory

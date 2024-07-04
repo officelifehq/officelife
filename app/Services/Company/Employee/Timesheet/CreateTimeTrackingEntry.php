@@ -2,17 +2,17 @@
 
 namespace App\Services\Company\Employee\Timesheet;
 
-use Carbon\Carbon;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Project;
-use App\Models\Company\Employee;
-use App\Models\Company\Timesheet;
-use App\Models\Company\ProjectTask;
-use App\Models\Company\TimeTrackingEntry;
-use Carbon\Exceptions\InvalidDateException;
 use App\Exceptions\DurationExceedingMaximalDurationException;
+use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
+use App\Models\Company\Employee;
+use App\Models\Company\Project;
+use App\Models\Company\ProjectTask;
+use App\Models\Company\Timesheet;
+use App\Models\Company\TimeTrackingEntry;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Carbon\Exceptions\InvalidDateException;
 
 class CreateTimeTrackingEntry extends BaseService
 {
@@ -32,8 +32,6 @@ class CreateTimeTrackingEntry extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -54,9 +52,6 @@ class CreateTimeTrackingEntry extends BaseService
      * When we create a time tracking entry, we need to make sure that the
      * overall timesheet for the day is not larger than 24 hours - in this case,
      * we need to inform the user that the duration is too big.
-     *
-     * @param array $data
-     * @return TimeTrackingEntry
      */
     public function execute(array $data): TimeTrackingEntry
     {

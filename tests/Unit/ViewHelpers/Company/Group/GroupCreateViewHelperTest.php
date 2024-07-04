@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Group;
 
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Employee;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Company\Group\GroupCreateViewHelper;
+use App\Models\Company\Employee;
+use Tests\TestCase;
 
 class GroupCreateViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_searches_employees_to_assign_to_a_group(): void
     {

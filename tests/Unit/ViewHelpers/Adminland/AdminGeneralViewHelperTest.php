@@ -2,18 +2,16 @@
 
 namespace Tests\Unit\ViewHelpers\Adminland;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\File;
-use GrahamCampbell\TestBenchCore\HelperTrait;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Adminland\AdminGeneralViewHelper;
+use App\Models\Company\File;
+use Carbon\Carbon;
+use GrahamCampbell\TestBenchCore\HelperTrait;
+use Tests\TestCase;
 
 class AdminGeneralViewHelperTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_information_about_the_company(): void

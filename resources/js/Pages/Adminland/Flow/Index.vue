@@ -22,9 +22,9 @@
             <span class="dib mb3 di-l">
               {{ $tc('account.flows_number_flows', flows.length, { company: $page.props.auth.company.name, count: flows.length}) }}
             </span>
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/flows/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">
+            <Link :href="'/' + $page.props.auth.company.id + '/account/flows/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">
               {{ $t('account.flows_cta') }}
-            </inertia-link>
+            </Link>
           </p>
 
           <!-- LIST OF FLOWS -->
@@ -41,19 +41,19 @@
                 </span>
                 <ul class="f6 list pl0">
                   <li class="di pr2">
-                    <inertia-link :href="'/' + $page.props.auth.company.id + '/account/flows/' + flow.id" :datacy="'lock-account-'+flow.id">
+                    <Link :href="'/' + $page.props.auth.company.id + '/account/flows/' + flow.id" :datacy="'lock-account-'+flow.id">
                       {{ $t('app.view') }}
-                    </inertia-link>
+                    </Link>
                   </li>
                   <li class="di pr2">
-                    <inertia-link :href="'/' + $page.props.auth.company.id + '/account/flows/' + flow.id + '/lock'">
+                    <Link :href="'/' + $page.props.auth.company.id + '/account/flows/' + flow.id + '/lock'">
                       {{ $t('app.rename') }}
-                    </inertia-link>
+                    </Link>
                   </li>
                   <li class="di">
-                    <inertia-link :href="'/' + $page.props.auth.company.id + '/account/flows/' + flow.id + '/destroy'">
+                    <Link :href="'/' + $page.props.auth.company.id + '/account/flows/' + flow.id + '/destroy'">
                       {{ $t('app.delete') }}
-                    </inertia-link>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -66,9 +66,7 @@
           <p class="tc measure center mb4 lh-copy">
             {{ $t('account.flows_blank') }}
           </p>
-          <img loading="lazy" class="db center mb4" alt="blank flow" srcset="/img/company/account/blank-flow-1x.png,
-                                        /img/company/account/blank-flow-2x.png 2x"
-          />
+          <img loading="lazy" class="db center mb4" alt="blank flow" :srcset="'/img/company/account/blank-flow-1x.png, /img/company/account/blank-flow-2x.png 2x'" />
         </div>
       </div>
     </div>
@@ -76,8 +74,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import _ from 'lodash';
 
 export default {
   components: {

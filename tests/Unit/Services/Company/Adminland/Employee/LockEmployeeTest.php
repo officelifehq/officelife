@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Employee;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
+use App\Jobs\CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Services\Company\Adminland\Employee\LockEmployee;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\Employee\LockEmployee;
-use App\Jobs\CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges;
+use Tests\TestCase;
 
 class LockEmployeeTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_locks_an_employee_as_administrator(): void
     {

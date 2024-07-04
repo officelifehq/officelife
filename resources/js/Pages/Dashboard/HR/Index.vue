@@ -21,10 +21,10 @@
 </template>
 
 <script>
-import Timesheets from '@/Pages/Dashboard/HR/Partials/Timesheets';
-import DisciplineCase from '@/Pages/Dashboard/HR/Partials/DisciplineCase';
-import Layout from '@/Shared/Layout';
-import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
+import Timesheets from '@/Pages/Dashboard/HR/Partials/Timesheets.vue';
+import DisciplineCase from '@/Pages/Dashboard/HR/Partials/DisciplineCase.vue';
+import Layout from '@/Shared/Layout.vue';
+import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu.vue';
 
 export default {
   components: {

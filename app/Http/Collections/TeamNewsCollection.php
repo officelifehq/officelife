@@ -9,9 +9,7 @@ class TeamNewsCollection
     /**
      * Prepare a collection of team news.
      *
-     * @param mixed $teamNews
-     *
-     * @return Collection
+     * @param  mixed  $teamNews
      */
     public static function prepare($teamNews): Collection
     {

@@ -2,20 +2,19 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\JobOpening;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class ToggleJobOpening extends BaseService
 {
     protected array $data;
+
     protected JobOpening $opening;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,9 +27,6 @@ class ToggleJobOpening extends BaseService
 
     /**
      * Toggle the job opening.
-     *
-     * @param array $data
-     * @return JobOpening
      */
     public function execute(array $data): JobOpening
     {

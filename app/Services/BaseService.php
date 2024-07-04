@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
-use App\Models\Company\Team;
-use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Validator;
 use App\Exceptions\NotEnoughPermissionException;
+use App\Models\Company\Employee;
+use App\Models\Company\Team;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Validator;
 
 abstract class BaseService
 {
@@ -46,9 +46,6 @@ abstract class BaseService
 
     /**
      * Sets the author id for the service.
-     *
-     * @param int $givenAuthor
-     * @return self
      */
     public function author(int $givenAuthor): self
     {
@@ -59,9 +56,6 @@ abstract class BaseService
 
     /**
      * Sets the company id for the service.
-     *
-     * @param int $company
-     * @return self
      */
     public function inCompany(int $company): self
     {
@@ -72,8 +66,6 @@ abstract class BaseService
 
     /**
      * Sets the permission level required for this service.
-     *
-     * @return self
      */
     public function asAtLeastAdministrator(): self
     {
@@ -84,8 +76,6 @@ abstract class BaseService
 
     /**
      * Sets the permission level required for this service.
-     *
-     * @return self
      */
     public function asAtLeastHR(): self
     {
@@ -96,8 +86,6 @@ abstract class BaseService
 
     /**
      * Sets the permission level required for this service.
-     *
-     * @return self
      */
     public function asNormalUser(): self
     {
@@ -109,10 +97,6 @@ abstract class BaseService
     /**
      * Sets the permission to bypass the minimum level requirement necessary to
      * execute the service if the author is the manager of the employee.
-     *
-     * @param int $managerId
-     * @param int $employeeId
-     * @return self
      */
     public function canBypassPermissionLevelIfManager(int $managerId, int $employeeId): self
     {
@@ -128,9 +112,6 @@ abstract class BaseService
     /**
      * Sets the permission to bypass the minimum level requirement necessary to
      * execute the service if the author who calls it is actually the employee.
-     *
-     * @param int $employeeId
-     * @return self
      */
     public function canBypassPermissionLevelIfEmployee(int $employeeId): self
     {
@@ -143,9 +124,6 @@ abstract class BaseService
      * Sets the permission to bypass the minimum level requirement necessary to
      * execute the service if the author who calls it is actually the employee
      * or the manager.
-     *
-     * @param int $employeeId
-     * @return self
      */
     public function canBypassPermissionLevelIfEmployeeOrManager(int $managerId, int $employeeId): self
     {
@@ -164,8 +142,6 @@ abstract class BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -174,14 +150,11 @@ abstract class BaseService
 
     /**
      * Validate an array against a set of rules.
-     *
-     * @param array $data
-     * @return bool
      */
     public function validateRules(array $data): bool
     {
         Validator::make($data, $this->rules())
-                ->validate();
+            ->validate();
 
         return true;
 
@@ -225,8 +198,6 @@ abstract class BaseService
     /**
      * Checks if the employee executing the service has the permission
      * to do the action.
-     *
-     * @return bool
      */
     public function canExecuteService(): bool
     {
@@ -252,8 +223,8 @@ abstract class BaseService
     /**
      * Checks if the value is empty or null.
      *
-     * @param mixed $data
-     * @param mixed $index
+     * @param  mixed  $data
+     * @param  mixed  $index
      * @return mixed
      */
     public function valueOrNull($data, $index)
@@ -268,9 +239,8 @@ abstract class BaseService
     /**
      * Gets the value if it’s set, or the current Now() date otherwise.
      *
-     * @param mixed $data
-     * @param mixed $index
-     * @return Carbon
+     * @param  mixed  $data
+     * @param  mixed  $index
      */
     public function valueOrNow($data, $index): Carbon
     {
@@ -284,8 +254,8 @@ abstract class BaseService
     /**
      * Checks if the value is empty or null and returns a date from a string.
      *
-     * @param mixed $data
-     * @param mixed $index
+     * @param  mixed  $data
+     * @param  mixed  $index
      * @return mixed
      */
     public function nullOrDate($data, $index)
@@ -300,8 +270,8 @@ abstract class BaseService
     /**
      * Returns the value if it's defined, or false otherwise.
      *
-     * @param mixed $data
-     * @param mixed $index
+     * @param  mixed  $data
+     * @param  mixed  $index
      * @return mixed
      */
     public function valueOrFalse($data, $index)

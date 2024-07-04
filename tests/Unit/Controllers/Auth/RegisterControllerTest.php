@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Controllers\Auth;
 
-use Tests\TestCase;
 use App\Models\User\User;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Notification;
+use Tests\TestCase;
 
 class RegisterControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_user(): void
     {

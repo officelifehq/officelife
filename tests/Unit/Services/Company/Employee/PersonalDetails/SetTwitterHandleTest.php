@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Employee\PersonalDetails;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Services\Company\Employee\PersonalDetails\SetTwitterHandle;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\PersonalDetails\SetTwitterHandle;
+use Tests\TestCase;
 
 class SetTwitterHandleTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_sets_the_twitter_handle_of_the_employee_as_administrator(): void
     {

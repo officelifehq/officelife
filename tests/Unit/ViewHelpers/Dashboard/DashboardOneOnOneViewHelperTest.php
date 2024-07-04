@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard;
 
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\OneOnOneNote;
-use App\Models\Company\OneOnOneEntry;
-use App\Models\Company\OneOnOneActionItem;
-use App\Models\Company\OneOnOneTalkingPoint;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Dashboard\DashboardOneOnOneViewHelper;
+use App\Models\Company\OneOnOneActionItem;
+use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\OneOnOneNote;
+use App\Models\Company\OneOnOneTalkingPoint;
+use Tests\TestCase;
 
 class DashboardOneOnOneViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_an_array_containing_all_the_information_about_a_one_on_one_entry(): void
     {

@@ -2,23 +2,20 @@
 
 namespace Tests\Unit\Services\Company\Employee\Skill;
 
-use Tests\TestCase;
-use App\Models\Company\Team;
+use App\Exceptions\NotEnoughPermissionException;
+use App\Exceptions\SkillNameNotUniqueException;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Skill;
 use App\Models\Company\Employee;
+use App\Models\Company\Skill;
+use App\Models\Company\Team;
+use App\Services\Company\Employee\Skill\UpdateSkill;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\SkillNameNotUniqueException;
-use App\Exceptions\NotEnoughPermissionException;
-use App\Services\Company\Employee\Skill\UpdateSkill;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class UpdateSkillTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_a_skill_as_administrator(): void
     {

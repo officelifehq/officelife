@@ -2,27 +2,25 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Expense;
-use App\Models\Company\Project;
-use App\Models\Company\Employee;
-use App\Models\Company\Timesheet;
-use App\Models\Company\ProjectTask;
-use App\Models\Company\OneOnOneEntry;
-use App\Models\Company\DisciplineCase;
-use App\Models\Company\EmployeeStatus;
-use App\Models\Company\TimeTrackingEntry;
-use GrahamCampbell\TestBenchCore\HelperTrait;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\ViewHelpers\Dashboard\DashboardManagerViewHelper;
+use App\Models\Company\DisciplineCase;
+use App\Models\Company\Employee;
+use App\Models\Company\EmployeeStatus;
+use App\Models\Company\Expense;
+use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\Project;
+use App\Models\Company\ProjectTask;
+use App\Models\Company\Timesheet;
+use App\Models\Company\TimeTrackingEntry;
+use App\Services\Company\Employee\Manager\AssignManager;
+use Carbon\Carbon;
+use GrahamCampbell\TestBenchCore\HelperTrait;
+use Tests\TestCase;
 
 class DashboardManagerViewHelperTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_a_collection_of_pending_expenses(): void
@@ -336,7 +334,7 @@ class DashboardManagerViewHelperTest extends TestCase
                         'name' => $dwight->name,
                         'avatar' => ImageHelper::getAvatar($dwight, 40),
                         'position' => (! $dwight->position) ? null : $dwight->position->title,
-                        'url' =>env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
+                        'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/manager/discipline-cases/'.$openCase->id,
                 ],

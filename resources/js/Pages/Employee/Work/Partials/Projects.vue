@@ -68,7 +68,9 @@
 
           <!-- details -->
           <div class="">
-            <inertia-link :href="project.url" class="ma0 pa0 di f6" :data-cy="'project-list-item-' + project.id">{{ $t('app.view') }}</inertia-link>
+            <Link :href="project.url" class="ma0 pa0 di f6" :data-cy="'project-list-item-' + project.id">
+              {{ $t('app.view') }}
+            </Link>
           </div>
         </div>
       </div>
@@ -82,7 +84,7 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

@@ -2,9 +2,9 @@
 
 namespace App\Services\Company\Adminland\File;
 
+use App\Exceptions\EnvVariablesNotSetException;
 use App\Models\Company\File;
 use App\Services\BaseService;
-use App\Exceptions\EnvVariablesNotSetException;
 
 class UploadFile extends BaseService
 {
@@ -14,8 +14,6 @@ class UploadFile extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -39,9 +37,6 @@ class UploadFile extends BaseService
      * However, we abstract uploads by the File object. This service here takes
      * the payload that Uploadcare sends us back, and map it into a File object
      * that the clients will consume.
-     *
-     * @param array $data
-     * @return File
      */
     public function execute(array $data): File
     {

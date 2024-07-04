@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\ViewHelpers\Team;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Team\TeamRecentShipViewHelper;
+use App\Models\Company\Employee;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
-use App\Models\Company\Employee;
-use App\Http\ViewHelpers\Team\TeamRecentShipViewHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class TeamRecentShipViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_recent_ships(): void
     {

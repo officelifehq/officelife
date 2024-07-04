@@ -2,11 +2,11 @@
 
 namespace App\Services\Company\Adminland\Expense;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DisallowEmployeeToManageExpenses extends BaseService
 {
@@ -16,8 +16,6 @@ class DisallowEmployeeToManageExpenses extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -32,10 +30,6 @@ class DisallowEmployeeToManageExpenses extends BaseService
      * Forbids an employee to manage all the the expenses in the company.
      * That means the employee won’t have access anymore to the accounting tab
      * on the dashboard to manage all other employee's expenses.
-     *
-     * @param array $data
-     *
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

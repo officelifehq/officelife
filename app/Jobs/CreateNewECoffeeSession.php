@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
-use Illuminate\Bus\Queueable;
 use App\Models\Company\Company;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Services\Company\Employee\ECoffee\MatchEmployeesForECoffee;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Services\Company\Employee\ECoffee\MatchEmployeesForECoffee;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class CreateNewECoffeeSession implements ShouldQueue
 {
@@ -16,15 +16,11 @@ class CreateNewECoffeeSession implements ShouldQueue
 
     /**
      * The company instance.
-     *
-     * @var Company
      */
     public Company $company;
 
     /**
      * Create a new job instance.
-     *
-     * @param Company $company
      */
     public function __construct(Company $company)
     {

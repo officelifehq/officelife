@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Collections;
 
-use Tests\TestCase;
-use App\Models\Company\Question;
 use App\Http\Collections\QuestionCollection;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Question;
+use Tests\TestCase;
 
 class QuestionCollectionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_returns_a_collection(): void
     {

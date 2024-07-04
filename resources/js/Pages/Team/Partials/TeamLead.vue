@@ -44,9 +44,9 @@
         <p class="silver f6 ma0 mb1">{{ $t('team.team_lead_label') }}</p>
         <span class="pl3 db team-lead relative">
           <avatar :avatar="localTeam.team_leader.avatar" :size="35" :class="'br-100 absolute avatar'" />
-          <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + localTeam.team_leader.id" class="mb2" data-cy="current-team-lead">
+          <Link :href="'/' + $page.props.auth.company.id + '/employees/' + localTeam.team_leader.id" class="mb2" data-cy="current-team-lead">
             {{ localTeam.team_leader.name }}
-          </inertia-link>
+          </Link>
 
           <span v-if="!localTeam.team_leader.position" class="db f7 mt1" data-cy="team-lead-undefined">
             {{ $t('app.no_position_defined') }}
@@ -56,7 +56,7 @@
             {{ localTeam.team_leader.position.title }}
           </span>
 
-          <img v-if="$page.props.auth.employee.permission_level <= 200" loading="lazy" src="/img/common/triple-dots.svg" class="absolute right-0 pointer team-lead-action" data-cy="display-remove-team-lead-modal"
+          <img v-if="$page.props.auth.employee.permission_level <= 200" loading="lazy" :src="'/img/common/triple-dots.svg'" class="absolute right-0 pointer team-lead-action" data-cy="display-remove-team-lead-modal"
                alt="display the menu"
                @click.prevent="removeMode = true"
           />
@@ -138,11 +138,12 @@
 </template>
 
 <script>
-import Errors from '@/Shared/Errors';
-import Avatar from '@/Shared/Avatar';
-import IconDelete from '@/Shared/IconDelete';
+import Errors from '@/Shared/Errors.vue';
+import Avatar from '@/Shared/Avatar.vue';
+import IconDelete from '@/Shared/IconDelete.vue';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import vClickOutside from 'click-outside-vue3';
+import _ from 'lodash';
 
 export default {
   components: {
@@ -242,7 +243,7 @@ export default {
           this.localTeam.team_leader = response.data.data;
           this.editMode = false;
 
-          this.$emitt('lead-set', response.data.data);
+          this.$emit('lead-set', response.data.data);
         })
         .catch(error => {
           this.form.errors = error.response.data;

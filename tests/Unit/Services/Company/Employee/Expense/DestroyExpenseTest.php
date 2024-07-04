@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Employee\Expense;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Expense;
 use App\Models\Company\Employee;
+use App\Models\Company\Expense;
+use App\Services\Company\Employee\Expense\DestroyExpense;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\Expense\DestroyExpense;
+use Tests\TestCase;
 
 class DestroyExpenseTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_an_expense_as_administrator(): void
     {

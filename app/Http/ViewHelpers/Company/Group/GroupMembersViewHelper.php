@@ -4,17 +4,14 @@ namespace App\Http\ViewHelpers\Company\Group;
 
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Group;
 use App\Models\Company\Company;
+use App\Models\Company\Group;
 use Illuminate\Support\Collection;
 
 class GroupMembersViewHelper
 {
     /**
      * Array containing the information all the members in the group.
-     *
-     * @param Group $group
-     * @return Collection
      */
     public static function members(Group $group): Collection
     {
@@ -45,11 +42,6 @@ class GroupMembersViewHelper
      * Returns the potential employees that can be assigned as members of the
      * group, matching the name.
      * This filters out the current members of the group (doh).
-     *
-     * @param Group $group
-     * @param Company $company
-     * @param string $criteria
-     * @return Collection
      */
     public static function potentialMembers(Company $company, Group $group, string $criteria): Collection
     {

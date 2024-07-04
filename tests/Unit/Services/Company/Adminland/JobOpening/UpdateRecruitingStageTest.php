@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Adminland\JobOpening;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
 use App\Models\Company\RecruitingStage;
-use Illuminate\Validation\ValidationException;
 use App\Models\Company\RecruitingStageTemplate;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\JobOpening\UpdateRecruitingStage;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class UpdateRecruitingStageTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_a_recruiting_as_administrator(): void
     {

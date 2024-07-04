@@ -5,19 +5,16 @@ namespace App\Http\ViewHelpers\Recruiting;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
+use App\Models\Company\CandidateStage;
 use App\Models\Company\Company;
 use App\Models\Company\JobOpening;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Models\Company\CandidateStage;
 
 class RecruitingJobOpeningsViewHelper
 {
     /**
      * Get all the positions in the company.
-     *
-     * @param Company $company
-     * @return Collection|null
      */
     public static function positions(Company $company): ?Collection
     {
@@ -36,9 +33,6 @@ class RecruitingJobOpeningsViewHelper
 
     /**
      * Get all the recruiting templates in the company.
-     *
-     * @param Company $company
-     * @return Collection|null
      */
     public static function templates(Company $company): ?Collection
     {
@@ -57,10 +51,6 @@ class RecruitingJobOpeningsViewHelper
 
     /**
      * Get all the potential sponsors in the company.
-     *
-     * @param Company $company
-     * @param string $criteria
-     * @return Collection|null
      */
     public static function potentialSponsors(Company $company, string $criteria): ?Collection
     {
@@ -68,9 +58,9 @@ class RecruitingJobOpeningsViewHelper
             ->select('id', 'first_name', 'last_name', 'avatar_file_id')
             ->notLocked()
             ->where(function ($query) use ($criteria) {
-                $query->where('first_name', 'LIKE', '%' . $criteria . '%')
-                    ->orWhere('last_name', 'LIKE', '%' . $criteria . '%')
-                    ->orWhere('email', 'LIKE', '%' . $criteria . '%');
+                $query->where('first_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('email', 'LIKE', '%'.$criteria.'%');
             })
             ->orderBy('last_name', 'asc')
             ->take(10)
@@ -90,9 +80,6 @@ class RecruitingJobOpeningsViewHelper
 
     /**
      * Get all the teams in the company.
-     *
-     * @param Company $company
-     * @return Collection|null
      */
     public static function teams(Company $company): ?Collection
     {
@@ -111,9 +98,6 @@ class RecruitingJobOpeningsViewHelper
 
     /**
      * Get all the open job openings in the company.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function openJobOpenings(Company $company): array
     {
@@ -166,9 +150,6 @@ class RecruitingJobOpeningsViewHelper
 
     /**
      * Get all the fulfilled job openings in the company.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function fulfilledJobOpenings(Company $company): array
     {
@@ -222,10 +203,6 @@ class RecruitingJobOpeningsViewHelper
 
     /**
      * Get all the details about a specific job opening.
-     *
-     * @param Company $company
-     * @param JobOpening $jobOpening
-     * @return array
      */
     public static function show(Company $company, JobOpening $jobOpening): array
     {
@@ -301,10 +278,6 @@ class RecruitingJobOpeningsViewHelper
 
     /**
      * Information needed to edit the job opening.
-     *
-     * @param Company $company
-     * @param JobOpening $jobOpening
-     * @return array
      */
     public static function edit(Company $company, JobOpening $jobOpening): array
     {
@@ -342,10 +315,6 @@ class RecruitingJobOpeningsViewHelper
 
     /**
      * Get the stats about the job opening.
-     *
-     * @param Company $company
-     * @param JobOpening $jobOpening
-     * @return array
      */
     public static function stats(Company $company, JobOpening $jobOpening): array
     {
@@ -406,10 +375,6 @@ class RecruitingJobOpeningsViewHelper
 
     /**
      * Get all the sponsors about a specific job opening.
-     *
-     * @param Company $company
-     * @param JobOpening $jobOpening
-     * @return Collection
      */
     public static function sponsors(Company $company, JobOpening $jobOpening): Collection
     {
@@ -436,10 +401,6 @@ class RecruitingJobOpeningsViewHelper
 
     /**
      * Get the candidates to sort for the given job opening.
-     *
-     * @param Company $company
-     * @param JobOpening $jobOpening
-     * @return Collection
      */
     public static function toSort(Company $company, JobOpening $jobOpening): Collection
     {
@@ -478,10 +439,6 @@ class RecruitingJobOpeningsViewHelper
 
     /**
      * Get the candidates who have been rejected for the given job opening.
-     *
-     * @param Company $company
-     * @param JobOpening $jobOpening
-     * @return Collection
      */
     public static function rejected(Company $company, JobOpening $jobOpening): Collection
     {
@@ -522,10 +479,6 @@ class RecruitingJobOpeningsViewHelper
 
     /**
      * Get the candidates who have been selected for the given job opening.
-     *
-     * @param Company $company
-     * @param JobOpening $jobOpening
-     * @return Collection
      */
     public static function selected(Company $company, JobOpening $jobOpening): Collection
     {

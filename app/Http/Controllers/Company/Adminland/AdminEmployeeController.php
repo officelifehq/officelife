@@ -2,31 +2,29 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
+use App\Exceptions\EmailAlreadyUsedException;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\View;
-use App\Exceptions\EmailAlreadyUsedException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\Employee\LockEmployee;
 use App\Http\ViewHelpers\Adminland\AdminEmployeeViewHelper;
+use App\Models\Company\Employee;
+use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
+use App\Services\Company\Adminland\Employee\DestroyEmployee;
+use App\Services\Company\Adminland\Employee\InviteEmployeeToBecomeUser;
+use App\Services\Company\Adminland\Employee\LockEmployee;
 use App\Services\Company\Adminland\Employee\UnlockEmployee;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
-use App\Services\Company\Adminland\Employee\DestroyEmployee;
-use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
-use App\Services\Company\Adminland\Employee\InviteEmployeeToBecomeUser;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminEmployeeController extends Controller
 {
     /**
      * Show the list of employees.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -41,8 +39,6 @@ class AdminEmployeeController extends Controller
 
     /**
      * Show the list of all employees.
-     *
-     * @return Response
      */
     public function all(): Response
     {
@@ -59,8 +55,6 @@ class AdminEmployeeController extends Controller
 
     /**
      * Show the list of all active employees.
-     *
-     * @return Response
      */
     public function active(): Response
     {
@@ -78,8 +72,6 @@ class AdminEmployeeController extends Controller
 
     /**
      * Show the list of all locked employees.
-     *
-     * @return Response
      */
     public function locked(): Response
     {
@@ -97,8 +89,6 @@ class AdminEmployeeController extends Controller
 
     /**
      * Show the list of all employees without an hiring date.
-     *
-     * @return Response
      */
     public function noHiringDate(): Response
     {
@@ -116,8 +106,6 @@ class AdminEmployeeController extends Controller
 
     /**
      * Show the Create employee view.
-     *
-     * @return Response
      */
     public function create(): Response
     {
@@ -128,10 +116,6 @@ class AdminEmployeeController extends Controller
 
     /**
      * Create the employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return mixed
      */
     public function store(Request $request, int $companyId): mixed
     {
@@ -177,9 +161,6 @@ class AdminEmployeeController extends Controller
     /**
      * Show the Lock employee view.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return mixed
      */
     public function lock(Request $request, int $companyId, int $employeeId)
@@ -213,11 +194,6 @@ class AdminEmployeeController extends Controller
 
     /**
      * Lock the employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function lockAccount(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -240,9 +216,6 @@ class AdminEmployeeController extends Controller
     /**
      * Show the Unlock employee view.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return mixed
      */
     public function unlock(Request $request, int $companyId, int $employeeId)
@@ -276,11 +249,6 @@ class AdminEmployeeController extends Controller
 
     /**
      * Unlock the employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function unlockAccount(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -303,9 +271,6 @@ class AdminEmployeeController extends Controller
     /**
      * Show the Delete employee view.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return mixed
      */
     public function delete(Request $request, int $companyId, int $employeeId)
@@ -343,11 +308,6 @@ class AdminEmployeeController extends Controller
 
     /**
      * Delete the employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -370,9 +330,6 @@ class AdminEmployeeController extends Controller
     /**
      * Show the Invite employee view.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return mixed
      */
     public function invite(Request $request, int $companyId, int $employeeId)
@@ -408,11 +365,6 @@ class AdminEmployeeController extends Controller
 
     /**
      * Send an invite to an employee to become user.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function sendInvite(Request $request, int $companyId, int $employeeId): JsonResponse
     {

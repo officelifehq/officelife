@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\ViewHelpers\Adminland;
 
-use Tests\ApiTestCase;
+use App\Http\ViewHelpers\Adminland\AdminProjectManagementViewHelper;
 use App\Models\Company\Company;
 use App\Models\Company\IssueType;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Adminland\AdminProjectManagementViewHelper;
+use Tests\ApiTestCase;
 
 class AdminProjectManagementViewHelperTest extends ApiTestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_all_the_issue_types(): void
     {

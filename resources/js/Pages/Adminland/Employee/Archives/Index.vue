@@ -66,9 +66,9 @@
           </h2>
 
           <p class="tr">
-            <inertia-link :href="importJobs.url_new" class="btn relative dib-l db">
+            <Link :href="importJobs.url_new" class="btn relative dib-l db">
               {{ $t('account.import_employees_archives_cta') }}
-            </inertia-link>
+            </Link>
           </p>
 
           <!-- LIST OF JOB REPORTS -->
@@ -98,7 +98,7 @@
 
               <!-- LIST OF ACTIONS FOR EACH REPORT -->
               <ul class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns f6">
-                <li><inertia-link :href="job.url">{{ $t('app.view') }}</inertia-link></li>
+                <li><Link :href="job.url">{{ $t('app.view') }}</Link></li>
               </ul>
             </li>
           </ul>
@@ -108,7 +108,7 @@
             <p class="tc measure center mb4 lh-copy">
               {{ $t('account.import_employees_archives_blank_description') }}
             </p>
-            <img loading="lazy" src="/img/streamline-icon-document-box-3@140x140.png" alt="add email symbol" class="db center mb4" height="80"
+            <img loading="lazy" :src="'/img/streamline-icon-document-box-3@140x140.png'" alt="add email symbol" class="db center mb4" height="80"
                  width="80"
             />
           </div>
@@ -119,9 +119,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Help from '@/Shared/Help';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

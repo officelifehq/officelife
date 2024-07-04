@@ -2,13 +2,13 @@
 
 namespace App\Services\Company\Employee\Timesheet;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class RejectTimesheet extends BaseService
 {
@@ -20,8 +20,6 @@ class RejectTimesheet extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -36,9 +34,6 @@ class RejectTimesheet extends BaseService
     /**
      * Reject a timesheet.
      * Only managers and HR or above can reject a timesheet.
-     *
-     * @param array $data
-     * @return Timesheet
      */
     public function execute(array $data): Timesheet
     {

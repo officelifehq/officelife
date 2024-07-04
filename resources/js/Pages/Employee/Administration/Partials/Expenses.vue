@@ -58,7 +58,7 @@
               <div class="dtc-ns db mb3 mb0-ns">
                 <div class="relative">
                   <span class="br3 f7 fw3 ph2 pv1 dib relative mr1" :class="'expense-badge-' + expense.status" :data-cy="'expense-' + expense.id + '-status-' + expense.status"></span>
-                  <inertia-link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</inertia-link>
+                  <Link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</Link>
                 </div>
                 <ul class="f7 fw3 grey list pl0">
                   <li class="mr2 di">{{ expense.expensed_at }}</li>
@@ -76,14 +76,18 @@
           </li>
         </ul>
         <div class="ph3 pv2 tc f6 bt bb-gray">
-          <inertia-link :href="expenses.url" data-cy="view-all-expenses">{{ $t('employee.expense_view_history') }}</inertia-link>
+          <Link :href="expenses.url" data-cy="view-all-expenses">
+            {{ $t('employee.expense_view_history') }}
+          </Link>
         </div>
       </div>
       <!-- no expenses in the last 30 days, but older expenses exist  -->
       <div v-if="expenses.expenses.length == 0 && expenses.hasMorePastExpenses">
         <p class="pa3 tc ma0">{{ $t('employee.expense_more_past_expenses', { number: expenses.totalPastExpenses }) }}</p>
         <div class="ph3 pv2 tc f6 bt bb-gray">
-          <inertia-link :href="expenses.url" data-cy="view-all-expenses">{{ $t('employee.expense_view_history') }}</inertia-link>
+          <Link :href="expenses.url" data-cy="view-all-expenses">
+            {{ $t('employee.expense_view_history') }}
+          </Link>
         </div>
       </div>
 

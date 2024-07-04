@@ -2,22 +2,22 @@
 
 namespace App\Services\Company\Group;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
+use App\Models\Company\Employee;
 use App\Models\Company\Group;
 use App\Services\BaseService;
-use App\Models\Company\Employee;
+use Carbon\Carbon;
 
 class UpdateGroup extends BaseService
 {
     private array $data;
+
     private Employee $employee;
+
     private Group $group;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -32,8 +32,6 @@ class UpdateGroup extends BaseService
 
     /**
      * Update group information.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

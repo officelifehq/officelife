@@ -27,9 +27,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import EmployeeList from '@/Pages/Adminland/Employee/Partials/EmployeeList';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import EmployeeList from '@/Pages/Adminland/Employee/Partials/EmployeeList.vue';
 
 export default {
   components: {

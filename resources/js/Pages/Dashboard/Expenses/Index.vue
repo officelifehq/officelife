@@ -76,7 +76,7 @@
 
               <div class="dt-row-ns">
                 <div class="dtc-ns db mb3 mb0-ns">
-                  <inertia-link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</inertia-link>
+                  <Link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</Link>
                   <ul class="f7 fw3 grey list pl0">
                     <li class="mr2 di">{{ expense.expensed_at }}</li>
                     <li v-if="expense.category" class="di">{{ expense.category }}</li>
@@ -96,7 +96,7 @@
 
         <!-- blank state -->
         <div v-else>
-          <img loading="lazy" class="db center mb4" alt="no expenses to validate" src="/img/streamline-icon-ribbon-coin-1@140x140.png" />
+          <img loading="lazy" class="db center mb4" alt="no expenses to validate" :src="'/img/streamline-icon-ribbon-coin-1@140x140.png'" />
 
           <p class="fw5 mt3 tc">{{ $t('dashboard.accounting_expense_blank_state') }}</p>
         </div>
@@ -166,7 +166,7 @@
 
         <!-- blank state -->
         <div v-else>
-          <img loading="lazy" class="db center mb4" alt="no expenses to validate" src="/img/streamline-icon-cheer-party-4@140x140.png" />
+          <img loading="lazy" class="db center mb4" alt="no expenses to validate" :src="'/img/streamline-icon-cheer-party-4@140x140.png'" />
 
           <p class="fw5 mt3 tc">{{ $t('dashboard.accounting_expense_blank_state') }}</p>
         </div>
@@ -188,7 +188,7 @@
             <li v-for="expense in acceptedOrRejected" :key="expense.id" :data-cy="'expense-list-item-' + expense.id" class="expense-item dt-ns bb bb-gray bb-gray-hover pa3 w-100 pa3">
               <div class="dt-row-ns">
                 <div class="dtc-ns db mb3 mb0-ns">
-                  <inertia-link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</inertia-link>
+                  <Link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</Link>
                   <ul class="f7 fw3 grey list pl0 mb2">
                     <li class="mr2 di">{{ expense.expensed_at }}</li>
                     <li v-if="expense.category" class="di">{{ expense.category }}</li>
@@ -229,7 +229,7 @@
 
         <!-- blank state -->
         <div v-else class="pa3">
-          <img loading="lazy" class="db center mb4" alt="no expenses to validate" src="/img/streamline-icon-money-safe-open-2@140x140.png" />
+          <img loading="lazy" class="db center mb4" alt="no expenses to validate" :src="'/img/streamline-icon-money-safe-open-2@140x140.png'" />
 
           <p class="fw5 mt3 tc">{{ $t('dashboard.accounting_expense_all_blank_state') }}</p>
         </div>
@@ -239,10 +239,10 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
-import Layout from '@/Shared/Layout';
-import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import Help from '@/Shared/Help.vue';
+import Layout from '@/Shared/Layout.vue';
+import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
 
 export default {
   components: {

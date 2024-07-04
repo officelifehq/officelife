@@ -45,40 +45,40 @@
 
     <div class="center br3 mb5 tc">
       <div class="cf dib btn-group">
-        <inertia-link :class="{'selected':(tab == 'summary')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + ''" class="f6 fl ph3 pv2 dib pointer no-underline">
+        <Link :class="{'selected':(tab == 'summary')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + ''" class="f6 fl ph3 pv2 dib pointer no-underline">
           {{ $t('project.menu_summary') }}
-        </inertia-link>
-        <!-- <inertia-link :class="{'selected':(tab == 'boards')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/boards'" class="f6 fl ph3 pv2 dib pointer no-underline">
+        </Link>
+        <!-- <Link :class="{'selected':(tab == 'boards')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/boards'" class="f6 fl ph3 pv2 dib pointer no-underline">
           {{ $t('project.menu_boards') }}
-        </inertia-link> -->
-        <inertia-link :class="{'selected':(tab == 'decisions')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/decisions'" class="f6 fl ph3 pv2 dib pointer no-underline">
+        </Link> -->
+        <Link :class="{'selected':(tab == 'decisions')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/decisions'" class="f6 fl ph3 pv2 dib pointer no-underline">
           {{ $t('project.menu_decision_logs') }}
-        </inertia-link>
-        <inertia-link :class="{'selected':(tab == 'messages')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer no-underline">
+        </Link>
+        <Link :class="{'selected':(tab == 'messages')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer no-underline">
           {{ $t('project.menu_messages') }}
-        </inertia-link>
-        <inertia-link :class="{'selected':(tab == 'tasks')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/tasks'" class="f6 fl ph3 pv2 dib pointer">
+        </Link>
+        <Link :class="{'selected':(tab == 'tasks')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/tasks'" class="f6 fl ph3 pv2 dib pointer">
           {{ $t('project.menu_tasks') }}
-        </inertia-link>
-        <!-- <inertia-link :class="{'selected':(tab == 'calendar')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer">
+        </Link>
+        <!-- <Link :class="{'selected':(tab == 'calendar')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer">
           {{ $t('project.menu_calendar') }}
-        </inertia-link> -->
-        <inertia-link :class="{'selected':(tab == 'members')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/members'" class="f6 fl ph3 pv2 dib pointer">
+        </Link> -->
+        <Link :class="{'selected':(tab == 'members')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/members'" class="f6 fl ph3 pv2 dib pointer">
           {{ $t('project.menu_members') }}
-        </inertia-link>
-        <!-- <inertia-link :class="{'selected':(tab == 'finance')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer">
+        </Link>
+        <!-- <Link :class="{'selected':(tab == 'finance')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer">
           {{ $t('project.menu_finance') }}
-        </inertia-link> -->
-        <inertia-link :class="{'selected':(tab == 'files')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/files'" class="f6 fl ph3 pv2 dib pointer">
+        </Link> -->
+        <Link :class="{'selected':(tab == 'files')}" :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/files'" class="f6 fl ph3 pv2 dib pointer">
           {{ $t('project.menu_files') }}
-        </inertia-link>
+        </Link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Avatar from '@/Shared/Avatar';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

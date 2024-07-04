@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Adminland\AdminPositionViewHelper;
 use App\Services\Company\Adminland\Position\CreatePosition;
-use App\Services\Company\Adminland\Position\UpdatePosition;
 use App\Services\Company\Adminland\Position\DestroyPosition;
+use App\Services\Company\Adminland\Position\UpdatePosition;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminPositionController extends Controller
 {
     /**
      * Show the list of positions.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -35,10 +33,6 @@ class AdminPositionController extends Controller
 
     /**
      * Create the position.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {
@@ -63,11 +57,6 @@ class AdminPositionController extends Controller
 
     /**
      * Update the position.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $positionId
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $positionId): JsonResponse
     {
@@ -92,11 +81,6 @@ class AdminPositionController extends Controller
 
     /**
      * Delete the position.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $positionId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $positionId): JsonResponse
     {

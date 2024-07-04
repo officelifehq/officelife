@@ -2,12 +2,12 @@
 
 namespace App\Jobs;
 
+use App\Services\User\Preferences\UpdateDashboardView;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Services\User\Preferences\UpdateDashboardView;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class UpdateDashboardPreference implements ShouldQueue
 {
@@ -15,15 +15,11 @@ class UpdateDashboardPreference implements ShouldQueue
 
     /**
      * The preference instance.
-     *
-     * @var array
      */
     public array $preference;
 
     /**
      * Create a new job instance.
-     *
-     * @param array $preference
      */
     public function __construct(array $preference)
     {

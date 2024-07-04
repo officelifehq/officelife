@@ -2,9 +2,9 @@
 
 namespace App\Helpers;
 
-use App\Models\Company\TeamLog;
 use App\Models\Company\AuditLog;
 use App\Models\Company\EmployeeLog;
+use App\Models\Company\TeamLog;
 
 class LogHelper
 {
@@ -12,10 +12,6 @@ class LogHelper
      * Return an sentence explaining what the log contains.
      * A log is stored in a json file and needs some kind of processing to make
      * it understandable by a human.
-     *
-     * @param AuditLog $log
-     *
-     * @return string
      */
     public static function processAuditLog(AuditLog $log): string
     {
@@ -824,10 +820,10 @@ class LogHelper
 
             case 'project_link_destroyed':
                 $sentence = trans('account.log_project_link_destroyed', [
-                        'project_id' => $log->object->{'project_id'},
-                        'project_name' => $log->object->{'project_name'},
-                        'project_link_name' => $log->object->{'project_link_name'},
-                    ]);
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'project_link_name' => $log->object->{'project_link_name'},
+                ]);
                 break;
 
             case 'project_status_created':
@@ -1000,10 +996,10 @@ class LogHelper
 
             case 'employee_contract_renewed_at_set':
                 $sentence = trans('account.log_employee_contract_renewed_at_set', [
-                        'employee_id' => $log->object->{'employee_id'},
-                        'employee_name' => $log->object->{'employee_name'},
-                        'contract_renewed_at' => $log->object->{'contract_renewed_at'},
-                    ]);
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                    'contract_renewed_at' => $log->object->{'contract_renewed_at'},
+                ]);
                 break;
 
             case 'timesheet_submitted':
@@ -1017,20 +1013,20 @@ class LogHelper
 
             case 'timesheet_approved':
                 $sentence = trans('account.log_timesheet_approved', [
-                        'timesheet_id' => $log->object->{'timesheet_id'},
-                        'employee_id' => $log->object->{'employee_id'},
-                        'started_at' => $log->object->{'started_at'},
-                        'ended_at' => $log->object->{'ended_at'},
-                    ]);
+                    'timesheet_id' => $log->object->{'timesheet_id'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'started_at' => $log->object->{'started_at'},
+                    'ended_at' => $log->object->{'ended_at'},
+                ]);
                 break;
 
             case 'timesheet_rejected':
                 $sentence = trans('account.log_timesheet_rejected', [
-                        'timesheet_id' => $log->object->{'timesheet_id'},
-                        'employee_id' => $log->object->{'employee_id'},
-                        'started_at' => $log->object->{'started_at'},
-                        'ended_at' => $log->object->{'ended_at'},
-                    ]);
+                    'timesheet_id' => $log->object->{'timesheet_id'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'started_at' => $log->object->{'started_at'},
+                    'ended_at' => $log->object->{'ended_at'},
+                ]);
                 break;
 
             case 'employee_avatar_set':
@@ -1344,11 +1340,11 @@ class LogHelper
 
             case 'page_updated':
                 $sentence = trans('account.log_page_updated', [
-                        'wiki_id' => $log->object->{'wiki_id'},
-                        'wiki_title' => $log->object->{'wiki_title'},
-                        'page_id' => $log->object->{'page_id'},
-                        'page_title' => $log->object->{'page_title'},
-                    ]);
+                    'wiki_id' => $log->object->{'wiki_id'},
+                    'wiki_title' => $log->object->{'wiki_title'},
+                    'page_id' => $log->object->{'page_id'},
+                    'page_title' => $log->object->{'page_title'},
+                ]);
                 break;
 
             case 'page_destroyed':
@@ -1833,10 +1829,6 @@ class LogHelper
 
     /**
      * Transform an action into an understandable sentence.
-     *
-     * @param EmployeeLog $log
-     *
-     * @return string
      */
     public static function processEmployeeLog(EmployeeLog $log): string
     {
@@ -2273,32 +2265,32 @@ class LogHelper
 
             case 'contract_renewed_at_set':
                 $sentence = trans('account.employee_log_contract_renewed_at_set', [
-                        'contract_renewed_at' => $log->object->{'contract_renewed_at'},
-                    ]);
+                    'contract_renewed_at' => $log->object->{'contract_renewed_at'},
+                ]);
                 break;
 
             case 'timesheet_submitted':
                 $sentence = trans('account.employee_log_timesheet_submitted', [
-                        'timesheet_id' => $log->object->{'timesheet_id'},
-                        'started_at' => $log->object->{'started_at'},
-                        'ended_at' => $log->object->{'ended_at'},
-                    ]);
+                    'timesheet_id' => $log->object->{'timesheet_id'},
+                    'started_at' => $log->object->{'started_at'},
+                    'ended_at' => $log->object->{'ended_at'},
+                ]);
                 break;
 
             case 'timesheet_approved':
                 $sentence = trans('account.employee_log_timesheet_approved', [
-                        'timesheet_id' => $log->object->{'timesheet_id'},
-                        'started_at' => $log->object->{'started_at'},
-                        'ended_at' => $log->object->{'ended_at'},
-                    ]);
+                    'timesheet_id' => $log->object->{'timesheet_id'},
+                    'started_at' => $log->object->{'started_at'},
+                    'ended_at' => $log->object->{'ended_at'},
+                ]);
                 break;
 
             case 'timesheet_rejected':
                 $sentence = trans('account.employee_log_timesheet_rejected', [
-                        'timesheet_id' => $log->object->{'timesheet_id'},
-                        'started_at' => $log->object->{'started_at'},
-                        'ended_at' => $log->object->{'ended_at'},
-                    ]);
+                    'timesheet_id' => $log->object->{'timesheet_id'},
+                    'started_at' => $log->object->{'started_at'},
+                    'ended_at' => $log->object->{'ended_at'},
+                ]);
                 break;
 
             case 'employee_avatar_set':
@@ -2417,10 +2409,6 @@ class LogHelper
 
     /**
      * Transform an action into an understandable sentence.
-     *
-     * @param TeamLog $log
-     *
-     * @return string
      */
     public static function processTeamLog(TeamLog $log): string
     {

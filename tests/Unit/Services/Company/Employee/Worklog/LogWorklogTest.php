@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Employee\Worklog;
 
-use Tests\TestCase;
+use App\Exceptions\WorklogAlreadyLoggedTodayException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use App\Models\Company\Worklog;
+use App\Services\Company\Employee\Worklog\LogWorklog;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Employee\Worklog\LogWorklog;
-use App\Exceptions\WorklogAlreadyLoggedTodayException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class LogWorklogTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_logs_a_worklog_as_administrator(): void
     {

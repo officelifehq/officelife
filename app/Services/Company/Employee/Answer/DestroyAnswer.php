@@ -2,19 +2,17 @@
 
 namespace App\Services\Company\Employee\Answer;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Answer;
 use App\Models\Company\Question;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyAnswer extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,10 +26,6 @@ class DestroyAnswer extends BaseService
 
     /**
      * Destroy an answer.
-     *
-     * @param array $data
-     *
-     * @return bool
      */
     public function execute(array $data): bool
     {

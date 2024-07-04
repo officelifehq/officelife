@@ -3,18 +3,15 @@
 namespace App\Http\ViewHelpers\Company\Project;
 
 use App\Models\Company\Company;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
-use Illuminate\Support\Collection;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectBoard;
+use Illuminate\Support\Collection;
 
 class ProjectBoardsViewHelper
 {
     /**
      * All the boards in the project.
-     *
-     * @param Project $project
-     * @return array
      */
     public static function index(Project $project): array
     {
@@ -49,10 +46,6 @@ class ProjectBoardsViewHelper
 
     /**
      * Information needed for the Show board view.
-     *
-     * @param Project $project
-     * @param ProjectBoard $projectBoard
-     * @return array
      */
     public static function show(Project $project, ProjectBoard $projectBoard): array
     {
@@ -69,9 +62,6 @@ class ProjectBoardsViewHelper
 
     /**
      * All the issue types in the company.
-     *
-     * @param Company $company
-     * @return Collection
      */
     public static function issueTypes(Company $company): Collection
     {
@@ -87,16 +77,12 @@ class ProjectBoardsViewHelper
                 'icon_hex_color' => $type->icon_hex_color,
             ]);
         }
+
         return $typesCollection;
     }
 
     /**
      * Information needed for the Backlog view.
-     *
-     * @param Project $project
-     * @param ProjectBoard $projectBoard
-     * @param Employee $employee
-     * @return array
      */
     public static function backlog(Project $project, ProjectBoard $projectBoard, Employee $employee): array
     {

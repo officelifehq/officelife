@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Flow;
 
-use Tests\TestCase;
-use App\Models\Company\Flow;
-use App\Models\Company\Step;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Models\Company\Action;
 use App\Models\Company\Employee;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Company\Flow;
+use App\Models\Company\Step;
 use App\Services\Company\Adminland\Flow\RemoveActionFromStep;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class RemoveActionfromStepTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_removes_an_action_from_a_step_as_administrator(): void
     {

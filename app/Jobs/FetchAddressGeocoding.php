@@ -3,12 +3,12 @@
 namespace App\Jobs;
 
 use App\Models\Company\Place;
+use App\Services\Company\Place\GetGPSCoordinate;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Services\Company\Place\GetGPSCoordinate;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class FetchAddressGeocoding implements ShouldQueue
 {
@@ -16,15 +16,11 @@ class FetchAddressGeocoding implements ShouldQueue
 
     /**
      * The place instance.
-     *
-     * @var Place
      */
     public Place $place;
 
     /**
      * Create a new job instance.
-     *
-     * @param Place $place
      */
     public function __construct(Place $place)
     {

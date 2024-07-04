@@ -9,9 +9,7 @@ class WorklogCollection
     /**
      * Prepare a collection of worklogs.
      *
-     * @param mixed $worklogs
-     *
-     * @return Collection
+     * @param  mixed  $worklogs
      */
     public static function prepare($worklogs): Collection
     {

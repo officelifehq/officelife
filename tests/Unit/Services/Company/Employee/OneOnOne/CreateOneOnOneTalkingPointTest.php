@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Employee\OneOnOne;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\OneOnOneEntry;
-use Illuminate\Support\Facades\Queue;
 use App\Models\Company\OneOnOneTalkingPoint;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneTalkingPoint;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateOneOnOneTalkingPointTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_talking_point_as_administrator(): void
     {

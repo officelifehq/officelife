@@ -38,7 +38,9 @@
               {{ $t('team.team_news_written_by_at', { name: newsItem.author.name, created_at: newsItem.localized_created_at }) }}
 
               <!-- edit -->
-              <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/news/' + newsItem.id + '/edit'" class="ml1 mr2" :data-cy="'edit-news-button-' + newsItem.id">{{ $t('app.edit') }}</inertia-link>
+              <Link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/news/' + newsItem.id + '/edit'" class="ml1 mr2" :data-cy="'edit-news-button-' + newsItem.id">
+                {{ $t('app.edit') }}
+              </Link>
 
               <!-- delete -->
               <a v-if="idToDelete == 0" class="c-delete mr1 pointer" :data-cy="'delete-news-button-' + newsItem.id" @click.prevent="idToDelete = newsItem.id">{{ $t('app.delete') }}</a>
@@ -60,12 +62,12 @@
 
           <!-- Pagination -->
           <div class="center cf">
-            <inertia-link v-show="paginator.previousPageUrl" class="fl dib" :href="paginator.previousPageUrl" title="Previous">
+            <Link v-show="paginator.previousPageUrl" class="fl dib" :href="paginator.previousPageUrl" title="Previous">
               &larr; {{ $t('app.previous') }}
-            </inertia-link>
-            <inertia-link v-show="paginator.nextPageUrl" class="fr dib" :href="paginator.nextPageUrl" title="Next">
+            </Link>
+            <Link v-show="paginator.nextPageUrl" class="fr dib" :href="paginator.nextPageUrl" title="Next">
               {{ $t('app.next') }} &rarr;
-            </inertia-link>
+            </Link>
           </div>
         </div>
       </div>
@@ -74,8 +76,8 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
 
 export default {
   components: {

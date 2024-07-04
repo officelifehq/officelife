@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\TestCase;
-use App\Models\Company\File;
-use App\Models\Company\Employee;
 use App\Models\Company\DisciplineEvent;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Employee;
+use App\Models\Company\File;
+use Tests\TestCase;
 
 class DisciplineEventTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_case(): void
     {

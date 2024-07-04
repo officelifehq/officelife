@@ -2,20 +2,19 @@
 
 namespace App\Services\Company\Adminland\AskMeAnything;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\AskMeAnythingSession;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class ToggleAskMeAnythingSession extends BaseService
 {
     private array $data;
+
     private AskMeAnythingSession $session;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,9 +27,6 @@ class ToggleAskMeAnythingSession extends BaseService
 
     /**
      * Mark a AMA session as active or inactive, depending.
-     *
-     * @param array $data
-     * @return AskMeAnythingSession
      */
     public function execute(array $data): AskMeAnythingSession
     {

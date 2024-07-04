@@ -11,8 +11,7 @@ class EnsureEmailIsVerified extends Middleware
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param mixed|null $redirectToRoute
+     * @param  mixed|null  $redirectToRoute
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function handle($request, Closure $next, $redirectToRoute = null)

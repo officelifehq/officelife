@@ -2,17 +2,15 @@
 
 namespace App\Services\User\Preferences;
 
+use App\Models\Company\Employee;
 use App\Models\User\User;
 use App\Services\BaseService;
 use Illuminate\Validation\Rule;
-use App\Models\Company\Employee;
 
 class UpdateDashboardView extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -36,10 +34,6 @@ class UpdateDashboardView extends BaseService
 
     /**
      * Saves the tab the user was in when viewing the dashboard.
-     *
-     * @param array $data
-     *
-     * @return bool
      */
     public function execute(array $data): bool
     {

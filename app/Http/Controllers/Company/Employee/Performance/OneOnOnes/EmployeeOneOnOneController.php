@@ -2,24 +2,21 @@
 
 namespace App\Http\Controllers\Company\Employee\Performance\OneOnOnes;
 
-use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Employee\EmployeeOneOnOneViewHelper;
+use App\Models\Company\Employee;
 use App\Models\Company\OneOnOneEntry;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Employee\EmployeeOneOnOneViewHelper;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class EmployeeOneOnOneController extends Controller
 {
     /**
      * Display the list of one on ones of this employee.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return mixed
      */
     public function index(Request $request, int $companyId, int $employeeId)
@@ -56,10 +53,6 @@ class EmployeeOneOnOneController extends Controller
     /**
      * Display a single one on one.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param int $oneOnOneId
      * @return mixed
      */
     public function show(Request $request, int $companyId, int $employeeId, int $oneOnOneId)
@@ -68,10 +61,10 @@ class EmployeeOneOnOneController extends Controller
 
         try {
             $entry = OneOnOneEntry::with('employee')
-            ->with('manager')
-            ->with('actionItems')
-            ->with('talkingPoints')
-            ->with('notes')
+                ->with('manager')
+                ->with('actionItems')
+                ->with('talkingPoints')
+                ->with('notes')
                 ->findOrFail($oneOnOneId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');

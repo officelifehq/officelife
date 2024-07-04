@@ -2,21 +2,19 @@
 
 namespace App\Services\Company\Employee\RateYourManager;
 
-use Carbon\Carbon;
+use App\Exceptions\NotEnoughPermissionException;
+use App\Exceptions\SurveyNotActiveAnymoreException;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\RateYourManagerAnswer;
-use App\Exceptions\NotEnoughPermissionException;
-use App\Exceptions\SurveyNotActiveAnymoreException;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class RateYourManager extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -30,9 +28,6 @@ class RateYourManager extends BaseService
 
     /**
      * Save the Rate your manager survey's answer from the employee.
-     *
-     * @param array $data
-     * @return RateYourManagerAnswer
      */
     public function execute(array $data): RateYourManagerAnswer
     {

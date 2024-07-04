@@ -34,7 +34,7 @@
 
         <div class="flex-ns justify-around dn">
           <div>
-            <img loading="lazy" src="/img/streamline-icon-work-desk-sofa-1-3@140x140.png" width="60" alt="one on ones" class="db center mb4" />
+            <img loading="lazy" :src="'/img/streamline-icon-work-desk-sofa-1-3@140x140.png'" width="60" alt="one on ones" class="db center mb4" />
           </div>
           <div>
             <p class="mt0 f3 mb2">{{ statistics.numberOfOccurrencesThisYear }}</p>
@@ -50,7 +50,7 @@
           <ul class="list mt0 mb0 pb3 pr3 pl3">
             <li v-for="entry in oneOnOnes" :key="entry.id" class="flex items-center justify-between oneonone-item br bl bb bb-gray bb-gray-hover pa3 w-100">
               <div>
-                <inertia-link :href="entry.url" :data-cy="'entry-list-item-' + entry.id" class="dib mb2">{{ entry.happened_at }}</inertia-link>
+                <Link :href="entry.url" :data-cy="'entry-list-item-' + entry.id" class="dib mb2">{{ entry.happened_at }}</Link>
                 <ul class="list pl0 f7 gray">
                   <li class="di mr2"><span>🗣</span> {{ $tc('employee.one_on_one_index_item_talking_point', entry.number_of_talking_points, { count: entry.number_of_talking_points}) }}</li>
                   <li class="di mr2"><span>🤜</span> {{ $tc('employee.one_on_one_index_item_action_item', entry.number_of_action_items, { count: entry.number_of_action_items}) }}</li>
@@ -79,10 +79,10 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
-import Help from '@/Shared/Help';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

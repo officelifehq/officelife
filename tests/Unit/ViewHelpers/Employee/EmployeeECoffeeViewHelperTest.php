@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Employee\EmployeeECoffeeViewHelper;
 use App\Models\Company\ECoffee;
 use App\Models\Company\ECoffeeMatch;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Employee\EmployeeECoffeeViewHelper;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class EmployeeECoffeeViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_all_e_coffee_sessions(): void
     {

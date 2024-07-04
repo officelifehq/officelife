@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\ViewHelpers\Adminland;
 
-use Tests\ApiTestCase;
+use App\Http\ViewHelpers\Adminland\AdminRecruitmentViewHelper;
 use App\Models\Company\RecruitingStage;
 use App\Models\Company\RecruitingStageTemplate;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Adminland\AdminRecruitmentViewHelper;
+use Tests\ApiTestCase;
 
 class AdminRecruitmentViewHelperTest extends ApiTestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_templates(): void
     {

@@ -10,11 +10,6 @@ class EmployeeHierarchyViewHelper
 {
     /**
      * Search all employees matching a given criteria.
-     *
-     * @param Company $company
-     * @param Employee $employee
-     * @param string|null $criteria
-     * @return Collection
      */
     public static function search(Company $company, Employee $employee, ?string $criteria): Collection
     {

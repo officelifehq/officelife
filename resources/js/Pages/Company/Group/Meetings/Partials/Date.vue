@@ -75,9 +75,9 @@
 </template>
 
 <script>
-import TextInput from '@/Shared/TextInput';
+import TextInput from '@/Shared/TextInput.vue';
 import 'vue-loaders/dist/vue-loaders.css';
-import LoadingButton from '@/Shared/LoadingButton';
+import LoadingButton from '@/Shared/LoadingButton.vue';
 
 export default {
   components: {

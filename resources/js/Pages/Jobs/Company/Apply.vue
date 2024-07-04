@@ -36,8 +36,8 @@ li + li:before {
     <div class="mw7 center box bg-white mb4">
       <div class="bg-gray pa3 f7 box-top">
         <ul class="list pl0 ma0">
-          <li class="mr2 di"><inertia-link :href="data.url_all">All jobs</inertia-link></li>
-          <li class="mr2 di"><inertia-link :href="data.url_company">{{ data.company.name }}</inertia-link></li>
+          <li class="mr2 di"><Link :href="data.url_all">All jobs</Link></li>
+          <li class="mr2 di"><Link :href="data.url_company">{{ data.company.name }}</Link></li>
           <li class="di">{{ data.job_opening.title }}</li>
         </ul>
       </div>
@@ -114,9 +114,9 @@ li + li:before {
             <div class="mt4">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="data.url_back" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <Link :href="data.url_back" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
-                  </inertia-link>
+                  </Link>
                 </div>
                 <loading-button :class="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'Next step'" />
               </div>
@@ -152,10 +152,10 @@ li + li:before {
 </template>
 
 <script>
-import TextInput from '@/Shared/TextInput';
-import TextArea from '@/Shared/TextArea';
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
+import TextInput from '@/Shared/TextInput.vue';
+import TextArea from '@/Shared/TextArea.vue';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
 
 export default {
   components: {

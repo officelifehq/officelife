@@ -2,20 +2,18 @@
 
 namespace App\Services\Company\Employee\EmployeeStatus;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class RemoveEmployeeStatusFromEmployee extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
-    public function rules():array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -26,12 +24,8 @@ class RemoveEmployeeStatusFromEmployee extends BaseService
 
     /**
      * Remove an employee's status.
-     *
-     * @param array $data
-     *
-     * @return Employee
      */
-    public function execute(array $data):Employee
+    public function execute(array $data): Employee
     {
         $this->validateRules($data);
 

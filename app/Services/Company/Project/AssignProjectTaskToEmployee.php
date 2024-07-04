@@ -2,26 +2,27 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
-use App\Models\Company\ProjectTask;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\ProjectTask;
+use App\Services\BaseService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AssignProjectTaskToEmployee extends BaseService
 {
     protected array $data;
+
     protected ProjectTask $projectTask;
+
     protected Employee $assignee;
+
     protected Project $project;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -36,9 +37,6 @@ class AssignProjectTaskToEmployee extends BaseService
 
     /**
      * Assign the project task to an employee.
-     *
-     * @param array $data
-     * @return ProjectTask
      */
     public function execute(array $data): ProjectTask
     {

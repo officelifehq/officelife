@@ -2,12 +2,12 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\User\User;
-use App\Models\User\Pronoun;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Models\Company\Position;
 use App\Models\Company\EmployeeStatus;
+use App\Models\Company\Position;
+use App\Models\User\Pronoun;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EmployeeFactory extends Factory
@@ -40,6 +40,7 @@ class EmployeeFactory extends Factory
             'email' => 'dwigth@dundermifflin.com',
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
+            'timezone' => 'UTC',
             'birthdate' => $this->faker->dateTimeThisCentury()->format('Y-m-d H:i:s'),
             'consecutive_worklog_missed' => 0,
             'employee_status_id' => EmployeeStatus::factory()->create([

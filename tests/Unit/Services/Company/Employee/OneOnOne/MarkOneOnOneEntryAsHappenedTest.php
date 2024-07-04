@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\Services\Company\Employee\OneOnOne;
 
-use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\OneOnOneEntry;
+use App\Services\Company\Employee\OneOnOne\MarkOneOnOneEntryAsHappened;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\OneOnOne\MarkOneOnOneEntryAsHappened;
+use Tests\TestCase;
 
 class MarkOneOnOneEntryAsHappenedTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_marks_an_one_on_one_as_completed_as_administrator(): void
     {

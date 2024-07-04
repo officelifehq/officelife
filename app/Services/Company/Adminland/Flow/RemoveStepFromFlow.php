@@ -10,8 +10,6 @@ class RemoveStepFromFlow extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -25,10 +23,6 @@ class RemoveStepFromFlow extends BaseService
 
     /**
      * Remove a step from a given flow.
-     *
-     * @param array $data
-     *
-     * @return Flow
      */
     public function execute(array $data): Flow
     {

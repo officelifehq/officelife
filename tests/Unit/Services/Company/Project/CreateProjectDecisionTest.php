@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectDecision;
-use Illuminate\Validation\ValidationException;
-use App\Services\Company\Project\CreateProjectStatus;
 use App\Services\Company\Project\CreateProjectDecision;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Project\CreateProjectStatus;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateProjectDecisionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_adds_a_decision_to_a_project_as_administrator(): void
     {

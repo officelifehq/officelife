@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\ViewHelpers\Adminland;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\File;
-use App\Models\Company\Employee;
-use App\Models\Company\Software;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Adminland\AdminSoftwareViewHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\File;
+use App\Models\Company\Software;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class AdminSoftwareViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_information_about_software_used_in_the_company(): void
     {
@@ -37,14 +34,14 @@ class AdminSoftwareViewHelperTest extends TestCase
                     'name' => 'Office 365',
                     'seats' => 9,
                     'remaining_seats' => 8,
-                    'url' => env('APP_URL') . '/' . $michael->company_id . '/account/softwares/'.$office365->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/account/softwares/'.$office365->id,
                 ],
             ],
             $array['softwares']->toArray()
         );
 
         $this->assertEquals(
-            env('APP_URL') . '/' . $michael->company_id . '/account/softwares/create',
+            env('APP_URL').'/'.$michael->company_id.'/account/softwares/create',
             $array['url_new']
         );
     }
@@ -106,7 +103,7 @@ class AdminSoftwareViewHelperTest extends TestCase
                     'name' => $michael->name,
                     'avatar' => ImageHelper::getAvatar($michael, 21),
                     'product_key' => null,
-                    'url' => env('APP_URL') . '/' . $michael->company_id . '/employees/' . $michael->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
             ],
             $collection->toArray()
@@ -191,7 +188,7 @@ class AdminSoftwareViewHelperTest extends TestCase
                         'id' => $michael->id,
                         'name' => $michael->name,
                         'avatar' => ImageHelper::getAvatar($michael, 24),
-                        'url' => env('APP_URL') . '/' . $michael->company_id . '/employees/' . $michael->id,
+                        'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                     'created_at' => 'Jan 01, 2019',
                 ],

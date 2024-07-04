@@ -2,14 +2,11 @@
 
 namespace Tests\Unit\Jobs;
 
-use Tests\TestCase;
 use App\Jobs\NotifyEmployee;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class NotifyEmployeeTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_logs_a_notification(): void
     {

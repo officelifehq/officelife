@@ -45,9 +45,9 @@
                   </svg>
 
                   <div class="mb2 relative">
-                    <inertia-link :href="page.url" class="f4 dib mb2">
+                    <Link :href="page.url" class="f4 dib mb2">
                       {{ page.title }}
-                    </inertia-link>
+                    </Link>
 
                     <ul class="ma0 gray f7 pl0 list">
                       <li class="di mr2">{{ $t('kb.show_written_by', {name: page.first_revision.name, date: page.first_revision.created_at}) }}</li>
@@ -60,7 +60,7 @@
 
             <!-- blank state -->
             <div v-else class="br3 bg-white box z-1 pa4 tc">
-              <img loading="lazy" src="/img/streamline-icon-app-content@140x140.png" alt="" height="140"
+              <img loading="lazy" :src="'/img/streamline-icon-app-content@140x140.png'" alt="" height="140"
                    width="140"
               />
               <p class="mb3">
@@ -71,12 +71,12 @@
 
           <!-- RIGHT COLUMN -->
           <div class="fl w-30-l w-100 pl4-l">
-            <inertia-link :href="wiki.urls.create" class="btn relative dib-l db right-0">
+            <Link :href="wiki.urls.create" class="btn relative dib-l db right-0">
               {{ $t('kb.show_cta') }}
-            </inertia-link>
+            </Link>
 
             <ul class="list pl0 f7">
-              <li class="mb2"><inertia-link :href="wiki.urls.edit" class="bb b--dotted bt-0 bl-0 br-0 pointer">{{ $t('app.edit') }}</inertia-link></li>
+              <li class="mb2"><Link :href="wiki.urls.edit" class="bb b--dotted bt-0 bl-0 br-0 pointer">{{ $t('app.edit') }}</Link></li>
               <li v-if="!showDeleteMode"><a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click="showDeleteMode = true">{{ $t('kb.index_delete') }}</a></li>
               <li v-else>
                 {{ $t('app.sure') }}
@@ -96,8 +96,8 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
 
 export default {
   components: {

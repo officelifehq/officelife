@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
+use App\Exceptions\ProjectCodeAlreadyExistException;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
+use App\Services\Company\Project\CreateProject;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Project\CreateProject;
-use App\Exceptions\ProjectCodeAlreadyExistException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class CreateProjectTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_project_as_administrator(): void
     {
@@ -99,7 +96,7 @@ class CreateProjectTest extends TestCase
         (new CreateProject)->execute($request);
     }
 
-    private function executeService(Employee $michael, Employee $lead = null): void
+    private function executeService(Employee $michael, ?Employee $lead = null): void
     {
         Queue::fake();
 

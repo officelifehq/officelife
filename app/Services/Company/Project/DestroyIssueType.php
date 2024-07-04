@@ -2,20 +2,19 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\IssueType;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyIssueType extends BaseService
 {
     protected array $data;
+
     protected IssueType $type;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,8 +27,6 @@ class DestroyIssueType extends BaseService
 
     /**
      * Delete an issue type.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

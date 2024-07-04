@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Project;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectIssuesViewHelper;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectIssue;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Project\ProjectIssuesViewHelper;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class ProjectIssuesViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_details_of_the_issue(): void
     {
@@ -71,7 +68,7 @@ class ProjectIssuesViewHelperTest extends TestCase
             [
                 'points' => $issue->story_points,
                 'url' => [
-                    'store' => env('APP_URL').'/'.$issue->project->company_id.'/company/projects/'.$issue->project->id.'/boards/'.$issue->board->id. '/issues/'.$issue->id.'/points',
+                    'store' => env('APP_URL').'/'.$issue->project->company_id.'/company/projects/'.$issue->project->id.'/boards/'.$issue->board->id.'/issues/'.$issue->id.'/points',
                 ],
             ],
             $array['story_points']
@@ -103,7 +100,7 @@ class ProjectIssuesViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 'index' => env('APP_URL').'/'.$issue->project->company_id.'/company/projects/'.$issue->project->id.'/boards/'.$issue->board->id.'/members',
-                'store' => env('APP_URL').'/'.$issue->project->company_id.'/company/projects/'.$issue->project->id.'/boards/'.$issue->board->id. '/issues/'.$issue->id.'/assignees',
+                'store' => env('APP_URL').'/'.$issue->project->company_id.'/company/projects/'.$issue->project->id.'/boards/'.$issue->board->id.'/issues/'.$issue->id.'/assignees',
             ],
             $array['assignees']['url']
         );
@@ -115,7 +112,7 @@ class ProjectIssuesViewHelperTest extends TestCase
                     'avatar' => ImageHelper::getAvatar($michael, 25),
                     'url' => [
                         'show' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
-                        'destroy' => env('APP_URL').'/'.$issue->project->company_id.'/company/projects/'.$issue->project->id.'/boards/'.$issue->board->id. '/issues/'.$issue->id.'/assignees/'.$michael->id,
+                        'destroy' => env('APP_URL').'/'.$issue->project->company_id.'/company/projects/'.$issue->project->id.'/boards/'.$issue->board->id.'/issues/'.$issue->id.'/assignees/'.$michael->id,
                     ],
                 ],
             ],

@@ -2,28 +2,30 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
+use App\Models\Company\Employee;
 use App\Models\Company\JobOpening;
-use App\Services\Company\Employee\Team\AddEmployeeToTeam;
-use App\Services\Company\Employee\HiringDate\SetHiringDate;
+use App\Services\BaseService;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
+use App\Services\Company\Employee\HiringDate\SetHiringDate;
+use App\Services\Company\Employee\Team\AddEmployeeToTeam;
+use Carbon\Carbon;
 
 class HireCandidate extends BaseService
 {
     protected array $data;
+
     protected JobOpening $jobOpening;
+
     protected Candidate $candidate;
+
     protected Employee $employee;
+
     protected Carbon $hiredAt;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -44,9 +46,6 @@ class HireCandidate extends BaseService
      * - create the employee,
      * - mark the job opening as fulfilled
      * - deactivate the job opening.
-     *
-     * @param array $data
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

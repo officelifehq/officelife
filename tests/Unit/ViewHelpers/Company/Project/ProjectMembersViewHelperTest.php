@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Project;
 
-use Tests\TestCase;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Project;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Company\Project\ProjectMembersViewHelper;
+use App\Models\Company\Project;
+use Tests\TestCase;
 
 class ProjectMembersViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_employees(): void
     {

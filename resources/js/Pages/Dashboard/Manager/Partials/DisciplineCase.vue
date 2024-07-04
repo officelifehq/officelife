@@ -41,7 +41,7 @@
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box relative">
-      <img loading="lazy" src="/img/streamline-icon-prisoner-2-5@100x100.png" width="90" alt="meeting" class="absolute-ns di-ns dn top-1 left-1" />
+      <img loading="lazy" :src="'/img/streamline-icon-prisoner-2-5@100x100.png'" width="90" alt="meeting" class="absolute-ns di-ns dn top-1 left-1" />
 
       <ul class="pl6-ns pl3 pb3 pt3 pr3 ma0">
         <li v-for="disciplineCase in cases" :key="disciplineCase.id" class="flex justify-between items-center br bl bb bb-gray bb-gray-hover pa3 entry-item">
@@ -49,7 +49,7 @@
           <div>
             <span class="pl3 db relative team-member">
               <avatar :avatar="disciplineCase.employee.avatar" :size="35" :class="'br-100 absolute avatar'" />
-              <inertia-link :href="disciplineCase.employee.url" class="mb2">{{ disciplineCase.employee.name }}</inertia-link>
+              <Link :href="disciplineCase.employee.url" class="mb2">{{ disciplineCase.employee.name }}</Link>
               <span class="title db f7 mt1">
                 {{ disciplineCase.employee.position }}
               </span>
@@ -58,7 +58,7 @@
 
           <!-- call to action -->
           <div class="tr">
-            <inertia-link :href="disciplineCase.url" class="btn dib-l db">{{ $t('app.view') }}</inertia-link>
+            <Link :href="disciplineCase.url" class="btn dib-l db">{{ $t('app.view') }}</Link>
           </div>
         </li>
       </ul>
@@ -67,8 +67,8 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
-import Avatar from '@/Shared/Avatar';
+import Help from '@/Shared/Help.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

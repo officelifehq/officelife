@@ -37,13 +37,13 @@
 </template>
 
 <script>
-import Expense from '@/Pages/Dashboard/Manager/Partials/Expense';
-import OneOnOneWithDirectReport from '@/Pages/Dashboard/Manager/Partials/OneOnOneWithDirectReport';
-import ContractRenewal from '@/Pages/Dashboard/Manager/Partials/ContractRenewal';
-import TimesheetApprovals from '@/Pages/Dashboard/Manager/Partials/TimesheetApprovals';
-import DisciplineCase from '@/Pages/Dashboard/Manager/Partials/DisciplineCase';
-import Layout from '@/Shared/Layout';
-import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
+import Expense from '@/Pages/Dashboard/Manager/Partials/Expense.vue';
+import OneOnOneWithDirectReport from '@/Pages/Dashboard/Manager/Partials/OneOnOneWithDirectReport.vue';
+import ContractRenewal from '@/Pages/Dashboard/Manager/Partials/ContractRenewal.vue';
+import TimesheetApprovals from '@/Pages/Dashboard/Manager/Partials/TimesheetApprovals.vue';
+import DisciplineCase from '@/Pages/Dashboard/Manager/Partials/DisciplineCase.vue';
+import Layout from '@/Shared/Layout.vue';
+import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu.vue';
 
 export default {
   components: {

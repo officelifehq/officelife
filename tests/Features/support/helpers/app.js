@@ -13,7 +13,7 @@ Cypress.Commands.add('login', (callback) => {
 });
 
 Cypress.Commands.add('loginin', (id) => {
-  cy.visit('/_dusk/login/'+id+'/');
+  cy.request('/_dusk/login/'+id+'/');
 });
 
 Cypress.Commands.add('loginLegacy', (role) => {

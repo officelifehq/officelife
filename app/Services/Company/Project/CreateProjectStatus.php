@@ -2,12 +2,12 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
-use App\Models\Company\ProjectStatus;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\ProjectStatus;
+use App\Services\BaseService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CreateProjectStatus extends BaseService
@@ -20,8 +20,6 @@ class CreateProjectStatus extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -37,9 +35,6 @@ class CreateProjectStatus extends BaseService
 
     /**
      * Create a project status.
-     *
-     * @param array $data
-     * @return ProjectStatus
      */
     public function execute(array $data): ProjectStatus
     {

@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Employee\EmployeeStatus;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
 use App\Models\Company\EmployeeStatus;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\EmployeeStatus\AssignEmployeeStatusToEmployee;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class AssignEmployeeStatusToEmployeeTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_assigns_an_employee_status_as_administrator(): void
     {

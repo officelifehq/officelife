@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Adminland\ExpenseCategory;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\ExpenseCategory\UpdateExpenseCategory;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class UpdateExpenseCategoryTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_an_expense_category_as_administrator(): void
     {

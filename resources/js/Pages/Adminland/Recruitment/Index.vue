@@ -83,7 +83,7 @@
           <!-- LIST OF TEMPLATES -->
           <ul v-if="localTemplates.length > 0" class="list pl0 mv0 center ba br2 bb-gray">
             <li v-for="template in localTemplates" :key="template.id" class="pv3 ph2 bb bb-gray bb-gray-hover template-item">
-              <span class="mb2 db"><inertia-link :href="template.url">{{ template.name }}</inertia-link></span>
+              <span class="mb2 db"><Link :href="template.url">{{ template.name }}</Link></span>
 
               <div v-if="template.stages">
                 <ul v-if="template.stages.length > 0" class="pl0 ma0 list f7 gray stage-list">
@@ -100,9 +100,7 @@
             <p class="tc measure center mb4 lh-copy">
               {{ $t('account.recruitment_index_blank') }}
             </p>
-            <img loading="lazy" class="db center mb4" alt="add a position symbol" srcset="/img/company/account/blank-position-1x.png,
-                                          /img/company/account/blank-position-2x.png 2x"
-            />
+            <img loading="lazy" class="db center mb4" alt="add a position symbol" :srcset="'/img/company/account/blank-position-1x.png, /img/company/account/blank-position-2x.png 2x'" />
           </div>
         </div>
       </div>
@@ -111,12 +109,12 @@
 </template>
 
 <script>
-import TextInput from '@/Shared/TextInput';
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Help from '@/Shared/Help';
+import TextInput from '@/Shared/TextInput.vue';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

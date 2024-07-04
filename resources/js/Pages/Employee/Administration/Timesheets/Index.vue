@@ -80,7 +80,7 @@
         <ul class="list years tc mb5" data-cy="worklog-year-selector">
           <li class="di">{{ $t('employee.worklog_year_selector') }}</li>
           <li v-for="singleYear in years" :key="singleYear.number" class="di mh2">
-            <inertia-link :href="singleYear.url" :class="{ selected: currentYear == singleYear.number }">{{ singleYear.number }}</inertia-link>
+            <Link :href="singleYear.url" :class="{ selected: currentYear == singleYear.number }">{{ singleYear.number }}</Link>
           </li>
         </ul>
 
@@ -92,16 +92,16 @@
               <!-- list of months -->
               <p class="f6 mt0 silver">{{ $t('employee.worklog_filter_month') }}</p>
               <ul class="pl0 list months f6">
-                <li class="mb2"><inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/administration/timesheets/overview/' + year">All</inertia-link></li>
+                <li class="mb2"><Link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/administration/timesheets/overview/' + year">All</Link></li>
                 <li v-for="month in months" :key="month.month" class="mb2" :data-cy="'worklog-month-selector-' + month.month">
                   <!-- we are viewing a specific month, so we need to highlight the proper month in the UI -->
                   <template v-if="currentMonth">
-                    <inertia-link v-if="month.occurences != 0" :href="month.url" :class="{ selected: currentMonth == month.month }">{{ month.translation }} ({{ month.occurences }})</inertia-link>
+                    <Link v-if="month.occurences != 0" :href="month.url" :class="{ selected: currentMonth == month.month }">{{ month.translation }} ({{ month.occurences }})</Link>
                     <span v-if="month.occurences == 0">{{ month.translation }} ({{ month.occurences }})</span>
                   </template>
 
                   <template v-else>
-                    <inertia-link v-if="month.occurences != 0" :href="month.url">{{ month.translation }} ({{ month.occurences }})</inertia-link>
+                    <Link v-if="month.occurences != 0" :href="month.url">{{ month.translation }} ({{ month.occurences }})</Link>
                     <span v-if="month.occurences == 0">{{ month.translation }} ({{ month.occurences }})</span>
                   </template>
                 </li>
@@ -112,7 +112,7 @@
             <div class="fl-ns w-two-thirds-ns pa3">
               <div class="flex-ns justify-around dn">
                 <div>
-                  <img loading="lazy" src="/img/streamline-icon-employee-checklist-6@140x140.png" height="60" width="60" alt="timesheets"
+                  <img loading="lazy" :src="'/img/streamline-icon-employee-checklist-6@140x140.png'" height="60" width="60" alt="timesheets"
                        class="db center mb4"
                   />
                 </div>
@@ -135,7 +135,9 @@
 
                 <!-- view link -->
                 <div>
-                  <inertia-link :href="t.url" class="ma0 pa0 f6" :data-cy="'entry-item-' + t.id">{{ $t('app.view') }}</inertia-link>
+                  <Link :href="t.url" class="ma0 pa0 f6" :data-cy="'entry-item-' + t.id">
+                    {{ $t('app.view') }}
+                  </Link>
                 </div>
               </div>
 
@@ -155,9 +157,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Help from '@/Shared/Help';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

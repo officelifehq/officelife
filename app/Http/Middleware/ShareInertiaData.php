@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Inertia\Inertia;
 use App\Helpers\LocaleHelper;
+use Inertia\Inertia;
 
 /**
  * Used by Jetstream to share data.

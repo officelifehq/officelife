@@ -2,24 +2,21 @@
 
 namespace Tests\Unit\Services\Company\Employee\Morale;
 
-use Carbon\Carbon;
-use Tests\TestCase;
+use App\Exceptions\MoraleAlreadyLoggedTodayException;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Morale;
 use App\Models\Company\Employee;
+use App\Models\Company\Morale;
+use App\Services\Company\Employee\Morale\LogMorale;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use App\Services\Company\Employee\Morale\LogMorale;
-use App\Exceptions\MoraleAlreadyLoggedTodayException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class LogMoraleTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_logs_a_morale_as_administrator(): void
     {

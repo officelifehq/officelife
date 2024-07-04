@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Group;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Group;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Meeting;
 use App\Models\Company\Employee;
+use App\Models\Company\Group;
+use App\Models\Company\Meeting;
+use App\Services\Company\Group\AddGuestToMeeting;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Group\AddGuestToMeeting;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class AddGuestToMeetingTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_adds_an_employee_to_a_meeting_as_guest_as_administrator(): void
     {
@@ -142,7 +139,7 @@ class AddGuestToMeetingTest extends TestCase
                 $job->auditLog['objects'] === json_encode([
                     'group_id' => $group->id,
                     'group_name' => $group->name,
-                'meeting_id' => $meeting->id,
+                    'meeting_id' => $meeting->id,
                 ]);
         });
     }

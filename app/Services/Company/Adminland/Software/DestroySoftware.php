@@ -2,20 +2,19 @@
 
 namespace App\Services\Company\Adminland\Software;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Software;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroySoftware extends BaseService
 {
     protected array $data;
+
     protected Software $software;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,8 +27,6 @@ class DestroySoftware extends BaseService
 
     /**
      * Destroy a software.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

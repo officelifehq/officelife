@@ -2,23 +2,18 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Employee\Description\SetPersonalDescription;
+use App\Models\Company\Employee;
 use App\Services\Company\Employee\Description\ClearPersonalDescription;
+use App\Services\Company\Employee\Description\SetPersonalDescription;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class EmployeeDescriptionController extends Controller
 {
     /**
      * Assign an employee description to the given employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -40,12 +35,6 @@ class EmployeeDescriptionController extends Controller
 
     /**
      * Remove the employee description for the given employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param int $employeeStatusId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $employeeId, int $employeeStatusId): JsonResponse
     {

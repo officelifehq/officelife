@@ -29,7 +29,7 @@
     <div class="cf mw7 center br3 mb3 bg-white box relative pa3">
       <p class="mt0 mb2 f6 gray">{{ $t('dashboard.participant_dashboard_job_opening_desc') }}</p>
 
-      <img loading="lazy" src="/img/streamline-icon-user-rating-star-4@100x100.png" width="90" alt="meeting" class="illustration absolute-ns di-ns dn top-1 left-1" />
+      <img loading="lazy" :src="'/img/streamline-icon-user-rating-star-4@100x100.png'" width="90" alt="meeting" class="illustration absolute-ns di-ns dn top-1 left-1" />
 
       <ul class="pl6-ns pl3 pb3 pt3 pr3 ma0 list">
         <li v-for="jobOpening in localJobOpenings" :key="jobOpening.id" class="flex justify-between items-center br bl bb bb-gray bb-gray-hover pa3 entry-item">
@@ -76,10 +76,10 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
-import LoadingButton from '@/Shared/LoadingButton';
-import TextArea from '@/Shared/TextArea';
-import Errors from '@/Shared/Errors';
+import Help from '@/Shared/Help.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import TextArea from '@/Shared/TextArea.vue';
+import Errors from '@/Shared/Errors.vue';
 
 export default {
   components: {

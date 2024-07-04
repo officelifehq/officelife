@@ -30,7 +30,7 @@
       </div>
 
       <div class="cf mw7 center br3 mb3 bg-white box relative">
-        <img loading="lazy" src="/img/streamline-icon-judge-1-4@140x140.png" alt="judge" class="judge absolute-ns di-ns dn top-1 left-1" />
+        <img loading="lazy" :src="'/img/streamline-icon-judge-1-4@140x140.png'" alt="judge" class="judge absolute-ns di-ns dn top-1 left-1" />
 
         <div class="pa3">
           <!-- Emotion panel -->
@@ -116,11 +116,11 @@
 </template>
 
 <script>
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import TextArea from '@/Shared/TextArea';
-import Checkbox from '@/Shared/Checkbox';
-import Help from '@/Shared/Help';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import TextArea from '@/Shared/TextArea.vue';
+import Checkbox from '@/Shared/Checkbox.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

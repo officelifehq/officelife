@@ -2,22 +2,18 @@
 
 namespace App\Http\ViewHelpers\Company\HR;
 
-use ErrorException;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\User\Pronoun;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
+use App\Models\User\Pronoun;
+use ErrorException;
 
 class CompanyHRPositionShowViewHelper
 {
     /**
      * Get the detail of a specific position.
-     *
-     * @param Company $company
-     * @param Position $position
-     * @return array
      */
     public static function show(Company $company, Position $position): array
     {

@@ -57,7 +57,7 @@
         👨‍✈️
       </span> {{ $t('employee.hierarchy_title') }}
     </span>
-    <img v-show="permissions.can_manage_hierarchy" loading="lazy" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button"
+    <img v-show="permissions.can_manage_hierarchy" loading="lazy" :src="'/img/plus_button.svg'" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button"
          width="22"
          height="22" alt="add button"
          @click.prevent="showPopover()"
@@ -169,9 +169,9 @@
           <ul class="list mv0">
             <li v-for="manager in localManagersOfEmployee" :key="manager.id" class="mb3 relative bb-gray-hover">
               <avatar :avatar="manager.avatar" :size="35" :class="'br-100 absolute avatar'" />
-              <inertia-link :href="manager.url" class="mb2">
+              <Link :href="manager.url" class="mb2">
                 {{ manager.name }}
-              </inertia-link>
+              </Link>
 
               <!-- position -->
               <span v-if="manager.position !== null" class="title db f7 mt1">
@@ -181,7 +181,7 @@
                 {{ $t('app.no_position_defined') }}
               </span>
 
-              <img v-if="permissions.can_manage_hierarchy" loading="lazy" src="/img/common/triple-dots.svg" alt="triple dot symbol" class="absolute right-0 pointer list-employees-action"
+              <img v-if="permissions.can_manage_hierarchy" loading="lazy" :src="'/img/common/triple-dots.svg'" alt="triple dot symbol" class="absolute right-0 pointer list-employees-action"
                    data-cy="display-remove-manager-modal"
                    @click="managerModalId = manager.id"
               />
@@ -225,9 +225,9 @@
               <avatar :avatar="directReport.avatar" :size="35" :class="'br-100 absolute avatar'" />
 
               <!-- name -->
-              <inertia-link :href="directReport.url" class="mb2">
+              <Link :href="directReport.url" class="mb2">
                 {{ directReport.name }}
-              </inertia-link>
+              </Link>
 
               <!-- position -->
               <span v-if="directReport.position !== null" class="title db f7 mt1">
@@ -237,7 +237,7 @@
                 {{ $t('app.no_position_defined') }}
               </span>
 
-              <img v-if="permissions.can_manage_hierarchy" loading="lazy" src="/img/common/triple-dots.svg" alt="triple dot symbol" class="absolute right-0 pointer list-employees-action"
+              <img v-if="permissions.can_manage_hierarchy" loading="lazy" :src="'/img/common/triple-dots.svg'" alt="triple dot symbol" class="absolute right-0 pointer list-employees-action"
                    data-cy="display-remove-directreport-modal"
                    @click="directReportModalId = directReport.id"
               />
@@ -273,10 +273,11 @@
 </template>
 
 <script>
-import IconDelete from '@/Shared/IconDelete';
-import Avatar from '@/Shared/Avatar';
+import IconDelete from '@/Shared/IconDelete.vue';
+import Avatar from '@/Shared/Avatar.vue';
 import vClickOutside from 'click-outside-vue3';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
+import _ from 'lodash';
 
 export default {
   components: {

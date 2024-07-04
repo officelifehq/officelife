@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <base href="{{ url('/') }}/" />
-  <link rel="stylesheet" href="{{ asset(mix('css/app.css')) }}">
-  <script id="app-js" src="{{ asset(mix('js/app.js')) }}" defer></script>
+  <link rel="stylesheet" href="https://unpkg.com/tachyons@4/css/tachyons.min.css">
+  @vite(['resources/js/app.js'])
   <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favicon.png') }}" />
   <title>@yield('title', config('app.name'))</title>
 

@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Adminland\WorkFromHome;
 
-use Tests\TestCase;
-use App\Models\User\User;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Models\User\User;
+use App\Services\Company\Adminland\WorkFromHome\ToggleWorkFromHomeProcess;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\WorkFromHome\ToggleWorkFromHomeProcess;
+use Tests\TestCase;
 
 class ToggleWorkFromHomeProcessTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_toggles_the_work_from_home_process_as_administrator(): void
     {

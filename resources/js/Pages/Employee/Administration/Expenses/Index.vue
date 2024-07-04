@@ -55,7 +55,7 @@
 
         <div class="flex-ns justify-around dn">
           <div>
-            <img loading="lazy" class="db center mb4" alt="total of expenses" src="/img/streamline-icon-startup-benefit@60x60.png" width="60" />
+            <img loading="lazy" class="db center mb4" alt="total of expenses" :src="'/img/streamline-icon-startup-benefit@60x60.png'" width="60" />
           </div>
           <div>
             <p class="mt0 f3 mb2">{{ statistics.reimbursedAmount }}</p>
@@ -82,7 +82,7 @@
                 <div class="dtc-ns db mb3 mb0-ns">
                   <div class="relative">
                     <span class="br3 f7 fw3 ph2 pv1 dib relative mr1" :class="'expense-badge-' + expense.status" :data-cy="'expense-' + expense.id + '-status-' + expense.status"></span>
-                    <inertia-link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</inertia-link>
+                    <Link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</Link>
                   </div>
                   <ul class="f7 fw3 grey list pl0">
                     <li class="mr2 di">{{ expense.expensed_at }}</li>
@@ -106,8 +106,8 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
 
 export default {
   components: {

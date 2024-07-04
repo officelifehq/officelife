@@ -2,14 +2,14 @@
 
 namespace App\Jobs;
 
+use App\Models\Company\Morale;
+use App\Models\Company\MoraleTeamHistory;
 use App\Models\Company\Team;
 use Illuminate\Bus\Queueable;
-use App\Models\Company\Morale;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use App\Models\Company\MoraleTeamHistory;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class ProcessTeamMorale implements ShouldQueue
 {
@@ -17,15 +17,11 @@ class ProcessTeamMorale implements ShouldQueue
 
     /**
      * The parameter of the job.
-     *
-     * @var array
      */
     public array $parameters;
 
     /**
      * Create a new job instance.
-     *
-     * @param array $parameters
      */
     public function __construct(array $parameters)
     {

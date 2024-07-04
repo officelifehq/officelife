@@ -2,23 +2,20 @@
 
 namespace App\Http\Controllers\Company\Employee\Presentation\eCoffee;
 
-use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeECoffeeViewHelper;
+use App\Models\Company\Employee;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class EmployeeECoffeeController extends Controller
 {
     /**
      * Show the list of current and past eCoffee sessions.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return mixed
      */
     public function index(Request $request, int $companyId, int $employeeId)

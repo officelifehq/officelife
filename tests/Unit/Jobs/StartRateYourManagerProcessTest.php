@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Jobs;
 
-use Tests\TestCase;
-use Illuminate\Support\Facades\Queue;
-use App\Jobs\StartRateYourManagerProcess;
 use App\Jobs\AskEmployeesToRateTheirManager;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Jobs\StartRateYourManagerProcess;
 use App\Services\Company\Employee\Manager\AssignManager;
+use Illuminate\Support\Facades\Queue;
+use Tests\TestCase;
 
 class StartRateYourManagerProcessTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_starts_the_rate_your_manager_process(): void
     {

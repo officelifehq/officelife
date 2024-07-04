@@ -26,9 +26,9 @@
             <div class="cf pa3 bb-gray bb">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.props.auth.company.id + '/company/groups/' + group.id" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2" data-cy="cancel-button">
+                  <Link :href="'/' + $page.props.auth.company.id + '/company/groups/' + group.id" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2" data-cy="cancel-button">
                     {{ $t('app.cancel') }}
-                  </inertia-link>
+                  </Link>
                 </div>
                 <loading-button :class="'btn destroy w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.delete')" :cypress-selector="'submit-delete-project-button'" />
               </div>
@@ -41,10 +41,10 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
 
 export default {
   components: {

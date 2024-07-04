@@ -2,21 +2,17 @@
 
 namespace App\Http\ViewHelpers\Company\HR;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
+use App\Models\Company\AskMeAnythingSession;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Models\Company\AskMeAnythingSession;
+use Carbon\Carbon;
 
 class CompanyHRAskMeAnythingViewHelper
 {
     /**
      * Get all the sessions in the company.
-     *
-     * @param Company $company
-     * @param Employee $employee
-     * @return array
      */
     public static function index(Company $company, Employee $employee): array
     {
@@ -70,9 +66,6 @@ class CompanyHRAskMeAnythingViewHelper
 
     /**
      * Get all the data necessary for the create screen.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function new(Company $company): array
     {
@@ -94,12 +87,6 @@ class CompanyHRAskMeAnythingViewHelper
 
     /**
      * Get the details of a session.
-     *
-     * @param Company $company
-     * @param AskMeAnythingSession $session
-     * @param Employee $employee
-     * @param bool $showAnswered
-     * @return array
      */
     public static function show(Company $company, AskMeAnythingSession $session, Employee $employee, bool $showAnswered): array
     {
@@ -173,10 +160,6 @@ class CompanyHRAskMeAnythingViewHelper
 
     /**
      * Get the information needed to edit a session.
-     *
-     * @param Company $company
-     * @param AskMeAnythingSession $session
-     * @return array
      */
     public static function edit(Company $company, AskMeAnythingSession $session): array
     {
@@ -201,10 +184,6 @@ class CompanyHRAskMeAnythingViewHelper
 
     /**
      * Get the information needed to delete a session.
-     *
-     * @param Company $company
-     * @param AskMeAnythingSession $session
-     * @return array
      */
     public static function delete(Company $company, AskMeAnythingSession $session): array
     {

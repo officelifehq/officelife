@@ -3,9 +3,9 @@
 namespace App\Models\Company;
 
 use App\Helpers\LogHelper;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AuditLog extends Model
 {
@@ -33,13 +33,14 @@ class AuditLog extends Model
      *
      * @var array
      */
-    protected $dates = [
-        'audited_at',
+    protected $casts = [
+        'audited_at' => 'datetime',
     ];
 
     /**
      * Get the company record associated with the audit log.
 
+     *
      * @return BelongsTo
      */
     public function company()
@@ -50,6 +51,7 @@ class AuditLog extends Model
     /**
      * Get the Employee record associated with the audit log.
 
+     *
      * @return BelongsTo
      */
     public function author()
@@ -60,8 +62,7 @@ class AuditLog extends Model
     /**
      * Get the JSON object.
      *
-     * @param mixed $value
-
+     * @param  mixed  $value
      * @return mixed
      */
     public function getObjectAttribute($value)
@@ -72,9 +73,7 @@ class AuditLog extends Model
     /**
      * Get the content of the audit log, if defined.
      *
-     * @param mixed $value
-
-     * @return string
+     * @param  mixed  $value
      */
     public function getContentAttribute($value): string
     {

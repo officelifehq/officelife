@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\Page;
 use App\Models\Company\Employee;
+use App\Models\Company\Page;
 use App\Models\Company\PageRevision;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

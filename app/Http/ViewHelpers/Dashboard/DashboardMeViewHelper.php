@@ -2,34 +2,31 @@
 
 namespace App\Http\ViewHelpers\Dashboard;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\MoneyHelper;
 use App\Helpers\QuestionHelper;
-use App\Models\Company\Company;
-use App\Models\Company\ECoffee;
-use App\Models\Company\Expense;
-use App\Models\Company\Project;
-use App\Models\Company\Employee;
-use Illuminate\Support\Collection;
 use App\Helpers\WorkFromHomeHelper;
-use Money\Currencies\ISOCurrencies;
-use App\Models\Company\ECoffeeMatch;
-use App\Models\Company\OneOnOneEntry;
-use App\Models\Company\EmployeeStatus;
 use App\Models\Company\AskMeAnythingSession;
 use App\Models\Company\CandidateStageParticipant;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Company\Company;
+use App\Models\Company\ECoffee;
+use App\Models\Company\ECoffeeMatch;
+use App\Models\Company\Employee;
+use App\Models\Company\EmployeeStatus;
+use App\Models\Company\Expense;
+use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\Project;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Collection;
+use Money\Currencies\ISOCurrencies;
 
 class DashboardMeViewHelper
 {
     /**
      * Array containing all the information about the current active question.
-     *
-     * @param Employee $employee
-     * @return array|null
      */
     public static function question(Employee $employee): ?array
     {
@@ -78,9 +75,6 @@ class DashboardMeViewHelper
 
     /**
      * All the tasks of this employee.
-     *
-     * @param Employee $employee
-     * @return Collection|null
      */
     public static function tasks(Employee $employee): ?Collection
     {
@@ -99,9 +93,6 @@ class DashboardMeViewHelper
 
     /**
      * All the expense categories available in this company.
-     *
-     * @param Company $company
-     * @return Collection|null
      */
     public static function categories(Company $company): ?Collection
     {
@@ -120,8 +111,6 @@ class DashboardMeViewHelper
 
     /**
      * Get all the currencies used in this OfficeLife instance.
-     *
-     * @return Collection|null
      */
     public static function currencies(): ?Collection
     {
@@ -139,9 +128,6 @@ class DashboardMeViewHelper
 
     /**
      * Get all the in progress expenses for this employee.
-     *
-     * @param Employee $employee
-     * @return Collection|null
      */
     public static function expenses(Employee $employee): ?Collection
     {
@@ -180,9 +166,6 @@ class DashboardMeViewHelper
     /**
      * Get all the Rate Your Manager survey answers that need to be answered, if
      * they exist.
-     *
-     * @param Employee $employee
-     * @return Collection|null
      */
     public static function rateYourManagerAnswers(Employee $employee): ?Collection
     {
@@ -208,8 +191,6 @@ class DashboardMeViewHelper
 
     /**
      * Get the one on ones with the manager(s) if they exist.
-     *
-     * @return Collection
      */
     public static function oneOnOnes(Employee $employee): Collection
     {
@@ -263,9 +244,6 @@ class DashboardMeViewHelper
     /**
      * Get the information about contract renewal, if the employee is external,
      * and if the contract is due in the next 3 months or less.
-     *
-     * @param Employee $employee
-     * @return array|null
      */
     public static function contractRenewal(Employee $employee): ?array
     {
@@ -288,17 +266,22 @@ class DashboardMeViewHelper
             return null;
         }
 
+        $number_of_days = (int) $employee->contract_renewed_at->diffInDays($now);
+        if ($number_of_days < 0) {
+            $number_of_days = $number_of_days * -1;
+        }
+
         if ($employee->contract_renewed_at->isBefore($now)) {
             return [
                 'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at, $employee->timezone),
-                'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
+                'number_of_days' => $number_of_days,
                 'late' => true,
             ];
         }
 
         return [
             'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at, $employee->timezone),
-            'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
+            'number_of_days' => $number_of_days,
             'late' => false,
         ];
     }
@@ -306,10 +289,6 @@ class DashboardMeViewHelper
     /**
      * Get the latest match for the eCoffee program, if it’s enabled for the
      * company.
-     *
-     * @param Employee $employee
-     * @param Company $company
-     * @return array|null
      */
     public static function eCoffee(Employee $employee, Company $company): ?array
     {
@@ -377,10 +356,6 @@ class DashboardMeViewHelper
 
     /**
      * Get the projects the employee participates in.
-     *
-     * @param Employee $employee
-     * @param Company $company
-     * @return Collection|null
      */
     public static function projects(Employee $employee, Company $company): ?Collection
     {
@@ -430,9 +405,6 @@ class DashboardMeViewHelper
 
     /**
      * Get the company currency.
-     *
-     * @param Company $company
-     * @return array|null
      */
     public static function companyCurrency(Company $company): ?array
     {
@@ -444,9 +416,6 @@ class DashboardMeViewHelper
 
     /**
      * Get the information about worklogs.
-     *
-     * @param Employee $employee
-     * @return array|null
      */
     public static function worklogs(Employee $employee): ?array
     {
@@ -458,9 +427,6 @@ class DashboardMeViewHelper
 
     /**
      * Get the information about the morale.
-     *
-     * @param Employee $employee
-     * @return array|null
      */
     public static function morale(Employee $employee): ?array
     {
@@ -471,9 +437,6 @@ class DashboardMeViewHelper
 
     /**
      * Get the information about working from home.
-     *
-     * @param Employee $employee
-     * @return array|null
      */
     public static function workFromHome(Employee $employee): ?array
     {
@@ -485,10 +448,6 @@ class DashboardMeViewHelper
 
     /**
      * Get the information about the job openings as a sponsor.
-     *
-     * @param Company $company
-     * @param Employee $employee
-     * @return Collection
      */
     public static function jobOpeningsAsSponsor(Company $company, Employee $employee): Collection
     {
@@ -515,9 +474,6 @@ class DashboardMeViewHelper
 
     /**
      * Get the information about the job openings as a participant.
-     *
-     * @param Employee $employee
-     * @return Collection
      */
     public static function jobOpeningsAsParticipant(Employee $employee): Collection
     {
@@ -553,10 +509,6 @@ class DashboardMeViewHelper
     /**
      * Get the information about the current active ask me anything session, if
      * it exists.
-     *
-     * @param Company $company
-     * @param Employee $employee
-     * @return array
      */
     public static function activeAskMeAnythingSession(Company $company, Employee $employee): ?array
     {

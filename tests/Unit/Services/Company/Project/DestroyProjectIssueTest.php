@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectSprint;
+use App\Services\Company\Project\DestroyProjectIssue;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Project\DestroyProjectIssue;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class DestroyProjectIssueTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_the_project_issue_as_administrator(): void
     {
@@ -151,12 +148,12 @@ class DestroyProjectIssueTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('project_issue_project_sprint', [
-            'project_sprint_id' =>  $sprint->id,
+            'project_sprint_id' => $sprint->id,
             'project_issue_id' => $olderIssue->id,
             'position' => 4,
         ]);
         $this->assertDatabaseHas('project_issue_project_sprint', [
-            'project_sprint_id' =>  $sprint->id,
+            'project_sprint_id' => $sprint->id,
             'project_issue_id' => $youngerIssue->id,
             'position' => 2,
         ]);

@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\TestCase;
-use App\Models\Company\Skill;
 use App\Models\Company\Employee;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Skill;
+use Tests\TestCase;
 
 class SkillTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_company(): void
     {

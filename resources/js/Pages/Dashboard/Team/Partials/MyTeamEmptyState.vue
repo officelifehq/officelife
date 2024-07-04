@@ -11,7 +11,7 @@
 
       <div class="cf mw7 center br3 mb3 bg-white box">
         <div class="pa3 tc">
-          <img loading="lazy" height="140" class="db center mb4" alt="no expenses to validate" src="/img/streamline-icon-friends-wave@140x140.png" />
+          <img loading="lazy" height="140" class="db center mb4" alt="no expenses to validate" :src="'/img/streamline-icon-friends-wave@140x140.png'" />
 
           <p class="fw5 mt3 tc">{{ message }}</p>
         </div>
@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
+import Layout from '@/Shared/Layout.vue';
+import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu.vue';
 
 export default {
   components: {

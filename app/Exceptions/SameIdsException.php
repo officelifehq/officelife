@@ -4,6 +4,4 @@ namespace App\Exceptions;
 
 use Exception;
 
-class SameIdsException extends Exception
-{
-}
+class SameIdsException extends Exception {}

@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Team;
 
-use Tests\TestCase;
+use App\Jobs\LogAccountAudit;
 use App\Jobs\LogTeamAudit;
 use App\Jobs\NotifyEmployee;
-use App\Models\Company\Team;
-use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
+use App\Models\Company\Team;
 use App\Services\Company\Team\UnsetTeamLead;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class UnsetTeamLeadTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_resets_a_team_leader(): void
     {

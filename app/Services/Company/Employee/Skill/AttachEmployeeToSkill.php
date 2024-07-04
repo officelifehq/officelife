@@ -2,13 +2,13 @@
 
 namespace App\Services\Company\Employee\Skill;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Skill;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Models\Company\Skill;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class AttachEmployeeToSkill extends BaseService
 {
@@ -20,8 +20,6 @@ class AttachEmployeeToSkill extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,10 +33,6 @@ class AttachEmployeeToSkill extends BaseService
 
     /**
      * Attach a skill to an employee.
-     *
-     * @param array $data
-     *
-     * @return Skill|null
      */
     public function execute(array $data): ?Skill
     {

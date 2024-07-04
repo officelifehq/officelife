@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Question;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
+use App\Services\Company\Adminland\Question\ActivateQuestion;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\Question\ActivateQuestion;
+use Tests\TestCase;
 
 class ActivateQuestionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_activates_a_question_as_administrator(): void
     {

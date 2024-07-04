@@ -42,12 +42,12 @@
 
       <div class="tc mb4">
         <div class="cf dib btn-group">
-          <inertia-link :href="data.url.open" class="f6 fl ph3 pv2 dib pointer no-underline">
+          <Link :href="data.url.open" class="f6 fl ph3 pv2 dib pointer no-underline">
             {{ $t('dashboard.hr_discipline_cases_open_cases', {count: data.open_cases_count}) }}
-          </inertia-link>
-          <inertia-link :href="data.url.closed" class="selected f6 fl ph3 pv2 dib pointer no-underline">
+          </Link>
+          <Link :href="data.url.closed" class="selected f6 fl ph3 pv2 dib pointer no-underline">
             {{ $t('dashboard.hr_discipline_cases_closed_cases', {count: data.closed_cases_count}) }}
-          </inertia-link>
+          </Link>
         </div>
       </div>
 
@@ -59,7 +59,7 @@
             <div class="flex items-center">
               <avatar :avatar="localCase.employee.avatar" :url="localCase.employee.url" :size="40" :class="'br-100 mr2'" />
               <div>
-                <inertia-link :href="localCase.url.show" class="dib mb1">{{ localCase.employee.name }}</inertia-link>
+                <Link :href="localCase.url.show" class="dib mb1">{{ localCase.employee.name }}</Link>
                 <span class="gray f6 db">{{ localCase.employee.position }}</span>
               </div>
             </div>
@@ -67,7 +67,7 @@
             <!-- number of events + date + reporter -->
             <div class="f6 gray">
               <span class="db mb1">{{ $t('dashboard.hr_discipline_cases_opened_at', {date: localCase.opened_at}) }}</span>
-              <inertia-link v-if="localCase.author.id" :href="localCase.author.url">{{ $t('dashboard.hr_discipline_cases_by', {name: localCase.author.name }) }}</inertia-link>
+              <Link v-if="localCase.author.id" :href="localCase.author.url">{{ $t('dashboard.hr_discipline_cases_by', {name: localCase.author.name }) }}</Link>
               <span v-else>{{ $t('dashboard.hr_discipline_cases_by', {name: localCase.author.name }) }}</span>
             </div>
           </li>
@@ -75,7 +75,7 @@
 
         <!-- BLANK STATE -->
         <div v-if="localCases.length == 0">
-          <img loading="lazy" class="db center mb4 mt3" alt="no timesheets to validate" src="/img/streamline-icon-prisoner-2-5@100x100.png" height="80"
+          <img loading="lazy" class="db center mb4 mt3" alt="no timesheets to validate" :src="'/img/streamline-icon-prisoner-2-5@100x100.png'" height="80"
                width="80"
           />
 
@@ -87,9 +87,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Avatar from '@/Shared/Avatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

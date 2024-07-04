@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectSprint;
+use App\Services\Company\Project\UpdateProjectIssuePosition;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Project\UpdateProjectIssuePosition;
+use Tests\TestCase;
 
 class UpdateProjectIssuePositionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_the_project_issue_position_as_administrator(): void
     {

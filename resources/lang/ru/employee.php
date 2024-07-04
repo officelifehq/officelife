@@ -1,4 +1,5 @@
 <?php
+
 return [
     'menu_changelog' => 'View history',
     'account_locked' => 'This employee’s profile is locked.',

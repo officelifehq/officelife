@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Project;
 
-use Tests\TestCase;
+use App\Http\ViewHelpers\Company\Project\ProjectBoardsViewHelper;
 use App\Models\Company\Company;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\IssueType;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectBoard;
 use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectSprint;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Project\ProjectBoardsViewHelper;
+use Tests\TestCase;
 
 class ProjectBoardsViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_boards(): void
     {

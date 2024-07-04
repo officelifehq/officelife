@@ -58,7 +58,7 @@
 
         <!-- BLANK STATE -->
         <div v-if="displayBlankState" data-cy="expense-list-blank-state">
-          <img loading="lazy" class="db center mb4 mt3" alt="no timesheets to validate" src="/img/streamline-icon-employee-checklist-6@140x140.png" height="80"
+          <img loading="lazy" class="db center mb4 mt3" alt="no timesheets to validate" :src="'/img/streamline-icon-employee-checklist-6@140x140.png'" height="80"
                width="80"
           />
 
@@ -67,7 +67,7 @@
 
         <!-- NOT BLANK STATE :-) -->
         <div v-else>
-          <img loading="lazy" src="/img/streamline-icon-employee-checklist-6@140x140.png" width="90" alt="meeting" class="absolute-ns di-ns dn top-1 left-1" />
+          <img loading="lazy" :src="'/img/streamline-icon-employee-checklist-6@140x140.png'" width="90" alt="meeting" class="absolute-ns di-ns dn top-1 left-1" />
 
           <ul class="pl6-ns pl3 pb3 pt3 pr3 ma0">
             <li v-for="directReport in localDirectReports" :key="directReport.id" class="list ma0 direct-report-item">
@@ -75,7 +75,7 @@
               <div class="mb3">
                 <span class="pl3 db relative team-member">
                   <avatar :avatar="directReport.avatar" :size="35" :class="'br-100 absolute avatar'" />
-                  <inertia-link :href="directReport.url" class="mb2">{{ directReport.name }}</inertia-link>
+                  <Link :href="directReport.url" class="mb2">{{ directReport.name }}</Link>
                   <span class="title db f7 mt1">
                     {{ directReport.position }}
                   </span>
@@ -93,7 +93,7 @@
 
                   <!-- timesheet actions -->
                   <div>
-                    <inertia-link :href="timesheet.url" class="mr2 f7">{{ $t('dashboard.manager_timesheet_view_details') }}</inertia-link>
+                    <Link :href="timesheet.url" class="mr2 f7">{{ $t('dashboard.manager_timesheet_view_details') }}</Link>
                     <loading-button :class="'btn w-auto-ns w-100 mr2 pv2 ph3'" :state="loadingStateReject" :text="$t('app.reject')" :cypress-selector="'reject-timesheet-' + timesheet.id" @click="reject(timesheet, directReport)" />
                     <loading-button :class="'btn w-auto-ns w-100 mr2 pv2 ph3'" :state="loadingStateApprove" :text="$t('app.approve')" :cypress-selector="'approve-timesheet-' + timesheet.id" @click="approve(timesheet, directReport)" />
                   </div>
@@ -108,11 +108,11 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Avatar from '@/Shared/Avatar';
-import Help from '@/Shared/Help';
-import LoadingButton from '@/Shared/LoadingButton';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Avatar from '@/Shared/Avatar.vue';
+import Help from '@/Shared/Help.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
 
 export default {
   components: {

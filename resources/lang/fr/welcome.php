@@ -1,4 +1,5 @@
 <?php
+
 return [
     'hide_message_forever' => 'Masquer cet onglet de bienvenue pour toujours',
     'thanks' => 'Merci d’avoir rejoint OfficeLife.',

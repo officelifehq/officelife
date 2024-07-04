@@ -28,9 +28,9 @@
               <span class="pr2">
                 {{ $t('kb.index_title') }}
               </span>
-              <inertia-link :href="wikis.url_create" class="btn absolute db-l dn">
+              <Link :href="wikis.url_create" class="btn absolute db-l dn">
                 {{ $t('kb.index_cta') }}
-              </inertia-link>
+              </Link>
             </p>
           </div>
 
@@ -42,7 +42,7 @@
                   <svg xmlns="http://www.w3.org/2000/svg" class="folder-icon relative mr2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" />
                   </svg>
-                  <inertia-link :href="wiki.url">{{ wiki.title }}</inertia-link>
+                  <Link :href="wiki.url">{{ wiki.title }}</Link>
                 </h2>
                 <ul class="gray f6 list ma0 pl0">
                   <li class="di relative">
@@ -57,7 +57,7 @@
                       <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
                     </svg>
 
-                    <inertia-link :href="wiki.most_recent_page.url">{{ wiki.most_recent_page.title }}</inertia-link>
+                    <Link :href="wiki.most_recent_page.url">{{ wiki.most_recent_page.title }}</Link>
                   </li>
                 </ul>
               </div>
@@ -67,12 +67,12 @@
 
         <!-- blank state -->
         <div v-else class="tc">
-          <img loading="lazy" src="/img/streamline-icon-content-ideas@140x140.png" alt="wiki symbol" height="140"
+          <img loading="lazy" :src="'/img/streamline-icon-content-ideas@140x140.png'" alt="wiki symbol" height="140"
                width="140"
           />
           <p class="mb3">
             <span class="db mb4">{{ $t('kb.index_blank_title') }}</span>
-            <inertia-link :href="wikis.url_create" class="btn dib">{{ $t('kb.index_cta') }}</inertia-link>
+            <Link :href="wikis.url_create" class="btn dib">{{ $t('kb.index_cta') }}</Link>
           </p>
         </div>
       </div>
@@ -81,9 +81,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Tab from '@/Pages/Company/Partials/Tab';
-import HeaderComponent from '@/Pages/Company/Partials/Header';
+import Layout from '@/Shared/Layout.vue';
+import Tab from '@/Pages/Company/Partials/Tab.vue';
+import HeaderComponent from '@/Pages/Company/Partials/Header.vue';
 
 export default {
   components: {

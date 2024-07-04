@@ -123,7 +123,7 @@
 
                   <!-- number of answers -->
                   <li :data-cy="'question-number-of-answers-' + question.id" class="di pr2 pb2 pb0-ns">
-                    <inertia-link :href="question.url">{{ $tc('account.question_number_of_answers', question.number_of_answers, { count: question.number_of_answers}) }}</inertia-link>
+                    <Link :href="question.url">{{ $tc('account.question_number_of_answers', question.number_of_answers, { count: question.number_of_answers}) }}</Link>
                   </li>
 
                   <!-- rename -->
@@ -197,7 +197,7 @@
           <p class="tc measure center mb4 lh-copy" data-cy="questions-blank-message">
             {{ $t('account.questions_blank') }}
           </p>
-          <img loading="lazy" class="db center mb4" alt="team" src="/img/streamline-icon-customer-doubt-4@140x140.png" />
+          <img loading="lazy" class="db center mb4" alt="team" :src="'/img/streamline-icon-customer-doubt-4@140x140.png'" />
         </div>
       </div>
     </div>
@@ -205,12 +205,12 @@
 </template>
 
 <script>
-import TextInput from '@/Shared/TextInput';
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Help from '@/Shared/Help';
+import TextInput from '@/Shared/TextInput.vue';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

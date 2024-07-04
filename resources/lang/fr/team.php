@@ -1,4 +1,5 @@
 <?php
+
 return [
     'new_title' => 'Créer une équipe',
     'new_name' => 'Nom',

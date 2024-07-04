@@ -2,28 +2,25 @@
 
 namespace App\Http\ViewHelpers\Company;
 
-use Carbon\Carbon;
-use Carbon\CarbonPeriod;
-use OutOfRangeException;
+use App\Helpers\BirthdayHelper;
 use App\Helpers\DateHelper;
-use Illuminate\Support\Str;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
-use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
+use App\Services\Company\GuessEmployeeGame\CreateGuessEmployeeGame;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Services\Company\GuessEmployeeGame\CreateGuessEmployeeGame;
+use Illuminate\Support\Str;
+use OutOfRangeException;
 
 class CompanyViewHelper
 {
     /**
      * Array containing several statistics for this company.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function information(Company $company): array
     {
@@ -41,9 +38,6 @@ class CompanyViewHelper
     /**
      * Array containing all the information about the latest questions in the
      * company.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function latestQuestions(Company $company): array
     {
@@ -111,9 +105,6 @@ class CompanyViewHelper
     /**
      * Array containing all the information about the birthdays of employees
      * in the current week.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function birthdaysThisWeek(Company $company): array
     {
@@ -154,9 +145,6 @@ class CompanyViewHelper
 
     /**
      * Array containing all the information about the new employees this week.
-     *
-     * @param Company $company
-     * @return Collection
      */
     public static function newHiresThisWeek(Company $company): Collection
     {
@@ -211,9 +199,6 @@ class CompanyViewHelper
     /**
      * Array containing all the information about the latest Recent ships
      * shipped by any team.
-     *
-     * @param Company $company
-     * @return Collection
      */
     public static function latestShips(Company $company): Collection
     {
@@ -243,9 +228,6 @@ class CompanyViewHelper
 
     /**
      * Array containing all the information about the latest created skills.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function latestSkills(Company $company): array
     {
@@ -279,9 +261,6 @@ class CompanyViewHelper
 
     /**
      * Array containing all the information about the latest company news.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function latestNews(Company $company): array
     {
@@ -315,8 +294,6 @@ class CompanyViewHelper
     /**
      * Array containing all the information about the Guess Employee Game.
      *
-     * @param Employee $employee
-     * @param Company $company
      * @return ?array
      */
     public static function guessEmployeeGameInformation(Employee $employee, Company $company): ?array
@@ -370,9 +347,6 @@ class CompanyViewHelper
 
     /**
      * Information about the employees in the company.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function employees(Company $company): array
     {

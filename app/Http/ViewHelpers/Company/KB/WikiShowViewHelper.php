@@ -2,17 +2,13 @@
 
 namespace App\Http\ViewHelpers\Company\KB;
 
-use App\Models\Company\Wiki;
 use App\Models\Company\Company;
+use App\Models\Company\Wiki;
 
 class WikiShowViewHelper
 {
     /**
      * Get the detail of a wiki.
-     *
-     * @param Wiki $wiki
-     * @param Company $company
-     * @return array
      */
     public static function show(Wiki $wiki, Company $company): array
     {

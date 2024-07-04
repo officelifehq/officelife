@@ -2,10 +2,10 @@
 
 namespace App\Http\ViewHelpers\Dashboard;
 
-use Carbon\Carbon;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Timesheet;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class DashboardHRViewHelper
@@ -13,9 +13,6 @@ class DashboardHRViewHelper
     /**
      * Get the list of pending validation timesheets for employees who don't
      * have managers, before the current week.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function employeesWithoutManagersWithPendingTimesheets(Company $company): array
     {

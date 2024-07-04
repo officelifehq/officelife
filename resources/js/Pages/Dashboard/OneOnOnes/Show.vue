@@ -91,9 +91,9 @@
             <template v-if="entry.previous_entry">
               <div class="db mb1 f6 mr5">
                 ←
-                <inertia-link :href="entry.previous_entry.url">
+                <Link :href="entry.previous_entry.url">
                   {{ $t('dashboard.one_on_ones_previous_entry') }}
-                </inertia-link>
+                </Link>
               </div>
               <span class="f7 gray">
                 {{ entry.previous_entry.happened_at }}
@@ -112,9 +112,9 @@
           <div class="fl-ns w-third-ns db-ns dn tr">
             <template v-if="entry.next_entry">
               <div class="db mb1 f6 ml5">
-                <inertia-link :href="entry.next_entry.url">
+                <Link :href="entry.next_entry.url">
                   {{ $t('dashboard.one_on_ones_next_entry') }}
-                </inertia-link>
+                </Link>
                 →
               </div>
               <span class="f7 gray">
@@ -128,9 +128,9 @@
             <template v-if="entry.previous_entry">
               <div class="db mb1 f6">
                 ←
-                <inertia-link :href="entry.previous_entry.url">
+                <Link :href="entry.previous_entry.url">
                   {{ $t('dashboard.one_on_ones_previous_entry') }}
-                </inertia-link>
+                </Link>
               </div>
               <span class="f7 gray">
                 {{ entry.previous_entry.happened_at }}
@@ -143,9 +143,9 @@
           <div class="fl w-50 dn-ns db tr">
             <template v-if="entry.next_entry">
               <div class="db mb1 f6">
-                <inertia-link :href="entry.next_entry.url">
+                <Link :href="entry.next_entry.url">
                   {{ $t('dashboard.one_on_ones_next_entry') }}
-                </inertia-link>
+                </Link>
                 →
               </div>
               <span class="f7 gray">
@@ -184,14 +184,14 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import LoadingButton from '@/Shared/LoadingButton';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
-import TalkingPoint from '@/Pages/Dashboard/OneOnOnes/Partials/TalkingPoint';
-import ActionItem from '@/Pages/Dashboard/OneOnOnes/Partials/ActionItem';
-import Note from '@/Pages/Dashboard/OneOnOnes/Partials/Note';
-import Help from '@/Shared/Help';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
+import TalkingPoint from '@/Pages/Dashboard/OneOnOnes/Partials/TalkingPoint.vue';
+import ActionItem from '@/Pages/Dashboard/OneOnOnes/Partials/ActionItem.vue';
+import Note from '@/Pages/Dashboard/OneOnOnes/Partials/Note.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

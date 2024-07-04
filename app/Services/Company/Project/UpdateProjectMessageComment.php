@@ -2,25 +2,26 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Comment;
 use App\Models\Company\Project;
-use App\Models\Company\ProjectMessage;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\ProjectMessage;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class UpdateProjectMessageComment extends BaseService
 {
     protected array $data;
+
     protected ProjectMessage $projectMessage;
+
     protected Project $project;
+
     protected Comment $comment;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -36,9 +37,6 @@ class UpdateProjectMessageComment extends BaseService
 
     /**
      * Edit a comment.
-     *
-     * @param array $data
-     * @return Comment
      */
     public function execute(array $data): Comment
     {

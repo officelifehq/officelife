@@ -2,9 +2,9 @@
 
 namespace App\Models\Company;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ProjectSprint extends Model
@@ -37,16 +37,8 @@ class ProjectSprint extends Model
     protected $casts = [
         'active' => 'boolean',
         'is_board_backlog' => 'boolean',
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'started_at',
-        'completed_at',
+        'started_at' => 'datetime',
+        'completed_at' => 'datetime',
     ];
 
     /**

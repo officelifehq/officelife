@@ -2,23 +2,20 @@
 
 namespace Tests\Unit\Services\Company\Employee\Timesheet;
 
-use Carbon\Carbon;
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
+use App\Services\Company\Employee\Timesheet\RejectTimesheet;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\Timesheet\RejectTimesheet;
+use Tests\TestCase;
 
 class RejectTimesheetTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_rejects_a_timesheet_as_administrator(): void
     {

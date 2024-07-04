@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Team;
 
-use Tests\TestCase;
-use App\Jobs\LogTeamAudit;
-use App\Models\Company\Team;
-use App\Jobs\LogAccountAudit;
-use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
-use App\Exceptions\TeamNameNotUniqueException;
-use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
+use App\Exceptions\TeamNameNotUniqueException;
+use App\Jobs\LogAccountAudit;
+use App\Jobs\LogTeamAudit;
+use App\Models\Company\Employee;
+use App\Models\Company\Team;
 use App\Services\Company\Adminland\Team\CreateTeam;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateTeamTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_team_as_administrator(): void
     {

@@ -4,7 +4,6 @@ namespace App\Helpers;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Vluzrmos\LanguageDetector\Facades\LanguageDetector;
 
 class LocaleHelper
 {
@@ -19,7 +18,7 @@ class LocaleHelper
     {
         $locale = Auth::check() ? Auth::user()->locale : null;
         if (! $locale) {
-            $locale = LanguageDetector::detect() ?: config('app.locale');
+            $locale = config('app.locale');
         }
 
         return $locale;
@@ -28,8 +27,8 @@ class LocaleHelper
     /**
      * Get the current lang from locale.
      *
-     * @param mixed|null $locale
-     * @return string  lang, lowercase form
+     * @param  mixed|null  $locale
+     * @return string lang, lowercase form
      */
     public static function getLang($locale = null)
     {
@@ -50,7 +49,7 @@ class LocaleHelper
      */
     public static function getLocaleList()
     {
-        return collect(config('lang-detector.languages'))->map(function ($lang) {
+        return collect(['en', 'fr'])->map(function ($lang) {
             return [
                 'lang' => $lang,
                 'name' => self::getLocaleName($lang),
@@ -62,10 +61,8 @@ class LocaleHelper
     /**
      * Get the name of one language.
      *
-     * @param string $lang
-     * @param string $locale
-     *
-     * @return string
+     * @param  string  $lang
+     * @param  string  $locale
      */
     private static function getLocaleName($lang, $locale = null): string
     {
@@ -101,7 +98,7 @@ class LocaleHelper
             case 'ps':
             case 'ur':
             case 'yi':
-            // @codeCoverageIgnoreEnd
+                // @codeCoverageIgnoreEnd
                 return 'rtl';
             default:
                 return 'ltr';

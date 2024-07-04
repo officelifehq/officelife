@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Team;
 
-use Tests\TestCase;
-use App\Models\Company\Team;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
+use App\Models\Company\Team;
+use App\Services\Company\Adminland\Team\DestroyTeam;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use App\Services\Company\Adminland\Team\DestroyTeam;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class DestroyTeamTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_a_team_as_administrator(): void
     {

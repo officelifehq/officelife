@@ -114,8 +114,8 @@
 </template>
 
 <script>
-import TextArea from '@/Shared/TextArea';
-import LoadingButton from '@/Shared/LoadingButton';
+import TextArea from '@/Shared/TextArea.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
 
 export default {
   components: {

@@ -3,15 +3,15 @@
 namespace App\Http\ViewHelpers\Company\HR;
 
 use App\Helpers\DateHelper;
-use App\Models\User\Pronoun;
+use App\Models\Company\AskMeAnythingSession;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Employee;
-use App\Models\Company\Position;
 use App\Models\Company\JobOpening;
+use App\Models\Company\Position;
+use App\Models\User\Pronoun;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Models\Company\AskMeAnythingSession;
 
 class CompanyHRViewHelper
 {
@@ -20,9 +20,6 @@ class CompanyHRViewHelper
      * We use a combination of raw queries and manipulation of collections to
      * avoid hydrating models as using Eloquent here would hydrate way
      *  too many models.
-     *
-     * @param Company $company
-     * @return array|null
      */
     public static function eCoffees(Company $company): ?array
     {
@@ -88,15 +85,15 @@ class CompanyHRViewHelper
 
         return [
             'active_session' => $currentECoffeeSession ? [
-                    'total' => $currentECoffeeSession['total'],
-                    'happened' => $currentECoffeeSession['happened'],
-                    'percent' => round($currentECoffeeSession['happened'] * 100 / $currentECoffeeSession['total']),
-                ] : null,
+                'total' => $currentECoffeeSession['total'],
+                'happened' => $currentECoffeeSession['happened'],
+                'percent' => round($currentECoffeeSession['happened'] * 100 / $currentECoffeeSession['total']),
+            ] : null,
             'last_active_session' => $beforeLastSession ? [
-                    'total' => $beforeLastSession['total'],
-                    'happened' => $beforeLastSession['happened'],
-                    'percent' => round($beforeLastSession['happened'] * 100 / $beforeLastSession['total']),
-                ] : null,
+                'total' => $beforeLastSession['total'],
+                'happened' => $beforeLastSession['happened'],
+                'percent' => round($beforeLastSession['happened'] * 100 / $beforeLastSession['total']),
+            ] : null,
             'average_total_sessions' => $averageTotalSessions,
             'number_of_sessions' => $numberOfSessions,
         ];
@@ -105,18 +102,15 @@ class CompanyHRViewHelper
     /**
      * Get the statistics about all the genders used in the company, sorted
      * by the gender used the most.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function genderStats(Company $company): array
     {
         $pronouns = Pronoun::addSelect([
-                'number_of_employees' => Employee::selectRaw('count(*)')
-                    ->whereColumn('pronoun_id', 'pronouns.id')
-                    ->notLocked()
-                    ->where('company_id', $company->id),
-            ])->get();
+            'number_of_employees' => Employee::selectRaw('count(*)')
+                ->whereColumn('pronoun_id', 'pronouns.id')
+                ->notLocked()
+                ->where('company_id', $company->id),
+        ])->get();
 
         $pronouns = $pronouns->filter(function ($pronoun) {
             return $pronoun->number_of_employees != 0;
@@ -150,9 +144,6 @@ class CompanyHRViewHelper
 
     /**
      * Get the statistics about all the positions in the company.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function positions(Company $company): array
     {
@@ -188,9 +179,6 @@ class CompanyHRViewHelper
 
     /**
      * Get the upcoming Ask My Anything Session in the company.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function askMeAnythingUpcomingSession(Company $company): array
     {
@@ -219,9 +207,6 @@ class CompanyHRViewHelper
 
     /**
      * Get the information about open job openings.
-     *
-     * @param Company $company
-     * @return array
      */
     public static function openedJobOpenings(Company $company): array
     {

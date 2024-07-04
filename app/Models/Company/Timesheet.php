@@ -2,10 +2,10 @@
 
 namespace App\Models\Company;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Timesheet extends Model
 {
@@ -15,8 +15,11 @@ class Timesheet extends Model
      * Possible status of a timesheet.
      */
     const OPEN = 'open';
+
     const READY_TO_SUBMIT = 'ready_to_submit';
+
     const APPROVED = 'approved';
+
     const REJECTED = 'rejected';
 
     /**
@@ -40,10 +43,10 @@ class Timesheet extends Model
      *
      * @var array
      */
-    protected $dates = [
-        'started_at',
-        'ended_at',
-        'approved_at',
+    protected $casts = [
+        'started_at' => 'datetime',
+        'ended_at' => 'datetime',
+        'approved_at' => 'datetime',
     ];
 
     /**

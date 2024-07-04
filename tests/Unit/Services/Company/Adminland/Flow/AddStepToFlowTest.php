@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Flow;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
+use App\Models\Company\Employee;
 use App\Models\Company\Flow;
 use App\Models\Company\Step;
-use App\Models\Company\Employee;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
 use App\Services\Company\Adminland\Flow\AddStepToFlow;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class AddStepToFlowTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_adds_a_step_to_a_flow_as_administrator(): void
     {

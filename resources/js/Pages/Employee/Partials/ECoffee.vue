@@ -41,7 +41,7 @@
           <div class="mb1 relative">
             <avatar :avatar="ecoffee.with_employee.avatar" :size="35" :class="'br-100 absolute avatar'" />
             <span class="employee-name db">
-              <inertia-link :href="ecoffee.with_employee.url" class="mb2">{{ ecoffee.with_employee.name }}</inertia-link>
+              <Link :href="ecoffee.with_employee.url" class="mb2">{{ ecoffee.with_employee.name }}</Link>
             </span>
             <span v-if="ecoffee.with_employee.position" class="position f7 mt1">{{ ecoffee.with_employee.position }}</span>
           </div>
@@ -51,7 +51,7 @@
           </span>
         </li>
         <li class="ph3 pv2 tc f6">
-          <inertia-link :href="ecoffees.view_all_url" data-cy="view-all-ecoffees">{{ $t('employee.e_coffee_view_all') }}</inertia-link>
+          <Link :href="ecoffees.view_all_url" data-cy="view-all-ecoffees">{{ $t('employee.e_coffee_view_all') }}</Link>
         </li>
       </ul>
     </div>
@@ -59,8 +59,8 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
-import Avatar from '@/Shared/Avatar';
+import Help from '@/Shared/Help.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

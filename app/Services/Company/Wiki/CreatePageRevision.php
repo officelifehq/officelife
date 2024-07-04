@@ -3,21 +3,22 @@
 namespace App\Services\Company\Wiki;
 
 use App\Models\Company\Page;
+use App\Models\Company\PageRevision;
 use App\Models\Company\Wiki;
 use App\Services\BaseService;
-use App\Models\Company\PageRevision;
 
 class CreatePageRevision extends BaseService
 {
     protected array $data;
+
     protected Wiki $wiki;
+
     protected Page $page;
+
     protected PageRevision $pageRevision;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -31,9 +32,6 @@ class CreatePageRevision extends BaseService
 
     /**
      * Create a page revision for the given page.
-     *
-     * @param array $data
-     * @return PageRevision
      */
     public function execute(array $data): PageRevision
     {

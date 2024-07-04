@@ -5,7 +5,7 @@ on:
     - cron:  '0 0 * * *'
 
 env:
-  php-version: '8.0'
+  php-version: '8.3'
   node-version: 16
 
 

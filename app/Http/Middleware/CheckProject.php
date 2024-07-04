@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
+use Closure;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CheckProject
@@ -12,9 +12,7 @@ class CheckProject
     /**
      * Check that the user can access this project.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
     public function handle($request, Closure $next)

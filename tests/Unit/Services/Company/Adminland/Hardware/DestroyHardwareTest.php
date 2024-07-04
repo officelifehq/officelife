@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Hardware;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
+use App\Services\Company\Adminland\Hardware\DestroyHardware;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\Hardware\DestroyHardware;
+use Tests\TestCase;
 
 class DestroyHardwareTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_a_hardware_as_administrator(): void
     {

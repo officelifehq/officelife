@@ -5,7 +5,7 @@
         🏔
       </span> {{ $t('project.summary_description') }}
 
-      <img src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-description-button"
+      <img :src="'/img/edit_button.svg'" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-description-button"
            width="22"
            height="22" alt="add a description"
            loading="lazy"
@@ -63,9 +63,9 @@
 </template>
 
 <script>
-import TextArea from '@/Shared/TextArea';
-import LoadingButton from '@/Shared/LoadingButton';
-import Errors from '@/Shared/Errors';
+import TextArea from '@/Shared/TextArea.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Errors from '@/Shared/Errors.vue';
 
 export default {
   components: {

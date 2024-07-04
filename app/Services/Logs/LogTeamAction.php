@@ -2,18 +2,16 @@
 
 namespace App\Services\Logs;
 
-use App\Models\Company\Team;
-use App\Services\BaseService;
-use App\Models\Company\TeamLog;
 use App\Models\Company\Employee;
+use App\Models\Company\Team;
+use App\Models\Company\TeamLog;
+use App\Services\BaseService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LogTeamAction extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -30,10 +28,6 @@ class LogTeamAction extends BaseService
 
     /**
      * Log an action that happened to the team.
-     *
-     * @param array $data
-     *
-     * @return TeamLog
      */
     public function execute(array $data): TeamLog
     {

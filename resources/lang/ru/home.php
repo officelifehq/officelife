@@ -1,4 +1,5 @@
 <?php
+
 return [
     'create_company_cta' => 'Add a company',
     'create_company' => 'Create a company',

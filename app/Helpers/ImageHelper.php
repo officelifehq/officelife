@@ -2,17 +2,13 @@
 
 namespace App\Helpers;
 
-use App\Models\Company\File;
 use App\Models\Company\Employee;
+use App\Models\Company\File;
 
 class ImageHelper
 {
     /**
      * Get the avatar of the user, at the requested size if it exists.
-     *
-     * @param Employee $employee
-     * @param int $width
-     * @return array|null
      */
     public static function getAvatar(Employee $employee, int $width = 64): ?array
     {
@@ -39,13 +35,8 @@ class ImageHelper
 
     /**
      * Get the URL of an image.
-     *
-     * @param File $file
-     * @param int $width
-     * @param int $height
-     * @return string|null
      */
-    public static function getImage(File $file, int $width = null, int $height = null): ?string
+    public static function getImage(File $file, ?int $width = null, ?int $height = null): ?string
     {
         return $file->cdn_url.'-/preview/'.$width.'x'.$height.'/';
     }

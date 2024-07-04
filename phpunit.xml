@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
-    backupGlobals="false"
-    backupStaticAttributes="false"
-    bootstrap="vendor/autoload.php"
-    colors="true"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
-    processIsolation="false"
-    stopOnFailure="false"
->
-  <coverage processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">./app</directory>
-    </include>
-  </coverage>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" 
+  backupGlobals="false" 
+  bootstrap="vendor/autoload.php" 
+  colors="true" 
+  processIsolation="false" 
+  stopOnFailure="false" 
+  displayDetailsOnTestsThatTriggerDeprecations="true"
+  cacheDirectory=".phpunit.cache" 
+  backupStaticProperties="false">
   <testsuites>
     <testsuite name="Unit">
       <directory suffix="Test.php">./tests/Unit</directory>
@@ -23,14 +16,13 @@
       <directory suffix="Test.php">./tests/Integration</directory>
     </testsuite>
   </testsuites>
-  <listeners>
-    <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener"/>
-  </listeners>
   <php>
+    <env name="APP_URL" value="https://officelife.io"/>
     <env name="APP_ENV" value="testing"/>
     <env name="APP_KEY" value="base64:NTrXToqFZJlv48dgPc+kNpc3SBt333TfDnF1mDShsBg="/>
     <env name="BCRYPT_ROUNDS" value="4"/>
-    <env name="DB_CONNECTION" value="testing"/>
+    <env name="DB_CONNECTION" value="sqlite"/>
+    <env name="DB_DATABASE" value=":memory:"/>
     <env name="CACHE_DRIVER" value="array"/>
     <env name="MAIL_MAILER" value="array"/>
     <env name="MAIL_VERIFY" value="true"/>
@@ -38,5 +30,11 @@
     <env name="SESSION_DRIVER" value="array"/>
     <env name="DEBUGBAR_ENABLED" value="false"/>
     <env name="COMPLEX_PASSWORD" value="false"/>
+    <env name="LOGIN_PROVIDERS" value=""/>
   </php>
+  <source>
+    <include>
+      <directory suffix=".php">./app</directory>
+    </include>
+  </source>
 </phpunit>

@@ -44,7 +44,7 @@
       <div class="flex justify-between items-center">
         <!-- stats -->
         <div>
-          <img loading="lazy" src="/img/streamline-icon-employee-checklist-6@140x140.png" width="90" alt="meeting" class="absolute-ns di-ns dn top-1 left-1" />
+          <img loading="lazy" :src="'/img/streamline-icon-employee-checklist-6@140x140.png'" width="90" alt="meeting" class="absolute-ns di-ns dn top-1 left-1" />
 
           <p v-if="data.number_of_timesheets > 0" class="pl6-ns pl3 pb2 pt4 pr3 ma0 lh-copy">
             {{ $tc('dashboard.hr_timesheet_summary_count', data.number_of_timesheet, { count: data.number_of_timesheets}) }}
@@ -62,15 +62,17 @@
         </div>
 
         <!-- CTA -->
-        <inertia-link v-if="data.number_of_timesheets > 0" :href="data.url_view_all" class="btn w-auto-ns w-100 mr2 pv2 ph3 mr3">{{ $t('app.view') }}</inertia-link>
+        <Link v-if="data.number_of_timesheets > 0" :href="data.url_view_all" class="btn w-auto-ns w-100 mr2 pv2 ph3 mr3">
+          {{ $t('app.view') }}
+        </Link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Help from '@/Shared/Help';
-import Avatar from '@/Shared/Avatar';
+import Help from '@/Shared/Help.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

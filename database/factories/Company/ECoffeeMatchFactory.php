@@ -4,8 +4,8 @@ namespace Database\Factories\Company;
 
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
-use App\Models\Company\Employee;
 use App\Models\Company\ECoffeeMatch;
+use App\Models\Company\Employee;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ECoffeeMatchFactory extends Factory

@@ -2,18 +2,15 @@
 
 namespace App\Http\ViewHelpers\Employee;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\RateYourManagerAnswer;
+use Carbon\Carbon;
 
 class EmployeePerformanceViewHelper
 {
     /**
      * Get the latest Rate your manager surveys about this manager.
-     *
-     * @param Employee $employee
-     * @return array|null
      */
     public static function latestRateYourManagerSurveys(Employee $employee): ?array
     {

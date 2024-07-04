@@ -2,32 +2,27 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Carbon\Carbon;
-use App\Models\User\User;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Models\User\UserToken;
 use App\Http\Controllers\Controller;
+use App\Models\User\User;
+use App\Models\User\UserToken;
 use App\Services\User\CreateAccount;
-use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use Laravel\Socialite\Contracts\User as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\One\User as OAuth1User;
 use Laravel\Socialite\Two\User as OAuth2User;
-use Illuminate\Validation\ValidationException;
-use Laravel\Socialite\Contracts\User as SocialiteUser;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
 class SocialiteCallbackController extends Controller
 {
     /**
      * Handle socalite login.
-     *
-     * @param Request $request
-     * @param string $driver
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function login(Request $request, string $driver): SymfonyRedirectResponse
     {
@@ -43,11 +38,6 @@ class SocialiteCallbackController extends Controller
 
     /**
      * Handle socalite callback.
-     *
-     * @param Request $request
-     * @param string $driver
-     *
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function callback(Request $request, string $driver): RedirectResponse
     {
@@ -73,10 +63,7 @@ class SocialiteCallbackController extends Controller
     /**
      * Authenticate the user.
      *
-     * @param string $driver
-     * @param \Laravel\Socialite\Contracts\User  $socialite
-     *
-     * @return User
+     * @param  \Laravel\Socialite\Contracts\User  $socialite
      */
     private function authenticateUser(string $driver, $socialite): User
     {
@@ -105,9 +92,6 @@ class SocialiteCallbackController extends Controller
 
     /**
      * Get authenticated user.
-     *
-     * @param SocialiteUser $socialite
-     * @return User
      */
     private function getUser(SocialiteUser $socialite): User
     {
@@ -134,12 +118,6 @@ class SocialiteCallbackController extends Controller
 
     /**
      * Create the user token register.
-     *
-     * @param User $user
-     * @param string $driver
-     * @param string $driverId
-     * @param SocialiteUser $socialite
-     * @return UserToken
      */
     private function createUserToken(User $user, string $driver, string $driverId, SocialiteUser $socialite): UserToken
     {
@@ -167,8 +145,6 @@ class SocialiteCallbackController extends Controller
 
     /**
      * Check if the driver is activated.
-     *
-     * @param string $driver
      */
     private function checkProvider(string $driver): void
     {

@@ -4,9 +4,9 @@ namespace App\Http\ViewHelpers\Adminland;
 
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\File;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Models\Company\File;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Money\Currencies\ISOCurrencies;
@@ -16,9 +16,7 @@ class AdminGeneralViewHelper
     /**
      * Get all the information about the current company.
      *
-     * @param mixed $company
-     * @param Employee $loggedEmployee
-     * @return array|null
+     * @param  mixed  $company
      */
     public static function information($company, Employee $loggedEmployee): ?array
     {
@@ -78,8 +76,6 @@ class AdminGeneralViewHelper
 
     /**
      * Get all the currencies used in the instance.
-     *
-     * @return Collection|null
      */
     public static function currencies(): ?Collection
     {

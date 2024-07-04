@@ -2,29 +2,30 @@
 
 namespace App\Services\Company\Employee\Expense;
 
-use Carbon\Carbon;
 use App\Helpers\MoneyHelper;
 use App\Jobs\ConvertExpense;
-use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Expense;
+use App\Jobs\NotifyEmployee;
 use App\Models\Company\Employee;
-use Illuminate\Support\Collection;
+use App\Models\Company\Expense;
 use App\Models\Company\ExpenseCategory;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class CreateExpense extends BaseService
 {
     private Expense $expense;
+
     private Employee $employee;
+
     private array $data;
+
     private Collection $managers;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -43,9 +44,6 @@ class CreateExpense extends BaseService
 
     /**
      * Create an expense.
-     *
-     * @param array $data
-     * @return Expense
      */
     public function execute(array $data): Expense
     {

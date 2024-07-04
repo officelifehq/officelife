@@ -2,9 +2,9 @@
 
 namespace App\Models\Company;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TeamUsefulLink extends Model
 {
@@ -36,8 +36,6 @@ class TeamUsefulLink extends Model
 
     /**
      * Transform the object to an array representing this object.
-     *
-     * @return array
      */
     public function toObject(): array
     {
@@ -55,9 +53,7 @@ class TeamUsefulLink extends Model
      * The label attribute can be null, so if that's the case, we'll return the
      * URL instead.
      *
-     * @param mixed $value
-     *
-     * @return string
+     * @param  mixed  $value
      */
     public function getLabelAttribute($value): string
     {

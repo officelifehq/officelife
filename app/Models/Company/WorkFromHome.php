@@ -3,9 +3,9 @@
 namespace App\Models\Company;
 
 use App\Helpers\DateHelper;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class WorkFromHome extends Model
 {
@@ -29,17 +29,9 @@ class WorkFromHome extends Model
      *
      * @var array
      */
-    protected $dates = [
-        'date',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'work_from_home' => 'boolean',
+        'date' => 'datetime',
     ];
 
     /**
@@ -54,8 +46,6 @@ class WorkFromHome extends Model
 
     /**
      * Transform the object to an array representing this object.
-     *
-     * @return array
      */
     public function toObject(): array
     {

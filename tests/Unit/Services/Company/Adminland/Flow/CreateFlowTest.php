@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Flow;
 
-use Tests\TestCase;
-use App\Models\Company\Flow;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
+use App\Models\Company\Flow;
+use App\Services\Company\Adminland\Flow\CreateFlow;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use App\Services\Company\Adminland\Flow\CreateFlow;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class CreateFlowTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_flow_as_administrator(): void
     {

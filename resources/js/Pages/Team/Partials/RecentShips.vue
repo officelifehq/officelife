@@ -24,14 +24,18 @@
         <help :url="$page.props.help_links.team_recent_ship" :top="'2px'" />
       </span>
 
-      <inertia-link v-if="teamMemberOrAtLeastHR" :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/ships/create'" class="btn f5" data-cy="add-recent-ship-entry">{{ $t('team.recent_ship_list_cta') }}</inertia-link>
+      <Link v-if="teamMemberOrAtLeastHR" :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/ships/create'" class="btn f5" data-cy="add-recent-ship-entry">
+        {{ $t('team.recent_ship_list_cta') }}
+      </Link>
     </h3>
 
     <div class="mb4 bg-white box cf">
       <!-- list of employees -->
       <div v-show="recentShips.length > 0" class="">
         <div v-for="ship in recentShips" :key="ship.id" class="pa3 bb bb-gray w-100 flex justify-between ships-list" :data-cy="'ships-list-' + ship.id">
-          <inertia-link :href="ship.url" class="ma0 pa0" :data-cy="'recent-ship-list-' + ship.id">{{ ship.title }}</inertia-link>
+          <Link :href="ship.url" class="ma0 pa0" :data-cy="'recent-ship-list-' + ship.id">
+            {{ ship.title }}
+          </Link>
           <ul class="list ma0">
             <li v-for="employee in ship.employees" :key="employee.id" class="mr1 di">
               <avatar :avatar="employee.avatar" :url="employee.url" :size="17" :class="'br-100 relative mr1 dib-ns dn'" />
@@ -40,7 +44,9 @@
         </div>
 
         <div class="ph3 pv2 tc f6 bb-gray">
-          <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/ships'" data-cy="view-all-ships">{{ $t('team.recent_ship_view_all') }}</inertia-link>
+          <Link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/ships'" data-cy="view-all-ships">
+            {{ $t('team.recent_ship_view_all') }}
+          </Link>
         </div>
       </div>
 
@@ -53,8 +59,8 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
-import Avatar from '@/Shared/Avatar';
+import Help from '@/Shared/Help.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

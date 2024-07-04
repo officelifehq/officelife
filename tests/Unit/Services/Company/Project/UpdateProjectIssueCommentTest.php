@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Comment;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectIssue;
+use App\Services\Company\Project\UpdateProjectIssueComment;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Project\UpdateProjectIssueComment;
+use Tests\TestCase;
 
 class UpdateProjectIssueCommentTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_an_issue_to_a_project_as_administrator(): void
     {

@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\ViewHelpers\Adminland;
 
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Adminland\AdminExpenseViewHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\ExpenseCategory;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Adminland\AdminExpenseViewHelper;
+use Tests\TestCase;
 
 class AdminExpenseViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_information_about_expense_categories_in_the_company(): void
     {

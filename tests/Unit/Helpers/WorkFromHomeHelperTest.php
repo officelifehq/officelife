@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Helpers;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\WorkFromHomeHelper;
 use App\Models\Company\WorkFromHome;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class WorkFromHomeHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_indicates_that_an_employee_worked_from_home(): void
     {

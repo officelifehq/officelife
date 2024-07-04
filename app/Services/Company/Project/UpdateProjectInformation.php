@@ -2,22 +2,21 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
+use App\Exceptions\ProjectCodeAlreadyExistException;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectMemberActivity;
-use App\Exceptions\ProjectCodeAlreadyExistException;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class UpdateProjectInformation extends BaseService
 {
     private array $data;
+
     private Project $project;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -34,9 +33,6 @@ class UpdateProjectInformation extends BaseService
 
     /**
      * Update project information.
-     *
-     * @param array $data
-     * @return Project
      */
     public function execute(array $data): Project
     {

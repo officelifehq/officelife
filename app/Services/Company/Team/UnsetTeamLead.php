@@ -2,20 +2,18 @@
 
 namespace App\Services\Company\Team;
 
-use Carbon\Carbon;
+use App\Jobs\LogAccountAudit;
 use App\Jobs\LogTeamAudit;
 use App\Jobs\NotifyEmployee;
-use App\Models\Company\Team;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Employee;
+use App\Models\Company\Team;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class UnsetTeamLead extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,10 +26,6 @@ class UnsetTeamLead extends BaseService
 
     /**
      * Remove the team's leader.
-     *
-     * @param array $data
-     *
-     * @return Team
      */
     public function execute(array $data): Team
     {
@@ -58,9 +52,6 @@ class UnsetTeamLead extends BaseService
 
     /**
      * Add a notification in the UI for the employee who has been demoted.
-     *
-     * @param Employee $employee
-     * @param Team     $team
      */
     private function addNotification(Employee $employee, Team $team): void
     {
@@ -75,10 +66,6 @@ class UnsetTeamLead extends BaseService
 
     /**
      * Log the information in the audit logs.
-     *
-     * @param array    $data
-     * @param Employee $oldTeamLeader
-     * @param Team     $team
      */
     private function log(array $data, Employee $oldTeamLeader, Team $team): void
     {

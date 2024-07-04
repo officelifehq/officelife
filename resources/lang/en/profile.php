@@ -1,4 +1,5 @@
 <?php
+
 return [
     'browser_sessions_title' => 'Browser sessions',
     'browser_sessions_description' => 'Manage and log out your active sessions on other browsers and devices.',

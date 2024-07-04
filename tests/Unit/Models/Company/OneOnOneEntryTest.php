@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\TestCase;
-use App\Models\Company\OneOnOneNote;
-use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\OneOnOneActionItem;
+use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\OneOnOneNote;
 use App\Models\Company\OneOnOneTalkingPoint;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class OneOnOneEntryTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_manager(): void
     {

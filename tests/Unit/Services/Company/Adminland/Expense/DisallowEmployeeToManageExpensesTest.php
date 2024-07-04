@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Expense;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Services\Company\Adminland\Expense\DisallowEmployeeToManageExpenses;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Expense\DisallowEmployeeToManageExpenses;
+use Tests\TestCase;
 
 class DisallowEmployeeToManageExpensesTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_disallows_an_employee_to_manage_expenses_as_administrator(): void
     {

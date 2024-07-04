@@ -2,21 +2,21 @@
 
 namespace App\Http\ViewHelpers\Employee;
 
-use Carbon\Carbon;
+use App\Helpers\BirthdayHelper;
 use App\Helpers\DateHelper;
-use App\Helpers\TimeHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\MoneyHelper;
-use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
-use App\Helpers\BirthdayHelper;
+use App\Helpers\TimeHelper;
+use App\Helpers\WorkFromHomeHelper;
 use App\Models\Company\Company;
+use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
+use App\Models\User\Pronoun;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Helpers\WorkFromHomeHelper;
-use App\Models\Company\ECoffeeMatch;
 
 class EmployeeShowViewHelper
 {
@@ -24,11 +24,6 @@ class EmployeeShowViewHelper
      * Information about the employee.
      * The information that is given depends on the permissions array that
      * indicates if the logged employee can see info about the employee.
-     *
-     * @param Employee $employee
-     * @param array $permissions
-     * @param Employee $loggedEmployee
-     * @return array
      */
     public static function informationAboutEmployee(Employee $employee, array $permissions, Employee $loggedEmployee): array
     {
@@ -126,9 +121,6 @@ class EmployeeShowViewHelper
 
     /**
      * Collection containing all the managers of this employee.
-     *
-     * @param Employee $employee
-     * @return Collection
      */
     public static function managers(Employee $employee): Collection
     {
@@ -161,9 +153,6 @@ class EmployeeShowViewHelper
 
     /**
      * Collection containing all the direct reports of this employee.
-     *
-     * @param Employee $employee
-     * @return Collection
      */
     public static function directReports(Employee $employee): Collection
     {
@@ -197,9 +186,6 @@ class EmployeeShowViewHelper
     /**
      * Array containing information about the number of times the employee has
      * been working from home this year.
-     *
-     * @param Employee $employee
-     * @return array
      */
     public static function workFromHomeStats(Employee $employee): array
     {
@@ -221,9 +207,6 @@ class EmployeeShowViewHelper
     /**
      * Array containing information about the questions answered by the
      * employee.
-     *
-     * @param Employee $employee
-     * @return Collection
      */
     public static function questions(Employee $employee): Collection
     {
@@ -251,10 +234,6 @@ class EmployeeShowViewHelper
 
     /**
      * Array containing information about the teams.
-     *
-     * @param Company $company
-     * @param Collection $teams
-     * @return Collection
      */
     public static function teams(Collection $teams, Company $company): Collection
     {
@@ -279,10 +258,6 @@ class EmployeeShowViewHelper
     /**
      * Array containing information about the hardware associated with the
      * employee.
-     *
-     * @param Employee $employee
-     * @param array $permissions
-     * @return Collection|null
      */
     public static function hardware(Employee $employee, array $permissions): ?Collection
     {
@@ -307,9 +282,6 @@ class EmployeeShowViewHelper
     /**
      * Array containing information about the recent ships associated with the
      * employee.
-     *
-     * @param Employee $employee
-     * @return Collection
      */
     public static function recentShips(Employee $employee): Collection
     {
@@ -354,9 +326,6 @@ class EmployeeShowViewHelper
     /**
      * Array containing information about the skills associated with the
      * employee.
-     *
-     * @param Employee $employee
-     * @return Collection
      */
     public static function skills(Employee $employee): Collection
     {
@@ -382,11 +351,6 @@ class EmployeeShowViewHelper
      * employee.
      * On the employee profile page, we only see expenses logged in the last
      * 30 days.
-     *
-     * @param Employee $employee
-     * @param array $permissions
-     * @param Employee $loggedEmployee
-     * @return array|null
      */
     public static function expenses(Employee $employee, array $permissions, Employee $loggedEmployee): ?array
     {
@@ -434,11 +398,6 @@ class EmployeeShowViewHelper
     /**
      * Array containing information about the latest one on ones associated with
      * the employee.
-     *
-     * @param Employee $employee
-     * @param array $permissions
-     * @param Employee $loggedEmployee
-     * @return array|null
      */
     public static function oneOnOnes(Employee $employee, array $permissions, Employee $loggedEmployee): ?array
     {
@@ -485,9 +444,6 @@ class EmployeeShowViewHelper
 
     /**
      * Get the employee statuses for the given company.
-     *
-     * @param Company $company
-     * @return Collection
      */
     public static function employeeStatuses(Company $company): Collection
     {
@@ -507,10 +463,6 @@ class EmployeeShowViewHelper
     /**
      * Array containing information about the latest timesheets logged by the
      * employee.
-     *
-     * @param Employee $employee
-     * @param array $permissions
-     * @return array|null
      */
     public static function timesheets(Employee $employee, array $permissions): ?array
     {
@@ -562,8 +514,6 @@ class EmployeeShowViewHelper
 
     /**
      * Array containing information about all the pronouns used in the company.
-     *
-     * @return Collection|null
      */
     public static function pronouns(): ?Collection
     {
@@ -582,9 +532,6 @@ class EmployeeShowViewHelper
 
     /**
      * Array containing information about all the positions used in the company.
-     *
-     * @param Company $company
-     * @return Collection|null
      */
     public static function positions(Company $company): ?Collection
     {
@@ -603,10 +550,6 @@ class EmployeeShowViewHelper
 
     /**
      * List all the eCoffees the employee participated to.
-     *
-     * @param Employee $employee
-     * @param Company $company
-     * @return array|null
      */
     public static function eCoffees(Employee $employee, Company $company): ?array
     {
@@ -657,8 +600,6 @@ class EmployeeShowViewHelper
     /**
      * Get the percent of employees who have been hired after the given employee.
      *
-     * @param Employee $employee
-     * @param Company $company
      * @return ?int
      */
     public static function hiredAfterEmployee(Employee $employee, Company $company): ?int
@@ -680,10 +621,6 @@ class EmployeeShowViewHelper
 
     /**
      * Get the list of all positions the employee ever had in the company.
-     *
-     * @param Employee $employee
-     * @param Company $company
-     * @return Collection
      */
     public static function employeeCurrentAndPastPositions(Employee $employee, Company $company): Collection
     {
@@ -707,10 +644,6 @@ class EmployeeShowViewHelper
     /**
      * Array containing information about the software associated with the
      * employee.
-     *
-     * @param Employee $employee
-     * @param array $permissions
-     * @return Collection|null
      */
     public static function softwares(Employee $employee, array $permissions): ?Collection
     {

@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Collections;
 
-use Tests\TestCase;
-use App\Models\Company\WorkFromHome;
 use App\Http\Collections\WorkFromHomeCollection;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\WorkFromHome;
+use Tests\TestCase;
 
 class WorkFromHomeCollectionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_returns_a_collection(): void
     {

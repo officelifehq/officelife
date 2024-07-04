@@ -2,24 +2,20 @@
 
 namespace App\Http\ViewHelpers\Company\Project;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
+use App\Models\Company\ProjectMessage;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Models\Company\ProjectMessage;
 
 class ProjectMessagesViewHelper
 {
     /**
      * Array containing the information about the messages made in the project.
-     *
-     * @param Project $project
-     * @param Employee $employee
-     * @return Collection
      */
     public static function index(Project $project, Employee $employee): Collection
     {
@@ -74,10 +70,6 @@ class ProjectMessagesViewHelper
 
     /**
      * Array containing the information about a given message.
-     *
-     * @param ProjectMessage $projectMessage
-     * @param Employee $employee
-     * @return array
      */
     public static function show(ProjectMessage $projectMessage, Employee $employee): array
     {
@@ -157,9 +149,6 @@ class ProjectMessagesViewHelper
 
     /**
      * Array containing the information necessary to edit a message.
-     *
-     * @param ProjectMessage $projectMessage
-     * @return array
      */
     public static function edit(ProjectMessage $projectMessage): array
     {

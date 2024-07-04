@@ -4,20 +4,16 @@ namespace App\Http\ViewHelpers\Team;
 
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Ship;
-use App\Models\Company\Team;
 use App\Helpers\StringHelper;
 use App\Models\Company\Company;
+use App\Models\Company\Ship;
+use App\Models\Company\Team;
 use Illuminate\Support\Collection;
 
 class TeamRecentShipViewHelper
 {
     /**
      * Collection containing all the recent ships for this team.
-     *
-     * @param Team $team
-     *
-     * @return Collection
      */
     public static function recentShips(Team $team): Collection
     {
@@ -57,10 +53,6 @@ class TeamRecentShipViewHelper
 
     /**
      * Collection containing the detail of a specific recent ship entry.
-     *
-     * @param Ship $ship
-     *
-     * @return array
      */
     public static function ship(Ship $ship): array
     {
@@ -99,10 +91,6 @@ class TeamRecentShipViewHelper
 
     /**
      * Search all potential team members for this ship.
-     *
-     * @param Company $company
-     * @param string|null $criteria
-     * @return Collection
      */
     public static function search(Company $company, ?string $criteria): Collection
     {

@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Group;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
+use App\Models\Company\Employee;
 use App\Models\Company\Group;
 use App\Models\Company\Meeting;
-use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
 use App\Services\Company\Group\DestroyMeeting;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class DestroyMeetingTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_a_meeting_as_administrator(): void
     {

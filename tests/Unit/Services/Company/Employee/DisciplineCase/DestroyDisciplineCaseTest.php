@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\Services\Company\Employee\DisciplineCase;
 
-use Tests\TestCase;
-use App\Models\Company\Employee;
-use App\Models\Company\DisciplineCase;
-use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Company\DisciplineCase;
+use App\Models\Company\Employee;
 use App\Services\Company\Employee\DisciplineCase\DestroyDisciplineCase;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class DestroyDisciplineCaseTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_a_discipline_case_as_administrator(): void
     {

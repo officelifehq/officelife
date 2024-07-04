@@ -1,10 +1,10 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateIssueTypesTable extends Migration
 {
@@ -32,7 +32,7 @@ class CreateIssueTypesTable extends Migration
             foreach ($listOfIssues as $name => $hexColor) {
                 DB::table('issue_types')->insert([
                     'company_id' => $company->id,
-                    'name' => trans('account.issue_type_' . $name),
+                    'name' => trans('account.issue_type_'.$name),
                     'icon_hex_color' => $hexColor,
                     'created_at' => Carbon::now(),
                 ]);

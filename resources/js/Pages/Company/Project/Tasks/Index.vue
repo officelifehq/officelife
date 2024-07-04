@@ -41,7 +41,7 @@
         <div class="bg-white box pa3">
           <!-- blank state -->
           <div v-if="!checkTasksPresence" class="pa3 tc">
-            <img loading="lazy" src="/img/streamline-icon-artist-drawing-3@140x140.png" width="140" height="140" alt="meeting"
+            <img loading="lazy" :src="'/img/streamline-icon-artist-drawing-3@140x140.png'" width="140" height="140" alt="meeting"
                  class=""
             />
             <p class="lh-copy measure center mb4">{{ $t('project.task_blank_desc') }}</p>
@@ -156,14 +156,14 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import TextInput from '@/Shared/TextInput';
-import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
-import ProjectTasks from '@/Pages/Company/Project/Tasks/Partials/ProjectTasks';
-import Help from '@/Shared/Help';
-import TextArea from '@/Shared/TextArea';
-import LoadingButton from '@/Shared/LoadingButton';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import TextInput from '@/Shared/TextInput.vue';
+import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu.vue';
+import ProjectTasks from '@/Pages/Company/Project/Tasks/Partials/ProjectTasks.vue';
+import Help from '@/Shared/Help.vue';
+import TextArea from '@/Shared/TextArea.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
 
 export default {
   components: {

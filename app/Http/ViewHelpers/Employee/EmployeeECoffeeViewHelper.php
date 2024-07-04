@@ -2,22 +2,18 @@
 
 namespace App\Http\ViewHelpers\Employee;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
-use App\Models\Company\Employee;
-use Illuminate\Support\Collection;
 use App\Models\Company\ECoffeeMatch;
+use App\Models\Company\Employee;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class EmployeeECoffeeViewHelper
 {
     /**
      * List all the eCoffees the employee participated to.
-     *
-     * @param Employee $employee
-     * @param Company $company
-     * @return Collection|null
      */
     public static function index(Employee $employee, Company $company): ?Collection
     {

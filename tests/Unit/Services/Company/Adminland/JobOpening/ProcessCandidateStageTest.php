@@ -2,23 +2,20 @@
 
 namespace Tests\Unit\Services\Company\Adminland\JobOpening;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
-use App\Models\Company\JobOpening;
-use Illuminate\Support\Facades\Queue;
 use App\Models\Company\CandidateStage;
+use App\Models\Company\Employee;
+use App\Models\Company\JobOpening;
 use App\Models\Company\RecruitingStage;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\JobOpening\ProcessCandidateStage;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class ProcessCandidateStageTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_processes_a_candidate_stage_as_administrator(): void
     {

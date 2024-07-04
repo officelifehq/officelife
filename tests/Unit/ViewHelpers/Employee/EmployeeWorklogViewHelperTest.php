@@ -2,18 +2,16 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
-use Tests\TestCase;
-use App\Models\Company\Worklog;
-use App\Models\Company\Employee;
-use Illuminate\Support\Collection;
-use GrahamCampbell\TestBenchCore\HelperTrait;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Employee\EmployeeWorklogViewHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\Worklog;
+use GrahamCampbell\TestBenchCore\HelperTrait;
+use Illuminate\Support\Collection;
+use Tests\TestCase;
 
 class EmployeeWorklogViewHelperTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_a_collection_representing_all_the_worklogs_for_a_given_year(): void

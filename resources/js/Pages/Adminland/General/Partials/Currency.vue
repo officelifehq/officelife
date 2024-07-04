@@ -60,9 +60,9 @@
 </template>
 
 <script>
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
-import Help from '@/Shared/Help';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

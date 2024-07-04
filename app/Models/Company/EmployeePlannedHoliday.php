@@ -2,9 +2,9 @@
 
 namespace App\Models\Company;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class EmployeePlannedHoliday extends Model
 {
@@ -30,18 +30,10 @@ class EmployeePlannedHoliday extends Model
      *
      * @var array
      */
-    protected $dates = [
-        'planned_date',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'full' => 'boolean',
         'actually_taken' => 'boolean',
+        'planned_date' => 'datetime',
     ];
 
     /**

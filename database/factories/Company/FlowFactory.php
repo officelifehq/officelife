@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\Flow;
 use App\Models\Company\Company;
+use App\Models\Company\Flow;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FlowFactory extends Factory

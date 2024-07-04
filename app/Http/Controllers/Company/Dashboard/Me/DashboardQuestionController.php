@@ -3,21 +3,18 @@
 namespace App\Http\Controllers\Company\Dashboard\Me;
 
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Answer\CreateAnswer;
-use App\Services\Company\Employee\Answer\UpdateAnswer;
 use App\Services\Company\Employee\Answer\DestroyAnswer;
+use App\Services\Company\Employee\Answer\UpdateAnswer;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class DashboardQuestionController extends Controller
 {
     /**
      * Answer the question.
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function store(Request $request): JsonResponse
     {
@@ -56,11 +53,6 @@ class DashboardQuestionController extends Controller
 
     /**
      * Update the question.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $answerId
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $answerId): JsonResponse
     {
@@ -92,11 +84,6 @@ class DashboardQuestionController extends Controller
 
     /**
      * Delete the question.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $answerId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $answerId): JsonResponse
     {

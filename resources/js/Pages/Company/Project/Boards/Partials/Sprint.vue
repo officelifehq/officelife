@@ -252,9 +252,9 @@
                   <span class="relative icon-type mr1" style="width: 10px; height: 10px; background-color: rgb(86, 82, 179);"></span>
 
                   <!-- key -->
-                  <inertia-link :href="element.url.show" class="f7 project-key mr2 code">
+                  <Link :href="element.url.show" class="f7 project-key mr2 code">
                     {{ element.key }}
-                  </inertia-link>
+                  </Link>
 
                   <!-- title -->
                   <span>{{ element.title }}</span>
@@ -318,7 +318,7 @@
           {{ $t('project.sprint_blank_state') }}
         </p>
 
-        <img loading="lazy" class="db center mb4" alt="team" src="/img/streamline-icon-extrinsic-drive-5@100x100.png" />
+        <img loading="lazy" class="db center mb4" alt="team" :src="'/img/streamline-icon-extrinsic-drive-5@100x100.png'" />
       </div>
 
       <!-- cycle actions -->
@@ -331,10 +331,10 @@
 </template>
 
 <script>
-import TextInput from '@/Shared/TextInput';
-import LoadingButton from '@/Shared/LoadingButton';
-import TextArea from '@/Shared/TextArea';
-import Errors from '@/Shared/Errors';
+import TextInput from '@/Shared/TextInput.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import TextArea from '@/Shared/TextArea.vue';
+import Errors from '@/Shared/Errors.vue';
 import { $vfm, VueFinalModal } from 'vue-final-modal';
 import draggable from 'vuedraggable';
 

@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Helpers;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\DateHelper;
 use App\Models\Company\Employee;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class DateHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_date_with_english_locale(): void
     {

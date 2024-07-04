@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Jobs;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Jobs\LogTeamAudit;
 use App\Models\Company\Team;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class LogTeamAuditTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_logs_a_team_audit(): void
     {

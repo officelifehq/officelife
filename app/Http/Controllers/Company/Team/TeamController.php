@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers\Company\Team;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use App\Models\Company\Team;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
-use App\Http\Controllers\Controller;
 use App\Http\Collections\TeamNewsCollection;
-use App\Http\ViewHelpers\Team\TeamShowViewHelper;
 use App\Http\Collections\TeamUsefulLinkCollection;
+use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Team\TeamIndexViewHelper;
+use App\Http\ViewHelpers\Team\TeamShowViewHelper;
+use App\Models\Company\Team;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class TeamController extends Controller
 {
     /**
      * Display the list of teams.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return Response
      */
     public function index(Request $request, int $companyId): Response
     {
@@ -37,9 +33,6 @@ class TeamController extends Controller
     /**
      * Display the detail of a team.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */

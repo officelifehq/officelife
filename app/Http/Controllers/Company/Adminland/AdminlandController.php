@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminlandController extends Controller
 {
     /**
      * Show the account dashboard.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return Response
      */
     public function index(Request $request, int $companyId): Response
     {

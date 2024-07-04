@@ -2,20 +2,20 @@
 
 namespace App\Services\Company\Adminland\JobOpening;
 
+use App\Models\Company\Candidate;
 use App\Models\Company\File;
 use App\Services\BaseService;
-use App\Models\Company\Candidate;
 
 class DestroyCandidateFileDuringApplicationProcess extends BaseService
 {
     protected array $data;
+
     protected Candidate $candidate;
+
     protected File $file;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,8 +28,6 @@ class DestroyCandidateFileDuringApplicationProcess extends BaseService
 
     /**
      * Destroy a file that belongs to a candidate during the interview process.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

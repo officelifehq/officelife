@@ -2,15 +2,12 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Promise\Utils as GuzzleUtils;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class HelpCenterTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_checks_that_links_that_point_to_the_help_center_are_valid(): void
     {

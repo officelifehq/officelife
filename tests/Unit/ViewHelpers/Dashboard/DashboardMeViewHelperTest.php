@@ -2,40 +2,38 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Task;
+use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
+use App\Jobs\StartRateYourManagerProcess;
 use App\Models\Company\Answer;
-use App\Models\Company\Morale;
+use App\Models\Company\AskMeAnythingQuestion;
+use App\Models\Company\AskMeAnythingSession;
+use App\Models\Company\Candidate;
+use App\Models\Company\CandidateStage;
+use App\Models\Company\CandidateStageParticipant;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
-use App\Models\Company\Expense;
-use App\Models\Company\Project;
-use App\Models\Company\Worklog;
-use App\Models\Company\Employee;
-use App\Models\Company\Question;
-use App\Models\Company\Candidate;
-use App\Models\Company\JobOpening;
 use App\Models\Company\ECoffeeMatch;
-use App\Models\Company\WorkFromHome;
-use App\Models\Company\OneOnOneEntry;
-use App\Models\Company\CandidateStage;
+use App\Models\Company\Employee;
 use App\Models\Company\EmployeeStatus;
+use App\Models\Company\Expense;
 use App\Models\Company\ExpenseCategory;
-use App\Jobs\StartRateYourManagerProcess;
-use App\Models\Company\AskMeAnythingSession;
-use App\Models\Company\AskMeAnythingQuestion;
-use GrahamCampbell\TestBenchCore\HelperTrait;
-use App\Models\Company\CandidateStageParticipant;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\JobOpening;
+use App\Models\Company\Morale;
+use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\Project;
+use App\Models\Company\Question;
+use App\Models\Company\Task;
+use App\Models\Company\WorkFromHome;
+use App\Models\Company\Worklog;
 use App\Services\Company\Employee\Manager\AssignManager;
-use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
+use Carbon\Carbon;
+use GrahamCampbell\TestBenchCore\HelperTrait;
+use Tests\TestCase;
 
 class DashboardMeViewHelperTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_an_empty_array_if_there_is_no_active_question_in_the_company(): void

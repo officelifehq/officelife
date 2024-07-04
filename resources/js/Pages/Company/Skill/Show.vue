@@ -109,7 +109,7 @@
             <avatar :avatar="employee.avatar" :size="64" :class="'avatar br-100'" />
 
             <div class="ml3 mw-100">
-              <inertia-link :href="employee.url">{{ employee.name }}</inertia-link>
+              <Link :href="employee.url">{{ employee.name }}</Link>
 
               <!-- position -->
               <span v-if="employee.position !== null" class="title db f7 mt1 mb1">
@@ -122,13 +122,13 @@
               <ul v-if="employee.teams.length != 0" class="list pl0 mb2 f7">
                 <li class="mr1 di">{{ $t('company.skills_show_in_team') }}</li>
                 <li v-for="team in employee.teams" :key="team.id" :data-cy="'employee-' + employee.id" class="di pointer mr2">
-                  <inertia-link :href="team.url">{{ team.name }}</inertia-link>
+                  <Link :href="team.url">{{ team.name }}</Link>
                 </li>
               </ul>
 
               <ul class="list pl0">
                 <li v-for="employeeSkill in employee.skills" :key="employeeSkill.id" :data-cy="'employee-' + employee.id" class="skill small-skill di pointer mr2">
-                  <inertia-link :href="employeeSkill.url" class="dib no-underline bb-0">{{ employeeSkill.name }}</inertia-link>
+                  <Link :href="employeeSkill.url" class="dib no-underline bb-0">{{ employeeSkill.name }}</Link>
                 </li>
               </ul>
             </div>
@@ -140,13 +140,13 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Help from '@/Shared/Help';
-import TextInput from '@/Shared/TextInput';
-import LoadingButton from '@/Shared/LoadingButton';
-import Errors from '@/Shared/Errors';
-import Avatar from '@/Shared/Avatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Help from '@/Shared/Help.vue';
+import TextInput from '@/Shared/TextInput.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Errors from '@/Shared/Errors.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

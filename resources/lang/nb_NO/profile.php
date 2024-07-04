@@ -1,4 +1,5 @@
 <?php
+
 return [
     'browser_sessions_title' => 'Nettleserøkter',
     'browser_sessions_description' => 'Håndter og logg dine økte økter på andre nettlesere og enheter.',

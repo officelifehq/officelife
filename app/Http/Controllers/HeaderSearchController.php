@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company\Team;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
 use App\Http\ViewHelpers\Company\HeaderSearchViewHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\Team;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class HeaderSearchController extends Controller
 {
     /**
      * Perform search of an employee from the header.
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function employees(Request $request): JsonResponse
     {
@@ -29,9 +26,6 @@ class HeaderSearchController extends Controller
 
     /**
      * Perform search of an team from the header.
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function teams(Request $request): JsonResponse
     {

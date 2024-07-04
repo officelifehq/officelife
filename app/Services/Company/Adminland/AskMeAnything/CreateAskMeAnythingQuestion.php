@@ -2,20 +2,20 @@
 
 namespace App\Services\Company\Adminland\AskMeAnything;
 
-use App\Services\BaseService;
-use App\Models\Company\AskMeAnythingSession;
 use App\Models\Company\AskMeAnythingQuestion;
+use App\Models\Company\AskMeAnythingSession;
+use App\Services\BaseService;
 
 class CreateAskMeAnythingQuestion extends BaseService
 {
     private array $data;
+
     private AskMeAnythingSession $session;
+
     private AskMeAnythingQuestion $question;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -31,9 +31,6 @@ class CreateAskMeAnythingQuestion extends BaseService
     /**
      * Create an AMA question.
      * We don't log this interaction because it's against the anonymous nature.
-     *
-     * @param array $data
-     * @return AskMeAnythingQuestion
      */
     public function execute(array $data): AskMeAnythingQuestion
     {

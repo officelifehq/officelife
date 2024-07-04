@@ -2,10 +2,10 @@
 
 namespace Database\Factories\Company;
 
-use Carbon\Carbon;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TimesheetFactory extends Factory

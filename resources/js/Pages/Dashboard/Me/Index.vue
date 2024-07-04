@@ -85,21 +85,21 @@
 </template>
 
 <script>
-import Worklogs from '@/Pages/Dashboard/Me/Partials/Worklogs';
-import Morale from '@/Pages/Dashboard/Me/Partials/Morale';
-import WorkFromHome from '@/Pages/Dashboard/Me/Partials/WorkFromHome';
-import Question from '@/Pages/Dashboard/Me/Partials/Question';
-import Expense from '@/Pages/Dashboard/Me/Partials/Expense';
-import RateYourManager from '@/Pages/Dashboard/Me/Partials/RateYourManager';
-import OneOnOneWithManager from '@/Pages/Dashboard/Me/Partials/OneOnOneWithManager';
-import ContractRenewalDate from '@/Pages/Dashboard/Me/Partials/ContractRenewalDate';
-import Layout from '@/Shared/Layout';
-import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
-import ECoffee from '@/Pages/Dashboard/Me/Partials/ECoffee';
-import Projects from '@/Pages/Dashboard/Me/Partials/Projects';
-import JobOpeningsAsSponsor from '@/Pages/Dashboard/Me/Partials/JobOpeningSponsor';
-import JobOpeningsAsParticipant from '@/Pages/Dashboard/Me/Partials/JobOpeningParticipant';
-import AskMeAnything from '@/Pages/Dashboard/Me/Partials/AskMeAnything';
+import Worklogs from '@/Pages/Dashboard/Me/Partials/Worklogs.vue';
+import Morale from '@/Pages/Dashboard/Me/Partials/Morale.vue';
+import WorkFromHome from '@/Pages/Dashboard/Me/Partials/WorkFromHome.vue';
+import Question from '@/Pages/Dashboard/Me/Partials/Question.vue';
+import Expense from '@/Pages/Dashboard/Me/Partials/Expense.vue';
+import RateYourManager from '@/Pages/Dashboard/Me/Partials/RateYourManager.vue';
+import OneOnOneWithManager from '@/Pages/Dashboard/Me/Partials/OneOnOneWithManager.vue';
+import ContractRenewalDate from '@/Pages/Dashboard/Me/Partials/ContractRenewalDate.vue';
+import Layout from '@/Shared/Layout.vue';
+import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu.vue';
+import ECoffee from '@/Pages/Dashboard/Me/Partials/ECoffee.vue';
+import Projects from '@/Pages/Dashboard/Me/Partials/Projects.vue';
+import JobOpeningsAsSponsor from '@/Pages/Dashboard/Me/Partials/JobOpeningSponsor.vue';
+import JobOpeningsAsParticipant from '@/Pages/Dashboard/Me/Partials/JobOpeningParticipant.vue';
+import AskMeAnything from '@/Pages/Dashboard/Me/Partials/AskMeAnything.vue';
 
 export default {
   components: {

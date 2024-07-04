@@ -65,7 +65,7 @@
             <p class="mt0 mb2"><span class="mr1">⚠️</span> {{ $t('dashboard.timesheet_rejected_timesheets') }}</p>
             <ul class="list ma0 pl0">
               <li v-for="timesheetItem in rejectedTimesheets" :key="timesheetItem.id" class="dib rejected-timesheet-item mb2 f6 mr2">
-                <inertia-link :href="timesheetItem.url">{{ timesheetItem.started_at }}</inertia-link>
+                <Link :href="timesheetItem.url">{{ timesheetItem.started_at }}</Link>
               </li>
             </ul>
           </div>
@@ -73,12 +73,14 @@
           <!-- timesheets selector -->
           <div class="mt0 mb5 lh-copy f6 tc relative">
             <ul class="list pl0 ma0">
-              <li class="di mr3"><inertia-link :href="previousTimesheet.url" class="dib">&lt; {{ $t('dashboard.timesheet_previous_week') }}</inertia-link></li>
+              <li class="di mr3"><Link :href="previousTimesheet.url" class="dib">&lt; {{ $t('dashboard.timesheet_previous_week') }}</Link></li>
               <li class="di mr3 fw5">{{ timesheet.start_date }} - {{ timesheet.end_date }}</li>
-              <li class="di"><inertia-link :href="nextTimesheet.url" class="dib">{{ $t('dashboard.timesheet_next_week') }} &gt;</inertia-link></li>
+              <li class="di"><Link :href="nextTimesheet.url" class="dib">{{ $t('dashboard.timesheet_next_week') }} &gt;</Link></li>
             </ul>
 
-            <inertia-link v-if="currentTimesheet.id != timesheet.id" :href="currentTimesheet.url" class="absolute top-0 left-0">{{ $t('dashboard.timesheet_back_to_current') }}</inertia-link>
+            <Link v-if="currentTimesheet.id != timesheet.id" :href="currentTimesheet.url" class="absolute top-0 left-0">
+              {{ $t('dashboard.timesheet_back_to_current') }}
+            </Link>
           </div>
 
           <!-- information to display when timesheet is either open or ready for approval-->
@@ -105,10 +107,10 @@
 
           <!-- information to display when timesheet was approved or rejected -->
           <div v-if="timesheetStatus == 'approved' || timesheetStatus == 'rejected'" :class="'relative pa3 mb3 br3 flex items-center justify-around ' + timesheetStatus">
-            <img v-if="timesheetStatus == 'rejected'" src="/img/streamline-icon-stamp@140x140.png" alt="rejected" height="80" width="80"
+            <img v-if="timesheetStatus == 'rejected'" :src="'/img/streamline-icon-stamp@140x140.png'" alt="rejected" height="80" width="80"
                  class="absolute stamp bg-white br-100 ba b--gray"
             />
-            <img v-else src="/img/streamline-icon-approve-document@140x140.png" alt="approved" height="80" width="80"
+            <img v-else :src="'/img/streamline-icon-approve-document@140x140.png'" alt="approved" height="80" width="80"
                  class="absolute stamp bg-white br-100 ba b--gray"
             />
 
@@ -117,7 +119,9 @@
               <p v-if="timesheetStatus == 'approved'" class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_approved_by') }}</p>
               <p v-else class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_rejected_by') }}</p>
 
-              <inertia-link v-if="hasID" :href="approverInformation.url" class="ma0">{{ approverInformation.name }}</inertia-link>
+              <Link v-if="hasID" :href="approverInformation.url" class="ma0">
+                {{ approverInformation.name }}
+              </Link>
               <p v-else class="ma0">{{ approverInformation.name }}</p>
             </div>
 
@@ -134,7 +138,9 @@
             <!-- message to display if there are no projects in the account -->
             <div v-if="projects.length == 0" class="tc">
               {{ $t('dashboard.timesheet_no_projects') }}
-              <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/create'">{{ $t('dashboard.timesheet_create_project') }}</inertia-link>
+              <Link :href="'/' + $page.props.auth.company.id + '/company/projects/create'">
+                {{ $t('dashboard.timesheet_create_project') }}
+              </Link>
             </div>
 
             <div v-else>
@@ -179,7 +185,7 @@
           </form>
 
           <div v-if="timesheetRows.length == 0" class="tc mv4">
-            <img loading="lazy" src="/img/streamline-icon-building-site@140x140.png" height="140" width="140" alt="building"
+            <img loading="lazy" :src="'/img/streamline-icon-building-site@140x140.png'" height="140" width="140" alt="building"
                  class="top-1 left-1"
             />
             <p>{{ $t('dashboard.timesheet_blank') }}</p>
@@ -227,12 +233,12 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
-import TimesheetRow from '@/Pages/Dashboard/Timesheet/Partials/TimesheetRow';
-import TimesheetHeader from '@/Pages/Dashboard/Timesheet/Partials/TimesheetHeader';
-import LoadingButton from '@/Shared/LoadingButton';
-import Help from '@/Shared/Help';
+import Layout from '@/Shared/Layout.vue';
+import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu.vue';
+import TimesheetRow from '@/Pages/Dashboard/Timesheet/Partials/TimesheetRow.vue';
+import TimesheetHeader from '@/Pages/Dashboard/Timesheet/Partials/TimesheetHeader.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

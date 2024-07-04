@@ -4,6 +4,4 @@ namespace App\Exceptions;
 
 use Exception;
 
-class MalformedCSVException extends Exception
-{
-}
+class MalformedCSVException extends Exception {}

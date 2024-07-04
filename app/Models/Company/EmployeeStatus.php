@@ -2,9 +2,9 @@
 
 namespace App\Models\Company;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class EmployeeStatus extends Model
 {
@@ -13,6 +13,7 @@ class EmployeeStatus extends Model
     protected $table = 'employee_statuses';
 
     const INTERNAL = 'internal';
+
     const EXTERNAL = 'external';
 
     /**
@@ -38,8 +39,6 @@ class EmployeeStatus extends Model
 
     /**
      * Transform the object to an array representing this object.
-     *
-     * @return array
      */
     public function toObject(): array
     {

@@ -2,18 +2,16 @@
 
 namespace App\Services\Company\Employee\Holiday;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\EmployeePlannedHoliday;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyTimeOff extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -27,10 +25,6 @@ class DestroyTimeOff extends BaseService
 
     /**
      * Destroy a planned holiday.
-     *
-     * @param array $data
-     *
-     * @return bool
      */
     public function execute(array $data): bool
     {

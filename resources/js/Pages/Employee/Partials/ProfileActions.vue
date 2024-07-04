@@ -34,9 +34,9 @@
       </span>
     </div>
     <ul class="list ma0 pl0">
-      <li class="mb2"><inertia-link :href="employee.url.audit_log">{{ $t('employee.menu_changelog') }}</inertia-link></li>
-      <li v-if="permissions.can_delete_profile" class="mb2"><inertia-link :href="employee.url.lock">{{ $t('employee.lock_profile') }}</inertia-link></li>
-      <li v-if="permissions.can_delete_profile" class="mb2"><inertia-link :href="employee.url.delete">{{ $t('employee.delete_profile') }}</inertia-link></li>
+      <li class="mb2"><Link :href="employee.url.audit_log">{{ $t('employee.menu_changelog') }}</Link></li>
+      <li v-if="permissions.can_delete_profile" class="mb2"><Link :href="employee.url.lock">{{ $t('employee.lock_profile') }}</Link></li>
+      <li v-if="permissions.can_delete_profile" class="mb2"><Link :href="employee.url.delete">{{ $t('employee.delete_profile') }}</Link></li>
     </ul>
   </div>
 </template>

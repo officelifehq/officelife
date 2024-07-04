@@ -56,7 +56,9 @@ svg {
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <div v-for="jobOpening in data.job_openings" :key="jobOpening.id" class="openings-list bb bb-gray bb-gray-hover pa3">
           <h2 class="mt0 mb2 fw4 f4 relative">
-            <inertia-link :href="jobOpening.url">{{ jobOpening.title }}</inertia-link>
+            <Link :href="jobOpening.url">
+              {{ jobOpening.title }}
+            </Link>
             <span v-if="jobOpening.reference_number" class="ml2 reference-number f7 relative">
               {{ jobOpening.reference_number }}
             </span>

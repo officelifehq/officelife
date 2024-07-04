@@ -27,7 +27,9 @@
       <!-- random teams -->
       <div v-for="team in teams.random_teams" :key="team.id" class="pa3 bb bb-gray">
         <div class="flex items-center justify-between relative tr">
-          <inertia-link :href="team.url" class="ma0">{{ team.name }}</inertia-link>
+          <Link :href="team.url" class="ma0">
+            {{ team.name }}
+          </Link>
           <div class="flex items-center">
             <div class="di">
               <avatar v-for="employee in team.employees" :key="employee.id" :url="employee.url" :avatar="employee.avatar" :size="32"
@@ -43,14 +45,16 @@
       </div>
 
       <div class="ph3 pv2 tc f6">
-        <inertia-link :href="teams.view_all_url">{{ $t('company.teams_view_all') }}</inertia-link>
+        <Link :href="teams.view_all_url">
+          {{ $t('company.teams_view_all') }}
+        </Link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Avatar from '@/Shared/Avatar';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

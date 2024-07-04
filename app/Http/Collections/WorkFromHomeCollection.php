@@ -9,9 +9,7 @@ class WorkFromHomeCollection
     /**
      * Prepare a collection of work from home.
      *
-     * @param mixed $entries
-     *
-     * @return Collection
+     * @param  mixed  $entries
      */
     public static function prepare($entries): Collection
     {

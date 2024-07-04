@@ -2,16 +2,13 @@
 
 namespace App\Http\ViewHelpers\Employee;
 
-use Carbon\Carbon;
 use App\Models\Company\Employee;
+use Carbon\Carbon;
 
 class EmployeeEditViewHelper
 {
     /**
      * Get information about the employee being edited.
-     *
-     * @param Employee $employee
-     * @return array
      */
     public static function show(Employee $employee): array
     {

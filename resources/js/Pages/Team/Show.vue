@@ -98,7 +98,9 @@
             <span><span class="mr1">
               🗞
             </span> {{ $tc('team.count_team_news', newsCount, { count: newsCount }) }}</span>
-            <inertia-link v-if="userBelongsToTheTeam || $page.props.auth.employee.permission_level <= 200" :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/news/create'" class="btn f5" data-cy="add-team-news">{{ $t('team.news_write') }}</inertia-link>
+            <Link v-if="userBelongsToTheTeam || $page.props.auth.employee.permission_level <= 200" :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/news/create'" class="btn f5" data-cy="add-team-news">
+              {{ $t('team.news_write') }}
+            </Link>
           </h3>
 
           <div class="mb4">
@@ -117,7 +119,9 @@
 
                 <!-- link to go to the news page -->
                 <div class="ph3 pv2 tc f6 bb-gray">
-                  <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/news'" data-cy="view-all-news">{{ $t('team.news_view_all') }}</inertia-link>
+                  <Link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/news'" data-cy="view-all-news">
+                    {{ $t('team.news_view_all') }}
+                  </Link>
                 </div>
               </div>
             </div>
@@ -143,17 +147,17 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Members from '@/Pages/Team/Partials/Members';
-import TeamDescription from '@/Pages/Team/Partials/TeamDescription';
-import NewHiresNextWeek from '@/Pages/Team/Partials/NewHiresNextWeek';
-import TeamLead from '@/Pages/Team/Partials/TeamLead';
-import TeamUsefulLink from '@/Pages/Team/Partials/TeamUsefulLink';
-import RecentShips from '@/Pages/Team/Partials/RecentShips';
-import Birthdays from '@/Pages/Team/Partials/Birthdays';
-import Morale from '@/Pages/Team/Partials/Morale';
-import Avatar from '@/Shared/Avatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Members from '@/Pages/Team/Partials/Members.vue';
+import TeamDescription from '@/Pages/Team/Partials/TeamDescription.vue';
+import NewHiresNextWeek from '@/Pages/Team/Partials/NewHiresNextWeek.vue';
+import TeamLead from '@/Pages/Team/Partials/TeamLead.vue';
+import TeamUsefulLink from '@/Pages/Team/Partials/TeamUsefulLink.vue';
+import RecentShips from '@/Pages/Team/Partials/RecentShips.vue';
+import Birthdays from '@/Pages/Team/Partials/Birthdays.vue';
+import Morale from '@/Pages/Team/Partials/Morale.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

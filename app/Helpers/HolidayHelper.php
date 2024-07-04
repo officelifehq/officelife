@@ -2,20 +2,16 @@
 
 namespace App\Helpers;
 
-use Carbon\Carbon;
-use App\Models\Company\Employee;
-use Illuminate\Support\Facades\DB;
 use App\Models\Company\CompanyCalendar;
 use App\Models\Company\CompanyPTOPolicy;
+use App\Models\Company\Employee;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class HolidayHelper
 {
     /**
      * Return the number of holidays an employee earns each month.
-     *
-     * @param Employee $employee
-     *
-     * @return float
      */
     public static function getHolidaysEarnedEachMonth(Employee $employee): float
     {
@@ -25,11 +21,6 @@ class HolidayHelper
     /**
      * Return the number of days that an employee will earn as holidays from
      * today til the end of the year.
-     *
-     * @param CompanyPTOPolicy $ptoPolicy
-     * @param Employee $employee
-     *
-     * @return float
      */
     public static function getNumberOfDaysLeftToEarn(CompanyPTOPolicy $ptoPolicy, Employee $employee): float
     {
@@ -49,11 +40,6 @@ class HolidayHelper
 
     /**
      * Return the number of holidays an employee earns each day.
-     *
-     * @param CompanyPTOPolicy $ptoPolicy
-     * @param Employee $employee
-     *
-     * @return float
      */
     public static function getHolidaysEarnedEachDay(CompanyPTOPolicy $ptoPolicy, Employee $employee): float
     {
@@ -64,11 +50,6 @@ class HolidayHelper
 
     /**
      * Check if the date is considered off in the company.
-     *
-     * @param CompanyPTOPolicy $ptoPolicy
-     * @param Carbon $date
-     *
-     * @return bool
      */
     public static function isDayWorkedForCompany(CompanyPTOPolicy $ptoPolicy, Carbon $date): ?bool
     {

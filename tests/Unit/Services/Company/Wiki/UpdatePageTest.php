@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Wiki;
 
-use Tests\TestCase;
-use App\Models\Company\Page;
-use App\Models\Company\Wiki;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
-use App\Services\Company\Wiki\UpdatePage;
+use App\Models\Company\Page;
+use App\Models\Company\Wiki;
 use App\Services\Company\Wiki\AddPageToWiki;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Wiki\UpdatePage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class UpdatePageTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_edits_a_page_as_administrator(): void
     {

@@ -22,20 +22,24 @@
       <!-- active question, if defined -->
       <div v-if="questions.active_question" class="pa3 bb bb-gray">
         <p class="f7 gray ma0">{{ $t('company.questions_active') }}</p>
-        <inertia-link :href="questions.active_question.url" class="dib ma0 mt2 fw6">{{ questions.active_question.title }}</inertia-link>
+        <Link :href="questions.active_question.url" class="dib ma0 mt2 fw6">
+          {{ questions.active_question.title }}
+        </Link>
       </div>
 
 
       <!-- list of inactive questions -->
       <ul v-if="questions.total_number_of_questions > 0" class="list pa3 ma0 past-questions">
         <li v-for="question in questions.questions" :key="question.id" class="answer-item mb3" :data-cy="'question-title-' + question.id">
-          <inertia-link :href="question.url" class="fw5 f5 lh-copy mb2">{{ question.title }}</inertia-link> <span class="gray f7">({{ question.number_of_answers }})</span>
+          <Link :href="question.url" class="fw5 f5 lh-copy mb2">{{ question.title }}</Link> <span class="gray f7">({{ question.number_of_answers }})</span>
         </li>
       </ul>
 
       <!-- Link to view all questions -->
       <div v-if="questions.total_number_of_questions > 0" class="ph3 pv2 tc f6 bt bb-gray">
-        <inertia-link :href="questions.all_questions_url">{{ $t('company.questions_view_all', { count: questions.total_number_of_questions }) }}</inertia-link>
+        <Link :href="questions.all_questions_url">
+          {{ $t('company.questions_view_all', { count: questions.total_number_of_questions }) }}
+        </Link>
       </div>
 
       <!-- blank state -->
@@ -45,7 +49,7 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

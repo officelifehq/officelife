@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Company;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Company\UpdateCompanyCurrency;
 use App\Services\Company\Adminland\Company\UpdateCompanyFoundedDate;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class UpdateCompanyFoundedDateTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_company_founded_date_as_administrator(): void
     {

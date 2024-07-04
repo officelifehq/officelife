@@ -74,7 +74,7 @@
                   <avatar :avatar="employee.avatar" :class="'ship-avatar br-100 absolute'" :url="employee.url" :size="44" />
 
                   <div class="name relative">
-                    <inertia-link :href="employee.url" class="mb2" :data-cy="'ship-list-employee-' + employee.id">{{ employee.name }}</inertia-link>
+                    <Link :href="employee.url" class="mb2" :data-cy="'ship-list-employee-' + employee.id">{{ employee.name }}</Link>
 
                     <!-- position -->
                     <span v-if="employee.position" class="title db f7 mt1">
@@ -95,9 +95,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Avatar from '@/Shared/Avatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

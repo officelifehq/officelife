@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\ViewHelpers\Company\KB;
 
-use Carbon\Carbon;
-use Tests\TestCase;
+use App\Http\ViewHelpers\Company\KB\PageEditViewHelper;
 use App\Models\Company\Page;
 use App\Models\Company\Wiki;
-use App\Http\ViewHelpers\Company\KB\PageEditViewHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class PageEditViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_detail_of_a_page(): void
     {

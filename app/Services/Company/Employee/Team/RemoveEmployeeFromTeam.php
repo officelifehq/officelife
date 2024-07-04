@@ -2,14 +2,14 @@
 
 namespace App\Services\Company\Employee\Team;
 
-use Carbon\Carbon;
+use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
 use App\Jobs\LogTeamAudit;
 use App\Jobs\NotifyEmployee;
-use App\Models\Company\Team;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Models\Company\Team;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class RemoveEmployeeFromTeam extends BaseService
 {
@@ -17,8 +17,6 @@ class RemoveEmployeeFromTeam extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -32,10 +30,6 @@ class RemoveEmployeeFromTeam extends BaseService
 
     /**
      * Remove an employee from a team.
-     *
-     * @param array $data
-     *
-     * @return Employee
      */
     public function execute(array $data): Employee
     {
@@ -63,8 +57,6 @@ class RemoveEmployeeFromTeam extends BaseService
 
     /**
      * Add a notification in the UI for the employee that is added to the team.
-     *
-     * @param Team $team
      */
     private function addNotification(Team $team): void
     {
@@ -79,9 +71,6 @@ class RemoveEmployeeFromTeam extends BaseService
 
     /**
      * Add the logs in the different audit logs.
-     *
-     * @param array $data
-     * @param Team  $team
      */
     private function log(array $data, Team $team): void
     {

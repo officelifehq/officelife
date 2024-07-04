@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Software;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Software;
+use App\Services\Company\Adminland\Software\UpdateSoftware;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Software\UpdateSoftware;
+use Tests\TestCase;
 
 class UpdateSoftwareTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_a_software_as_administrator(): void
     {

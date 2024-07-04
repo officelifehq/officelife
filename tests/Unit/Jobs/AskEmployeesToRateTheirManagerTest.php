@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Jobs;
 
+use App\Jobs\AskEmployeesToRateTheirManager;
+use App\Services\Company\Employee\Manager\AssignManager;
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Jobs\AskEmployeesToRateTheirManager;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\Manager\AssignManager;
 
 class AskEmployeesToRateTheirManagerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_asks_every_employee_to_rate_the_given_manager(): void
     {

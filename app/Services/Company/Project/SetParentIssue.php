@@ -2,24 +2,25 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectMemberActivity;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class SetParentIssue extends BaseService
 {
     protected array $data;
+
     protected ProjectIssue $parentIssue;
+
     protected ProjectIssue $childIssue;
+
     protected Project $project;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -34,8 +35,6 @@ class SetParentIssue extends BaseService
 
     /**
      * Set a parent issue to another project issue.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

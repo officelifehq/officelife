@@ -2,12 +2,12 @@
 
 namespace App\Http\ViewHelpers\Dashboard\HR;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
-use App\Helpers\TimeHelper;
 use App\Helpers\ImageHelper;
+use App\Helpers\TimeHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Timesheet;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -16,9 +16,6 @@ class DashboardHRTimesheetViewHelper
     /**
      * Get the information about timesheets that need approval for employees who
      * doesn't have a manager.
-     *
-     * @param Company $company
-     * @return Collection|null
      */
     public static function timesheetApprovalsForEmployeesWithoutManagers(Company $company): ?Collection
     {
@@ -59,7 +56,7 @@ class DashboardHRTimesheetViewHelper
             $timesheetCollection = collect([]);
             foreach ($pendingTimesheets as $timesheet) {
                 $totalWorkedInMinutes = DB::table('time_tracking_entries')
-                ->where('timesheet_id', $timesheet->id)
+                    ->where('timesheet_id', $timesheet->id)
                     ->sum('duration');
 
                 $arrayOfTime = TimeHelper::convertToHoursAndMinutes($totalWorkedInMinutes);

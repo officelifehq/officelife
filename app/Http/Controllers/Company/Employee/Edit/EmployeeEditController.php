@@ -2,40 +2,37 @@
 
 namespace App\Http\Controllers\Company\Employee\Edit;
 
-use Carbon\Carbon;
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
+use App\Helpers\PermissionHelper;
 use App\Helpers\TimezoneHelper;
+use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Employee\EmployeeEditContractViewHelper;
+use App\Http\ViewHelpers\Employee\EmployeeEditViewHelper;
 use App\Models\Company\Country;
 use App\Models\Company\Employee;
-use App\Helpers\PermissionHelper;
-use Illuminate\Http\JsonResponse;
-use App\Helpers\NotificationHelper;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Services\Company\Place\CreatePlace;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Employee\EmployeeEditViewHelper;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
-use App\Services\Company\Employee\HiringDate\SetHiringDate;
-use App\Http\ViewHelpers\Employee\EmployeeEditContractViewHelper;
-use App\Services\Company\Employee\PersonalDetails\SetSlackHandle;
-use App\Services\Company\Employee\Contract\SetContractRenewalDate;
-use App\Services\Company\Employee\ConsultantRate\SetConsultantRate;
-use App\Services\Company\Employee\PersonalDetails\SetTwitterHandle;
-use App\Services\Company\Employee\PersonalDetails\SetPersonalDetails;
 use App\Services\Company\Employee\ConsultantRate\DestroyConsultantRate;
+use App\Services\Company\Employee\ConsultantRate\SetConsultantRate;
+use App\Services\Company\Employee\Contract\SetContractRenewalDate;
+use App\Services\Company\Employee\HiringDate\SetHiringDate;
+use App\Services\Company\Employee\PersonalDetails\SetPersonalDetails;
+use App\Services\Company\Employee\PersonalDetails\SetSlackHandle;
+use App\Services\Company\Employee\PersonalDetails\SetTwitterHandle;
+use App\Services\Company\Place\CreatePlace;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class EmployeeEditController extends Controller
 {
     /**
      * Show the employee edit page.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return mixed
      */
     public function show(Request $request, int $companyId, int $employeeId)
@@ -70,11 +67,6 @@ class EmployeeEditController extends Controller
 
     /**
      * Update the information about the employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -149,9 +141,6 @@ class EmployeeEditController extends Controller
     /**
      * Show the employee edit address page.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
@@ -195,11 +184,6 @@ class EmployeeEditController extends Controller
 
     /**
      * Update the information about the employee's address.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function updateAddress(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -228,9 +212,6 @@ class EmployeeEditController extends Controller
     /**
      * Show the employee edit contract page.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
@@ -265,11 +246,6 @@ class EmployeeEditController extends Controller
 
     /**
      * Update the contract information about the employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function updateContractInformation(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -293,11 +269,6 @@ class EmployeeEditController extends Controller
 
     /**
      * Store the newly created consultant rate.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @return JsonResponse
      */
     public function storeRate(Request $request, int $companyId, int $employeeId): JsonResponse
     {
@@ -323,12 +294,6 @@ class EmployeeEditController extends Controller
 
     /**
      * Destroy the given consultant rate.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param int $rateId
-     * @return JsonResponse
      */
     public function destroyRate(Request $request, int $companyId, int $employeeId, int $rateId): JsonResponse
     {

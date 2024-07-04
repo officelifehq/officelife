@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Adminland\AdminBillingViewHelper;
 use App\Models\Company\CompanyInvoice;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Adminland\AdminBillingViewHelper;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AdminBillingController extends Controller
 {
     /**
      * Show the Invoices & billing page.
      *
-     * @param Request $request
      * @return mixed
      */
     public function index(Request $request)
@@ -36,9 +35,6 @@ class AdminBillingController extends Controller
     /**
      * Show the details of the invoice.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $invoiceId
      * @return mixed
      */
     public function show(Request $request, int $companyId, int $invoiceId)

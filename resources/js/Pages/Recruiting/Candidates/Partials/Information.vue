@@ -41,11 +41,13 @@
           </ul>
         </div>
 
-        <inertia-link v-if="! jobOpening.fulfilled" :href="candidate.url_hire" class="btn">{{ $t('dashboard.job_opening_show_candidate_hire') }}</inertia-link>
+        <Link v-if="! jobOpening.fulfilled" :href="candidate.url_hire" class="btn">
+          {{ $t('dashboard.job_opening_show_candidate_hire') }}
+        </Link>
       </div>
 
       <div class="bg-gray pa3 f7 box-bottom">
-        <p class="ma0">{{ $t('dashboard.job_opening_show_candidate_job_opening') }} <inertia-link :href="jobOpening.url">{{ jobOpening.title }}</inertia-link></p>
+        <p class="ma0">{{ $t('dashboard.job_opening_show_candidate_job_opening') }} <Link :href="jobOpening.url">{{ jobOpening.title }}</Link></p>
       </div>
     </div>
 
@@ -54,7 +56,7 @@
       <p class="ma0 mb3 f6"><span class="mr1">⚠️</span> {{ $t('dashboard.job_opening_show_other_jobs', { count: otherJobOpenings.length }) }}</p>
       <ul class="list ma0 pl0">
         <li v-for="job in otherJobOpenings" :key="job.id" class="mb2 mr2">
-          <inertia-link :href="job.url" class="mr2">{{ job.title }}</inertia-link>
+          <Link :href="job.url" class="mr2">{{ job.title }}</Link>
           <span v-if="job.active" class="badge f7 active">{{ $t('dashboard.job_opening_show_other_jobs_active') }}</span>
           <span v-else class="badge f7 closed">{{ $t('dashboard.job_opening_show_other_jobs_closed') }}</span>
         </li>
@@ -64,12 +66,12 @@
     <!-- tab -->
     <div class="center br3 mb5 tc">
       <div class="cf dib btn-group">
-        <inertia-link :href="candidate.url_cv" :class="{ 'selected': tab == 'cv' }" class="f6 fl ph3 pv2 dib pointer no-underline">
+        <Link :href="candidate.url_cv" :class="{ 'selected': tab == 'cv' }" class="f6 fl ph3 pv2 dib pointer no-underline">
           {{ $t('dashboard.job_opening_show_candidate_tab_cv') }}
-        </inertia-link>
-        <inertia-link :href="candidate.url_stages" :class="{ 'selected': tab == 'recruiting' }" class="f6 fl ph3 pv2 dib pointer no-underline">
+        </Link>
+        <Link :href="candidate.url_stages" :class="{ 'selected': tab == 'recruiting' }" class="f6 fl ph3 pv2 dib pointer no-underline">
           {{ $t('dashboard.job_opening_show_candidate_tab_recruiting') }}
-        </inertia-link>
+        </Link>
       </div>
     </div>
   </div>

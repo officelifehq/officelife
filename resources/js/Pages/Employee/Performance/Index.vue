@@ -63,13 +63,13 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import ProfileHeader from '@/Pages/Employee/Partials/ProfileHeader';
-import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar';
-import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
-import RateYourManagerPollResults from '@/Pages/Employee/Performance/Partials/RateYourManagerPollResults';
-import OneOnOne from '@/Pages/Employee/Performance/Partials/OneOnOneWithManager';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import ProfileHeader from '@/Pages/Employee/Partials/ProfileHeader.vue';
+import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar.vue';
+import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher.vue';
+import RateYourManagerPollResults from '@/Pages/Employee/Performance/Partials/RateYourManagerPollResults.vue';
+import OneOnOne from '@/Pages/Employee/Performance/Partials/OneOnOneWithManager.vue';
 
 export default {
   components: {

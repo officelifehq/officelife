@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return Redirect::route('login');
@@ -377,7 +377,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
                         Route::get('{board}', 'Company\\Company\\Project\\ProjectBoardsController@show')->name('projects.boards.show');
                         Route::put('{board}', 'Company\\Company\\Project\\ProjectBoardsController@update')->name('projects.boards.update');
                         Route::delete('{board}', 'Company\\Company\\Project\\ProjectBoardsController@destroy')->name('projects.boards.destroy');
-                        Route::get('{board}/backlog', 'Company\\Company\\Project\\ProjectBoardsBacklogController@show')->name('projects.boards.show.backlog');
+                        // Route::get('{board}/backlog', 'Company\\Company\\Project\\ProjectBoardsBacklogController@show')->name('projects.boards.show.backlog');
                         Route::post('{board}/sprints/{sprint}/start', 'Company\\Company\\Project\\ProjectSprintController@start')->name('projects.sprints.start');
                         Route::post('{board}/sprints/{sprint}/toggle', 'Company\\Company\\Project\\ProjectSprintController@toggle')->name('projects.sprints.toggle');
 

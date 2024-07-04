@@ -1,4 +1,5 @@
 <?php
+
 return [
     'hide_message_forever' => 'Скрыть эту вкладку приветствия навсегда',
     'thanks' => 'Спасибо, что присоединились к OfficeLife.',

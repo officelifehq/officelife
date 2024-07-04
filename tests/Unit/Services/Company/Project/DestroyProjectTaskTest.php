@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectTask;
+use App\Services\Company\Project\DestroyProjectDecision;
+use App\Services\Company\Project\DestroyProjectTask;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Project\DestroyProjectTask;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Project\DestroyProjectDecision;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class DestroyProjectTaskTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_a_task_from_a_project_as_administrator(): void
     {

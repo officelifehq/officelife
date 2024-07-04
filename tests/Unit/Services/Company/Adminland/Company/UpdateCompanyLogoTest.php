@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Company;
 
-use Tests\TestCase;
-use App\Models\Company\File;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\File;
 use App\Services\Company\Adminland\Company\RenameCompany;
 use App\Services\Company\Adminland\Company\UpdateCompanyLogo;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class UpdateCompanyLogoTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_changes_the_logo_as_administrator(): void
     {

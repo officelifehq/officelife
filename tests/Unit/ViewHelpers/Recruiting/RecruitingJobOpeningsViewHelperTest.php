@@ -2,25 +2,22 @@
 
 namespace Tests\Unit\ViewHelpers\Recruiting;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Team;
 use App\Helpers\StringHelper;
+use App\Http\ViewHelpers\Recruiting\RecruitingJobOpeningsViewHelper;
+use App\Models\Company\Candidate;
+use App\Models\Company\CandidateStage;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Models\Company\Position;
-use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
-use App\Models\Company\CandidateStage;
+use App\Models\Company\Position;
 use App\Models\Company\RecruitingStageTemplate;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Recruiting\RecruitingJobOpeningsViewHelper;
+use App\Models\Company\Team;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class RecruitingJobOpeningsViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_positions(): void
     {
@@ -185,7 +182,7 @@ class RecruitingJobOpeningsViewHelperTest extends TestCase
                     'reference_number' => $jobOpeningA->reference_number,
                     'active' => $jobOpeningA->active,
                     'team' => null,
-                    'url' => env('APP_URL').'/'. $company->id.'/recruiting/job-openings/'.$jobOpeningA->id,
+                    'url' => env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$jobOpeningA->id,
                 ],
                 1 => [
                     'id' => $jobOpeningB->id,
@@ -248,7 +245,7 @@ class RecruitingJobOpeningsViewHelperTest extends TestCase
                     'reference_number' => $jobOpening->reference_number,
                     'fulfilled_at' => 'Jan 01, 2018',
                     'team' => null,
-                    'url' => env('APP_URL') . '/' . $company->id . '/recruiting/job-openings/' . $jobOpening->id,
+                    'url' => env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$jobOpening->id,
                 ],
             ],
             $array['fulfilled_job_openings']->toArray()
@@ -257,13 +254,13 @@ class RecruitingJobOpeningsViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 'count' => 2,
-                'url' => env('APP_URL') . '/' . $company->id . '/recruiting/job-openings',
+                'url' => env('APP_URL').'/'.$company->id.'/recruiting/job-openings',
             ],
             $array['open_job_openings']
         );
 
         $this->assertEquals(
-            env('APP_URL') . '/' . $company->id . '/recruiting/job-openings/create',
+            env('APP_URL').'/'.$company->id.'/recruiting/job-openings/create',
             $array['url_create']
         );
     }
@@ -524,15 +521,15 @@ class RecruitingJobOpeningsViewHelperTest extends TestCase
             [
                 'to_sort' => [
                     'count' => 1,
-                    'url' =>  env('APP_URL').'/'.$company->id. '/recruiting/job-openings/'.$jobOpening->id,
+                    'url' => env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$jobOpening->id,
                 ],
                 'selected' => [
                     'count' => 1,
-                    'url' =>  env('APP_URL').'/'.$company->id. '/recruiting/job-openings/'.$jobOpening->id.'/selected',
+                    'url' => env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$jobOpening->id.'/selected',
                 ],
                 'rejected' => [
                     'count' => 1,
-                    'url' =>  env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$jobOpening->id.'/rejected',
+                    'url' => env('APP_URL').'/'.$company->id.'/recruiting/job-openings/'.$jobOpening->id.'/rejected',
                 ],
             ],
             $array

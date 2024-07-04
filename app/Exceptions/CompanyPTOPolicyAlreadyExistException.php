@@ -4,6 +4,4 @@ namespace App\Exceptions;
 
 use Exception;
 
-class CompanyPTOPolicyAlreadyExistException extends Exception
-{
-}
+class CompanyPTOPolicyAlreadyExistException extends Exception {}

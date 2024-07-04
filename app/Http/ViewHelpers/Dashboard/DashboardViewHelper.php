@@ -9,10 +9,6 @@ class DashboardViewHelper
 {
     /**
      * Get information about the employee.
-     *
-     * @param Employee $employee
-     * @param string $currentTab
-     * @return array|null
      */
     public static function information(Employee $employee, string $currentTab): ?array
     {

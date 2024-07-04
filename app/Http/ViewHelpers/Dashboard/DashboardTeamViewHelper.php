@@ -2,24 +2,21 @@
 
 namespace App\Http\ViewHelpers\Dashboard;
 
-use Carbon\Carbon;
-use Carbon\CarbonPeriod;
+use App\Helpers\BirthdayHelper;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Team;
-use App\Helpers\BirthdayHelper;
-use App\Models\Company\Employee;
-use Illuminate\Support\Collection;
 use App\Helpers\WorkFromHomeHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\Team;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+use Illuminate\Support\Collection;
 
 class DashboardTeamViewHelper
 {
     /**
      * Array containing all the upcoming birthdays for employees in the given
      * team.
-     *
-     * @param Team $team
-     * @return array
      */
     public static function birthdays(Team $team): array
     {
@@ -68,9 +65,6 @@ class DashboardTeamViewHelper
 
     /**
      * Array containing all employees who work from home in the given team.
-     *
-     * @param Team $team
-     * @return Collection
      */
     public static function workFromHome(Team $team): Collection
     {
@@ -106,9 +100,6 @@ class DashboardTeamViewHelper
 
     /**
      * Array containing all the teams.
-     *
-     * @param Collection $teams
-     * @return Collection
      */
     public static function teams(Collection $teams): Collection
     {
@@ -129,9 +120,6 @@ class DashboardTeamViewHelper
 
     /**
      * Collection containing all the recent ships entry for the given team.
-     *
-     * @param Team $team
-     * @return Collection
      */
     public static function ships(Team $team): Collection
     {
@@ -178,11 +166,6 @@ class DashboardTeamViewHelper
      * - less than 20% of team members have filled the work logs: red
      * - 20% -> 80%: yellow
      * - > 80%: green
-     *
-     * @param Team $team
-     * @param Carbon $date
-     * @param Employee $loggedEmployee
-     * @return array
      */
     public static function worklogsForDate(Team $team, Carbon $date, Employee $loggedEmployee): array
     {
@@ -219,11 +202,6 @@ class DashboardTeamViewHelper
      * Get all the work logs for the last 7 days.
      * By default, the view will display the following days:
      * Last Fri/M/T/W/T/F.
-     *
-     * @param Team $team
-     * @param Carbon $startDate
-     * @param Employee $loggedEmployee
-     * @return Collection
      */
     public static function worklogsForTheLast7Days(Team $team, Carbon $startDate, Employee $loggedEmployee): Collection
     {
@@ -243,9 +221,6 @@ class DashboardTeamViewHelper
     /**
      * Array containing all the upcoming new hires that will come on board in
      * the next week for this team.
-     *
-     * @param Team $team
-     * @return Collection
      */
     public static function upcomingNewHires(Team $team): Collection
     {
@@ -282,9 +257,6 @@ class DashboardTeamViewHelper
     /**
      * Get all the upcoming hiring date anniversaries for employees in the team,
      * from now to 7 days frow now.
-     *
-     * @param Team $team
-     * @return Collection
      */
     public static function upcomingHiredDateAnniversaries(Team $team): Collection
     {

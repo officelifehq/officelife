@@ -2,18 +2,16 @@
 
 namespace Tests\Unit\ViewHelpers\Company;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\CompanyNews;
-use GrahamCampbell\TestBenchCore\HelperTrait;
 use App\Http\ViewHelpers\Company\CompanyNewsViewHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\CompanyNews;
+use Carbon\Carbon;
+use GrahamCampbell\TestBenchCore\HelperTrait;
+use Tests\TestCase;
 
 class CompanyNewsViewHelperTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_the_company_news_in_the_company(): void

@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\Helpers;
 
-use Tests\TestCase;
 use App\Helpers\LogHelper;
-use App\Models\Company\Team;
-use App\Models\Company\TeamLog;
 use App\Models\Company\AuditLog;
 use App\Models\Company\EmployeeLog;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Team;
+use App\Models\Company\TeamLog;
+use Tests\TestCase;
 
 class LogHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_returns_the_string_explaining_the_audit_log(): void
     {

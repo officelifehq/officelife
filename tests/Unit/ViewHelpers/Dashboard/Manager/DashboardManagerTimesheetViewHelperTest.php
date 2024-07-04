@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard\Manager;
 
+use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Dashboard\Manager\DashboardManagerTimesheetViewHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\Project;
+use App\Models\Company\ProjectTask;
+use App\Models\Company\Timesheet;
+use App\Models\Company\TimeTrackingEntry;
+use App\Services\Company\Employee\Manager\AssignManager;
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\ImageHelper;
-use App\Models\Company\Project;
-use App\Models\Company\Employee;
-use App\Models\Company\Timesheet;
-use App\Models\Company\ProjectTask;
-use App\Models\Company\TimeTrackingEntry;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\Manager\AssignManager;
-use App\Http\ViewHelpers\Dashboard\Manager\DashboardManagerTimesheetViewHelper;
 
 class DashboardManagerTimesheetViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_employees_who_have_timesheets_to_approve(): void
     {

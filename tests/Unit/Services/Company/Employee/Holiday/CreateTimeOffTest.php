@@ -2,25 +2,22 @@
 
 namespace Tests\Unit\Services\Company\Employee\Holiday;
 
-use Exception;
-use Carbon\Carbon;
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Models\Company\EmployeePlannedHoliday;
+use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
+use App\Services\Company\Employee\Holiday\CreateTimeOff;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
-use App\Models\Company\EmployeePlannedHoliday;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\Holiday\CreateTimeOff;
-use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
+use Tests\TestCase;
 
 class CreateTimeOffTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_logs_a_new_time_off_as_administrator(): void
     {

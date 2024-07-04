@@ -118,9 +118,9 @@
 </template>
 
 <script>
-import TextArea from '@/Shared/TextArea';
-import Checkbox from '@/Shared/EditableCheckbox';
-import LoadingButton from '@/Shared/LoadingButton';
+import TextArea from '@/Shared/TextArea.vue';
+import Checkbox from '@/Shared/EditableCheckbox.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
 
 export default {
   components: {

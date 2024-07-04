@@ -2,19 +2,17 @@
 
 namespace App\Services\Company\Adminland\Company;
 
-use Carbon\Carbon;
-use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Services\Company\Project\CreateIssueType;
-use App\Services\Company\Adminland\ExpenseCategory\CreateExpenseCategory;
+use App\Services\BaseService;
 use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
+use App\Services\Company\Adminland\ExpenseCategory\CreateExpenseCategory;
+use App\Services\Company\Project\CreateIssueType;
+use Carbon\Carbon;
 
 class ProvisionDefaultAccountData extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -26,8 +24,6 @@ class ProvisionDefaultAccountData extends BaseService
 
     /**
      * Populate the account with default data.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

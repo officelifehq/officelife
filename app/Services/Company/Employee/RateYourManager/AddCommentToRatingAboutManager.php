@@ -2,18 +2,16 @@
 
 namespace App\Services\Company\Employee\RateYourManager;
 
-use App\Services\BaseService;
-use App\Models\Company\Employee;
-use App\Models\Company\RateYourManagerAnswer;
 use App\Exceptions\NotEnoughPermissionException;
 use App\Exceptions\SurveyNotActiveAnymoreException;
+use App\Models\Company\Employee;
+use App\Models\Company\RateYourManagerAnswer;
+use App\Services\BaseService;
 
 class AddCommentToRatingAboutManager extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,9 +27,6 @@ class AddCommentToRatingAboutManager extends BaseService
     /**
      * Save the Rate your manager survey's comment about the manager from the
      * employee.
-     *
-     * @param array $data
-     * @return RateYourManagerAnswer
      */
     public function execute(array $data): RateYourManagerAnswer
     {

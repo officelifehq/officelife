@@ -2,22 +2,22 @@
 
 namespace App\Services\Company\Adminland\Software;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Software;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class GiveSeatToEveryEmployee extends BaseService
 {
     protected array $data;
+
     protected Employee $employee;
+
     protected Software $software;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -31,9 +31,6 @@ class GiveSeatToEveryEmployee extends BaseService
     /**
      * Give a copy of a software to every employee in the company who doesn't
      * have it already.
-     *
-     * @param array $data
-     * @return Software
      */
     public function execute(array $data): Software
     {

@@ -4,8 +4,8 @@ namespace App\Http\ViewHelpers\Adminland;
 
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Company;
 use App\Models\Company\AuditLog;
+use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use Illuminate\Support\Collection;
@@ -16,8 +16,7 @@ class AdminHardwareViewHelper
      * Collection containing all the information about the hardware used in the
      * company.
      *
-     * @param mixed $hardware
-     * @return array|null
+     * @param  mixed  $hardware
      */
     public static function hardware($hardware): ?array
     {
@@ -57,9 +56,6 @@ class AdminHardwareViewHelper
 
     /**
      * Collection containing all the employees.
-     *
-     * @param Company $company
-     * @return Collection|null
      */
     public static function employeesList(Company $company): ?Collection
     {
@@ -79,8 +75,7 @@ class AdminHardwareViewHelper
     /**
      * Collection containing all the information about available hardware.
      *
-     * @param mixed $hardware
-     * @return array|null
+     * @param  mixed  $hardware
      */
     public static function availableHardware($hardware): ?array
     {
@@ -126,8 +121,7 @@ class AdminHardwareViewHelper
      * Collection containing all the information about hardware already given to
      * employees.
      *
-     * @param mixed $hardware
-     * @return array|null
+     * @param  mixed  $hardware
      */
     public static function lentHardware($hardware): ?array
     {
@@ -173,10 +167,6 @@ class AdminHardwareViewHelper
      * Get the complete history of what happened to the item.
      * This is an expensive request, I don't really like it but I don't know
      * how to do it differently.
-     *
-     * @param Hardware $hardware
-     * @param Employee $employee
-     * @return Collection|null
      */
     public static function history(Hardware $hardware, Employee $employee): ?Collection
     {

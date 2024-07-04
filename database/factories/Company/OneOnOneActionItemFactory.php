@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\OneOnOneActionItem;
+use App\Models\Company\OneOnOneEntry;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OneOnOneActionItemFactory extends Factory

@@ -21,7 +21,7 @@
         {{ $t('auth.confirmation_title') }}
       </h2>
 
-      <img loading="lazy" src="/img/streamline-icon-email-send-3@140x140.png" width="140" height="140" alt="meeting"
+      <img loading="lazy" :src="'/img/streamline-icon-email-send-3@140x140.png'" width="140" height="140" alt="meeting"
            class="mb4"
       />
 
@@ -42,9 +42,9 @@
 </template>
 
 <script>
-import AuthenticationCard from '@/Shared/Layout/AuthenticationCard';
-import LoadingButton from '@/Shared/LoadingButton';
-import { useForm } from '@inertiajs/inertia-vue3';
+import AuthenticationCard from '@/Shared/Layout/AuthenticationCard.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import { useForm } from '@inertiajs/vue3';
 
 export default {
   components: {
@@ -54,7 +54,7 @@ export default {
 
   data() {
     return {
-      form: useForm(),
+      form: useForm({}),
       resend: false,
     };
   },

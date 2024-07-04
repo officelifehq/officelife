@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\ViewHelpers\Team;
 
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Team;
 use App\Http\ViewHelpers\Team\TeamIndexViewHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Team;
+use Tests\TestCase;
 
 class TeamIndexViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_teams(): void
     {

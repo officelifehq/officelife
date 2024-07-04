@@ -2,39 +2,36 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Ship;
-use App\Models\Company\Team;
-use App\Models\User\Pronoun;
-use App\Models\Company\Skill;
+use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Models\Company\Answer;
 use App\Models\Company\ECoffee;
-use App\Models\Company\Expense;
-use App\Models\Company\Project;
-use App\Models\Company\Employee;
-use App\Models\Company\Hardware;
-use App\Models\Company\Position;
-use App\Models\Company\Question;
-use App\Models\Company\Software;
-use App\Models\Company\Timesheet;
-use App\Models\Company\ProjectTask;
 use App\Models\Company\ECoffeeMatch;
-use App\Models\Company\WorkFromHome;
-use App\Models\Company\OneOnOneEntry;
-use App\Models\Company\EmployeeStatus;
-use App\Models\Company\TimeTrackingEntry;
+use App\Models\Company\Employee;
 use App\Models\Company\EmployeePositionHistory;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\Manager\AssignManager;
-use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
+use App\Models\Company\EmployeeStatus;
+use App\Models\Company\Expense;
+use App\Models\Company\Hardware;
+use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\Position;
+use App\Models\Company\Project;
+use App\Models\Company\ProjectTask;
+use App\Models\Company\Question;
+use App\Models\Company\Ship;
+use App\Models\Company\Skill;
+use App\Models\Company\Software;
+use App\Models\Company\Team;
+use App\Models\Company\Timesheet;
+use App\Models\Company\TimeTrackingEntry;
+use App\Models\Company\WorkFromHome;
+use App\Models\User\Pronoun;
 use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
+use App\Services\Company\Employee\Manager\AssignManager;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class EmployeeShowViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_information_about_the_employee(): void
     {

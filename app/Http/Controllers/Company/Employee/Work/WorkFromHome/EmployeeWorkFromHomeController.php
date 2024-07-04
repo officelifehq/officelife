@@ -2,29 +2,26 @@
 
 namespace App\Http\Controllers\Company\Employee\Work\WorkFromHome;
 
+use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
+use App\Http\Collections\WorkFromHomeCollection;
+use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Employee\EmployeeWorkFromHomeViewHelper;
+use App\Models\Company\Employee;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Http\Request;
-use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use Illuminate\Routing\Redirector;
-use App\Helpers\NotificationHelper;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
-use App\Http\Collections\WorkFromHomeCollection;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Employee\EmployeeWorkFromHomeViewHelper;
 
 class EmployeeWorkFromHomeController extends Controller
 {
     /**
      * Show the employee's work from home page, for the current year.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return Redirector|RedirectResponse|Response
      */
     public function index(Request $request, int $companyId, int $employeeId)
@@ -55,10 +52,6 @@ class EmployeeWorkFromHomeController extends Controller
     /**
      * Show the employee's worklogs page, for the given year.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param int $year
      * @return Redirector|RedirectResponse|Response
      */
     public function year(Request $request, int $companyId, int $employeeId, int $year)
@@ -87,11 +80,6 @@ class EmployeeWorkFromHomeController extends Controller
     /**
      * Show the employee's worklogs page, for the given month of the given year.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param int $year
-     * @param int $month
      * @return Redirector|RedirectResponse|Response
      */
     public function month(Request $request, int $companyId, int $employeeId, int $year, int $month)
@@ -120,12 +108,9 @@ class EmployeeWorkFromHomeController extends Controller
     /**
      * Common page builder for the work from home page.
      *
-     * @param Employee $employee
-     * @param int $year
-     * @param int|null $month
      * @return Response
      */
-    private function buildPage(Employee $employee, int $year, int $month = null)
+    private function buildPage(Employee $employee, int $year, ?int $month = null)
     {
         $entries = $employee
             ->workFromHomes()

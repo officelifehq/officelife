@@ -1,4 +1,5 @@
 <?php
+
 return [
     'error_401' => 'Unauthorized',
     'error_404' => 'Page Not Found',

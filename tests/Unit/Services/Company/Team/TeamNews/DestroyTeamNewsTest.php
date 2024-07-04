@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Team\TeamNews;
 
-use Exception;
-use Tests\TestCase;
-use App\Jobs\LogTeamAudit;
-use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
+use App\Jobs\LogTeamAudit;
 use App\Models\Company\Employee;
+use App\Models\Company\Team;
 use App\Models\Company\TeamNews;
+use App\Services\Company\Team\TeamNews\DestroyTeamNews;
+use Exception;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Team\TeamNews\DestroyTeamNews;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class DestroyTeamNewsTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_a_company_news_as_administrator(): void
     {

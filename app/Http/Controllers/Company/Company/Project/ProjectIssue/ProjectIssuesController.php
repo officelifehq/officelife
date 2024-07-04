@@ -2,28 +2,24 @@
 
 namespace App\Http\Controllers\Company\Company\Project\ProjectIssue;
 
-use Inertia\Inertia;
-use Inertia\Response;
 use App\Helpers\DateHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Company\Project\ProjectIssuesViewHelper;
 use App\Models\Company\ProjectIssue;
 use App\Services\Company\Project\CreateProjectIssue;
 use App\Services\Company\Project\DestroyProjectIssue;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Project\ProjectIssuesViewHelper;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ProjectIssuesController extends Controller
 {
     /**
      * Display the issue.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param string $issueKey
-     * @param string $issueSlug
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -60,12 +56,6 @@ class ProjectIssuesController extends Controller
 
     /**
      * Save the issue.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $boardId
-     * @param int $sprintId
      */
     public function store(Request $request, int $companyId, int $projectId, int $boardId, int $sprintId)
     {
@@ -119,13 +109,6 @@ class ProjectIssuesController extends Controller
 
     /**
      * Destroy the issue.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $boardId
-     * @param int $sprintId
-     * @param int $issueId
      */
     public function destroy(Request $request, int $companyId, int $projectId, int $boardId, int $sprintId, int $issueId)
     {

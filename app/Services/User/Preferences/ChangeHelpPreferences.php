@@ -9,8 +9,6 @@ class ChangeHelpPreferences extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -24,10 +22,6 @@ class ChangeHelpPreferences extends BaseService
      * Saves the help preferences.
      * If it's set to true, it will show an help button next to the main features
      * on the screen.
-     *
-     * @param array $data
-     *
-     * @return bool
      */
     public function execute(array $data): bool
     {

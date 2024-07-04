@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
-use Tests\TestCase;
-use App\Models\Company\Employee;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\ViewHelpers\Employee\EmployeeHierarchyViewHelper;
+use App\Models\Company\Employee;
+use App\Services\Company\Employee\Manager\AssignManager;
+use Tests\TestCase;
 
 class EmployeeHierarchyViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_searches_employees(): void
     {

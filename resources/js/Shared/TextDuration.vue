@@ -38,8 +38,8 @@ input[type=number] {
       </span>
 
       <!-- hours -->
-      <the-mask :value="localHours"
-                mask="##"
+      <input :value="localHours"
+                mask="'##'"
                 class="br2 f5 pt2 pb0 ph1 outline-0 di tc bg-white"
                 type="text"
                 :masked="false"
@@ -58,8 +58,8 @@ input[type=number] {
         min.
       </span>
 
-      <the-mask :value="localMinutes"
-                mask="##"
+      <input :value="localMinutes"
+                mask="'##'"
                 class="br2 f5 pt2 pb0 ph1 outline-0 di tc bg-white"
                 type="text"
                 :masked="false"
@@ -72,7 +72,8 @@ input[type=number] {
 </template>
 
 <script>
-import TheMask from 'vue-the-mask/src/component';
+import { TheMask } from 'vue-the-mask';
+import _ from 'lodash';
 
 export default {
 

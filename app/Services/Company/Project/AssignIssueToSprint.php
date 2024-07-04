@@ -2,25 +2,26 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectIssue;
-use App\Models\Company\ProjectSprint;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\ProjectSprint;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class AssignIssueToSprint extends BaseService
 {
     protected array $data;
+
     protected ProjectIssue $projectIssue;
+
     protected ProjectSprint $projectSprint;
+
     protected Project $project;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,9 +36,6 @@ class AssignIssueToSprint extends BaseService
 
     /**
      * Assign a project issue to a sprint.
-     *
-     * @param array $data
-     * @return ProjectIssue
      */
     public function execute(array $data): ProjectIssue
     {

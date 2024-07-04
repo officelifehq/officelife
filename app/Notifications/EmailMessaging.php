@@ -10,9 +10,7 @@ class EmailMessaging
     /**
      * Get the mail representation to verify an email.
      *
-     * @param  User $user
-     * @param mixed $verificationUrl
-     * @return MailMessage
+     * @param  mixed  $verificationUrl
      */
     public static function verifyEmailMail(User $user, $verificationUrl): MailMessage
     {

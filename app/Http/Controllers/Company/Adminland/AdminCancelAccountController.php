@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Adminland\Company\DestroyCompany;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminCancelAccountController extends Controller
 {
     /**
      * Show the Cancel account page.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -27,8 +25,6 @@ class AdminCancelAccountController extends Controller
     /**
      * Destroy the company.
      *
-     * @param Request $request
-     * @param int $companyId
      * @return mixed
      */
     public function destroy(Request $request, int $companyId)

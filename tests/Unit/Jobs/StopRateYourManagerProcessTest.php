@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\Jobs;
 
-use Carbon\Carbon;
-use Tests\TestCase;
-use Illuminate\Support\Facades\DB;
 use App\Jobs\StopRateYourManagerProcess;
 use App\Models\Company\RateYourManagerSurvey;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Tests\TestCase;
 
 class StopRateYourManagerProcessTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_stops_the_rate_your_manager_process(): void
     {

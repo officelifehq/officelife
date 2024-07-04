@@ -2,15 +2,15 @@
 
 namespace App\Services\Company\Employee\Expense;
 
+use App\Exceptions\NotEnoughPermissionException;
+use App\Helpers\MoneyHelper;
+use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
+use App\Jobs\NotifyEmployee;
+use App\Models\Company\Expense;
+use App\Services\BaseService;
 use Carbon\Carbon;
 use ErrorException;
-use App\Helpers\MoneyHelper;
-use App\Jobs\NotifyEmployee;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Expense;
-use App\Exceptions\NotEnoughPermissionException;
 
 class AcceptExpenseAsManager extends BaseService
 {
@@ -20,8 +20,6 @@ class AcceptExpenseAsManager extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -37,9 +35,6 @@ class AcceptExpenseAsManager extends BaseService
      * An expense can also be accepted by someone with the accountant role - this
      * bypasses the requirement that the employee has to be the manager of the
      * expense.
-     *
-     * @param array $data
-     * @return Expense
      */
     public function execute(array $data): Expense
     {

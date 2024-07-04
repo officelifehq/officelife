@@ -72,30 +72,40 @@ nav {
 
       <nav class="flex justify-between bb b--white-10">
         <div class="flex-grow pa2 flex items-center">
-          <inertia-link href="/home" class="mr3 no-underline pa2 bb-0">
-            <img loading="lazy" src="/img/logo.png" height="30" width="30" alt="logo" />
-          </inertia-link>
+          <Link href="/home" class="mr3 no-underline pa2 bb-0">
+            <img loading="lazy" :src="'/img/logo.png'" height="30" width="30" alt="logo" />
+          </Link>
 
           <!-- MENU -->
           <div v-if="!noMenu">
-            <inertia-link v-if="$page.props.auth.employee.display_welcome_message" :href="'/' + $page.props.auth.company.id + '/welcome'" data-cy="header-desktop-welcome-tab" class="mr2 no-underline pa2 bb-0 special">
-              <span class="mr1">👋</span> {{ $t('app.header_welcome') }}
-            </inertia-link>
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'" class="mr2 no-underline pa2 bb-0 special">
-              <span class="mr1">🏡</span> {{ $t('app.header_home') }}
-            </inertia-link>
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'" class="mr2 no-underline pa2 bb-0 special" data-cy="header-teams-link">
-              <span class="mr1">⛺️</span> {{ $t('app.header_company') }}
-            </inertia-link>
-            <inertia-link v-if="$page.props.auth.employee.permission_level < 300" :href="'/' + $page.props.auth.company.id + '/recruiting/job-openings'" class="mr2 no-underline pa2 bb-0 special">
-              <span class="mr1">🥇</span> {{ $t('app.header_recruiting') }}
-            </inertia-link>
+            <Link v-if="$page.props.auth.employee.display_welcome_message" :href="'/' + $page.props.auth.company.id + '/welcome'" data-cy="header-desktop-welcome-tab" class="mr2 no-underline pa2 bb-0 special">
+              <span class="mr1">
+                👋
+              </span> {{ $t('app.header_welcome') }}
+            </Link>
+            <Link :href="'/' + $page.props.auth.company.id + '/dashboard'" class="mr2 no-underline pa2 bb-0 special">
+              <span class="mr1">
+                🏡
+              </span> {{ $t('app.header_home') }}
+            </Link>
+            <Link :href="'/' + $page.props.auth.company.id + '/company'" class="mr2 no-underline pa2 bb-0 special" data-cy="header-teams-link">
+              <span class="mr1">
+                ⛺️
+              </span> {{ $t('app.header_company') }}
+            </Link>
+            <Link v-if="$page.props.auth.employee.permission_level < 300" :href="'/' + $page.props.auth.company.id + '/recruiting/job-openings'" class="mr2 no-underline pa2 bb-0 special">
+              <span class="mr1">
+                🥇
+              </span> {{ $t('app.header_recruiting') }}
+            </Link>
             <a data-cy="header-find-link" class="mr2 no-underline pa2 bb-0 special pointer" @click="showFindModal">
               <span class="mr1">🔍</span> {{ $t('app.header_find') }}
             </a>
-            <inertia-link v-if="$page.props.auth.company && $page.props.auth.employee.permission_level <= 200" :href="'/' + $page.props.auth.company.id + '/account'" data-cy="header-adminland-link" class="no-underline pa2 bb-0 special">
-              <span class="mr1">👮‍♂️</span> {{ $t('app.header_adminland') }}
-            </inertia-link>
+            <Link v-if="$page.props.auth.company && $page.props.auth.employee.permission_level <= 200" :href="'/' + $page.props.auth.company.id + '/account'" data-cy="header-adminland-link" class="no-underline pa2 bb-0 special">
+              <span class="mr1">
+                👮‍♂️
+              </span> {{ $t('app.header_adminland') }}
+            </Link>
           </div>
         </div>
         <div class="pa2 flex items-center">
@@ -128,9 +138,9 @@ nav {
             </span>
             <ul v-if="employees.length > 0" class="list ma0 pl0">
               <li v-for="localEmployee in employees" :key="localEmployee.id" class="mb2">
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + localEmployee.id">
+                <Link :href="'/' + $page.props.auth.company.id + '/employees/' + localEmployee.id">
                   {{ localEmployee.name }}
-                </inertia-link>
+                </Link>
               </li>
             </ul>
             <div v-else class="silver">
@@ -145,9 +155,9 @@ nav {
             </span>
             <ul v-if="teams.length > 0" class="list ma0 pl0">
               <li v-for="team in teams" :key="team.id" class="mb2">
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id">
+                <Link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id">
                   {{ team.name }}
-                </inertia-link>
+                </Link>
               </li>
             </ul>
             <div v-else class="silver">
@@ -206,7 +216,7 @@ nav {
         </div>
         <div class="absolute pa2 header-logo">
           <a href="">
-            <img loading="lazy" src="/img/logo.svg" width="30" height="27" alt="logo" />
+            <img loading="lazy" :src="'/img/logo.svg'" width="30" height="27" alt="logo" />
           </a>
         </div>
       </div>
@@ -234,11 +244,12 @@ nav {
 </template>
 
 <script>
-import UserMenu from '@/Shared/UserMenu';
-import LoadingButton from '@/Shared/LoadingButton';
-import NotificationsComponent from '@/Shared/Notifications';
-import Toaster from '@/Shared/Toaster';
+import UserMenu from '@/Shared/UserMenu.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import NotificationsComponent from '@/Shared/Notifications.vue';
+import Toaster from '@/Shared/Toaster.vue';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
+import _ from 'lodash';
 
 export default {
   components: {

@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Task;
 
-use Tests\TestCase;
-use App\Jobs\NotifyEmployee;
-use App\Models\Company\Task;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
+use App\Jobs\NotifyEmployee;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
+use App\Models\Company\Task;
 use App\Services\Company\Task\CreateTask;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class CreateTaskTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_task_as_an_administrator(): void
     {

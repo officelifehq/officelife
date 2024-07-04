@@ -2,26 +2,27 @@
 
 namespace App\Services\Company\Group;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Group;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Meeting;
 use App\Models\Company\Employee;
+use App\Models\Company\Group;
+use App\Models\Company\Meeting;
+use App\Services\BaseService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class AddGuestToMeeting extends BaseService
 {
     private array $data;
+
     private Employee $employee;
+
     private Group $group;
+
     private Meeting $meeting;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -36,9 +37,6 @@ class AddGuestToMeeting extends BaseService
 
     /**
      * Add an employee as guest in the meeting.
-     *
-     * @param array $data
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

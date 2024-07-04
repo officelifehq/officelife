@@ -2,14 +2,14 @@
 
 namespace App\Jobs;
 
+use App\Models\Company\Software;
+use App\Services\Company\Adminland\Expense\ConvertAmountFromOneCurrencyToCompanyCurrency;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use App\Models\Company\Software;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Services\Company\Adminland\Expense\ConvertAmountFromOneCurrencyToCompanyCurrency;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class ConvertSoftwarePurchase implements ShouldQueue
 {
@@ -17,15 +17,11 @@ class ConvertSoftwarePurchase implements ShouldQueue
 
     /**
      * The Software instance.
-     *
-     * @var Software
      */
     public Software $software;
 
     /**
      * Create a new job instance.
-     *
-     * @param Software $software
      */
     public function __construct(Software $software)
     {

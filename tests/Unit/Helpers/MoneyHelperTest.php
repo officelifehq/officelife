@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Helpers;
 
-use Tests\TestCase;
 use App\Helpers\MoneyHelper;
 use Illuminate\Support\Facades\App;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class MoneyHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_returns_the_amount_correctly_formatted_depending_on_the_currency(): void
     {

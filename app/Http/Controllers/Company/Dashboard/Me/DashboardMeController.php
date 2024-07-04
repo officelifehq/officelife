@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers\Company\Dashboard\Me;
 
-use Inertia\Inertia;
-use Inertia\Response;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Company;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Jobs\UpdateDashboardPreference;
-use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
 use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
+use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
+use App\Jobs\UpdateDashboardPreference;
+use App\Models\Company\Company;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class DashboardMeController extends Controller
 {
     /**
      * Company details.
-     *
-     * @return Response
      */
     public function index(): Response
     {

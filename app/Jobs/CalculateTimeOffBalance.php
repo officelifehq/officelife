@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
-use Illuminate\Bus\Queueable;
 use App\Models\Company\Employee;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Services\Company\Employee\Holiday\ProcessDailyTimeOffBalance;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Services\Company\Employee\Holiday\ProcessDailyTimeOffBalance;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class CalculateTimeOffBalance implements ShouldQueue
 {
@@ -16,23 +16,16 @@ class CalculateTimeOffBalance implements ShouldQueue
 
     /**
      * The date this event should be registered.
-     *
-     * @var string
      */
     public string $date;
 
     /**
      * The employee to run this calulation against.
-     *
-     * @var Employee
      */
     public Employee $employee;
 
     /**
      * Create a new job instance.
-     *
-     * @param Employee $employee
-     * @param string   $date
      */
     public function __construct(Employee $employee, string $date)
     {

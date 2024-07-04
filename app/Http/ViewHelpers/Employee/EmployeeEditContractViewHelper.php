@@ -2,17 +2,14 @@
 
 namespace App\Http\ViewHelpers\Employee;
 
-use Carbon\Carbon;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use Carbon\Carbon;
 
 class EmployeeEditContractViewHelper
 {
     /**
      * Information about the contract.
-     *
-     * @param Employee $employee
-     * @return array
      */
     public static function employeeInformation(Employee $employee): array
     {
@@ -28,10 +25,6 @@ class EmployeeEditContractViewHelper
 
     /**
      * Get the consultant rates of the employee, if they exist.
-     *
-     * @param Employee $employee
-     * @param Company $company
-     * @return array
      */
     public static function rates(Employee $employee, Company $company): array
     {

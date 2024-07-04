@@ -73,16 +73,16 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import ProfileHeader from '@/Pages/Employee/Partials/ProfileHeader';
-import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar';
-import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
-import Worklogs from '@/Pages/Employee/Work/Partials/Worklogs';
-import WorkFromHome from '@/Pages/Employee/Work/Partials/WorkFromHome';
-import RecentShips from '@/Pages/Employee/Work/Partials/RecentShips';
-import Projects from '@/Pages/Employee/Work/Partials/Projects';
-import Groups from '@/Pages/Employee/Work/Partials/Groups';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import ProfileHeader from '@/Pages/Employee/Partials/ProfileHeader.vue';
+import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar.vue';
+import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher.vue';
+import Worklogs from '@/Pages/Employee/Work/Partials/Worklogs.vue';
+import WorkFromHome from '@/Pages/Employee/Work/Partials/WorkFromHome.vue';
+import RecentShips from '@/Pages/Employee/Work/Partials/RecentShips.vue';
+import Projects from '@/Pages/Employee/Work/Partials/Projects.vue';
+import Groups from '@/Pages/Employee/Work/Partials/Groups.vue';
 
 export default {
   components: {

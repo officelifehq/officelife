@@ -3,10 +3,10 @@
 namespace Tests\Helpers;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Assert;
-use GuzzleHttp\Handler\MockHandler;
 
 class GuzzleMock extends Assert
 {
@@ -25,6 +25,7 @@ class GuzzleMock extends Assert
             if (is_array($item)) {
                 return new Response(200, [], json_encode($item));
             }
+
             return $item;
         }, $responses));
         $stack->push($history);
@@ -34,8 +35,6 @@ class GuzzleMock extends Assert
 
     /**
      * Get current client.
-     *
-     * @return Client
      */
     public function getClient(): Client
     {

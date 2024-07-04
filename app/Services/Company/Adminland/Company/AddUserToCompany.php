@@ -2,19 +2,17 @@
 
 namespace App\Services\Company\Adminland\Company;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class AddUserToCompany extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,10 +26,6 @@ class AddUserToCompany extends BaseService
 
     /**
      * Add a user to the company.
-     *
-     * @param array $data
-     *
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

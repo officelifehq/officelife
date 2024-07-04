@@ -1,4 +1,5 @@
 <?php
+
 return [
     'create_title' => 'Créer un groupe',
     'create_input_name' => 'Donnez un nom au groupe',

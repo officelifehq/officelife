@@ -2,19 +2,17 @@
 
 namespace App\Services\Company\Employee\Pronoun;
 
-use Carbon\Carbon;
-use App\Models\User\Pronoun;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Models\User\Pronoun;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class RemovePronounFromEmployee extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -27,10 +25,6 @@ class RemovePronounFromEmployee extends BaseService
 
     /**
      * Remove an employee's gender pronoun.
-     *
-     * @param array $data
-     *
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

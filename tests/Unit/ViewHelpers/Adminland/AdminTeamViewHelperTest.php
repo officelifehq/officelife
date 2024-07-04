@@ -2,18 +2,16 @@
 
 namespace Tests\Unit\ViewHelpers\Adminland;
 
-use Tests\ApiTestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Adminland\AdminTeamViewHelper;
 use App\Models\Company\Team;
 use App\Models\Company\TeamLog;
 use GrahamCampbell\TestBenchCore\HelperTrait;
-use App\Http\ViewHelpers\Adminland\AdminTeamViewHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\ApiTestCase;
 
 class AdminTeamViewHelperTest extends ApiTestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_a_collection_of_teams(): void

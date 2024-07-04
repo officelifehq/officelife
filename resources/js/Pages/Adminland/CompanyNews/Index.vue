@@ -38,9 +38,9 @@
             <span class="dib mb3 di-l" :class="localNews.length == 0 ? 'white' : ''">
               {{ $tc('account.company_news_number_news', localNews.length, { company: $page.props.auth.company.name, count: localNews.length}) }}
             </span>
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/news/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-news-button">
+            <Link :href="'/' + $page.props.auth.company.id + '/account/news/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-news-button">
               {{ $t('account.company_news_cta') }}
-            </inertia-link>
+            </Link>
           </p>
 
           <!-- LIST OF EXISTING NEWS -->
@@ -59,7 +59,7 @@
 
                 <!-- RENAME A NEWS -->
                 <li class="di mr1 f7">
-                  <inertia-link :href="'/' + $page.props.auth.company.id + '/account/news/' + singleNews.id + '/edit'" class="" :data-cy="'edit-news-button-' + singleNews.id">{{ $t('app.edit') }}</inertia-link>
+                  <Link :href="'/' + $page.props.auth.company.id + '/account/news/' + singleNews.id + '/edit'" class="" :data-cy="'edit-news-button-' + singleNews.id">{{ $t('app.edit') }}</Link>
                 </li>
 
                 <!-- DELETE A NEWS -->
@@ -92,9 +92,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Errors from '@/Shared/Errors';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Errors from '@/Shared/Errors.vue';
 
 export default {
   components: {

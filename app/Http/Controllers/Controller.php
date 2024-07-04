@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User\User;
-use App\Models\Company\Employee;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Models\Company\Employee;
+use App\Models\User\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
@@ -27,8 +27,6 @@ class Controller extends BaseController
      * It is used to restrict what an employee can see. It checks
      * if the user is either the employee being seen, or a person with at least
      * the HR role.
-     *
-     * @return User
      */
     public function canAccessCurrentPage(): User
     {
@@ -50,24 +48,28 @@ class Controller extends BaseController
     public function asUser(User $user): self
     {
         $this->authenticatedUser = $user;
+
         return $this;
     }
 
     public function forEmployee(Employee $employee): self
     {
         $this->restrictedToEmployee = $employee;
+
         return $this;
     }
 
     public function forCompanyId(int $companyId): self
     {
         $this->restrictedToCompanyId = $companyId;
+
         return $this;
     }
 
     public function asPermissionLevel(int $permissionLevel): self
     {
         $this->requiredPermissionLevel = $permissionLevel;
+
         return $this;
     }
 }

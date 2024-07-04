@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Notifications;
 
-use Tests\TestCase;
 use App\Models\User\User;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Notification;
+use Tests\TestCase;
 
 class EmailMessagingTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_sends_a_confirmation_email()
     {

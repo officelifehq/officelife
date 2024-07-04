@@ -69,15 +69,15 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import ProfileHeader from '@/Pages/Employee/Partials/ProfileHeader';
-import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar';
-import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
-import Expenses from '@/Pages/Employee/Administration/Partials/Expenses';
-import Timesheets from '@/Pages/Employee/Administration/Partials/Timesheets';
-import Hardware from '@/Pages/Employee/Administration/Partials/Hardware';
-import Softwares from '@/Pages/Employee/Administration/Partials/Software';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import ProfileHeader from '@/Pages/Employee/Partials/ProfileHeader.vue';
+import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar.vue';
+import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher.vue';
+import Expenses from '@/Pages/Employee/Administration/Partials/Expenses.vue';
+import Timesheets from '@/Pages/Employee/Administration/Partials/Timesheets.vue';
+import Hardware from '@/Pages/Employee/Administration/Partials/Hardware.vue';
+import Softwares from '@/Pages/Employee/Administration/Partials/Software.vue';
 
 export default {
   components: {

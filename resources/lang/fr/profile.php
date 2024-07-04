@@ -1,4 +1,5 @@
 <?php
+
 return [
     'browser_sessions_title' => 'Sessions de navigateur',
     'browser_sessions_description' => 'Gérez et déconnectez vos sessions actives sur d’autres navigateurs et appareils.',

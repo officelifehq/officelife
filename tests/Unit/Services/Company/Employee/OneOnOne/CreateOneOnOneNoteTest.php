@@ -2,23 +2,20 @@
 
 namespace Tests\Unit\Services\Company\Employee\OneOnOne;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
-use App\Models\Company\OneOnOneNote;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\OneOnOneNote;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
-use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
+use Tests\TestCase;
 
 class CreateOneOnOneNoteTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_note_as_administrator(): void
     {

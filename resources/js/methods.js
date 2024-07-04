@@ -9,11 +9,11 @@ export default {
    * @param {string} level
    */
   flash (message, level = 'success') {
-    this.$emitt('flash', { message, level });
+    this.$emit('flash', { message, level });
   },
 
   $on: (...args) => emitter.on(...args),
   $once: (...args) => emitter.once(...args),
   $off: (...args) => emitter.off(...args),
-  $emitt: (...args) => emitter.emit(...args),
+  $emit: (...args) => emitter.emit(...args),
 };

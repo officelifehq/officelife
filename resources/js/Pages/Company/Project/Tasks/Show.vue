@@ -190,9 +190,9 @@ input[type=checkbox] {
               <div class="cf pa3">
                 <div class="flex-ns justify-between">
                   <div>
-                    <inertia-link :href="''" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2" @click.prevent="editMode = false">
+                    <Link :href="''" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2" @click.prevent="editMode = false">
                       {{ $t('app.cancel') }}
-                    </inertia-link>
+                    </Link>
                   </div>
                   <loading-button :class="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
                 </div>
@@ -248,7 +248,9 @@ input[type=checkbox] {
             </div>
 
             <div>
-              <inertia-link :href="localTask.author.url" class="mb2 dib">{{ localTask.author.name }}</inertia-link>
+              <Link :href="localTask.author.url" class="mb2 dib">
+                {{ localTask.author.name }}
+              </Link>
 
               <span v-if="localTask.author.role" class="db f7 mb2 relative">
                 <ul class="list pa0 ma0">
@@ -330,16 +332,16 @@ input[type=checkbox] {
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu.vue';
 import BallClipRotate from 'vue-loaders/dist/loaders/ball-clip-rotate';
-import TextInput from '@/Shared/TextInput';
-import TextArea from '@/Shared/TextArea';
-import LoadingButton from '@/Shared/LoadingButton';
-import TextDuration from '@/Shared/TextDuration';
-import Avatar from '@/Shared/Avatar';
-import Comments from '@/Shared/Comments';
+import TextInput from '@/Shared/TextInput.vue';
+import TextArea from '@/Shared/TextArea.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import TextDuration from '@/Shared/TextDuration.vue';
+import Avatar from '@/Shared/Avatar.vue';
+import Comments from '@/Shared/Comments.vue';
 
 export default {
   components: {

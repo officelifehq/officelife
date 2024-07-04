@@ -2,39 +2,33 @@
 
 namespace App\Http\Controllers\Company\Recruiting;
 
-use Carbon\Carbon;
-use Inertia\Inertia;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
-use App\Helpers\StringHelper;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Candidate;
-use Illuminate\Http\JsonResponse;
-use App\Models\Company\JobOpening;
 use App\Helpers\NotificationHelper;
+use App\Helpers\StringHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Company\CandidateStage;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\JobOpening\HireCandidate;
 use App\Http\ViewHelpers\Recruiting\RecruitingCandidatesViewHelper;
-use App\Services\Company\Adminland\JobOpening\ProcessCandidateStage;
+use App\Models\Company\Candidate;
+use App\Models\Company\CandidateStage;
+use App\Models\Company\JobOpening;
 use App\Services\Company\Adminland\JobOpening\CreateCandidateStageNote;
-use App\Services\Company\Adminland\JobOpening\UpdateCandidateStageNote;
-use App\Services\Company\Adminland\JobOpening\DestroyCandidateStageNote;
 use App\Services\Company\Adminland\JobOpening\CreateCandidateStageParticipant;
+use App\Services\Company\Adminland\JobOpening\DestroyCandidateStageNote;
 use App\Services\Company\Adminland\JobOpening\DestroyCandidateStageParticipant;
+use App\Services\Company\Adminland\JobOpening\HireCandidate;
+use App\Services\Company\Adminland\JobOpening\ProcessCandidateStage;
+use App\Services\Company\Adminland\JobOpening\UpdateCandidateStageNote;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RecruitingCandidateController extends Controller
 {
     /**
      * Show the detail of a candidate.
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @param integer $candidateId
-     * @return mixed
      */
     public function show(Request $request, int $companyId, int $jobOpeningId, int $candidateId): mixed
     {
@@ -85,12 +79,6 @@ class RecruitingCandidateController extends Controller
 
     /**
      * Show the cv of a candidate.
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @param integer $candidateId
-     * @return mixed
      */
     public function showCV(Request $request, int $companyId, int $jobOpeningId, int $candidateId): mixed
     {
@@ -136,13 +124,6 @@ class RecruitingCandidateController extends Controller
 
     /**
      * Show the detail of a candidate.
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @param integer $candidateId
-     * @param integer $candidateStageId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $candidateStageId): JsonResponse
     {
@@ -170,13 +151,6 @@ class RecruitingCandidateController extends Controller
 
     /**
      * Show the detail of a candidate at a given stage.
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @param integer $candidateId
-     * @param integer $stageId
-     * @return mixed
      */
     public function showStage(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $stageId): mixed
     {
@@ -233,12 +207,6 @@ class RecruitingCandidateController extends Controller
 
     /**
      * Search the potential participants.
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @param integer $candidateId
-     * @param integer $stageId
      */
     public function searchParticipants(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $stageId)
     {
@@ -288,11 +256,6 @@ class RecruitingCandidateController extends Controller
     /**
      * Actually assign a participant to the recruiting stage.
      *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @param integer $candidateId
-     * @param integer $stageId
      * @return mixed
      */
     public function assignParticipant(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $stageId)
@@ -322,12 +285,6 @@ class RecruitingCandidateController extends Controller
     /**
      * Remove a participant from the recruiting stage.
      *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @param integer $candidateId
-     * @param integer $stageId
-     * @param integer $participantId
      * @return mixed
      */
     public function removeParticipant(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $stageId, int $participantId)
@@ -352,11 +309,6 @@ class RecruitingCandidateController extends Controller
     /**
      * Create a new note.
      *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @param integer $candidateId
-     * @param integer $stageId
      * @return mixed
      */
     public function notes(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $stageId)
@@ -399,12 +351,6 @@ class RecruitingCandidateController extends Controller
     /**
      * Update a note.
      *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @param integer $candidateId
-     * @param integer $stageId
-     * @param integer $noteId
      * @return mixed
      */
     public function updateNote(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $stageId, int $noteId)
@@ -448,12 +394,6 @@ class RecruitingCandidateController extends Controller
     /**
      * Destroy a note.
      *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @param integer $candidateId
-     * @param integer $stageId
-     * @param integer $noteId
      * @return mixed
      */
     public function destroyNote(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $stageId, int $noteId)
@@ -477,12 +417,6 @@ class RecruitingCandidateController extends Controller
 
     /**
      * Show the Hire candidate page.
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @param integer $candidateId
-     * @return mixed
      */
     public function hire(Request $request, int $companyId, int $jobOpeningId, int $candidateId): mixed
     {
@@ -532,10 +466,6 @@ class RecruitingCandidateController extends Controller
     /**
      * Actually hire the candidate.
      *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $jobOpeningId
-     * @param integer $candidateId
      * @return mixed
      */
     public function storeHire(Request $request, int $companyId, int $jobOpeningId, int $candidateId)

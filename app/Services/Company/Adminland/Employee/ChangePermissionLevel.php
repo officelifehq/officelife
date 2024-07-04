@@ -2,17 +2,15 @@
 
 namespace App\Services\Company\Adminland\Employee;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Employee;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class ChangePermissionLevel extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -26,10 +24,6 @@ class ChangePermissionLevel extends BaseService
 
     /**
      * Change permission for the given employee.
-     *
-     * @param array $data
-     *
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

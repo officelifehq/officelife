@@ -2,12 +2,12 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
-use App\Models\Company\ProjectTaskList;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\ProjectTaskList;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateProjectTaskList extends BaseService
 {
@@ -19,8 +19,6 @@ class CreateProjectTaskList extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,9 +33,6 @@ class CreateProjectTaskList extends BaseService
 
     /**
      * Create a project task list.
-     *
-     * @param array $data
-     * @return ProjectTaskList
      */
     public function execute(array $data): ProjectTaskList
     {

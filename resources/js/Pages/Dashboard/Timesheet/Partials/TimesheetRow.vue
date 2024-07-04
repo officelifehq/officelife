@@ -33,9 +33,9 @@
           </span>
 
           <!-- project name -->
-          <inertia-link v-if="localRow.project_url" :href="localRow.project_url" class="dib">
+          <Link v-if="localRow.project_url" :href="localRow.project_url" class="dib">
             {{ localRow.project_name }}
-          </inertia-link>
+          </Link>
           <span v-else class="dib">
             {{ localRow.project_name }}
           </span>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import TextDuration from '@/Shared/TextDuration';
+import TextDuration from '@/Shared/TextDuration.vue';
 
 export default {
   components: {

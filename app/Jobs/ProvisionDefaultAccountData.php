@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
-use Illuminate\Bus\Queueable;
 use App\Models\Company\Employee;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Services\Company\Adminland\Company\ProvisionDefaultAccountData as CompanyProvisionDefaultAccountData;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Services\Company\Adminland\Company\ProvisionDefaultAccountData as CompanyProvisionDefaultAccountData;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class ProvisionDefaultAccountData implements ShouldQueue
 {
@@ -16,8 +16,6 @@ class ProvisionDefaultAccountData implements ShouldQueue
 
     /**
      * The Employee instance.
-     *
-     * @var Employee
      */
     public Employee $employee;
 

@@ -9,9 +9,6 @@ class AdminWorkFromHomeViewHelper
     /**
      * Get the information about the work from home process
      * used in the company.
-     *
-     * @param Company $company
-     * @return array|null
      */
     public static function index(Company $company): ?array
     {

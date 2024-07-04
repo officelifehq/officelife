@@ -3,8 +3,8 @@
 namespace Database\Factories\Company;
 
 use App\Models\Company\Company;
-use App\Models\Company\Employee;
 use App\Models\Company\CompanyNews;
+use App\Models\Company\Employee;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CompanyNewsFactory extends Factory

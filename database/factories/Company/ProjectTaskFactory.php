@@ -2,10 +2,10 @@
 
 namespace Database\Factories\Company;
 
-use Carbon\Carbon;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectTask;
 use App\Models\Company\ProjectTaskList;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProjectTaskFactory extends Factory

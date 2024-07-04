@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Company\Dashboard\Accountant;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Company;
-use App\Models\Company\Expense;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Dashboard\DashboardExpenseViewHelper;
+use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
+use App\Models\Company\Company;
+use App\Models\Company\Expense;
 use App\Services\Company\Employee\Expense\AcceptExpenseAsAccountant;
 use App\Services\Company\Employee\Expense\RejectExpenseAsAccountant;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 /**
  * This is the controller showing the Expenses tab for the Accountant role.
@@ -23,8 +23,6 @@ class DashboardExpensesController extends Controller
 {
     /**
      * Display all expenses in the company.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -47,9 +45,6 @@ class DashboardExpensesController extends Controller
     /**
      * Show the expense to validate.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $expenseId
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
@@ -81,9 +76,6 @@ class DashboardExpensesController extends Controller
      * Only the employees with accountant role, and the employee who submitted
      * the expense, can see this.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $expenseId
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
@@ -113,9 +105,6 @@ class DashboardExpensesController extends Controller
     /**
      * Accept the expense.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $expenseId
      * @return mixed
      */
     public function accept(Request $request, int $companyId, int $expenseId)
@@ -151,9 +140,6 @@ class DashboardExpensesController extends Controller
     /**
      * Reject the expense.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $expenseId
      * @return mixed
      */
     public function reject(Request $request, int $companyId, int $expenseId)

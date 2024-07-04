@@ -7,11 +7,11 @@ img {
   <layout :no-menu="true" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <div class="mt4 mw6 center mb1">
-        <p class="mt0 mb3 f6">← <inertia-link :href="'/'">{{ $t('app.back') }}</inertia-link></p>
+        <p class="mt0 mb3 f6">← <Link :href="'/'">{{ $t('app.back') }}</Link></p>
       </div>
       <div class="mw6 center br3 mb3 bg-white box pa3">
         <div class="tc">
-          <img src="/img/streamline-icon-construction-house-5@130x130.png" loading="lazy" class="db center mb1" alt="company" />
+          <img :src="'/img/streamline-icon-construction-house-5@130x130.png'" loading="lazy" class="db center mb1" alt="company" />
           <h2 class="fw5 f4 lh-copy mt0 mb1">
             {{ $t('company.title') }}
           </h2>
@@ -41,10 +41,10 @@ img {
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import TextInput from '@/Shared/TextInput';
-import Errors from '@/Shared/Errors';
-import LoadingButton from '@/Shared/LoadingButton';
+import Layout from '@/Shared/Layout.vue';
+import TextInput from '@/Shared/TextInput.vue';
+import Errors from '@/Shared/Errors.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
 
 export default {
   components: {

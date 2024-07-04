@@ -2,12 +2,12 @@
 
 namespace App\Services\Company\Team\Ship;
 
-use Carbon\Carbon;
+use App\Jobs\LogAccountAudit;
 use App\Jobs\LogTeamAudit;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
-use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateShip extends BaseService
 {
@@ -19,8 +19,6 @@ class CreateShip extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -36,10 +34,6 @@ class CreateShip extends BaseService
 
     /**
      * Create a ship - something that the team has recently shipped.
-     *
-     * @param array $data
-     *
-     * @return Ship
      */
     public function execute(array $data): Ship
     {

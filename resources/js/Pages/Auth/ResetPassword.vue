@@ -45,12 +45,12 @@
 </template>
 
 <script>
-import AuthenticationCard from '@/Shared/Layout/AuthenticationCard';
-import AuthenticationCardLogo from '@/Shared/Layout/AuthenticationCardLogo';
-import LoadingButton from '@/Shared/LoadingButton';
-import TextInput from '@/Shared/TextInput';
-import ValidationErrors from '@/Shared/ValidationErrors';
-import { useForm } from '@inertiajs/inertia-vue3';
+import AuthenticationCard from '@/Shared/Layout/AuthenticationCard.vue';
+import AuthenticationCardLogo from '@/Shared/Layout/AuthenticationCardLogo.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import TextInput from '@/Shared/TextInput.vue';
+import ValidationErrors from '@/Shared/ValidationErrors.vue';
+import { useForm } from '@inertiajs/vue3';
 
 export default {
   components: {

@@ -49,8 +49,8 @@
             <status :project="localProject" />
 
             <ul class="list pl0">
-              <li class="mb2 pl2"><inertia-link :href="localProject.url_edit" data-cy="project-edit" class="f6 gray">{{ $t('project.summary_edit') }}</inertia-link></li>
-              <li class="pl2"><inertia-link :href="localProject.url_delete" data-cy="project-delete" class="f6 gray c-delete">{{ $t('project.summary_delete') }}</inertia-link></li>
+              <li class="mb2 pl2"><Link :href="localProject.url_edit" data-cy="project-edit" class="f6 gray">{{ $t('project.summary_edit') }}</Link></li>
+              <li class="pl2"><Link :href="localProject.url_delete" data-cy="project-delete" class="f6 gray c-delete">{{ $t('project.summary_delete') }}</Link></li>
             </ul>
           </div>
         </div>
@@ -60,14 +60,14 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
-import Description from '@/Pages/Company/Project/Partials/Description';
-import Status from '@/Pages/Company/Project/Partials/Status';
-import ProjectLead from '@/Pages/Company/Project/Partials/ProjectLead';
-import ProjectLinks from '@/Pages/Company/Project/Partials/ProjectLinks';
-import ProjectUpdates from '@/Pages/Company/Project/Partials/ProjectUpdates';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu.vue';
+import Description from '@/Pages/Company/Project/Partials/Description.vue';
+import Status from '@/Pages/Company/Project/Partials/Status.vue';
+import ProjectLead from '@/Pages/Company/Project/Partials/ProjectLead.vue';
+import ProjectLinks from '@/Pages/Company/Project/Partials/ProjectLinks.vue';
+import ProjectUpdates from '@/Pages/Company/Project/Partials/ProjectUpdates.vue';
 
 export default {
   components: {

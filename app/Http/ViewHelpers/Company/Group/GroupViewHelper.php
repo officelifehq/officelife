@@ -2,11 +2,11 @@
 
 namespace App\Http\ViewHelpers\Company\Group;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use App\Models\Company\Group;
 use App\Models\Company\Company;
+use App\Models\Company\Group;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -15,9 +15,7 @@ class GroupViewHelper
     /**
      * Get all the information about the groups in the company.
      *
-     * @param Group $group
-     * @param Company $company
-     * @return array
+     * @param  Group  $group
      */
     public static function index(Company $company): array
     {
@@ -70,9 +68,6 @@ class GroupViewHelper
 
     /**
      * Get the latest 3 meetings in the group.
-     *
-     * @param Group $group
-     * @return Collection
      */
     public static function meetings(Group $group): Collection
     {
@@ -122,9 +117,6 @@ class GroupViewHelper
 
     /**
      * Get the statistics of the group.
-     *
-     * @param Group $group
-     * @return array
      */
     public static function stats(Group $group): array
     {

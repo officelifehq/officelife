@@ -4,6 +4,4 @@ namespace App\Exceptions;
 
 use Exception;
 
-class MoraleAlreadyLoggedTodayException extends Exception
-{
-}
+class MoraleAlreadyLoggedTodayException extends Exception {}

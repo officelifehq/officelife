@@ -4,6 +4,4 @@ namespace App\Exceptions;
 
 use Exception;
 
-class ProjectCodeAlreadyExistException extends Exception
-{
-}
+class ProjectCodeAlreadyExistException extends Exception {}

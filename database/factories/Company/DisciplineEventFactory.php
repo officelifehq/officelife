@@ -2,9 +2,9 @@
 
 namespace Database\Factories\Company;
 
-use App\Models\Company\Employee;
 use App\Models\Company\DisciplineCase;
 use App\Models\Company\DisciplineEvent;
+use App\Models\Company\Employee;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DisciplineEventFactory extends Factory

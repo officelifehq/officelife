@@ -2,23 +2,20 @@
 
 namespace Tests\Unit\Services\Company\Employee\Timesheet;
 
-use Tests\TestCase;
-use App\Models\Company\Project;
-use App\Models\Company\Employee;
-use App\Models\Company\Timesheet;
-use App\Models\Company\ProjectTask;
-use Illuminate\Support\Facades\Queue;
-use App\Models\Company\TimeTrackingEntry;
-use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Company\Employee;
+use App\Models\Company\Project;
+use App\Models\Company\ProjectTask;
+use App\Models\Company\Timesheet;
+use App\Models\Company\TimeTrackingEntry;
 use App\Services\Company\Employee\Timesheet\DestroyTimesheetRow;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class DestroyTimesheetRowTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_a_timesheet_row_as_administrator(): void
     {
@@ -244,7 +241,7 @@ class DestroyTimesheetRowTest extends TestCase
         (new DestroyTimesheetRow)->execute($request);
     }
 
-    private function executeService(Employee $author, Employee $employee, Project $project = null, ProjectTask $task, Timesheet $timesheet): void
+    private function executeService(Employee $author, Employee $employee, ?Project $project, ProjectTask $task, Timesheet $timesheet): void
     {
         Queue::fake();
 

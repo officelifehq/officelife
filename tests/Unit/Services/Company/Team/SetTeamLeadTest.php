@@ -2,24 +2,21 @@
 
 namespace Tests\Unit\Services\Company\Team;
 
-use Carbon\Carbon;
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
+use App\Jobs\LogAccountAudit;
 use App\Jobs\LogTeamAudit;
 use App\Jobs\NotifyEmployee;
-use App\Models\Company\Team;
-use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
+use App\Models\Company\Team;
 use App\Services\Company\Team\SetTeamLead;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class SetTeamLeadTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_sets_someone_a_team_lead_as_administrator(): void
     {

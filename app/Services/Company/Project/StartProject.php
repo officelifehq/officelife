@@ -2,21 +2,20 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectMemberActivity;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class StartProject extends BaseService
 {
     protected array $data;
+
     protected Project $project;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,9 +28,6 @@ class StartProject extends BaseService
 
     /**
      * Start a project.
-     *
-     * @param array $data
-     * @return Project
      */
     public function execute(array $data): Project
     {

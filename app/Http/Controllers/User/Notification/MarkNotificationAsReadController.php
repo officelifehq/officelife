@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers\User\Notification;
 
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Notification\MarkNotificationsAsRead;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class MarkNotificationAsReadController extends Controller
 {
     /**
      * Mark the notifications as read.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {

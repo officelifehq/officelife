@@ -2,23 +2,20 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Company;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
+use App\Mail\Company\SendAccountCancellationToAdministratorMail;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Services\Company\Adminland\Company\DestroyCompany;
+use App\Services\Company\Adminland\Company\RenameCompany;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\Company\RenameCompany;
-use App\Services\Company\Adminland\Company\DestroyCompany;
-use App\Mail\Company\SendAccountCancellationToAdministratorMail;
+use Tests\TestCase;
 
 class DestroyCompanyTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_a_company_as_administrator(): void
     {

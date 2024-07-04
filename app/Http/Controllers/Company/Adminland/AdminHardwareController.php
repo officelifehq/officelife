@@ -2,29 +2,27 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Inertia\Inertia;
-use Inertia\Response;
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Hardware;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\Hardware\LendHardware;
 use App\Http\ViewHelpers\Adminland\AdminHardwareViewHelper;
+use App\Models\Company\Hardware;
 use App\Services\Company\Adminland\Hardware\CreateHardware;
+use App\Services\Company\Adminland\Hardware\DestroyHardware;
+use App\Services\Company\Adminland\Hardware\LendHardware;
 use App\Services\Company\Adminland\Hardware\RegainHardware;
 use App\Services\Company\Adminland\Hardware\UpdateHardware;
-use App\Services\Company\Adminland\Hardware\DestroyHardware;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminHardwareController extends Controller
 {
     /**
      * Show the list of hardware.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -42,8 +40,6 @@ class AdminHardwareController extends Controller
 
     /**
      * Show the Create hardware view.
-     *
-     * @return Response
      */
     public function create(): Response
     {
@@ -58,10 +54,6 @@ class AdminHardwareController extends Controller
 
     /**
      * Create the hardware.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {
@@ -94,9 +86,6 @@ class AdminHardwareController extends Controller
     /**
      * Show the hardware.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $hardwareId
      * @return mixed
      */
     public function show(Request $request, int $companyId, int $hardwareId)
@@ -135,9 +124,6 @@ class AdminHardwareController extends Controller
     /**
      * Edit the hardware.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $hardwareId
      * @return mixed
      */
     public function edit(Request $request, int $companyId, int $hardwareId)
@@ -171,11 +157,6 @@ class AdminHardwareController extends Controller
 
     /**
      * Update the hardware.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $hardwareId
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $hardwareId): JsonResponse
     {
@@ -233,11 +214,6 @@ class AdminHardwareController extends Controller
 
     /**
      * Delete the hardware.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $hardwareId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $hardwareId): JsonResponse
     {
@@ -259,10 +235,6 @@ class AdminHardwareController extends Controller
 
     /**
      * Display the list of available hardware.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return Response
      */
     public function available(Request $request, int $companyId): Response
     {
@@ -279,10 +251,6 @@ class AdminHardwareController extends Controller
 
     /**
      * Display the list of lent hardware.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return Response
      */
     public function lent(Request $request, int $companyId): Response
     {
@@ -299,10 +267,6 @@ class AdminHardwareController extends Controller
 
     /**
      * Search a specific item.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function search(Request $request, int $companyId): JsonResponse
     {

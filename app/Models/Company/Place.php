@@ -3,10 +3,10 @@
 namespace App\Models\Company;
 
 use App\Helpers\MapHelper;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Place extends Model
 {
@@ -61,8 +61,6 @@ class Place extends Model
 
     /**
      * Transform the object to an array representing this object.
-     *
-     * @return array
      */
     public function toObject(): array
     {
@@ -83,8 +81,6 @@ class Place extends Model
 
     /**
      * Get the address as a sentence.
-     *
-     * @return string
      */
     public function getCompleteAddress(): string
     {
@@ -118,8 +114,6 @@ class Place extends Model
 
     /**
      * Get the country of the place.
-     *
-     * @return string|null
      */
     public function getCountryName(): ?string
     {
@@ -132,8 +126,6 @@ class Place extends Model
 
     /**
      * Get the partial address, used to show basic information to other employees.
-     *
-     * @return string|null
      */
     public function getPartialAddress(): ?string
     {
@@ -155,12 +147,6 @@ class Place extends Model
 
     /**
      * Get the static image map for this place.
-     *
-     * @param int $zoom
-     * @param int $width
-     * @param int $height
-     *
-     * @return string|null
      */
     public function getStaticMapImage(int $zoom, int $width, int $height): ?string
     {
@@ -169,9 +155,6 @@ class Place extends Model
 
     /**
      * Get the URL on OpenStreetMap for the partial URL.
-     *
-     * @param bool $completeAddress
-     * @return string
      */
     public function getMapUrl(bool $completeAddress = true): string
     {

@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Employee;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
+use App\Services\Company\Adminland\Employee\UpdateEmployee;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Employee\UpdateEmployee;
+use Tests\TestCase;
 
 class UpdateEmployeeTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_updates_an_employee(): void
     {

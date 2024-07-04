@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\TestCase;
 use App\Models\Company\Employee;
-use App\Models\Company\Position;
 use App\Models\Company\EmployeePositionHistory;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Position;
+use Tests\TestCase;
 
 class PositionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_company(): void
     {

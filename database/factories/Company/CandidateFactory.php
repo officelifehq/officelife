@@ -2,9 +2,9 @@
 
 namespace Database\Factories\Company;
 
+use App\Models\Company\Candidate;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Models\Company\Candidate;
 use App\Models\Company\JobOpening;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

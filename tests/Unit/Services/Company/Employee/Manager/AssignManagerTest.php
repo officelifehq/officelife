@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Employee\Manager;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
+use App\Exceptions\SameIdsException;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
-use App\Exceptions\SameIdsException;
-use Illuminate\Support\Facades\Queue;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class AssignManagerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_assigns_a_manager_as_administrator(): void
     {

@@ -2,33 +2,28 @@
 
 namespace App\Http\Controllers\Company\Company\Group;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
-use App\Models\Company\Group;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Group\CreateGroup;
-use App\Services\Company\Group\UpdateGroup;
-use App\Services\Company\Group\DestroyGroup;
 use App\Http\ViewHelpers\Company\CompanyViewHelper;
-use App\Http\ViewHelpers\Company\Group\GroupViewHelper;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Group\GroupShowViewHelper;
 use App\Http\ViewHelpers\Company\Group\GroupCreateViewHelper;
+use App\Http\ViewHelpers\Company\Group\GroupShowViewHelper;
+use App\Http\ViewHelpers\Company\Group\GroupViewHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\Group;
+use App\Services\Company\Group\CreateGroup;
+use App\Services\Company\Group\DestroyGroup;
+use App\Services\Company\Group\UpdateGroup;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class GroupController extends Controller
 {
     /**
      * Display the list of groups.
-     *
-     * @param Request $request
-     * @param int $companyId
-     *
-     * @return Response
      */
     public function index(Request $request, int $companyId): Response
     {
@@ -46,9 +41,6 @@ class GroupController extends Controller
     /**
      * Display the group.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -74,11 +66,6 @@ class GroupController extends Controller
 
     /**
      * Display the create new group form.
-     *
-     * @param Request $request
-     * @param int $companyId
-     *
-     * @return Response
      */
     public function create(Request $request, int $companyId): Response
     {
@@ -89,11 +76,6 @@ class GroupController extends Controller
 
     /**
      * Search an employee to add as a team lead.
-     *
-     * @param Request $request
-     * @param int $companyId
-     *
-     * @return JsonResponse
      */
     public function search(Request $request, int $companyId): JsonResponse
     {
@@ -107,10 +89,6 @@ class GroupController extends Controller
 
     /**
      * Actually create the new group.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {
@@ -147,12 +125,6 @@ class GroupController extends Controller
 
     /**
      * Show the delete group page.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     *
-     * @return Response
      */
     public function delete(Request $request, int $companyId, int $groupId): Response
     {
@@ -169,11 +141,6 @@ class GroupController extends Controller
 
     /**
      * Actually destroy the group.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $groupId): JsonResponse
     {
@@ -194,11 +161,8 @@ class GroupController extends Controller
     /**
      * Display the Edit group page.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
      *
-     *  @return \Illuminate\Http\RedirectResponse|Response
+     * @return \Illuminate\Http\RedirectResponse|Response
      */
     public function edit(Request $request, int $companyId, int $groupId)
     {
@@ -219,10 +183,6 @@ class GroupController extends Controller
 
     /**
      * Update the group information.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
      */
     public function update(Request $request, int $companyId, int $groupId): JsonResponse
     {

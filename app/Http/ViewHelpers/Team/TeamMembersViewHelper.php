@@ -3,20 +3,15 @@
 namespace App\Http\ViewHelpers\Team;
 
 use App\Helpers\ImageHelper;
-use App\Models\Company\Team;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Models\Company\Team;
 use Illuminate\Support\Collection;
 
 class TeamMembersViewHelper
 {
     /**
      * Search all potential members for the team.
-     *
-     * @param Company $company
-     * @param Team $team
-     * @param string|null $criteria
-     * @return Collection
      */
     public static function searchPotentialTeamMembers(Company $company, Team $team, ?string $criteria): Collection
     {
@@ -46,10 +41,6 @@ class TeamMembersViewHelper
 
     /**
      * Array containing all the information about a specific employee.
-     *
-     * @param Employee $employee
-     *
-     * @return array
      */
     public static function employee(Employee $employee): array
     {

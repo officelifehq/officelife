@@ -2,29 +2,26 @@
 
 namespace App\Http\Controllers\Company\Company\Group;
 
-use Inertia\Inertia;
-use Inertia\Response;
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
-use App\Models\Company\Group;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Company\Group\GroupMembersViewHelper;
+use App\Http\ViewHelpers\Company\Group\GroupShowViewHelper;
+use App\Models\Company\Group;
 use App\Services\Company\Group\AddEmployeeToGroup;
 use App\Services\Company\Group\RemoveEmployeeFromGroup;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Group\GroupShowViewHelper;
-use App\Http\ViewHelpers\Company\Group\GroupMembersViewHelper;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class GroupMembersController extends Controller
 {
     /**
      * Display the list of members in the group.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -52,12 +49,6 @@ class GroupMembersController extends Controller
 
     /**
      * Get the list of potential new members for this group.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     *
-     * @return JsonResponse
      */
     public function search(Request $request, int $companyId, int $groupId): JsonResponse
     {
@@ -83,12 +74,6 @@ class GroupMembersController extends Controller
 
     /**
      * Add the member to the group.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     *
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $groupId): JsonResponse
     {
@@ -117,12 +102,6 @@ class GroupMembersController extends Controller
 
     /**
      * Remove the member from the group.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $groupId
-     *
-     * @return JsonResponse
      */
     public function remove(Request $request, int $companyId, int $groupId): JsonResponse
     {

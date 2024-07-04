@@ -72,12 +72,12 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu';
-import Participants from '@/Pages/Company/Group/Meetings/Partials/Participants';
-import DateWidget from '@/Pages/Company/Group/Meetings/Partials/Date';
-import Agenda from '@/Pages/Company/Group/Meetings/Partials/Agenda';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu.vue';
+import Participants from '@/Pages/Company/Group/Meetings/Partials/Participants.vue';
+import DateWidget from '@/Pages/Company/Group/Meetings/Partials/Date.vue';
+import Agenda from '@/Pages/Company/Group/Meetings/Partials/Agenda.vue';
 
 export default {
   components: {

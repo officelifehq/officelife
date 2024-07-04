@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Jobs;
 
+use App\Jobs\LogAccountAudit;
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Jobs\LogAccountAudit;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class LogAccountAuditTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_logs_an_account_audit(): void
     {

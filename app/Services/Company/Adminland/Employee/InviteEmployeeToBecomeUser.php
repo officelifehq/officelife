@@ -2,14 +2,14 @@
 
 namespace App\Services\Company\Adminland\Employee;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Mail;
 use App\Exceptions\UserAlreadyInvitedException;
+use App\Jobs\LogAccountAudit;
 use App\Mail\Company\InviteEmployeeToBecomeUserMail;
+use App\Models\Company\Employee;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 /**
  * This service invites an employee by email.
@@ -20,8 +20,6 @@ class InviteEmployeeToBecomeUser extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -34,10 +32,6 @@ class InviteEmployeeToBecomeUser extends BaseService
 
     /**
      * Send an invitation email to the employee so he can become a user.
-     *
-     * @param array $data
-     *
-     * @return Employee
      */
     public function execute(array $data): Employee
     {
@@ -71,8 +65,6 @@ class InviteEmployeeToBecomeUser extends BaseService
 
     /**
      * Send the email.
-     *
-     * @param Employee $employee
      */
     private function inviteEmployee(Employee $employee): void
     {

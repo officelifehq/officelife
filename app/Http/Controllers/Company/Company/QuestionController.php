@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers\Company\Company;
 
+use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
+use App\Helpers\PaginatorHelper;
+use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Company\CompanyQuestionViewHelper;
+use App\Models\Company\Answer;
+use App\Models\Company\Company;
+use App\Models\Company\Question;
+use App\Models\Company\Team;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\Company\Team;
-use Illuminate\Http\Request;
-use App\Models\Company\Answer;
-use App\Helpers\InstanceHelper;
-use App\Models\Company\Company;
-use App\Helpers\PaginatorHelper;
-use App\Models\Company\Question;
-use App\Helpers\NotificationHelper;
-use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\CompanyQuestionViewHelper;
 
 class QuestionController extends Controller
 {
     /**
      * All the questions in the company, for public use.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -38,9 +36,6 @@ class QuestionController extends Controller
     /**
      * Get the detail of a given question.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $questionId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -62,7 +57,7 @@ class QuestionController extends Controller
         $answersCollection = CompanyQuestionViewHelper::question($question, $answers, $employee);
 
         return Inertia::render('Company/Question/Show', [
-            'teams' =>$teams,
+            'teams' => $teams,
             'question' => $answersCollection,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'paginator' => PaginatorHelper::getData($answers),
@@ -72,10 +67,6 @@ class QuestionController extends Controller
     /**
      * Get the detail of a given question for a specific team.
      *
-     * @param  Request $request
-     * @param  int $companyId
-     * @param  int $questionId
-     * @param  int $teamId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */

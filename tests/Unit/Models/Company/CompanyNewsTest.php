@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\ApiTestCase;
-use App\Models\Company\Employee;
 use App\Models\Company\CompanyNews;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Employee;
+use Tests\ApiTestCase;
 
 class CompanyNewsTest extends ApiTestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_a_company(): void
     {

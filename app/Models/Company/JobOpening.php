@@ -2,11 +2,11 @@
 
 namespace App\Models\Company;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class JobOpening extends Model
 {
@@ -43,16 +43,6 @@ class JobOpening extends Model
     ];
 
     /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'activated_at',
-        'fulfilled_at',
-    ];
-
-    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -60,6 +50,8 @@ class JobOpening extends Model
     protected $casts = [
         'active' => 'boolean',
         'fulfilled' => 'boolean',
+        'activated_at' => 'datetime',
+        'fulfilled_at' => 'datetime',
     ];
 
     /**

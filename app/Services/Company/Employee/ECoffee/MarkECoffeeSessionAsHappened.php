@@ -2,13 +2,13 @@
 
 namespace App\Services\Company\Employee\ECoffee;
 
-use Carbon\Carbon;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Models\Company\ECoffee;
-use App\Models\Company\Employee;
-use App\Models\Company\ECoffeeMatch;
 use App\Exceptions\NotEnoughPermissionException;
+use App\Jobs\LogAccountAudit;
+use App\Models\Company\ECoffee;
+use App\Models\Company\ECoffeeMatch;
+use App\Models\Company\Employee;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class MarkECoffeeSessionAsHappened extends BaseService
 {

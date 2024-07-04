@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
-use Tests\TestCase;
-use App\Models\Company\Skill;
-use App\Models\Company\Employee;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Employee\EmployeeSkillViewHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\Skill;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
+use Tests\TestCase;
 
 class EmployeeSkillViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_handles_an_empty_search(): void
     {

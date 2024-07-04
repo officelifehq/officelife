@@ -2,20 +2,19 @@
 
 namespace App\Services\Company\Group;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Group;
 use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyGroup extends BaseService
 {
     protected array $data;
+
     protected Group $group;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,8 +27,6 @@ class DestroyGroup extends BaseService
 
     /**
      * Delete a group.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

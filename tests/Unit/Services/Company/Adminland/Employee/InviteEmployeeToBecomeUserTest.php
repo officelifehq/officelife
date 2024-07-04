@@ -2,23 +2,20 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Employee;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
+use App\Exceptions\UserAlreadyInvitedException;
 use App\Jobs\LogAccountAudit;
+use App\Mail\Company\InviteEmployeeToBecomeUserMail;
 use App\Models\Company\Employee;
+use App\Services\Company\Adminland\Employee\InviteEmployeeToBecomeUser;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\UserAlreadyInvitedException;
-use App\Exceptions\NotEnoughPermissionException;
-use App\Mail\Company\InviteEmployeeToBecomeUserMail;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\Employee\InviteEmployeeToBecomeUser;
+use Tests\TestCase;
 
 class InviteEmployeeToBecomeUserTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_invites_an_employee_to_become_a_user_as_administrator(): void
     {

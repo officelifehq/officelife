@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Project;
 
-use Tests\TestCase;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
-use App\Models\Company\Project;
+use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
 use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Models\Company\ProjectLink;
 use App\Models\Company\ProjectStatus;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
+use Tests\TestCase;
 
 class ProjectViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_list_of_projects(): void
     {

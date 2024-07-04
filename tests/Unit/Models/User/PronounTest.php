@@ -2,14 +2,11 @@
 
 namespace Tests\Unit\Models\User;
 
-use Tests\TestCase;
 use App\Models\User\Pronoun;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class PronounTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_returns_the_translated_label(): void
     {

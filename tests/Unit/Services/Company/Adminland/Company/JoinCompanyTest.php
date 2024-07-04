@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Company;
 
-use Tests\TestCase;
-use App\Models\User\User;
+use App\Exceptions\UserAlreadyInvitedException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Models\User\User;
+use App\Services\Company\Adminland\Company\JoinCompany;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\UserAlreadyInvitedException;
-use App\Services\Company\Adminland\Company\JoinCompany;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class JoinCompanyTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_joins_a_company(): void
     {

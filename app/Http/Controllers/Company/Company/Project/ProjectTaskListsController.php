@@ -2,25 +2,19 @@
 
 namespace App\Http\Controllers\Company\Company\Project;
 
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Project\CreateProjectTaskList;
-use App\Services\Company\Project\UpdateProjectTaskList;
-use App\Services\Company\Project\DestroyProjectTaskList;
 use App\Http\ViewHelpers\Company\Project\ProjectTasksViewHelper;
+use App\Services\Company\Project\CreateProjectTaskList;
+use App\Services\Company\Project\DestroyProjectTaskList;
+use App\Services\Company\Project\UpdateProjectTaskList;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ProjectTaskListsController extends Controller
 {
     /**
      * Create the task list.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -44,13 +38,6 @@ class ProjectTaskListsController extends Controller
 
     /**
      * Update the task list.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $projectTaskListId
-     *
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $projectId, int $projectTaskListId): JsonResponse
     {
@@ -75,13 +62,6 @@ class ProjectTaskListsController extends Controller
 
     /**
      * Delete the task list.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $projectTaskListId
-     *
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $projectId, int $projectTaskListId): JsonResponse
     {

@@ -2,25 +2,24 @@
 
 namespace App\Services\Company\Team;
 
-use Carbon\Carbon;
+use App\Exceptions\NotEnoughPermissionException;
+use App\Jobs\LogAccountAudit;
 use App\Jobs\LogTeamAudit;
 use App\Jobs\NotifyEmployee;
-use App\Models\Company\Team;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Exceptions\NotEnoughPermissionException;
+use App\Models\Company\Team;
+use App\Services\BaseService;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
+use Carbon\Carbon;
 
 class SetTeamLead extends BaseService
 {
     private Employee $employee;
+
     private Team $team;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,11 +34,8 @@ class SetTeamLead extends BaseService
     /**
      * Set the employee as the team leader.
      *
-     * @param array $data
      *
      * @throws NotEnoughPermissionException
-     *
-     * @return Employee
      */
     public function execute(array $data): Employee
     {
@@ -66,8 +62,6 @@ class SetTeamLead extends BaseService
 
     /**
      * Save the team with the new information.
-     *
-     * @param array $data
      */
     private function save(array $data): void
     {
@@ -77,8 +71,6 @@ class SetTeamLead extends BaseService
 
     /**
      * Add the employee to the team - if he’s not in the team already.
-     *
-     * @param array $data
      */
     private function addEmployeeToTeam(array $data): void
     {
@@ -110,8 +102,6 @@ class SetTeamLead extends BaseService
 
     /**
      * Log the information in the audit logs.
-     *
-     * @param array $data
      */
     private function log(array $data): void
     {

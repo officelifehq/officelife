@@ -2,42 +2,37 @@
 
 namespace App\Http\Controllers\Company\Company\Project;
 
-use Inertia\Inertia;
-use Inertia\Response;
+use App\Exceptions\ProjectCodeAlreadyExistException;
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
-use App\Helpers\StringHelper;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Project;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
+use App\Helpers\StringHelper;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Company\CompanyViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\Project;
+use App\Services\Company\Project\ClearProjectLead;
 use App\Services\Company\Project\CloseProject;
+use App\Services\Company\Project\CreateProject;
+use App\Services\Company\Project\CreateProjectLink;
+use App\Services\Company\Project\CreateProjectStatus;
+use App\Services\Company\Project\DestroyProject;
+use App\Services\Company\Project\DestroyProjectLink;
 use App\Services\Company\Project\PauseProject;
 use App\Services\Company\Project\StartProject;
-use App\Services\Company\Project\CreateProject;
-use App\Services\Company\Project\DestroyProject;
-use App\Services\Company\Project\ClearProjectLead;
-use App\Http\ViewHelpers\Company\CompanyViewHelper;
-use App\Services\Company\Project\CreateProjectLink;
-use App\Services\Company\Project\UpdateProjectLead;
-use App\Exceptions\ProjectCodeAlreadyExistException;
-use App\Services\Company\Project\DestroyProjectLink;
-use App\Services\Company\Project\CreateProjectStatus;
 use App\Services\Company\Project\UpdateProjectDescription;
 use App\Services\Company\Project\UpdateProjectInformation;
-use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
+use App\Services\Company\Project\UpdateProjectLead;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ProjectController extends Controller
 {
     /**
      * Display the list of projects.
-     *
-     * @param Request $request
-     * @param int $companyId
-     *
-     * @return Response
      */
     public function index(Request $request, int $companyId): Response
     {
@@ -54,12 +49,6 @@ class ProjectController extends Controller
 
     /**
      * Display the project.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return Response
      */
     public function show(Request $request, int $companyId, int $projectId): Response
     {
@@ -79,12 +68,6 @@ class ProjectController extends Controller
 
     /**
      * Start the project.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function start(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -106,12 +89,6 @@ class ProjectController extends Controller
 
     /**
      * Pause the project.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function pause(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -133,12 +110,6 @@ class ProjectController extends Controller
 
     /**
      * Close the project.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function close(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -160,12 +131,6 @@ class ProjectController extends Controller
 
     /**
      * Display the Edit project page.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return Response
      */
     public function edit(Request $request, int $companyId, int $projectId): Response
     {
@@ -180,12 +145,6 @@ class ProjectController extends Controller
 
     /**
      * Update the project information.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -223,12 +182,6 @@ class ProjectController extends Controller
 
     /**
      * Update the project description.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function description(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -255,9 +208,6 @@ class ProjectController extends Controller
     /**
      * Show the delete project view.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -278,12 +228,6 @@ class ProjectController extends Controller
 
     /**
      * Actually delete project.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -306,12 +250,6 @@ class ProjectController extends Controller
 
     /**
      * Assign project lead.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function assign(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -347,12 +285,6 @@ class ProjectController extends Controller
 
     /**
      * Clear project lead.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function clear(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -375,11 +307,6 @@ class ProjectController extends Controller
 
     /**
      * Display the create new project form.
-     *
-     * @param Request $request
-     * @param int $companyId
-     *
-     * @return Response
      */
     public function create(Request $request, int $companyId): Response
     {
@@ -390,11 +317,6 @@ class ProjectController extends Controller
 
     /**
      * Search an employee to assign as project lead.
-     *
-     * @param Request $request
-     * @param int $companyId
-     *
-     * @return JsonResponse
      */
     public function search(Request $request, int $companyId): JsonResponse
     {
@@ -408,11 +330,6 @@ class ProjectController extends Controller
 
     /**
      * Actually create the new project.
-     *
-     * @param Request $request
-     * @param int $companyId
-     *
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {
@@ -451,12 +368,6 @@ class ProjectController extends Controller
 
     /**
      * Create a new project link.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function createLink(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -486,13 +397,6 @@ class ProjectController extends Controller
 
     /**
      * Destroy a new project link.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $linkId
-     *
-     * @return JsonResponse
      */
     public function destroyLink(Request $request, int $companyId, int $projectId, int $linkId): JsonResponse
     {
@@ -516,9 +420,6 @@ class ProjectController extends Controller
     /**
      * Display a Create status page.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -549,9 +450,6 @@ class ProjectController extends Controller
     /**
      * Save the new project status.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
      *
      * @return JsonResponse
      */

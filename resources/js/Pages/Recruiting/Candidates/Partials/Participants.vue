@@ -126,8 +126,9 @@
 </template>
 
 <script>
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
+import _ from 'lodash';
 
 export default {
   components: {

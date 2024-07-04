@@ -2,16 +2,16 @@
 
 namespace App\Console;
 
-use Carbon\Carbon;
-use App\Jobs\LogTeamsMorale;
+use App\Jobs\Invoicing\CreateMonthlyInvoiceForCompanies;
+use App\Jobs\Invoicing\LogDailyMaxNumberOfActiveEmployeesInCompanies;
 use App\Jobs\LogCompaniesMorale;
 use App\Jobs\LogMissedWorklogEntry;
-use App\Jobs\StopRateYourManagerProcess;
+use App\Jobs\LogTeamsMorale;
 use App\Jobs\StartRateYourManagerProcess;
+use App\Jobs\StopRateYourManagerProcess;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
-use App\Jobs\Invoicing\CreateMonthlyInvoiceForCompanies;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Jobs\Invoicing\LogDailyMaxNumberOfActiveEmployeesInCompanies;
 
 class Kernel extends ConsoleKernel
 {
@@ -25,8 +25,6 @@ class Kernel extends ConsoleKernel
 
     /**
      * Define the application's command schedule.
-     *
-     * @param \Illuminate\Console\Scheduling\Schedule $schedule
      */
     protected function schedule(Schedule $schedule)
     {

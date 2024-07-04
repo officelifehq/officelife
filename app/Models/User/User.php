@@ -5,18 +5,18 @@ namespace App\Models\User;
 use App\Jobs\SendVerifyEmail;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Translation\HasLocalePreference;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements MustVerifyEmail, HasLocalePreference
+class User extends Authenticatable implements HasLocalePreference, MustVerifyEmail
 {
-    use Notifiable, HasFactory, HasApiTokens, TwoFactorAuthenticatable;
+    use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -77,9 +77,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
     /**
      * Get the name of the user.
      *
-     * @param string $value
-     *
-     * @return string
+     * @param  string  $value
      */
     public function getNameAttribute($value): string
     {
@@ -98,10 +96,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasLocalePreferen
 
     /**
      * Check if the user is part of the given company.
-     *
-     * @param Company $company
-     *
-     * @return Employee|null
      */
     public function getEmployeeObjectForCompany(Company $company): ?Employee
     {

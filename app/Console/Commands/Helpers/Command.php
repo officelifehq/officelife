@@ -12,10 +12,8 @@ class Command
 {
     /**
      * Switch to a fake executor for testing purpose.
-     *
-     * @return CommandCallerContract
      */
-    public static function fake() : CommandCallerContract
+    public static function fake(): CommandCallerContract
     {
         static::setBackend($fake = app(CommandCallerFake::class));
 
@@ -31,10 +29,8 @@ class Command
 
     /**
      * Get the current backend command.
-     *
-     * @return CommandCallerContract
      */
-    private static function getBackend() : CommandCallerContract
+    private static function getBackend(): CommandCallerContract
     {
         if (! static::$commandCaller) {
             static::$commandCaller = app(CommandCaller::class); // @codeCoverageIgnore
@@ -45,10 +41,8 @@ class Command
 
     /**
      * Set the current backend command.
-     *
-     * @param CommandCallerContract $executor
      */
-    public static function setBackend(CommandCallerContract $executor) : void
+    public static function setBackend(CommandCallerContract $executor): void
     {
         static::$commandCaller = $executor;
     }
@@ -58,8 +52,9 @@ class Command
      *
      * @param  string  $method
      * @param  array  $args
-     * @throws \RuntimeException
      * @return mixed
+     *
+     * @throws \RuntimeException
      */
     public static function __callStatic($method, $args)
     {

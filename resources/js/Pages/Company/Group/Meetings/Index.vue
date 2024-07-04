@@ -38,7 +38,9 @@
       <div class="mw6 center br3 mb5 relative z-1">
         <!-- add a new meeting -->
         <div class="tr mb2">
-          <inertia-link :href="data.url_new" class="btn dib-l db mb3 mb0-ns" data-cy="member-add-button">{{ $t('group.meeting_index_cta') }}</inertia-link>
+          <Link :href="data.url_new" class="btn dib-l db mb3 mb0-ns" data-cy="member-add-button">
+            {{ $t('group.meeting_index_cta') }}
+          </Link>
         </div>
 
         <!-- list of meetings -->
@@ -46,9 +48,9 @@
           <ul class="list pl0 ma0">
             <li v-for="meeting in data.meetings" :key="meeting.id" class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between meeting-item">
               <div class="mb1 relative">
-                <inertia-link :href="meeting.url" class="employee-name db">
+                <Link :href="meeting.url" class="employee-name db">
                   {{ meeting.happened_at }}
-                </inertia-link>
+                </Link>
               </div>
               <span v-if="meeting.preview_members" class="ma0 mb0 f7 grey">
                 <div class="flex items-center relative tr">
@@ -66,7 +68,7 @@
 
         <!-- blank state -->
         <div v-else class="br3 bg-white box z-1 pa3 tc">
-          <img loading="lazy" src="/img/streamline-icon-factory-engineer-3@140x140.png" width="140" height="140" alt="meeting"
+          <img loading="lazy" :src="'/img/streamline-icon-factory-engineer-3@140x140.png'" width="140" height="140" alt="meeting"
                class=""
           />
           <h3 class="fw4 f5 lh-copy">
@@ -79,10 +81,11 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Avatar from '@/Shared/Avatar';
-import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Avatar from '@/Shared/Avatar.vue';
+import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu.vue';
+import _ from 'lodash';
 
 export default {
   components: {

@@ -2,13 +2,13 @@
 
 namespace App\Services\Company\Employee\Worklog;
 
-use Carbon\Carbon;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Worklog;
-use App\Models\Company\Employee;
 use App\Exceptions\WorklogAlreadyLoggedTodayException;
+use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
+use App\Models\Company\Employee;
+use App\Models\Company\Worklog;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class LogWorklog extends BaseService
 {
@@ -16,8 +16,6 @@ class LogWorklog extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -34,10 +32,6 @@ class LogWorklog extends BaseService
      * Log the work that the employee has done.
      * Logging can only happen once per day.
      * Logging can only be done by the employee.
-     *
-     * @param array $data
-     *
-     * @return Worklog
      */
     public function execute(array $data): Worklog
     {

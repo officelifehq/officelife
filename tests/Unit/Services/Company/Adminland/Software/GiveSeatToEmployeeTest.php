@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Software;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Software;
+use App\Services\Company\Adminland\Software\GiveSeatToEmployee;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Software\GiveSeatToEmployee;
+use Tests\TestCase;
 
 class GiveSeatToEmployeeTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gives_a_software_seat_as_administrator(): void
     {

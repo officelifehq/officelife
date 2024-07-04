@@ -2,18 +2,15 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Employee\EmployeeSurveysViewHelper;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Employee\EmployeeSurveysViewHelper;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class EmployeeSurveysViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_all_surveys_about_the_manager(): void
     {
@@ -244,9 +241,9 @@ class EmployeeSurveysViewHelperTest extends TestCase
 
         $this->assertEquals(
             [
-                    'bad' => 1,
-                    'average' => 1,
-                    'good' => 1,
+                'bad' => 1,
+                'average' => 1,
+                'good' => 1,
             ],
             $array['results']
         );

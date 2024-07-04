@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers\Company;
 
+use App\Http\Controllers\Controller;
+use App\Models\Company\Company;
+use App\Services\Company\Adminland\Company\CreateCompany;
+use App\Services\Company\Adminland\Company\JoinCompany;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Http\Request;
-use App\Models\Company\Company;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
-use App\Services\Company\Adminland\Company\JoinCompany;
-use App\Services\Company\Adminland\Company\CreateCompany;
 
 class CompanyController extends Controller
 {
     /**
      * Show the create company form.
-     *
-     * @return Response
      */
     public function create(): Response
     {
@@ -27,7 +25,6 @@ class CompanyController extends Controller
     /**
      * Create the company.
      *
-     * @param Request $request
      *
      * @return \Illuminate\Routing\Redirector|RedirectResponse
      */
@@ -44,7 +41,6 @@ class CompanyController extends Controller
     /**
      * Show the Join company screen.
      *
-     * @param Request $request
      * @return Response
      */
     public function join(Request $request)
@@ -54,8 +50,6 @@ class CompanyController extends Controller
 
     /**
      * Join the company.
-     *
-     * @param Request $request
      */
     public function actuallyJoin(Request $request)
     {

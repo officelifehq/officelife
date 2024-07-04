@@ -32,9 +32,9 @@
           <avatar :avatar="birthday.avatar" :size="35" :class="'br-100 absolute avatar'" />
 
           <!-- normal mode -->
-          <inertia-link :href="birthday.url" class="mb2">
+          <Link :href="birthday.url" class="mb2">
             {{ birthday.name }}
-          </inertia-link>
+          </Link>
 
           <!-- birthdate information -->
           <span class="title db f7 mt1">
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import Avatar from '@/Shared/Avatar';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

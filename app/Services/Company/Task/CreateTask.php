@@ -2,13 +2,13 @@
 
 namespace App\Services\Company\Task;
 
-use Carbon\Carbon;
-use App\Jobs\NotifyEmployee;
-use App\Models\Company\Task;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
+use App\Jobs\NotifyEmployee;
 use App\Models\Company\Employee;
+use App\Models\Company\Task;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateTask extends BaseService
 {
@@ -20,8 +20,6 @@ class CreateTask extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -38,10 +36,6 @@ class CreateTask extends BaseService
 
     /**
      * Create a task.
-     *
-     * @param array $data
-     *
-     * @return Task
      */
     public function execute(array $data): Task
     {

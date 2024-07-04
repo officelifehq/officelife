@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Employee\EmployeeWorkViewHelper;
 use App\Models\Company\Group;
 use App\Models\Company\Morale;
 use App\Models\Company\Project;
-use App\Models\Company\Worklog;
-use App\Models\Company\ProjectTask;
 use App\Models\Company\ProjectMessage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Employee\EmployeeWorkViewHelper;
+use App\Models\Company\ProjectTask;
+use App\Models\Company\Worklog;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class EmployeeWorkViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_details_of_a_worklog(): void
     {
@@ -170,7 +167,7 @@ class EmployeeWorkViewHelperTest extends TestCase
                     'role' => null,
                     'messages_count' => 0,
                     'tasks_count' => 0,
-                    'url' => env('APP_URL') . '/' . $michael->company_id . '/company/projects/' . $projectB->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectB->id,
                 ],
                 1 => [
                     'id' => $projectA->id,
@@ -180,7 +177,7 @@ class EmployeeWorkViewHelperTest extends TestCase
                     'role' => trans('project.project_title_lead'),
                     'messages_count' => 1,
                     'tasks_count' => 2,
-                    'url' => env('APP_URL') . '/' . $michael->company_id . '/company/projects/' . $projectA->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectA->id,
                 ],
             ],
             $collection->toArray()
@@ -216,7 +213,7 @@ class EmployeeWorkViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            env('APP_URL') . '/' . $michael->company_id . '/company/groups/' . $group->id,
+            env('APP_URL').'/'.$michael->company_id.'/company/groups/'.$group->id,
             $collection->toArray()[0]['url']
         );
 
@@ -230,7 +227,7 @@ class EmployeeWorkViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'avatar' => ImageHelper::getAvatar($michael, 25),
-                    'url' => env('APP_URL') . '/' . $michael->company_id . '/employees/' . $michael->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
             ],
             $collection->toArray()[0]['preview_members']->toArray()

@@ -2,16 +2,16 @@
 
 namespace App\Models\Company;
 
-use Carbon\Carbon;
 use App\Helpers\ImageHelper;
 use App\Helpers\PermissionHelper;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Team extends Model
 {
@@ -122,10 +122,6 @@ class Team extends Model
     /**
      * Returns an array of work logs of all the active team members in the
      * given team on a given date.
-     *
-     * @param Carbon $date
-     * @param Employee $loggedEmployee
-     * @return Collection
      */
     public function worklogsForDate(Carbon $date, Employee $loggedEmployee): Collection
     {

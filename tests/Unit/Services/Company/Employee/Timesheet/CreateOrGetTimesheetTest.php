@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\Services\Company\Employee\Timesheet;
 
-use Tests\TestCase;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
-use Illuminate\Validation\ValidationException;
-use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Timesheet\CreateOrGetTimesheet;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateOrGetTimesheetTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_timesheet_as_administrator(): void
     {
@@ -86,7 +83,7 @@ class CreateOrGetTimesheetTest extends TestCase
         (new CreateOrGetTimesheet)->execute($request);
     }
 
-    private function executeService(Employee $author, Employee $employee, Timesheet $existingTimesheet = null): void
+    private function executeService(Employee $author, Employee $employee, ?Timesheet $existingTimesheet = null): void
     {
         $request = [
             'company_id' => $author->company_id,

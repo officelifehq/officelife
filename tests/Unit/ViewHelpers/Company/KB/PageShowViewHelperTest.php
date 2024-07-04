@@ -2,20 +2,17 @@
 
 namespace Tests\Unit\ViewHelpers\Company\KB;
 
+use App\Helpers\ImageHelper;
+use App\Helpers\StringHelper;
+use App\Http\ViewHelpers\Company\KB\PageShowViewHelper;
+use App\Models\Company\Page;
+use App\Models\Company\PageRevision;
+use App\Models\Company\Wiki;
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\ImageHelper;
-use App\Models\Company\Page;
-use App\Models\Company\Wiki;
-use App\Helpers\StringHelper;
-use App\Models\Company\PageRevision;
-use App\Http\ViewHelpers\Company\KB\PageShowViewHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PageShowViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_the_detail_of_a_page(): void
     {

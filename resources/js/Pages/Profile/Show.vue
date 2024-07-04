@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import LogoutOtherBrowserSessionsForm from './Partials/LogoutOtherBrowserSessionsForm';
-import TwoFactorAuthenticationForm from './Partials/TwoFactorAuthenticationForm';
-import UpdatePasswordForm from './Partials/UpdatePasswordForm';
-import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
-import UpdateLocale from './Partials/UpdateLocale';
+import Layout from '@/Shared/Layout.vue';
+import LogoutOtherBrowserSessionsForm from '@/Pages/Profile/Partials/LogoutOtherBrowserSessionsForm.vue';
+import TwoFactorAuthenticationForm from '@/Pages/Profile/Partials/TwoFactorAuthenticationForm.vue';
+import UpdatePasswordForm from '@/Pages/Profile/Partials/UpdatePasswordForm.vue';
+import UpdateProfileInformationForm from '@/Pages/Profile/Partials/UpdateProfileInformationForm.vue';
+import UpdateLocale from '@/Pages/Profile/Partials/UpdateLocale.vue';
 
 export default {
 

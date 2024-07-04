@@ -2,32 +2,29 @@
 
 namespace App\Http\Controllers\Company\Company\Project;
 
-use Inertia\Inertia;
-use Inertia\Response;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Project;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Project\AddFileToProject;
+use App\Http\ViewHelpers\Company\Project\ProjectFilesViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
+use App\Models\Company\Project;
 use App\Services\Company\Adminland\File\UploadFile;
+use App\Services\Company\Project\AddFileToProject;
 use App\Services\Company\Project\DestroyProjectFile;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
-use App\Http\ViewHelpers\Company\Project\ProjectFilesViewHelper;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ProjectFilesController extends Controller
 {
     /**
      * Display the list of files in the project.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -50,12 +47,6 @@ class ProjectFilesController extends Controller
 
     /**
      * Store a file.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse|null
      */
     public function store(Request $request, int $companyId, int $projectId): ?JsonResponse
     {
@@ -110,13 +101,6 @@ class ProjectFilesController extends Controller
 
     /**
      * Destroy a file.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $fileId
-     *
-     * @return JsonResponse|null
      */
     public function destroy(Request $request, int $companyId, int $projectId, int $fileId): ?JsonResponse
     {

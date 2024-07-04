@@ -50,13 +50,17 @@
 
           <!-- view link -->
           <div>
-            <inertia-link :href="timesheet.url" class="ma0 pa0 f6" :data-cy="'entry-item-' + timesheet.id">{{ $t('app.view') }}</inertia-link>
+            <Link :href="timesheet.url" class="ma0 pa0 f6" :data-cy="'entry-item-' + timesheet.id">
+              {{ $t('app.view') }}
+            </Link>
           </div>
         </div>
 
         <!-- view all link -->
         <div class="ph3 pv2 tc f6">
-          <inertia-link :href="timesheets.view_all_url" data-cy="view-all-timesheets">{{ $t('employee.timesheets_view_all') }}</inertia-link>
+          <Link :href="timesheets.view_all_url" data-cy="view-all-timesheets">
+            {{ $t('employee.timesheets_view_all') }}
+          </Link>
         </div>
       </div>
 
@@ -69,7 +73,7 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

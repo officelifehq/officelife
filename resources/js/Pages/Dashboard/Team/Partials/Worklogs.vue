@@ -134,8 +134,8 @@
 </template>
 
 <script>
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
-import Help from '@/Shared/Help';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

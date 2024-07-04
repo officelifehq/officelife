@@ -2,20 +2,18 @@
 
 namespace App\Services\Company\Employee\Answer;
 
-use Carbon\Carbon;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Answer;
 use App\Models\Company\Question;
-use App\Exceptions\NotEnoughPermissionException;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateAnswer extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -32,11 +30,8 @@ class CreateAnswer extends BaseService
      * Create an answer.
      * There should be only one answer per question.
      *
-     * @param array $data
      *
      * @throws NotEnoughPermissionException
-     *
-     * @return Answer
      */
     public function execute(array $data): Answer
     {

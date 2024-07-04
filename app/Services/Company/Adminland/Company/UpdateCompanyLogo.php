@@ -2,22 +2,22 @@
 
 namespace App\Services\Company\Adminland\Company;
 
-use Carbon\Carbon;
-use App\Models\Company\File;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Company;
+use App\Models\Company\File;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class UpdateCompanyLogo extends BaseService
 {
     protected File $file;
+
     protected Company $company;
+
     protected array $data;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -30,9 +30,6 @@ class UpdateCompanyLogo extends BaseService
 
     /**
      * Update the company logo.
-     *
-     * @param array $data
-     * @return File
      */
     public function execute(array $data): File
     {

@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers\Jobs;
 
-use Inertia\Inertia;
-use Inertia\Response;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Jobs\JobsViewHelper;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class JobsController extends Controller
 {
     /**
      * Display the index of the jobs page.
-     *
-     * @return Response
      */
     public function index(): Response
     {

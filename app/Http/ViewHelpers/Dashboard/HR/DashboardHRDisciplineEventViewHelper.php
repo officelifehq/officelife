@@ -13,11 +13,6 @@ class DashboardHRDisciplineEventViewHelper
 {
     /**
      * Get the information about the discipline event.
-     *
-     * @param Company $company
-     * @param DisciplineCase $case
-     * @param DisciplineEvent $event
-     * @return array
      */
     public static function dto(Company $company, DisciplineCase $case, DisciplineEvent $event): array
     {

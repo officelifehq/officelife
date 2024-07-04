@@ -2,12 +2,12 @@
 
 namespace App\Services\Company\Employee\ConsultantRate;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Employee;
 use App\Models\Company\ConsultantRate;
+use App\Models\Company\Employee;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyConsultantRate extends BaseService
 {

@@ -53,6 +53,8 @@ input[type=checkbox] {
 </template>
 
 <script>
+import _ from 'lodash';
+
 export default {
   inheritAttrs: false,
 

@@ -2,23 +2,20 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\JobOpening;
+use App\Models\Company\Project;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
-use App\Models\Company\Project;
-use App\Models\Company\Worklog;
-use App\Models\Company\Employee;
 use App\Models\Company\TeamNews;
-use App\Models\Company\JobOpening;
 use App\Models\Company\TeamUsefulLink;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Worklog;
+use Carbon\Carbon;
+use Tests\TestCase;
 
 class TeamTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_company()
     {

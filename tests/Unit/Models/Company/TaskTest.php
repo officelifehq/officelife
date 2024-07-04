@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Models\Company;
 
-use Tests\ApiTestCase;
-use App\Models\Company\Task;
 use App\Models\Company\Employee;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Task;
+use Tests\ApiTestCase;
 
 class TaskTest extends ApiTestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_belongs_to_an_assignee(): void
     {

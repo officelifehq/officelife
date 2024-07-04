@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Group;
 
-use Tests\TestCase;
-use App\Jobs\ServiceQueue;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Group;
+use App\Jobs\ServiceQueue;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\Queue;
-use App\Services\Company\Group\CreateGroup;
-use Illuminate\Validation\ValidationException;
-use App\Services\Company\Project\CreateProject;
+use App\Models\Company\Group;
 use App\Services\Company\Group\AddEmployeeToGroup;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Group\CreateGroup;
+use App\Services\Company\Project\CreateProject;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateGroupTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_group_as_administrator(): void
     {
@@ -64,7 +61,7 @@ class CreateGroupTest extends TestCase
         (new CreateProject)->execute($request);
     }
 
-    private function executeService(Employee $michael, array $employees = null): void
+    private function executeService(Employee $michael, ?array $employees = null): void
     {
         Queue::fake();
 

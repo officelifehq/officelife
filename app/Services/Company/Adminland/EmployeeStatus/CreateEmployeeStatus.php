@@ -2,17 +2,15 @@
 
 namespace App\Services\Company\Adminland\EmployeeStatus;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\EmployeeStatus;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateEmployeeStatus extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -26,9 +24,6 @@ class CreateEmployeeStatus extends BaseService
 
     /**
      * Create an employee status.
-     *
-     * @param array $data
-     * @return EmployeeStatus
      */
     public function execute(array $data): EmployeeStatus
     {

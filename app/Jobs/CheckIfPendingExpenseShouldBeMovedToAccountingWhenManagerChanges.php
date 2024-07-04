@@ -2,14 +2,14 @@
 
 namespace App\Jobs;
 
-use Illuminate\Bus\Queueable;
 use App\Models\Company\Company;
-use App\Models\Company\Expense;
 use App\Models\Company\Employee;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Models\Company\Expense;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges implements ShouldQueue
 {
@@ -17,15 +17,11 @@ class CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges implement
 
     /**
      * The company instance.
-     *
-     * @var Company
      */
     public Company $company;
 
     /**
      * Create a new job instance.
-     *
-     * @param Company $company
      */
     public function __construct(Company $company)
     {

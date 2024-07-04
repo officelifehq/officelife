@@ -31,7 +31,9 @@
 
         <div class="name">
           <span class="db ma0">
-            <inertia-link :href="sponsor.url">{{ sponsor.name }}</inertia-link>
+            <Link :href="sponsor.url">
+              {{ sponsor.name }}
+            </Link>
           </span>
           <span v-if="sponsor.position" class="fw3 gray f7">
             {{ sponsor.position.title }}
@@ -46,7 +48,7 @@
 </template>
 
 <script>
-import Avatar from '@/Shared/Avatar';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

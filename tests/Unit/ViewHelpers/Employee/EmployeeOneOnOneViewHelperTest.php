@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
+use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Employee\EmployeeOneOnOneViewHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\OneOnOneActionItem;
+use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\OneOnOneNote;
+use App\Models\Company\OneOnOneTalkingPoint;
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\ImageHelper;
-use App\Models\Company\Employee;
-use App\Models\Company\OneOnOneNote;
-use App\Models\Company\OneOnOneEntry;
-use App\Models\Company\OneOnOneActionItem;
-use App\Models\Company\OneOnOneTalkingPoint;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Employee\EmployeeOneOnOneViewHelper;
 
 class EmployeeOneOnOneViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_an_array_of_statistics_about_the_ones_on_ones(): void
     {

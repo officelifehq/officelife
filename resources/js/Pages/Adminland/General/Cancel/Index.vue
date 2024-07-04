@@ -73,9 +73,9 @@
           <form v-if="!$page.props.demo_mode" class="cf pa3" @submit.prevent="destroy">
             <div class="flex-ns justify-between">
               <div>
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/account'" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
+                <Link :href="'/' + $page.props.auth.company.id + '/account'" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
                   {{ $t('app.cancel') }}
-                </inertia-link>
+                </Link>
               </div>
               <loading-button :class="'btn destroy w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('account.cancel_cta')" />
             </div>
@@ -87,10 +87,10 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import LoadingButton from '@/Shared/LoadingButton';
-import Help from '@/Shared/Help';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

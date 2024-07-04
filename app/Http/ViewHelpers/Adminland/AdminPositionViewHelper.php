@@ -10,8 +10,7 @@ class AdminPositionViewHelper
     /**
      * Collection containing all the positions in the company.
      *
-     * @param mixed $company
-     * @return Collection|null
+     * @param  mixed  $company
      */
     public static function list($company): ?Collection
     {

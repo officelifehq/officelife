@@ -4,16 +4,13 @@ namespace App\Http\ViewHelpers\Adminland;
 
 use App\Helpers\DateHelper;
 use App\Models\Company\Company;
-use Illuminate\Support\Collection;
 use App\Models\Company\CompanyInvoice;
+use Illuminate\Support\Collection;
 
 class AdminBillingViewHelper
 {
     /**
      * Get all the information about the account usage.
-     *
-     * @param Company $company
-     * @return Collection|null
      */
     public static function index(Company $company): ?Collection
     {
@@ -36,9 +33,6 @@ class AdminBillingViewHelper
 
     /**
      * Get the invoice information.
-     *
-     * @param CompanyInvoice $invoice
-     * @return array|null
      */
     public static function show(CompanyInvoice $invoice): ?array
     {

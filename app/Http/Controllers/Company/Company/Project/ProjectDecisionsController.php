@@ -2,31 +2,28 @@
 
 namespace App\Http\Controllers\Company\Company\Project;
 
-use Carbon\Carbon;
-use Inertia\Inertia;
-use Inertia\Response;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Project;
-use App\Models\Company\Employee;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Company\Project\ProjectDecisionsViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\Project;
 use App\Services\Company\Project\CreateProjectDecision;
 use App\Services\Company\Project\DestroyProjectDecision;
-use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
-use App\Http\ViewHelpers\Company\Project\ProjectDecisionsViewHelper;
+use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ProjectDecisionsController extends Controller
 {
     /**
      * Display the list of decisions taken in the project.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
      *
      * @return \Illuminate\Http\RedirectResponse|Response
      */
@@ -48,13 +45,6 @@ class ProjectDecisionsController extends Controller
 
     /**
      * Delete a decision.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $decisionId
-     *
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $projectId, int $decisionId): JsonResponse
     {
@@ -77,11 +67,6 @@ class ProjectDecisionsController extends Controller
 
     /**
      * Search an employee that made a decision.
-     *
-     * @param Request $request
-     * @param int $companyId
-     *
-     * @return JsonResponse
      */
     public function search(Request $request, int $companyId): JsonResponse
     {
@@ -95,12 +80,6 @@ class ProjectDecisionsController extends Controller
 
     /**
      * Add a decision to the project.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $projectId): JsonResponse
     {
@@ -133,7 +112,7 @@ class ProjectDecisionsController extends Controller
             $decidersCollection->push([
                 'id' => $decider->id,
                 'name' => $decider->name,
-                'avatar' => ImageHelper::getAvatar($decider, ),
+                'avatar' => ImageHelper::getAvatar($decider),
                 'url' => route('employees.show', [
                     'company' => $loggedCompany,
                     'employee' => $decider,

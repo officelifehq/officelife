@@ -2,17 +2,14 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
-use Tests\TestCase;
 use App\Helpers\ImageHelper;
+use App\Http\ViewHelpers\Employee\EmployeeLogViewHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeLog;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Employee\EmployeeLogViewHelper;
+use Tests\TestCase;
 
 class EmployeeLogViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_employee_logs(): void
     {

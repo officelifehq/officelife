@@ -2,18 +2,16 @@
 
 namespace App\Services\Company\Employee\Holiday;
 
-use Carbon\Carbon;
-use App\Services\BaseService;
 use App\Helpers\HolidayHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeDailyCalendarEntry;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class ProcessDailyTimeOffBalance extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -28,10 +26,6 @@ class ProcessDailyTimeOffBalance extends BaseService
      * employee.
      * This is an automated process, triggered via a cron. Therefore we don't
      * need to validate the service before processing it.
-     *
-     * @param array $data
-     *
-     * @return EmployeeDailyCalendarEntry
      */
     public function execute(array $data): EmployeeDailyCalendarEntry
     {

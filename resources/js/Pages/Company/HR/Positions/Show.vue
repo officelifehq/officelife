@@ -71,12 +71,12 @@
                 <avatar :avatar="employee.avatar" :size="30" :class="'avatar br-100'" />
 
                 <div class="ml3 mw-100">
-                  <inertia-link :href="employee.url" class="mb1 dib">{{ employee.name }}</inertia-link>
+                  <Link :href="employee.url" class="mb1 dib">{{ employee.name }}</Link>
 
                   <ul v-if="employee.teams.length != 0" class="list pl0 mb2 f7">
                     <li class="mr1 di">{{ $t('company.skills_show_in_team') }}</li>
                     <li v-for="team in employee.teams" :key="team.id" class="di pointer mr2">
-                      <inertia-link :href="team.url">{{ team.name }}</inertia-link>
+                      <Link :href="team.url">{{ team.name }}</Link>
                     </li>
                   </ul>
                 </div>
@@ -117,9 +117,9 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Avatar from '@/Shared/Avatar';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Avatar from '@/Shared/Avatar.vue';
 
 export default {
   components: {

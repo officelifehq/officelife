@@ -2,23 +2,16 @@
 
 namespace App\Http\Controllers\Company\Dashboard\Me;
 
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Adminland\JobOpening\CreateCandidateStageNote;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class DashboardMeRecruitingController extends Controller
 {
     /**
      * Add a note as a participant of a recruiting process.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $jobOpeningId
-     * @param int $candidateId
-     * @param int $candidateStageId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId, int $jobOpeningId, int $candidateId, int $candidateStageId): JsonResponse
     {

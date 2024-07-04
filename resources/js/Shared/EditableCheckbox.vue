@@ -141,7 +141,8 @@ input[type=checkbox] {
 </template>
 
 <script>
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar.vue';
+import _ from 'lodash';
 
 export default {
 

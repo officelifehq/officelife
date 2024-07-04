@@ -2,18 +2,16 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
-use Tests\TestCase;
+use App\Http\ViewHelpers\Employee\EmployeeWorkFromHomeViewHelper;
 use App\Models\Company\Employee;
-use Illuminate\Support\Collection;
 use App\Models\Company\WorkFromHome;
 use GrahamCampbell\TestBenchCore\HelperTrait;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Employee\EmployeeWorkFromHomeViewHelper;
+use Illuminate\Support\Collection;
+use Tests\TestCase;
 
 class EmployeeWorkFromHomeViewHelperTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use HelperTrait;
 
     /** @test */
     public function it_gets_a_collection_of_years_representing_all_the_years_the_employee_has_a_worklog_for(): void

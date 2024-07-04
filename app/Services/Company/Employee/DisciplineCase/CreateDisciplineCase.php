@@ -2,16 +2,14 @@
 
 namespace App\Services\Company\Employee\DisciplineCase;
 
-use App\Services\BaseService;
-use App\Models\Company\Employee;
 use App\Models\Company\DisciplineCase;
+use App\Models\Company\Employee;
+use App\Services\BaseService;
 
 class CreateDisciplineCase extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -24,9 +22,6 @@ class CreateDisciplineCase extends BaseService
 
     /**
      * Create a discipline case.
-     *
-     * @param array $data
-     * @return DisciplineCase
      */
     public function execute(array $data): DisciplineCase
     {

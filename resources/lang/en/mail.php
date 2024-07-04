@@ -1,4 +1,5 @@
 <?php
+
 return [
     'whoops' => 'Whoops!',
     'hello' => 'Hello!',

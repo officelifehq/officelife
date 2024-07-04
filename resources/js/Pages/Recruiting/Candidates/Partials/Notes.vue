@@ -110,7 +110,7 @@
         {{ $t('dashboard.job_opening_stage_notes_blank') }}
       </p>
 
-      <img loading="lazy" src="/img/streamline-icon-color-notes@100x100.png" alt="symbol" class="db center mb4" height="80"
+      <img loading="lazy" :src="'/img/streamline-icon-color-notes@100x100.png'" alt="symbol" class="db center mb4" height="80"
            width="80"
       />
     </div>
@@ -118,9 +118,9 @@
 </template>
 
 <script>
-import LoadingButton from '@/Shared/LoadingButton';
-import TextArea from '@/Shared/TextArea';
-import Errors from '@/Shared/Errors';
+import LoadingButton from '@/Shared/LoadingButton.vue';
+import TextArea from '@/Shared/TextArea.vue';
+import Errors from '@/Shared/Errors.vue';
 
 export default {
   components: {

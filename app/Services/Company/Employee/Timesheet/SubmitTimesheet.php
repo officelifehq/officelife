@@ -2,13 +2,13 @@
 
 namespace App\Services\Company\Employee\Timesheet;
 
-use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class SubmitTimesheet extends BaseService
 {
@@ -20,8 +20,6 @@ class SubmitTimesheet extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -35,9 +33,6 @@ class SubmitTimesheet extends BaseService
 
     /**
      * Submit a timesheet for validation.
-     *
-     * @param array $data
-     * @return Timesheet
      */
     public function execute(array $data): Timesheet
     {

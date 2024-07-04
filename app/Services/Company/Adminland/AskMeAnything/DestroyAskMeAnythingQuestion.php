@@ -2,20 +2,20 @@
 
 namespace App\Services\Company\Adminland\AskMeAnything;
 
-use App\Services\BaseService;
-use App\Models\Company\AskMeAnythingSession;
 use App\Models\Company\AskMeAnythingQuestion;
+use App\Models\Company\AskMeAnythingSession;
+use App\Services\BaseService;
 
 class DestroyAskMeAnythingQuestion extends BaseService
 {
     private array $data;
+
     private AskMeAnythingSession $session;
+
     private AskMeAnythingQuestion $question;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -29,7 +29,6 @@ class DestroyAskMeAnythingQuestion extends BaseService
 
     /**
      * Delete a AMA question.
-     * @param array $data
      */
     public function execute(array $data): void
     {

@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Project;
 
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectMessagesViewHelper;
 use App\Models\Company\Comment;
 use App\Models\Company\Project;
-use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectMessage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Project\ProjectMessagesViewHelper;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Tests\TestCase;
 
 class ProjectMessagesViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_a_collection_of_messages(): void
     {
@@ -53,7 +50,7 @@ class ProjectMessagesViewHelperTest extends TestCase
                     'read_status' => false,
                     'comment_count' => 1,
                     'written_at' => $projectMessageB->created_at->diffForHumans(),
-                    'url' => env('APP_URL') . '/' . $michael->company_id . '/company/projects/' . $project->id . '/messages/' . $projectMessageB->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/messages/'.$projectMessageB->id,
                     'author' => null,
                 ],
                 1 => [
@@ -62,12 +59,12 @@ class ProjectMessagesViewHelperTest extends TestCase
                     'read_status' => true,
                     'comment_count' => 0,
                     'written_at' => $projectMessageA->created_at->diffForHumans(),
-                    'url' => env('APP_URL') . '/' . $michael->company_id . '/company/projects/' . $project->id . '/messages/' . $projectMessageA->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/messages/'.$projectMessageA->id,
                     'author' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
                         'avatar' => ImageHelper::getAvatar($michael, 22),
-                        'url_view' => env('APP_URL') . '/' . $michael->company_id . '/employees/' . $michael->id,
+                        'url_view' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                 ],
             ],

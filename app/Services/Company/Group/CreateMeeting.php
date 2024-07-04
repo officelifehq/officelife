@@ -2,22 +2,22 @@
 
 namespace App\Services\Company\Group;
 
-use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Group;
-use App\Services\BaseService;
 use App\Models\Company\Meeting;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateMeeting extends BaseService
 {
     protected array $data;
+
     protected Group $group;
+
     protected Meeting $meeting;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -30,9 +30,6 @@ class CreateMeeting extends BaseService
 
     /**
      * Create a meeting.
-     *
-     * @param array $data
-     * @return Meeting
      */
     public function execute(array $data): Meeting
     {

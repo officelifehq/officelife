@@ -2,21 +2,20 @@
 
 namespace App\Services\Company\Adminland\Software;
 
-use Carbon\Carbon;
-use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
-use App\Models\Company\Software;
 use App\Jobs\ConvertSoftwarePurchase;
+use App\Jobs\LogAccountAudit;
+use App\Models\Company\Software;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class UpdateSoftware extends BaseService
 {
     protected array $data;
+
     protected Software $software;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -39,9 +38,6 @@ class UpdateSoftware extends BaseService
 
     /**
      * Update a software.
-     *
-     * @param array $data
-     * @return Software
      */
     public function execute(array $data): Software
     {

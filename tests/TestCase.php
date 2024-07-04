@@ -4,22 +4,22 @@ namespace Tests;
 
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeStatus;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Services\Company\Employee\Manager\AssignManager;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
-    use RefreshDatabase, CreatesApplication;
+    use CreatesApplication, RefreshDatabase, TestCaseHelpers;
 
     /**
      * Check if the given route is accessible by a user with the given
      * permission.
      *
-     * @param Employee $employee
-     * @param int   $permissionLevel
-     * @param string   $route
-     * @param int  $statusCode
+     * @param  Employee  $employee
+     * @param  int  $permissionLevel
+     * @param  string  $route
+     * @param  int  $statusCode
      */
     public function accessibleBy($employee, $permissionLevel, $route, $statusCode): void
     {
@@ -32,40 +32,8 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Create an administrator in an account.
-     *
-     * @return Employee
-     */
-    public function createAdministrator(): Employee
-    {
-        return Employee::factory()->asAdministrator()->create();
-    }
-
-    /**
-     * Create an employee with HR privileges in an account.
-     *
-     * @return Employee
-     */
-    public function createHR(): Employee
-    {
-        return Employee::factory()->asHR()->create();
-    }
-
-    /**
-     * Create an employee with User privileges in an account.
-     *
-     * @return Employee
-     */
-    public function createEmployee(): Employee
-    {
-        return Employee::factory()->asNormalEmployee()->create();
-    }
-
-    /**
      * Create another employee with User privileges in the same account as the
      * given employee.
-     *
-     * @return Employee
      */
     public function createAnotherEmployee(Employee $employee): Employee
     {
@@ -78,8 +46,6 @@ abstract class TestCase extends BaseTestCase
     /**
      * Create another employee who will be a direct report of the given
      * employee, who will become a manager.
-     *
-     * @return Employee
      */
     public function createDirectReport(Employee $employee): Employee
     {
@@ -108,10 +74,6 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * Set the employee status.
-     *
-     * @param Employee $employee
-     * @param string $type
-     * @return Employee
      */
     public function setEmployeeStatus(Employee $employee, string $type): Employee
     {

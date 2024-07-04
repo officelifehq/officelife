@@ -8,9 +8,6 @@ class PageEditViewHelper
 {
     /**
      * Get the information of the page being edited.
-     *
-     * @param Page $page
-     * @return array
      */
     public static function show(Page $page): array
     {

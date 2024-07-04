@@ -2,10 +2,10 @@
 
 namespace App\Services\Company\Employee\Timesheet;
 
-use Carbon\Carbon;
-use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
+use App\Services\BaseService;
+use Carbon\Carbon;
 use Carbon\Exceptions\InvalidDateException;
 
 class CreateOrGetTimesheet extends BaseService
@@ -16,8 +16,6 @@ class CreateOrGetTimesheet extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -36,9 +34,6 @@ class CreateOrGetTimesheet extends BaseService
      * Timesheets will be created on the fly, when the employee consults the
      * details of a timesheet - so if a timesheet already exists in the given
      * week, we need to send this timesheet instead of creating a new one.
-     *
-     * @param array $data
-     * @return Timesheet
      */
     public function execute(array $data): Timesheet
     {

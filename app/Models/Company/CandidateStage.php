@@ -2,10 +2,10 @@
 
 namespace App\Models\Company;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CandidateStage extends Model
 {
@@ -15,7 +15,9 @@ class CandidateStage extends Model
      * Possible status of a candidate stage.
      */
     const STATUS_PENDING = 'pending';
+
     const STATUS_REJECTED = 'rejected';
+
     const STATUS_PASSED = 'passed';
 
     /**
@@ -46,8 +48,8 @@ class CandidateStage extends Model
      *
      * @var array
      */
-    protected $dates = [
-        'decided_at',
+    protected $casts = [
+        'decided_at' => 'datetime',
     ];
 
     /**

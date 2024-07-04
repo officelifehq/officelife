@@ -7,9 +7,7 @@ class PaginatorHelper
     /**
      * Provide an array of all the data needed to display a pagination.
      *
-     * @param mixed $eloquentCollection
-     *
-     * @return array
+     * @param  mixed  $eloquentCollection
      */
     public static function getData($eloquentCollection): array
     {

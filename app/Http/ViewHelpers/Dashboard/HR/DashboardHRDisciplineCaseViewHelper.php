@@ -5,16 +5,13 @@ namespace App\Http\ViewHelpers\Dashboard\HR;
 use App\Helpers\DateHelper;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Company;
-use Illuminate\Support\Collection;
 use App\Models\Company\DisciplineCase;
+use Illuminate\Support\Collection;
 
 class DashboardHRDisciplineCaseViewHelper
 {
     /**
      * Get the information about the opened discipline cases.
-     *
-     * @param Company $company
-     * @return array|null
      */
     public static function index(Company $company): ?array
     {
@@ -59,9 +56,6 @@ class DashboardHRDisciplineCaseViewHelper
 
     /**
      * Get the information about the closed discipline cases.
-     *
-     * @param Company $company
-     * @return array|null
      */
     public static function closed(Company $company): ?array
     {
@@ -137,10 +131,6 @@ class DashboardHRDisciplineCaseViewHelper
 
     /**
      * Returns the potential employees who can be assigned a case.
-     *
-     * @param Company $company
-     * @param string $criteria
-     * @return Collection
      */
     public static function potentialEmployees(Company $company, string $criteria): Collection
     {
@@ -148,9 +138,9 @@ class DashboardHRDisciplineCaseViewHelper
             ->select('id', 'first_name', 'last_name', 'avatar_file_id')
             ->notLocked()
             ->where(function ($query) use ($criteria) {
-                $query->where('first_name', 'LIKE', '%' . $criteria . '%')
-                    ->orWhere('last_name', 'LIKE', '%' . $criteria . '%')
-                    ->orWhere('email', 'LIKE', '%' . $criteria . '%');
+                $query->where('first_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$criteria.'%')
+                    ->orWhere('email', 'LIKE', '%'.$criteria.'%');
             })
             ->orderBy('last_name', 'asc')
             ->take(10)
@@ -170,9 +160,6 @@ class DashboardHRDisciplineCaseViewHelper
 
     /**
      * Show the given case.
-     *
-     * @param Company $company
-     * @param DisciplineCase $case
      */
     public static function show(Company $company, DisciplineCase $case)
     {

@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Jobs;
 
-use Tests\TestCase;
 use App\Jobs\ServiceQueue;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Company\AddUserToCompany;
+use Tests\TestCase;
 
 class ServiceQueueTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_run_a_service_ok(): void
     {

@@ -2,16 +2,13 @@
 
 namespace Tests\Unit\Services\User;
 
-use Tests\TestCase;
 use App\Models\User\User;
-use Illuminate\Validation\ValidationException;
 use App\Services\User\UpdateUserProfileInformation;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class UpdateUserProfileInformationTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_update_the_profile(): void
     {

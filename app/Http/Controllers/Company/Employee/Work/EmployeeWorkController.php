@@ -2,28 +2,25 @@
 
 namespace App\Http\Controllers\Company\Employee\Work;
 
-use Carbon\Carbon;
-use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use App\Helpers\PermissionHelper;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
+use App\Helpers\PermissionHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Http\ViewHelpers\Employee\EmployeeWorkViewHelper;
+use App\Models\Company\Employee;
 use App\Services\Company\Employee\Worklog\DestroyWorklog;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class EmployeeWorkController extends Controller
 {
     /**
      * Display the detail of an employee’s work panel.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
      * @return mixed
      */
     public function show(Request $request, int $companyId, int $employeeId)
@@ -85,14 +82,9 @@ class EmployeeWorkController extends Controller
      * If the day is null, we'll take the week given in parameter, and take the
      * Friday of this week.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param string $week
-     * @param string $day
      * @return mixed
      */
-    public function worklogDay(Request $request, int $companyId, int $employeeId, string $week, string $day = null)
+    public function worklogDay(Request $request, int $companyId, int $employeeId, string $week, ?string $day = null)
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -122,12 +114,6 @@ class EmployeeWorkController extends Controller
 
     /**
      * Delete the worklog.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
-     * @param int $worklogId
-     * @return JsonResponse
      */
     public function destroyWorkLog(Request $request, int $companyId, int $employeeId, int $worklogId): JsonResponse
     {

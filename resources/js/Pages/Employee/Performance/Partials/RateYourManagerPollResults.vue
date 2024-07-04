@@ -39,7 +39,7 @@
     <div class="cf center br3 mb3 bg-white box relative">
       <!-- BLANK STATE -->
       <div v-if="!surveys" data-cy="expense-list-blank-state" class="pa3">
-        <img loading="lazy" class="db center mb4" height="140" alt="" src="/img/streamline-icon-customer-service-rating-1-4@140x140.png" />
+        <img loading="lazy" class="db center mb4" height="140" alt="" :src="'/img/streamline-icon-customer-service-rating-1-4@140x140.png'" />
 
         <p class="fw5 mt3 tc">{{ $t('dashboard.manager_rate_manager_blank_state') }}</p>
       </div>
@@ -50,7 +50,7 @@
           <!-- date -->
           <div class="date">
             <span v-if="survey.active" class="db mb2 f3 fw3">{{ survey.month }}</span>
-            <span v-else class="db mb2"><inertia-link :href="survey.url" :data-cy="'survey-' + survey.id" class="f3 fw3">{{ survey.month }}</inertia-link></span>
+            <span v-else class="db mb2"><Link :href="survey.url" :data-cy="'survey-' + survey.id" class="f3 fw3">{{ survey.month }}</Link></span>
             <span v-if="survey.employees" class="gray f6">{{ $t('dashboard.manager_rate_manager_respondants', {respondants: survey.employees}) }}</span>
           </div>
 
@@ -73,7 +73,9 @@
 
         <!-- view all survey -->
         <div class="ph3 pv2 tc f6">
-          <inertia-link :href="surveys.url_view_all">{{ $t('employee.survey_index_view_all') }}</inertia-link>
+          <Link :href="surveys.url_view_all">
+            {{ $t('employee.survey_index_view_all') }}
+          </Link>
         </div>
       </ul>
     </div>
@@ -81,7 +83,7 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
+import Help from '@/Shared/Help.vue';
 
 export default {
   components: {

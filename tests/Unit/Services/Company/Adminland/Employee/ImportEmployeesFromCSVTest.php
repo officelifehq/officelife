@@ -2,24 +2,21 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Employee;
 
-use Tests\TestCase;
-use App\Models\Company\File;
-use App\Models\Company\Employee;
-use App\Models\Company\ImportJob;
-use Illuminate\Support\Facades\Http;
-use App\Models\Company\ImportJobReport;
-use Illuminate\Support\Facades\Storage;
 use App\Exceptions\MalformedCSVException;
-use Illuminate\Http\Client\RequestException;
-use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Employee;
+use App\Models\Company\File;
+use App\Models\Company\ImportJob;
+use App\Models\Company\ImportJobReport;
 use App\Services\Company\Adminland\Employee\ImportEmployeesFromCSV;
+use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class ImportEmployeesFromCSVTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_stores_employees_in_a_temporary_table_as_administrator(): void
     {

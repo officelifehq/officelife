@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Company\Dashboard;
 
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use App\Jobs\UpdateDashboardPreference;
+use App\Models\Company\Employee;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
 class DashboardController extends Controller
@@ -51,9 +51,6 @@ class DashboardController extends Controller
 
     /**
      * Update the dashboard default view for the given employee.
-     *
-     * @param Employee $employee
-     * @param string $view
      */
     private function updateDashboard(Employee $employee, string $view): void
     {

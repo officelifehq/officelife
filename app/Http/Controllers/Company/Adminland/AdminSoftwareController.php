@@ -2,39 +2,37 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Carbon\Carbon;
-use Inertia\Inertia;
-use Inertia\Response;
 use App\Helpers\DateHelper;
 use App\Helpers\FileHelper;
 use App\Helpers\ImageHelper;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use App\Models\Company\Software;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Adminland\File\UploadFile;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
 use App\Http\ViewHelpers\Adminland\AdminHardwareViewHelper;
 use App\Http\ViewHelpers\Adminland\AdminSoftwareViewHelper;
-use App\Services\Company\Adminland\Software\CreateSoftware;
-use App\Services\Company\Adminland\Software\UpdateSoftware;
-use App\Services\Company\Adminland\Software\DestroySoftware;
+use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
+use App\Models\Company\Employee;
+use App\Models\Company\Software;
+use App\Services\Company\Adminland\File\UploadFile;
 use App\Services\Company\Adminland\Software\AddFileToSoftware;
-use App\Services\Company\Adminland\Software\GiveSeatToEmployee;
+use App\Services\Company\Adminland\Software\CreateSoftware;
+use App\Services\Company\Adminland\Software\DestroySoftware;
 use App\Services\Company\Adminland\Software\DestroySoftwareFile;
-use App\Services\Company\Adminland\Software\TakeSeatFromEmployee;
+use App\Services\Company\Adminland\Software\GiveSeatToEmployee;
 use App\Services\Company\Adminland\Software\GiveSeatToEveryEmployee;
+use App\Services\Company\Adminland\Software\TakeSeatFromEmployee;
+use App\Services\Company\Adminland\Software\UpdateSoftware;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AdminSoftwareController extends Controller
 {
     /**
      * Show the list of softwares.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -51,8 +49,6 @@ class AdminSoftwareController extends Controller
 
     /**
      * Show the Create software view.
-     *
-     * @return Response
      */
     public function create(): Response
     {
@@ -68,10 +64,6 @@ class AdminSoftwareController extends Controller
 
     /**
      * Create the software.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @return JsonResponse
      */
     public function store(Request $request, int $companyId): JsonResponse
     {
@@ -114,9 +106,6 @@ class AdminSoftwareController extends Controller
     /**
      * Show the software.
      *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $softwareId
      * @return mixed
      */
     public function show(Request $request, int $companyId, int $softwareId)
@@ -152,11 +141,6 @@ class AdminSoftwareController extends Controller
 
     /**
      * Search a potential employee.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $softwareId
-     * @return JsonResponse
      */
     public function potentialEmployees(Request $request, int $companyId, int $softwareId): JsonResponse
     {
@@ -178,11 +162,6 @@ class AdminSoftwareController extends Controller
 
     /**
      * Attach an employee to the software.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $softwareId
-     * @return JsonResponse
      */
     public function attach(Request $request, int $companyId, int $softwareId): JsonResponse
     {
@@ -215,11 +194,6 @@ class AdminSoftwareController extends Controller
 
     /**
      * Attach all the employees to the software.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $softwareId
-     * @return JsonResponse
      */
     public function attachAll(Request $request, int $companyId, int $softwareId): JsonResponse
     {
@@ -242,12 +216,6 @@ class AdminSoftwareController extends Controller
 
     /**
      * Detach an employee from the software.
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $softwareId
-     * @param integer $employeeId
-     * @return JsonResponse
      */
     public function detach(Request $request, int $companyId, int $softwareId, int $employeeId): JsonResponse
     {
@@ -268,11 +236,6 @@ class AdminSoftwareController extends Controller
 
     /**
      * Get the current number of employees who don't have the given software.
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $softwareId
-     * @return JsonResponse
      */
     public function numberOfEmployeesWhoDontHaveSoftware(Request $request, int $companyId, int $softwareId): JsonResponse
     {
@@ -292,9 +255,6 @@ class AdminSoftwareController extends Controller
     /**
      * Edit the software.
      *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $softwareId
      * @return mixed
      */
     public function edit(Request $request, int $companyId, int $softwareId)
@@ -321,9 +281,6 @@ class AdminSoftwareController extends Controller
     /**
      * Update the software.
      *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $softwareId
      * @return mixed
      */
     public function update(Request $request, int $companyId, int $softwareId)
@@ -368,11 +325,6 @@ class AdminSoftwareController extends Controller
 
     /**
      * Destroy the software.
-     *
-     * @param Request $request
-     * @param integer $companyId
-     * @param integer $softwareId
-     * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $softwareId): JsonResponse
     {
@@ -392,11 +344,6 @@ class AdminSoftwareController extends Controller
 
     /**
      * Store a file.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $softwareId
-     * @return JsonResponse|null
      */
     public function storeFile(Request $request, int $companyId, int $softwareId): ?JsonResponse
     {
@@ -451,12 +398,6 @@ class AdminSoftwareController extends Controller
 
     /**
      * Destroy a file.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $softwareId
-     * @param int $fileId
-     * @return JsonResponse|null
      */
     public function destroyFile(Request $request, int $companyId, int $softwareId, int $fileId): ?JsonResponse
     {

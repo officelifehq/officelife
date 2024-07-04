@@ -2,17 +2,15 @@
 
 namespace App\Services\Company\Adminland\Flow;
 
+use App\Models\Company\Action;
 use App\Models\Company\Flow;
 use App\Models\Company\Step;
 use App\Services\BaseService;
-use App\Models\Company\Action;
 
 class RemoveActionFromStep extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -26,10 +24,6 @@ class RemoveActionFromStep extends BaseService
 
     /**
      * Remove an action from a given step.
-     *
-     * @param array $data
-     *
-     * @return Step
      */
     public function execute(array $data): Step
     {

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
-use Inertia\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class HomeController extends Controller
 {
@@ -32,7 +32,6 @@ class HomeController extends Controller
     /**
      * Display the list of companies.
      *
-     * @param bool $redirect
      * @return Response|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     private function companies(bool $redirect)

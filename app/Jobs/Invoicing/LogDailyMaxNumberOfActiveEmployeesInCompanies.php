@@ -2,15 +2,15 @@
 
 namespace App\Jobs\Invoicing;
 
-use Illuminate\Bus\Queueable;
 use App\Models\Company\Company;
-use App\Models\Company\Employee;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
 use App\Models\Company\CompanyDailyUsageHistory;
 use App\Models\Company\CompanyUsageHistoryDetails;
+use App\Models\Company\Employee;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class LogDailyMaxNumberOfActiveEmployeesInCompanies implements ShouldQueue
 {
@@ -31,25 +31,25 @@ class LogDailyMaxNumberOfActiveEmployeesInCompanies implements ShouldQueue
                 ->whereColumn('company_id', 'companies.id')
                 ->notLocked(),
         ])
-        ->chunk(100, function ($companies) {
-            foreach ($companies as $company) {
-                $usage = CompanyDailyUsageHistory::create([
-                    'company_id' => $company->id,
-                    'number_of_active_employees' => $company->max_employees,
-                ]);
+            ->chunk(100, function ($companies) {
+                foreach ($companies as $company) {
+                    $usage = CompanyDailyUsageHistory::create([
+                        'company_id' => $company->id,
+                        'number_of_active_employees' => $company->max_employees,
+                    ]);
 
-                Employee::where('company_id', $company->id)
-                    ->notLocked()
-                    ->chunk(100, function ($employees) use ($usage) {
-                        foreach ($employees as $employee) {
-                            CompanyUsageHistoryDetails::create([
-                                'usage_history_id' => $usage->id,
-                                'employee_name' => $employee->name,
-                                'employee_email' => $employee->email,
-                            ]);
-                        }
-                    });
-            }
-        });
+                    Employee::where('company_id', $company->id)
+                        ->notLocked()
+                        ->chunk(100, function ($employees) use ($usage) {
+                            foreach ($employees as $employee) {
+                                CompanyUsageHistoryDetails::create([
+                                    'usage_history_id' => $usage->id,
+                                    'employee_name' => $employee->name,
+                                    'employee_email' => $employee->email,
+                                ]);
+                            }
+                        });
+                }
+            });
     }
 }

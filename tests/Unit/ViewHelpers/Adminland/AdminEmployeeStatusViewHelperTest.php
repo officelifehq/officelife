@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\ViewHelpers\Adminland;
 
-use Tests\TestCase;
-use App\Models\Company\EmployeeStatus;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Adminland\AdminEmployeeStatusViewHelper;
+use App\Models\Company\EmployeeStatus;
+use Tests\TestCase;
 
 class AdminEmployeeStatusViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_gets_information_about_the_employee_statuses(): void
     {

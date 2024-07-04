@@ -75,9 +75,9 @@ svg {
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
               </svg>
             </span>
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + $page.props.auth.employee.id" class="no-color no-underline" data-cy="go-to-employee-button">
+            <Link :href="'/' + $page.props.auth.company.id + '/employees/' + $page.props.auth.employee.id" class="no-color no-underline" data-cy="go-to-employee-button">
               {{ $t('app.header_go_to_employee_profile') }}
-            </inertia-link>
+            </Link>
           </li>
 
           <!-- Switch companies -->
@@ -87,9 +87,9 @@ svg {
                 <path d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z" />
               </svg>
             </span>
-            <inertia-link :href="route('companies')" class="no-color no-underline" data-cy="switch-company-button">
+            <Link :href="route('companies')" class="no-color no-underline" data-cy="switch-company-button">
               {{ $t('app.header_switch_company') }}
-            </inertia-link>
+            </Link>
           </li>
 
           <!-- Show profile -->
@@ -103,9 +103,9 @@ svg {
                 </g>
               </svg>
             </span>
-            <inertia-link :href="route('profile.show')" class="no-color no-underline" data-cy="logout-button">
+            <Link :href="route('profile.show')" class="no-color no-underline" data-cy="logout-button">
               {{ $t('app.header_settings') }}
-            </inertia-link>
+            </Link>
           </li>
 
           <!-- Toggle help -->
@@ -130,9 +130,9 @@ svg {
                 <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd" />
               </svg>
             </span>
-            <inertia-link href="#" class="no-color no-underline" data-cy="logout-button" @click.prevent="logout">
+            <Link href="#" class="no-color no-underline" data-cy="logout-button" @click.prevent="logout">
               {{ $t('app.header_logout') }}
-            </inertia-link>
+            </Link>
           </li>
         </ul>
       </div>
@@ -141,7 +141,7 @@ svg {
 </template>
 
 <script>
-import BasePopover from '@/Shared/BasePopover';
+import BasePopover from '@/Shared/BasePopover.vue';
 
 export default {
   components: {

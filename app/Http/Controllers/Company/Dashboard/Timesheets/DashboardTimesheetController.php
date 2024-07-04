@@ -2,31 +2,29 @@
 
 namespace App\Http\Controllers\Company\Dashboard\Timesheets;
 
-use Carbon\Carbon;
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Project;
-use App\Models\Company\Timesheet;
-use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Jobs\UpdateDashboardPreference;
-use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\Timesheet\SubmitTimesheet;
 use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
-use App\Services\Company\Employee\Timesheet\DestroyTimesheetRow;
+use App\Http\ViewHelpers\Dashboard\DashboardViewHelper;
+use App\Jobs\UpdateDashboardPreference;
+use App\Models\Company\Project;
+use App\Models\Company\Timesheet;
 use App\Services\Company\Employee\Timesheet\CreateOrGetTimesheet;
 use App\Services\Company\Employee\Timesheet\CreateTimeTrackingEntry;
+use App\Services\Company\Employee\Timesheet\DestroyTimesheetRow;
+use App\Services\Company\Employee\Timesheet\SubmitTimesheet;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class DashboardTimesheetController extends Controller
 {
     /**
      * See the detail of the current timesheet.
-     *
-     * @return Response
      */
     public function index(): Response
     {
@@ -106,8 +104,6 @@ class DashboardTimesheetController extends Controller
 
     /**
      * Get the projects the logged employee belongs to.
-     *
-     * @return JsonResponse
      */
     public function projects(): JsonResponse
     {
@@ -122,12 +118,6 @@ class DashboardTimesheetController extends Controller
 
     /**
      * Get the tasks for the given project.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $timesheetId
-     * @param int $projectId
-     * @return JsonResponse
      */
     public function tasks(Request $request, int $companyId, int $timesheetId, int $projectId): ?JsonResponse
     {
@@ -188,10 +178,6 @@ class DashboardTimesheetController extends Controller
 
     /**
      * Submit the timesheet for validation.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $timesheetId
      */
     public function submit(Request $request, int $companyId, int $timesheetId)
     {
@@ -223,10 +209,6 @@ class DashboardTimesheetController extends Controller
 
     /**
      * Destroy the given timesheet row.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $timesheetId
      */
     public function destroyRow(Request $request, int $companyId, int $timesheetId)
     {

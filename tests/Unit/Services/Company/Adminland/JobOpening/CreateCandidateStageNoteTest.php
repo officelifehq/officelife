@@ -2,25 +2,22 @@
 
 namespace Tests\Unit\Services\Company\Adminland\JobOpening;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Employee;
 use App\Models\Company\Candidate;
-use App\Models\Company\JobOpening;
-use Illuminate\Support\Facades\Queue;
 use App\Models\Company\CandidateStage;
 use App\Models\Company\CandidateStageNote;
-use Illuminate\Validation\ValidationException;
 use App\Models\Company\CandidateStageParticipant;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Company\Employee;
+use App\Models\Company\JobOpening;
 use App\Services\Company\Adminland\JobOpening\CreateCandidateStageNote;
 use App\Services\Company\Adminland\JobOpening\CreateCandidateStageParticipant;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class CreateCandidateStageNoteTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_creates_a_candidate_stage_note_as_administrator(): void
     {

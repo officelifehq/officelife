@@ -2,21 +2,18 @@
 
 namespace Tests\Unit\Services\Company\Employee\OneOnOne;
 
-use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
-use App\Models\Company\OneOnOneNote;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\OneOnOneNote;
+use App\Services\Company\Employee\OneOnOne\DestroyOneOnOneNote;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\OneOnOne\DestroyOneOnOneNote;
+use Tests\TestCase;
 
 class DestroyOneOnOneNoteTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_deletes_a_note_as_administrator(): void
     {

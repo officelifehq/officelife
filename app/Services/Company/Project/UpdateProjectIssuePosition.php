@@ -2,25 +2,27 @@
 
 namespace App\Services\Company\Project;
 
-use App\Services\BaseService;
 use App\Models\Company\Project;
-use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectIssue;
-use App\Models\Company\ProjectSprint;
 use App\Models\Company\ProjectMemberActivity;
+use App\Models\Company\ProjectSprint;
+use App\Services\BaseService;
+use Illuminate\Support\Facades\DB;
 
 class UpdateProjectIssuePosition extends BaseService
 {
     protected array $data;
+
     protected Project $project;
+
     protected ProjectIssue $projectIssue;
+
     protected ProjectSprint $projectSprint;
+
     protected int $pastPosition;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -36,9 +38,6 @@ class UpdateProjectIssuePosition extends BaseService
 
     /**
      * Update the project issue order.
-     *
-     * @param array $data
-     * @return ProjectIssue
      */
     public function execute(array $data): ProjectIssue
     {

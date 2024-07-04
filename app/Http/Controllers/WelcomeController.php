@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
 use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
-use App\Helpers\NotificationHelper;
+use Inertia\Inertia;
 
 class WelcomeController extends Controller
 {
@@ -35,8 +35,6 @@ class WelcomeController extends Controller
 
     /**
      * Hide the welcome page.
-     *
-     * @return JsonResponse
      */
     public function hide(): JsonResponse
     {

@@ -2,22 +2,19 @@
 
 namespace Tests\Unit\Services\Company\Project;
 
-use Tests\TestCase;
-use App\Models\Company\File;
 use App\Jobs\LogAccountAudit;
-use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\File;
+use App\Models\Company\Project;
+use App\Services\Company\Project\DestroyProject;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Project\DestroyProject;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tests\TestCase;
 
 class DestroyProjectTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_destroys_a_project_as_administrator(): void
     {
@@ -87,7 +84,7 @@ class DestroyProjectTest extends TestCase
         (new DestroyProject)->execute($request);
     }
 
-    private function executeService(Employee $michael, Project $project = null): void
+    private function executeService(Employee $michael, ?Project $project = null): void
     {
         Queue::fake();
         Event::fake();

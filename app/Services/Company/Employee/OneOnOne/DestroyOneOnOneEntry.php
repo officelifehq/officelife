@@ -2,12 +2,12 @@
 
 namespace App\Services\Company\Employee\OneOnOne;
 
-use Carbon\Carbon;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\OneOnOneEntry;
-use App\Exceptions\NotEnoughPermissionException;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class DestroyOneOnOneEntry extends BaseService
 {
@@ -17,8 +17,6 @@ class DestroyOneOnOneEntry extends BaseService
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -31,8 +29,6 @@ class DestroyOneOnOneEntry extends BaseService
 
     /**
      * Destroy a one on one entry.
-     *
-     * @param array $data
      */
     public function execute(array $data): void
     {

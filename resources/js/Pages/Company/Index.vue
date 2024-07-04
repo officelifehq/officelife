@@ -42,19 +42,19 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Tab from '@/Pages/Company/Partials/Tab';
-import HeaderComponent from '@/Pages/Company/Partials/Header';
-import Questions from '@/Pages/Company/Partials/Questions';
-import GuessEmployeeGame from '@/Pages/Company/Partials/GuessEmployeeGame';
-import Birthdays from '@/Pages/Company/Partials/Birthdays';
-import CompanyNews from '@/Pages/Company/Partials/CompanyNews';
-import NewHires from '@/Pages/Company/Partials/NewHires';
-import RecentShips from '@/Pages/Company/Partials/RecentShips';
-import RecentSkills from '@/Pages/Company/Partials/RecentSkills';
-import Employees from '@/Pages/Company/Partials/Employees';
-import Teams from '@/Pages/Company/Partials/Teams';
-import UpcomingHiringDateAnniversaries from '@/Pages/Company/Partials/UpcomingHiringDateAnniversaries';
+import Layout from '@/Shared/Layout.vue';
+import Tab from '@/Pages/Company/Partials/Tab.vue';
+import HeaderComponent from '@/Pages/Company/Partials/Header.vue';
+import Questions from '@/Pages/Company/Partials/Questions.vue';
+import GuessEmployeeGame from '@/Pages/Company/Partials/GuessEmployeeGame.vue';
+import Birthdays from '@/Pages/Company/Partials/Birthdays.vue';
+import CompanyNews from '@/Pages/Company/Partials/CompanyNews.vue';
+import NewHires from '@/Pages/Company/Partials/NewHires.vue';
+import RecentShips from '@/Pages/Company/Partials/RecentShips.vue';
+import RecentSkills from '@/Pages/Company/Partials/RecentSkills.vue';
+import Employees from '@/Pages/Company/Partials/Employees.vue';
+import Teams from '@/Pages/Company/Partials/Teams.vue';
+import UpcomingHiringDateAnniversaries from '@/Pages/Company/Partials/UpcomingHiringDateAnniversaries.vue';
 
 export default {
   components: {

@@ -2,24 +2,24 @@
 
 namespace App\Services\Company\Project;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectIssue;
 use App\Models\Company\ProjectMemberActivity;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class UpdateProjectIssue extends BaseService
 {
     protected array $data;
+
     protected Project $project;
+
     protected ProjectIssue $projectIssue;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -36,9 +36,6 @@ class UpdateProjectIssue extends BaseService
 
     /**
      * Update the project issue.
-     *
-     * @param array $data
-     * @return ProjectIssue
      */
     public function execute(array $data): ProjectIssue
     {

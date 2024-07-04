@@ -2,27 +2,28 @@
 
 namespace App\Services\Company\Group;
 
-use Carbon\Carbon;
-use App\Jobs\LogAccountAudit;
-use App\Models\Company\Group;
-use App\Services\BaseService;
-use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Meeting;
-use App\Models\Company\Employee;
-use Illuminate\Support\Facades\DB;
 use App\Exceptions\NotEnoughPermissionException;
+use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
+use App\Models\Company\Employee;
+use App\Models\Company\Group;
+use App\Models\Company\Meeting;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ToggleEmployeeParticipationInMeeting extends BaseService
 {
     private array $data;
+
     private Employee $employee;
+
     private Group $group;
+
     private Meeting $meeting;
 
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -40,9 +41,6 @@ class ToggleEmployeeParticipationInMeeting extends BaseService
      * When marking an employee, we should check if the employee is part of the
      * meeting.
      * If the employee is not part of the meeting, this process fails.
-     *
-     * @param array $data
-     * @return Employee
      */
     public function execute(array $data): Employee
     {

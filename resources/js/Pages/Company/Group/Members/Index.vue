@@ -111,7 +111,7 @@
 
               <!-- name + information -->
               <div class="information">
-                <inertia-link :href="member.url" class="mb2 dib">{{ member.name }}</inertia-link>
+                <Link :href="member.url" class="mb2 dib">{{ member.name }}</Link>
 
                 <span v-if="member.role" class="db f7 mb2 relative">
                   <!-- icon role -->
@@ -159,7 +159,7 @@
           <h3 class="fw4 f5">
             {{ $t('group.members_index_blank') }}
           </h3>
-          <img loading="lazy" src="/img/streamline-icon-cyclist-1-4@140x140.png" width="140" height="140" alt="people hanging out"
+          <img loading="lazy" :src="'/img/streamline-icon-cyclist-1-4@140x140.png'" width="140" height="140" alt="people hanging out"
                class="di-ns dn top-1 left-1"
           />
         </div>
@@ -169,12 +169,13 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import Breadcrumb from '@/Shared/Layout/Breadcrumb';
-import Avatar from '@/Shared/Avatar';
-import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu';
+import Layout from '@/Shared/Layout.vue';
+import Breadcrumb from '@/Shared/Layout/Breadcrumb.vue';
+import Avatar from '@/Shared/Avatar.vue';
+import GroupMenu from '@/Pages/Company/Group/Partials/GroupMenu.vue';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
+import _ from 'lodash';
 
 export default {
   components: {

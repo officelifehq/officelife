@@ -2,15 +2,12 @@
 
 namespace Tests\Unit\Collections;
 
-use Tests\TestCase;
-use App\Models\Company\Worklog;
 use App\Http\Collections\WorklogCollection;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Worklog;
+use Tests\TestCase;
 
 class WorklogCollectionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_returns_a_collection(): void
     {

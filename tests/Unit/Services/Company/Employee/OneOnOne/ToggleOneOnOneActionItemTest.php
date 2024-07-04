@@ -2,19 +2,16 @@
 
 namespace Tests\Unit\Services\Company\Employee\OneOnOne;
 
-use Tests\TestCase;
 use App\Models\Company\Employee;
-use App\Models\Company\OneOnOneEntry;
-use Illuminate\Support\Facades\Queue;
 use App\Models\Company\OneOnOneActionItem;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\OneOnOneEntry;
 use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneActionItem;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Validation\ValidationException;
+use Tests\TestCase;
 
 class ToggleOneOnOneActionItemTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_toggles_an_one_on_one_action_item_as_administrator(): void
     {

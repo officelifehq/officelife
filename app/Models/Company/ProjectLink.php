@@ -2,9 +2,9 @@
 
 namespace App\Models\Company;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProjectLink extends Model
 {
@@ -39,9 +39,7 @@ class ProjectLink extends Model
      * The label attribute can be null, so if that's the case, we'll return the
      * URL instead.
      *
-     * @param mixed $value
-     *
-     * @return string
+     * @param  mixed  $value
      */
     public function getLabelAttribute($value): string
     {

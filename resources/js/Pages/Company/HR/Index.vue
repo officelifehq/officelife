@@ -60,14 +60,14 @@
 </template>
 
 <script>
-import Layout from '@/Shared/Layout';
-import eCoffees from '@/Pages/Company/HR/Partials/eCoffees';
-import Genders from '@/Pages/Company/HR/Partials/Genders';
-import Positions from '@/Pages/Company/HR/Partials/Positions';
-import AskMeAnythingSession from '@/Pages/Company/HR/Partials/AskMeAnythingSession';
-import JobOpenings from '@/Pages/Company/HR/Partials/JobOpenings';
-import Tab from '@/Pages/Company/Partials/Tab';
-import HeaderComponent from '@/Pages/Company/Partials/Header';
+import Layout from '@/Shared/Layout.vue';
+import eCoffees from '@/Pages/Company/HR/Partials/eCoffees.vue';
+import Genders from '@/Pages/Company/HR/Partials/Genders.vue';
+import Positions from '@/Pages/Company/HR/Partials/Positions.vue';
+import AskMeAnythingSession from '@/Pages/Company/HR/Partials/AskMeAnythingSession.vue';
+import JobOpenings from '@/Pages/Company/HR/Partials/JobOpenings.vue';
+import Tab from '@/Pages/Company/Partials/Tab.vue';
+import HeaderComponent from '@/Pages/Company/Partials/Header.vue';
 
 export default {
   components: {

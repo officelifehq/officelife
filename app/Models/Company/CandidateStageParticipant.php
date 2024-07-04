@@ -2,9 +2,9 @@
 
 namespace App\Models\Company;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CandidateStageParticipant extends Model
 {
@@ -37,15 +37,7 @@ class CandidateStageParticipant extends Model
      */
     protected $casts = [
         'participated' => 'boolean',
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'participated_at',
+        'participated_at' => 'datetime',
     ];
 
     /**

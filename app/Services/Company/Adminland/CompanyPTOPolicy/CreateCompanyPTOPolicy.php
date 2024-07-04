@@ -2,20 +2,18 @@
 
 namespace App\Services\Company\Adminland\CompanyPTOPolicy;
 
-use Carbon\Carbon;
+use App\Exceptions\CompanyPTOPolicyAlreadyExistException;
 use App\Helpers\DateHelper;
 use App\Jobs\LogAccountAudit;
-use App\Services\BaseService;
 use App\Models\Company\CompanyCalendar;
 use App\Models\Company\CompanyPTOPolicy;
-use App\Exceptions\CompanyPTOPolicyAlreadyExistException;
+use App\Services\BaseService;
+use Carbon\Carbon;
 
 class CreateCompanyPTOPolicy extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -31,10 +29,6 @@ class CreateCompanyPTOPolicy extends BaseService
 
     /**
      * Create a company PTO policy.
-     *
-     * @param array $data
-     *
-     * @return CompanyPTOPolicy
      */
     public function execute(array $data): CompanyPTOPolicy
     {
@@ -93,11 +87,6 @@ class CreateCompanyPTOPolicy extends BaseService
      * will contain all the days. Weekends will be marked as non-working days.
      * Right after, employers will be able to identify which days are holidays
      * and therefore considered as being off.
-     *
-     * @param array            $data
-     * @param CompanyPTOPolicy $ptoPolicy
-     *
-     * @return int
      */
     private function populateCalendar(array $data, CompanyPTOPolicy $ptoPolicy): int
     {
